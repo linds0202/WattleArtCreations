@@ -33,3 +33,35 @@ body {
   background-repeat: no-repeat;
 }
 
+.horz-scroll-con::-webkit-scrollbar {
+  display: none;
+  background-color: #262626;
+}
+
+.horz-scroll-con {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.drip-card > .drip {
+  opacity: 0;
+}
+
+.drip-card:hover > .drip {
+  opacity: 1;
+}
+
+.drip-card:hover > button {
+  text-decoration: underline;
+}
+
+.cardCon {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.cardCon::-webkit-scrollbar {
+  display: none;
+  background-color: #262626;
+}
+
