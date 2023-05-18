@@ -58,7 +58,7 @@ export const HIW = () => {
 
     
   return (
-    <div className='realitive mb-20'>
+    <div className='realitive mb-20 text-black'>
 
         <Fade delay={700}>
             <img src='./side_drip_short.png' className='absolute w-[40%] left-[120px] onscroll'/>
