@@ -59,10 +59,9 @@ export const HIW = () => {
     
   return (
     <div className='realitive mb-20 text-black'>
-
+        <img src='./side_drip_short.png' className='absolute w-[40%] left-[120px] onscroll'/>
         <Fade delay={700}>
-            <img src='./side_drip_short.png' className='absolute w-[40%] left-[120px] onscroll'/>
-            <div className={/* scrollPosition >= 800 && scrollPosition <= 900 ?  *//* isVisible ? */ 'flex flex-col items-center mt-[145px]' /*overflow-auto cardCon */   /* : 'hidden'  */}  /* onScroll={checkPosition} */ ref={scrollRef}>
+            <div className={/* scrollPosition >= 800 && scrollPosition <= 900 ?  *//* isVisible ? */ 'flex flex-col items-center mt-[125px]' /*overflow-auto cardCon */   /* : 'hidden'  */}  /* onScroll={checkPosition} */ ref={scrollRef}>
                     
                         <ul className='w-10/12 flex flex-col items-center'>
                                 <p className='text-6xl font-semibold text-center mb-[50px] ' /* mb-[100px] */>How it works:</p>
