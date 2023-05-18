@@ -22,8 +22,9 @@ return (
     <>
     <h3 className='text-center'>General Questions</h3>
     <Formik
-        initialValues={props.data}
+        initialValues={generalQuestions}
         onSubmit={handleSaveAnswers}
+        enableReinitialize
     >
         {({ values }) => (
         <Form className='flex justify-around'>
@@ -34,8 +35,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q1'
                         name="q1" 
-                        value={generalQuestions.q1} 
+                        value={values.q1} 
                         className="text-black mt-4" />
                 </label>
                 <label>
@@ -43,9 +45,10 @@ return (
                     <Field 
                         as="textarea"
                         rows="4"
-                        cols="60" 
+                        cols="60"
+                        id='q2' 
                         name="q2" 
-                        value={generalQuestions.q2} 
+                        value={values.q2} 
                         className="text-black mt-4" />
                 </label>
             </div>
@@ -56,8 +59,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q3'
                         name="q3" 
-                        value={generalQuestions.q3} 
+                        value={values.q3} 
                         className="text-black mt-4" />
                 </label>
                 <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'>Save Answers</button>

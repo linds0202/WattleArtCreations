@@ -78,7 +78,7 @@ export default function Personal() {
   ]
   
   return (
-    <main className="bg-black text-white no-underline flex flex-col justify-around items-center min-h-screen">
+    <main className="bg-white text-black no-underline flex flex-col justify-around items-center min-h-screen">
         <Hero />
         <CardCon info={chooseStyles} scroll={false}/>
         {/* <div className="flex w-10/12 justify-around">
@@ -120,100 +120,3 @@ export default function Personal() {
   )
 }
 
-// import Link from "next/link"
-
-// //component imports
-// import { Hero } from "./components/Hero"
-// import { HIW } from "./components/HIW"
-// import CardCon from "./components/CardCon"
-// import Testimonials from "./components/Testimonials"
-// import Footer from "../components/Footer"
-
-// export default function StyleOne({ params }: any) {
-
-//     const chooseStyles = [
-//         {
-//             style: 'Photorealistic',
-//             img: './featured_9.png',
-//             abrv: 'photorealistic'
-//         },
-//         {
-//             style: 'Anime',
-//             img: './featured_8.png',
-//             abrv: 'anime'
-//         },
-//         {
-//             style: 'NSFW',
-//             img: './featured_14.png',
-//             abrv: 'nsfw'
-//         }
-//     ]
-
-//     const topSellers = [
-//         {
-//             style: 'Sci-fi',
-//             img: '/featured_10.png',
-//             abrv: 'sci-fi'
-//         },
-//         {
-//             style: 'Anime',
-//             img: '/featured_15.png',
-//             abrv: 'anime'
-//         },
-//         {
-//             style: 'World of Warcraft',
-//             img: '/featured_12.png',
-//             abrv: 'wow'
-//         },
-//         {
-//             style: 'Warhammer',
-//             img: '/featured_13.png',
-//             abrv: 'warhammer'
-//         },
-//         {
-//             style: 'Portrait',
-//             img: '/featured_9.png',
-//             abrv: 'portrait'
-//         },
-//         {
-//             style: 'Fantasy',
-//             img: '/featured_11.png',
-//             abrv: 'fantasy'
-//         },
-//     ]
-
-//     const testimonials = [
-//         {
-//             index: 0,
-//             body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-//             author: 'Joe'
-//         },
-//         {
-//             index: 1,
-//             body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-//             author: 'Alex'
-//         },
-//         {
-//             index: 2,
-//             body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-//             author: 'Christie'
-//         },
-//         {
-//             index: 3
-//         }
-//     ]
-
-//     const styleOne = ['']
-//     return (
-//         <main className="flex min-h-screen flex-col items-center justify-between">
-//             <h1>Personal Portal (home page for store)</h1>
-//             <Hero />
-//             {/* <HIW /> */}
-//             <CardCon info={chooseStyles} scroll={false}/>
-//             <Testimonials obj={testimonials} />
-//             <CardCon info={topSellers} scroll={true}/>
-//             <Footer />
-//             <Link href='/'>Return to Initial landing page</Link>
-//         </main>  
-//     )
-// }

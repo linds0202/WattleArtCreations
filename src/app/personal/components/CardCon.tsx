@@ -47,3 +47,5 @@ export default function CardCon({info, scroll}:Data) {
     </div>
   );
 }
+
+

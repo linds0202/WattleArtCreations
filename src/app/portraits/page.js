@@ -62,6 +62,11 @@ export default function Portraits() {
     setOpenWizard(true)
   }
 
+  const handleDelete = (i) => {
+    let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
+    setPortraits(deletePortraitArr)
+  }
+
   async function handleCalculate () {
     for (const portrait of portraits) {
       await addPortrait({...portrait, customer: authUser.uid });

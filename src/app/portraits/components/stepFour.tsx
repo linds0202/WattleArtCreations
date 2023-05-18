@@ -24,10 +24,11 @@ return (
     <>
     <h3 className='text-center'>General Character Questions</h3>
     <Formik
-        initialValues={props.data}
+        initialValues={generalCharQuestions}
         onSubmit={handleSaveAnswers}
+        enableReinitialize
     >
-        {({ values }) => (
+        {({ values, handleChange }) => (
         <Form className='flex'>
             <div className='p-2'>
                 <label>
@@ -36,9 +37,11 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q1'
                         name="q1" 
-                        value={generalCharQuestions.q1} 
-                        className="text-black mt-4" />
+                        value={values.q1} 
+                        className="text-black mt-4"
+                     />
                 </label>
                 <label>
                     Personality: What is the character&#39;s personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?
@@ -46,9 +49,11 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q2'
                         name="q2" 
-                        value={generalCharQuestions.q2} 
-                        className="text-black mt-4" />
+                        value={values.q2} 
+                        className="text-black mt-4"
+                     />
                 </label>
                 <label>
                     Physical Appearance: Please describe the character&#39;s physical appearance in detail, including body type, hair color and style, eye color, and skin tone. If you have any reference images or inspirations, please provide them.
@@ -56,9 +61,11 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q3'
                         name="q3" 
-                        value={generalCharQuestions.q3} 
-                        className="text-black mt-4" />
+                        value={values.q3} 
+                        className="text-black mt-4"
+                    />
                 </label>
             </div>
             <div className='p-2'>
@@ -68,19 +75,23 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
+                        id='q4'
                         name="q4" 
-                        value={generalCharQuestions.q4} 
-                        className="text-black mt-4" />
+                        value={values.q4} 
+                        className="text-black mt-4"
+                    />
                 </label>
                 <label>
                     Pose and Expression: Do you have a specific pose or expression in mind for the character, or would you like the artist to choose one that best represents the character&#39;s personality?
                     <Field 
                         as="textarea"
                         rows="4"
-                        cols="60" 
+                        cols="60"
+                        id='q5' 
                         name="q5" 
-                        value={generalCharQuestions.q5} 
-                        className="text-black mt-4" />
+                        value={values.q5} 
+                        className="text-black mt-4"
+                    />
                 </label>
                 <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 mx-auto'>Save Answers</button>
             </div>
