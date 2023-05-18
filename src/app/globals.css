@@ -27,7 +27,7 @@ body {
 }
 
 .hero {
-  background-image: url(../../public/hero_drip_josh.png), url(../../public/hero1.png);
+  background-image: url(../../public/hero_drip_josh.png), url(../../public/hero2.png);
   background-position: center top, center;
   background-size: cover, contain;
   background-repeat: no-repeat;

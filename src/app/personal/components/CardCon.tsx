@@ -22,7 +22,7 @@ export default function CardCon({info, scroll}:Data) {
         {scroll ? (
             <p className="text-6xl text-black mb-6 text-center font-bold">Top Sellers:</p> )
         : (
-            <p className="text-6xl text-black mb-6 font-bold">Choose Your Style:</p>
+            <p className="text-6xl text-black mb-6 ml-8 font-bold">Choose Your Style:</p>
         )}
         
         <div className={scroll ? "relative p-4 bg-[#262626] rounded-3xl" : "relative p-4"}>

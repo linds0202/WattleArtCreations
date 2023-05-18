@@ -15,7 +15,7 @@ interface Testimonials{
 
 export default function Testimonials({obj}:Testimonials){
   return (
-    <div className="w-full py-28 relative">
+    <div className="w-11/12 py-28 relative">
         <p className="text-black text-center text-6xl font-bold mb-10">Testimonials</p>
         <div className="absolute z-40 top-[32%] left-[27%] w-[42%] pt-20">
             <Carousel className='pb-12 px-14' controls={false} wrap>
@@ -24,7 +24,7 @@ export default function Testimonials({obj}:Testimonials){
                         return <Carousel.Item key={el.index}>
                                 <div className='h-[125px]'>
                                     <p className='text-white'>{el.body}</p>
-                                    <p className='text-white text-2xl font-bold text-right pr-10'>-{el.author}</p>
+                                    <p className='text-white text-base font-bold text-right pr-10'>-{el.author}</p>
                                 </div>
                                     
                                 </Carousel.Item>

@@ -7,6 +7,40 @@ const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
 //const CHARACTER_COLLECTION_REF = collection(db, 'portraits', portraitId, 'characters');
 
+//Get All Users
+export async function getAllUsers() {
+  const listAllUsers = (nextPageToken) => {
+    // List batch of users, 1000 at a time.
+    getAuth()
+      .listUsers(1000, nextPageToken)
+      .then((listUsersResult) => {
+        listUsersResult.users.forEach((userRecord) => {
+          console.log('user', userRecord.toJSON());
+        });
+        if (listUsersResult.pageToken) {
+          // List next batch of users.
+          listAllUsers(listUsersResult.pageToken);
+        }
+      })
+      .catch((error) => {
+        console.log('Error listing users:', error);
+      });
+  };
+  // Start listing users from the beginning, 1000 at a time.
+  listAllUsers();
+
+
+
+
+
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+}
+
+
 //Portraits
 export function addPortrait( data) {
   console.log('in add portrait: ', data.customer)
@@ -62,6 +96,32 @@ export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets
 //   }
 // }
 
+//returns an array of all portraits
+export async function getAllPortraits() {
+  const allPortraits = []
+    const querySnapshot = await getDocs(collection(db, "portraits"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      allPortraits.push({...doc.data(), uid: doc.id})
+    });
+    return allPortraits
+} 
+
+//Get one Portrait from uid
+export async function getPortrait(uid) {
+  const docSnap = await getDoc(doc(db, "portraits", uid));
+
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return {...docSnap.data(), uid: uid}
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+    return ({})
+  }
+}
+
 //returns array of customers portraits
 export async function getCustomersPortraits( uid ) {
   const q = query(collection(db, "portraits"), where("customer", "==", uid));
@@ -74,19 +134,19 @@ export async function getCustomersPortraits( uid ) {
   return portraits
 }
 
-//returns all portraits
-export async function getAllPortraits() {
-  const allPortraits = []
-    const querySnapshot = await getDocs(collection(db, "portraits"));
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      allPortraits.push({...doc.data(), uid: doc.id})
-    });
-    return allPortraits
-} 
+//returns array of artists claimed portraits
+export async function getArtistsPortraits( uid ) {
+  const q = query(collection(db, "portraits"), where("artist", "==", uid));
+  const portraits = []
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    portraits.push({...doc.data(), uid: doc.id})
+  });
+  return portraits
+}
 
-//returns all portraits that are not claimed
+//returns all portraits that are not claimed for portrait queue
 export async function getAllUnclaimed() {
   const unclaimed = []
   const q = query(collection(db, "portraits"), where("artist", "==", ""));
@@ -98,18 +158,6 @@ export async function getAllUnclaimed() {
     unclaimed.push({...doc.data(), uid: doc.id})
   });
   return unclaimed
-}
-
-//returns array of artists claimed portraits
-export async function getArtistsPortraits( uid ) {
-  const q = query(collection(db, "portraits"), where("artist", "==", uid));
-  const portraits = []
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    portraits.push({...doc.data(), uid: doc.id})
-  });
-  return portraits
 }
 
 /* 

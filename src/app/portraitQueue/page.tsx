@@ -61,15 +61,15 @@ export default function Dashboard({ params: { userId }}: Params) {
   :
   <div className='bg-white text-black min-h-screen pt-3'>
     <h1 className='text-2xl text-center'>Available Commissions</h1>
-    <div>
+    <div className='flex flex-col items-center'>
       {unclaimed.length === 0 ? 
         <p>No portraits to display</p>
       :  unclaimed?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} userId={authUser?.uid} />
       )) }
     </div>   
-    <div>
-      <Link href={`/artistDashboard/${authUser?.uid}`} className='block'>Artist Dashboard</Link> 
+    <div className='w-6/12 mx-auto mb-6 text-center'>
+      <Link href={`/artistDashboard/${authUser?.uid}`} className='block'>Return To Artist Dashboard</Link> 
     </div>
   </div>
   )

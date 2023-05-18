@@ -58,15 +58,15 @@ export default function Dashboard({ params: { userId }}: Params) {
   :
   <div className='bg-white text-black min-h-screen pt-3'>
     <h1 className='text-2xl text-center'>My Dashboard</h1>
-    <div>
+    <div className='flex flex-col items-center'>
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
       :  myPortraits?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} />
       )) }
     </div>   
-    <div>
-      <Link href='/portraits' className='block'>Return to Portrait Wizard</Link> 
+    <div className='w-6/12 mx-auto mb-6 text-center'>
+      <Link href='/personal' className='block'>Return to Homepage</Link> 
     </div>
   </div>
   )
