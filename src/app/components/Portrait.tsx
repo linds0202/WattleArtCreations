@@ -7,15 +7,15 @@ import Link from 'next/link'
 export default function Portrait({ portrait, userId}) {
   const router = useRouter()
 
-  console.log('userId in portrait is: ', userId)
+  // console.log('userId in portrait is: ', userId)
 
   const handleClaim = async () => {
     const updatedPortrait = await addArtist(portrait.uid, userId)
     router.push(`/portraitQueue`)
   }
 
-  console.log('portrait.uid is: ', portrait.uid)
-  console.log('portrait artist id is: ', portrait.artist)
+  // console.log('portrait.uid is: ', portrait.uid)
+  // console.log('portrait artist id is: ', portrait.artist)
   
   return (
     <div className='border-2 rounded-xl border-black w-10/12 p-8 m-4 text-black flex flex-col'>

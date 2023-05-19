@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
 import { getPortrait } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
+import ChatBox from './components/ChatBox';
 
 type Params = {
   params: {
@@ -63,7 +64,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     
   ))
 
-  console.log(charList)
+  //console.log(charList)
 
   return ((!authUser) ? 
     <p className='min-h-screen'>Loading ...</p>
@@ -71,30 +72,26 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   <div className='bg-white text-black min-h-screen pt-3 '>
     <h1 className='text-2xl text-center'>Portrait Details</h1>
     <div className='mx-10 flex justify-between'>
-        <div className='w-3/12'>
-            <div className='w-full h-[300px] border-2 border-black'>
-                <p>Image goes here</p>
-            </div>
-            <div>
-                <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
-            </div>
-        </div>
-        
-        <div className='w-3/12'>
-            <p>Portrait Id: {portrait?.uid}</p>
-            <p>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; { portrait?.styleThree }</p>
-            <p>Portrait Customer Id: {portrait?.customer}</p>
-            {charList}
-            <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Upload Photo</button>
-        </div>  
-        <div className='w-4/12 '>
-            <p>Artist Id: {portrait?.artist}</p>
-            <div className='w-full h-[300px] border-2 border-black flex flex-col justify-between'>
-                <p className='text-center'>Chat box is here</p>
-                <button className='border-2 border-black rounded-lg p-2 my-4 mx-auto'>Send</button>
-            </div>
-            
-        </div> 
+      <div className='w-3/12'>
+          <div className='w-full h-[300px] border-2 border-black'>
+              <p>Image goes here</p>
+          </div>
+          <div>
+              <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
+          </div>
+      </div>
+      
+      <div className='w-3/12'>
+          <p>Portrait Id: {portrait?.uid}</p>
+          <p>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; { portrait?.styleThree }</p>
+          <p>Portrait Customer Id: {portrait?.customer}</p>
+          {charList}
+          <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Upload Photo</button>
+      </div>  
+      <div className='w-4/12'>
+          <p>Artist Id: {portrait?.artist}</p>
+          <ChatBox />
+      </div>
     </div>
     <div className='w-6/12 mx-auto mb-6 text-center'>
         <Link href='/personal' className='block'>Return to Homepage</Link> 

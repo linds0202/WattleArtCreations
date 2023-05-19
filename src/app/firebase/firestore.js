@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, onSnapshot, orderBy, query, setDoc, where } from 'firebase/firestore'; 
+import { addDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 
@@ -113,7 +113,7 @@ export async function getPortrait(uid) {
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    // console.log("Document data:", docSnap.data());
     return {...docSnap.data(), uid: uid}
   } else {
     // docSnap.data() will be undefined in this case
@@ -160,19 +160,6 @@ export async function getAllUnclaimed() {
   return unclaimed
 }
 
-/* 
- Adds receipt to Firestore with given receipt information:
- - address: address at which purchase was made
- - amount: amount of expense
- - date: date of purchase
- - imageBucket: bucket at which receipt image is stored in Firebase Storage
- - items: items purchased
- - locationName: name of location
- - uid: user ID who the expense is for
-*/
-
-
-
 // export async function getCharacters() {
 //   const querySnapshot = await getDocs(collection(db, CHARACTER_COLLECTION));
 //   console.log('in get all characters', querySnapshot)
@@ -183,45 +170,32 @@ export async function getAllUnclaimed() {
 //   return charArr
 // }
 
-/* 
- Returns list of all receipts for given @uid.
- Each receipt contains:
- - address: address at which purchase was made
- - amount: amount of expense
- - date: date of purchase
- - id: receipt ID
- - imageUrl: download URL of the stored receipt image
- - imageBucket: bucket at which receipt image is stored in Firebase Storage
- - items: items purchased
- - locationName: name of location
- - uid: user id of which the receipt is for
-*/
-// export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
-//   const receiptsQuery = query(collection(db, RECEIPT_COLLECTION), where("uid", "==", uid), orderBy("date", "desc"));
 
-//   const unsubscribe = onSnapshot(receiptsQuery, async (snapshot) => {
-//     let allReceipts = [];
-//     for (const documentSnapshot of snapshot.docs) {
-//       const receipt = documentSnapshot.data();
-//       allReceipts.push({
-//         ...receipt, 
-//         date: receipt['date'].toDate(), 
-//         id: documentSnapshot.id,
-//         imageUrl: await getDownloadURL(receipt['imageBucket']),
-//       });
-//     }
-//     setReceipts(allReceipts);
-//     setIsLoadingReceipts(false);
-//   })
-//   return unsubscribe;
-// }
-
-// // Updates receipt with @docId with given information.
-// export function updateReceipt(docId, uid, date, locationName, address, items, amount, imageBucket) {
-//   setDoc(doc(db, RECEIPT_COLLECTION, docId), { uid, date, locationName, address, items, amount, imageBucket });
-// }
 
 // Deletes receipt with given @id.
 export function deleteCharacter(id) {
   deleteDoc(doc(db, CHARACTER_COLLECTION, id));
+}
+
+//Add chat message
+export function addChatMessage( message, email, uid  ) {
+  addDoc(collection(db, "messages"), {
+    text: message,
+    name: email,
+    createdAt: serverTimestamp(),
+    uid,
+  });
+}
+
+// Get All chat messages
+export async function getChats(setMessages) {
+  const q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let messages = [];
+    QuerySnapshot.forEach((doc) => {
+      messages.push({ ...doc.data(), id: doc.id });
+    });
+    setMessages(messages);
+  });
+  return unsubscribe;
 }
