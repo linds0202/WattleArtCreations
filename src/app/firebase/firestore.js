@@ -110,16 +110,27 @@ export async function getAllPortraits() {
 
 //Get one Portrait from uid
 export async function getPortrait(uid) {
+  console.log('getting portrait')
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
-    // console.log("Document data:", docSnap.data());
-    return {...docSnap.data(), uid: uid}
+    console.log("Document data:", docSnap.data());
+    return {
+      ...docSnap.data(), 
+      uid: uid     
+    }
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
     return ({})
   }
+}
+
+export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
+  console.log('made it to here')
+  const imageUrl = await getDownloadURL(imageBucket)
+  console.log('changed the url: ', imageUrl)
+  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
 }
 
 //returns array of customers portraits

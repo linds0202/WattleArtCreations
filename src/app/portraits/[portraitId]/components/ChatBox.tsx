@@ -17,7 +17,7 @@ const ChatBox = () => {
         foo()
     }, [])
 
-    console.log('messages are: ', messages)
+
   
     return (
       <main className="w-full relative">

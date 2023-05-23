@@ -6,7 +6,10 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
 import { getPortrait } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
+import { Container, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ChatBox from './components/ChatBox';
+import UploadImage from './components/UploadImageDialogueBox';
 
 type Params = {
   params: {
@@ -28,11 +31,14 @@ interface PortraitData {
   status: String,
   lastUpdatedStatus: Timestamp,
   paymentComplete: Boolean,
+  images: []
 }
 
 export default function PortraitDetails({ params: { portraitId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
+
+  const [action, setAction] = useState(false)
 
   const [portrait, setPortait] = useState<PortraitData>()
 
@@ -53,6 +59,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     handleGetPortrait()
   }, [])
 
+  const handleUpload = () => {
+    setAction(true)
+  }
+
+  console.log('portrait is: ', portrait?.images[0].imageUrl)
+
   const charList = portrait?.characters.map((char, i) => (
     <div className='border-2 border-black mt-4 pl-4'>
         <p>Char {i} : </p>
@@ -64,7 +76,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     
   ))
 
-  //console.log(charList)
+
 
   return ((!authUser) ? 
     <p className='min-h-screen'>Loading ...</p>
@@ -74,7 +86,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <div className='mx-10 flex justify-between'>
       <div className='w-3/12'>
           <div className='w-full h-[300px] border-2 border-black'>
-              <p>Image goes here</p>
+            <img src={portrait?.images[0].imageUrl} />
+              <button onClick={handleUpload}>Upload Image</button>
+              <UploadImage 
+                showDialog={action} 
+                onCloseDialog={() => setAction(false)} 
+                portraitId={portraitId}
+                userId={authUser.uid}
+              >
+              </UploadImage>
           </div>
           <div>
               <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
@@ -86,7 +106,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           <p>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; { portrait?.styleThree }</p>
           <p>Portrait Customer Id: {portrait?.customer}</p>
           {charList}
-          <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Upload Photo</button>
       </div>  
       <div className='w-4/12'>
           <p>Artist Id: {portrait?.artist}</p>
