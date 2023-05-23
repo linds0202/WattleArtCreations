@@ -114,7 +114,6 @@ export async function getPortrait(uid) {
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
     return {
       ...docSnap.data(), 
       uid: uid     
@@ -189,8 +188,9 @@ export function deleteCharacter(id) {
 }
 
 //Add chat message
-export function addChatMessage( message, email, uid  ) {
+export function addChatMessage( portraitId, message, email, uid  ) {
   addDoc(collection(db, "messages"), {
+    portraitId: portraitId,
     text: message,
     name: email,
     createdAt: serverTimestamp(),
@@ -199,8 +199,11 @@ export function addChatMessage( message, email, uid  ) {
 }
 
 // Get All chat messages
-export async function getChats(setMessages) {
-  const q = query(collection(db, "messages"), orderBy("createdAt"), limit(50));
+export async function getChats(setMessages, portraitId) {
+  const q = query(collection(db, "messages"), where("portraitId", "==", portraitId), orderBy("createdAt"), limit(50));
+  
+  console.log('q in get chats is: ', q)
+  
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let messages = [];
     QuerySnapshot.forEach((doc) => {

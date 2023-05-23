@@ -63,7 +63,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setAction(true)
   }
 
-  console.log('portrait is: ', portrait?.images[0].imageUrl)
+  //console.log('portrait is: ', portrait?.images[0].imageUrl)
 
   const charList = portrait?.characters.map((char, i) => (
     <div className='border-2 border-black mt-4 pl-4'>
@@ -86,7 +86,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <div className='mx-10 flex justify-between'>
       <div className='w-3/12'>
           <div className='w-full h-[300px] border-2 border-black'>
-            <img src={portrait?.images[0].imageUrl} />
+            {/* <img src={portrait?.images[0].imageUrl || ""} /> */}
               <button onClick={handleUpload}>Upload Image</button>
               <UploadImage 
                 showDialog={action} 
@@ -109,7 +109,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       </div>  
       <div className='w-4/12'>
           <p>Artist Id: {portrait?.artist}</p>
-          <ChatBox />
+          <ChatBox portraitId={portraitId}/>
       </div>
     </div>
     <div className='w-6/12 mx-auto mb-6 text-center'>

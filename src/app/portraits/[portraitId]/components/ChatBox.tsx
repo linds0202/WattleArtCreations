@@ -1,21 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import Message from "./Message";
-import SendMessage from "./sendMessage";
+import SendMessage from "./SendMessage";
 import { getChats } from "@/app/firebase/firestore";
 
-const ChatBox = () => {
+const ChatBox = ({ portraitId }) => {
     const scroll = useRef();
     
     const [messages, setMessages] = useState([]);
     
     useEffect(() => {
         const foo = async () => {
-            const unsubscribe = await getChats(setMessages);
+            const unsubscribe = await getChats(setMessages, portraitId);
             
             return () => unsubscribe();
         }
         foo()
     }, [])
+
+    console.log('messages in chatbox is: ', messages)
 
 
   
@@ -27,7 +29,7 @@ const ChatBox = () => {
           ))}
         </div>
         <span ref={scroll}></span>
-        <SendMessage scroll={scroll} />
+        <SendMessage scroll={scroll} portraitId={portraitId} />
       </main>
     );
   };

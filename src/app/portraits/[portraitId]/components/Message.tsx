@@ -3,6 +3,7 @@ import { useAuth } from "@/app/firebase/auth";
 
 interface Message {
     message: {
+        portraitId: String,
         name: String,
         text: String,
         uid: String
