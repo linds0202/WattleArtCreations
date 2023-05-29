@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, onSnapshot, orderBy, query, setDoc, where } from 'firebase/firestore'; 
+import { addDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 
@@ -6,6 +6,40 @@ import { getDownloadURL } from './storage';
 const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
 //const CHARACTER_COLLECTION_REF = collection(db, 'portraits', portraitId, 'characters');
+
+//Get All Users
+export async function getAllUsers() {
+  const listAllUsers = (nextPageToken) => {
+    // List batch of users, 1000 at a time.
+    getAuth()
+      .listUsers(1000, nextPageToken)
+      .then((listUsersResult) => {
+        listUsersResult.users.forEach((userRecord) => {
+          console.log('user', userRecord.toJSON());
+        });
+        if (listUsersResult.pageToken) {
+          // List next batch of users.
+          listAllUsers(listUsersResult.pageToken);
+        }
+      })
+      .catch((error) => {
+        console.log('Error listing users:', error);
+      });
+  };
+  // Start listing users from the beginning, 1000 at a time.
+  listAllUsers();
+
+
+
+
+
+  const querySnapshot = await getDocs(collection(db, "users"));
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+}
+
 
 //Portraits
 export function addPortrait( data) {
@@ -62,19 +96,7 @@ export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets
 //   }
 // }
 
-//returns array of customers portraits
-export async function getCustomersPortraits( uid ) {
-  const q = query(collection(db, "portraits"), where("customer", "==", uid));
-  const portraits = []
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    portraits.push({...doc.data(), uid: doc.id})
-  });
-  return portraits
-}
-
-//returns all portraits
+//returns an array of all portraits
 export async function getAllPortraits() {
   const allPortraits = []
     const querySnapshot = await getDocs(collection(db, "portraits"));
@@ -86,18 +108,40 @@ export async function getAllPortraits() {
     return allPortraits
 } 
 
-//returns all portraits that are not claimed
-export async function getAllUnclaimed() {
-  const unclaimed = []
-  const q = query(collection(db, "portraits"), where("artist", "==", ""));
+//Get one Portrait from uid
+export async function getPortrait(uid) {
+  console.log('getting portrait')
+  const docSnap = await getDoc(doc(db, "portraits", uid));
 
+  if (docSnap.exists()) {
+    return {
+      ...docSnap.data(), 
+      uid: uid     
+    }
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+    return ({})
+  }
+}
+
+export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
+  console.log('made it to here')
+  const imageUrl = await getDownloadURL(imageBucket)
+  console.log('changed the url: ', imageUrl)
+  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
+}
+
+//returns array of customers portraits
+export async function getCustomersPortraits( uid ) {
+  const q = query(collection(db, "portraits"), where("customer", "==", uid));
+  const portraits = []
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-    unclaimed.push({...doc.data(), uid: doc.id})
+    portraits.push({...doc.data(), uid: doc.id})
   });
-  return unclaimed
+  return portraits
 }
 
 //returns array of artists claimed portraits
@@ -112,18 +156,19 @@ export async function getArtistsPortraits( uid ) {
   return portraits
 }
 
-/* 
- Adds receipt to Firestore with given receipt information:
- - address: address at which purchase was made
- - amount: amount of expense
- - date: date of purchase
- - imageBucket: bucket at which receipt image is stored in Firebase Storage
- - items: items purchased
- - locationName: name of location
- - uid: user ID who the expense is for
-*/
+//returns all portraits that are not claimed for portrait queue
+export async function getAllUnclaimed() {
+  const unclaimed = []
+  const q = query(collection(db, "portraits"), where("artist", "==", ""));
 
-
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+    unclaimed.push({...doc.data(), uid: doc.id})
+  });
+  return unclaimed
+}
 
 // export async function getCharacters() {
 //   const querySnapshot = await getDocs(collection(db, CHARACTER_COLLECTION));
@@ -135,45 +180,36 @@ export async function getArtistsPortraits( uid ) {
 //   return charArr
 // }
 
-/* 
- Returns list of all receipts for given @uid.
- Each receipt contains:
- - address: address at which purchase was made
- - amount: amount of expense
- - date: date of purchase
- - id: receipt ID
- - imageUrl: download URL of the stored receipt image
- - imageBucket: bucket at which receipt image is stored in Firebase Storage
- - items: items purchased
- - locationName: name of location
- - uid: user id of which the receipt is for
-*/
-// export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
-//   const receiptsQuery = query(collection(db, RECEIPT_COLLECTION), where("uid", "==", uid), orderBy("date", "desc"));
 
-//   const unsubscribe = onSnapshot(receiptsQuery, async (snapshot) => {
-//     let allReceipts = [];
-//     for (const documentSnapshot of snapshot.docs) {
-//       const receipt = documentSnapshot.data();
-//       allReceipts.push({
-//         ...receipt, 
-//         date: receipt['date'].toDate(), 
-//         id: documentSnapshot.id,
-//         imageUrl: await getDownloadURL(receipt['imageBucket']),
-//       });
-//     }
-//     setReceipts(allReceipts);
-//     setIsLoadingReceipts(false);
-//   })
-//   return unsubscribe;
-// }
-
-// // Updates receipt with @docId with given information.
-// export function updateReceipt(docId, uid, date, locationName, address, items, amount, imageBucket) {
-//   setDoc(doc(db, RECEIPT_COLLECTION, docId), { uid, date, locationName, address, items, amount, imageBucket });
-// }
 
 // Deletes receipt with given @id.
 export function deleteCharacter(id) {
   deleteDoc(doc(db, CHARACTER_COLLECTION, id));
+}
+
+//Add chat message
+export function addChatMessage( portraitId, message, email, uid  ) {
+  addDoc(collection(db, "messages"), {
+    portraitId: portraitId,
+    text: message,
+    name: email,
+    createdAt: serverTimestamp(),
+    uid,
+  });
+}
+
+// Get All chat messages
+export async function getChats(setMessages, portraitId) {
+  const q = query(collection(db, "messages"), where("portraitId", "==", portraitId), orderBy("createdAt"), limit(50));
+  
+  console.log('q in get chats is: ', q)
+  
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let messages = [];
+    QuerySnapshot.forEach((doc) => {
+      messages.push({ ...doc.data(), id: doc.id });
+    });
+    setMessages(messages);
+  });
+  return unsubscribe;
 }

@@ -30,7 +30,7 @@ interface PortraitData {
   paymentComplete: Boolean,
 }
 
-export default function Dashboard({ params: { userId }}: Params) {
+export default function ArtistDashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
@@ -58,14 +58,14 @@ export default function Dashboard({ params: { userId }}: Params) {
   :
   <div className='bg-white text-black min-h-screen pt-3'>
     <h1 className='text-2xl text-center'>Artist Dashboard</h1>
-    <div>
+    <div className='flex flex-col items-center'>
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
       :  myPortraits?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} userId={userId}/>
       )) }
     </div>   
-    <div>
+    <div className='w-6/12 mx-auto mb-6 text-center'>
       <Link href='/portraitQueue' className='block'>Return to Portrait Queue</Link> 
     </div>
   </div>

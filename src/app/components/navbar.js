@@ -30,9 +30,9 @@ export default function NavBar() {
   const [login, setLogin] = useState(false);  
 
   return ((isLoading) ? 
-    <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%' }}/>
+    <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
-    <div className='w-full flex justify-between items-center px-8 py-4 bg-black text-white'>
+    <div className='w-full flex justify-between items-center px-8 bg-black text-white'>
       <div >
         <Link href='/' className='flex justify-between items-center no-underline'>
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
@@ -48,10 +48,13 @@ export default function NavBar() {
         {authUser?.email && 
           <div className='flex justify-between items-center'>
             <div className='pr-4'>
-              <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer Dashboard</Link>
+              <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
             </div>
             <div className='pr-4'>
-              <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
+              <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer</Link>
+            </div>
+            <div className='pr-4'>
+              <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist</Link>
             </div>
             <button onClick={signOut}>
               Logout

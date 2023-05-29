@@ -42,17 +42,20 @@ export default function Portraits() {
   const [editPortrait, setEditPortrait] = useState(null)
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div key={i}>
+    <div className='w-10/12 border-2 border-white rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
       <div>
         <p className='text-white'>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; {portrait?.styleThree}</p>
         <p className='text-white'>Customer ID: {authUser.uid}</p>
       </div>
-      <button onClick={() => handleEdit(i)} className=' border-2 border-white rounded-md p-2 '>
-          <EditIcon />
-      </button>
-      <button onClick={() => handleDelete(i)} className=' border-2 border-white rounded-md p-2 '>
-          <DeleteForeverIcon />
-      </button>
+      <div>
+        <button onClick={() => handleEdit(i)} className=' border-2 border-white rounded-md p-2 '>
+            <EditIcon />
+        </button>
+        <button onClick={() => handleDelete(i)} className='ml-4 border-2 border-white rounded-md p-2 '>
+            <DeleteForeverIcon />
+        </button>
+      </div>
+      
     </div>
   ))
 
@@ -86,12 +89,16 @@ export default function Portraits() {
           <>
             
             <p>No Portraits Yet!</p>
-            <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2' >Start New Portrait</button>
+            <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2 mt-4' >Start New Portrait</button>
           </>
           )
-        : <div>
-            {portraitList}
-            {!openWizard && <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2' >Add Another Portrait</button>}
+        : <div className='w-full flex flex-col items-center'>
+            {!openWizard && 
+            <>
+              {portraitList}
+              <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2 mt-4' >Add Another Portrait</button>
+            </>
+            }
           </div>
       }
       
