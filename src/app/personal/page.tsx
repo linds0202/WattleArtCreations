@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Hero } from "./components/Hero"
-import { HIW } from "./components/HIW"
+import HIW from "./components/HIW"
+import CategoryContainer from "./components/categories/CategoryContainer"
 import CardCon from "./components/CardCon"
 import Testimonials from "./components/Testimonials"
 import Footer from "../components/Footer"
@@ -82,7 +83,8 @@ export default function Personal() {
     <main className="bg-white text-black no-underline flex flex-col justify-around items-center min-h-screen">
         <Hero />
         <HIW />
-        <CardCon info={chooseStyles} scroll={false}/>
+        <CategoryContainer />
+        {/* <CardCon info={chooseStyles} scroll={false}/> */}
         {/* <div className="flex w-10/12 justify-around">
           <div className="border-2 border-white rounded-lg p-4">
             <Link href={{
