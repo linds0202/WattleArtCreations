@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function Footer(){
   return (
-    <div className='w-full h-[500px] relative mt-[200px] footer'>
+    <div className='w-full h-[500px] relative mt-0 footer'>
         <div className='w-4/12 absolute bottom-[14%] left-[35%] flex justify-between'>
             <Link href='/' className='no-underline'>
             <div className='flex items-center w-5/12'>
