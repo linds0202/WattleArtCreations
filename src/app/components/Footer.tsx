@@ -8,14 +8,13 @@ import Link from 'next/link'
 export default function Footer(){
   return (
     <div className='w-full h-[500px] relative mt-0 footer'>
-        <div className='w-4/12 absolute bottom-[14%] left-[35%] flex justify-between'>
+        <div className='w-5/12 absolute bottom-[16%] left-[33%] flex justify-between'>
             <Link href='/' className='no-underline'>
-            <div className='flex items-center w-5/12'>
-                    <img src={'./Logo_Circle.png'} alt={'logo'} className='w-[64px] h-[64px]' />
-                    <div className='w-5/12 ml-4'>
-                        <p className='font-semibold text-xl mb-0 text-white no-underline'>Wattle Art Creations</p>
-                    </div>
-                
+            <div className='flex items-center w-10/12'>
+                <img src={'./Logo_Circle.png'} alt={'logo'} className='w-[64px] h-[64px]' />
+                <div className='w-full ml-4 '>
+                    <p className='font-semibold text-xl mb-0 text-white no-underline'>Wattle Art Creations</p>
+                </div>
             </div>
             </Link>
             <div className='text-white w-3/12 flex flex-col justify-around'>
