@@ -91,7 +91,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   <div className='bg-white text-black min-h-screen pt-3'>
     <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>Admin Dashboard</h1>
     <div className='flex justify-around'>
-      <div className='w-3/12 border-black border-2'>
+      <div className='w-3/12 relative'>
         <MenuContainer />
       </div>
         <div className='w-8/12'>

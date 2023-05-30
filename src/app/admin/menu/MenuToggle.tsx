@@ -3,16 +3,15 @@ import { motion } from "framer-motion";
 
 const Path = props => (
   <motion.path
-    fill="transparent"
     strokeWidth="3"
-    stroke="hsl(0, 0%, 18%)"
+    stroke="#fff"
     strokeLinecap="round"
     {...props}
   />
 );
 
-export const MenuToggle = ({ toggle, func }) => (
-        <>
+export const MenuToggle = ({ func }) => (
+        <div className="relative">
             <button onClick={() => func()} className="toggle-button">
                 <svg width="23" height="23" viewBox="0 0 23 23">
                 <Path
@@ -20,6 +19,7 @@ export const MenuToggle = ({ toggle, func }) => (
                     closed: { d: "M 2 2.5 L 20 2.5" },
                     open: { d: "M 3 16.5 L 17 2.5" }
                     }}
+                    fill={'white'}
                 />
                 <Path
                     d="M 2 9.423 L 20 9.423"
@@ -37,6 +37,5 @@ export const MenuToggle = ({ toggle, func }) => (
                 />
                 </svg>
             </button>
-            {/* <button onClick={() => func()}>Click me</button> */}
-        </>
+        </div>
 );
