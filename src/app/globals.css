@@ -191,7 +191,7 @@ body {
   overflow: hidden;
 }
 
-.carousel {
+.gallery-carousel {
   display: flex;
   gap: 48px;
 }
@@ -206,4 +206,15 @@ body {
   border-radius: 16px;
 }
 /* END GALLERY */
+
+
+/* Image Carousel Section */
+/* .carousel .slide {
+  height: 60vh
+} */
+
+.carousel .slide img {
+  object-fit: contain;
+}
+
 

@@ -1,40 +1,33 @@
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"
 
-
-export default function MyCarousel ({ selection }) {
-
-    console.log('this is the options: ', selection)
-
+function MyCarousel({selection}) {
     return (
-        <div className="p-4 w-7/12 h-full flex items-center border-2 border-red-600">
-            <div className="w-3/12 h-4/5 overflow-hidden border-2 border-red-600 flex flex-col justify-start items-center">
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
-                <div className="w-[100px] h-[150px] mt-4" >
-                    <img src='/featured_8.png' />
-                </div>
+        <Carousel
+            infiniteLoop
+            autoPlay
+            className="w-3/12 border-2 border-red-700 m-0"
+        >
+            <div className="border-2 border-red-700">
+                <img src="/featured_8.png" />
             </div>
-            <div className="w-full h-[90%] flex justify-center">
-                <img className="w-10/12 object-contain" src='/featured_8.png' />
+            <div>
+                <img src="/featured_9.png" />
             </div>
-        </div>
-    );
+            <div>
+                <img src="/featured_10.png" />
+            </div>
+            <div>
+                <img src="/featured_11.png" />
+            </div>
+            <div>
+                <img src="/featured_12.png" />
+            </div>
+            <div>
+                <img src="/featured_13.png" />
+            </div>
+        </Carousel>
+    )
 }
+
+export default MyCarousel

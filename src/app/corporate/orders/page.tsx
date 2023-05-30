@@ -54,7 +54,7 @@ export default function Orders() {
     
 
     return (
-        <main className="min-h-screen flex flex-col justify-between items-center bg-black text-white no-underline relative">
+        <main className="h-[90vh] flex flex-col justify-between items-center bg-white text-black no-underline relative p-10">
             {!openWizard && !consult &&
             <>
                 <h3 className="text-3xl text-left my-8">{productChoice}: </h3>
@@ -74,17 +74,16 @@ export default function Orders() {
             </>}
 
             {openWizard && (
-                <div className="w-10/12 flex justify-center items-start h-screen absolute border-2 border-blue-700">
-                    <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/>    
-                </div>
+                <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/> 
             )}
             { 
 
 
             }
-            <div className="w-4/12 mx-auto mb-10 border-2 border-white rounded-lg p-2 text-center">
+            {!openWizard && <div className="w-4/12 mx-auto mb-10 border-2 border-white rounded-lg p-2 text-center">
                 <Link href='/corporate' >Back to Coporate Homepage</Link>
             </div>
+            }
             
         </main>
     )

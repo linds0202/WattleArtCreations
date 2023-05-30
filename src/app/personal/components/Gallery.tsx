@@ -81,7 +81,7 @@ export default function Gallery() {
           </h2>
           <div className="galleryContainer" style={{ height: "300vh" }}>
             <div className="sticky-wrapper">
-              <motion.div ref={carouselRef} className="carousel" style={{ x }}>
+              <motion.div ref={carouselRef} className="gallery-carousel" style={{ x }}>
                 {Array.from(Array(8).keys()).map((i) => (
                   <motion.div
                     {...slideAnimation}
