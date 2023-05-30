@@ -24,6 +24,23 @@ const uiConfig = {
   },
 };
 
+// import Link from "next/link";
+
+
+// export default function NavBar() {
+//     return (
+//         <div className="flex justify-between items-center bg-[#282828] px-10 sticky top-0 z-10 text-white">
+//             <div className="flex justify-between items-center">
+//                 <img src='/drips/Logo_Circle.png' className="w-[64px] h-[64px]"/>
+//                 <h3 >Wattle Art Creations</h3>
+//             </div>
+//             <div>
+//                 <Link href='#'>Sign In / Sign Up</Link>
+//             </div>
+//         </div>
+//     )
+// }
+
 export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const router = useRouter();
@@ -32,7 +49,7 @@ export default function NavBar() {
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
-    <div className='w-full flex justify-between items-center px-8 bg-black text-white'>
+    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-10'>
       <div >
         <Link href='/' className='flex justify-between items-center no-underline'>
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
