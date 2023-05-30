@@ -13,8 +13,8 @@ export default function SlideCards() {
     const router = useRouter()
 
   return (
-    <div className="w-[75%] py-[100px]">
-      <div className="space-y-[100px] flex flex-col items-center">
+    <div className="w-[75%] py-[25px]">
+      <div className="space-y-[50px] flex flex-col items-center">
         <div className="flex justify-start w-full">
             <motion.div className="motion-box w-full" initial={{opacity: 0, x: -50,}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.4}} transition={{duration: .7}}>
                 <div className="flex border-b-2 border-black px-4 pb-4 justify-between">
