@@ -4,8 +4,9 @@ import { useState } from "react"
 import HeroLoader from "./components/HeroLoader"
 import HIW from "./components/HIW"
 import CategoryContainer from "./components/categories/CategoryContainer"
-import CardCon from "./components/CardCon"
-import Testimonials from "./components/Testimonials"
+import Gallery from "./components/Gallery"
+// import CardCon from "./components/CardCon"
+// import Testimonials from "./components/Testimonials"
 import Footer from "../components/Footer"
 
 export default function Personal() {
@@ -89,10 +90,10 @@ export default function Personal() {
         <HeroLoader setLoading={setLoading}/>
         <HIW />
         <CategoryContainer />
-
+        <Gallery />
         
         {/* <Testimonials obj={testimonials} /> */}
-        <CardCon info={topSellers} scroll={true}/>
+        {/* <CardCon info={topSellers} scroll={true}/> */}
         <Footer />
     </main>
   )
