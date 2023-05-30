@@ -1,10 +1,17 @@
 'use client'
 import { motion, MotionProps } from "framer-motion";
 
+import Link from "next/link";
+
 
 import "./styles.css";
 
+import Router, { useRouter } from "next/navigation";
+
 export default function SlideCards() {
+
+    const router = useRouter()
+
   return (
     <div className="w-[75%] py-[100px]">
       <div className="space-y-[100px] flex flex-col items-center">
@@ -19,7 +26,7 @@ export default function SlideCards() {
                             below and
                         </p>
                         <div className="flex justify-center">
-                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition">Start Customizing</button>
+                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => router.push('/portraits/?styleOne=Photorealistic')}>Start Customizing</button>
                         </div>
                         
                         <div className="h-[2px] bg-white"/>
@@ -38,7 +45,7 @@ export default function SlideCards() {
                             There&#39;s just one thing left to do: click the button below and
                         </p>
                         <div className="flex justify-center">
-                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition">Start Customizing</button>
+                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => router.push('/portraits/?styleOne=Anime')}>Start Customizing</button>
                         </div>
                         
                         <div className="h-[2px] bg-white"/>
@@ -59,7 +66,7 @@ export default function SlideCards() {
                                 Unlock your ultimate fantasy and
                             </p>
                             <div className="flex justify-center">
-                                <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition">Start Customizing</button>
+                                <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => router.push('/portraits/?styleOne=Nsfw')}>Start Customizing</button>
                             </div>
                             
                             <div className="h-[2px] bg-white"/>

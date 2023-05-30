@@ -84,7 +84,7 @@ export default function Personal() {
         <Hero />
         <HIW />
         <CategoryContainer />
-        {/* <CardCon info={chooseStyles} scroll={false}/> */}
+        <CardCon info={chooseStyles} scroll={false}/>
         {/* <div className="flex w-10/12 justify-around">
           <div className="border-2 border-white rounded-lg p-4">
             <Link href={{
