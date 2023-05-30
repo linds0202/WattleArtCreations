@@ -40,6 +40,9 @@ body {
   background-repeat: no-repeat;
 }
 
+
+
+
 .horz-scroll-con::-webkit-scrollbar {
   display: none;
   background-color: #262626;

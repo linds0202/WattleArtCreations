@@ -81,7 +81,7 @@ export default function Portraits() {
 
   return (
     <div className='flex flex-col justify-around items-center min-h-screen bg-black text-white'>
-      {!openWizard && <h1 className='text-2xl'>My Pending Portraits</h1>}
+      {!openWizard && portraits.length !== 0 && <h1 className='text-2xl'>My Pending Portraits</h1>}
 
       {/* Show portraits */}
       { portraits.length === 0 && !openWizard
