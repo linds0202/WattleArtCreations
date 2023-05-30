@@ -15,7 +15,7 @@ export default function Corporate() {
             </Link>
             <Link href={{
               pathname: '/corporate/orders',
-              query: {productChoice: 'StoryOrBookIllustrations'},
+              query: {productChoice: 'Story Or Book Illustrations'},
               }} 
               className="text-2xl no-underline border-2 border-white rounded-lg p-2"
             >
@@ -23,7 +23,7 @@ export default function Corporate() {
             </Link>
             <Link href={{
               pathname: '/corporate/orders',
-              query: {productChoice: 'TableTopIllustrations'},
+              query: {productChoice: 'Table Top Illustrations'},
               }} 
               className="text-2xl no-underline border-2 border-white rounded-lg p-2"
             >
@@ -31,7 +31,7 @@ export default function Corporate() {
             </Link>
             <Link href={{
               pathname: '/corporate/orders',
-              query: {productChoice: 'VideoGameAssets'},
+              query: {productChoice: 'Video Game Assets'},
               }} 
               className="text-2xl no-underline border-2 border-white rounded-lg p-2"
             >

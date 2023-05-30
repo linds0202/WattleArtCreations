@@ -67,7 +67,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
   const charList = portrait?.characters.map((char, i) => (
     <div className='border-2 border-black mt-4 pl-4'>
-        <p>Char {i} : </p>
+        <p>Char {i + 1} : </p>
         <p>Body Style: {char.bodyStyle}</p>
         <p># Character Variations: {char.numCharVariations}</p>
         <p># Pets: {char.numPets}</p>
