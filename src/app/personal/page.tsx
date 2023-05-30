@@ -1,5 +1,7 @@
-import Link from "next/link"
-import { Hero } from "./components/Hero"
+'use client' 
+
+import { useState } from "react"
+import HeroLoader from "./components/HeroLoader"
 import HIW from "./components/HIW"
 import CategoryContainer from "./components/categories/CategoryContainer"
 import CardCon from "./components/CardCon"
@@ -7,6 +9,9 @@ import Testimonials from "./components/Testimonials"
 import Footer from "../components/Footer"
 
 export default function Personal() {
+
+  const [loading, setLoading] = useState(true);
+
   const chooseStyles = [
     {
         style: 'Photorealistic',
@@ -81,43 +86,12 @@ export default function Personal() {
   
   return (
     <main className="bg-white text-black no-underline flex flex-col justify-around items-center min-h-screen">
-        <Hero />
+        <HeroLoader setLoading={setLoading}/>
         <HIW />
         <CategoryContainer />
-        {/* <CardCon info={chooseStyles} scroll={false}/> */}
-        {/* <div className="flex w-10/12 justify-around">
-          <div className="border-2 border-white rounded-lg p-4">
-            <Link href={{
-              pathname: '/portraits',
-              query: {styleOne: 'Photorealistic'},
-              }} 
-              className="text-3xl no-underline"
-            >
-                <p>Photorealistic</p>
-            </Link>
-          </div>
-          <div className="border-2 border-white rounded-lg p-4">
-          <Link href={{
-              pathname: '/portraits',
-              query: {styleOne: 'Anime'},
-              }} 
-              className="text-3xl no-underline"
-            >
-                <p>Anime</p>
-            </Link>
-          </div>
-          <div className="border-2 border-white rounded-lg p-4">
-          <Link href={{
-              pathname: '/portraits',
-              query: {styleOne: 'NSFW'},
-              }} 
-              className="text-3xl no-underline"
-            >
-                <p>NSFW</p>
-            </Link>
-          </div>
-        </div> */}
-        <Testimonials obj={testimonials} />
+
+        
+        {/* <Testimonials obj={testimonials} /> */}
         <CardCon info={topSellers} scroll={true}/>
         <Footer />
     </main>
