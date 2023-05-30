@@ -13,10 +13,10 @@ export default function SlideCards() {
     const router = useRouter()
 
   return (
-    <div className="w-[75%] py-[25px]">
+    <div className="w-[75%]">
       <div className="space-y-[50px] flex flex-col items-center">
         <div className="flex justify-start w-full">
-            <motion.div className="motion-box w-full" initial={{opacity: 0, x: -50,}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.4}} transition={{duration: .7}}>
+            <motion.div className="motion-box w-full" initial={{opacity: 0, x: -50,}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.5}} transition={{duration: .7}}>
                 <div className="flex border-b-2 border-black px-4 pb-4 justify-between">
                     <img src="./featured_9.png" className='w-[35%]'/>
                     <div className="w-[50%] flex flex-col pt-14 pr-[5%]">
@@ -35,7 +35,7 @@ export default function SlideCards() {
             </motion.div>
         </div>
         <div className="flex justify-end w-full">
-            <motion.div className="motion-box my-20" initial={{opacity: 0, x: 50}} whileInView={{opacity: 1, x: -50}} viewport={{amount: 0.4}} transition={{duration: .7}}>
+            <motion.div className="motion-box my-20" initial={{opacity: 0, x: 50}} whileInView={{opacity: 1, x: -50}} viewport={{amount: 0.5}} transition={{duration: .7}}>
             <div className="flex border-b-2 border-black px-4 pb-4 justify-between">
                     <div className="w-[50%] flex flex-col pt-14 pl-[5%]">
                         <p className="font-bold text-4xl mb-10">Anime</p>
@@ -55,7 +55,7 @@ export default function SlideCards() {
             </motion.div>
         </div>
         <div className="flex justify-start w-full">
-            <motion.div className="motion-box my-20" initial={{opacity: 0, x: -50}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.4}} transition={{duration: .7}}>
+            <motion.div className="motion-box my-15" initial={{opacity: 0, x: -50}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.5}} transition={{duration: .7}}>
                 <div className="flex border-b-2 border-black px-4 pb-4 justify-between">
                     <img src="./featured_14.png" className='w-[30%]'/>
                     <div className="w-[50%] flex flex-col pt-14 pr-[5%]">

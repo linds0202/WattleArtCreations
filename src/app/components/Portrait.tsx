@@ -18,7 +18,7 @@ export default function Portrait({ portrait, userId}) {
   // console.log('portrait artist id is: ', portrait.artist)
   
   return (
-    <div className='border-2 rounded-xl border-black w-10/12 p-8 m-4 text-black flex flex-col hover:cursor-pointer hover:scale-110 transition duration-500 group'>
+    <div className='border-2 rounded-xl border-black w-7/12 p-8 m-4 text-black flex flex-col hover:cursor-pointer hover:scale-110 transition duration-500 group'>
           <h4 className='font-bold'>{portrait.styleOne} &gt; {portrait.styleTwo} &gt; { portrait.styleThree } </h4>
           <div className='flex justify-between mt-2'>
             <div className='flex'>
