@@ -7,39 +7,58 @@ const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
 //const CHARACTER_COLLECTION_REF = collection(db, 'portraits', portraitId, 'characters');
 
-//Get All Users
-export async function getAllUsers() {
-  const listAllUsers = (nextPageToken) => {
-    // List batch of users, 1000 at a time.
-    getAuth()
-      .listUsers(1000, nextPageToken)
-      .then((listUsersResult) => {
-        listUsersResult.users.forEach((userRecord) => {
-          console.log('user', userRecord.toJSON());
-        });
-        if (listUsersResult.pageToken) {
-          // List next batch of users.
-          listAllUsers(listUsersResult.pageToken);
-        }
-      })
-      .catch((error) => {
-        console.log('Error listing users:', error);
-      });
-  };
-  // Start listing users from the beginning, 1000 at a time.
-  listAllUsers();
+//Get All Users - NEEDS WORK
+// export async function getAllUsers() {
+//   const listAllUsers = (nextPageToken) => {
+//     // List batch of users, 1000 at a time.
+//     getAuth()
+//       .listUsers(1000, nextPageToken)
+//       .then((listUsersResult) => {
+//         listUsersResult.users.forEach((userRecord) => {
+//           console.log('user', userRecord.toJSON());
+//         });
+//         if (listUsersResult.pageToken) {
+//           // List next batch of users.
+//           listAllUsers(listUsersResult.pageToken);
+//         }
+//       })
+//       .catch((error) => {
+//         console.log('Error listing users:', error);
+//       });
+//   };
+//   // Start listing users from the beginning, 1000 at a time.
+//   listAllUsers();
+
+//   const querySnapshot = await getDocs(collection(db, "users"));
+//   querySnapshot.forEach((doc) => {
+//     // doc.data() is never undefined for query doc snapshots
+//     console.log(doc.id, " => ", doc.data());
+//   });
+// }
 
 
-
-
-
-  const querySnapshot = await getDocs(collection(db, "users"));
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
+//cORPORATE cONSULT
+export function addConsult( data) {
+  console.log('in add CONSULT: ', data.category)
+  const consultRef = addDoc(collection(db, 'consults'), { 
+    category: data.category, 
+    subcategories: data.subcategories, 
+    questions: data.questions, 
+    generalAnswers: data.generalAnswers,
+    advertisingAnswers: data.advertisingAnswers,
+    storyAnswers: data.storyAnswers,
+    tableAnswers: data.tableAnswers,
+    videoGameAnswers: data.videoGameAnswers,
+    price: '',
+    customer: '',
+    consultant: '',
+    date: new Date,
+    status: 'Pending',
+    lastUpdatedStatus: new Date,
+    paymentComplete: false,
+  })
+  return consultRef
 }
-
 
 //Portraits
 export function addPortrait( data) {
@@ -74,7 +93,6 @@ export function addArtist( portraitId, artistId) {
  Adds character to Portrait in Firestore with given character information:
 */
 export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets, extras) {
-  // console.log('calling addDoc in character uid and style', uid, style, bodyStyle, numCharVariations, pets, numPets, extras)
   updateDoc(doc(db, 'portraits', portraitId), { 
     characters: arrayUnion({bodyStyle, numCharVariations, pets, numPets, extras })
   });

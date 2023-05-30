@@ -1,5 +1,10 @@
 import { Field, Formik, Form } from 'formik';
 import { useState } from 'react';
+import { useAuth } from '@/app/firebase/auth';
+import { EmailAuthProvider } from 'firebase/auth';
+import { auth } from '@/app/firebase/firebase';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { addConsult } from '@/app/firebase/firestore';
 
 interface CorporateData {
   category: String, 
@@ -19,6 +24,18 @@ interface CorporateData {
   paymentComplete: Boolean,
 }
 
+// Configure FirebaseUI., 
+const uiConfig = {
+  signInFlow: 'popup', 
+  signInOptions: [
+    EmailAuthProvider.PROVIDER_ID,
+  ],
+  callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => false,
+  },
+};
+
 const questions = {
   "general": ['What is your business about?', 'What are your brand values and your mission statement?', 'What is the timeline for the project?', 'Have you seen any of our previous work that you particularly like and/or dislike? This can help us understand your preferences and create an artwork that meets your expectations.', 'If you have any reference images you would like us to look at, please provide them.', 'Do you have any questions for us?'],
   "Advertisement": ['What type of advertisement are you looking for?', 'Who is the target audience for this advertisement?', 'Where will this advertisement be shown?', 'What is the message or objective you want to convey through this advertisement?', 'What is your budget for this advertisement(s)?'],
@@ -29,7 +46,8 @@ const questions = {
 
 export default function ConsultWizard({ category, selection, setStartConsult, setOpenWizard, setConsult }) {
 
-  console.log('category is: ', category)
+  const { authUser } = useAuth();
+  const [login, setLogin] = useState(false);
 
   const [currentStep, setCurrentStep] = useState(0)
   const [corporateData, setCorporateData] = useState({
@@ -43,57 +61,62 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
       'Video Game Assets': questions['Video Game Assets']
     },
     generalAnswers: {
-      q0: '',
-      q1: '',
-      q2: '',
-      q3: '',
-      q4: '',
-      q5: ''
+      q0: ' ',
+      q1: ' ',
+      q2: ' ',
+      q3: ' ',
+      q4: ' ',
+      q5: ' '
     },
     advertisingAnswers: {
-      q0: '',
-      q1: '',
-      q2: '',
-      q3: '',
-      q4: ''
+      q0: ' ',
+      q1: ' ',
+      q2: ' ',
+      q3: ' ',
+      q4: ' '
     },
     storyAnswers: {
-      q0: '',
-      q1: '',
-      q2: '',
-      q3: '',
-      q4: ''
+      q0: ' ',
+      q1: ' ',
+      q2: ' ',
+      q3: ' ',
+      q4: ' '
     },
     tableAnswers: {
-      q0: '',
-      q1: '',
-      q2: '',
-      q3: '',
-      q4: '',
-      q5: '',
-      q6: ''
+      q0: ' ',
+      q1: ' ',
+      q2: ' ',
+      q3: ' ',
+      q4: ' ',
+      q5: ' ',
+      q6: ' '
     },
     videoGameAnswers: {
-      q0: '',
-      q1: '',
-      q2: '',
-      q3: '',
-      q4: '',
-      q5: ''
+      q0: ' ',
+      q1: ' ',
+      q2: ' ',
+      q3: ' ',
+      q4: ' ',
+      q5: ' '
     },
-    price: '',
-    customer: '',
-    consultant: '',
+    price: ' ',
+    customer: ' ',
+    consultant: ' ',
     date: new Date(),
-    status: '',
+    status: ' ',
     lastUpdatedStatus: new Date(),
     paymentComplete: Boolean,
   })
 
   const submitConsult = async (corporateFormData: CorporateData) => {
-    setCorporateData(prev => ({ ...prev, ...corporateFormData }))
-
-    console.log('submitting request: ', corporateData)
+    //setCorporateData(prev => ({ ...prev, ...corporateFormData }))
+    
+    console.log('submiting  corporate data: ', corporateFormData)
+    
+    
+    await addConsult(corporateFormData);
+    
+    console.log('submitting request: ', corporateFormData)
     
     setStartConsult(false)
     setOpenWizard(false)
@@ -118,8 +141,6 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     setCurrentStep(prev => prev - 1)
   } 
 
-  console.log('corporateDate: ', corporateData)
-
   const steps = [
     <General next={handleNextStep} data={corporateData}/>, 
     <Other next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
@@ -128,7 +149,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
   console.log("corporateData: ", corporateData)
 
   return (
-      <div className='w-10/12 h-10/12 bg-black border-2 border-white rounded-xl p-10'>
+      <div className='h-full bg-black border-2 border-red-700 rounded-xl p-4'>
         {steps[currentStep]}
       </div>
   )
@@ -145,17 +166,24 @@ const General = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='flex flex-col justify-around'>
-          {props.data.questions.general.map((q, i) => (
-            <div key={i} className='p-4 w-6/12'>
-              <label className='text-white'>
-              {q}
-                <Field 
-                  name={`generalAnswers[q${i}]`} 
-                  className="text-black mt-4" />
-              </label>
-            </div>
-          ))}
+        <Form className='h-full flex flex-col items-center justify-around'>
+          <h3 className='text-white text-center text-lg'>General Questions</h3>
+          <div className='h-5/6 flex flex-col flex-wrap'>
+            {props.data.questions.general.map((q, i) => (
+              <div key={i} className='w-6/12'>
+                <label className='text-white text-sm leading-3 w-11/12 m-0'>
+                  {q}
+                  <Field 
+                    as="textarea"
+                    rows="5"
+                    cols="60" 
+                    name={`generalAnswers[q${i}]`} 
+                    className="text-black mt-2" />
+                </label>
+              </div>
+            ))}
+          </div>
+          
           <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'>Next</button>
         </Form>
         )}
@@ -192,26 +220,34 @@ const Other = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='flex flex-col justify-around'>
+        <Form className='h-full flex flex-col items-center justify-around'>
+          <h3 className='text-white text-center text-lg'>{choice} Questions</h3>
+          <div className='h-5/6 flex flex-col flex-wrap'>
+            {props.data.questions[props.data.category].map((q, i) => (
+              <div key={i} className='w-6/12'>
+                <label className='text-white text-sm leading-3 w-full m-0'>
+                {q}
+                  <Field 
+                    as="textarea"
+                    rows="5"
+                    cols="60" 
+                    name={`${choice}Answers[q${i}]`} 
+                    className="text-black" />
+                </label>
+              </div>
+            ))}
+          </div>
+          <div className='flex w-8/12 justify-around'>
+            <button 
+                type="button" 
+                className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'
+                onClick={() => props.prev(values)}  
+            >
+              Back
+            </button>
+            <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'>Submit</button>
+          </div>
           
-          {props.data.questions[props.data.category].map((q, i) => (
-            <div key={i} className='p-4 w-6/12'>
-              <label className='text-white'>
-              {q}
-                <Field 
-                  name={`${choice}Answers[q${i}]`} 
-                  className="text-black mt-4" />
-              </label>
-            </div>
-          ))}
-
-
-          <button 
-            type="button" 
-            className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'
-            onClick={() => props.prev(values)}  
-          >Back</button>
-          <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'>Submit</button>
         </Form>
         )}
     </Formik>

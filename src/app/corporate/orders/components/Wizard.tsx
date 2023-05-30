@@ -11,31 +11,26 @@ export default function Wizard({ selection, category, setOpenWizard, setConsult 
     }
 
     return (
-        <div className="bg-white text-black w-full h-screen rounded-xl">
+        <div className="bg-white text-black w-full h-full rounded-xl ">
             {!startConsult && (
-                <>
-                    <h3>{selection}</h3>
-                    <div className='flex justify-around items-center h-full'>
-                        <MyCarousel selection={selection} />
-                        <div className='w-4/12 h-3/4 flex flex-col justify-center items-center gap-y-8'>
-                            <h2 className='text-3xl font-bold'>Call To Action</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad obcaecati repudiandae reiciendis ducimus dolor, aspernatur nesciunt, quod praesentium modi repellat quia in repellendus</p>
-                            <button 
-                                className='w-10/12 border-2 border-black rounded-lg py-2 px-4 mx-14'
-                                onClick={handleClick}    
-                            >
-                                Submit Consultation
-                            </button>
-                        </div>
+                <div className='flex justify-around items-center h-full'>
+                    <MyCarousel selection={selection} />
+                    <div className='w-4/12 h-3/4 flex flex-col justify-center items-center gap-y-8'>
+                        <h2 className='text-3xl font-bold'>Call To Action</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad obcaecati repudiandae reiciendis ducimus dolor, aspernatur nesciunt, quod praesentium modi repellat quia in repellendus</p>
+                        <button 
+                            className='w-10/12 border-2 border-black rounded-lg py-2 px-4 mx-14'
+                            onClick={handleClick}    
+                        >
+                            Submit Consultation
+                        </button>
                     </div>
-                </>
+                </div>
             )}
             {startConsult && (
-                <div>
-                    <h2>Thanks for your interest!</h2>
-                    <p>Please answer a few questions so we can better understand what you are looking for.</p>
+                // <div className='flex flex-col items-center justify-center'>
                     <ConsultWizard category={category} selection={selection} setStartConsult={setStartConsult} setOpenWizard={setOpenWizard} setConsult={setConsult}/>
-                </div>
+                // </div>
             )}
             
         </div>
