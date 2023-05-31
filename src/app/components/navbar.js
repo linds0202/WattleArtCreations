@@ -24,23 +24,6 @@ const uiConfig = {
   },
 };
 
-// import Link from "next/link";
-
-
-// export default function NavBar() {
-//     return (
-//         <div className="flex justify-between items-center bg-[#282828] px-10 sticky top-0 z-10 text-white">
-//             <div className="flex justify-between items-center">
-//                 <img src='/drips/Logo_Circle.png' className="w-[64px] h-[64px]"/>
-//                 <h3 >Wattle Art Creations</h3>
-//             </div>
-//             <div>
-//                 <Link href='#'>Sign In / Sign Up</Link>
-//             </div>
-//         </div>
-//     )
-// }
-
 export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const router = useRouter();

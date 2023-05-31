@@ -39,7 +39,7 @@ const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
 //cORPORATE cONSULT
 export function addConsult( data) {
-  console.log('in add CONSULT: ', data.category)
+  console.log('in add CONSULT: ', data.customerFirstName)
   const consultRef = addDoc(collection(db, 'consults'), { 
     category: data.category, 
     subcategories: data.subcategories, 
@@ -50,7 +50,9 @@ export function addConsult( data) {
     tableAnswers: data.tableAnswers,
     videoGameAnswers: data.videoGameAnswers,
     price: '',
-    customer: '',
+    customerFirstName: data.customerFirstName,
+    customerLastName: data.customerLastName,
+    customerEmail: data.customerEmail,
     consultant: '',
     date: new Date,
     status: 'Pending',

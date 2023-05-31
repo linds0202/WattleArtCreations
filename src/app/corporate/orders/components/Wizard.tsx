@@ -9,9 +9,9 @@ export default function Wizard({ selection, category, setOpenWizard, setConsult 
     const handleClick = () => {
         setStartConsult(true)
     }
-
+    //className="bg-white text-black w-full h-full rounded-xl "
     return (
-        <div className="bg-white text-black w-full h-full rounded-xl ">
+        <div>
             {!startConsult && (
                 <div className='flex justify-around items-center h-full'>
                     <MyCarousel selection={selection} />
@@ -28,11 +28,14 @@ export default function Wizard({ selection, category, setOpenWizard, setConsult 
                 </div>
             )}
             {startConsult && (
-                // <div className='flex flex-col items-center justify-center'>
-                    <ConsultWizard category={category} selection={selection} setStartConsult={setStartConsult} setOpenWizard={setOpenWizard} setConsult={setConsult}/>
-                // </div>
+                <ConsultWizard 
+                    category={category} 
+                    selection={selection} 
+                    setStartConsult={setStartConsult} 
+                    setOpenWizard={setOpenWizard} 
+                    setConsult={setConsult}
+                />
             )}
-            
         </div>
     )
 }

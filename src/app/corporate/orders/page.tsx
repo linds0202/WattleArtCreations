@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import Wizard from "./components/Wizard"
 
+
 export default function Orders() {
     
     const searchParams = useSearchParams()
@@ -54,7 +55,7 @@ export default function Orders() {
     
 
     return (
-        <main className="h-[90vh] flex flex-col justify-between items-center bg-white text-black no-underline relative p-10">
+        <main className="h-[90vh] flex flex-col justify-around items-center bg-white text-black no-underline relative p-10">
             {!openWizard && !consult &&
             <>
                 <h3 className="text-3xl text-left my-8">{productChoice}: </h3>
@@ -76,14 +77,12 @@ export default function Orders() {
             {openWizard && (
                 <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/> 
             )}
-            { 
-
-
-            }
+            
             {!openWizard && <div className="w-4/12 mx-auto mb-10 border-2 border-white rounded-lg p-2 text-center">
                 <Link href='/corporate' >Back to Coporate Homepage</Link>
             </div>
             }
+            
             
         </main>
     )
