@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRef, useState } from "react";
-import { motion, sync, useCycle } from "framer-motion";
+import { motion, sync} from "framer-motion";
 import { useDimensions } from "./use-dimensions";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
@@ -28,17 +28,14 @@ const sidebar = {
 };
 
 export const MenuContainer = () => {
-  const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   const toggleThingy = () => {
     setOpen(prev => !prev)
   }
-
-  console.log(isOpen)
   console.log(open)
 
   return (
