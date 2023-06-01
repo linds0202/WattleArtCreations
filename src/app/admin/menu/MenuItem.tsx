@@ -19,17 +19,16 @@ const variants = {
 };
 
 const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
+const text = ['Menu', 'Portraits', 'Consultations', 'Customers', 'Artists']
 
 export const MenuItem = ({ i }) => {
   const style = { border: `2px solid ${colors[i]}` };
   return (
     <motion.li
       variants={variants}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <div className="icon-placeholder" style={style} />
-      <div className="text-placeholder" style={style} />
+      whileHover={text[i] !== 'Menu' ? { scale: 1.1 } : {}}
+      whileTap={text[i] !== 'Menu' ? { scale: 1.1 } : {}}
+    ><p className={text[i] === 'Menu' ? 'text-white text-5xl font-bold mb-2 pl-[5%]' : 'text-white text-xl hover:underline pl-[10%]'}>{text[i]}</p>
     </motion.li>
   );
 };
