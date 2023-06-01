@@ -75,7 +75,7 @@ export default function Orders() {
             </>}
 
             {openWizard && (
-                <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/> 
+                <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/>     
             )}
             
             {!openWizard && <div className="w-4/12 mx-auto mb-10 border-2 border-white rounded-lg p-2 text-center">

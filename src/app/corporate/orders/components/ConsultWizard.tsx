@@ -2,10 +2,12 @@ import { Field, Formik, Form } from 'formik';
 import { useState } from 'react';
 import { useAuth } from '@/app/firebase/auth';
 import { EmailAuthProvider } from 'firebase/auth';
+import IconButton from '@mui/material/IconButton';
 import { auth } from '@/app/firebase/firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { addConsult } from '@/app/firebase/firestore';
 import { AnimatePresence, motion, spring } from "framer-motion"
+import CloseIcon from '@mui/icons-material/Close';
 
 interface CorporateData {
   category: String, 
@@ -39,24 +41,6 @@ const uiConfig = {
   },
 };
 
-const backdrop = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 }
-}
-
-const modal = {
-  hidden: {
-    y: "100px",
-    opacity: 0,
-    scale: 0
-  },
-  visible: {
-    y: "100px",
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring", damping: 11, delay: 0.5, duration: 0.3 }
-  }
-}
 
 const questions = {
   "general": ['What is your business about?', 'What are your brand values and your mission statement?', 'What is the timeline for the project?', 'Have you seen any of our previous work that you particularly like and/or dislike? This can help us understand your preferences and create an artwork that meets your expectations.', 'If you have any reference images you would like us to look at, please provide them.', 'Do you have any questions for us?'],
@@ -138,7 +122,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     console.log('submiting  corporate data: ', corporateData)
     
     
-    await addConsult(corporateData);
+    //await addConsult(corporateData);
     
     console.log('corporateFOrmData is: ', corporateData)
     console.log('submitting request: ', corporateFormData)
@@ -166,6 +150,12 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     setCurrentStep(prev => prev - 1)
   } 
 
+  const handleClose = () => {
+    console.log('closing it')
+    setStartConsult(false)
+    setOpenWizard(false)
+  }
+
   const steps = [
     <General next={handleNextStep} data={corporateData}/>, 
     <Other next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
@@ -175,24 +165,38 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
   console.log("corporateData: ", corporateData)
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence>
       <motion.div
+          key="backdrop"
           className="fixed top-0 left-0 w-full min-h-screen bg-stone-950/50 z-15"
-          variants={backdrop}
-          animate="visible"
-          initial="hidden"
+          animate={{ opacity: 1 }}
+          initial={{opacity: 0}}
       >
         <motion.div
-          className='max-w-6xl max-h-[32rem] mx-auto py-8 px-4 bg-black rounded-xl text-center'
-          variants={modal}
+          key="page"
+          className='max-w-6xl h-[32rem] mx-auto bg-black rounded-xl relative'
+          animate={{
+            y: "100px",
+            opacity: 1,
+            scale: 1,
+            transition: { type: "spring", damping: 11, delay: 0.5, duration: 0.3 }
+          }}
+          initial={{
+            y: "100px",
+            opacity: 0,
+            scale: 0
+          }}
         >
+          <IconButton onClick={handleClose} className='absolute top-2 right-2 text-white'>
+            <CloseIcon className='text-white hover:text-red-600'/>
+          </IconButton>
           {steps[currentStep]}
         </motion.div>
       </motion.div>
     </AnimatePresence>
-      
   )
 }
+
 
 const General = (props) => {
   const handleSubmit = (values) => {
@@ -205,12 +209,12 @@ const General = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='max-h-[32rem]'>
+        <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>General Questions</h3>
           <div className='max-h-96 flex flex-col flex-wrap border-2 border-red-700'>
             {props.data.questions.general.map((q, i) => (
               <div key={i} className='w-6/12'>
-                <label className='text-white text-sm leading-3 w-full m-0'>
+                <label className='text-white text-sm leading-3 w-11/12 m-0'>
                   {q}
                 </label>
                 <Field 
@@ -261,7 +265,7 @@ const Other = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='max-h-[32rem] flex flex-col items-center justify-around'>
+        <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>{choice} Questions</h3>
           <div className='max-h-96 flex flex-col flex-wrap border-2 border-red-700'>
             {props.data.questions[props.data.category].map((q, i) => (
@@ -307,35 +311,37 @@ const Final = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='w-full h-full flex flex-col items-center '>
+        <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between border-2 border-red-700'>
           <h3 className='text-white text-center text-lg'>Contact Info</h3>
-          <div className='w-1/3 flex justify-between mt-4'>
-            <label className='text-white text-left text-md w-[125px] '>
-              First Name
-            </label>
-            <Field 
-              name='customerFirstName'
-              className="text-black " 
-            />
+          <div className='w-full  flex flex-col items-center border-2 border-red-700'>
+            <div className='w-1/3 flex justify-between mt-4'>
+              <label className='text-white text-left text-md w-[125px] '>
+                First Name
+              </label>
+              <Field 
+                name='customerFirstName'
+                className="text-black " 
+              />
+            </div>
+            <div className='w-1/3 flex justify-between mt-4'>
+              <label className='text-white text-left text-md  w-[125px]'>
+                Last Name
+              </label>
+              <Field 
+                name='customerLastName'
+                className="text-black" 
+              />
+            </div>
+            <div className='w-1/3 flex justify-between mt-4'>
+              <label className='text-white text-left text-md  w-[125px]'>
+                Email
+              </label>
+              <Field 
+                name='customerEmail'
+                className="text-black" 
+              />
+            </div>          
           </div>
-          <div className='w-1/3 flex justify-between mt-4'>
-            <label className='text-white text-left text-md  w-[125px]'>
-              Last Name
-            </label>
-            <Field 
-              name='customerLastName'
-              className="text-black" 
-            />
-          </div>
-          <div className='w-1/3 flex justify-between mt-4'>
-            <label className='text-white text-left text-md  w-[125px]'>
-              Email
-            </label>
-            <Field 
-              name='customerEmail'
-              className="text-black" 
-            />
-          </div>          
           <div className='flex w-8/12 justify-around mt-4'>
             <button 
                 type="button" 
