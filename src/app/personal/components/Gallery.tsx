@@ -17,6 +17,10 @@ function useElementViewportPosition(ref: React.RefObject<HTMLElement>) {
       const pageHeight = document.body.scrollHeight;
       const start = ref.current.offsetTop;
       const end = start + ref.current.offsetHeight;
+
+      console.log('page height: ' + pageHeight)
+      console.log('start: ' + start)
+      console.log('end: ' + end)
   
       setPosition([start / pageHeight, end / pageHeight]);
     }, []);
@@ -41,7 +45,9 @@ export default function Gallery() {
     const [carouselEndPosition, setCarouselEndPosition] = useState(0);
     const { scrollYProgress, scrollY } = useScroll();
     const x = useTransform(scrollYProgress, position, [0, carouselEndPosition]);
-  
+
+    console.log(position)
+
     useEffect(() => {
       window.addEventListener("scroll", () =>
         console.log({ scrollYProgress: scrollYProgress, scrollY })
@@ -75,12 +81,15 @@ export default function Gallery() {
   
     return (
       <div className="mt-40">
-        <section className='flex flex-col' ref={ref}>
-          <h2 className="text-6xl font-bold text-center">
-              Gallery
-          </h2>
-          <div className="galleryContainer" style={{ height: "300vh" }}>
+        
+        <section className='flex flex-col' >
+          
+          <div className="galleryContainer" style={{ height: "300vh" }} ref={ref}>
+          
             <div className="sticky-wrapper">
+              <h2 className="text-6xl font-bold text-center w-full my-10">
+                Gallery
+              </h2>
               <motion.div ref={carouselRef} className="gallery-carousel" style={{ x }}>
                 {Array.from(Array(8).keys()).map((i) => (
                   <motion.div
@@ -94,15 +103,6 @@ export default function Gallery() {
               </motion.div>
             </div>
           </div>
-        </section>
-        <section className="w-8/12 mx-auto flex flex-col justify-center items-center mb-0">
-            <h2 className="text-4xl border-2 border-black rounded-xl px-4 py-2 mb-4">Start Customizing</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-              autem est vitae magni alias, delectus atque repudiandae maiores
-              molestiae fuga error a, laboriosam velit voluptas odio inventore
-              modi libero, ratione quas neque. Corporis, nam?
-            </p>
         </section>
       </div>
     );

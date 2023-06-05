@@ -5,6 +5,7 @@ import HeroLoader from "./components/HeroLoader"
 import HIW from "./components/HIW"
 import CategoryContainer from "./components/categories/CategoryContainer"
 import Gallery from "./components/Gallery"
+import ActionCall from "./components/ActionCall"
 // import CardCon from "./components/CardCon"
 // import Testimonials from "./components/Testimonials"
 import Footer from "../components/Footer"
@@ -91,7 +92,7 @@ export default function Personal() {
         <HIW />
         <CategoryContainer />
         <Gallery />
-        
+        <ActionCall />
         {/* <Testimonials obj={testimonials} /> */}
         {/* <CardCon info={topSellers} scroll={true}/> */}
         <Footer />
