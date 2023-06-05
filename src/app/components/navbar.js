@@ -29,6 +29,9 @@ export default function NavBar() {
   const router = useRouter();
   const [login, setLogin] = useState(false);  
 
+  console.log('authUser: ', authUser?.displayName)
+  // console.log('get display name: ', authUser.getDisplayName())
+
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
@@ -40,7 +43,7 @@ export default function NavBar() {
         </Link>
       </div>
       <div className='flex justify-between items-center'>
-        <p className='text-white text-base pr-4 m-0'>{authUser?.email}</p>
+        <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>
         {!authUser && <button
               onClick={() => setLogin(true)}>
                 Login / Register

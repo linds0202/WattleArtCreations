@@ -9,7 +9,6 @@ export default function Wizard({ selection, category, setOpenWizard, setConsult 
     const handleClick = () => {
         setStartConsult(true)
     }
-    //className="bg-white text-black w-full h-full rounded-xl "
     return (
         <div>
             {!startConsult && (

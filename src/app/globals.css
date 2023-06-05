@@ -210,11 +210,11 @@ body {
 
 /* Image Carousel Section */
 .carousel-root {
-  width: 40%;
+  width: 30%;
 }
 
 .carousel .slide {
-  height: 60vh;
+  height: 50vh;
 }
 
 .carousel .slide img {
@@ -262,7 +262,7 @@ body {
 }
 
 
-
+/* Second corporate selection page */
 .wrapper {
   height: 300vh;
   display: flex;

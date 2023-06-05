@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { useRef } from 'react'
 import { useScroll, motion, useTransform } from "framer-motion"
-import { stylesWithCssVar } from '../utils/motion'
 
 const animateOrder = {
   initial: 0,
@@ -27,11 +26,16 @@ export default function Corporate() {
     offset: ["start end", "end end"],
   });
 
+  const titleTranslate = useTransform(
+    scrollYProgress,
+    [animateOrder.initial, animateOrder.titleIn, animateOrder.titleOut],
+    [-20, 50, 120]
+  )
 
   const titleOpacity = useTransform(
     scrollYProgress,
-    [animateOrder.initial, animateOrder.titleIn, animateOrder.titleOut],
-    [0, 0, 1]
+    [animateOrder.titleIn, animateOrder.titleOut],
+    [0, 1]
   )
 
   const linkOneX = useTransform(
@@ -85,16 +89,29 @@ export default function Corporate() {
     return (
         <main ref={targetRef} >
           <div className="relative h-[600vh]">
+            <motion.div
+              className="fixed -top-[10%] w-full flex justify-center items-center"
+              style={{
+                translateY: titleTranslate
+              }}
+            >
+              <img className="w-full" src="./drips/f_hero_drip.png" />
+            </motion.div>
             <motion.div 
-              className="fixed top-[15%] left-[40%] w-[200px] h-[200px] mx-auto text-white bg-black flex justify-center items-center"
+              className="fixed top-[15%] left-[60%] w-[300px] h-[150px] text-white flex flex-col justify-center items-center"
               style={{
                 opacity: titleOpacity
               }}
             >
-              <p>Title</p>
+              <p className="text-6xl">Title</p>
+              <p className="text-xl mt-4">Small tagline of things to say</p>
             </motion.div>
             <motion.div 
               className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline  bg-black flex justify-center items-center"
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.5 },
+              }}
               style={{
                 translateX: linkOneX,
                 rotate: linkOneRotate
@@ -102,34 +119,22 @@ export default function Corporate() {
             >
               <Link href={{
                 pathname: '/corporate/orders',
-                query: {productChoice: 'Advertising'},
+                query: {productChoice: 'Video Game Assets'},
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Advertising</p>
+                  <p>Video Game Assets</p>
               </Link>
             </motion.div>
             <motion.div 
               className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.5 },
+              }}
               style={{
                 translateX: linkTwoX,
                 rotate: linkTwoRotate
-              }}
-            >
-              <Link href={{
-                pathname: '/corporate/orders',
-                query: {productChoice: 'Story Or Book Illustrations'},
-                }} 
-                className="text-2xl no-underline text-center"
-              >
-                  <p>Story / Book Illustrations</p>
-              </Link>
-            </motion.div>
-            <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
-              style={{
-                translateX: linkThreeX,
-                rotate: linkThreeRotate
               }}
             >
               <Link href={{
@@ -143,6 +148,30 @@ export default function Corporate() {
             </motion.div>
             <motion.div 
               className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.5 },
+              }}
+              style={{
+                translateX: linkThreeX,
+                rotate: linkThreeRotate
+              }}
+            >
+              <Link href={{
+                pathname: '/corporate/orders',
+                query: {productChoice: 'Story Or Book Illustrations'},
+                }} 
+                className="text-2xl no-underline text-center"
+              >
+                  <p>Story / Book Illustrations</p>
+              </Link>
+            </motion.div>
+            <motion.div 
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              whileHover={{
+                scale: 1.2,
+                transition: { duration: 0.5 },
+              }}
               style={{
                 translateX: linkFourX,
                 rotate: linkFourRotate
@@ -150,11 +179,11 @@ export default function Corporate() {
             >
               <Link href={{
                 pathname: '/corporate/orders',
-                query: {productChoice: 'Video Game Assets'},
+                query: {productChoice: 'Advertising'},
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Video Game Assets</p>
+                  <p>Advertising</p>
               </Link> 
             </motion.div>
           </div>

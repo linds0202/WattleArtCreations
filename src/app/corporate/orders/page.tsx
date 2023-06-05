@@ -50,7 +50,7 @@ export default function Orders() {
     }
 
     return (
-        <main className=" bg-white text-black no-underline relative p-10">
+        <main className="h-screen bg-white text-black no-underline relative p-4">
             {!openWizard && !consult && (
                <div className="wrapper">
                     {selectionButtons.map((choice, i) => (
