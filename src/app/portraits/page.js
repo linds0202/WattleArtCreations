@@ -42,16 +42,16 @@ export default function Portraits() {
   const [editPortrait, setEditPortrait] = useState(null)
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-10/12 border-2 border-white rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
+    <div className='w-10/12 border-2 border-black rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
       <div>
-        <p className='text-white'>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; {portrait?.styleThree}</p>
-        <p className='text-white'>Customer ID: {authUser.uid}</p>
+        <p className='text-black'>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; {portrait?.styleThree}</p>
+        <p className='text-black'>Customer ID: {authUser.uid}</p>
       </div>
       <div>
-        <button onClick={() => handleEdit(i)} className=' border-2 border-white rounded-md p-2 '>
+        <button onClick={() => handleEdit(i)} className=' border-2 border-black rounded-md p-2 '>
             <EditIcon />
         </button>
-        <button onClick={() => handleDelete(i)} className='ml-4 border-2 border-white rounded-md p-2 '>
+        <button onClick={() => handleDelete(i)} className='ml-4 border-2 border-black rounded-md p-2 '>
             <DeleteForeverIcon />
         </button>
       </div>
@@ -80,7 +80,7 @@ export default function Portraits() {
   }
 
   return (
-    <div className='flex flex-col justify-around items-center min-h-screen bg-black text-white'>
+    <div className='flex flex-col justify-around items-center min-h-screen bg-white text-black'>
       {!openWizard && portraits.length !== 0 && <h1 className='text-2xl'>My Pending Portraits</h1>}
 
       {/* Show portraits */}
@@ -89,14 +89,14 @@ export default function Portraits() {
           <>
             
             <p>No Portraits Yet!</p>
-            <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2 mt-4' >Start New Portrait</button>
+            <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-4' >Start New Portrait</button>
           </>
           )
         : <div className='w-full flex flex-col items-center'>
             {!openWizard && 
             <>
               {portraitList}
-              <button onClick={() => setOpenWizard(true)} className='text-white border-2 border-white rounded-lg p-2 mt-4' >Add Another Portrait</button>
+              <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-4' >Add Another Portrait</button>
             </>
             }
           </div>
@@ -116,7 +116,7 @@ export default function Portraits() {
         </div>
       }
       { (!openWizard && portraits.length !== 0 && authUser) && 
-        <button onClick={handleCalculate} className='text-white border-2 border-white rounded-lg p-2 mt-10' >Calculate Quote</button>
+        <button onClick={handleCalculate} className='text-black border-2 border-black rounded-lg p-2 mt-10' >Calculate Quote</button>
       }
 
       {/* Prompt for login */}

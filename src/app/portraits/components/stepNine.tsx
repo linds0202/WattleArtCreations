@@ -15,10 +15,16 @@ export default function StepNine(props) {
             {({ values }) => (
             <Form>
                 <h4 className='text-center'>Click to complete your custom portrait!</h4>
-                <div className='flex justify-around items-center w-8/12 mx-auto'>
-                <button type="button" onClick={() => props.prev(values)} className='w-4/12 mx-auto my-4 text-white border-2 border-white rounded-lg px-4 py-2'>Back</button>
-                <button type="submit" className='w-4/12 mx-auto my-4 text-white border-2 border-white rounded-lg px-4 py-2'>Complete Portrait</button>
-            </div>
+                <div className='flex w-8/12 justify-around'>
+                    <button 
+                        type="button" 
+                        className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
+                        onClick={() => props.prev(values)}  
+                    >
+                    Back
+                    </button>
+                    <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Complete Portrait</button>
+                </div>
             </Form>
             )}
         </Formik>

@@ -1,43 +1,166 @@
+'use client' 
+
 import Link from "next/link"
+import { useRef } from 'react'
+import { useScroll, motion, useTransform } from "framer-motion"
+import { stylesWithCssVar } from '../utils/motion'
+
+const animateOrder = {
+  initial: 0,
+  titleIn: 0.2,
+  titleOut: 0.4,
+  linkOneStart: 0.4,
+  linkOneEnd: 0.6,
+  linkTwoStart: 0.5,
+  linkTwoEnd: 0.7,
+  linkThreeStart: 0.6,
+  linkThreeEnd: 0.8,
+  linkFourStart: 0.7,
+  linkFourEnd: 0.9,
+
+}
 
 export default function Corporate() {
-    
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end end"],
+  });
+
+
+  const titleOpacity = useTransform(
+    scrollYProgress,
+    [animateOrder.initial, animateOrder.titleIn, animateOrder.titleOut],
+    [0, 0, 1]
+  )
+
+  const linkOneX = useTransform(
+    scrollYProgress,
+    [animateOrder.linkOneStart, animateOrder.linkOneEnd],
+    ["-100vw", "80vw"]
+  )
+
+  const linkOneRotate = useTransform(
+    scrollYProgress,
+    [animateOrder.linkOneStart, animateOrder.linkOneEnd],
+    ["-360deg", "360deg"]
+  )
+
+  const linkTwoX = useTransform(
+    scrollYProgress,
+    [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
+    ["-100vw", "55vw"]
+  )
+
+  const linkTwoRotate = useTransform(
+    scrollYProgress,
+    [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
+    ["-360deg", "360deg"]
+  )
+  
+  const linkThreeX = useTransform(
+    scrollYProgress,
+    [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
+    ["-100vw", "30vw"]
+  )
+  
+  const linkThreeRotate = useTransform(
+    scrollYProgress,
+    [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
+    ["-360deg", "360deg"]
+  )
+
+  const linkFourX = useTransform(
+    scrollYProgress,
+    [animateOrder.linkFourStart, animateOrder.linkFourEnd],
+    ["-100vw", "5vw"]
+  )
+
+  const linkFourRotate = useTransform(
+    scrollYProgress,
+    [animateOrder.linkFourStart, animateOrder.linkFourEnd],
+    ["-360deg", "360deg"]
+  )
 
     return (
-        <main className="bg-white text-black no-underline flex justify-around items-center h-[90vh] px-8">
-            <Link href={{
-              pathname: '/corporate/orders',
-              query: {productChoice: 'Advertising'},
-              }} 
-              className="text-2xl no-underline border-2 border-black rounded-lg p-2"
+        <main ref={targetRef} >
+          <div className="relative h-[600vh]">
+            <motion.div 
+              className="fixed top-[15%] left-[40%] w-[200px] h-[200px] mx-auto text-white bg-black flex justify-center items-center"
+              style={{
+                opacity: titleOpacity
+              }}
             >
-                <p>Advertising</p>
-            </Link>
-            <Link href={{
-              pathname: '/corporate/orders',
-              query: {productChoice: 'Story Or Book Illustrations'},
-              }} 
-              className="text-2xl no-underline border-2 border-black rounded-lg p-2"
+              <p>Title</p>
+            </motion.div>
+            <motion.div 
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline  bg-black flex justify-center items-center"
+              style={{
+                translateX: linkOneX,
+                rotate: linkOneRotate
+              }}
             >
-                <p>Story / Book Illustrations</p>
-            </Link>
-            <Link href={{
-              pathname: '/corporate/orders',
-              query: {productChoice: 'Table Top Illustrations'},
-              }} 
-              className="text-2xl no-underline border-2 border-black rounded-lg p-2"
+              <Link href={{
+                pathname: '/corporate/orders',
+                query: {productChoice: 'Advertising'},
+                }} 
+                className="text-2xl no-underline text-center"
+              >
+                  <p>Advertising</p>
+              </Link>
+            </motion.div>
+            <motion.div 
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              style={{
+                translateX: linkTwoX,
+                rotate: linkTwoRotate
+              }}
             >
-                <p>Table Top Illustrations</p>
-            </Link>
-            <Link href={{
-              pathname: '/corporate/orders',
-              query: {productChoice: 'Video Game Assets'},
-              }} 
-              className="text-2xl no-underline border-2 border-black rounded-lg p-2"
+              <Link href={{
+                pathname: '/corporate/orders',
+                query: {productChoice: 'Story Or Book Illustrations'},
+                }} 
+                className="text-2xl no-underline text-center"
+              >
+                  <p>Story / Book Illustrations</p>
+              </Link>
+            </motion.div>
+            <motion.div 
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              style={{
+                translateX: linkThreeX,
+                rotate: linkThreeRotate
+              }}
             >
-                <p>Video Game Assets</p>
-            </Link>
-
+              <Link href={{
+                pathname: '/corporate/orders',
+                query: {productChoice: 'Table Top Illustrations'},
+                }} 
+                className="text-2xl no-underline text-center"
+              >
+                  <p>Table Top Illustrations</p>
+              </Link>
+            </motion.div>
+            <motion.div 
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              style={{
+                translateX: linkFourX,
+                rotate: linkFourRotate
+              }}
+            >
+              <Link href={{
+                pathname: '/corporate/orders',
+                query: {productChoice: 'Video Game Assets'},
+                }} 
+                className="text-2xl no-underline text-center"
+              >
+                  <p>Video Game Assets</p>
+              </Link> 
+            </motion.div>
+          </div>
         </main>
+
+             
     )
 }
+

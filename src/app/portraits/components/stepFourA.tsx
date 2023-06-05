@@ -16,17 +16,19 @@ export default function StepFour(props) {
     }
 
     const handleSubmit = (values) => {
-        props.next(values)
+        values.questions.splice(0, 1, generalCharQuestions)
+        props.next(values) 
     }
 
 return (
     <>
     <h3 className='text-center'>General Character Questions</h3>
     <Formik
-        initialValues={props.data}
-        onSubmit={handleSubmit}
+        initialValues={generalCharQuestions}
+        onSubmit={handleSaveAnswers}
+        enableReinitialize
     >
-        {({ values }) => (
+        {({ values, handleChange }) => (
         <Form className='flex'>
             <div className='p-2'>
                 <label>
@@ -35,7 +37,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
-                        name="questions[0].q1" 
+                        id='q1'
+                        name="q1" 
+                        value={values.q1} 
                         className="text-black mt-4"
                      />
                 </label>
@@ -45,7 +49,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
-                        name="questions[0].q2"
+                        id='q2'
+                        name="q2" 
+                        value={values.q2} 
                         className="text-black mt-4"
                      />
                 </label>
@@ -55,7 +61,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
-                        name="questions[0].q3"
+                        id='q3'
+                        name="q3" 
+                        value={values.q3} 
                         className="text-black mt-4"
                     />
                 </label>
@@ -66,8 +74,10 @@ return (
                     <Field 
                         as="textarea"
                         rows="4"
-                        cols="60"
-                        name="questions[0].q4"
+                        cols="60" 
+                        id='q4'
+                        name="q4" 
+                        value={values.q4} 
                         className="text-black mt-4"
                     />
                 </label>
@@ -77,25 +87,18 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60"
-                        name="questions[0].q5" 
+                        id='q5' 
+                        name="q5" 
+                        value={values.q5} 
                         className="text-black mt-4"
                     />
                 </label>
-                <div className='flex w-8/12 justify-around'>
-                    <button 
-                        type="button" 
-                        className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
-                        onClick={() => props.prev(values)}  
-                    >
-                    Back
-                    </button>
-                    <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Next</button>
-                </div>
+                <button type="submit" className='text-black border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Save Answers</button>
             </div>
         </Form>
         )}
     </Formik>
-    {/* <Formik
+    <Formik
         initialValues={ props.data }
         onSubmit={handleSubmit}
     >
@@ -107,7 +110,7 @@ return (
             </div>
         </Form>
         )}
-    </Formik> */}
+    </Formik>
     </>
 )
 }

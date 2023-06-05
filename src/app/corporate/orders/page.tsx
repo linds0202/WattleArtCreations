@@ -1,9 +1,10 @@
 'use client'
 
 import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import Wizard from "./components/Wizard"
+import { Box } from "./components/Box"
 
 
 export default function Orders() {
@@ -48,42 +49,30 @@ export default function Orders() {
         selectionButtons.push(item)
     }
 
-    function handleClick(choice) {
-        setSelection(choice)
-        setOpenWizard(true)
-    }
-    
-
     return (
-        <main className="h-[90vh] flex flex-col justify-around items-center bg-white text-black no-underline relative p-10">
-            {!openWizard && !consult &&
-            <>
-                <h3 className="text-3xl text-left my-8">{productChoice}: </h3>
-                <div className="w-8/12 flex justify-around items-center">
-                    {selectionButtons.map((choice, i) => 
-                    <div key={i}>
-                        <button onClick={() => handleClick(choice)}>{choice}</button>
-                    </div>
-                    )}
-                </div>
-            </>}
+        <main className=" bg-white text-black no-underline relative p-10">
+            {!openWizard && !consult && (
+               <div className="wrapper">
+                    {selectionButtons.map((choice, i) => (
+                        <Box key={i} choice={choice} setSelection={setSelection} setOpenWizard={setOpenWizard} />
+                    ))}
+               </div> 
+            )}
 
             {!openWizard && consult &&
             <>
-                <h3 className="text-3xl text-left my-8">Thank you for your interest!</h3>
-                <p>A member of our team will contact you shortly</p>
+                <h3 className="text-3xl text-center my-8">Thank you for your interest!</h3>
+                <p className="text-center">A member of our team will contact you shortly</p>
             </>}
 
             {openWizard && (
                 <Wizard selection={selection} category={productChoice} setOpenWizard={setOpenWizard} setConsult={setConsult}/>     
             )}
             
-            {!openWizard && <div className="w-4/12 mx-auto mb-10 border-2 border-white rounded-lg p-2 text-center">
+            {!openWizard && <div className="w-4/12 mx-auto mb-8 mt-8 border-2 border-black rounded-lg p-2 text-center">
                 <Link href='/corporate' >Back to Coporate Homepage</Link>
             </div>
-            }
-            
-            
+            } 
         </main>
     )
 }
