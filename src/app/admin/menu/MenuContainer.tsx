@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, sync} from "framer-motion";
 import { useDimensions } from "./use-dimensions";
 import { MenuToggle } from "./MenuToggle";
@@ -36,6 +36,21 @@ export const MenuContainer = () => {
   const toggleThingy = () => {
     setOpen(prev => !prev)
   }
+
+  useEffect(() => {  // add event listener and change open if menu is closed during window resize to large screen
+    const handleWindowResize = () => {
+        if (window.screen.width >= 768) {
+            setOpen(true)
+        }
+    } 
+    
+    window.addEventListener('resize', handleWindowResize)
+    return () => {
+        window.removeEventListener('resize', handleWindowResize)
+    }
+
+  }, [])
+
   console.log(open)
 
   return (
