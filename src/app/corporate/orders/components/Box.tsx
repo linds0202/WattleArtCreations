@@ -18,20 +18,21 @@ export function Box({ choice, setSelection, setOpenWizard }) {
 
   return (
     <motion.div 
-        ref={ref} 
-        className="box" 
-        style={{ scale }}
-    >
-        <button onClick={() => handleClick(choice)}>
-          <motion.p
-            style={{ scale }}
-            whileHover={{
-              rotate: [0, 5, 0, -5, 0],
-              transition: {repeat: Infinity, duration: 1}
-            }}
-          >
-            {choice}
-          </motion.p></button>
+      ref={ref} 
+      className="box" 
+      style={{ scale }}
+  >
+      <button onClick={() => handleClick(choice)}>
+        <motion.p
+          style={{ scale }}
+          whileHover={{
+            rotate: [0, 5, 0, -5, 0],
+            transition: {repeat: Infinity, duration: 1}
+          }}
+        >
+          {choice}
+        </motion.p>
+      </button>
     </motion.div>
   )
 }

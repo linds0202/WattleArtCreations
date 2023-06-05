@@ -6,25 +6,25 @@ function MyCarousel({selection}) {
         <Carousel
             infiniteLoop
             autoPlay
-            className="border-2 border-red-700 m-0"
+            className="m-0"
         >
-            <div className="border-2 border-red-700">
-                <img src="/featured_8.png" />
+            <div >
+                <img  src="/featured_8.png" />
             </div>
             <div>
-                <img src="/featured_9.png" />
+                <img  src="/featured_9.png" />
             </div>
             <div>
-                <img src="/featured_10.png" />
+                <img  src="/featured_10.png" />
             </div>
             <div>
-                <img src="/featured_11.png" />
+                <img  src="/featured_11.png" />
             </div>
             <div>
-                <img src="/featured_12.png" />
+                <img  src="/featured_12.png" />
             </div>
             <div>
-                <img src="/featured_13.png" />
+                <img  src="/featured_13.png" />
             </div>
         </Carousel>
     )

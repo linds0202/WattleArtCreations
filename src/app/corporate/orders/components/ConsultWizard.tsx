@@ -211,7 +211,7 @@ const General = (props) => {
         {({ values }) => (
         <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>General Questions</h3>
-          <div className='max-h-96 flex flex-col flex-wrap border-2 border-red-700'>
+          <div className='max-h-96 flex flex-col flex-wrap'>
             {props.data.questions.general.map((q, i) => (
               <div key={i} className='w-6/12'>
                 <label className='text-white text-sm leading-3 w-11/12 m-0'>
@@ -267,7 +267,7 @@ const Other = (props) => {
         {({ values }) => (
         <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>{choice} Questions</h3>
-          <div className='max-h-96 flex flex-col flex-wrap border-2 border-red-700'>
+          <div className='max-h-96 flex flex-col flex-wrap'>
             {props.data.questions[props.data.category].map((q, i) => (
               <div key={i} className='w-6/12'>
                 <label className='text-white text-sm text-left leading-3 w-10/12 m-0'>
@@ -311,9 +311,9 @@ const Final = (props) => {
       onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between border-2 border-red-700'>
+        <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>Contact Info</h3>
-          <div className='w-full  flex flex-col items-center border-2 border-red-700'>
+          <div className='w-full  flex flex-col items-center'>
             <div className='w-1/3 flex justify-between mt-4'>
               <label className='text-white text-left text-md w-[125px] '>
                 First Name
