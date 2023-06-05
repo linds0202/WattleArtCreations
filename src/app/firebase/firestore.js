@@ -5,8 +5,6 @@ import { getDownloadURL } from './storage';
 // Name of receipt collection in Firestore
 const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
-//const CHARACTER_COLLECTION_REF = collection(db, 'portraits', portraitId, 'characters');
-
 //Get All Users - NEEDS WORK
 // export async function getAllUsers() {
 //   const listAllUsers = (nextPageToken) => {

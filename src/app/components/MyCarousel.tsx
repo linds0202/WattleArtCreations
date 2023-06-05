@@ -6,7 +6,7 @@ function MyCarousel({selection}) {
         <Carousel
             infiniteLoop
             autoPlay
-            className="w-3/12 border-2 border-red-700 m-0"
+            className="border-2 border-red-700 m-0"
         >
             <div className="border-2 border-red-700">
                 <img src="/featured_8.png" />
