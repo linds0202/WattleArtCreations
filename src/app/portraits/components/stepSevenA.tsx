@@ -13,6 +13,7 @@ export default function StepSeven(props) {
     }
 
     const handleSubmit = (values) => {
+        values.questions.splice(3, 1, charSheetQuestions)
         props.next(values)
     }
 
@@ -21,7 +22,7 @@ return (
     <h3 className='text-center'>Character Sheet Questions</h3>
     <Formik
         initialValues={props.data}
-        onSubmit={handleSubmit}
+        onSubmit={handleSaveAnswers}
     >
         {({ values }) => (
         <Form>
@@ -33,7 +34,8 @@ return (
                             as="textarea"
                             rows="4"
                             cols="60" 
-                            name="questions[3].q1"  
+                            name="q1" 
+                            value={charSheetQuestions.q1} 
                             className="text-black mt-4" />
                     </label>
                     <label className='w-6/12 p-4'>
@@ -42,25 +44,17 @@ return (
                             as="textarea"
                             rows="4"
                             cols="60" 
-                            name="questions[3].q2"   
+                            name="q2" 
+                            value={charSheetQuestions.q2} 
                             className="text-black mt-4" />
                     </label>
                 </div>
-                <div className='flex w-8/12 justify-around'>
-                    <button 
-                        type="button" 
-                        className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
-                        onClick={() => props.prev(values)}  
-                    >
-                    Back
-                    </button>
-                    <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Next</button>
-                </div>
+                <button type="submit" className='text-white border-2 border-white rounded-lg p-2'>Save Answers</button>
             </div> 
         </Form>
         )}
     </Formik>
-    {/* <Formik
+    <Formik
         initialValues={ props.data }
         onSubmit={handleSubmit}
     >
@@ -72,7 +66,7 @@ return (
             </div>
         </Form>
         )}
-    </Formik> */}
+    </Formik>
     </>
 )
 }

@@ -14,6 +14,7 @@ export default function StepFive(props) {
     }
 
     const handleSubmit = (values) => {
+        values.questions.splice(1, 1, generalQuestions)
         props.next(values)
     }
 
@@ -21,8 +22,9 @@ return (
     <>
     <h3 className='text-center'>General Questions</h3>
     <Formik
-        initialValues={props.data}
-        onSubmit={handleSubmit}
+        initialValues={generalQuestions}
+        onSubmit={handleSaveAnswers}
+        enableReinitialize
     >
         {({ values }) => (
         <Form className='flex justify-around'>
@@ -33,7 +35,9 @@ return (
                         as="textarea"
                         rows="4"
                         cols="60" 
-                        name="questions[1].q1"
+                        id='q1'
+                        name="q1" 
+                        value={values.q1} 
                         className="text-black mt-4" />
                 </label>
                 <label>
@@ -41,36 +45,31 @@ return (
                     <Field 
                         as="textarea"
                         rows="4"
-                        cols="60" 
-                        name="questions[1].q2" 
+                        cols="60"
+                        id='q2' 
+                        name="q2" 
+                        value={values.q2} 
                         className="text-black mt-4" />
                 </label>
             </div>
             <div className='p-4 w-6/12'>
-                <label>
-                    Special Requests: Are there any unique elements, features, or requests that you would like to include in your commission, which haven&#39;t been covered in the previous questions?
+            <label>
+                Special Requests: Are there any unique elements, features, or requests that you would like to include in your commission, which haven&#39;t been covered in the previous questions?
                 <Field 
                         as="textarea"
                         rows="4"
                         cols="60" 
-                        name="questions[1].q3" 
+                        id='q3'
+                        name="q3" 
+                        value={values.q3} 
                         className="text-black mt-4" />
                 </label>
-                <div className='flex w-8/12 justify-around'>
-                    <button 
-                        type="button" 
-                        className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
-                        onClick={() => props.prev(values)}  
-                    >
-                    Back
-                    </button>
-                    <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Next</button>
-                </div>
+                <button type="submit" className='text-white border-2 border-white rounded-lg p-2 mt-4 text-center'>Save Answers</button>
             </div>
         </Form>
         )}
     </Formik>
-    {/* <Formik
+    <Formik
         initialValues={ props.data }
         onSubmit={handleSubmit}
     >
@@ -82,7 +81,7 @@ return (
             </div>
         </Form>
         )}
-    </Formik> */}
+    </Formik>
     </>
 )
 }

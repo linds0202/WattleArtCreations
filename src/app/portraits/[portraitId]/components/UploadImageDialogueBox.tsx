@@ -70,31 +70,31 @@ export default function UploadImage(props) {
 
     return (
         <Dialog
-        onClose={() => closeDialog()}
-        open={props.showDialog}
-        component="form">
-        <Typography variant="h4" >
-            {isEdit ? "EDIT" : "ADD"} EXPENSE
-        </Typography>
-        <DialogContent >
-            <Stack direction="row" spacing={2} >
-            {(isEdit && !formFields.fileName) && <Avatar alt="receipt image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
-            <Button variant="outlined" component="label" color="secondary">
-                Upload Receipt
-                <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
-            </Button>
-            <Typography>{formFields.fileName}</Typography>
-            </Stack>
-        </DialogContent>
-        <DialogActions>
-            {isSubmitting ? 
-            <Button color="secondary" variant="contained" disabled={true}>
-                Submitting...
-            </Button> :
-            <Button color="secondary" variant="contained" disabled={isDisabled()} onClick={handleSubmit}>
-                Submit
-            </Button>}
-        </DialogActions>
+            onClose={() => closeDialog()}
+            open={props.showDialog}
+            component="form">
+            <Typography variant="h4" >
+                {isEdit ? "EDIT" : "ADD"} Image
+            </Typography>
+            <DialogContent >
+                <Stack direction="row" spacing={2} >
+                {(isEdit && !formFields.fileName) && <Avatar alt="receipt image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
+                <Button variant="outlined" component="label" color="secondary">
+                    Upload Image
+                    <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
+                </Button>
+                <Typography>{formFields.fileName}</Typography>
+                </Stack>
+            </DialogContent>
+            <DialogActions>
+                {isSubmitting ? 
+                <Button color="secondary" variant="contained" disabled={true}>
+                    Submitting...
+                </Button> :
+                <Button color="secondary" variant="contained" disabled={isDisabled()} onClick={handleSubmit}>
+                    Submit
+                </Button>}
+            </DialogActions>
         </Dialog>
     )
 }

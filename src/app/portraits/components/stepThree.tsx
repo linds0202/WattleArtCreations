@@ -223,8 +223,8 @@ export default function StepThree(props) {
                 {({ values }) => (
                 <Form>
                     <div className='flex justify-around items-center w-8/12 mx-auto'>
-                        <button type="button" onClick={() => props.prev(values)} className='w-4/12 mx-auto my-4 text-white border-2 border-white rounded-lg px-4 py-2'>Back</button>
-                        <button type="submit" className='w-4/12 mx-auto my-4 text-white border-2 border-white rounded-lg px-4 py-2'>Finished Adding Characters</button>
+                        <button type="button" onClick={() => props.prev(values)} className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>Back</button>
+                        <button type="submit" className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>Finished Adding Characters</button>
                     </div>
                 </Form>
                 )}

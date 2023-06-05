@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/app/firebase/auth';
+import { AnimatePresence, motion, spring } from "framer-motion"
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+
 import StepOne from './stepOne';
 import StepTwo from './stepTwo';
 import StepThree from './stepThree';
@@ -128,6 +132,11 @@ export default function PortraitWizard({ editPortrait, editIndex, setEditPortrai
     }
   } 
 
+  const handleClose = () => {
+    console.log('closing it')
+    setOpenWizard(false)
+  }
+
   const steps = [
     <StepOne next={handleNextStep} data={portraitData}/>, 
     <StepTwo next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
@@ -137,16 +146,43 @@ export default function PortraitWizard({ editPortrait, editIndex, setEditPortrai
     <StepSix next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
     <StepSeven next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
     <StepEight next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
-    <StepNine next={handleNextStep} prev={handlePrevStep} data={portraitData} />,
-    // <StepTen next={handleNextStep} prev={handlePrevStep} data={portraitData}/>
-
+    <StepNine next={handleNextStep} prev={handlePrevStep} data={portraitData} />
   ]
 
   console.log("portraitData: ", portraitData)
 
   return (
-      <div className='w-10/12 h-10/12 bg-black border-2 border-white rounded-xl p-10'>
-        {steps[currentStep]}
-      </div>
+    <AnimatePresence>
+      <motion.div
+          key="backdrop"
+          className="fixed top-0 left-0 w-full min-h-screen bg-stone-950/50 z-15"
+          animate={{ opacity: 1 }}
+          initial={{opacity: 0}}
+      >
+        <motion.div
+          key="page"
+          className='max-w-6xl h-[32rem] mx-auto bg-white rounded-xl relative'
+          animate={{
+            y: "100px",
+            opacity: 1,
+            scale: 1,
+            transition: { type: "spring", damping: 11, delay: 0.5, duration: 0.3 }
+          }}
+          initial={{
+            y: "100px",
+            opacity: 0,
+            scale: 0
+          }}
+        >
+          <IconButton onClick={handleClose} className='absolute top-2 right-2 text-white'>
+            <CloseIcon className='text-black hover:text-red-600'/>
+          </IconButton>
+          {steps[currentStep]}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+      // <div className='w-10/12 h-10/12 bg-black border-2 border-white rounded-xl p-10'>
+      //   {steps[currentStep]}
+      // </div>
   )
 }

@@ -52,7 +52,7 @@ return (
             </label>
         </div>
         
-        <button type="submit" className='w-4/12 mx-auto my-4 text-white border-2 border-white rounded-lg px-4 py-2'>Next</button>
+        <button type="submit" className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>Next</button>
         </Form>
         )}
     </Formik>
