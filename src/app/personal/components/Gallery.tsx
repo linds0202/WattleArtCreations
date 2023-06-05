@@ -15,8 +15,8 @@ function useElementViewportPosition(ref: React.RefObject<HTMLElement>) {
       if (!ref || !ref.current) return;
   
       const pageHeight = document.body.scrollHeight;
-      const start = ref.current.offsetTop;
-      const end = start + ref.current.offsetHeight;
+      const start = ref.current.offsetTop + 600;
+      const end = start + ref.current.offsetHeight - 600;
 
       console.log('page height: ' + pageHeight)
       console.log('start: ' + start)
@@ -48,11 +48,11 @@ export default function Gallery() {
 
     console.log(position)
 
-    useEffect(() => {
+    /* useEffect(() => {
       window.addEventListener("scroll", () =>
         console.log({ scrollYProgress: scrollYProgress, scrollY })
       );
-    }, []);
+    }, []); */
   
     useEffect(() => {
       if (!carouselRef || !carouselRef.current) return;
