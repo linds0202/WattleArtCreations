@@ -94,7 +94,6 @@ export default function Personal() {
         <Gallery />
         <ActionCall />
         {/* <Testimonials obj={testimonials} /> */}
-        {/* <CardCon info={topSellers} scroll={true}/> */}
         <Footer />
     </main>
   )

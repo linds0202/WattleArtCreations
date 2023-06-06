@@ -284,3 +284,12 @@ body {
   font-size: 1.5rem;
 }
 
+
+/* Personal CTA section */
+.cta-frame {
+  background-image: url('/drips/CTA_frame.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;  
+}
+
