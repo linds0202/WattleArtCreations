@@ -1,5 +1,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function ConsultRow({ consult }) {
     const [openModal, setOpenModal] = useState<Boolean>(false)
@@ -7,6 +9,11 @@ export default function ConsultRow({ consult }) {
     const handleViewConsult = () => {
         setOpenModal(true)
         console.log('clicked view orders')
+    }
+
+    const handleClose = () => {
+        setOpenModal(false)
+        console.log('closed')
     }
 
     return (
@@ -29,14 +36,24 @@ export default function ConsultRow({ consult }) {
 
             {openModal && 
                 <div className="fixed top-[15%] left-[10%] bg-white h-4/5 w-10/12 rounded-xl border-2 border-black">
-                    <p>{consult.category} {consult.subcategories}</p>
-                    <p>Customer Name: {consult.customerFirstName} {consult.customerLastName}</p>
-                    <p>Customer Email: {consult.customerEmail}</p>
-                    {consult.questions.general.map((q, i) => 
-                    <div>
-                        <p>{q} {consult.generalAnswers[`q${i}`]}</p>
-                    </div>    
-                    )}
+                    <IconButton onClick={handleClose} className='absolute top-2 right-2 text-white'>
+                        <CloseIcon className='text-black hover:text-red-600'/>
+                    </IconButton>
+                    <h2 className="text-4xl font-bold text-center mt-10">Consult Id: {consult.uid}</h2>
+                    <div className="mt-10 pt-10 overflow-auto h-[450px] pl-4 border-black border-l-2 border-b-2 mx-4">
+                        <p className="font-bold text-3xl mb-2">Consult Type:</p>
+                        <p className="font-semibold text-xl mb-10">{consult.category} {consult.subcategories}</p>
+                        <p className="font-semibold text-xl  mb-10"><span className="font-bold text-3xl">Customer Name: </span>{consult.customerFirstName} {consult.customerLastName}</p>
+                        <p className="font-semibold text-xl  mb-10"><span className="font-bold text-3xl">Customer Email: </span>{consult.customerEmail}</p>
+                        {consult.questions.general.map((q, i) => 
+                        
+                        <div key={q} className="w-10/12">
+                            <p className="text-xl font-bold mb-2">{q}</p>
+                            <p className="text-lg font-semibold mb-10">{consult.generalAnswers[`q${i}`]}</p>
+                        </div>    
+                        )}
+                    </div>
+                    
             </div>} 
         </>
         
