@@ -13,8 +13,9 @@ export default function StepNine(props) {
             onSubmit={handleSubmit}
         >
             {({ values }) => (
-            <Form>
-                <h4 className='text-center'>Click to complete your custom portrait!</h4>
+            <Form className='h-full flex flex-col justify-around items-center'>
+                <img src={'/drips/wizard9.png'} className='absolute w-full top-[100%] left-0'/>
+                <h4 className='text-2xl text-center'>Click to complete your custom portrait!</h4>
                 <div className='flex w-8/12 justify-around'>
                     <button 
                         type="button" 

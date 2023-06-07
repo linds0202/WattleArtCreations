@@ -13,8 +13,9 @@ return (
         onSubmit={handleSubmit}
     >
         {() => (
-        <Form className='flex flex-col'>
-        <p className='text-2xl'>{props.data.styleOne}</p>
+        <Form className='flex flex-col p-4'>
+            <img src={'/drips/wizard1.png'} className='absolute w-full top-[100%] left-0'/>
+            <p className='text-2xl'>{props.data.styleOne}</p>
         {/* radio buttons */}
         <div className='flex justify-around items-center p-10'>
             <label className='text-center'>

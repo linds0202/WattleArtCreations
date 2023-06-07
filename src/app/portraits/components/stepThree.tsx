@@ -5,6 +5,8 @@ import { TextField } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 interface MyCharValues {
@@ -87,37 +89,40 @@ export default function StepThree(props) {
     }
 
     return (
-        <>
-            <p className='text-2xl'>{props.data.styleOne} &gt; {props.data.styleTwo} &gt; {props.data.styleThree}</p>
-            <div>
-                {charData?.map((char, i) => (
-                    <div key={i} className='flex justify-around items-center border-2 border-white rounded-lg p-2 m-4'>
-                        <div>
-                            <p>Body Style: {char.bodyStyle}</p>
-                            <p># of Character variations: {char.numCharVariations}</p>
+        <div className='h-full flex flex-col justify-between'>
+            <img src={'/drips/wizard3.png'} className='absolute w-full top-[100%] left-0'/>
+            <p className='text-2xl mt-4 ml-4'>{props.data.styleOne} &gt; {props.data.styleTwo} &gt; {props.data.styleThree}</p>
+            <div className='flex justify-between'>
+                <div className='w-6/12'>
+                    {charData?.map((char, i) => (
+                        <div key={i} className='flex justify-around items-center border-b-2 border-[#282828] rounded-lg p-2 m-4'>
+                            <div>
+                                <p>Body Style: {char.bodyStyle}</p>
+                                <p># of Character variations: {char.numCharVariations}</p>
+                            </div>
+                            <div>
+                                <p># of Pets: {char.numPets}</p>
+                                <p>Extras: {char.extras.join(', ')}</p>
+                            </div>
+                            <button onClick={() => handleEdit(i)} className=' border-2 border-[#282828] rounded-md p-2 '>
+                                <EditIcon />
+                            </button>
+                            <button onClick={() => handleDelete(i)} className=' border-2 border-[#282828] rounded-md p-2 '>
+                                <DeleteForeverIcon />
+                            </button>
                         </div>
-                        <div>
-                            <p># of Pets: {char.numPets}</p>
-                            <p>Extras: {char.extras.join(', ')}</p>
-                        </div>
-                        <button onClick={() => handleEdit(i)} className=' border-2 border-white rounded-md p-2 '>
-                            <EditIcon />
-                        </button>
-                        <button onClick={() => handleDelete(i)} className=' border-2 border-white rounded-md p-2 '>
-                            <DeleteForeverIcon />
-                        </button>
-                    </div>
-                ))}
-            </div>
-            {!openCHarMod && 
-                <div className='flex flex-col'>
-                    <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
-                        <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
-                        <h4 className='m-0'>Add character</h4>
-                        {charData?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
-                    </Button>
+                    ))}
                 </div>
-            }
+                {!openCHarMod && 
+                    <div className='w-6/12 flex flex-col'>
+                        <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
+                            <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
+                            <h4 className='m-0'>Add character</h4>
+                            {charData?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
+                        </Button>
+                    </div>
+                }
+            </div>
             <Dialog 
                 onClose={() => setOpenCharMod(false)} 
                 open={openCHarMod} 
@@ -125,6 +130,9 @@ export default function StepThree(props) {
                 PaperProps={{ sx: { p: 10, backgroundColor: "white" } }}
             >
                 <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
@@ -229,7 +237,7 @@ export default function StepThree(props) {
                 </Form>
                 )}
             </Formik>
-        </>
+        </div>
         
     )
   }

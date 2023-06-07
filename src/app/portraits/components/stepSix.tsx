@@ -18,45 +18,50 @@ export default function StepSix(props) {
 
 return (
     <>
+    <img src={'/drips/wizard6.png'} className='absolute w-full top-[100%] left-0'/>
     <h3 className='text-center'>Pet Questions</h3>
     <Formik
         initialValues={props.data}
         onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form>
-            <div className='flex flex-col justify-center items-center'>
-                <div className='flex justify-around'>
-                    <label className='w-6/12 p-4'>
+        <Form className='h-full flex flex-col justify-around items-center'>
+            <div className='flex justify-around'>
+                <div className='w-[48%] p-4'>
+                    <label>
                         For your pet/familiar, please describe their appearance, including any unique features or accessories.
-                        <Field 
-                            as="textarea"
-                            rows="4"
-                            cols="60" 
-                            name="questions[2].q1" 
-                            className="text-black mt-4" />
                     </label>
-                    <label className='w-6/12 p-4'>
+                    <Field 
+                        as="textarea"
+                        rows="4"
+                        cols="60" 
+                        name="questions[2].q1" 
+                        className="w-full text-black mt-2 border-2 border-[#282828]"  
+                    />
+                </div>
+                <div className='w-[48%] p-4'>
+                    <label>
                         How would you like the pet/familiar to interact with the character in the artwork (e.g., sitting beside the character,perched on the character&#39;s shoulder, etc.)?
-                        <Field 
-                            as="textarea"
-                            rows="4"
-                            cols="60" 
-                            name="questions[2].q2"
-                            className="text-black mt-4" />
                     </label>
+                    <Field 
+                        as="textarea"
+                        rows="4"
+                        cols="60" 
+                        name="questions[2].q2"
+                        className="w-full text-black mt-2 border-2 border-[#282828]"  
+                    />
                 </div>
-                <div className='flex w-8/12 justify-around'>
-                    <button 
-                        type="button" 
-                        className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
-                        onClick={() => props.prev(values)}  
-                    >
-                    Back
-                    </button>
-                    <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Next</button>
-                </div>
-            </div> 
+            </div>
+            <div className='flex w-8/12 mt-8 justify-around items-center'>
+                <button 
+                    type="button" 
+                    className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'
+                    onClick={() => props.prev(values)}  
+                >
+                Back
+                </button>
+                <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>Next</button>
+            </div>
         </Form>
         )}
     </Formik>

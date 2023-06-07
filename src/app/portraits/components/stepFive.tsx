@@ -1,17 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
 
-export default function StepFive(props) {
-        
-    const [generalQuestions, setGeneralQuestions] = useState(props.data.questions[1])
-    
-    const handleSaveAnswers = (values) => {
-        setGeneralQuestions({
-            'q1': values.q1,
-            'q2': values.q2,
-            'q3': values.q3,
-        })
-    }
+export default function StepFive(props) {   
 
     const handleSubmit = (values) => {
         props.next(values)
@@ -19,44 +9,48 @@ export default function StepFive(props) {
 
 return (
     <>
+    <img src={'/drips/wizard5.png'} className='absolute w-full top-[100%] left-0'/>
     <h3 className='text-center'>General Questions</h3>
     <Formik
         initialValues={props.data}
         onSubmit={handleSubmit}
     >
         {({ values }) => (
-        <Form className='flex justify-around'>
-            <div className='p-4 w-6/12'>
+        <Form className='w-full flex justify-around'>
+            <div className='p-4 w-6/12 flex flex-col justify-between'>
                 <label>
                     Inspirations and References: Are there any existing artworks, characters, or scenes that inspire your commission idea? Please provide links or images to help the artist understand your vision better.
-                    <Field 
-                        as="textarea"
-                        rows="4"
-                        cols="60" 
-                        name="questions[1].q1"
-                        className="text-black mt-4" />
                 </label>
+                <Field 
+                    as="textarea"
+                    rows="4"
+                    cols="60" 
+                    name="questions[1].q1"
+                    className="w-full text-black mt-2 border-2 border-[#282828]" 
+                />
                 <label>
                     Mood and Atmosphere: What kind of mood or atmosphere would you like to convey through the artwork (e.g., happy, mysterious, dramatic, serene, etc.)?
-                    <Field 
-                        as="textarea"
-                        rows="4"
-                        cols="60" 
-                        name="questions[1].q2" 
-                        className="text-black mt-4" />
                 </label>
+                <Field 
+                    as="textarea"
+                    rows="4"
+                    cols="60" 
+                    name="questions[1].q2" 
+                    className="w-full text-black mt-2 border-2 border-[#282828]"  
+                />
             </div>
-            <div className='p-4 w-6/12'>
+            <div className='p-4 w-6/12 flex flex-col justify-between'>
                 <label>
                     Special Requests: Are there any unique elements, features, or requests that you would like to include in your commission, which haven&#39;t been covered in the previous questions?
-                <Field 
-                        as="textarea"
-                        rows="4"
-                        cols="60" 
-                        name="questions[1].q3" 
-                        className="text-black mt-4" />
                 </label>
-                <div className='flex w-8/12 justify-around'>
+                <Field 
+                    as="textarea"
+                    rows="4"
+                    cols="60" 
+                    name="questions[1].q3" 
+                    className="w-full text-black mt-2 border-2 border-[#282828]" 
+                />
+                <div className='mt-8 flex w-full justify-around items-center'>
                     <button 
                         type="button" 
                         className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'

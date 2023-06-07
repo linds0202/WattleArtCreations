@@ -161,7 +161,7 @@ export default function PortraitWizard({ editPortrait, editIndex, setEditPortrai
       >
         <motion.div
           key="page"
-          className='max-w-6xl h-[32rem] mx-auto bg-white rounded-xl relative'
+          className='max-w-6xl h-[32rem] mx-auto bg-white rounded-xl relative border-8 border-[#282828]'
           animate={{
             y: "100px",
             opacity: 1,
