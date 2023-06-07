@@ -9,6 +9,7 @@ import { Timestamp } from 'firebase/firestore';
 import PortraitList from './components/PortraitList';
 import CustomersList from './components/CustomersList';
 import { MenuContainer } from './menu/MenuContainer';
+import { ViewContext } from './AdminContext';
 
 type Params = {
   params: {
@@ -43,6 +44,8 @@ export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  const [view, setView] = useState<string>('portraits')
+  const value = { view, setView } 
   
   // const [allUsers, setAllUsers] = useState<Array<UserData>>([])
   // const [filteredUsers, setFilteredUsers] = useState<Array<UserData>>([])
@@ -93,16 +96,23 @@ export default function Dashboard({ params: { userId }}: Params) {
   //   setButton('')
   // }
 
+  console.log(view)
+
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen'>
     <div className='min-h-screen flex justify-between'>
       <div className='w-3/12 relative'>
-        <MenuContainer />
+        <ViewContext.Provider value={value}>
+          <MenuContainer />
+        </ViewContext.Provider> 
       </div>
-        {/* <PortraitList /> */}
-        <CustomersList />
+        {view === 'Portraits' ?
+          <PortraitList />
+        : <CustomersList />
+        }
+        
       
     </div>
     <div className='w-6/12 mx-auto mb-6 text-center'>

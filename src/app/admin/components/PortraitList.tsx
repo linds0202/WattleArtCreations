@@ -30,6 +30,7 @@ export default function PortraitList() {
   useEffect(() => {
     const handleGetAllPortraits = async () => {
       const portraitsArr = await getAllPortraits();
+      console.log(portraitsArr)
       setAllPortaits(portraitsArr)
       setFilteredPortraits(portraitsArr)
     }
@@ -55,6 +56,8 @@ export default function PortraitList() {
     setButton('')
   }
 
+  console.log(filteredPortraits)
+
   return (
         <div>
             <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>Portrait List</h1>
@@ -64,7 +67,7 @@ export default function PortraitList() {
               <motion.button className='border-2 border-black rounded-lg p-2 w-3/12' onClick={handleClearPortraits} whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}>Clear Filters</motion.button>
           </div>
           
-          <div className='flex flex-col items-center w-full'>
+          <div className='flex flex-col items-center w-full border-2 border-black'>
             {filteredPortraits.length === 0 ? 
               <p>No portraits to display</p>
             :  filteredPortraits?.map(portrait => (
