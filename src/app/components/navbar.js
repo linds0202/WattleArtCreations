@@ -19,8 +19,27 @@ const uiConfig = {
     EmailAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
+    // beforeSignInSuccess: (user) => {
+    //   alert('This is before sign in success')
+    //   console.log('updating with displayName & user is: ', user)
+    //   // Do additional processing on user before sign-in is
+    //   // complete.
+    //   // For example update the user profile.
+    //   return user.updateProfile({
+    //     displayName: user.displayName,
+    //   }).then(function() {
+    //     // To reflect updated photoURL in the ID token, force token
+    //     // refresh.
+    //     return user.getIdToken(true);
+    //   }).then(function() {
+    //     console.log('here user is: ', user)
+    //     return user;
+    //   });
+    // },
     // Avoid redirects after sign-in.
-    signInSuccessWithAuthResult: () => false,
+    signInSuccessWithAuthResult: () => {
+      return false
+    }
   },
 };
 
@@ -29,8 +48,8 @@ export default function NavBar() {
   const router = useRouter();
   const [login, setLogin] = useState(false);  
 
-  console.log('authUser: ', authUser?.displayName)
-  // console.log('get display name: ', authUser.getDisplayName())
+  console.log('authUser.displayName in navbar: ', authUser?.displayName)
+  
 
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
@@ -48,7 +67,7 @@ export default function NavBar() {
               onClick={() => setLogin(true)}>
                 Login / Register
         </button>}
-        {authUser?.email && 
+        {authUser && 
           <div className='flex justify-between items-center'>
             <div className='pr-4'>
               <Link href={'/admin'} className='text-white no-underline'>Admin</Link>

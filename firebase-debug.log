@@ -1,0 +1,58 @@
+[debug] [2023-06-06T20:30:11.804Z] ----------------------------------------------------------------------
+[debug] [2023-06-06T20:30:11.806Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\linds\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init functions
+[debug] [2023-06-06T20:30:11.806Z] CLI Version:   12.3.0
+[debug] [2023-06-06T20:30:11.807Z] Platform:      win32
+[debug] [2023-06-06T20:30:11.807Z] Node Version:  v18.12.1
+[debug] [2023-06-06T20:30:11.808Z] Time:          Tue Jun 06 2023 13:30:11 GMT-0700 (Pacific Daylight Saving Time)
+[debug] [2023-06-06T20:30:11.808Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-06T20:30:11.899Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-06T20:30:11.900Z] > authorizing via signed-in user (lindsayarainey@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\linds\Desktop\mom\dev\final-wattle-auth
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-06-06T20:30:14.697Z] Using project from CLI flag: wattleartcreations
+[debug] [2023-06-06T20:30:14.701Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/wattleartcreations [none]
+[debug] [2023-06-06T20:30:14.989Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/wattleartcreations 200
+[debug] [2023-06-06T20:30:14.989Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/wattleartcreations {"projectId":"wattleartcreations","projectNumber":"947361534354","displayName":"WattleArtCreations","name":"projects/wattleartcreations","resources":{"hostingSite":"wattleartcreations","storageBucket":"wattleartcreations.appspot.com","locationId":"us-west2"},"state":"ACTIVE","etag":"1_aaa0704b-636b-456c-9075-814363af4a8a"}
+[info] i  Using project wattleartcreations (WattleArtCreations) 
+[info] 
+=== Functions Setup
+[debug] [2023-06-06T20:30:15.006Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-06T20:30:15.006Z] > authorizing via signed-in user (lindsayarainey@gmail.com)
+[debug] [2023-06-06T20:30:15.006Z] [iam] checking project wattleartcreations for permissions ["firebase.projects.get"]
+[debug] [2023-06-06T20:30:15.007Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/wattleartcreations:testIamPermissions [none]
+[debug] [2023-06-06T20:30:15.007Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/wattleartcreations:testIamPermissions x-goog-quota-user=projects/wattleartcreations
+[debug] [2023-06-06T20:30:15.007Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/wattleartcreations:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-06T20:30:15.099Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/wattleartcreations:testIamPermissions 200
+[debug] [2023-06-06T20:30:15.099Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/wattleartcreations:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-06T20:30:15.100Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/cloudfunctions.googleapis.com [none]
+[debug] [2023-06-06T20:30:15.100Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/cloudfunctions.googleapis.com x-goog-quota-user=projects/wattleartcreations
+[debug] [2023-06-06T20:30:15.101Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/runtimeconfig.googleapis.com [none]
+[debug] [2023-06-06T20:30:15.101Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/runtimeconfig.googleapis.com x-goog-quota-user=projects/wattleartcreations
+[debug] [2023-06-06T20:30:15.581Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/runtimeconfig.googleapis.com 200
+[debug] [2023-06-06T20:30:15.581Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2023-06-06T20:30:15.585Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/cloudfunctions.googleapis.com 200
+[debug] [2023-06-06T20:30:15.585Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/wattleartcreations/services/cloudfunctions.googleapis.com [omitted]
+[info] 
+Detected existing codebase(s): default
+

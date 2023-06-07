@@ -95,10 +95,10 @@ export default function Corporate() {
                 translateY: titleTranslate
               }}
             >
-              <img className="w-full" src="./drips/f_hero_drip.png" />
+              <img className="w-full" src="./full-divider-drip.png" />
             </motion.div>
             <motion.div 
-              className="fixed top-[15%] left-[60%] w-[300px] h-[150px] text-white flex flex-col justify-center items-center"
+              className="fixed top-[20%] left-[45%] w-[300px] h-[150px] text-black flex flex-col justify-center items-center"
               style={{
                 opacity: titleOpacity
               }}
@@ -107,7 +107,7 @@ export default function Corporate() {
               <p className="text-xl mt-4">Small tagline of things to say</p>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline  bg-black flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline flex justify-center items-center corp-wrapper"
               whileHover={{
                 scale: 1.2,
                 transition: { duration: 0.5 },
@@ -123,7 +123,8 @@ export default function Corporate() {
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Video Game Assets</p>
+                {/* <img className="w-full" src="./drips/circle_drip_frame.png" /> */}
+                <p>Video Game Assets</p>
               </Link>
             </motion.div>
             <motion.div 

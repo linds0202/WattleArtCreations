@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, signOut as authSignOut } from 'firebase/auth';
 import { auth } from './firebase';
+import { getUser } from './firestore';
 
 export default function useFirebaseAuth() {
   const [authUser, setAuthUser] = useState(null);
@@ -19,13 +20,15 @@ export default function useFirebaseAuth() {
         clear();
         return;
     }
-
-    console.log(user.name)
+    
     setAuthUser({
         uid: user.uid,
         email: user.email,
         displayName: user.displayName
     });
+    if (user) {
+      await getUser(user)
+    }
     setIsLoading(false);
   }; 
 

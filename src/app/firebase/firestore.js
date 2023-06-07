@@ -1,9 +1,39 @@
-import { addDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
+import { addDoc, setDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 
 // Name of receipt collection in Firestore
 const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
+
+//Add USER on sign in
+export async function getUser(user) {
+  console.log('getting user', user?.uid)
+  const docSnap = await getDoc(doc(db, "users", user.uid));
+
+  if (!docSnap.exists()) {
+    const newUser = addUser(user)
+    return (newUser)
+  } else {
+    console.log("already have a user created");
+  }
+}
+
+//Adds a new user to Users collection on registration
+export function addUser(user) {
+  const userRef = setDoc(doc(db, 'users', user.uid), { 
+    email: user.email,
+    displayName: user.displayName,
+    roles: ["customer"]
+  })
+  return userRef
+}
+
+export function updateUser(userId, displayName) {
+  updateDoc(doc(db, 'users', userId), { 
+    displayName: displayName,
+    roles: ['customer']
+  });
+}
 
 //Get All Users - NEEDS WORK
 // export async function getAllUsers() {
@@ -144,9 +174,7 @@ export async function getPortrait(uid) {
 }
 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
-  console.log('made it to here')
   const imageUrl = await getDownloadURL(imageBucket)
-  console.log('changed the url: ', imageUrl)
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
 }
 

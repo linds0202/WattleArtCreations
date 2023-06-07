@@ -293,3 +293,11 @@ body {
   background-repeat: no-repeat;  
 }
 
+/* Corporate Landing Page Section */
+.corp-wrapper {
+  background-image: url('/drips/circle_drip_frame.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;  
+} 
+

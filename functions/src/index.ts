@@ -13,5 +13,5 @@ admin.initializeApp()
 const db = admin.firestore()
 
 exports.addUserDoc = functions.auth.user().onCreate((user) => {
-    db.collection('users').doc(user.uid).set(JSON.parse(JSON.stringify(user)))
+    db.collection('users').doc(user.uid).set(JSON.parse(JSON.stringify({...user, displayName: user.displayName, roles: ['customer']})))
 });
