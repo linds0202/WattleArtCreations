@@ -107,7 +107,7 @@ export default function Corporate() {
               <p className="text-xl mt-4">Small tagline of things to say</p>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline flex justify-center items-center corp-wrapper"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl underline flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
                 transition: { duration: 0.5 },
@@ -123,12 +123,21 @@ export default function Corporate() {
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                {/* <img className="w-full" src="./drips/circle_drip_frame.png" /> */}
+                <motion.img 
+                  className="w-full absolute top-4 left-0" 
+                  src="./drips/circle_drip_frame.png"
+                  initial={{ opacity: 0 }}
+                  whileHover={{
+                    opacity: 1,
+                    scaleY: 1.15,
+                    transition: { duration: 0.5 },
+                  }}
+                />
                 <p>Video Game Assets</p>
               </Link>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl underline flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
                 transition: { duration: 0.5 },
@@ -144,14 +153,24 @@ export default function Corporate() {
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Table Top Illustrations</p>
+                <motion.img 
+                  className="w-full absolute top-4 left-0" 
+                  src="./drips/circle_drip_frame.png"
+                  initial={{ opacity: 0 }}
+                  whileHover={{
+                    opacity: 1,
+                    scaleY: 1.15,
+                    transition: { duration: 0.3 },
+                  }}
+                />
+                <p>Table Top Illustrations</p>
               </Link>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
-                transition: { duration: 0.5 },
+                transition: { duration: 0.3 },
               }}
               style={{
                 translateX: linkThreeX,
@@ -164,14 +183,24 @@ export default function Corporate() {
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Story / Book Illustrations</p>
+                <motion.img 
+                  className="w-full absolute top-4 left-0" 
+                  src="./drips/circle_drip_frame.png"
+                  initial={{ opacity: 0 }}
+                  whileHover={{
+                    opacity: 1,
+                    scaleY: 1.15,
+                    transition: { duration: 0.3 },
+                  }}
+                />
+                <p>Story / Book Illustrations</p>
               </Link>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-white underline bg-black flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
-                transition: { duration: 0.5 },
+                transition: { duration: 0.3 },
               }}
               style={{
                 translateX: linkFourX,
@@ -184,7 +213,17 @@ export default function Corporate() {
                 }} 
                 className="text-2xl no-underline text-center"
               >
-                  <p>Advertising</p>
+                <motion.img 
+                  className="w-full absolute top-4 left-0" 
+                  src="./drips/circle_drip_frame.png"
+                  initial={{ opacity: 0 }}
+                  whileHover={{
+                    opacity: 1,
+                    scaleY: 1.15,
+                    transition: { duration: 0.5 },
+                  }}
+                />
+                <p>Advertising</p>
               </Link> 
             </motion.div>
           </div>
