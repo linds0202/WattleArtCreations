@@ -167,7 +167,7 @@ export default function Corporate() {
               </Link>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl underline flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
                 transition: { duration: 0.3 },
@@ -197,7 +197,7 @@ export default function Corporate() {
               </Link>
             </motion.div>
             <motion.div 
-              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl flex justify-center items-center"
+              className="fixed top-[55%] w-[200px] h-[200px] rounded-full text-black bg-white shadow-2xl underline flex justify-center items-center"
               whileHover={{
                 scale: 1.2,
                 transition: { duration: 0.3 },

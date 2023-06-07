@@ -56,6 +56,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
   const [login, setLogin] = useState(false);
 
   const [currentStep, setCurrentStep] = useState(0)
+  const [submitFinal, setSubmitFinal] = useState<Boolean>(false)
   const [corporateData, setCorporateData] = useState({
     category: category, 
     subcategories: selection, 
@@ -116,28 +117,22 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     paymentComplete: Boolean,
   })
 
-  const submitConsult = async (corporateFormData: CorporateData) => {
-    setCorporateData(prev => ({ ...prev, ...corporateFormData }))
-    
-    console.log('submiting  corporate data: ', corporateData)
-    
-    
-    //await addConsult(corporateData);
-    
-    console.log('corporateFOrmData is: ', corporateData)
-    console.log('submitting request: ', corporateFormData)
-    
+
+  const submitConsult = async () => {
+      
+    await addConsult(corporateData);
+        
     setStartConsult(false)
     setOpenWizard(false)
     setConsult(true)
   }
 
   const handleNextStep = (newData, final=false) => {
-  
+
     setCorporateData(prev => ({ ...prev, ...newData }))
     
     if(final) {
-      submitConsult(corporateData)
+      setSubmitFinal(true)
       return
     }
 
@@ -151,7 +146,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
   } 
 
   const handleClose = () => {
-    console.log('closing it')
+
     setStartConsult(false)
     setOpenWizard(false)
   }
@@ -162,7 +157,10 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     <Final next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
   ]
 
-  console.log("corporateData: ", corporateData)
+  if (submitFinal) {
+    submitConsult()
+    setSubmitFinal(false)
+  }
 
   return (
     <AnimatePresence>

@@ -21,7 +21,6 @@ export default function useFirebaseAuth() {
         return;
     } else {
       const userData = await getUser(user)
-      console.log('in auth after userData: ', userData)
 
       setAuthUser({
         uid: user.uid,

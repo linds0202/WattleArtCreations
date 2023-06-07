@@ -15,14 +15,8 @@ import StepSix from './stepSix';
 import StepSeven from './stepSeven';
 import StepEight from './stepEight';
 import StepNine from './stepNine'
-import StepTen from './stepTen';
  
 import * as React from 'react';
-import {
-  Formik,
-  Form,
-  Field,
-} from 'formik';
 import { addPortrait } from '@/app/firebase/firestore';
 
 interface PortraitData {
@@ -181,8 +175,5 @@ export default function PortraitWizard({ editPortrait, editIndex, setEditPortrai
         </motion.div>
       </motion.div>
     </AnimatePresence>
-      // <div className='w-10/12 h-10/12 bg-black border-2 border-white rounded-xl p-10'>
-      //   {steps[currentStep]}
-      // </div>
   )
 }

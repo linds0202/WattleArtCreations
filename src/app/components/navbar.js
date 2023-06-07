@@ -30,9 +30,7 @@ export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const router = useRouter();
   const [login, setLogin] = useState(false);  
-
-  console.log('authUser is: ', authUser)
-
+  
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :

@@ -46,37 +46,8 @@ export function updateUser(userId, role) {
   });
 }
 
-//Get All Users - NEEDS WORK
-// export async function getAllUsers() {
-//   const listAllUsers = (nextPageToken) => {
-//     // List batch of users, 1000 at a time.
-//     getAuth()
-//       .listUsers(1000, nextPageToken)
-//       .then((listUsersResult) => {
-//         listUsersResult.users.forEach((userRecord) => {
-//           console.log('user', userRecord.toJSON());
-//         });
-//         if (listUsersResult.pageToken) {
-//           // List next batch of users.
-//           listAllUsers(listUsersResult.pageToken);
-//         }
-//       })
-//       .catch((error) => {
-//         console.log('Error listing users:', error);
-//       });
-//   };
-//   // Start listing users from the beginning, 1000 at a time.
-//   listAllUsers();
 
-//   const querySnapshot = await getDocs(collection(db, "users"));
-//   querySnapshot.forEach((doc) => {
-//     // doc.data() is never undefined for query doc snapshots
-//     console.log(doc.id, " => ", doc.data());
-//   });
-// }
-
-
-//cORPORATE cONSULT
+//Add new corporate consult data
 export function addConsult( data) {
   console.log('in add CONSULT: ', data.customerFirstName)
   const consultRef = addDoc(collection(db, 'consults'), { 
@@ -99,6 +70,16 @@ export function addConsult( data) {
     paymentComplete: false,
   })
   return consultRef
+}
+
+export async function getAllConsults() {
+  const allConsults = []
+    const querySnapshot = await getDocs(collection(db, "consults"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      allConsults.push({...doc.data(), uid: doc.id})
+    });
+    return allConsults
 }
 
 //Portraits
