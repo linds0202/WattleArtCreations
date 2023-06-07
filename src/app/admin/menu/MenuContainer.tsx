@@ -62,7 +62,7 @@ export const MenuContainer = () => {
     >
       <motion.div className="background" variants={sidebar} />
       <Navigation />
-      <MenuToggle toggle={toggleThingy} func={toggleThingy}/>
+      <MenuToggle func={toggleThingy}/>
     </motion.nav>
   );
 };
