@@ -88,7 +88,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       </div>
         {view === 'Portraits' ?
           <PortraitList />
-        : view === 'Consults' ?
+        : view === 'Consultations' ?
           <ConsultList />
         : <CustomersList />
         }

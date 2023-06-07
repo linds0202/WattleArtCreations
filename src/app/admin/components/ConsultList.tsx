@@ -61,7 +61,8 @@ export default function ConsultList() {
   console.log('filtered Consults: ', filteredConsults)
 
   return (
-    <div className="w-9/12 py-10">
+    <div className="w-full py-10">
+      <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>Corporate Consultations</h1>
       <div className='w-full mx-auto flex justify-between mb-6 px-10'>
         <motion.button 
           className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 

@@ -59,15 +59,15 @@ export default function PortraitList() {
   console.log(filteredPortraits)
 
   return (
-        <div>
+        <div className="w-full flex flex-col items-center">
             <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>Portrait List</h1>
-          <div className='w-full mx-auto flex justify-between mb-6 px-10'>
+          <div className='w-10/12 mx-auto flex justify-between mb-6 px-10'>
               <motion.button className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} onClick={handleGetPending} whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}>Pending Commissions</motion.button>
               <motion.button className={button === 'B2' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} onClick={handleGetClaimed} whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}>Claimed Commissions</motion.button>
               <motion.button className='border-2 border-black rounded-lg p-2 w-3/12' onClick={handleClearPortraits} whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}>Clear Filters</motion.button>
           </div>
           
-          <div className='flex flex-col items-center w-full border-2 border-black'>
+          <div className='flex flex-col items-center w-10/12'>
             {filteredPortraits.length === 0 ? 
               <p>No portraits to display</p>
             :  filteredPortraits?.map(portrait => (
