@@ -5,16 +5,27 @@ import { getDownloadURL } from './storage';
 // Name of receipt collection in Firestore
 const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
 
+export async function getAllUsers() {
+  const allUsers = []
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      allUsers.push({...doc.data(), uid: doc.id})
+    });
+    return allUsers
+}
+
 //Add USER on sign in
 export async function getUser(user) {
-  console.log('getting user', user?.uid)
   const docSnap = await getDoc(doc(db, "users", user.uid));
 
   if (!docSnap.exists()) {
     const newUser = addUser(user)
+    console.log('newUser in getUser is: ', newUser.data)
     return (newUser)
   } else {
     console.log("already have a user created");
+    return {...docSnap.data(), uid: user.uid}
   }
 }
 
@@ -25,13 +36,13 @@ export function addUser(user) {
     displayName: user.displayName,
     roles: ["customer"]
   })
-  return userRef
+  console.log('userRef in addUser is: ', userRef)
+  return {uid: user.uid, email: user.email, displayName: user.displayName, roles: ["customer"] }
 }
 
-export function updateUser(userId, displayName) {
+export function updateUser(userId, role) {
   updateDoc(doc(db, 'users', userId), { 
-    displayName: displayName,
-    roles: ['customer']
+    roles: arrayUnion(role)
   });
 }
 

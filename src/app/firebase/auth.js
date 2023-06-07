@@ -19,16 +19,20 @@ export default function useFirebaseAuth() {
     if (!user) {
         clear();
         return;
-    }
-    
-    setAuthUser({
+    } else {
+      const userData = await getUser(user)
+      console.log('in auth after userData: ', userData)
+
+      setAuthUser({
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName
-    });
-    if (user) {
-      await getUser(user)
+        displayName: user.displayName,
+        roles: userData.roles
+      });
     }
+
+
+
     setIsLoading(false);
   }; 
 

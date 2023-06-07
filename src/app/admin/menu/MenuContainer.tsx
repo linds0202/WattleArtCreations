@@ -63,7 +63,6 @@ export const MenuContainer = () => {
       <motion.div className="background" variants={sidebar} />
       <Navigation />
       <MenuToggle toggle={toggleThingy} func={toggleThingy}/>
-      {/* <button onClick={() => console.log('this works')}>Click me</button> */}
     </motion.nav>
   );
 };

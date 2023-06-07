@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button, Dialog, CircularProgress, Container, Box, Toolbar, AppBar, Stack, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Dialog, CircularProgress } from '@mui/material';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
 import { auth } from '../firebase/firebase';
 
-const REDIRECT_PAGE = '/dashboard';
+// const REDIRECT_PAGE = '/dashboard';
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -19,23 +19,6 @@ const uiConfig = {
     EmailAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
-    // beforeSignInSuccess: (user) => {
-    //   alert('This is before sign in success')
-    //   console.log('updating with displayName & user is: ', user)
-    //   // Do additional processing on user before sign-in is
-    //   // complete.
-    //   // For example update the user profile.
-    //   return user.updateProfile({
-    //     displayName: user.displayName,
-    //   }).then(function() {
-    //     // To reflect updated photoURL in the ID token, force token
-    //     // refresh.
-    //     return user.getIdToken(true);
-    //   }).then(function() {
-    //     console.log('here user is: ', user)
-    //     return user;
-    //   });
-    // },
     // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: () => {
       return false
@@ -48,8 +31,7 @@ export default function NavBar() {
   const router = useRouter();
   const [login, setLogin] = useState(false);  
 
-  console.log('authUser.displayName in navbar: ', authUser?.displayName)
-  
+  console.log('authUser is: ', authUser)
 
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
@@ -69,15 +51,15 @@ export default function NavBar() {
         </button>}
         {authUser && 
           <div className='flex justify-between items-center'>
-            <div className='pr-4'>
+            {authUser.roles.includes('customer') && <div className='pr-4'>
               <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
-            </div>
-            <div className='pr-4'>
+            </div>}
+            {authUser.roles.includes('customer') && <div className='pr-4'>
               <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer</Link>
-            </div>
-            <div className='pr-4'>
+            </div>}
+            {authUser.roles.includes('customer') && <div className='pr-4'>
               <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist</Link>
-            </div>
+            </div>}
             <button onClick={signOut}>
               Logout
             </button>  
