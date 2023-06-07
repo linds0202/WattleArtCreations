@@ -13,7 +13,8 @@ const HIW = () => {
         show: {
             opacity: 1,
             transition: {
-                staggerChildren: 1,
+                when: "beforeChildren",
+                staggerChildren: 0.75,
             }
         }
 
@@ -31,7 +32,8 @@ const HIW = () => {
             opacity: 1,
             x: 0,
             transition: {
-                duration: .5
+                type: "spring",
+                duration: .3
             }
         }
     }
@@ -40,12 +42,32 @@ const HIW = () => {
     <div className='flex flex-col items-center pt-[100px] mb-[200px] text-black'>
         <div className='w-full mb-[75px] pl-[13%]'>
             <div className='w-[50%] flex flex-col items-start'>
-                <motion.h2 className='text-6xl font-bold mb-2' initial={{opacity: 0, x: -200}} whileInView={{opacity: 1, x: 0}} transition={{ease: 'easeInOut', duration: .5}}>How it works:</motion.h2>
-                <motion.div className='h-[2px] bg-black pl-2' initial={{opacity: 0, left: 0, width: 0, x:200}} whileInView={{opacity: 1, width: '45%', x:35}} transition={{ease: 'easeInOut', duration: .5}}/>
+                <motion.h2 
+                    className='text-6xl font-bold mb-2' 
+                    initial={{opacity: 0, x: -200}} 
+                    whileInView={{opacity: 1, x: 0}} 
+                    transition={{ease: 'easeInOut', duration: .5}}
+                    viewport={{amount: 0.4, once: true}}
+                >
+                    How it works:
+                </motion.h2>
+                <motion.div 
+                className='h-[2px] bg-black pl-2' 
+                initial={{opacity: 0, left: 0, width: 0, x:200}} 
+                whileInView={{opacity: 1, width: '45%', x:35}} 
+                transition={{ease: 'easeInOut', duration: .5}}
+                viewport={{amount: 0.4, once: true}}
+            />
             </div>
         </div>
         
-        <motion.ul className='w-10/12 flex flex-col pl-[5%] border-l-2 border-black space-y-[40px]' variants={list} initial='hidden' whileInView='show' viewport={{amount: 0.4}}>       
+        <motion.ul 
+            className='w-10/12 flex flex-col pl-[5%] border-l-2 border-black space-y-[20px]' 
+            variants={list} 
+            initial='hidden' 
+            whileInView='show' 
+            viewport={{amount: 0.4, once: true}}
+        >       
             <motion.li className='w-10/12 text-lg'  variants={listItemVarient} /* transition={
                 {delay:.5,
                 duration: .5}} */><span className='font-bold text-xl mr-2'>1. </span>Design your character(s): Provide details about your desired artwork, including size, medium, subject matter, and any reference images or inspiration. The more information you provide, the better we can tailor the artwork to your vision.</motion.li>
