@@ -21,10 +21,8 @@ export async function getUser(user) {
 
   if (!docSnap.exists()) {
     const newUser = addUser(user)
-    console.log('newUser in getUser is: ', newUser.data)
     return (newUser)
   } else {
-    console.log("already have a user created");
     return {...docSnap.data(), uid: user.uid}
   }
 }
