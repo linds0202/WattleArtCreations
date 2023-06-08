@@ -57,7 +57,7 @@ export default function Customer({ customer, userId}) {
                 </div>
                 {openRole && 
                     <div className="absolute z-40 bottom-[-147%] border border-black bg-white w-full left-0 py-2">
-                        <p className={currentRoles.indexOf('customer') !== -1 ? "text-xl pl-4 mb-px bg-neutral-300 hover:cursor-pointer hover:underline py-px" : "bg-white text-xl pl-4 mb-px hover:bg-neutral-300 hover:cursor-pointer hover:underline py-px text-red"} onClick={() => handleRoleClick('customer')}>customer</p>
+                        <p className={currentRoles.indcludes('customer') ? "text-xl pl-4 mb-px bg-neutral-300 hover:cursor-pointer hover:underline py-px" : "bg-white text-xl pl-4 mb-px hover:bg-neutral-300 hover:cursor-pointer hover:underline py-px text-red"} onClick={() => handleRoleClick('customer')}>customer</p>
                         <p className={currentRoles.includes('artist') ? "text-xl pl-4 mb-px bg-neutral-300 hover:cursor-pointer hover:underline py-px" : "bg-white text-xl pl-4 mb-px hover:bg-neutral-300 hover:cursor-pointer hover:underline py-px"} onClick={() => handleRoleClick('artist')}>artist</p>
                         <p className={currentRoles.includes('admin') ? "text-xl pl-4 mb-px bg-neutral-300 hover:cursor-pointer hover:underline py-px" : "bg-white text-xl pl-4 mb-px hover:bg-neutral-300 hover:cursor-pointer hover:underline py-px"} onClick={() => handleRoleClick('admin')}>admin</p>
                     </div>
