@@ -39,6 +39,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   }, [authUser, isLoading]);
 
 
+
   // useEffect(() => {
   //   const handleGetAllPortraits = async () => {
   //     const portraitsArr = await getAllPortraits();
