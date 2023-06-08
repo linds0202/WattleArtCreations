@@ -15,9 +15,9 @@ const SendMessage = ({ scroll, portraitId }) => {
           return;
         }
 
-        const { uid, email } = authUser;
+        const { uid, displayName } = authUser;
         
-        await addChatMessage(portraitId, message, email, uid);
+        await addChatMessage(portraitId, message, displayName, uid);
         
         setMessage(""); 
         scroll.current.scrollIntoView({ behavior: "smooth" });

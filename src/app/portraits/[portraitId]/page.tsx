@@ -85,9 +85,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <h1 className='text-2xl text-center'>Portrait Details</h1>
     <div className='mx-10 flex justify-between'>
       <div className='w-3/12'>
-          <div className='w-full h-[300px] border-2 border-black'>
-            {/* <img src={portrait?.images[0].imageUrl || ""} /> */}
-              <button onClick={handleUpload}>Upload Image</button>
+          <div className='w-full h-[300px] border-2 border-black flex flex-col justify-around items-center '>
+            <div className='w-full flex justify-around'>
+              {portrait?.images?.map(img => <img className="h-[50px] w-[50px]" src={img.imageUrl} />)}
+            </div>
+            <div>
+              <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>
               <UploadImage 
                 showDialog={action} 
                 onCloseDialog={() => setAction(false)} 
@@ -95,6 +98,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 userId={authUser.uid}
               >
               </UploadImage>
+            </div>
           </div>
           <div>
               <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>

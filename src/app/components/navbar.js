@@ -65,7 +65,7 @@ export default function NavBar() {
         }
       </div>
       <Dialog onClose={() => setLogin(false)} open={login}>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
       </Dialog>
     </div>
   );

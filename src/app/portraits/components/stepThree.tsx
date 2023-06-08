@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import MyCarousel from '@/app/components/MyCarousel';
 
 
 interface MyCharValues {
@@ -204,7 +205,7 @@ export default function StepThree(props) {
                         <div className='ml-4 mt-2'>
                             <label>
                                 <Field type="checkbox" name="extras" value="model" className='mr-2' />
-                                <span className='ml-2'>3D Model by Hero Forge</span>
+                                <span className='ml-2'>3D Model</span>
                             </label>
                         </div>
                         <div className='ml-4 mt-2'>
