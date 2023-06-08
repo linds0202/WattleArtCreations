@@ -222,13 +222,15 @@ table {
   width: 30%;
 }
 
+.home-carousel-root {
+  width: 100%
+}
+
+
 .carousel .slide {
   height: 50vh;
 }
 
-.carousel .slide img {
-  object-fit: contain;
-}
 
 
 /* Card List Section */

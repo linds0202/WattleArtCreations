@@ -2,14 +2,10 @@ import { addDoc, setDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc,
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 
-// Name of receipt collection in Firestore
-const PORTRAIT_COLLECTION_REF = collection(db, 'portraits');
-
 export async function getAllUsers() {
   const allUsers = []
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       allUsers.push({...doc.data(), uid: doc.id})
     });
     return allUsers
@@ -18,23 +14,22 @@ export async function getAllUsers() {
 export async function getAllCustomers() {
   const allCustomers = []  
   const q = query(collection(db, "users"), where("roles", "==", 'Customer'));
-    console.log('customers in firestore: ', q)
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       allCustomers.push({...doc.data(), uid: doc.id})
     });
     return allCustomers
-  
-  // const allUsers = []
-  //   const querySnapshot = await getDocs(collection(db, "users"));
-  //   querySnapshot.forEach((doc) => {
-  //     console.log(doc.data())
-  //     // doc.data() is never undefined for query doc snapshots
-  //     if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
-  //   });
-  //   return allUsers
+}
+
+export async function getAllArtists() {
+  const allArtists = []  
+  const q = query(collection(db, "users"), where("roles", "==", 'Artist'));
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    allArtists.push({...doc.data(), uid: doc.id})
+  });
+  return allArtists
 }
 
 // export async function getAllArtists() {

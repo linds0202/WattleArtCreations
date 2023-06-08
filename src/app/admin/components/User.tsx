@@ -16,6 +16,7 @@ export default function User({ customer, userId}) {
     const handleSelect = (e) => {
         console.log('customer is: ', customer)
         if (e.target.value === customer.roles) alert('already that')
+        else if (e.target.value === 'select one') return
         else {
             console.log('customer.uid: ', customer.uid)
             updateUser(customer.uid, e.target.value)
@@ -36,6 +37,7 @@ export default function User({ customer, userId}) {
                     }
                     {openRole && 
                         <select onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
+                            <option>Select one</option>
                             <option>Customer</option>
                             <option>Artist</option>
                             <option>Admin</option>
@@ -45,7 +47,6 @@ export default function User({ customer, userId}) {
                         <EditIcon />
                     </button>
                 </div>
-                
             </td>
             <td className="pl-[2%]">
                 <motion.button 
