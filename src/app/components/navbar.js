@@ -49,13 +49,13 @@ export default function NavBar() {
         </button>}
         {authUser && 
           <div className='flex justify-between items-center'>
-            {(authUser.roles.includes('customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
               <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
             </div>}
-            {(authUser.roles.includes('customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
               <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer</Link>
             </div>}
-            {(authUser.roles.includes('customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
               <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist</Link>
             </div>}
             <button onClick={signOut}>

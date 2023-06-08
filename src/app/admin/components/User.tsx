@@ -14,8 +14,10 @@ export default function User({ customer, userId}) {
     const [currentRole, setCurrentRole] = useState(customer.roles)
 
     const handleSelect = (e) => {
+        console.log('customer is: ', customer)
         if (e.target.value === customer.roles) alert('already that')
         else {
+            console.log('customer.uid: ', customer.uid)
             updateUser(customer.uid, e.target.value)
             setCurrentRole(e.target.value)
             setOpenRole(false)
@@ -34,9 +36,9 @@ export default function User({ customer, userId}) {
                     }
                     {openRole && 
                         <select onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
-                            <option>customer</option>
-                            <option>artist</option>
-                            <option>admin</option>
+                            <option>Customer</option>
+                            <option>Artist</option>
+                            <option>Admin</option>
                         </select>
                     }
                     <button className="border border-white rounded-md hover:border hover:border-black hover:rounded-md transition duration-200 ease-in" onClick={() => setOpenRole(prev => !prev)}>

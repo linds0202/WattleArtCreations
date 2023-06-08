@@ -30,8 +30,6 @@ export default function useFirebaseAuth() {
       });
     }
 
-
-
     setIsLoading(false);
   }; 
 

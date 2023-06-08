@@ -16,15 +16,37 @@ export async function getAllUsers() {
 }
 
 export async function getAllCustomers() {
-  const allUsers = []
-    const querySnapshot = await getDocs(collection(db, "users"));
+  const allCustomers = []  
+  const q = query(collection(db, "users"), where("roles", "==", 'Customer'));
+    console.log('customers in firestore: ', q)
+    const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data())
       // doc.data() is never undefined for query doc snapshots
-      if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
+      console.log(doc.id, " => ", doc.data());
+      allCustomers.push({...doc.data(), uid: doc.id})
     });
-    return allUsers
+    return allCustomers
+  
+  // const allUsers = []
+  //   const querySnapshot = await getDocs(collection(db, "users"));
+  //   querySnapshot.forEach((doc) => {
+  //     console.log(doc.data())
+  //     // doc.data() is never undefined for query doc snapshots
+  //     if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
+  //   });
+  //   return allUsers
 }
+
+// export async function getAllArtists() {
+//   const allUsers = []
+//     const querySnapshot = await getDocs(collection(db, "users"));
+//     querySnapshot.forEach((doc) => {
+//       console.log(doc.data())
+//       // doc.data() is never undefined for query doc snapshots
+//       if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
+//     });
+//     return allUsers
+// }
 
 //Add USER on sign in
 export async function getUser(user) {
@@ -43,16 +65,15 @@ export function addUser(user) {
   const userRef = setDoc(doc(db, 'users', user.uid), { 
     email: user.email,
     displayName: user.displayName,
-    roles: ["customer"]
+    roles: "Customer"
   })
-  console.log('userRef in addUser is: ', userRef)
-  return {uid: user.uid, email: user.email, displayName: user.displayName, roles: ["customer"] }
+  return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
 
 export function updateUser(userId, role) {
   console.log(userId)
   updateDoc(doc(db, 'users', userId), { 
-    roles: [role]
+    roles: role
   });
 }
 

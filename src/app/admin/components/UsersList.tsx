@@ -1,14 +1,14 @@
 import { motion } from "framer-motion"
 import '../menu/styles.css'
 import { useState, useEffect } from "react"
-import { getAllUsers } from "@/app/firebase/firestore"
+import { getAllUsers, getAllCustomers } from "@/app/firebase/firestore"
 import User from "./User";
 
 interface UserData {
   uid: String,
   email: String,
   displayName: String,
-  roles: [String]
+  roles: String
 }
 
 export default function UsersList() {
@@ -18,7 +18,7 @@ export default function UsersList() {
 
   useEffect(() => {
     const handleGetAllUsers = async () => {
-      const customersArr = await getAllUsers();
+      const customersArr = await getAllCustomers();
       setAllCustomers(customersArr)
       setFilteredCustomers(customersArr)
     }
