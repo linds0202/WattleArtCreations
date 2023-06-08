@@ -75,20 +75,20 @@ export default function UsersList() {
       
       <div className='flex flex-col items-center w-full'>
         <table>
-          <tr>
-            <th>Id</th>
-            <th>Display Name</th>
-            <th>Emial</th>
-            <th>Roles</th>
-            <th>View Orders</th>
-          </tr>
-          {filteredCustomers.length === 0 ? 
             <tr>
-              <td>No customers to display</td>
+              <th>Id</th>
+              <th>Display Name</th>
+              <th>Emial</th>
+              <th>Roles</th>
+              <th>View Orders</th>
             </tr>
-          :  filteredCustomers?.map(customer => (
-            <User key={customer.uid} customer={customer} />
-          )) }
+            {filteredCustomers.length === 0 ? 
+              <tr>
+                <td>No customers to display</td>
+              </tr>
+            :  filteredCustomers?.map(customer => (
+              <User key={customer.uid} customer={customer} />
+            )) }
         </table>
       </div>   
     </div>
