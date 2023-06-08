@@ -4,10 +4,10 @@ import "./globals.css";
 export default function Home() {
   
   return (
-    <main className="flex h-[90vh] flex-col items-center p-24 bg-white text-black">
-      <h1>Initial Landing Page</h1>
-      <div className='flex justify-between w-6/12 m-auto text-3xl text-black'>
+    <main className=" h-[90vh] p-24 bg-white text-black">
+      <div className='flex justify-between items-center w-8/12 m-auto text-3xl text-black'>
         <Link href='/personal'>Personal</Link>
+        <img src='./Logo_Full_ups.png' className='w-4/12'/>
         <Link href='/corporate'>Corporate</Link>
       </div>
     </main>

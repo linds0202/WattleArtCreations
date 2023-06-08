@@ -119,21 +119,6 @@ export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets
 }
 
 
-
-// export async function getPortrait( portraitId ) {
-//   const docRef = doc(db, 'portraits', portraitId)
-//   const docSnap = await getDoc(docRef);
-
-//   if (docSnap.exists()) {
-//     console.log("Document data:", docSnap.data());
-//     return docSnap.data().characters
-//   } else {
-//     // docSnap.data() will be undefined in this case
-//     console.log("No such document!");
-//     return []
-//   }
-// }
-
 //returns an array of all portraits
 export async function getAllPortraits() {
   const allPortraits = []
@@ -224,11 +209,11 @@ export function deleteCharacter(id) {
 }
 
 //Add chat message
-export function addChatMessage( portraitId, message, email, uid  ) {
+export function addChatMessage( portraitId, message, displayName, uid  ) {
   addDoc(collection(db, "messages"), {
     portraitId: portraitId,
     text: message,
-    name: email,
+    name: displayName,
     createdAt: serverTimestamp(),
     uid,
   });

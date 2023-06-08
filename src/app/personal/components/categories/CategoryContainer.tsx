@@ -3,12 +3,12 @@ import React from 'react'
 import { FadeHeader } from './FadeHeader'
 import SlideCards from './SlideCards'
 
-const CategoryContainer = () => {
+const CategoryContainer = ({ setMode }) => {
   return (
     <div className='w-full py-[50px]'>
         <FadeHeader />
         <div className="flex justify-center">
-            <SlideCards />
+            <SlideCards setMode={setMode} />
         </div>
     </div>
   )
