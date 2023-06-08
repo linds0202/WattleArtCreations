@@ -15,7 +15,7 @@ export async function getAllUsers() {
     return allUsers
 }
 
-export async function getAllCustomers() {
+export async function getAllArtists() {
   const allUsers = []
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {

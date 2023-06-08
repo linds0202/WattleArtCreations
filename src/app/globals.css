@@ -231,9 +231,6 @@ table {
   height: 50vh;
 }
 
-.carousel .slide img {
-  object-fit: contain;
-}
 
 
 /* Card List Section */

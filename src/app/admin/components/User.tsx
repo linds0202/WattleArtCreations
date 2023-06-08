@@ -15,6 +15,7 @@ export default function User({ customer, userId}) {
 
     const handleSelect = (e) => {
         if (e.target.value === customer.roles) alert('already that')
+        else if (e.target.value === 'select one') return
         else {
             updateUser(customer.uid, e.target.value)
             setCurrentRole(e.target.value)
@@ -34,6 +35,7 @@ export default function User({ customer, userId}) {
                     }
                     {openRole && 
                         <select onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
+                            <option>select one</option>
                             <option>customer</option>
                             <option>artist</option>
                             <option>admin</option>

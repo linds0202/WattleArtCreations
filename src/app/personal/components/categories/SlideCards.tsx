@@ -38,7 +38,7 @@ export default function SlideCards({ setMode }) {
 
   return (
     <div className="w-[75%]">
-      <div className="space-y-[100px] flex flex-col items-center">
+      <div className="space-y-[200px] flex flex-col items-center">
         <div className="flex justify-start w-full">
             <motion.div className="motion-box w-full" initial={{opacity: 0, x: -50,}} whileInView={{opacity: 1, x: 50}} viewport={{amount: 0.5}} transition={{duration: .7}}>
                 <div className="flex border-b-2 border-black px-4 pb-4 justify-between">
@@ -47,9 +47,7 @@ export default function SlideCards({ setMode }) {
                         className="m-0 w-full home-carousel-root">
                             {photorealisticImgs.map(el => {
                                     return (
-                                    <div key={el}>
-                                        <img src={`${el}`}/>
-                                    </div>
+                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
                                 )})
                             }
                         </Carousel>
@@ -90,9 +88,7 @@ export default function SlideCards({ setMode }) {
                         className="m-0 w-full home-carousel-root">
                             {animeImgs.map(el => {
                                     return (
-                                    <div key={el}>
-                                        <img src={`${el}`}/>
-                                    </div>
+                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
                                 )})
                             }
                         </Carousel>
@@ -108,9 +104,7 @@ export default function SlideCards({ setMode }) {
                         className="m-0 w-full home-carousel-root">
                             {nsfwImgs.map(el => {
                                     return (
-                                    <div key={el}>
-                                        <img src={`${el}`}/>
-                                    </div>
+                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
                                 )})
                             }
                         </Carousel>

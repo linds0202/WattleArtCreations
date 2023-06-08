@@ -6,7 +6,7 @@ import SlideCards from './SlideCards'
 const CategoryContainer = ({ setMode }) => {
 
   return (
-    <div className='w-full py-[50px]'>
+    <div className='w-full py-[50px] mt-20'>
         <FadeHeader />
         <div className="flex justify-center">
             <SlideCards setMode={setMode} />
