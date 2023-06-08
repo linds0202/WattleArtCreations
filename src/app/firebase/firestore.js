@@ -40,7 +40,7 @@ export function addUser(user) {
 
 export function updateUser(userId, role) {
   updateDoc(doc(db, 'users', userId), { 
-    roles: arrayUnion(role)
+    roles: role
   });
 }
 
