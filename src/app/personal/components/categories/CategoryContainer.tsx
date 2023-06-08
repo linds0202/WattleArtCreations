@@ -4,6 +4,7 @@ import { FadeHeader } from './FadeHeader'
 import SlideCards from './SlideCards'
 
 const CategoryContainer = ({ setMode }) => {
+
   return (
     <div className='w-full py-[50px]'>
         <FadeHeader />
