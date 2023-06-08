@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import '../menu/styles.css'
 import { useState, useEffect } from "react"
 import { getAllUsers } from "@/app/firebase/firestore"
-import Customer from "./Customer";
+import User from "./User";
 
 interface UserData {
   uid: String,
@@ -11,19 +11,19 @@ interface UserData {
   roles: [String]
 }
 
-export default function CustomersList() {
+export default function UsersList() {
   const [allCustomers, setAllCustomers] = useState<Array<UserData>>([])
   const [filteredCustomers, setFilteredCustomers] = useState<Array<UserData>>([])  
   const [button, setButton] = useState<String>('')
 
   useEffect(() => {
-    const handleGetAllCustomers = async () => {
+    const handleGetAllUsers = async () => {
       const customersArr = await getAllUsers();
       setAllCustomers(customersArr)
       setFilteredCustomers(customersArr)
     }
 
-    handleGetAllCustomers()
+    handleGetAllUsers()
   }, [])
 
   const handleGetPending = () => {
@@ -46,7 +46,7 @@ export default function CustomersList() {
 
   return (
     <div className="w-full py-10">
-      <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>Customers</h1>
+      <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>All Users</h1>
       <div className='w-full mx-auto flex justify-between mb-6 px-10 w-10/12'>
         <motion.button 
           className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
@@ -87,7 +87,7 @@ export default function CustomersList() {
               <td>No customers to display</td>
             </tr>
           :  filteredCustomers?.map(customer => (
-            <Customer key={customer.uid} customer={customer} />
+            <User key={customer.uid} customer={customer} />
           )) }
         </table>
       </div>   

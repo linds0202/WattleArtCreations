@@ -15,6 +15,17 @@ export async function getAllUsers() {
     return allUsers
 }
 
+export async function getAllCustomers() {
+  const allUsers = []
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data())
+      // doc.data() is never undefined for query doc snapshots
+      if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
+    });
+    return allUsers
+}
+
 //Add USER on sign in
 export async function getUser(user) {
   const docSnap = await getDoc(doc(db, "users", user.uid));
@@ -39,8 +50,9 @@ export function addUser(user) {
 }
 
 export function updateUser(userId, role) {
+  console.log(userId)
   updateDoc(doc(db, 'users', userId), { 
-    roles: arrayUnion(role)
+    roles: [role]
   });
 }
 

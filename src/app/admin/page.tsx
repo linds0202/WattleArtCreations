@@ -7,7 +7,7 @@ import { useAuth } from '../firebase/auth';
 import { getAllPortraits, getAllUsers } from '../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import PortraitList from './components/PortraitList';
-import CustomersList from './components/CustomersList';
+import UsersList from './components/UsersList';
 import ConsultList from './components/ConsultList';
 import { MenuContainer } from './menu/MenuContainer';
 import { ViewContext } from './AdminContext';
@@ -91,7 +91,7 @@ export default function Dashboard({ params: { userId }}: Params) {
           <PortraitList />
         : view === 'Consultations' ?
           <ConsultList />
-        : <CustomersList />
+        : <UsersList />
         }
         
       
