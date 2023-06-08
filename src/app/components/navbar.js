@@ -49,7 +49,7 @@ export default function NavBar() {
         </button>}
         {authUser && 
           <div className='flex justify-between items-center'>
-            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+            {(authUser.roles === 'Customer' || authUser.roles === 'Artist' || authUser.roles === 'Admin') && <div className='pr-4'>
               <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
             </div>}
             {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>

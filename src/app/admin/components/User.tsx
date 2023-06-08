@@ -5,7 +5,7 @@ import { updateUser } from "@/app/firebase/firestore";
 import { useState, useEffect } from 'react'
 
 export default function User({ customer, userId}) {
-
+    
     const handleViewOrders = () => {
         console.log('clicked view orders')
     }
@@ -14,11 +14,10 @@ export default function User({ customer, userId}) {
     const [currentRole, setCurrentRole] = useState(customer.roles)
 
     const handleSelect = (e) => {
-        console.log('customer is: ', customer)
-        if (e.target.value === customer.roles) alert('already that')
+        console.log('e.target.value: ', e.target.value)
+        if (e.target.value === currentRole) alert('already that')
         else if (e.target.value === 'select one') return
         else {
-            console.log('customer.uid: ', customer.uid)
             updateUser(customer.uid, e.target.value)
             setCurrentRole(e.target.value)
             setOpenRole(false)

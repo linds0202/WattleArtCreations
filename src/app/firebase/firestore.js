@@ -32,17 +32,6 @@ export async function getAllArtists() {
   return allArtists
 }
 
-// export async function getAllArtists() {
-//   const allUsers = []
-//     const querySnapshot = await getDocs(collection(db, "users"));
-//     querySnapshot.forEach((doc) => {
-//       console.log(doc.data())
-//       // doc.data() is never undefined for query doc snapshots
-//       if (doc.data().roles.includes('artist')) allUsers.push({...doc.data(), uid: doc.id})
-//     });
-//     return allUsers
-// }
-
 //Add USER on sign in
 export async function getUser(user) {
   const docSnap = await getDoc(doc(db, "users", user.uid));
@@ -66,7 +55,6 @@ export function addUser(user) {
 }
 
 export function updateUser(userId, role) {
-  console.log(userId)
   updateDoc(doc(db, 'users', userId), { 
     roles: role
   });
@@ -75,7 +63,6 @@ export function updateUser(userId, role) {
 
 //Add new corporate consult data
 export function addConsult( data) {
-  console.log('in add CONSULT: ', data.customerFirstName)
   const consultRef = addDoc(collection(db, 'consults'), { 
     category: data.category, 
     subcategories: data.subcategories, 
@@ -102,7 +89,6 @@ export async function getAllConsults() {
   const allConsults = []
     const querySnapshot = await getDocs(collection(db, "consults"));
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
       allConsults.push({...doc.data(), uid: doc.id})
     });
     return allConsults
@@ -110,7 +96,6 @@ export async function getAllConsults() {
 
 //Portraits
 export function addPortrait( data) {
-  console.log('in add portrait: ', data.customer)
   const portraitRef = addDoc(collection(db, 'portraits'), { 
     styleOne: data.styleOne, 
     styleTwo: data.styleTwo, 
@@ -152,8 +137,6 @@ export async function getAllPortraits() {
   const allPortraits = []
     const querySnapshot = await getDocs(collection(db, "portraits"));
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
       allPortraits.push({...doc.data(), uid: doc.id})
     });
     return allPortraits
@@ -161,7 +144,6 @@ export async function getAllPortraits() {
 
 //Get one Portrait from uid
 export async function getPortrait(uid) {
-  console.log('getting portrait')
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
@@ -170,7 +152,6 @@ export async function getPortrait(uid) {
       uid: uid     
     }
   } else {
-    // docSnap.data() will be undefined in this case
     console.log("No such document!");
     return ({})
   }
@@ -250,8 +231,6 @@ export function addChatMessage( portraitId, message, displayName, uid  ) {
 // Get All chat messages
 export async function getChats(setMessages, portraitId) {
   const q = query(collection(db, "messages"), where("portraitId", "==", portraitId), orderBy("createdAt"), limit(50));
-  
-  console.log('q in get chats is: ', q)
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let messages = [];
