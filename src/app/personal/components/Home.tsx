@@ -12,7 +12,7 @@ export default function Home ({ setMode }) {
     const [loading, setLoading] = useState(true);
     
     return (
-        <>
+        <div className="flex flex-col justify-around items-center">
             <HeroLoader setLoading={setLoading}/>
             <HIW />
             <Testimonials2 />
@@ -20,6 +20,6 @@ export default function Home ({ setMode }) {
             <Gallery />
             <ActionCall />
             <Footer />
-        </>
+        </div>
     )
 }
