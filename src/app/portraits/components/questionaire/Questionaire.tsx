@@ -1,6 +1,6 @@
 import { addPortrait } from "@/app/firebase/firestore"
 import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 import StepOne from "./StepOne"
 import StepTwo from "./StepTwo"
 import StepThree from "./StepThree"

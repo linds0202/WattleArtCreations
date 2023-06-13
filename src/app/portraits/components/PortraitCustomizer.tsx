@@ -1,5 +1,5 @@
 
-import Questionaire from '@/app/personal/components/questionaire/Questionaire'
+import Questionaire from "./questionaire/Questionaire"
 
 interface Props {
     selection: String,
