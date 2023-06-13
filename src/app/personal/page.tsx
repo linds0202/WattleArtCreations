@@ -9,7 +9,7 @@ export default function Personal() {
  const [mode, setMode] = useState('Home')
   
   return (
-    <main className="bg-white text-black no-underline flex flex-col justify-around items-center min-h-screen">
+    <main className="bg-white text-black no-underline min-h-screen">
       {mode === 'Home' 
         ? <Home setMode={setMode} />
         : <PortraitSelection mode={mode} />
