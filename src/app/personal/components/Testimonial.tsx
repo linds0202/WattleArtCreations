@@ -15,7 +15,6 @@ interface Props {
 const Testimonial = ({ testimonial, animate, varients, modifier }: Props) => {
 
   const delayMod = modifier + 1 / 3.5
-  const conDelayMod = modifier + 1
 
   return (
     <div className="w-3/12" >
