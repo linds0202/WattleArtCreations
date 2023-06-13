@@ -1,46 +1,33 @@
-'use client'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap';
-import Link from 'next/link';
-interface Testimonials{
-    obj : {
-        index: number,
-        body?: string,
-        author?: string
-    }[]
-}
+import Testimonial from "./Testimonial"
 
-
-
-export default function Testimonials({obj}:Testimonials){
-  return (
-    <div className="w-11/12 py-28 relative">
-        <p className="text-black text-center text-6xl font-bold mb-10">Testimonials</p>
-        <div className="absolute z-40 top-[32%] left-[27%] w-[42%] pt-20">
-            <Carousel className='pb-12 px-14' controls={false} wrap>
-                {obj.map((el) => {
-                    if (el.index !== 3) {
-                        return <Carousel.Item key={el.index}>
-                                <div className='h-[125px]'>
-                                    <p className='text-white'>{el.body}</p>
-                                    <p className='text-white text-base font-bold text-right pr-10'>-{el.author}</p>
-                                </div>
-                                    
-                                </Carousel.Item>
-                    } else {
-                        return <Carousel.Item key={el.index}>
-                                    <div className='flex flex-col items-center h-[125px]'>
-                                        <p className='text-white text-center text-2xl mb-10 font-bold'>Want to hear more testimonials?</p>
-                                        <button className='text-lg font-semibold text-black bg-white rounded-md py-px px-3 transition-all ease-in-out duration-200 hover:underline hover:text-black'><Link href={`/personal/testimonials`}>Go to testimonials</Link></button>
-                                    </div>
-                                </Carousel.Item>
-                    }
-                    
-                })}
-            </Carousel>
+const Testimonials = () => {
+  
+    const testimonials = [
+        {
+            index: 0,
+            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+            author: 'Joe'
+        },
+        {
+            index: 1,
+            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+            author: 'Alex'
+        },
+        {
+            index: 2,
+            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+            author: 'Christie'
+        },
+    ]
+  
+    return (
+        <div className='w-10/12 flex justify-between items-center '>
+            {testimonials.map((testimonial, i) => (
+                <Testimonial key={i} testimonial={testimonial}/>
+            ))}
         </div>
-        <img src="./puddle.png" alt="puddle"/>
-    </div>
   )
 }
+
+export default Testimonials

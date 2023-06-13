@@ -230,7 +230,7 @@ export function addChatMessage( portraitId, message, displayName, uid  ) {
 
 // Get All chat messages
 export async function getChats(setMessages, portraitId) {
-  const q = query(collection(db, "messages"), where("portraitId", "==", portraitId), orderBy("createdAt"), limit(50));
+  const q = query(collection(db, "messages"), where("portraitId", "==", portraitId), orderBy("createdAt"), limit(50))
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let messages = [];

@@ -11,8 +11,7 @@ import { Button, Dialog } from '@mui/material';
 import { EmailAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
 import { addPortrait } from '../firebase/firestore';
-import * as React from 'react';
-import PortraitWizard from './components/portraitWizard';
+import PortraitCustomizer from './components/PortraitCustomizer';
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -28,7 +27,7 @@ const uiConfig = {
 
 export default function Portraits() {
   const searchParams = useSearchParams()
-  const styleOne = searchParams.get('styleOne')
+  const selection = searchParams.get('selection')
 
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
@@ -89,7 +88,7 @@ export default function Portraits() {
           <>
             
             <p>No Portraits Yet!</p>
-            <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-4' >Start New Portrait</button>
+            <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-4' >Start New {selection} Portrait</button>
           </>
           )
         : <div className='w-full flex flex-col items-center'>
@@ -103,7 +102,7 @@ export default function Portraits() {
       }
       
       {/* Display the portrait wizard */}
-      { openWizard && <PortraitWizard editPortrait={editPortrait} setEditPortrait={setEditPortrait} editIndex={editIndex} portraits={portraits} setPortraits={setPortraits} setOpenWizard={setOpenWizard} styleOne={styleOne}/> }
+      { openWizard && <PortraitCustomizer selection={selection} /> }
       
       {/* Wizard closed show calculate price button */}
       { (!openWizard && portraits.length !== 0 && !authUser) && 
@@ -125,7 +124,7 @@ export default function Portraits() {
       </Dialog>
       
       <div className='flex justify-around items-center mt-10 w-10/12'>
-        <Link href='/personal' className='block'>Return to Personal</Link>
+        <Link href='/personal' className='block'>Return to Personal Landing Page</Link>
         {authUser && <Link href={`/dashboard/${authUser.uid}`} className='block'>My Dashboard</Link>}
       </div>
     </div>

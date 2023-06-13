@@ -34,7 +34,7 @@ export default function NavBar() {
   return ((isLoading) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
-    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-10'>
+    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
       <div >
         <Link href='/' className='flex justify-between items-center no-underline'>
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
