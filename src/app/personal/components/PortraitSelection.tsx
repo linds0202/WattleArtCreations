@@ -31,9 +31,6 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             basePrices: []
         }
     }
-<<<<<<< HEAD
-    const imgSrc = options[`${mode}`].imgs[0]
-=======
     const imgSrc = options[`${mode}`].splashImg
     console.log('imgSrc is: ', imgSrc)
 
@@ -63,7 +60,6 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
         }
 
     console.log(options[`${mode}`].testimonials)
->>>>>>> portraits-comp
   
     return (
         <div className="py-20">
