@@ -1,76 +1,115 @@
-
-import Questionaire from "./questionaire/Questionaire"
-import { useEffect } from 'react'
-import Testimonial from './Testimonial'
+import { addPortrait } from "@/app/firebase/firestore"
+import { useEffect, useState } from "react"
 
 import { delay, motion } from 'framer-motion'
+import { Formik, Form, Field } from 'formik';
 
-interface Props {
-    selection: String,
+import StepOne from "./questionaire/StepOne"
+import StepTwo from "./questionaire/StepTwo"
+
+export interface PortraitData  {
+    mode: String, 
+    characters: [],
+    questions: [{}, {}, {}, {}, {}], 
+    price: Number,
+    customer: String,
+    customerId: '',
+    artist: String,
+    date: Date,
+    status: String,
+    lastUpdatedStatus: Date,
+    paymentComplete: Boolean,
 }
 
-const PortraitCustomizer = ({ mode, setMode }: Props) => {
+interface PortraitProps {
+    editPortrait: PortraitData,
+    setEditPortrait: Function,
+    editIndex: Number,
+    portraits: PortraitData[],
+    setPortraits: Function,
+    setOpenWizard: Function,
+    option: Object
+}
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
 
-    const options = {
-        Photorealistic: {
-            title: selection,
-            imgs: [],
-            testimonials: [{author: 'Bob', body: 'good job'}, {author: 'Troy', body: 'u did a great job'}, {author: 'Jodie', body: 'Super cool art'}],
-            basePrices: []
-        },
-        Anime: {
-            title: selection,
-            imgs: [],
-            testimonials: [{author: 'Bob', body: 'good job'}],
-            basePrices: []
-        },
-        NSFW: {
-            title: selection,
-            imgs: [],
-            testimonials: [{author: 'Bob', body: 'good job'}],
-            basePrices: []
+const PortraitCustomizer = ({ editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, option }: PortraitProps) => {
+    
+    const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
+        mode: option.title, 
+        characters: [],
+        questions: [{}, {}, {}, {}, {}],
+        price: 0,
+        customer: '',
+        customerId: '',
+        artist: '',
+        date: new Date(),
+        status: '',
+        lastUpdatedStatus: new Date(),
+        paymentComplete: false,
+    })
+
+    const [chars, setChars] = useState(portraitData.characters)
+    const [pet, setPet] = useState(false)
+    const [charSheet, setCharSheet] = useState(false)
+    const [weaponSheet, setWeaponSheet] = useState(false)
+
+    const submitPortrait = async (portraitFormData: PortraitData) => {
+
+        const newPortrait = {...portraitFormData, characters: chars}
+        
+        if (editPortrait) {
+            let editedPortraitsData = portraits.map((portrait, i) => {
+                if (editIndex === i) {
+                    return newPortrait
+                } else {
+                    return portrait
+                }
+            })
+            setPortraits(editedPortraitsData)
+        } else {
+            setPortraits(prev => ([ ...prev,  newPortrait]))
         }
-    }
+        setEditPortrait(null)
+        setOpenWizard(false)
+    }    
 
-    const container = {
-        hidden: {},
-        show: {
-          transition: {
-            when: "beforeChildren",
-            staggerChildren: 0.75,
-        }
-        }
-    }
-
-    const testimonialVarient = {
-    hidden: {
-        opacity: 0,
-        y: 200
-    },
-    show: {
-        opacity: 1,
-        y: 0
-    }
-    }
-  
     return (
-    <div>
-        <Questionaire option={options[`${selection}`]}/>          
-    <div className='py-20'>
-        <h2 className='font-bold text-5xl'>Create a {options[`${mode}`].title} Portrait</h2>
-        <motion.div className='flex justify-around py-20' variants={container} initial='hidden' 
-        whileInView='show'>
-            {options[`${mode}`].testimonials.map((el:object, i:number) => {
-                return <Testimonial key={i} testimonial={el} animate={true} varients={testimonialVarient} modifier={i}/>
-            })}
-        </motion.div>
-        <button onClick={() => setMode('Home')}>Back to Home</button>
-    </div>
-  )
+        <div className="w-11/12 mx-auto">
+        <Formik
+                initialValues={portraitData}
+                onSubmit={submitPortrait}
+            >
+            {({ values }) => (
+                <Form className='w-full '>
+       
+                    <StepOne 
+                        option={option} 
+                        portraitData={portraitData} 
+                        setPortraitData={setPortraitData}
+                        chars={chars}
+                        setChars={setChars} 
+                        setPet={setPet}
+                        setCharSheet={setCharSheet}
+                        setWeaponSheet={setWeaponSheet} 
+                    />
+                    <div>
+                        <h3>Let us know more. . .</h3>
+                        <StepTwo 
+                            pet={pet}
+                            charSheet={charSheet}
+                            weaponSheet={weaponSheet} 
+                        />
+                    </div>
+                    <div className='mt-8 w-full flex justify-around items-center'>
+                        <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
+                            Finish Portrait
+                        </button>
+                    </div>
+                </Form>
+            )}
+        </Formik>
+        </div>
+    )
 }
 
 export default PortraitCustomizer

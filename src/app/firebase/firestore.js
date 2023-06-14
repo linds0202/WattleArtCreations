@@ -97,13 +97,12 @@ export async function getAllConsults() {
 //Portraits
 export function addPortrait( data) {
   const portraitRef = addDoc(collection(db, 'portraits'), { 
-    styleOne: data.styleOne, 
-    styleTwo: data.styleTwo, 
-    styleThree: data.styleThree, 
+    mode: data.mode,
     characters: data.characters,
     questions: data.questions, 
     price: '',
     customer: data.customer,
+    customerId: data.customerId,
     artist: '',
     date: new Date,
     status: 'Pending',
@@ -164,7 +163,7 @@ export async function updatePortraitWithImage(portraitId, {userId, imageBucket})
 
 //returns array of customers portraits
 export async function getCustomersPortraits( uid ) {
-  const q = query(collection(db, "portraits"), where("customer", "==", uid));
+  const q = query(collection(db, "portraits"), where("customerId", "==", uid));
   const portraits = []
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -199,18 +198,6 @@ export async function getAllUnclaimed() {
   });
   return unclaimed
 }
-
-// export async function getCharacters() {
-//   const querySnapshot = await getDocs(collection(db, CHARACTER_COLLECTION));
-//   console.log('in get all characters', querySnapshot)
-//   const charArr = []
-//   querySnapshot.forEach((doc) => {
-//     charArr.push({ id: doc.id, ...doc.data() })
-//   });
-//   return charArr
-// }
-
-
 
 // Deletes receipt with given @id.
 export function deleteCharacter(id) {
