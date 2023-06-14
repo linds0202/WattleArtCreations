@@ -19,13 +19,12 @@ type Params = {
 
 interface PortraitData {
   uid: String,
-  styleOne: String, 
-  styleTwo: String, 
-  styleThree: String, 
+  mode: String, 
   characters: [],
   questions: [], 
   price: Number,
   customer: String,
+  customerId: String,
   artist: String,
   date: Timestamp,
   status: String,
@@ -63,7 +62,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setAction(true)
   }
 
-  //console.log('portrait is: ', portrait?.images[0].imageUrl)
 
   const charList = portrait?.characters.map((char, i) => (
     <div className='border-2 border-black mt-4 pl-4'>
@@ -107,8 +105,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       
       <div className='w-3/12'>
           <p>Portrait Id: {portrait?.uid}</p>
-          <p>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; { portrait?.styleThree }</p>
-          <p>Portrait Customer Id: {portrait?.customer}</p>
+          <p>{portrait?.mode}</p>
+          <p>Customer: {portrait?.customer}</p>
+          <p>Customer Id: {portrait?.customerId}</p>
           {charList}
       </div>  
       <div className='w-4/12'>

@@ -24,7 +24,6 @@ const PortraitSelection = ({ mode }) => {
         }
     }
     const imgSrc = options[`${mode}`].imgs[0]
-    console.log('imgSrc is: ', imgSrc)
   
     return (
         <div> 

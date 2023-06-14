@@ -1,15 +1,13 @@
 import { addPortrait } from "@/app/firebase/firestore"
-import { useState } from "react"
-import { AnimatePresence } from "framer-motion"
+import { useState, useRef } from "react"
+
 import StepOne from "./StepOne"
 import StepTwo from "./StepTwo"
-import StepThree from "./StepThree"
-import StepFour from "./StepFour"
 
-interface PortraitData {
+export interface PortraitData  {
     mode: String, 
     characters: [],
-    questions: [], 
+    questions: [{}, {}, {}, {}, {}], 
     price: Number,
     customer: String,
     artist: String,
@@ -19,50 +17,22 @@ interface PortraitData {
     paymentComplete: Boolean,
 }
 
-interface PortraitProps {
-    editPortrait: PortraitData,
-    setEditPortrait: Function,
-    editIndex: Number,
-    portraits: PortraitData[],
-    setPortraits: Function,
-    setOpenWizard: Function,
-    styleOne: string
-}
-
-const containerVariants = {
-    hidden: {
-      opacity: 0,
-      x: "100vw"
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        type: 'spring',
-      }
-    },
-    exit: {
-        opacity: 1,
-        x: "-100vw",
-        transition: {duration: 0.5}
-    }
-}
 
 
-const Questionaire = ({ option }) => {
+const Questionaire = ({ option, setOpenWizard }) => {
+    
     // editPortrait ? editPortrait :
-    const [currentStep, setCurrentStep] = useState(0)
-    const [portraitData, setPortraitData] = useState( {
+    const [portraitData, setPortraitData] = useState<PortraitData>( {
         mode: option.title, 
         characters: [],
         questions: [{}, {}, {}, {}, {}],
-        price: '',
+        price: 0,
         customer: '',
         artist: '',
         date: new Date(),
         status: '',
         lastUpdatedStatus: new Date(),
-        paymentComplete: Boolean,
+        paymentComplete: false,
     })
 
     const [pet, setPet] = useState(false)
@@ -84,96 +54,45 @@ const Questionaire = ({ option }) => {
     //     }
     //     setOpenWizard(false)
     // }
-
-    const handleNextStep = (newData, final = false) => {
-        setPortraitData(prev => ({ ...prev, ...newData }))
-
-        // if (final) {
-        // submitPortrait(newData)
-        // if (editPortrait) setEditPortrait(null)
-        // return
-        // }
-
-        if (currentStep > 3) {
-        if (currentStep === 4) {
-            pet ? setCurrentStep(prev => prev + 1) : charSheet ? setCurrentStep(prev => prev + 2) : weaponSheet ? setCurrentStep(prev => prev + 3) : setCurrentStep(prev => prev + 4)
-        } 
-        if (currentStep === 5) {
-            charSheet ? setCurrentStep(prev => prev + 1) : weaponSheet ? setCurrentStep(prev => prev + 2) : setCurrentStep(prev => prev + 3)
-        }
-        if (currentStep === 6) {
-            weaponSheet ? setCurrentStep(prev => prev + 1) : setCurrentStep(prev => prev + 2)
-        }
-        if (currentStep === 7) setCurrentStep(prev => prev + 1)
-        } else {
-        setCurrentStep(prev => prev + 1)
-        }
-    } 
-
-    const handlePrevStep = (newData) => {
-        setPortraitData(prev => ({ ...prev, ...newData }))
-
-        if (currentStep > 4) {
-        if (currentStep === 8) {
-            weaponSheet ? setCurrentStep(prev => prev - 1) : charSheet ? setCurrentStep(prev => prev - 2) : pet ? setCurrentStep(prev => prev - 3) : setCurrentStep(prev => prev - 4)
-        } 
-        if (currentStep === 7) {
-            charSheet ? setCurrentStep(prev => prev - 1) : pet ? setCurrentStep(prev => prev - 2) : setCurrentStep(prev => prev - 3)
-        }
-        if (currentStep === 6) {
-            pet ? setCurrentStep(prev => prev - 1) : setCurrentStep(prev => prev - 2)
-        }
-        if (currentStep === 5) setCurrentStep(prev => prev - 1)
-        } else {
-        setCurrentStep(prev => prev - 1)
-        }
-    } 
     
-    const steps = [
-        <StepOne 
-            next={handleNextStep} 
-            data={portraitData} 
-            variants={containerVariants} 
-            key="stepOne"
-        />, 
-        <StepTwo 
-            next={handleNextStep} 
-            prev={handlePrevStep} 
-            data={portraitData} 
-            setPet={setPet} 
-            setCharSheet={setCharSheet} 
-            setWeaponSheet={setWeaponSheet}
-            variants={containerVariants} 
-            key="stepTwo"
-        />,
-        <StepThree 
-            next={handleNextStep} 
-            prev={handlePrevStep} 
-            data={portraitData}
-            variants={containerVariants} 
-            key="stepThree"
-        />,
-        <StepFour 
-            next={handleNextStep} 
-            prev={handlePrevStep} 
-            data={portraitData}
-            variants={containerVariants}
-            key="stepFour"    
-        />,
-        {/*/ <StepSix next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
-        // <StepSeven next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
-        // <StepEight next={handleNextStep} prev={handlePrevStep} data={portraitData}/>,
-        // <StepNine next={handleNextStep} prev={handlePrevStep} data={portraitData} /> */}
-    ]
-  
-    //console.log("portraitData: ", portraitData)
+
+    // console.log('portraitData: :', portraitData)
+
+    const handleSubmit = (values) => {
+        setPortraitData(prev => ({ ...prev, ...values }))
+        setOpenWizard(false)
+    }
 
 
     return (
-        <AnimatePresence mode="wait">              
-                {steps[currentStep]}
-        </AnimatePresence> 
-  )
+        <div className="w-11/12 mx-auto">
+            <StepOne 
+                option={option} 
+                portraitData={portraitData} 
+                setPortraitData={setPortraitData} 
+                setPet={setPet}
+                setCharSheet={setCharSheet}
+                setWeaponSheet={setWeaponSheet} 
+            />
+            <div>
+                <h3>Let us know more. . .</h3>
+                <StepTwo 
+                    portraitData={portraitData} 
+                    setPortraitData={setPortraitData}
+                    pet={pet}
+                    charSheet={charSheet}
+                    weaponSheet={weaponSheet} 
+                    setOpenWizard={setOpenWizard}
+                />
+            </div>
+            {/* <div className='mt-8 w-full flex justify-around items-center'>
+                <button type="submit" onClick={handleSubmit} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
+                    Finish Portrait
+                </button>
+            </div> */}
+ 
+        </div>
+    )
 }
 
 export default Questionaire

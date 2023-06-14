@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../firebase/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -26,6 +26,7 @@ const uiConfig = {
 };
 
 export default function Portraits() {
+
   const searchParams = useSearchParams()
   const selection = searchParams.get('selection')
 
@@ -34,16 +35,36 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-
   const [portraits, setPortraits] = useState([])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState(null)
   const [editPortrait, setEditPortrait] = useState(null)
 
+  const options = {
+    Photorealistic: {
+        title: selection,
+        imgs: [],
+        testimonials: [{author: 'Bob', text: 'good job'}],
+        basePrices: []
+    },
+    Anime: {
+        title: selection,
+        imgs: [],
+        testimonials: [{author: 'Bob', text: 'good job'}],
+        basePrices: []
+    },
+    NSFW: {
+        title: selection,
+        imgs: [],
+        testimonials: [{author: 'Bob', text: 'good job'}],
+        basePrices: []
+    }
+  }
+
   const portraitList = portraits?.map((portrait, i) => (
     <div className='w-10/12 border-2 border-black rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
       <div>
-        <p className='text-black'>{portrait?.styleOne} &gt; {portrait?.styleTwo} &gt; {portrait?.styleThree}</p>
+        <p className='text-black'>{portrait?.mode}</p>
         <p className='text-black'>Customer ID: {authUser.uid}</p>
       </div>
       <div>
@@ -71,12 +92,14 @@ export default function Portraits() {
 
   async function handleCalculate () {
     for (const portrait of portraits) {
-      await addPortrait({...portrait, customer: authUser.uid });
+      await addPortrait({...portrait, customerId: authUser.uid, customer: authUser.displayName });
     }
     console.log('added them to database');
     console.log('calculating your custom quote')
     router.push(`/dashboard/${authUser.uid}`)
   }
+
+  console.log('portraits is : ', portraits)
 
   return (
     <div className='flex flex-col justify-around items-center min-h-screen bg-white text-black'>
@@ -102,7 +125,16 @@ export default function Portraits() {
       }
       
       {/* Display the portrait wizard */}
-      { openWizard && <PortraitCustomizer selection={selection} /> }
+      { openWizard && 
+        <PortraitCustomizer 
+          option={options[`${selection}`]} 
+          setOpenWizard={setOpenWizard} 
+          setPortraits={setPortraits}
+          editPortrait={editPortrait}
+          setEditPortrait={setEditPortrait}
+          editIndex={editIndex}
+          portraits={portraits}
+        /> }
       
       {/* Wizard closed show calculate price button */}
       { (!openWizard && portraits.length !== 0 && !authUser) && 

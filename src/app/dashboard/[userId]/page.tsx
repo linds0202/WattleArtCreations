@@ -16,13 +16,12 @@ type Params = {
 
 interface PortraitData {
   uid: String,
-  styleOne: String, 
-  styleTwo: String, 
-  styleThree: String, 
+  mode: String, 
   characters: [],
   questions: [], 
   price: Number,
   customer: String,
+  customerId: String,
   artist: String,
   date: Timestamp,
   status: String,
