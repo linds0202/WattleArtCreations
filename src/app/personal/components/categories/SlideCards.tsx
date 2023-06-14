@@ -59,7 +59,7 @@ export default function SlideCards({ setMode }) {
                             below and
                         </p>
                         <div className="flex justify-center">
-                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Photorealistic')}>Start Customizing</button>
+                            <motion.button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Photorealistic')} whileHover={{ scale: 1.1, transition: {duration: 0.1} }} whileTap={{ scale: 1.05 }}>Start Customizing</motion.button>
                         </div>
                         
                         <div className="h-[2px] bg-white"/>
@@ -78,7 +78,7 @@ export default function SlideCards({ setMode }) {
                             There&#39;s just one thing left to do: click the button below and
                         </p>
                         <div className="flex justify-center">
-                            <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Anime')}>Start Customizing</button>
+                            <motion.button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Anime')} whileHover={{ scale: 1.1, transition: {duration: 0.1} }} whileTap={{ scale: 1.05 }}>Start Customizing</motion.button>
                         </div>
                         
                         <div className="h-[2px] bg-white"/>
@@ -117,7 +117,7 @@ export default function SlideCards({ setMode }) {
                                 Unlock your ultimate fantasy and
                             </p>
                             <div className="flex justify-center">
-                                <button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('NSFW')}>Start Customizing</button>
+                                <motion.button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('NSFW')} whileHover={{ scale: 1.1, transition: {duration: 0.1} }} whileTap={{ scale: 1.05 }}>Start Customizing</motion.button>
                             </div>
                             
                             <div className="h-[2px] bg-white"/>

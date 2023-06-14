@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { addPortrait } from "@/app/firebase/firestore"
 import { useEffect, useState } from "react"
 
 import { delay, motion } from 'framer-motion'
 import { Formik, Form, Field } from 'formik';
+=======
+
+import Questionaire from "./questionaire/Questionaire"
+
+import { motion } from 'framer-motion'
+>>>>>>> portraits-comp
 
 import StepOne from "./questionaire/StepOne"
 import StepTwo from "./questionaire/StepTwo"
@@ -21,6 +28,7 @@ export interface PortraitData  {
     paymentComplete: Boolean,
 }
 
+<<<<<<< HEAD
 interface PortraitProps {
     editPortrait: PortraitData,
     setEditPortrait: Function,
@@ -110,6 +118,28 @@ const PortraitCustomizer = ({ editPortrait, setEditPortrait, editIndex, portrait
         </Formik>
         </div>
     )
+=======
+const PortraitCustomizer = ({ mode, setMode }: Props) => {
+
+    
+
+    const testimonialVarient = {
+    hidden: {
+        opacity: 0,
+        y: 200
+    },
+    show: {
+        opacity: 1,
+        y: 0
+    }
+    }
+  
+    return (
+    <div>
+        <Questionaire option={options[`${selection}`]}/>
+    </div>
+  )
+>>>>>>> portraits-comp
 }
 
 export default PortraitCustomizer

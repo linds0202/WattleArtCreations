@@ -226,9 +226,17 @@ table {
   width: 100%
 }
 
+.portrait-carousel-root {
+  width: 100%
+}
+
 
 .carousel .slide {
   height: 50vh;
+}
+
+.portrait-carousel .slide {
+  height: 70vh;
 }
 
 .carousel .control-next.control-arrow::before {

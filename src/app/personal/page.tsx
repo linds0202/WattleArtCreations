@@ -12,7 +12,7 @@ export default function Personal() {
     <main className="bg-white text-black no-underline min-h-screen">
       {mode === 'Home' 
         ? <Home setMode={setMode} />
-        : <PortraitSelection mode={mode} />
+        : <PortraitSelection mode={mode} setMode={setMode}/>
       }
     </main>
   )
