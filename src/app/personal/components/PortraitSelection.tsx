@@ -66,9 +66,9 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
     return (
         <div>
             {mode === 'Photorealistic' && 
-                <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="border-2 border-black h-[800px]">
+                <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[800px]">
                     
-                    <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="h-full flex flex-start pl-[10%] border-2 border-black" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
+                    <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="h-full flex flex-start pl-[10%]" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
 
                     <div className="w-[45%] flex flex-col justify-center bg-[#282828] rounded-2xl border border-white text-white h-[200px] px-10 mt-[18%]">
                         <h2 className='font-bold text-4xl mb-10 text-left'>Create a <span className="text-orange-500">{options[`${mode}`].title}</span> Portrait</h2>
@@ -79,28 +79,26 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
                     </motion.div>
                 </div>
             } 
-            <div className="relative personal flex justify-around bg-[#282828] my-[50px] py-24 text-white">
+            <div className="flex justify-around bg-[#282828] my-[50px] py-[100px] text-white relative" >
                 <motion.div className="w-[40%]" initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
                     <Carousel showArrows={false} showThumbs={false} autoPlay={true} infiniteLoop className="portrait-carousel-root portrait-carousel">
                         {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" />))}
                     </Carousel>
                 </motion.div>
                 
-                <motion.div className="w-[35%] mt-10" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
+                <motion.div className="w-[35%]" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
                     <p className="font-bold text-4xl mb-10">Insert Heading Here</p>
                     <p className="font-semibold text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pretium congue lectus a ornare. Vestibulum nec nisi accumsan, varius leo sit amet, fringilla magna.</p>
                 </motion.div>
-                <img src='./drips/personal_top_full.png' className="w-full absolute bottom-[-67%]"/>
+                <img src="./drips/personal_top_full.png" className="w-full absolute bottom-[-67%]" />
             </div>
-            <div className='py-[150px] flex flex-col items-start'>
-                <h2 className="font-bold text-4xl pl-[10%]">Testimonials: </h2>
-                <motion.div className='flex justify-around py-20 w-full' variants={container} initial='hidden' 
+            <div className='py-[150px] flex justify-center'>
+                <motion.div className='flex justify-around py-20 w-[85%]' variants={container} initial='hidden' 
                 whileInView='show'>
                     {options[`${mode}`].testimonials.map((el:object, i:number) => {
                         return <Testimonial key={i} testimonial={{author: el.author, body:el.body }} animate={true} varients={testimonialVarient} modifier={i}/>
                     })}
                 </motion.div>
-                
             </div>
             <div className="flex flex-col items-center py-[100px]">
                 <h2 className="text-4xl font-bold mb-4">Ready to start your own masterpiece?</h2>
