@@ -14,7 +14,8 @@ export default function Home ({ setMode }) {
     
     return (
         <div className="flex flex-col justify-around items-center">
-            <HeroLoader setLoading={setLoading}/>
+            {/* <HeroLoader setLoading={setLoading}/> */}
+            <Hero />
             <HIW />
             <Testimonials />
             <CategoryContainer setMode={setMode} />

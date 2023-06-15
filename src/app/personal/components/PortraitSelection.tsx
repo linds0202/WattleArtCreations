@@ -79,17 +79,18 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
                     </motion.div>
                 </div>
             } 
-            <div className="flex justify-around bg-black my-[50px] py-[100px] text-white" >
+            <div className="relative personal flex justify-around bg-[#282828] my-[50px] py-24 text-white">
                 <motion.div className="w-[40%]" initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
                     <Carousel showArrows={false} showThumbs={false} autoPlay={true} infiniteLoop className="portrait-carousel-root portrait-carousel">
                         {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" />))}
                     </Carousel>
                 </motion.div>
                 
-                <motion.div className="w-[35%] border-2 border-black" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
+                <motion.div className="w-[35%] mt-10" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
                     <p className="font-bold text-4xl mb-10">Insert Heading Here</p>
                     <p className="font-semibold text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus pretium congue lectus a ornare. Vestibulum nec nisi accumsan, varius leo sit amet, fringilla magna.</p>
                 </motion.div>
+                <img src='./drips/personal_top_full.png' className="w-full absolute bottom-[-67%]"/>
             </div>
             <div className='py-[150px] flex flex-col items-start'>
                 <h2 className="font-bold text-4xl pl-[10%]">Testimonials: </h2>

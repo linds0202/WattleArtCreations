@@ -35,34 +35,45 @@ export default function NavBar() {
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
     <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
-      <div >
+      <div className='w-3/12 flex justify-start'>
         <Link href='/' className='flex justify-between items-center no-underline'>
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
           <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
         </Link>
       </div>
-      <div className='flex justify-between items-center'>
+      <div className='w-4/12 flex justify-around items-center'>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'Photorealistic'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            Photorealistic
+        </Link>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'Anime'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            Anime
+        </Link>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'NSFW'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            NSFW
+        </Link> 
+      </div> 
+      <div className=' flex justify-between items-center'>
         <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>
         {!authUser && <button
               onClick={() => setLogin(true)}>
                 Login / Register
         </button>}
-        {authUser && 
-          <div className='flex justify-between items-center'>
-            {(authUser.roles === 'Customer' || authUser.roles === 'Artist' || authUser.roles === 'Admin') && <div className='pr-4'>
-              <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
-            </div>}
-            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
-              <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer</Link>
-            </div>}
-            {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
-              <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist</Link>
-            </div>}
-            <button onClick={signOut}>
-              Logout
-            </button>  
-          </div>            
-        }
+        {authUser && <button onClick={signOut}>Logout</button>}
       </div>
       <Dialog onClose={() => setLogin(false)} open={login}>
         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
@@ -70,3 +81,13 @@ export default function NavBar() {
     </div>
   );
 }
+
+// {(authUser.roles === 'Customer' || authUser.roles === 'Artist' || authUser.roles === 'Admin') && <div className='pr-4'>
+//   <Link href={'/admin'} className='text-white no-underline'>Admin</Link>
+// </div>}
+// {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+//   <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer</Link>
+// </div>}
+// {(authUser.roles.includes('Customer') || authUser.roles.includes('artist') || authUser.roles.includes('admin')) && <div className='pr-4'>
+//   <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist</Link>
+// </div>}

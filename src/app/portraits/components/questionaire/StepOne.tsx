@@ -142,7 +142,7 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
                     <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
                         <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
                         <h4 className='m-0'>Add character</h4>
-                        {portraitData.characters?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
+                        {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
                     </Button>
                 </div>
             }
