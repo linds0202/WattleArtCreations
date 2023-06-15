@@ -15,6 +15,7 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             title: mode,
             imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
             splashImg: './splashArt/PR.png',
+            bgImg: './splashArt/PRBackground_V2.png',
             testimonials: [{author: 'Bob', body: 'good job'}, {author: 'Jodie', body: 'wonderful artwork'}, {author: 'Alex', body: 'u get awesome art'}],
             basePrices: []
         },
@@ -32,6 +33,7 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
         }
     }
     const imgSrc = options[`${mode}`].splashImg
+    const bgImgSrc = options[`${mode}`].bgImg
     console.log('imgSrc is: ', imgSrc)
 
     useEffect(() => {
@@ -62,16 +64,20 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
     console.log(options[`${mode}`].testimonials)
   
     return (
-        <div className="py-20">
+        <div>
             {mode === 'Photorealistic' && 
-                <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="h-[600px] flex flex-start pl-[10%]" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1, delay:.3}}>
-                    <div className="w-[40%] flex flex-col justify-center">
+                <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="border-2 border-black h-[800px]">
+                    
+                    <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="h-full flex flex-start pl-[10%] border-2 border-black" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
+
+                    <div className="w-[45%] flex flex-col justify-center bg-[#282828] rounded-2xl border border-white text-white h-[200px] px-10 mt-[18%]">
                         <h2 className='font-bold text-4xl mb-10 text-left'>Create a <span className="text-orange-500">{options[`${mode}`].title}</span> Portrait</h2>
                         <p className="text-xl mb-[5%]">Design your own piece of art that&apos;s sure to enhance any setting</p>
                     </div>
-                
                     
-                </motion.div>
+                        
+                    </motion.div>
+                </div>
             } 
             <div className="flex justify-around bg-black my-[50px] py-[100px] text-white" >
                 <motion.div className="w-[40%]" initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
