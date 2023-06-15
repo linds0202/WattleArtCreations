@@ -75,7 +75,13 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             } 
             <div className="relative personal flex justify-around bg-[#282828] my-[50px] py-24 text-white">
                 <motion.div className="w-[40%]" initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                    <Carousel showArrows={false} showThumbs={false} autoPlay={true} infiniteLoop className="portrait-carousel-root portrait-carousel">
+                    <Carousel 
+                        showArrows={false} 
+                        showThumbs={false}
+                        showStatus={false} 
+                        autoPlay={true} 
+                        infiniteLoop className="portrait-carousel-root portrait-carousel"
+                    >
                         {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" />))}
                     </Carousel>
                 </motion.div>
