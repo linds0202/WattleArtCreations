@@ -95,7 +95,7 @@ const Hero = () => {
         <motion.img 
           className="absolute -top-2 left-0 z-10" 
           src='./drips/hero_drip_alt2.png'
-          initial= {{ y: -20, opacity: 0 }} 
+          initial= {{ y: -100, opacity: 0 }} 
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 3, duration: 1.5 }}
         />
