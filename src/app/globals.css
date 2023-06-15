@@ -330,12 +330,6 @@ table {
 } 
 
 
-.progress-bar {
-  position: fixed;
-  top: 40;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: red;
-  transform-origin: 0%;
-}
+/* Personal Categories */
+
+
