@@ -97,12 +97,12 @@ const Hero = () => {
           src='./drips/hero_drip_alt2.png'
           initial= {{ y: -20, opacity: 0 }} 
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 5, duration: 1.5 }}
+          transition={{ delay: 3, duration: 1.5 }}
         />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 6, duration: 1.5 }}
+          transition={{ delay: 4, duration: 1.5 }}
           className='z-20 absolute top-5 right-20'
         >
             <h1 className="text-orange-500 font-bold text-5xl">Wattle Art Creations</h1>
