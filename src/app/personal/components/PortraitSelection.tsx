@@ -60,8 +60,6 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             y: 0
         }
         }
-
-    console.log(options[`${mode}`].testimonials)
   
     return (
         <div>
