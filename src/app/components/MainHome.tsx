@@ -15,7 +15,7 @@ export default function MainHome () {
     
     return (
         <div>
-            <div className="switch border-2 border-black" data-isOn={isOn} onClick={toggleSwitch}>
+            <div className="switch border-2 border-black" data-ison={isOn} onClick={toggleSwitch}>
                 <motion.div className="handle" layout transition={spring} />
             </div>
         </div>
