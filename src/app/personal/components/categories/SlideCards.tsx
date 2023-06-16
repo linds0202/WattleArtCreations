@@ -72,7 +72,7 @@ export default function SlideCards({ setMode }) {
                         below and
                     </p>
                     <div className="flex justify-center">
-                        <motion.button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Photorealistic')} whileHover={{ scale: 1.1, transition: {duration: 0.1} }} whileTap={{ scale: 1.05 }}>Start Customizing</motion.button>
+                    <motion.button className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode('Photorealistic')} whileHover={{ scale: 1.1, transition: {duration: 0.1} }} whileTap={{ scale: 1.05 }}>Start Customizing</motion.button>
                     </div>
                     
                     <div className="h-[2px] bg-white"/>
