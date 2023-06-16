@@ -36,7 +36,7 @@ table {
 .hero {
   background-image: url('/hero2.png');
   background-size: cover;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 

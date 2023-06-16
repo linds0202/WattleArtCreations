@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Hero from "./Hero"
+import ParallaxHero from "./ParallaxHero"
 import HeroLoader from "./HeroLoader"
 import HIW from "./HIW"
 import CategoryContainer from "./categories/CategoryContainer"
@@ -15,7 +16,8 @@ export default function Home ({ setMode }) {
     return (
         <div className="flex flex-col justify-around items-center">
             {/* <HeroLoader setLoading={setLoading}/> */}
-            <Hero />
+            {/* <Hero /> */}
+            <ParallaxHero />
             <HIW />
             <Testimonials />
             <CategoryContainer setMode={setMode} />
