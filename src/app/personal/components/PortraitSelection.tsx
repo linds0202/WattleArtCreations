@@ -88,7 +88,7 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
                 </div>
             } 
             <div className="flex justify-around bg-[#282828] my-[50px] py-[100px] text-white relative" >
-                <motion.div className="w-[40%]" initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
+                <motion.div className="w-[40%] shadow-lg shadow-white" >
                     <Carousel 
                         showArrows={false} 
                         showThumbs={false}
