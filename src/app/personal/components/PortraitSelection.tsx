@@ -1,8 +1,13 @@
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Testimonial from "./Testimonial"
 import { Carousel } from "react-responsive-carousel"
+import {
+    motion,
+    useScroll,
+    useTransform,
+} from "framer-motion";
+
 
 interface Props {
     mode: string,
@@ -60,20 +65,25 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             y: 0
         }
         }
+
+    let { scrollY } = useScroll()
+    let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
+    let opacity = useTransform(scrollY, [0, 300], [0, 1])
   
     return (
         <div>
             {mode === 'Photorealistic' && 
-                <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[800px]">
+                <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
                     
-                    <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="h-full flex flex-start pl-[10%]" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
-
-                    <div className="w-[45%] flex flex-col justify-center bg-[#282828] rounded-2xl border border-white text-white h-[200px] px-10 mt-[18%]">
-                        <h2 className='font-bold text-4xl mb-10 text-left'>Create a <span className="text-orange-500">{options[`${mode}`].title}</span> Portrait</h2>
-                        <p className="text-xl mb-[5%]">Design your own piece of art that&apos;s sure to enhance any setting</p>
-                    </div>
-                    
-                        
+                    {/* <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', y}} className="h-full flex flex-start pl-[10%]" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
+                    </motion.div> */}
+                    <motion.div className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}}>
+                        <div style={{ backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="w-full h-full flex items-center pl-[5%]">
+                            <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl border border-white text-white h-[200px] px-10 ">
+                                <h2 className='font-bold text-4xl mb-10 text-left'>Create a <span className="text-orange-500">{options[`${mode}`].title}</span> Portrait</h2>
+                                <p className="text-xl mb-[5%]">Design your own piece of art that&apos;s sure to enhance any setting</p>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             } 
