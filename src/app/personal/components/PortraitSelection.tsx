@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { useEffect } from 'react'
 import Testimonial from "./Testimonial"
 import { Carousel } from "react-responsive-carousel"
+import { useScroll } from "framer-motion"
 
 interface Props {
     mode: string,
@@ -60,8 +61,6 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
             y: 0
         }
         }
-
-    console.log(options[`${mode}`].testimonials)
   
     return (
         <div>
