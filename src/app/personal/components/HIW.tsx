@@ -38,9 +38,8 @@ const HIW = () => {
         }
     }
 
-const words = 'How_It_Works';
+const words = 'How It Works';
 const letters = words.split('');
-console.log('letters: ', letters)
 
 const FADE_IN_ANIMATION_VARIANTS = {
     initial: { y: 200, opacity: 0 },
@@ -54,7 +53,7 @@ const FADE_IN_ANIMATION_VARIANTS = {
         <div className='w-6/12 mx-auto mb-[75px] flex justify-center'>
             {/* <div className='w-[50%] flex flex-col items-start'> */}
             {letters.map((letter, i) => (
-                <motion.h1
+                <motion.p
                     key={i}
                     variants={FADE_IN_ANIMATION_VARIANTS}
                     initial="initial"
@@ -63,8 +62,8 @@ const FADE_IN_ANIMATION_VARIANTS = {
                     viewport={{amount: 0.4, once: true}}
                     className="text-center font-display text-4xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]"
                 >
-                    {letter}
-                </motion.h1>
+                    {letter === ' ' ? <span>&nbsp;</span> : letter}
+                </motion.p>
                 ))}
                 {/* <motion.h2 
                     className='text-6xl font-bold mb-2' 

@@ -34,7 +34,7 @@ table {
 
 /* HERO SECTION */
 .hero {
-  background-image: url('/hero2.png');
+  background-image: url('/heroImgs/hero_bg.png');
   background-size: cover;
   /* height: 100vh; */
 }
