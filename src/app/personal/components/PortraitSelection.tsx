@@ -39,7 +39,6 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
     }
     const imgSrc = options[`${mode}`].splashImg
     const bgImgSrc = options[`${mode}`].bgImg
-    console.log('imgSrc is: ', imgSrc)
 
     useEffect(() => {
         window.scrollTo(0, 0)

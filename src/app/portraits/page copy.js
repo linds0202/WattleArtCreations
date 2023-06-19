@@ -40,26 +40,26 @@ export default function Portraits() {
   const [editIndex, setEditIndex] = useState(null)
   const [editPortrait, setEditPortrait] = useState(null)
 
-  const options = {
-    Photorealistic: {
-        title: selection,
-        imgs: [],
-        testimonials: [{author: 'Bob', text: 'good job'}],
-        basePrices: []
-    },
-    Anime: {
-        title: selection,
-        imgs: [],
-        testimonials: [{author: 'Bob', text: 'good job'}],
-        basePrices: []
-    },
-    NSFW: {
-        title: selection,
-        imgs: [],
-        testimonials: [{author: 'Bob', text: 'good job'}],
-        basePrices: []
-    }
-  }
+  // const options = {
+  //   Photorealistic: {
+  //       title: selection,
+  //       imgs: [],
+  //       testimonials: [{author: 'Bob', text: 'good job'}],
+  //       basePrices: []
+  //   },
+  //   Anime: {
+  //       title: selection,
+  //       imgs: [],
+  //       testimonials: [{author: 'Bob', text: 'good job'}],
+  //       basePrices: []
+  //   },
+  //   NSFW: {
+  //       title: selection,
+  //       imgs: [],
+  //       testimonials: [{author: 'Bob', text: 'good job'}],
+  //       basePrices: []
+  //   }
+  // }
 
   const portraitList = portraits?.map((portrait, i) => (
     <div className='w-10/12 border-2 border-black rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
@@ -95,7 +95,6 @@ export default function Portraits() {
       await addPortrait({...portrait, customerId: authUser.uid, customer: authUser.displayName });
     }
     console.log('added them to database');
-    console.log('calculating your custom quote')
     router.push(`/dashboard/${authUser.uid}`)
   }
 
@@ -127,7 +126,7 @@ export default function Portraits() {
       {/* Display the portrait wizard */}
       { openWizard && 
         <PortraitCustomizer 
-          option={options[`${selection}`]} 
+          option={selection} 
           setOpenWizard={setOpenWizard} 
           setPortraits={setPortraits}
           editPortrait={editPortrait}

@@ -156,6 +156,11 @@ export async function getPortrait(uid) {
   }
 }
 
+export async function updateOrCreatePortrait(portraitId, {userId}) {
+  const imageUrl = await getDownloadURL(imageBucket)
+  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
+}
+
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})

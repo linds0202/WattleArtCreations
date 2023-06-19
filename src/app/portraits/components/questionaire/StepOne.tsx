@@ -19,16 +19,34 @@ interface MyCharValues {
 }
 
 interface MyCharProps {
-    option: String,
+    setPortraitData: Function,
     portraitData: PortraitData, 
     chars: MyCharValues[],
     setChars: Function,
     setPet: Function,
     setCharSheet: Function, 
-    setWeaponSheet: Function
+    setWeaponSheet: Function,
 }
 
-const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
+const prices = {
+    Photorealistic: {
+        Headshot: 10,
+        Half: 15,
+        Full: 20
+    },
+    Anime: {
+        Headshot: 12,
+        Half: 17,
+        Full: 22
+    },
+    NSFW: {
+        Headshot: 15,
+        Half: 25,
+        Full: 40
+    }
+}
+
+const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
 
     const [openCharMod, setOpenCharMod] = useState(false);
     const [isEdit, setIsEdit] = useState(false)
@@ -50,6 +68,7 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
         
             if(char.extras.includes('weapons')) setWeaponSheet(true)
         })
+
     }, [chars])
 
     const handleCharSubmit = (values) => {
@@ -75,7 +94,6 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
         } else {
             setChars([...chars, values])
         }
-
         setIsEdit(false)
         setOpenCharMod(false)
     }
@@ -105,12 +123,16 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
         
         setChars(deleteCharArr)
     }
-    
+
+    // const handleSubmit = () => {
+    //     setPortraitData({...portraitData, characters: chars}) 
+    // }
+
     return (
     <>
         <div className="h-[300px] w-full flex flex-col justify-center items-center">
-            <h2 className="w-full text-4xl text-center">Welcome to the {option.title} Portrait Customizer</h2>
-            <p className="w-full text-center pt-4">Make your selections to customize your personal portrait</p>
+            <h2 className="w-full text-4xl text-center">Welcome to the {portraitData.mode} Portrait Customizer</h2>
+            <p className="w-full text-center pt-4">Make your selections to customize your portrait</p>
         </div>
 
         <div className='flex justify-between'>
@@ -153,100 +175,104 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
             maxWidth='lg'
             PaperProps={{ sx: { p: 10, backgroundColor: "white" } }}
         >
-            <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
             <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
-            <Formik
-                initialValues={initialCharValues}
-                onSubmit={handleCharSubmit}
-                // enableReinitialize
-                >
-                {({ handleChange, values }) => (
-                <Form>
-                    {/* radio buttons */}
-                    <div className='w-10/12 flex mb-4'>
-                        <p className='mr-4 mb-0'>Body style:</p>
-                        <label className='ml-4'>
-                            <Field type="radio" name="bodyStyle" value="Headshot" required />
-                            Headshot
-                        </label>
-                        <label className='ml-4'>
-                            <Field type="radio" name="bodyStyle" value="Half" required/>
-                            Half
-                        </label>
-                        <label className='ml-4'>
-                            <Field type="radio" name="bodyStyle" value="Full" required/>
-                            Full
-                        </label>
-                    </div>
-                        
-                    <div className='flex items-center'>
-                        <p className='mr-4 mb-0'>Number of character variations:</p>
-                        <TextField
-                            type="number"
-                            name="numCharVariations"
-                            value={values.numCharVariations}
-                            onChange={handleChange}
-                            size="small"
-                            inputProps={{
-                            min: 1,
-                            style: {
-                                textAlign: "center",
-                                color: "black",
-                                fontSize: 12,
-                                width: '40px'
-                            }
-                            }}
-                        />
-                    </div>
-
-                    {/* check boxes */}
-                    <label>
-                    <Field type="checkbox" name="pets" className='mt-4'/>
-                    Pets {values.pets && <span>Use the slider to select # of pets</span> }
-                    </label>
-
-                    {values.pets && 
-                        <div>
-                            <Slider
-                                name="numPets"
-                                min={0}
-                                max={10}
-                                step={1}
-                                defaultValue={0}
-                                valueLabelDisplay="auto"
-                                marks
-                                value={values.numPets}
+            <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
+            <div className="flex">
+                <Formik
+                    initialValues={initialCharValues}
+                    onSubmit={handleCharSubmit}
+                    >
+                    {({ handleChange, values }) => (
+                    <Form>
+                        {/* radio buttons */}
+                        <div className='w-10/12 flex mb-4'>
+                            <p className='mr-4 mb-0'>Body style:</p>
+                            <label className='ml-4'>
+                                <Field type="radio" name="bodyStyle" value="Headshot" required />
+                                Headshot
+                            </label>
+                            <label className='ml-4'>
+                                <Field type="radio" name="bodyStyle" value="Half" required/>
+                                Half
+                            </label>
+                            <label className='ml-4'>
+                                <Field type="radio" name="bodyStyle" value="Full" required/>
+                                Full
+                            </label>
+                        </div>
+                            
+                        <div className='flex items-center'>
+                            <p className='mr-4 mb-0'>Number of character variations:</p>
+                            <TextField
+                                type="number"
+                                name="numCharVariations"
+                                value={values.numCharVariations}
                                 onChange={handleChange}
-                            />    
-                        </div>                        
-                    }  
+                                size="small"
+                                inputProps={{
+                                min: 1,
+                                style: {
+                                    textAlign: "center",
+                                    color: "black",
+                                    fontSize: 12,
+                                    width: '40px'
+                                }
+                                }}
+                            />
+                        </div>
 
-                    {/* Extras */}
-                    <p className='mr-4 mb-0'>Extras:</p>
-                    <div className='ml-4 mt-2'>
+                        {/* check boxes */}
                         <label>
-                            <Field type="checkbox" name="extras" value="model" className='mr-2' />
-                            <span className='ml-2'>3D Model</span>
+                        <Field type="checkbox" name="pets" className='mt-4'/>
+                        Pets {values.pets && <span>Use the slider to select # of pets</span> }
                         </label>
-                    </div>
-                    <div className='ml-4 mt-2'>
-                        <label>
-                            <Field type="checkbox" name="extras" value="character" className='mr-2' />
-                            <span className='ml-2'>Character Sheet</span>
-                        </label>
-                    </div>
-                    <div className='ml-4 mt-2'>
-                        <label>
-                            <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
-                            <span className='ml-2'>Weapons Sheet</span>
-                        </label>
-                    </div>
-                    <button type="submit" className='text-black border-2 border-black rounded-lg p-2 mt-4'>Submit</button>
-                </Form>
-                )}
+
+                        {values.pets && 
+                            <div>
+                                <Slider
+                                    name="numPets"
+                                    min={0}
+                                    max={10}
+                                    step={1}
+                                    defaultValue={0}
+                                    valueLabelDisplay="auto"
+                                    marks
+                                    value={values.numPets}
+                                    onChange={handleChange}
+                                />    
+                            </div>                        
+                        }  
+
+                        {/* Extras */}
+                        <p className='mr-4 mb-0'>Extras:</p>
+                        <div className='ml-4 mt-2'>
+                            <label>
+                                <Field type="checkbox" name="extras" value="model" className='mr-2' />
+                                <span className='ml-2'>3D Model</span>
+                            </label>
+                        </div>
+                        <div className='ml-4 mt-2'>
+                            <label>
+                                <Field type="checkbox" name="extras" value="character" className='mr-2' />
+                                <span className='ml-2'>Character Sheet</span>
+                            </label>
+                        </div>
+                        <div className='ml-4 mt-2'>
+                            <label>
+                                <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
+                                <span className='ml-2'>Weapons Sheet</span>
+                            </label>
+                        </div>
+                        <button type="submit" className='text-black border-2 border-black rounded-lg p-2 mt-4'>Submit</button>
+                    </Form>
+                    )}
                 </Formik>
+                <div>
+                    <p>{}</p>
+                </div>
+            </div>
         </Dialog>
 
         {/* <Formik
@@ -254,12 +280,16 @@ const StepOne = ({ option, portraitData, chars, setChars, setPet, setCharSheet, 
             onSubmit={handleSubmit}
         >
             {({ values }) => (
-            <Form>
-                <div className='flex justify-around items-center w-8/12 mx-auto'>
-                    <button type="submit" className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>
-                        {portraitData.characters.length === 0 ? 'Add Character(s) to Portrait' : 'Update Characters'}
+            <Form> */}
+                {/* <div className='flex justify-around items-center w-8/12 mx-auto'>
+                    <button 
+                        // type="submit" 
+                        onClick={handleSubmit}
+                        className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>
+                        Finished Adding Characters
                     </button>
-                </div>
+                </div> */}
+{/*                 
             </Form>
             )}
         </Formik> */}
