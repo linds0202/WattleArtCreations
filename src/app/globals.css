@@ -353,3 +353,12 @@ table {
   border-radius: 40px;
 }
 
+.home-layout {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.home-layout[data-isOn="true"] {
+  flex-direction: row-reverse;
+}
+

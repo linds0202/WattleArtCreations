@@ -2,18 +2,73 @@
 
 import Link from 'next/link';
 import "./globals.css";
-import MainHome from './components/MainHome';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+const spring = {
+    type: "spring",
+    stiffness: 700,
+    damping: 30
+};
 
 export default function Home() {
+  
+  const [isOn, setIsOn] = useState(true);
+  const [rotater, setRotater] = useState(0)
+  
+  const toggleSwitch = () => {
+    setIsOn(!isOn)
+    isOn ? setRotater(360) : setRotater(0)
+  }; 
+
+
+  
   return (
-    <main className=" h-[90vh] p-24 bg-white text-black flex flex-col justify-center items-center">
-      <div className='flex justify-between items-center w-8/12 m-auto text-3xl text-black'>
-        <Link href='/personal'>Personal</Link>
-        <img src='./Logo_Full_ups.png' className='w-4/12'/>
-        <Link href='/corporate'>Corporate</Link>
+    <main className={`h-[90vh] p-24 flex flex-col justify-center items-center ${isOn ? 'bg-white' : 'bg-[#282828]'}`}>
+        <div 
+          className={`home-layout flex items-center w-11/12 m-auto text-3xl ${isOn ? 'text-black' : 'text-white'}`}
+          data-ison={isOn}
+        >
+          <motion.div
+            layout 
+            transition={{
+              spring,
+              layout: { duration: 1 }
+            }}
+          >
+            <Link 
+              href={isOn ? '/personal' : '/corporate'}
+              className={` block w-5/12 text-6xl font-bold`}
+            >
+              {isOn ? 'Personal' : 'Corporate'}
+            </Link>
+          </motion.div>
+          
+          <motion.img 
+            layout 
+            initial={{
+              rotateY: 0,
+            }}
+            animate={{
+              rotateY: rotater,
+            }}
+            transition={{
+              layout: { duration: 1 },
+              type: 'tween',
+              ease: 'easeInOut',
+              repeat: 0,
+              duration: 1.5,
+            }}
+            src='./Logo_Full_ups.png' 
+            className='w-5/12'
+          />
+        </div>
         
+        
+      {/* </div> */}
+      <div className="switch border-2 border-black" data-ison={isOn} onClick={toggleSwitch}>
+          <motion.div className="handle" layout transition={spring} />
       </div>
-      <MainHome />
     </main>
   )
 }
