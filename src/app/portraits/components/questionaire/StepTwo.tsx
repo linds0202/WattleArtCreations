@@ -1,6 +1,24 @@
 import { Field } from 'formik';
 import Accordion from './Accordion';
+import { useState, useEffect } from 'react'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Button, Dialog } from '@mui/material';
+import { EmailAuthProvider } from 'firebase/auth';
+import { auth } from '@/app/firebase/firebase';
+import { useAuth } from '@/app/firebase/auth';
+import { useRouter } from 'next/navigation';
 
+// Configure FirebaseUI., 
+const uiConfig = {
+    signInFlow: 'popup', 
+    signInOptions: [
+      EmailAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+        // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: () => false,
+    },
+};
 
 interface MyQuestionProps { 
     pet: Boolean,
@@ -9,9 +27,41 @@ interface MyQuestionProps {
 }
 
 const StepTwo = ({ pet, charSheet, weaponSheet } : MyQuestionProps) => {
+    
+    const { authUser, isLoading } = useAuth();
+    const router = useRouter();
+
+    const [login, setLogin] = useState(false);
+    
+    useEffect(() => {
+        !authUser ? setLogin(true) : setLogin(false)
+    }, [authUser])
+
+    const handleRedirect = () => {
+        router.push('/personal')
+    }
 
     return (
-        <>        
+        <>
+            {/* Prompt for login */}
+            <Dialog onClose={() => setLogin(false)} open={login}>
+                <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
+                    <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+                    <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
+                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+                    <Button 
+                        onClick={handleRedirect}
+                        className='pt-4'
+                    >
+                        <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
+                            <p className='text-md' >Return to Homepage</p>
+                            <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
+                        </div>
+                            
+                    </Button>
+                    
+                </div>
+            </Dialog>        
             {/* Character Qs */}
             <Accordion title="Characters" >
                 <label className='text-sm leading-3'>

@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Dialog, CircularProgress } from '@mui/material';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
@@ -15,6 +15,7 @@ import { auth } from '../firebase/firebase';
 // Configure FirebaseUI.
 const uiConfig = {
   signInFlow: 'popup', // popup signin flow rather than redirect flow
+  // signInSuccessUrl: '/',
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
   ],
@@ -29,9 +30,22 @@ const uiConfig = {
 export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const router = useRouter();
+  // const REDIRECT_PAGE = usePathname()
   const [login, setLogin] = useState(false);  
   
-  return ((isLoading) ? 
+  const handleClose = () => {
+    setLogin(false)
+  }
+
+
+  // Redirect if finished loading and there's an existing user (user is logged in)
+  useEffect(() => {
+    if (authUser) {
+      setLogin(false)
+    }
+  }, [authUser])
+
+  return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
     <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
@@ -69,23 +83,30 @@ export default function NavBar() {
       </div> 
       <div className=' flex justify-between items-center'>
         <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>
-        {authUser.roles === 'Admin' && <div className='pr-4'>
-          <Link href={'/admin'} className='text-white no-underline'>Admin Dashboards</Link>
-        </div>}
-        {(authUser.roles === 'Customer' || authUser.roles === 'admin') && <div className='pr-4'>
-          <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer Dashboard</Link>
-        </div>}
-        {(authUser.roles === 'Artist' || authUser.roles === 'admin') && <div className='pr-4'>
-          <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
-        </div>}
         {!authUser && <button
               onClick={() => setLogin(true)}>
                 Login / Register
         </button>}
-        {authUser && <button onClick={signOut}>Logout</button>}
+
+
+        {authUser && 
+        <>
+          {authUser.roles === 'Admin' && <div className='pr-4'>
+            <Link href={'/admin'} className='text-white no-underline'>Admin Dashboards</Link>
+          </div>}
+          {(authUser.roles === 'Customer' || authUser.roles === 'admin') && <div className='pr-4'>
+            <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer Dashboard</Link>
+          </div>}
+          {(authUser.roles === 'Artist' || authUser.roles === 'admin') && <div className='pr-4'>
+            <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
+          </div>}
+          <button onClick={signOut}>Logout</button>
+        </>  
+        }
+      
       </div>
-      <Dialog onClose={() => setLogin(false)} open={login}>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+      <Dialog onClose={handleClose} open={login}>
+        {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
       </Dialog>
     </div>
   );
