@@ -27,12 +27,16 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
         Anime: {
             title: mode,
             imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
+            splashImg: './splashArt/Anime.png',
+            bgImg: './splashArt/PRBackground_V2.png',
             testimonials: [{author: 'Bob', body: 'good job'}],
             basePrices: []
         },
         NSFW: {
             title: mode,
             imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
+            splashImg: './splashArt/NSFW.png',
+            bgImg: './splashArt/PRBackground_V2.png',
             testimonials: [{author: 'Bob', body: 'good job'}],
             basePrices: []
         }
@@ -66,16 +70,13 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
         }
 
     let { scrollY } = useScroll()
-    let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
-    let opacity = useTransform(scrollY, [0, 300], [0, 1])
+    let y = useTransform(scrollY, [0, 200], ['100%', '0%'])
+    let opacity = useTransform(scrollY, [0, 200], [0, 1])
   
     return (
         <div>
-            {mode === 'Photorealistic' && 
+            
                 <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
-                    
-                    {/* <motion.div style={{backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', y}} className="h-full flex flex-start pl-[10%]" initial={{opacity: 0, y:200}} animate={{opacity: 1, y:0}} transition={{duration: 1.25, delay:.3}}>
-                    </motion.div> */}
                     <motion.div className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}}>
                         <div style={{ backgroundImage: `url(${imgSrc})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}} className="w-full h-full flex items-center pl-[5%]">
                             <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl border border-white text-white h-[200px] px-10 ">
@@ -85,7 +86,7 @@ const PortraitSelection = ({ mode, setMode }: Props) => {
                         </div>
                     </motion.div>
                 </div>
-            } 
+
             <div className="flex justify-around bg-[#282828] my-[50px] py-[100px] text-white relative" >
                 <motion.div className="w-[40%] shadow-lg shadow-white" >
                     <Carousel 
