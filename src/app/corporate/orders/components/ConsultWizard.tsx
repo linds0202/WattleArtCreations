@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { useAuth } from '@/app/firebase/auth';
 import { EmailAuthProvider } from 'firebase/auth';
 import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { auth } from '@/app/firebase/firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { addConsult } from '@/app/firebase/firestore';
 import { AnimatePresence, motion, spring } from "framer-motion"
-import CloseIcon from '@mui/icons-material/Close';
+
 
 interface CorporateData {
   category: String, 

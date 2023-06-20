@@ -37,7 +37,7 @@ export default function Home() {
             layout 
             transition={{
               spring,
-              layout: { duration: 1 }
+              layout: { duration: .5 }
             }}
           >
             <Link 
@@ -50,18 +50,18 @@ export default function Home() {
           
           <motion.img 
             layout 
-            initial={{
-              rotateY: 0,
-            }}
-            animate={{
-              rotateY: rotater,
-            }}
+            // initial={{
+            //   rotateY: 0,
+            // }}
+            // animate={{
+            //   rotateY: rotater,
+            // }}
             transition={{
-              layout: { duration: 1 },
+              layout: { duration: .5 },
               type: 'tween',
               ease: 'easeInOut',
               repeat: 0,
-              duration: 1,
+              duration: .5,
             }}
             src='./Logo_Full_ups.png' 
             className='w-5/12'
