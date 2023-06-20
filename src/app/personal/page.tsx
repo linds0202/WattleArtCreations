@@ -11,7 +11,7 @@ export default function Personal() {
   return (
     <main className="bg-white text-black no-underline min-h-screen">
       {mode === 'Home' 
-        ? <Home setMode={setMode} />
+        ? <Home setMode={setMode} mode={mode} />
         : <PortraitSelection mode={mode} setMode={setMode}/>
       }
     </main>

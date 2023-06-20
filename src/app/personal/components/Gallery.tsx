@@ -80,7 +80,7 @@ export default function Gallery() {
     }, []);
   
     return (
-      <div className="mt-40">
+      <div className="mt-10">
         
         <section className='flex flex-col' >
           

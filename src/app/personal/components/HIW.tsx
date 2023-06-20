@@ -49,7 +49,7 @@ const FADE_IN_ANIMATION_VARIANTS = {
 
 
   return (
-    <div className='w-full flex flex-col items-center pt-[100px] mb-[200px] text-black'>
+    <div className='w-full flex flex-col items-center pt-[100px] mb-[100px] text-black'>
         <div className='w-6/12 mx-auto mb-[75px] flex justify-center'>
             {/* <div className='w-[50%] flex flex-col items-start'> */}
             {letters.map((letter, i) => (

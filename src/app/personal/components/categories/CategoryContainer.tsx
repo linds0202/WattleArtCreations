@@ -1,16 +1,51 @@
-import React from 'react'
-
+import {  useState } from 'react'
+import { ModeProps } from '../Home'
 import { FadeHeader } from './FadeHeader'
-import SlideCards from './SlideCards'
+import { motion, AnimatePresence } from 'framer-motion'
+import SlideCard from './SlideCard'
 
-const CategoryContainer = ({ setMode }) => {
+const CategoryContainer = ({ setMode, mode }: ModeProps) => {
+
+  const categories = ['Photorealistic', 'Anime', 'NSFW']
+  const [selectedCat, setSelectedCat] = useState(categories[0]);
 
   return (
-    <div className='w-full py-[50px] mt-20'>
-        <FadeHeader />
-        <div className="flex justify-center">
-            <SlideCards setMode={setMode} />
-        </div>
+    <div className='w-full mt-[75px] py-8'>
+      <FadeHeader />
+      {/* <div className="flex justify-center">
+          <SlideCards setMode={setMode} />
+      </div> */}
+
+      
+      <nav className='w-11/12 mx-auto border-2 border-[#eeeeee] rounded-t-xl pl-2 pt-2 pr-2'>
+        <ul className='flex rounded-t-xl'>
+          {categories.map((item, i) => (
+            <li
+              key={i}
+              className={`category-li ${item === selectedCat ? "selected" : ""}`}
+              onClick={() => setSelectedCat(item)}
+            >
+              <p className='text-xl py-2'>{item}</p>
+              {item === selectedCat ? (
+                <motion.div className="underline" layoutId="underline" />
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <main className='w-11/12 mx-auto border-2 border-[#eeeeee]'>
+        <AnimatePresence mode='wait'>
+          <motion.div
+            key={selectedCat ? selectedCat : "empty"}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {selectedCat ? <SlideCard mode={selectedCat} setMode={setMode} /> : "😋"}
+          </motion.div>
+        </AnimatePresence>
+      </main>
     </div>
   )
 }

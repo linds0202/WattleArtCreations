@@ -9,7 +9,12 @@ import ActionCall from "./ActionCall"
 import Testimonials from "./Testimonials"
 import Footer from "@/app/components/Footer"
 
-export default function Home ({ setMode }) {
+export interface ModeProps {
+    mode: string,
+    setMode: Function
+}
+
+export default function Home ({ setMode, mode }: ModeProps) {
     
     const [loading, setLoading] = useState(true);
     
@@ -20,7 +25,7 @@ export default function Home ({ setMode }) {
             <ParallaxHero />
             <HIW />
             <Testimonials />
-            <CategoryContainer setMode={setMode} />
+            <CategoryContainer setMode={setMode} mode={mode}/>
             <Gallery />
             <ActionCall />
             <Footer />

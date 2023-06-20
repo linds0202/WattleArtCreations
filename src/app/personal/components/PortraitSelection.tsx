@@ -7,14 +7,9 @@ import {
     useScroll,
     useTransform,
 } from "framer-motion";
+import { ModeProps } from "./Home";
 
-
-interface Props {
-    mode: string,
-    setMode: Function
-}
-
-const PortraitSelection = ({ mode, setMode }: Props) => {
+const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const options = {
         Photorealistic: {
             title: mode,
