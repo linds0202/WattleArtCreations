@@ -47,7 +47,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
             className='relative'
           >
             {selectedCat ? <SlideCard mode={selectedCat} setMode={setMode} /> : "😋"}
-            <img src="./drips/personal_underHang.png" className="w-full absolute top[100%] left-0 right-0" />
+            <img src="./drips/personal_underHang.png" className="w-full absolute top-[99%] left-0 right-0" />
           </motion.div>
         </AnimatePresence>
       </main>

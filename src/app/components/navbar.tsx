@@ -29,6 +29,7 @@ const uiConfig = {
 
 export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
+  const currentUrl = usePathname()
   const router = useRouter();
   // const REDIRECT_PAGE = usePathname()
   const [login, setLogin] = useState(false);  
@@ -36,6 +37,8 @@ export default function NavBar() {
   const handleClose = () => {
     setLogin(false)
   }
+
+  console.log('path is: ', currentUrl)
 
 
   // Redirect if finished loading and there's an existing user (user is logged in)
@@ -49,12 +52,15 @@ export default function NavBar() {
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
     <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
-      <div className='w-3/12 flex justify-start'>
+      <div className='w-4/12 flex justify-start'>
         <Link href='/' className='flex justify-between items-center no-underline'>
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
           <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
         </Link>
       </div>
+
+      {/* Links for Personal Route */}
+      {currentUrl === '/personal' && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
                 pathname: '/portraits',
@@ -80,8 +86,38 @@ export default function NavBar() {
         >
             NSFW
         </Link> 
-      </div> 
-      <div className=' flex justify-between items-center'>
+      </div> }
+
+
+      {/* Links for Corporate Route */}
+      {currentUrl === '/corporate' && 
+      <div className='w-4/12 flex justify-around items-center'>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'Photorealistic'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            Photorealistic
+        </Link>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'Anime'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            Anime
+        </Link>
+        <Link href={{
+                pathname: '/portraits',
+                query: {selection: 'NSFW'},
+                }} 
+            className="text-xl no-underline text-center"
+        >
+            NSFW
+        </Link> 
+      </div> }
+      <div className='w-4/12 flex justify-end items-center '>
         <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>
         {!authUser && <button
               onClick={() => setLogin(true)}>

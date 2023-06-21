@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import {
     motion,
     useScroll,
@@ -18,16 +18,23 @@ const ParallaxHero = () => {
     const titleScale = useTransform(scrollYProgress, [.5, .8, .9], [0, 1, 1.1]);
 
 
+
+
     return (
-        <section ref={ref} className='relative hero w-full h-[350vh]' >
-            
+        <section ref={ref} className='relative hero w-full h-[350vh] flex flex-col justify-start' >
             <motion.img 
                 src='./drips/hero_drip_alt3.png' 
-                className='absolute top-0 left-0 w-[100%] h-[1/3]'
-                style={{ 
-                    y: dripY,
-                    opacity: dripOpacity
+                className={`sticky top-10 left-0 w-[100%]`}   //h-[1/3]
+                initial={{y: -40, opacity: 0}}
+                animate={{
+                    y: -10,
+                    opacity: 1,
+                    transition: {delay: .5, duration: 1.5},
                 }}
+                // style={{
+                //     // y: dripY,
+                //     // opacity: dripOpacity
+                // }}
             />
             <motion.h2
                 className='absolute top-[50%] left-[20%] w-[60%] h-auto text-7xl font-extrabold text-black rounded-full p-8' 
@@ -40,6 +47,7 @@ const ParallaxHero = () => {
             >
                 Wattle Art Creations
             </motion.h2>
+            <img src="./drips/side.png" className="w-4/12 object-contain absolute top-[100%] left-0 right-0" />
         </section>
     );
 }

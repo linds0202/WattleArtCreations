@@ -50,7 +50,7 @@ const FADE_IN_ANIMATION_VARIANTS = {
 
   return (
     <div className='w-full flex flex-col items-center pt-[100px] mb-[100px] text-black'>
-        <div className='w-6/12 mx-auto mb-[75px] flex justify-center'>
+        <div className='w-6/12 mx-auto mb-[50px] flex justify-center'>
             {/* <div className='w-[50%] flex flex-col items-start'> */}
             {letters.map((letter, i) => (
                 <motion.p
@@ -92,7 +92,7 @@ const FADE_IN_ANIMATION_VARIANTS = {
             viewport={{amount: 0.4, once: true}}
         >       
             <motion.li className='text-lg' variants={listItemVarient}>
-                <div className='relative w-[275px] h-[250px] py-8 px-4 flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
+                <div className='relative w-[275px] h-[250px] py-8 px-4 bg-white flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
                     <motion.img
                         className='w-[96px] h-[96px]' src='./HIWIcons/customize.png' />
                     <motion.p 
@@ -103,7 +103,7 @@ const FADE_IN_ANIMATION_VARIANTS = {
                     <motion.div 
                         initial={{opacity: 0}}
                         whileHover={{opacity: 1}}
-                        className='absolute top-0 left-0 w-[275px] h-[250px] border-2 border-[#282828] rounded-xl bg-[#282828] p-4 text-center'
+                        className='absolute top-0 left-0 w-[275px] h-[250px] border-2 border-white rounded-xl bg-[#282828] p-4 text-center'
                     >
                         <h4 className='text-white text-lg font-bold pb-4'>Step 1</h4>
                         <p className='text-white text-base'>Provide details about your desired artwork, including size, medium, subject matter, and any reference images or inspiration. The more information you provide, the better we can tailor the artwork to your vision.</p>

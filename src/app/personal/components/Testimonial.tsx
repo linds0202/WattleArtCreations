@@ -8,19 +8,19 @@ interface Props {
     body: String
   },
   animate: boolean
-  varients: Variants | undefined,
+  variants: Variants | undefined,
   modifier: number
 }
 
-const Testimonial = ({ testimonial, animate, varients, modifier }: Props) => {
+const Testimonial = ({ testimonial, animate, variants, modifier }: Props) => {
 
   const delayMod = modifier + 1 / 3.5
 
   return (
-    <div className="w-3/12" >
+    <div className="w-3/12 h-[40vh]" >
       {animate ? 
         (
-          <motion.div className="text-black p-4 border-b-2 border-black" variants={varients} initial='hidden' whileInView='show' transition={{ delay: delayMod, duration: .5, type: 'spring' }}>
+          <motion.div className="h-full flex flex-col justify-around items-center text-black p-4 border-b-2 border-black" variants={variants} initial='hidden' whileInView='show' transition={{ delay: delayMod, duration: .15, type: 'spring' }}>
             <p>&ldquo;{testimonial.body}&ldquo;</p>
             <p className=' text-base font-bold text-right pr-10'>-{testimonial.author}</p>
           </motion.div>
