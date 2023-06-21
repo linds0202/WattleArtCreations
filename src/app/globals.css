@@ -385,15 +385,16 @@ table {
 
 .underline {
   position: absolute;
-  bottom: -3px;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: orange;
+  /* background: orange; */
 }
 
 .category-li.selected {
   background: #eee;
+  border: 2px solid #282828;
 }
 
 .category-li button {

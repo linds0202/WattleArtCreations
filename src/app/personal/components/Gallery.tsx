@@ -18,9 +18,9 @@ function useElementViewportPosition(ref: React.RefObject<HTMLElement>) {
       const start = ref.current.offsetTop + 600;
       const end = start + ref.current.offsetHeight - 600;
 
-      console.log('page height: ' + pageHeight)
-      console.log('start: ' + start)
-      console.log('end: ' + end)
+      // console.log('page height: ' + pageHeight)
+      // console.log('start: ' + start)
+      // console.log('end: ' + end)
   
       setPosition([start / pageHeight, end / pageHeight]);
     }, []);
@@ -46,7 +46,9 @@ export default function Gallery() {
     const { scrollYProgress, scrollY } = useScroll();
     const x = useTransform(scrollYProgress, position, [0, carouselEndPosition]);
 
-    console.log(position)
+    // /console.log(position)
+
+    const photoArr = ["./photoImgs/photo8.png", "./animeImgs/anime1.png", "./photoImgs/photo5.jpg", "./photoImgs/photo2.png","./animeImgs/anime8.png","./animeImgs/anime10.png","./photoImgs/photo3.png", "./animeImgs/anime3.png" ]
 
     /* useEffect(() => {
       window.addEventListener("scroll", () =>
@@ -80,7 +82,7 @@ export default function Gallery() {
     }, []);
   
     return (
-      <div className="mt-10">
+      <div className="mt-4">
         
         <section className='flex flex-col' >
           
@@ -91,13 +93,14 @@ export default function Gallery() {
                 Gallery
               </h2>
               <motion.div ref={carouselRef} className="gallery-carousel" style={{ x }}>
-                {Array.from(Array(8).keys()).map((i) => (
+                {photoArr.map((i) => (
                   <motion.div
                     {...slideAnimation}
                     key={i}
                     className="carousel__slide"
                   >
-                    {i + 1}
+                    {/* {i + 1} */}
+                    <img className="w-[300px] h-[300px] object-cover rounded-xl" src={`${i}`} />
                   </motion.div>
                 ))}
               </motion.div>

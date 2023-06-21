@@ -23,7 +23,7 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                 './photoImgs/photo8.png',
                 './photoImgs/photo9.jpg',
             ],
-            text: "Create your own photorealistic art piece or portrait for a pixel perfect masterpiece that you&#39;re sure to love. So what are you waiting for?"
+            text: "Create your own photorealistic art piece or portrait for a pixel perfect masterpiece that you're sure to love. So what are you waiting for?"
         },
         Anime: {
             imgs: [
@@ -38,7 +38,7 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                 './animeImgs/anime9.png',
                 './animeImgs/anime10.png',
             ],
-            text: "With our custom anime commission, you can build the ultimate anime portrait or piece that&#39;s sure to impress. There&#39;s just one thing left to do:"
+            text: "With our custom anime commission, you can build the ultimate anime portrait or piece that's sure to impress. There's just one thing left to do:"
         },
         NSFW: {
             imgs: [
@@ -50,7 +50,7 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                 './nsfwImgs/nsfw6.png',
                 './nsfwImgs/nsfw7.png',
             ],
-            text: "At wattle Art Creations, we create whatever your heart desires. With our team, anything goes. <span className='border-b pb-px'>ANYTHING. </span> Unlock your ultimate fantasy"
+            text: "At wattle Art Creations, we create whatever your heart desires. With our team, anything goes. ANYTHING. Unlock your ultimate fantasy"
         }
     }
     
@@ -76,13 +76,10 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
             </div>
             <div className="w-[45%] flex flex-col pt-14 pr-[5%] justify-center">
                 <p className="font-bold text-4xl mb-10">{mode}</p>
-                <p className="text-xl mb-10">Create your own photorealistic art piece or portrait for a pixel perfect
-                    masterpiece that you&#39;re sure to love. So what are you waiting for? Click the button 
-                    below and
-                </p>
+                <p className="text-xl mb-10">{category[mode].text}</p>
                 <div className="flex justify-center">
                 <motion.button 
-                    className="mb-4 border-2 border-black w-[50%] rounded-md hover:bg-black hover:text-white transition" onClick={() => setMode(mode)} 
+                    className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition" onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}
                 >

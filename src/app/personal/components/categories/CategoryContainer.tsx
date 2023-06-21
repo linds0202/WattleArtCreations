@@ -10,7 +10,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
   const [selectedCat, setSelectedCat] = useState(categories[0]);
 
   return (
-    <div className='w-full mt-[75px] py-8'>
+    <div className='w-full h-[100vh] mt-[75px] mb-[125px]'>
       <FadeHeader />
       {/* <div className="flex justify-center">
           <SlideCards setMode={setMode} />
@@ -27,7 +27,10 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
             >
               <p className='text-xl py-2'>{item}</p>
               {item === selectedCat ? (
-                <motion.div className="underline" layoutId="underline" />
+                // add into motion.div class - layoutId="underline"
+                <motion.div className="underline relative" > 
+                  <img src="./drips/f_hero_drip_b.png" className="w-full absolute top-[100%] left-0 right-0" />
+                </motion.div>
               ) : null}
             </li>
           ))}
@@ -41,8 +44,10 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            className='relative'
           >
             {selectedCat ? <SlideCard mode={selectedCat} setMode={setMode} /> : "😋"}
+            <img src="./drips/personal_underHang.png" className="w-full absolute top[100%] left-0 right-0" />
           </motion.div>
         </AnimatePresence>
       </main>

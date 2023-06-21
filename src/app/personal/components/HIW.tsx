@@ -14,7 +14,7 @@ const HIW = () => {
             opacity: 1,
             transition: {
                 when: "beforeChildren",
-                staggerChildren: 0.75,
+                staggerChildren: 0.5,
             }
         }
 

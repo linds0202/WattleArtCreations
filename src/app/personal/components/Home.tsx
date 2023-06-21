@@ -27,7 +27,7 @@ export default function Home ({ setMode, mode }: ModeProps) {
             <Testimonials />
             <CategoryContainer setMode={setMode} mode={mode}/>
             <Gallery />
-            <ActionCall />
+            {/* <ActionCall /> */}
             <Footer />
         </div>
     )
