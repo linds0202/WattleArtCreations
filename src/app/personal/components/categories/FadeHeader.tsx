@@ -12,7 +12,7 @@ export const FADE_DOWN_ANIMATION_VARIANTS = {
 export const FadeHeader = () => {
   return (
     <motion.div
-      className='w-10/12 mx-auto mb-4 flex justify-between items-center'
+      className='w-10/12 mx-auto mb-8 flex justify-between items-center'
       key='category'
       initial="hidden"
       whileInView='show'
@@ -21,7 +21,7 @@ export const FadeHeader = () => {
         hidden: {},
         show: {
           transition: {
-            delayChildren: 1.5,
+            delayChildren: 1,
             // staggerChildren: .25,
           },
         },
@@ -36,7 +36,7 @@ export const FadeHeader = () => {
       <motion.h1
         className="mx-8 text-center font-display text-4xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]"
         initial={{ opacity: 0, y: -40 }}
-        whileInView={{ opacity: 1, y: 0, transition: { delay: 1, type: "spring" } }}
+        whileInView={{ opacity: 1, y: 0, transition: { delay: .5, type: "spring" } }}
         viewport={{ once: true }}
       >
         Categories

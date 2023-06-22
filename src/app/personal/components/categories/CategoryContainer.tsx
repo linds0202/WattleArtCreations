@@ -25,7 +25,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
               className={`category-li ${item === selectedCat ? "selected" : ""}`}
               onClick={() => setSelectedCat(item)}
             >
-              <p className='text-xl py-2'>{item}</p>
+              <p className='text-2xl py-2'>{item}</p>
               {item === selectedCat ? (
                 // add into motion.div class - layoutId="underline"
                 <motion.div className="underline relative" > 
