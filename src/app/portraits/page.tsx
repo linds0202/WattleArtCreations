@@ -40,6 +40,27 @@ const uiConfig = {
   },
 };
 
+const prices = {
+  Photorealistic: {
+      Headshot: 100,
+      Half: 130,
+      Full: 150,
+      model: 150,
+      character: 120,
+      weapons: 125
+  },
+  Anime: {
+      Headshot: 120,
+      Half: 140,
+      Full: 200
+  },
+  NSFW: {
+      Headshot: 150,
+      Half: 200,
+      Full: 225
+  }
+}
+
 export default function Portraits() {
 
   const searchParams = useSearchParams()
@@ -100,13 +121,13 @@ export default function Portraits() {
               {({ values }) => (
                   <Form className='w-full '>
                       <StepOne 
-                          portraitData={portraitData} 
-                          setPortraitData={setPortraitData}
-                          chars={chars}
-                          setChars={setChars} 
-                          setPet={setPet}
-                          setCharSheet={setCharSheet}
-                          setWeaponSheet={setWeaponSheet} 
+                        prices={prices}
+                        portraitData={portraitData} 
+                        chars={chars}
+                        setChars={setChars} 
+                        setPet={setPet}
+                        setCharSheet={setCharSheet}
+                        setWeaponSheet={setWeaponSheet} 
                       />
                       {chars.length !== 0 && 
                         <div>

@@ -16,10 +16,11 @@ interface MyCharValues {
     pets: boolean,
     numPets: number,
     extras: [],
+    total: number
 }
 
 interface MyCharProps {
-    setPortraitData: Function,
+    prices: Object
     portraitData: PortraitData, 
     chars: MyCharValues[],
     setChars: Function,
@@ -28,29 +29,15 @@ interface MyCharProps {
     setWeaponSheet: Function,
 }
 
-const prices = {
-    Photorealistic: {
-        Headshot: 10,
-        Half: 15,
-        Full: 20
-    },
-    Anime: {
-        Headshot: 12,
-        Half: 17,
-        Full: 22
-    },
-    NSFW: {
-        Headshot: 15,
-        Half: 25,
-        Full: 40
-    }
-}
 
-const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
-
+const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
+    const selection = portraitData.mode
     const [openCharMod, setOpenCharMod] = useState(false);
     const [isEdit, setIsEdit] = useState(false)
     const [editCharIndex, setEditCharIndex] = useState<number | null>(null)
+    const [weaponsPrice, setWeaponsPrice] = useState<number>(0)
+    const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
+    const [modelPrice, setModelPrice] = useState<number>(0)
     
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
@@ -58,6 +45,7 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
         pets: false,
         numPets: 0,
         extras: [],
+        total: 0
     })
 
     useEffect(() => {
@@ -72,6 +60,7 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
     }, [chars])
 
     const handleCharSubmit = (values) => {
+        console.log('values is: ', values)
         
         setPet(false)
         setCharSheet(false)
@@ -80,21 +69,32 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
         if(!values.pets) {
             values.numPets = 0
         } 
+
+        let totalPrice = prices[selection][values.bodyStyle] 
+                        + ((values.numCharVariations - 1) * 30) 
+                        + values.numPets * 25
+                        + (modelPrice ? prices[selection]['model'] : 0)
+                        + (characterSheetPrice ? prices[selection]['character'] : 0)
+                        + (weaponsPrice ? prices[selection]['weapons'] : 0)
         
         if (isEdit) {
             let updateCharArr = chars.map((char, i) => {
                 if (i === editCharIndex) {
-                    return values
+                    return {...values, total: totalPrice}
                 } else {
                     return char
                 }
             })
             
             setChars(updateCharArr)
+
         } else {
-            setChars([...chars, values])
+            setChars([...chars, {...values, total: totalPrice}])
         }
         setIsEdit(false)
+        setModelPrice(0)
+        setCharacterSheetPrice(0)
+        setWeaponsPrice(0)
         setOpenCharMod(false)
     }
 
@@ -104,7 +104,8 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
             numCharVariations: 1,
             pets: false,
             numPets: 0,
-            extras: []
+            extras: [],
+            total: 0
         })
         setOpenCharMod(true)
     }
@@ -114,6 +115,10 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
         setIsEdit(true)
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
+
+        if (chars[i].extras.includes('model')) setModelPrice(prices[selection]['model'])
+        if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices[selection]['character'])
+        if (chars[i].extras.includes('weapons')) setWeaponsPrice(prices[selection]['weapons'])
         
         setOpenCharMod(true)
     }
@@ -124,6 +129,37 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
         setChars(deleteCharArr)
     }
 
+    const calcModelPrice = () => {
+        setModelPrice(prev => {
+            if (prev > 0) {
+                return 0
+            } else {
+                return prices[selection].model
+            }
+        })
+    }
+
+    const calcCharacterSheetPrice = () => {
+        setCharacterSheetPrice(prev => {
+            if (prev > 0) {
+                return 0
+            } else {
+                return prices[selection].character
+            }
+        })
+    }
+
+    const calcWeaponPrice = () => {
+        setWeaponsPrice(prev => {
+            if (prev > 0) {
+                return 0
+            } else {
+                return prices[selection].weapons
+            }
+        })
+    }
+
+
     // const handleSubmit = () => {
     //     setPortraitData({...portraitData, characters: chars}) 
     // }
@@ -131,7 +167,7 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
     return (
     <>
         <div className="h-[300px] w-full flex flex-col justify-center items-center">
-            <h2 className="w-full text-4xl text-center">Welcome to the {portraitData.mode} Portrait Customizer</h2>
+            <h2 className="w-full text-4xl text-center">Welcome to the {selection} Portrait Customizer</h2>
             <p className="w-full text-center pt-4">Make your selections to customize your portrait</p>
         </div>
 
@@ -149,6 +185,7 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
                             <p>Extras: {char.extras?.join(', ')}</p>
                         </div>
                         <div>
+                            <p>${char.total}</p>
                             <Button onClick={() => handleEditChar(i)} className=' border-2 border-[#282828] rounded-md p-2 text-black'>
                                 <EditIcon />
                             </Button>
@@ -172,14 +209,14 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
         <Dialog 
             onClose={() => setOpenCharMod(false)} 
             open={openCharMod} 
-            maxWidth='lg'
+            maxWidth='xl'
             PaperProps={{ sx: { p: 10, backgroundColor: "white" } }}
         >
             <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
-            <div className="flex">
+            <div className="w-full">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
@@ -187,91 +224,116 @@ const StepOne = ({ setPortraitData, portraitData, chars, setChars, setPet, setCh
                     {({ handleChange, values }) => (
                     <Form>
                         {/* radio buttons */}
-                        <div className='w-10/12 flex mb-4'>
-                            <p className='mr-4 mb-0'>Body style:</p>
-                            <label className='ml-4'>
-                                <Field type="radio" name="bodyStyle" value="Headshot" required />
-                                Headshot
-                            </label>
-                            <label className='ml-4'>
-                                <Field type="radio" name="bodyStyle" value="Half" required/>
-                                Half
-                            </label>
-                            <label className='ml-4'>
-                                <Field type="radio" name="bodyStyle" value="Full" required/>
-                                Full
-                            </label>
-                        </div>
-                            
-                        <div className='flex items-center'>
-                            <p className='mr-4 mb-0'>Number of character variations:</p>
-                            <TextField
-                                type="number"
-                                name="numCharVariations"
-                                value={values.numCharVariations}
-                                onChange={handleChange}
-                                size="small"
-                                inputProps={{
-                                min: 1,
-                                style: {
-                                    textAlign: "center",
-                                    color: "black",
-                                    fontSize: 12,
-                                    width: '40px'
-                                }
-                                }}
-                            />
-                        </div>
-
-                        {/* check boxes */}
-                        <label>
-                        <Field type="checkbox" name="pets" className='mt-4'/>
-                        Pets {values.pets && <span>Use the slider to select # of pets</span> }
-                        </label>
-
-                        {values.pets && 
+                        <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
                             <div>
-                                <Slider
-                                    name="numPets"
-                                    min={0}
-                                    max={10}
-                                    step={1}
-                                    defaultValue={0}
-                                    valueLabelDisplay="auto"
-                                    marks
-                                    value={values.numPets}
+                                <p className='mr-4 mb-0'>Body style:</p>
+                                <label className='ml-4'>
+                                    <Field type="radio" name="bodyStyle" value="Headshot" required />
+                                    Headshot
+                                </label>
+                                <label className='ml-4'>
+                                    <Field type="radio" name="bodyStyle" value="Half" required/>
+                                    Half
+                                </label>
+                                <label className='ml-4'>
+                                    <Field type="radio" name="bodyStyle" value="Full" required/>
+                                    Full
+                                </label>
+                            </div>
+                            <p>BodyStyle: {prices[selection][values.bodyStyle]}</p>
+                        </div>
+
+                        <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
+                            <div className='flex items-center'>
+                                <p className='mr-4 mb-0'>Number of character variations:</p>
+                                <TextField
+                                    type="number"
+                                    name="numCharVariations"
+                                    value={values.numCharVariations}
                                     onChange={handleChange}
-                                />    
-                            </div>                        
-                        }  
+                                    size="small"
+                                    inputProps={{
+                                    min: 1,
+                                    style: {
+                                        textAlign: "center",
+                                        color: "black",
+                                        fontSize: 12,
+                                        width: '40px'
+                                    }
+                                    }}
+                                />
+                            </div>
+                            <p>Variants: {(values.numCharVariations - 1) * 30}</p>
+                        </div>  
+                        
+                        {/* Pets */}
+                        <div>
+                            <label>
+                                <Field type="checkbox" name="pets" className='mt-4'/>
+                                Pets {values.pets && <span>Use the slider to select # of pets</span> }
+                            </label>
+
+                            {values.pets && 
+                                <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
+                                    <Slider
+                                        name="numPets"
+                                        min={0}
+                                        max={10}
+                                        step={1}
+                                        defaultValue={0}
+                                        valueLabelDisplay="auto"
+                                        marks
+                                        value={values.numPets}
+                                        onChange={handleChange}
+                                    /> 
+                                    <p className="ml-4">Pets: {values.numPets * 25}</p>     
+                                </div>
+                                                    
+                            } 
+                        </div> 
+                        
 
                         {/* Extras */}
                         <p className='mr-4 mb-0'>Extras:</p>
-                        <div className='ml-4 mt-2'>
+                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
                             <label>
-                                <Field type="checkbox" name="extras" value="model" className='mr-2' />
+                                <Field type="checkbox" name="extras" value="model" className='mr-2' onClick={calcModelPrice}/>
                                 <span className='ml-2'>3D Model</span>
                             </label>
+                            <p className="ml-4">3D model: {values.extras.includes('model') ? prices[selection].model : 0}</p>
                         </div>
-                        <div className='ml-4 mt-2'>
+                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
                             <label>
-                                <Field type="checkbox" name="extras" value="character" className='mr-2' />
+                                <Field type="checkbox" name="extras" value="character" className='mr-2' onClick={calcCharacterSheetPrice}/>
                                 <span className='ml-2'>Character Sheet</span>
                             </label>
+                            <p className="ml-4">Character Sheet: {values.extras.includes('character') ? prices[selection].character : 0}</p>
                         </div>
-                        <div className='ml-4 mt-2'>
+                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
                             <label>
-                                <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
+                                <Field type="checkbox" name="extras" value="weapons" className='mr-2' onClick={calcWeaponPrice}/>
                                 <span className='ml-2'>Weapons Sheet</span>
                             </label>
+                            <p className="ml-4">Weapons Sheet: {values.extras.includes('weapons') ? prices[selection].weapons : 0}</p>
+                        </div>
+
+                        <div className="border-black border-2 text-right">
+                            <p>Base Price: {
+                                0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                + ((values.numCharVariations - 1) * 30) 
+                                + (values.pets ? values.numPets * 25 : 0)
+                                + modelPrice
+                                + characterSheetPrice
+                                + weaponsPrice
+                                }</p>
                         </div>
                         <button type="submit" className='text-black border-2 border-black rounded-lg p-2 mt-4'>Submit</button>
                     </Form>
                     )}
                 </Formik>
-                <div>
+                {/* <div>
                     <p>{}</p>
-                </div>
+                </div> */}
             </div>
         </Dialog>
 

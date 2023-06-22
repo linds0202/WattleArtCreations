@@ -31,15 +31,11 @@ export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const currentUrl = usePathname()
   const router = useRouter();
-  // const REDIRECT_PAGE = usePathname()
   const [login, setLogin] = useState(false);  
   
   const handleClose = () => {
     setLogin(false)
   }
-
-  console.log('path is: ', currentUrl)
-
 
   // Redirect if finished loading and there's an existing user (user is logged in)
   useEffect(() => {
