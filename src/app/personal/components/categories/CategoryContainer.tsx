@@ -10,7 +10,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
   const [selectedCat, setSelectedCat] = useState(categories[0]);
 
   return (
-    <div className='w-full h-[100vh] mt-[75px] mb-[125px]'>
+    <div className='w-full h-[100vh] mt-[50px] mb-[125px]'>
       <FadeHeader />
       {/* <div className="flex justify-center">
           <SlideCards setMode={setMode} />

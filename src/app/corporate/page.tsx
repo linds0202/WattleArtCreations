@@ -1,94 +1,118 @@
 'use client' 
 
-import Link from "next/link"
-import { useRef } from 'react'
-import { useScroll, motion, useTransform } from "framer-motion"
-
-const animateOrder = {
-  initial: 0,
-  titleIn: 0.2,
-  titleOut: 0.4,
-  linkOneStart: 0.4,
-  linkOneEnd: 0.6,
-  linkTwoStart: 0.5,
-  linkTwoEnd: 0.7,
-  linkThreeStart: 0.6,
-  linkThreeEnd: 0.8,
-  linkFourStart: 0.7,
-  linkFourEnd: 0.9,
-
-}
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import CorpHome from "./components/CorpHome"
+import CorpSelection from "./components/CorpSelection";
 
 export default function Corporate() {
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start end", "end end"],
-  });
-
-  const titleTranslate = useTransform(
-    scrollYProgress,
-    [animateOrder.initial, animateOrder.titleIn, animateOrder.titleOut],
-    [-20, 50, 120]
-  )
-
-  const titleOpacity = useTransform(
-    scrollYProgress,
-    [animateOrder.titleIn, animateOrder.titleOut],
-    [0, 1]
-  )
-
-  const linkOneX = useTransform(
-    scrollYProgress,
-    [animateOrder.linkOneStart, animateOrder.linkOneEnd],
-    ["-100vw", "80vw"]
-  )
-
-  const linkOneRotate = useTransform(
-    scrollYProgress,
-    [animateOrder.linkOneStart, animateOrder.linkOneEnd],
-    ["-360deg", "360deg"]
-  )
-
-  const linkTwoX = useTransform(
-    scrollYProgress,
-    [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
-    ["-100vw", "55vw"]
-  )
-
-  const linkTwoRotate = useTransform(
-    scrollYProgress,
-    [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
-    ["-360deg", "360deg"]
-  )
+  const searchParams = useSearchParams()
+  const selection = searchParams.get('selection')
+  const [mode, setMode] = useState('CorpHome')
+  console.log('selection is: ', selection)
   
-  const linkThreeX = useTransform(
-    scrollYProgress,
-    [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
-    ["-100vw", "30vw"]
-  )
+  // if (selection && selection !== mode) {
+  //   setMode(selection)
+  // }
   
-  const linkThreeRotate = useTransform(
-    scrollYProgress,
-    [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
-    ["-360deg", "360deg"]
-  )
+  console.log('mode is: ', mode)
 
-  const linkFourX = useTransform(
-    scrollYProgress,
-    [animateOrder.linkFourStart, animateOrder.linkFourEnd],
-    ["-100vw", "5vw"]
+  return (
+    <main className="bg-white text-black no-underline min-h-screen">
+      {mode === 'CorpHome' 
+        ? <CorpHome setMode={setMode} mode={mode} />
+        : <CorpSelection mode={mode} setMode={setMode}/>
+      }
+    </main>
   )
+}
 
-  const linkFourRotate = useTransform(
-    scrollYProgress,
-    [animateOrder.linkFourStart, animateOrder.linkFourEnd],
-    ["-360deg", "360deg"]
-  )
 
-    return (
-        <main ref={targetRef} >
-          <div className="relative h-[600vh]">
+
+
+// const animateOrder = {
+//   initial: 0,
+//   titleIn: 0.2,
+//   titleOut: 0.4,
+//   linkOneStart: 0.4,
+//   linkOneEnd: 0.6,
+//   linkTwoStart: 0.5,
+//   linkTwoEnd: 0.7,
+//   linkThreeStart: 0.6,
+//   linkThreeEnd: 0.8,
+//   linkFourStart: 0.7,
+//   linkFourEnd: 0.9,
+
+// }
+
+// const targetRef = useRef<HTMLDivElement | null>(null);
+  // const { scrollYProgress } = useScroll({
+  //   target: targetRef,
+  //   offset: ["start end", "end end"],
+  // });
+
+  // const titleTranslate = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.initial, animateOrder.titleIn, animateOrder.titleOut],
+  //   [-20, 50, 120]
+  // )
+
+  // const titleOpacity = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.titleIn, animateOrder.titleOut],
+  //   [0, 1]
+  // )
+
+  // const linkOneX = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkOneStart, animateOrder.linkOneEnd],
+  //   ["-100vw", "80vw"]
+  // )
+
+  // const linkOneRotate = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkOneStart, animateOrder.linkOneEnd],
+  //   ["-360deg", "360deg"]
+  // )
+
+  // const linkTwoX = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
+  //   ["-100vw", "55vw"]
+  // )
+
+  // const linkTwoRotate = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkTwoStart, animateOrder.linkTwoEnd],
+  //   ["-360deg", "360deg"]
+  // )
+  
+  // const linkThreeX = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
+  //   ["-100vw", "30vw"]
+  // )
+  
+  // const linkThreeRotate = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkThreeStart, animateOrder.linkThreeEnd],
+  //   ["-360deg", "360deg"]
+  // )
+
+  // const linkFourX = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkFourStart, animateOrder.linkFourEnd],
+  //   ["-100vw", "5vw"]
+  // )
+
+  // const linkFourRotate = useTransform(
+  //   scrollYProgress,
+  //   [animateOrder.linkFourStart, animateOrder.linkFourEnd],
+  //   ["-360deg", "360deg"]
+  // )
+
+
+          {/* <div className="relative h-[600vh]">
             <motion.div
               className="fixed -top-[10%] w-full flex justify-center items-center"
               style={{
@@ -226,10 +250,5 @@ export default function Corporate() {
                 <p>Advertising</p>
               </Link> 
             </motion.div>
-          </div>
-        </main>
-
-             
-    )
-}
+          </div> */}
 

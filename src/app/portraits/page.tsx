@@ -110,38 +110,44 @@ export default function Portraits() {
   
 
   return (
-    <div className='flex flex-col justify-around items-center min-h-screen bg-white text-black'>
-
+    <div className='flex flex-col justify-around items-center min-h-screen bg-white text-black pb-10'>
+      <div className="h-[150px] w-full flex flex-col justify-center items-center">
+        <h2 className="w-full text-4xl text-center">Welcome to the {selection} Portrait Customizer</h2>
+        <p className="w-full text-center pt-4">Make your selections to customize your portrait</p>
+      </div>
       {/* Display the portrait wizard */}
-         <div className="w-11/12 mx-auto">
+         <div className="w-full px-4">
               <Formik
                   initialValues={portraitData}
                   onSubmit={submitPortrait}
               >
               {({ values }) => (
                   <Form className='w-full '>
-                      <StepOne 
-                        prices={prices}
-                        portraitData={portraitData} 
-                        chars={chars}
-                        setChars={setChars} 
-                        setPet={setPet}
-                        setCharSheet={setCharSheet}
-                        setWeaponSheet={setWeaponSheet} 
-                      />
-                      {chars.length !== 0 && 
-                        <div>
-                          <h3>Let us know more. . .</h3>
-                          <StepTwo 
-                              pet={pet}
-                              charSheet={charSheet}
-                              weaponSheet={weaponSheet} 
-                          />
-                        </div>
-                      }
+                      <div className='flex flex-between'>
+                        <StepOne 
+                          prices={prices}
+                          portraitData={portraitData} 
+                          chars={chars}
+                          setChars={setChars} 
+                          setPet={setPet}
+                          setCharSheet={setCharSheet}
+                          setWeaponSheet={setWeaponSheet} 
+                        />
+                        {chars.length !== 0 && 
+                          <div className='w-6/12 px-8'>
+                            <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                            <StepTwo 
+                                pet={pet}
+                                charSheet={charSheet}
+                                weaponSheet={weaponSheet} 
+                            />
+                          </div>
+                        }
+                      </div>
+                      
                       <div className='mt-8 w-full flex justify-around items-center'>
                         {authUser && <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-                            Finish Portrait
+                            Calculate Price
                         </button>}
                         {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
                             Login/Create Account to Continue
@@ -156,10 +162,10 @@ export default function Portraits() {
           </Formik>
       </div>
       
-      <div className='flex justify-around items-center mt-10 w-10/12'>
+      {/* <div className='flex justify-around items-center mt-10 w-10/12'>
         <Link href='/personal' className='block'>Return to Personal Landing Page</Link>
-        {/* {authUser && <Link href={`/dashboard/${authUser.uid}`} className='block'>My Dashboard</Link>} */}
-      </div>
+        {authUser && <Link href={`/dashboard/${authUser.uid}`} className='block'>My Dashboard</Link>}
+      </div> */}
     </div>
   )
 }

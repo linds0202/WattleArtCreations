@@ -166,26 +166,22 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
 
     return (
     <>
-        <div className="h-[300px] w-full flex flex-col justify-center items-center">
-            <h2 className="w-full text-4xl text-center">Welcome to the {selection} Portrait Customizer</h2>
-            <p className="w-full text-center pt-4">Make your selections to customize your portrait</p>
-        </div>
+        
 
-        <div className='flex justify-between'>
-            <div className='w-8/12 bg-[#E5E5E5] rounded-xl px-8 py-4'>
+        {/* <div className='flex justify-between'> */}
+            
+            <div className='self-start w-6/12 bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
                 <h2 className="w-full text-2xl text-center">Character List</h2>
                 {chars?.map((char, i) => (
-                    <div key={i} className='flex justify-between items-center border-b-2 border-[#282828] p-4 m-4'>
-                        <div>
+                    <div key={i} 
+                        className='w-[48%] h-[300px] mt-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white p-4'
+                    >
                             <p>Body Style: {char.bodyStyle}</p>
                             <p># of Character variations: {char.numCharVariations}</p>
-                        </div>
-                        <div>
                             <p># of Pets: {char.numPets}</p>
                             <p>Extras: {char.extras?.join(', ')}</p>
-                        </div>
-                        <div>
-                            <p>${char.total}</p>
+                        <div className="flex justify-around items-center p-4">
+                            <p>Base Price: ${char.total}</p>
                             <Button onClick={() => handleEditChar(i)} className=' border-2 border-[#282828] rounded-md p-2 text-black'>
                                 <EditIcon />
                             </Button>
@@ -195,17 +191,18 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                         </div>
                     </div>
                 ))}
+                {!openCharMod && 
+                    <div className='w-5/12 flex flex-col justify-center items-center'>
+                        <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
+                            <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
+                            <h4 className='m-0'>Add character</h4>
+                            {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
+                        </Button>
+                    </div>
+                }
             </div>
-            {!openCharMod && 
-                <div className='w-4/12 flex flex-col justify-center items-center'>
-                    <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
-                        <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
-                        <h4 className='m-0'>Add character</h4>
-                        {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
-                    </Button>
-                </div>
-            }
-        </div>
+            
+        {/* </div> */}
         <Dialog 
             onClose={() => setOpenCharMod(false)} 
             open={openCharMod} 

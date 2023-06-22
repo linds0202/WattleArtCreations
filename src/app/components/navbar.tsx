@@ -56,7 +56,7 @@ export default function NavBar() {
       </div>
 
       {/* Links for Personal Route */}
-      {currentUrl === '/personal' && 
+      {(currentUrl === '/personal' || currentUrl === '/portraits') && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
                 pathname: '/portraits',
@@ -89,29 +89,45 @@ export default function NavBar() {
       {currentUrl === '/corporate' && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
-                pathname: '/portraits',
-                query: {selection: 'Photorealistic'},
+                pathname: '/corporate',
+                query: {selection: 'Digital'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-orange-600"
         >
-            Photorealistic
+            Digital
         </Link>
         <Link href={{
-                pathname: '/portraits',
-                query: {selection: 'Anime'},
+                pathname: '/corporate',
+                query: {selection: 'Identity'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-orange-600"
         >
-            Anime
+            Identity
         </Link>
         <Link href={{
-                pathname: '/portraits',
-                query: {selection: 'NSFW'},
+                pathname: '/corporate',
+                query: {selection: 'Marketing'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-orange-600"
         >
-            NSFW
+            Marketing
         </Link> 
+        <Link href={{
+                pathname: '/corporate',
+                query: {selection: 'Print'},
+                }} 
+            className="text-xl no-underline text-center hover:text-orange-600"
+        >
+            Print
+        </Link>
+        <Link href={{
+                pathname: '/corporate',
+                query: {selection: 'VideoGame'},
+                }} 
+            className="text-xl no-underline text-center hover:text-orange-600"
+        >
+            Video Games
+        </Link>
       </div> }
       <div className='w-4/12 flex justify-end items-center '>
         <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>

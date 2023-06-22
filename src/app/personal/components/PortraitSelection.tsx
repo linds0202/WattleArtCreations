@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { useEffect, useRef } from 'react'
 import Testimonial from "./Testimonial"
+import Footer from "@/app/components/Footer"
 import { Carousel } from "react-responsive-carousel"
 import {
     motion,
@@ -174,6 +175,8 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     </Link>
                 </motion.button>  
             </div>
+
+            <Footer />
         </div>
     )
 }
