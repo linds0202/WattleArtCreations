@@ -170,24 +170,26 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
 
         {/* <div className='flex justify-between'> */}
             
-            <div className='self-start w-6/12 bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
+            <div className='self-start w-full bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
                 <h2 className="w-full text-2xl text-center">Character List</h2>
                 {chars?.map((char, i) => (
                     <div key={i} 
                         className='w-[48%] h-[300px] mt-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white p-4'
                     >
-                            <p>Body Style: {char.bodyStyle}</p>
-                            <p># of Character variations: {char.numCharVariations}</p>
-                            <p># of Pets: {char.numPets}</p>
-                            <p>Extras: {char.extras?.join(', ')}</p>
-                        <div className="flex justify-around items-center p-4">
-                            <p>Base Price: ${char.total}</p>
-                            <Button onClick={() => handleEditChar(i)} className=' border-2 border-[#282828] rounded-md p-2 text-black'>
-                                <EditIcon />
-                            </Button>
-                            <button onClick={() => handleDeleteChar(i)} className='ml-4 border-2 border-[#282828] rounded-md p-2 '>
-                                <DeleteForeverIcon />
-                            </button>
+                        <p>Body Style: {char.bodyStyle}</p>
+                        <p># of Character variations: {char.numCharVariations}</p>
+                        <p># of Pets: {char.numPets}</p>
+                        <p>Extras: {char.extras?.join(', ')}</p>
+                        <div className="w-full flex justify-between items-center">
+                            <p>Price: ${char.total}</p>
+                            <div className="flex justify-end items-center">
+                                <button onClick={() => handleEditChar(i)} className='text-cyan-800 hover:text-cyan-400'>
+                                    <EditIcon />
+                                </button>
+                                <button onClick={() => handleDeleteChar(i)} className='ml-4 text-black hover:text-red-600'>
+                                    <DeleteForeverIcon />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 ))}

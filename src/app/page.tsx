@@ -68,8 +68,6 @@ export default function Home() {
           />
         </div>
         
-        
-      {/* </div> */}
       <div className="switch border-2 border-black" data-ison={isOn} onClick={toggleSwitch}>
           <motion.div className="handle" layout transition={spring} />
       </div>

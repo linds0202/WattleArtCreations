@@ -95,21 +95,27 @@ export async function getAllConsults() {
 }
 
 //Portraits
-export function addPortrait( data) {
-  const portraitRef = addDoc(collection(db, 'portraits'), { 
+export async function addPortrait( data) {
+  const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,
     questions: data.questions, 
-    price: '',
+    price: data.price,
     customer: data.customer,
     customerId: data.customerId,
     artist: '',
     date: new Date,
-    status: 'Pending',
+    status: 'Unpaid',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
   })
-  return portraitRef
+  console.log("Document written with ID: ", portraitRef.id);
+  return portraitRef.id
+}
+
+//edit portrait before purchase
+export function updatePortrait( portraitId, portraitData) {
+  updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 
 //add artist to portrait when claimed
