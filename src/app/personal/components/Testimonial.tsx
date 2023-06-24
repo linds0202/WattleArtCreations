@@ -17,7 +17,7 @@ const Testimonial = ({ testimonial, animate, variants, modifier }: Props) => {
   const delayMod = modifier + 1 / 3.5
 
   return (
-    <div className="w-4/12 h-[40vh]" >
+    <div className="w-4/12 h-[70vh] testimonial flex justify-center items-center" >
       {animate ? 
         (
           <motion.div 
@@ -32,8 +32,8 @@ const Testimonial = ({ testimonial, animate, variants, modifier }: Props) => {
           </motion.div>
         )
       : (
-        <div className="text-black p-8">
-          <p>&ldquo;{testimonial.body}&ldquo;</p>
+        <div className="w-7/12 flex flex-col justify-between items-center text-white">
+          <p className="text-center">&ldquo;{testimonial.body}&ldquo;</p>
           <p className=' text-base font-bold text-right pr-10'>-{testimonial.author}</p>
         </div>
       )

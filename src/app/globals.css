@@ -34,7 +34,8 @@ table {
 
 /* HERO SECTION */
 .hero {
-  background-image: url('/heroImgs/hero_bg2.png');
+  /* background-image: url('/heroImgs/hero_bg2.png'); */
+  /* background-image: url('/drips/parallax_bg.png'); */
   background-size: cover;
 }
 
@@ -46,6 +47,12 @@ table {
   background-repeat: no-repeat;
 }
 
+/* Personal Landing Testimonials */
+.testimonial {
+  background-image: url('/drips/splatter2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 
 
 

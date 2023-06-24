@@ -22,7 +22,7 @@ const Testimonials = () => {
     ]
   
     return (
-        <div className='w-9/12 flex justify-between items-center'>
+        <div className='w-full h-[100vh] flex justify-between items-center'>
             {testimonials.map((testimonial, i) => (
                 <Testimonial key={i} testimonial={testimonial}/>
             ))}
