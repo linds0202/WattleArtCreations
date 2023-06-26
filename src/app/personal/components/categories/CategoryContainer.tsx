@@ -17,7 +17,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
       </div> */}
 
       
-      <nav className='w-11/12 mx-auto border-2 border-[#eeeeee] rounded-t-xl pl-2 pt-2 pr-2'>
+      <nav className='w-11/12 mx-auto border-2 border-[#282828] rounded-t-xl pl-2 pt-2 pr-2'>
         <ul className='flex rounded-t-xl'>
           {categories.map((item, i) => (
             <li
@@ -36,7 +36,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
           ))}
         </ul>
       </nav>
-      <main className='w-11/12 mx-auto border-2 border-[#eeeeee]'>
+      <main className='w-11/12 mx-auto border-4 border-[#282828] rounded-b-3xl'>
         <AnimatePresence mode='wait'>
           <motion.div
             key={selectedCat ? selectedCat : "empty"}
@@ -47,7 +47,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
             className='relative'
           >
             {selectedCat ? <SlideCard mode={selectedCat} setMode={setMode} /> : "😋"}
-            <img src="./drips/personal_underHang.png" className="w-full absolute top-[99%] left-0 right-0" />
+            <img src="./drips/personal_underHang.png" className="w-full absolute top-[98%] left-0 right-0" />
           </motion.div>
         </AnimatePresence>
       </main>
