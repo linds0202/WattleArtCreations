@@ -9,12 +9,15 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 
 import StepOne from "./questionaire/StepOne"
+import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
 
 
 interface PortraitData  {
     mode: String, 
     characters: [],
+    portraitTitle: String,
+    requiredQs: [String, String, String],
     questions: [{}, {}, {}, {}, {}], 
     price: Number,
     customer: String,
@@ -81,6 +84,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
         mode: `${selection}`, 
         characters: [],
+        portraitTitle: '',
+        requiredQs: ['', '', ''],
         questions: [{}, {}, {}, {}, {}],
         price: 0,
         customer: '',
@@ -165,7 +170,14 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 setCharSheet={setCharSheet}
                                 setWeaponSheet={setWeaponSheet} 
                                 />
-                                {authUser && <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                <RequiredQuestions />
+                                {authUser && <button 
+                                    type="submit" 
+                                    className={`w-3/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 
+                                        ? 'text-black border-2 border-black' 
+                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
+                                    disabled={chars.length === 0}
+                                >
                                     Add to Cart
                                 </button>}
                                 {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
@@ -186,12 +198,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                           </div>
                           
                           <div className='mt-8 w-full flex justify-around items-center'>
-                            {/* {authUser && <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-                                Add to Cart
-                            </button>}
-                            {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-                                Login/Create Account to Continue
-                            </Button>} */}
                             {/* Prompt for login */}
                             <Dialog onClose={() => setLogin(false)} open={login}>
                               {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
@@ -304,7 +310,12 @@ export default PortraitCustomizer
 //                 </Button>
 //             </div>
 //         }
-
+            {/* {authUser && <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
+                                Add to Cart
+                            </button>}
+                            {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
+                                Login/Create Account to Continue
+                            </Button>} */}
 //         {/* Prompt for login */}
 //         <Dialog onClose={() => setLogin(false)} open={login}>
 //             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>

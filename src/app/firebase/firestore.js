@@ -99,6 +99,8 @@ export async function addPortrait( data) {
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,
+    portraitTitle: data.portraitTitle,
+    requiredQs: data.requiredQs,
     questions: data.questions, 
     price: data.price,
     customer: data.customer,

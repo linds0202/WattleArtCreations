@@ -8,7 +8,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import InfoIcon from '@mui/icons-material/Info';
 import { PortraitData } from "./Questionaire";
+import { motion } from "framer-motion";
 
 interface MyCharValues {
     bodyStyle: string,
@@ -47,6 +49,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
         extras: [],
         total: 0
     })
+
+    const [isHovering, setIsHovering] = useState(false);
+
+    const handleMouseOver = () => {
+        setIsHovering(true);
+    };
+
+    const handleMouseOut = () => {
+        setIsHovering(false);
+    };
 
     useEffect(() => {
         chars.forEach(char => {
@@ -165,51 +177,49 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
     // }
 
     return (
-    <>
-        
-
-        {/* <div className='flex justify-between'> */}
-            
-            <div className='self-start w-full bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
-                <h2 className="w-full text-2xl text-center">Character List</h2>
-                {chars?.map((char, i) => (
-                    <div key={i} 
-                        className='w-[48%] h-[300px] mt-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white p-4'
-                    >
-                        <p>Body Style: {char.bodyStyle}</p>
-                        <p># of Character variations: {char.numCharVariations}</p>
-                        <p># of Pets: {char.numPets}</p>
-                        <p>Extras: {char.extras?.join(', ')}</p>
-                        <div className="w-full flex justify-between items-center">
-                            <p>Price: ${char.total}</p>
-                            <div className="flex justify-end items-center">
-                                <button onClick={() => handleEditChar(i)} className='text-cyan-800 hover:text-cyan-400'>
-                                    <EditIcon />
-                                </button>
-                                <button onClick={() => handleDeleteChar(i)} className='ml-4 text-black hover:text-red-600'>
-                                    <DeleteForeverIcon />
-                                </button>
-                            </div>
+    <>   
+        <div className='self-start w-full bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
+            <h2 className="w-full text-2xl text-center">Character List</h2>
+            {chars?.map((char, i) => (
+                <div key={i} 
+                    className='w-[48%] h-[300px] mt-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white p-4'
+                >
+                    <p>Body Style: {char.bodyStyle}</p>
+                    <p># of Character variations: {char.numCharVariations}</p>
+                    <p># of Pets: {char.numPets}</p>
+                    <p>Extras: {char.extras?.join(', ')}</p>
+                    <div className="w-full flex justify-between items-center">
+                        <p>Price: ${char.total}</p>
+                        <div className="flex justify-end items-center">
+                            <button onClick={() => handleEditChar(i)} className='text-cyan-800 hover:text-cyan-400'>
+                                <EditIcon />
+                            </button>
+                            <button onClick={() => handleDeleteChar(i)} className='ml-4 text-black hover:text-red-600'>
+                                <DeleteForeverIcon />
+                            </button>
                         </div>
                     </div>
-                ))}
-                {!openCharMod && 
-                    <div className='w-5/12 flex flex-col justify-center items-center'>
-                        <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
-                            <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
-                            <h4 className='m-0'>Add character</h4>
-                            {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
-                        </Button>
-                    </div>
-                }
-            </div>
-            
-        {/* </div> */}
+                </div>
+            ))}
+            {!openCharMod && 
+                <div className='w-5/12 flex flex-col justify-center items-center'>
+                    <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10'>
+                        <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
+                        <h4 className='m-0'>Add character</h4>
+                        {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
+                    </Button>
+                </div>
+            }
+        </div>
+
+
+        {/* Character Selections Modal*/}
         <Dialog 
             onClose={() => setOpenCharMod(false)} 
             open={openCharMod} 
-            maxWidth='xl'
-            PaperProps={{ sx: { p: 10, backgroundColor: "white" } }}
+            fullWidth={true}
+            maxWidth='md'
+            PaperProps={{ sx: { p: 6, backgroundColor: "white" } }}
         >
             <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
@@ -221,120 +231,180 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form>
+                    <Form className="w-full flex flex-col justify-between items-center">
                         {/* radio buttons */}
-                        <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
-                            <div>
-                                <p className='mr-4 mb-0'>Body style:</p>
-                                <label className='ml-4'>
-                                    <Field type="radio" name="bodyStyle" value="Headshot" required />
-                                    Headshot
-                                </label>
-                                <label className='ml-4'>
-                                    <Field type="radio" name="bodyStyle" value="Half" required/>
-                                    Half
-                                </label>
-                                <label className='ml-4'>
-                                    <Field type="radio" name="bodyStyle" value="Full" required/>
-                                    Full
-                                </label>
-                            </div>
-                            <p>BodyStyle: {prices[selection][values.bodyStyle]}</p>
-                        </div>
-
-                        <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
-                            <div className='flex items-center'>
-                                <p className='mr-4 mb-0'>Number of character variations:</p>
-                                <TextField
-                                    type="number"
-                                    name="numCharVariations"
-                                    value={values.numCharVariations}
-                                    onChange={handleChange}
-                                    size="small"
-                                    inputProps={{
-                                    min: 1,
-                                    style: {
-                                        textAlign: "center",
-                                        color: "black",
-                                        fontSize: 12,
-                                        width: '40px'
-                                    }
-                                    }}
-                                />
-                            </div>
-                            <p>Variants: {(values.numCharVariations - 1) * 30}</p>
-                        </div>  
-                        
-                        {/* Pets */}
-                        <div>
-                            <label>
-                                <Field type="checkbox" name="pets" className='mt-4'/>
-                                Pets {values.pets && <span>Use the slider to select # of pets</span> }
-                            </label>
-
-                            {values.pets && 
-                                <div className='w-10/12 flex justify-between items-end mb-4 border-2 border-red-600'>
-                                    <Slider
-                                        name="numPets"
-                                        min={0}
-                                        max={10}
-                                        step={1}
-                                        defaultValue={0}
-                                        valueLabelDisplay="auto"
-                                        marks
-                                        value={values.numPets}
-                                        onChange={handleChange}
-                                    /> 
-                                    <p className="ml-4">Pets: {values.numPets * 25}</p>     
+                        <div className="w-full mt-4 flex justify-between">
+                            <div className="w-1/2 p-4">
+                                <div className='w-10/12 flex justify-between items-end mb-4'>
+                                    <div className="relative border-2 border-red-600">
+                                        <p className='mr-4 mb-0'>Body style:</p>
+                                        <div
+                                            className="absolute -top-[15%] left-[37%] m-0 p-0"
+                                            onMouseOver={handleMouseOver}
+                                            onMouseOut={handleMouseOut}
+                                        >
+                                            {!isHovering && <InfoIcon className="text-sm hover:text-cyan-600"/>}
+                                            {isHovering && (
+                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2">
+                                                    <h2 className="text-sm text-left">Only visible when hovering div</h2>
+                                                </div>
+                                            )}
+                                        </div>
+                                        
+                                        <label className='ml-4'>
+                                            <Field type="radio" name="bodyStyle" value="Headshot" required />
+                                            Headshot
+                                        </label>
+                                        <label className='ml-4'>
+                                            <Field type="radio" name="bodyStyle" value="Half" required/>
+                                            Half
+                                        </label>
+                                        <label className='ml-4'>
+                                            <Field type="radio" name="bodyStyle" value="Full" required/>
+                                            Full
+                                        </label>
+                                    </div>
+                                    {/* <p>BodyStyle: {prices[selection][values.bodyStyle]}</p> */}
                                 </div>
-                                                    
-                            } 
+
+                                <div className='w-10/12 flex justify-between items-end mb-2'>
+                                    <div className='flex items-center'>
+                                        <p className='mr-4 mb-0'># of character variations:</p>
+                                        <TextField
+                                            type="number"
+                                            name="numCharVariations"
+                                            value={values.numCharVariations}
+                                            onChange={handleChange}
+                                            size="small"
+                                            inputProps={{
+                                            min: 1,
+                                            style: {
+                                                textAlign: "center",
+                                                color: "black",
+                                                fontSize: 12,
+                                                width: '40px'
+                                            }
+                                            }}
+                                        />
+                                    </div>
+                                    {/* <p>Variants: {(values.numCharVariations - 1) * 30}</p> */}
+                                </div>  
+                                
+                                {/* Pets */}
+                                <div>
+                                    <label>
+                                        <Field type="checkbox" name="pets" className=''/>
+                                        <span className='ml-2'>Pets </span>{values.pets && <span> (Use the slider to select # of pets)</span> }
+                                    </label>
+
+                                    {values.pets && 
+                                        <div className='w-10/12 flex justify-between items-end mb-4'>
+                                            <Slider
+                                                name="numPets"
+                                                min={0}
+                                                max={10}
+                                                step={1}
+                                                defaultValue={0}
+                                                valueLabelDisplay="auto"
+                                                marks
+                                                value={values.numPets}
+                                                onChange={handleChange}
+                                            /> 
+                                            {/* <p className="ml-4">Pets: {values.numPets * 25}</p>      */}
+                                        </div>
+                                                            
+                                    } 
+                                </div> 
+                                
+
+                                {/* Extras */}
+                                <p className='mr-4 mb-0'>Extras:</p>
+                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                    <label>
+                                        <Field type="checkbox" name="extras" value="model" className='mr-2' onClick={calcModelPrice}/>
+                                        <span className='ml-2'>3D Model</span>
+                                    </label>
+                                    {/* <p className="ml-4">3D model: {values.extras.includes('model') ? prices[selection].model : 0}</p> */}
+                                </div>
+                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                    <label>
+                                        <Field type="checkbox" name="extras" value="character" className='mr-2' onClick={calcCharacterSheetPrice}/>
+                                        <span className='ml-2'>Character Sheet</span>
+                                    </label>
+                                    {/* <p className="ml-4">Character Sheet: {values.extras.includes('character') ? prices[selection].character : 0}</p> */}
+                                </div>
+                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                    <label>
+                                        <Field type="checkbox" name="extras" value="weapons" className='mr-2' onClick={calcWeaponPrice}/>
+                                        <span className='ml-2'>Weapons Sheet</span>
+                                    </label>
+                                    {/* <p className="ml-4">Weapons Sheet: {values.extras.includes('weapons') ? prices[selection].weapons : 0}</p> */}
+                                </div>
+                            </div>
+                            <div className="w-5/12 bg-[#E5E5E5] rounded-xl p-4 flex flex-col justify-between items-start">
+                                <h2 className="w-full text-2xl font-bold">Options Pricing</h2>
+                                <div className="w-full">
+                                    <div className="flex justify-between items-center">
+                                        <p className="">BodyStyle: </p>
+                                        <p>{!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle]}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className="">Variants: </p>
+                                        <p>{(values.numCharVariations - 1) * 30}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className="">Pets: </p>
+                                        <p>{!values.pets ? 0 : values.numPets * 25}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className="">3D model: </p>
+                                        <p>{values.extras.includes('model') ? prices[selection].model : 0}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className="">Character Sheet: </p>
+                                        <p>{values.extras.includes('character') ? prices[selection].character : 0}</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className="">Weapons Sheet: </p>
+                                        <p>{values.extras.includes('weapons') ? prices[selection].weapons : 0}</p>
+                                    </div>
+                                </div>
+                                <div className="w-full border-b-2 border-[#282828]"></div>
+                                <div className="self-end w-2/4 border-black border-2 bg-white py-2 px-4 rounded-md">
+                                    <p className="text-xl font-bold">Total: ${
+                                        0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                        + ((values.numCharVariations - 1) * 30) 
+                                        + (values.pets ? values.numPets * 25 : 0)
+                                        + modelPrice
+                                        + characterSheetPrice
+                                        + weaponsPrice
+                                        }</p>
+                                </div>
+                            </div>
                         </div> 
-                        
-
-                        {/* Extras */}
-                        <p className='mr-4 mb-0'>Extras:</p>
-                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
-                            <label>
-                                <Field type="checkbox" name="extras" value="model" className='mr-2' onClick={calcModelPrice}/>
-                                <span className='ml-2'>3D Model</span>
-                            </label>
-                            <p className="ml-4">3D model: {values.extras.includes('model') ? prices[selection].model : 0}</p>
-                        </div>
-                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
-                            <label>
-                                <Field type="checkbox" name="extras" value="character" className='mr-2' onClick={calcCharacterSheetPrice}/>
-                                <span className='ml-2'>Character Sheet</span>
-                            </label>
-                            <p className="ml-4">Character Sheet: {values.extras.includes('character') ? prices[selection].character : 0}</p>
-                        </div>
-                        <div className='ml-4 mt-2 w-full flex justify-between items-end mb-4 border-2 border-red-600'>
-                            <label>
-                                <Field type="checkbox" name="extras" value="weapons" className='mr-2' onClick={calcWeaponPrice}/>
-                                <span className='ml-2'>Weapons Sheet</span>
-                            </label>
-                            <p className="ml-4">Weapons Sheet: {values.extras.includes('weapons') ? prices[selection].weapons : 0}</p>
-                        </div>
-
-                        <div className="border-black border-2 text-right">
-                            <p>Base Price: {
-                                0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
-                                + ((values.numCharVariations - 1) * 30) 
-                                + (values.pets ? values.numPets * 25 : 0)
-                                + modelPrice
-                                + characterSheetPrice
-                                + weaponsPrice
-                                }</p>
-                        </div>
-                        <button type="submit" className='text-black border-2 border-black rounded-lg p-2 mt-4'>Submit</button>
+                        <motion.button 
+                            type="submit"
+                            className="w-[30%] mx-auto text-xl mt-4 border-2 border-black rounded-md px-4 py-2 hover:bg-black hover:text-white transition" 
+                            whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
+                            whileTap={{ scale: 1.05 }}
+                        >
+                            Character Complete
+                        </motion.button> 
+                        {/* <button type="submit" className='text-black border-2 border-black rounded-lg py-2 px-4 mt-2'>
+                            Submit
+                        </button> */}
                     </Form>
                     )}
                 </Formik>
-                {/* <div>
-                    <p>{}</p>
-                </div> */}
             </div>
         </Dialog>
+    </>
+  )
+}
+
+export default StepOne
+
+
 
         {/* <Formik
             initialValues={portraitData}
@@ -354,8 +424,3 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
             </Form>
             )}
         </Formik> */}
-    </>
-  )
-}
-
-export default StepOne
