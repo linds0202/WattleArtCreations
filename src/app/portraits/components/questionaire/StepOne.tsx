@@ -50,13 +50,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
         total: 0
     })
 
+    const [message, setMessage] = useState('')
     const [isHovering, setIsHovering] = useState(false);
 
-    const handleMouseOver = () => {
+    const handleMouseOver = (e) => {
+        setMessage(e)
         setIsHovering(true);
     };
 
     const handleMouseOut = () => {
+        setMessage('')
         setIsHovering(false);
     };
 
@@ -72,8 +75,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
     }, [chars])
 
     const handleCharSubmit = (values) => {
-        console.log('values is: ', values)
-        
         setPet(false)
         setCharSheet(false)
         setWeaponSheet(false)
@@ -88,7 +89,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                         + (modelPrice ? prices[selection]['model'] : 0)
                         + (characterSheetPrice ? prices[selection]['character'] : 0)
                         + (weaponsPrice ? prices[selection]['weapons'] : 0)
-        
+
         if (isEdit) {
             let updateCharArr = chars.map((char, i) => {
                 if (i === editCharIndex) {
@@ -97,7 +98,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                     return char
                 }
             })
-            
             setChars(updateCharArr)
 
         } else {
@@ -127,6 +127,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
         setIsEdit(true)
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
+
 
         if (chars[i].extras.includes('model')) setModelPrice(prices[selection]['model'])
         if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices[selection]['character'])
@@ -191,10 +192,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                     <div className="w-full flex justify-between items-center">
                         <p>Price: ${char.total}</p>
                         <div className="flex justify-end items-center">
-                            <button onClick={() => handleEditChar(i)} className='text-cyan-800 hover:text-cyan-400'>
+                            <button type="button" onClick={() => handleEditChar(i)} className='text-cyan-800 hover:text-cyan-400'>
                                 <EditIcon />
                             </button>
-                            <button onClick={() => handleDeleteChar(i)} className='ml-4 text-black hover:text-red-600'>
+                            <button type="button" onClick={() => handleDeleteChar(i)} className='ml-4 text-black hover:text-red-600'>
                                 <DeleteForeverIcon />
                             </button>
                         </div>
@@ -236,21 +237,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                         <div className="w-full mt-4 flex justify-between">
                             <div className="w-1/2 p-4">
                                 <div className='w-10/12 flex justify-between items-end mb-4'>
-                                    <div className="relative border-2 border-red-600">
-                                        <p className='mr-4 mb-0'>Body style:</p>
-                                        <div
-                                            className="absolute -top-[15%] left-[37%] m-0 p-0"
-                                            onMouseOver={handleMouseOver}
-                                            onMouseOut={handleMouseOut}
-                                        >
-                                            {!isHovering && <InfoIcon className="text-sm hover:text-cyan-600"/>}
-                                            {isHovering && (
-                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2">
-                                                    <h2 className="text-sm text-left">Only visible when hovering div</h2>
-                                                </div>
-                                            )}
-                                        </div>
-                                        
+                                    <div className="relative">
+                                        <p className='mr-4 mb-0'>Body style:</p>                                        
                                         <label className='ml-4'>
                                             <Field type="radio" name="bodyStyle" value="Headshot" required />
                                             Headshot
@@ -263,13 +251,25 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                                             <Field type="radio" name="bodyStyle" value="Full" required/>
                                             Full
                                         </label>
+                                        <div
+                                            className="absolute -top-[15%] left-[37%] m-0 p-0"
+                                            onMouseOver={() => handleMouseOver('body')}
+                                            onMouseOut={handleMouseOut}
+                                        >
+                                            <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                            {isHovering && message === 'body' && (
+                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[15%] left-[37%] m-0">
+                                                    <h2 className="text-sm text-left">Bodystyle message</h2>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    {/* <p>BodyStyle: {prices[selection][values.bodyStyle]}</p> */}
                                 </div>
 
                                 <div className='w-10/12 flex justify-between items-end mb-2'>
-                                    <div className='flex items-center'>
+                                    <div className='relative flex items-center'>
                                         <p className='mr-4 mb-0'># of character variations:</p>
+
                                         <TextField
                                             type="number"
                                             name="numCharVariations"
@@ -282,20 +282,44 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                                                 textAlign: "center",
                                                 color: "black",
                                                 fontSize: 12,
-                                                width: '40px'
+                                                width: '40px',
+                                                marginLeft: '5px'
                                             }
                                             }}
                                         />
+                                        <div
+                                            className="absolute -top-[25%] left-[65%] m-0 p-0"
+                                            onMouseOver={() => handleMouseOver('variations')}
+                                            onMouseOut={handleMouseOut}
+                                        >
+                                            <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                            {isHovering && message === 'variations' && (
+                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[65%] m-0">
+                                                    <h2 className="text-sm text-left">Character variations message</h2>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                    {/* <p>Variants: {(values.numCharVariations - 1) * 30}</p> */}
                                 </div>  
                                 
                                 {/* Pets */}
-                                <div>
+                                <div className="relative">
                                     <label>
                                         <Field type="checkbox" name="pets" className=''/>
                                         <span className='ml-2'>Pets </span>{values.pets && <span> (Use the slider to select # of pets)</span> }
                                     </label>
+                                    <div
+                                        className="absolute -top-[25%] left-[15%] m-0 p-0"
+                                        onMouseOver={() => handleMouseOver('pets')}
+                                        onMouseOut={handleMouseOut}
+                                    >
+                                        <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                        {isHovering && message === 'pets' && (
+                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[15%] m-0">
+                                                <h2 className="text-sm text-left">Pets message</h2>
+                                            </div>
+                                        )}
+                                </div>
 
                                     {values.pets && 
                                         <div className='w-10/12 flex justify-between items-end mb-4'>
@@ -310,35 +334,65 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                                                 value={values.numPets}
                                                 onChange={handleChange}
                                             /> 
-                                            {/* <p className="ml-4">Pets: {values.numPets * 25}</p>      */}
-                                        </div>
-                                                            
+                                        </div>             
                                     } 
                                 </div> 
-                                
 
                                 {/* Extras */}
                                 <p className='mr-4 mb-0'>Extras:</p>
-                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                <div className='relative ml-4 mt-2 w-full flex justify-between items-end mb-2'>
                                     <label>
                                         <Field type="checkbox" name="extras" value="model" className='mr-2' onClick={calcModelPrice}/>
                                         <span className='ml-2'>3D Model</span>
                                     </label>
-                                    {/* <p className="ml-4">3D model: {values.extras.includes('model') ? prices[selection].model : 0}</p> */}
+                                    <div
+                                        className="absolute -top-[25%] left-[30%] m-0 p-0"
+                                        onMouseOver={() => handleMouseOver('model')}
+                                        onMouseOut={handleMouseOut}
+                                    >
+                                        <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                        {isHovering && message === 'model' && (
+                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[30%] m-0">
+                                                <h2 className="text-sm text-left">3d Model message</h2>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
-                                    <label>
+                                <div className='relative ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                    <label className="relative">
                                         <Field type="checkbox" name="extras" value="character" className='mr-2' onClick={calcCharacterSheetPrice}/>
                                         <span className='ml-2'>Character Sheet</span>
                                     </label>
-                                    {/* <p className="ml-4">Character Sheet: {values.extras.includes('character') ? prices[selection].character : 0}</p> */}
+                                    <div
+                                            className="absolute -top-[25%] left-[40%] m-0 p-0"
+                                            onMouseOver={() => handleMouseOver('characterSheet')}
+                                            onMouseOut={handleMouseOut}
+                                        >
+                                            <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                            {isHovering && message === 'characterSheet' && (
+                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[40%] m-0">
+                                                    <h2 className="text-sm text-left">Character Sheet message</h2>
+                                                </div>
+                                            )}
+                                        </div>
                                 </div>
-                                <div className='ml-4 mt-2 w-full flex justify-between items-end mb-2'>
-                                    <label>
+                                <div className='relative ml-4 mt-2 w-full flex justify-between items-end mb-2'>
+                                    <label className="relative">
                                         <Field type="checkbox" name="extras" value="weapons" className='mr-2' onClick={calcWeaponPrice}/>
                                         <span className='ml-2'>Weapons Sheet</span>
                                     </label>
-                                    {/* <p className="ml-4">Weapons Sheet: {values.extras.includes('weapons') ? prices[selection].weapons : 0}</p> */}
+                                    <div
+                                        className="absolute -top-[25%] left-[40%] m-0 p-0"
+                                        onMouseOver={() => handleMouseOver('weaponSheet')}
+                                        onMouseOut={handleMouseOut}
+                                    >
+                                        <InfoIcon className="text-sm hover:text-cyan-600"/>
+                                        {isHovering && message === 'weaponSheet' && (
+                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[40%] m-0">
+                                                <h2 className="text-sm text-left">Weapons Sheet message</h2>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="w-5/12 bg-[#E5E5E5] rounded-xl p-4 flex flex-col justify-between items-start">
@@ -370,29 +424,30 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
                                     </div>
                                 </div>
                                 <div className="w-full border-b-2 border-[#282828]"></div>
-                                <div className="self-end w-2/4 border-black border-2 bg-white py-2 px-4 rounded-md">
-                                    <p className="text-xl font-bold">Total: ${
+                                <div className="self-end w-7/12 flex justify-between items-center">
+                                    <p className="w-1/2 text-xl font-bold">Total: </p>
+                                    <p className="w-1/2 ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{
                                         0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
                                         + ((values.numCharVariations - 1) * 30) 
                                         + (values.pets ? values.numPets * 25 : 0)
                                         + modelPrice
                                         + characterSheetPrice
                                         + weaponsPrice
-                                        }</p>
+                                        }</span></p>
                                 </div>
                             </div>
                         </div> 
-                        <motion.button 
+                        {/* <motion.button 
                             type="submit"
                             className="w-[30%] mx-auto text-xl mt-4 border-2 border-black rounded-md px-4 py-2 hover:bg-black hover:text-white transition" 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
                         >
                             Character Complete
-                        </motion.button> 
-                        {/* <button type="submit" className='text-black border-2 border-black rounded-lg py-2 px-4 mt-2'>
-                            Submit
-                        </button> */}
+                        </motion.button>  */}
+                        <button type="submit" className='text-black border-2 border-black rounded-lg py-2 px-4 mt-2'>
+                            Complete Character
+                        </button>
                     </Form>
                     )}
                 </Formik>

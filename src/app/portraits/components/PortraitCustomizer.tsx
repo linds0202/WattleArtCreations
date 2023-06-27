@@ -4,13 +4,14 @@ import { addPortrait, updatePortrait } from "@/app/firebase/firestore"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from 'next/navigation';
 import { EmailAuthProvider } from 'firebase/auth';
-import { Formik, Form} from 'formik';
+import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 
 import StepOne from "./questionaire/StepOne"
 import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
+import Accordion from './questionaire/Accordion';
 
 
 interface PortraitData  {
@@ -38,7 +39,7 @@ interface PortraitProps {
     portraits: PortraitData[],
     setPortraits: Function,
     setOpenWizard: Function,
-    option: String
+    setTotalPrice: Function
 }
 
 // Configure FirebaseUI., 
@@ -74,7 +75,7 @@ const prices = {
     }
 }
 
-const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, option }: PortraitProps) => {
+const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, setTotalPrice }: PortraitProps) => {
     
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -114,7 +115,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         }
     }, [authUser])
 
+
     const submitPortrait = async (portraitFormData: PortraitData) => {
+        console.log('calling submit portrait')
         const price = chars.reduce((sum, char) => sum += char.total, 0)
 
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
@@ -127,7 +130,11 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                     return portrait
                 }
             })
+            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
+            
             updatePortrait(newPortrait.id, newPortrait)
+            
+            setTotalPrice(updatedTotalPrice)
             setPortraits(editedPortraitsData)
         } else {
             const id = await addPortrait(newPortrait)
@@ -171,6 +178,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 setWeaponSheet={setWeaponSheet} 
                                 />
                                 <RequiredQuestions />
+
                                 {authUser && <button 
                                     type="submit" 
                                     className={`w-3/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 

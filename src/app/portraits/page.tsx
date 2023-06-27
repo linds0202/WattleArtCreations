@@ -39,25 +39,42 @@ export default function Portraits() {
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState(null)
   const [editPortrait, setEditPortrait] = useState(null)
+  const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
     if (portraits.length === 0 && !openWizard) setOpenWizard(true)
   }, [])
 
+  // useEffect(() => {
+  //   setTotalPrice(portraits?.reduce((sum, p) => sum += p.price, 0))
+  // }, portraits)
+
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-10/12 border-2 border-black rounded-lg mt-4 p-4 flex justify-between items-center' key={i}>
+    <div className='w-11/12 border-2 border-black rounded-lg mb-4 p-4 flex justify-between items-center' key={i}>
       <div>
         <p className='text-black'>{portrait?.mode}</p>
-        <p className='text-black'>Customer ID: {authUser?.uid}</p>
+        <p className='text-black'>Portrait Name: {portrait?.portraitTitle}</p>
+        <p className='text-black'>Customer Name: {portrait?.customer}</p>
       </div>
       <div>
-        <button onClick={() => handleEdit(i)} className=' border-2 border-black rounded-md p-2 '>
+        <p className='text-black'># of characters: {portrait?.characters.length}</p>
+        <p className='text-black'>Price:  ${portrait?.price}</p>
+      </div>
+      <div>
+        <button type="button" onClick={() => handleEdit(i)} className=' border-2 border-black rounded-md p-2 '>
             <EditIcon />
         </button>
-        <button onClick={() => handleDelete(i)} className='ml-4 border-2 border-black rounded-md p-2 '>
+        <button type="button" onClick={() => handleDelete(i)} className='ml-4 border-2 border-black rounded-md p-2 '>
             <DeleteForeverIcon />
         </button>
       </div>
+    </div>
+  ))
+
+  const checkoutList = portraits?.map((portrait, i) => (
+    <div className='w-full flex justify-between items-center mt-4'>
+      <p>{portrait?.portraitTitle} (Style: {portrait.mode})</p>
+      <p>${portrait.price}</p>
     </div>
   ))
 
@@ -83,20 +100,43 @@ export default function Portraits() {
   console.log('portraits is : ', portraits)
 
   return (
-    <div className='flex flex-col justify-around items-center min-h-screen bg-white text-black'>
-      {!openWizard && portraits.length !== 0 && <h1 className='text-2xl'>My Pending Portraits</h1>}
+    <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black'>
+      {!openWizard && portraits.length !== 0 && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
 
       {/* Display the cart */}
-      <div className='w-full flex flex-col items-center'> 
+      <div className='w-full flex justify-between items-stretch px-8'> 
         {!openWizard && 
         <>
-          {portraits.length === 0 ? <p>No Portraits Yet!</p> : <>{portraitList}</>}
-          <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-4'>
-            {portraits.length === 0 ? 'Create a Portrait' : 'Add Another Portrait'}
-          </button>
+          <div className='w-8/12 flex flex-col justify-start items-center'>
+            {portraits.length === 0 
+              ? <p>No Portraits Yet!</p> 
+              : <>{portraitList}</>}
+            <button onClick={() => setOpenWizard(true)} className='text-black border-2 border-black rounded-lg p-2 mt-10'>
+              {portraits.length === 0 ? 'Create a Portrait' : 'Add Another Portrait'}
+            </button>
+          </div>
+          <div className='w-4/12 flex flex-col justify-start items-center'>
+            <div className='w-11/12 p-4 bg-[#E5E5E5] rounded-lg flex flex-col justify-between items-center'>
+              <h2 className='text-2xl font-bold'>Payment</h2>
+              <div className='w-full'>
+                {checkoutList}
+              </div>
+              <div className="w-full border-b-2 border-[#282828] my-4"></div>
+              <div className='self-end flex justify-end items-center'>
+                <p className='text-xl font-semibold'>Total</p>
+                <p className='ml-4'>$<span>{totalPrice}</span></p>
+              </div>
+            </div>
+            { (portraits.length !== 0 && authUser) && 
+              <button onClick={handlePay} className='w-1/2 text-black border-2 border-black rounded-lg p-2 mt-10 mx-auto'>
+                Place Order
+              </button>
+            }
+          </div>
         </>
         }
       </div>
+      
       
       {/* Display the portrait wizard */}
       { openWizard && 
@@ -108,6 +148,7 @@ export default function Portraits() {
           setEditPortrait={setEditPortrait}
           editIndex={editIndex}
           portraits={portraits}
+          setTotalPrice={setTotalPrice}
         /> }
       
       {/* Wizard closed show calculate price button */}
@@ -120,11 +161,7 @@ export default function Portraits() {
           </Button>
         </div>
       }
-      { (!openWizard && portraits.length !== 0 && authUser) && 
-        <button onClick={handlePay} className='text-black border-2 border-black rounded-lg p-2 mt-10'>
-          Pay Now
-        </button>
-      }
+      
 
       {/* Prompt for login */}
       <Dialog onClose={() => setLogin(false)} open={login}>
