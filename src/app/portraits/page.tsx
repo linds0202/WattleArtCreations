@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -45,9 +46,6 @@ export default function Portraits() {
     if (portraits.length === 0 && !openWizard) setOpenWizard(true)
   }, [])
 
-  // useEffect(() => {
-  //   setTotalPrice(portraits?.reduce((sum, p) => sum += p.price, 0))
-  // }, portraits)
 
   const portraitList = portraits?.map((portrait, i) => (
     <div className='w-11/12 border-2 border-black rounded-lg mb-4 p-4 flex justify-between items-center' key={i}>
@@ -71,8 +69,9 @@ export default function Portraits() {
     </div>
   ))
 
+
   const checkoutList = portraits?.map((portrait, i) => (
-    <div className='w-full flex justify-between items-center mt-4'>
+    <div className='w-full flex justify-between items-center mt-4' key={i}>
       <p>{portrait?.portraitTitle} (Style: {portrait.mode})</p>
       <p>${portrait.price}</p>
     </div>
@@ -89,15 +88,58 @@ export default function Portraits() {
     setPortraits(deletePortraitArr)
   }
 
-  async function handlePay () {
-    // for (const portrait of portraits) {
-    //   await addPortrait({...portrait, customerId: authUser.uid, customer: authUser.displayName });
-    // }
-    console.log('calling Stripe');
-    // router.push(`/dashboard/${authUser.uid}`)
-  }
 
-  console.log('portraits is : ', portraits)
+  // const handlePay = (e) => {
+  //   console.log('calling handle pay')
+
+  //   e.preventDefault();
+    
+  //   fetch('/api/payment', {
+  //     method: 'post',
+  //     headers: new Headers({'Content-Type': 'application/json'}),
+  //     body: JSON.stringify({
+  //       items: portraits
+  //     })
+  //   })
+  //   .then (res => res.json())
+  //   .then (url => {
+  //     location.href = url
+  //   })
+  //     .catch (err => console.log(err))
+  // }
+    
+    // const res = fetch('/api/payment', {
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     items: portraits
+    //   })
+    // })
+    // const body = res.json()
+    // console.log('body in front end is: ', body)
+    // window.location.href = body.url
+  
+
+
+    // const {data} = fetch('/api/payment', {
+    //   method: 'post',
+    //   headers: new Headers({'Content-Type': 'application/json'}),
+    //   body: JSON.stringify({
+    //     items: portraits
+    //   })
+    // })
+    // .then (res => res.json())
+    // .then (url => {
+    //   location.href = url
+    // })
+    // .catch (err => console.log(err))
+    
+  
+  //console.log('portraits is: ', JSON.stringify(portraits))
+
+
 
   return (
     <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black'>
@@ -128,9 +170,39 @@ export default function Portraits() {
               </div>
             </div>
             { (portraits.length !== 0 && authUser) && 
-              <button onClick={handlePay} className='w-1/2 text-black border-2 border-black rounded-lg p-2 mt-10 mx-auto'>
-                Place Order
-              </button>
+              // <button onClick={handlePay} className='w-1/2 text-black border-2 border-black rounded-lg p-2 mt-10 mx-auto'>
+              //   Place Order
+              // </button>
+              
+              // <form action="/api/payment" method="POST">
+              //   <input name='items' value={JSON.stringify(portraits)} readOnly/>
+              //   <button type="submit" id="checkout-button">Checkout</button>
+              // </form>
+
+              <a 
+                onClick={async () => {
+                  try {
+                    await fetch('http://localhost:3000/api/payment', {
+                      method: 'POST',
+                      body: JSON.stringify({
+                        items: portraits,
+                      }),
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                      console.log('response on front end: ', response);
+                      router.push(response.session.url)
+                      // window.location.href = response.session.url;
+                    })
+                  } catch (err) {
+                    console.log('fetch error: ', err)
+                  }
+                  
+                }}
+                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium pointer text-white"
+              >
+                Checkout
+              </a>
             }
           </div>
         </>
@@ -148,6 +220,7 @@ export default function Portraits() {
           setEditPortrait={setEditPortrait}
           editIndex={editIndex}
           portraits={portraits}
+          totalPrice={totalPrice}
           setTotalPrice={setTotalPrice}
         /> }
       

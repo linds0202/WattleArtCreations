@@ -25,7 +25,7 @@ const Testimonials = () => {
         <div className='w-full h-[70vh] flex justify-between items-center'>
             {testimonials.map((testimonial, i) => (
                 // <Testimonial key={i} testimonial={testimonial}/>
-                <div className="relative w-4/12 h-full flex flex-col justify-center items-center text-black p-8 mx-4">
+                <div key={i} className="relative w-4/12 h-full flex flex-col justify-center items-center text-black p-8 mx-4">
                     <p className="text-center">&ldquo;{testimonial.body}&ldquo;</p>
                     <p className='mt-4 text-base font-bold text-right pr-10'>-{testimonial.author}</p>
                     <img src={`./drips/testimonial_${i + 1}.png`} className="absolute top-0 left-0 w-full h-full object-fill"/>

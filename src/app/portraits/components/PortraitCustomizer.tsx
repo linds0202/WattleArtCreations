@@ -35,10 +35,11 @@ interface PortraitProps {
     selection: String,
     editPortrait: PortraitData,
     setEditPortrait: Function,
-    editIndex: Number,
+    editIndex: number,
     portraits: PortraitData[],
     setPortraits: Function,
     setOpenWizard: Function,
+    totalPrice: number,
     setTotalPrice: Function
 }
 
@@ -75,7 +76,7 @@ const prices = {
     }
 }
 
-const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, setTotalPrice }: PortraitProps) => {
+const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
     
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -117,7 +118,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
-        console.log('calling submit portrait')
+        
         const price = chars.reduce((sum, char) => sum += char.total, 0)
 
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
@@ -138,7 +139,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits(editedPortraitsData)
         } else {
             const id = await addPortrait(newPortrait)
-            console.log('id is : ', id)
+            setTotalPrice(totalPrice + price)
             setPortraits(prev => ([ ...prev,  {...newPortrait, id: id}]))
         }
         setEditPortrait(null)

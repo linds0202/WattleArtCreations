@@ -111,7 +111,6 @@ export async function addPortrait( data) {
     lastUpdatedStatus: new Date,
     paymentComplete: false,
   })
-  console.log("Document written with ID: ", portraitRef.id);
   return portraitRef.id
 }
 
