@@ -23,7 +23,7 @@ const DEFAULT_FORM_STATE = {
   - onSuccess emits to notify successfully saving receipt
   - onCloseDialog emits to close dialog
  */
-export default function UploadImage(props) {
+export default function UploadImg(props) {
     const authUser = useAuth()
 
     console.log('userId: ', props.userId)
@@ -45,9 +45,11 @@ export default function UploadImage(props) {
 
     // Set the relevant fields for receipt image
     const setFileData = (target) => {
-        const file = target.files[0];
-        setFormFields(prevState => ({...prevState, fileName: file.name}));
-        setFormFields(prevState => ({...prevState, file}));
+        if (target.files.length !== 0) {
+            const file = target.files[0];
+            setFormFields(prevState => ({...prevState, fileName: file.name}));
+            setFormFields(prevState => ({...prevState, file}));
+        }
     }
 
     const closeDialog = () => {

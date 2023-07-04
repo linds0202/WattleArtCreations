@@ -7,11 +7,14 @@ import { EmailAuthProvider } from 'firebase/auth';
 import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import StepOne from "./questionaire/StepOne"
 import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
-import Accordion from './questionaire/Accordion';
+import { deleteImage, uploadImages } from '@/app/firebase/storage';
+import { updateNewPortraitWithImages } from '@/app/firebase/firestore';
+
 
 
 interface PortraitData  {
@@ -20,7 +23,7 @@ interface PortraitData  {
     portraitTitle: String,
     requiredQs: [String, String, String],
     questions: [{}, {}, {}, {}, {}], 
-    price: Number,
+    price: number,
     customer: String,
     customerId: '',
     artist: String,
@@ -28,6 +31,9 @@ interface PortraitData  {
     status: String,
     lastUpdatedStatus: Date,
     paymentComplete: Boolean,
+    uploadedImageUrls: Array<string>,
+    uploadedImageBucket: Array<string>,
+    uploadedImageInfo: Array<string>,
     id: String
   }
 
@@ -76,12 +82,19 @@ const prices = {
     }
 }
 
+const DEFAULT_FORM_STATE = {
+    fileName: "No file selected",
+    file: null,
+};
+
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
     
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
     const [login, setLogin] = useState(false);
+
+    console.log('editPOrtrait is: ', editPortrait)
 
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
         mode: `${selection}`, 
@@ -97,13 +110,32 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         status: 'Unpaid',
         lastUpdatedStatus: new Date(),
         paymentComplete: false,
+        uploadedImageUrls: [],
+        uploadedImageBucket: [],
+        uploadedImageInfo: [],
         id: ''
     })
 
     const [chars, setChars] = useState(portraitData.characters)
+    const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
+    const [formFields, setFormFields] = useState(DEFAULT_FORM_STATE); //isEdit ? props.edit : 
+    const [imageFiles, setImageFiles] = useState([])
+    const [fileNames, setFileNames] = useState(editPortrait ? editPortrait.uploadedImageInfo : [])
+
+    useEffect(() => {
+        if(imageFiles.length !== 0) {
+            const names = imageFiles.map(img => img.name)
+            setFileNames(names)
+        }
+    }, [imageFiles])
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
 
     const handleLogin = () => {
         setLogin(true)
@@ -117,6 +149,20 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     }, [authUser])
 
 
+    const setFileData = (target) => {
+        if (target.files.length !== 0) {
+            const file = target.files[0];
+            setFormFields(prevState => ({...prevState, fileName: file.name}));
+            setFormFields(prevState => ({...prevState, file}));
+            const newEntry = {
+                fileName: file.name,
+                file: file,
+            }
+            setImageFiles(prevState => [...prevState, newEntry.file])
+        }
+    }
+
+
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += char.total, 0)
@@ -124,33 +170,86 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
         
         if (editPortrait) {
-            let editedPortraitsData = portraits.map((portrait, i) => {
-                if (editIndex === i) {
-                    return newPortrait
-                } else {
-                    return portrait
-                }
-            })
-            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
+
+            //Need to check if images has been changed - then update with new file info else just use the deleted set of files
+
+            // if(imageFiles.length !== 0) {
+
+            // }
+            // const bucket = await uploadImages(imageFiles, editPortrait.id) //formFields.file
+            // //update portrait with bucket info
+            // const updatedPortraitUrls = await updateNewPortraitWithImages(editPortrait.id, bucket)
             
-            updatePortrait(newPortrait.id, newPortrait)
+            // let editedPortraitsData = portraits.map((portrait, i) => {
+            //     if (editIndex === i) {
+            //         return {...newPortrait}
+            //     } else {
+            //         return portrait
+            //     }
+            // })
+            // let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
             
-            setTotalPrice(updatedTotalPrice)
-            setPortraits(editedPortraitsData)
+            // updatePortrait(newPortrait.id, {...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBuckets: bucket, uploadedImageInfo: fileNames})
+            
+            // setTotalPrice(updatedTotalPrice)
+            // setPortraits(editedPortraitsData)
         } else {
+            
             const id = await addPortrait(newPortrait)
+            
+            //upload img to bucket
+            const bucket = await uploadImages(imageFiles, id) //formFields.file
+            //update portrait with bucket info
+            const updatedPortraitUrls = await updateNewPortraitWithImages(id, bucket, fileNames)
+
+            console.log('bucket is: ', bucket)
             setTotalPrice(totalPrice + price)
-            setPortraits(prev => ([ ...prev,  {...newPortrait, id: id}]))
+            setPortraits(prev => ([ ...prev,  {...newPortrait, id: id, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: bucket, uploadedImageInfo: fileNames}]))
         }
+
         setEditPortrait(null)
         setOpenWizard(false)
 
-        // console.log('portrait form data in customizer is: ', portraitFormData)
-        // const newPortrait = {...portraitFormData, characters: chars, customerId: authUser?.uid}
-        // setPortraits([...portraits, newPortrait])
-        // addPortrait(newPortrait)
-        // setOpenWizard(false)
     }  
+
+    const handleDeleteImg = async (i) => {
+        if(editPortrait) {
+            try {
+                console.log('in edit mode')
+            
+                await deleteImage(portraitData.id, portraitData.uploadedImageInfo[i])
+                //remove file name
+                let updateUploadedImageInfo: Array<string> = portraitData.uploadedImageInfo.filter((name) => name !== portraitData.uploadedImageInfo[i])
+                
+                //remove url
+                let updateUploadedImageUrls: Array<string> = portraitData.uploadedImageUrls.filter((name, j) => j !== i)
+                
+                //remove bucket ref
+                let updateUploadedImageBucket: Array<string> = portraitData.uploadedImageBucket.filter((name, j) => i !== j)
+                
+                let updateFileNames: Array<string> = fileNames.filter((name) => name !== fileNames[i])
+                setFileNames(updateFileNames)
+
+                setPortraitData((prev):PortraitData => ({...prev, uploadedImageUrls: updateUploadedImageUrls,
+                    uploadedImageBucket: updateUploadedImageBucket,
+                    uploadedImageInfo: updateUploadedImageInfo,
+                }))
+            } catch (error) {
+              console.log(error)
+            }
+        } else {
+            console.log('not edit mode')
+            let updateFileNames: Array<string> = fileNames.filter((name) => name !== fileNames[i])
+            setFileNames(updateFileNames)
+
+            let updateImageFiles = imageFiles.filter((file, j) => j !== i)
+            setImageFiles(updateImageFiles)
+        }
+    }
+
+    console.log('portraitData is: ', portraitData)
+    console.log('filenames: ', fileNames)
+    console.log('imagefiles: ', imageFiles)
   
 
     return (
@@ -169,17 +268,43 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                       <Form className='w-full '>
                           <div className='flex flex-between'>
                             <div className='w-6/12 flex flex-col items-center'>
+                                
+                                {/* Create Characters */}
                                 <StepOne 
                                 prices={prices}
                                 portraitData={portraitData} 
                                 chars={chars}
                                 setChars={setChars} 
+                                setCharVariations={setCharVariations}
                                 setPet={setPet}
                                 setCharSheet={setCharSheet}
                                 setWeaponSheet={setWeaponSheet} 
                                 />
                                 <RequiredQuestions />
 
+
+                                {/* Add images */}
+                                <div>
+                                    <Button variant="outlined" component="label" color="secondary">
+                                        Upload Image
+                                        <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
+                                    </Button>
+                                    
+                                    {fileNames.length === 0 
+                                        ? <p>No File Selected</p>
+                                        : fileNames?.map((name, i) => (
+                                        <div key={i}>
+                                            <p >{name}</p>
+                                            <button type="button" onClick={() => handleDeleteImg(i)} className='ml-4 border-2 border-black rounded-md p-2 '>
+                                                <DeleteForeverIcon />
+                                            </button>
+                                        </div>        
+                                    ))}
+                                    
+                                </div>
+
+
+                                {/* Submit Button */}
                                 {authUser && <button 
                                     type="submit" 
                                     className={`w-3/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 
@@ -198,6 +323,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                               <div className='w-6/12 px-8'>
                                 <h3 className='text-xl font-bold'>Let us know more. . .</h3>
                                 <StepTwo 
+                                    charVariations={charVariations}
                                     pet={pet}
                                     charSheet={charSheet}
                                     weaponSheet={weaponSheet} 

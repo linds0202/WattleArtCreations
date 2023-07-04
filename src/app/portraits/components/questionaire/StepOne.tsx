@@ -26,13 +26,14 @@ interface MyCharProps {
     portraitData: PortraitData, 
     chars: MyCharValues[],
     setChars: Function,
+    setCharVariations: Function,
     setPet: Function,
     setCharSheet: Function, 
     setWeaponSheet: Function,
 }
 
 
-const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
+const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
     const selection = portraitData.mode
     const [openCharMod, setOpenCharMod] = useState(false);
     const [isEdit, setIsEdit] = useState(false)
@@ -65,6 +66,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
 
     useEffect(() => {
         chars.forEach(char => {
+            if (char.numCharVariations > 1) setCharVariations(true)
+
             if(char.pets) setPet(true)
         
             if(char.extras.includes('character')) setCharSheet(true)
@@ -75,6 +78,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setPet, setCharSheet, 
     }, [chars])
 
     const handleCharSubmit = (values) => {
+        setCharVariations(false)
         setPet(false)
         setCharSheet(false)
         setWeaponSheet(false)

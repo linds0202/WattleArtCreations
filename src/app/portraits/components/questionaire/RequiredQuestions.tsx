@@ -19,9 +19,9 @@ const RequiredQuestions = () => {
                     />
                 </div>
                 
-                <Accordion title="Question 1">
+                <Accordion title="Character Basics">
                     <label className='text-sm leading-3'>
-                        Character Basics: Can you provide a brief description of the character, including their name, age, gender, and any significant features (e.g., scars, tattoos, or birthmarks)?
+                    Please provide a description of the character, including their name, age, gender, and any significant features. Additionally, please include their body type, hair color and style, eye color, and skin tone as is applicable.
                     </label>
                     <Field 
                         required
@@ -32,9 +32,9 @@ const RequiredQuestions = () => {
                         className="w-full text-black mt-2 border-2 border-[#282828]"
                     />
                 </Accordion>
-                <Accordion title="Question 2">
+                <Accordion title="Inspirations and References">
                     <label className='text-sm leading-3'>
-                        Personality: What is the character&#39;s personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?
+                        Are there any existing artworks, characters, or scenes that inspire your commission idea? Please provide links or images to help the artist understand your vision better.
                     </label>
                     <Field 
                         required
@@ -45,7 +45,7 @@ const RequiredQuestions = () => {
                         className="w-full text-black mt-2 border-2 border-[#282828]"
                     />
                 </Accordion>
-                <Accordion title="Question 3">
+                {/* <Accordion title="Question 3">
                     <label className='text-sm leading-3'>
                         Physical Appearance: Please describe the character&#39;s physical appearance in detail, including body type, hair color and style, eye color, and skin tone. If you have any reference images or inspirations, please provide them.
                     </label>
@@ -57,7 +57,7 @@ const RequiredQuestions = () => {
                         name="requiredQs[2]"
                         className="w-full text-black mt-2 border-2 border-[#282828]"
                     />                    
-                </Accordion>                
+                </Accordion>                 */}
             </div>
         </div>
     )

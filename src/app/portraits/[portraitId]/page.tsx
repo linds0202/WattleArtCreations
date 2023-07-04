@@ -6,10 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
 import { getPortrait } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
-import { Container, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import ChatBox from './components/ChatBox';
-import UploadImage from './components/UploadImageDialogueBox';
+import UploadImg from './components/UploadImageDialogueBox';
 
 type Params = {
   params: {
@@ -85,17 +83,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       <div className='w-3/12'>
           <div className='w-full h-[300px] border-2 border-black flex flex-col justify-around items-center '>
             <div className='w-full flex justify-around'>
-              {portrait?.images?.map(img => <img className="h-[50px] w-[50px]" src={img.imageUrl} />)}
+              {portrait?.images?.map((img, i) => <img key={i} className="h-[50px] w-[50px]" src={img.imageUrl} />)}
             </div>
             <div>
               <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>
-              <UploadImage 
+              <UploadImg 
                 showDialog={action} 
                 onCloseDialog={() => setAction(false)} 
                 portraitId={portraitId}
                 userId={authUser.uid}
               >
-              </UploadImage>
+              </UploadImg>
             </div>
           </div>
           <div>

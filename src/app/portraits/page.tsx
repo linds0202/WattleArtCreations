@@ -1,7 +1,5 @@
 'use client'
 
-import axios from 'axios';
-import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState, useEffect } from 'react';
@@ -11,7 +9,6 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import { EmailAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
-import { addPortrait } from '../firebase/firestore';
 import PortraitCustomizer from './components/PortraitCustomizer';
 
 // Configure FirebaseUI., 
@@ -46,13 +43,15 @@ export default function Portraits() {
     if (portraits.length === 0 && !openWizard) setOpenWizard(true)
   }, [])
 
-
   const portraitList = portraits?.map((portrait, i) => (
     <div className='w-11/12 border-2 border-black rounded-lg mb-4 p-4 flex justify-between items-center' key={i}>
       <div>
         <p className='text-black'>{portrait?.mode}</p>
         <p className='text-black'>Portrait Name: {portrait?.portraitTitle}</p>
-        <p className='text-black'>Customer Name: {portrait?.customer}</p>
+        <p className='text-black'>Uploaded Images:</p>
+        <div className='flex'>
+          {portrait.uploadedImageUrls.map((img, i) => <img key={i} src={img} className='ml-4'/>)}
+        </div>
       </div>
       <div>
         <p className='text-black'># of characters: {portrait?.characters.length}</p>
@@ -76,8 +75,10 @@ export default function Portraits() {
       <p>${portrait.price}</p>
     </div>
   ))
+  
 
   const handleEdit = (i) => {
+    console.log('portraits[i] is: ', portraits[i])
     setEditPortrait(portraits[i])
     setEditIndex(i)
     setOpenWizard(true)
@@ -87,57 +88,6 @@ export default function Portraits() {
     let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
     setPortraits(deletePortraitArr)
   }
-
-
-  // const handlePay = (e) => {
-  //   console.log('calling handle pay')
-
-  //   e.preventDefault();
-    
-  //   fetch('/api/payment', {
-  //     method: 'post',
-  //     headers: new Headers({'Content-Type': 'application/json'}),
-  //     body: JSON.stringify({
-  //       items: portraits
-  //     })
-  //   })
-  //   .then (res => res.json())
-  //   .then (url => {
-  //     location.href = url
-  //   })
-  //     .catch (err => console.log(err))
-  // }
-    
-    // const res = fetch('/api/payment', {
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": 'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     items: portraits
-    //   })
-    // })
-    // const body = res.json()
-    // console.log('body in front end is: ', body)
-    // window.location.href = body.url
-  
-
-
-    // const {data} = fetch('/api/payment', {
-    //   method: 'post',
-    //   headers: new Headers({'Content-Type': 'application/json'}),
-    //   body: JSON.stringify({
-    //     items: portraits
-    //   })
-    // })
-    // .then (res => res.json())
-    // .then (url => {
-    //   location.href = url
-    // })
-    // .catch (err => console.log(err))
-    
-  
-  //console.log('portraits is: ', JSON.stringify(portraits))
 
 
 
@@ -170,15 +120,6 @@ export default function Portraits() {
               </div>
             </div>
             { (portraits.length !== 0 && authUser) && 
-              // <button onClick={handlePay} className='w-1/2 text-black border-2 border-black rounded-lg p-2 mt-10 mx-auto'>
-              //   Place Order
-              // </button>
-              
-              // <form action="/api/payment" method="POST">
-              //   <input name='items' value={JSON.stringify(portraits)} readOnly/>
-              //   <button type="submit" id="checkout-button">Checkout</button>
-              // </form>
-
               <a 
                 onClick={async () => {
                   try {
@@ -199,7 +140,7 @@ export default function Portraits() {
                   }
                   
                 }}
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium pointer text-white"
+                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium cursor-pointer text-white"
               >
                 Checkout
               </a>

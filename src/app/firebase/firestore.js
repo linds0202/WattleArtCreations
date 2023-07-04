@@ -1,6 +1,7 @@
 import { addDoc, setDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
+import { getDownloadURLs } from './storage';
 
 export async function getAllUsers() {
   const allUsers = []
@@ -110,6 +111,9 @@ export async function addPortrait( data) {
     status: 'Unpaid',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
+    uploadedImageUrls: [],
+    uploadedImageBucket: [],
+    uploadedImageInfo: [],
   })
   return portraitRef.id
 }
@@ -119,6 +123,19 @@ export function updatePortrait( portraitId, portraitData) {
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 
+
+
+
+//add images to new portrait
+export async function updateNewPortraitWithImage(portraitId, imageBucket) {
+  const imageUrl = await getDownloadURL(imageBucket)
+  updateDoc(doc(db, 'portraits', portraitId), { imageBucket: imageUrl})
+}
+
+
+
+
+
 //add artist to portrait when claimed
 export function addArtist( portraitId, artistId) {
   updateDoc(doc(db, 'portraits', portraitId), { 
@@ -126,7 +143,6 @@ export function addArtist( portraitId, artistId) {
     status: 'Claimed'
   });
 }
-
 
 /* 
  Adds character to Portrait in Firestore with given character information:
@@ -136,7 +152,6 @@ export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets
     characters: arrayUnion({bodyStyle, numCharVariations, pets, numPets, extras })
   });
 }
-
 
 //returns an array of all portraits
 export async function getAllPortraits() {
@@ -171,6 +186,13 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
+}
+
+//add customer uploaded images to new portrait
+export async function updateNewPortraitWithImages(portraitId, imageBucket, fileNames) {
+  const imageUrls = await getDownloadURLs(imageBucket)
+  updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: imageUrls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
+  return imageUrls
 }
 
 //returns array of customers portraits

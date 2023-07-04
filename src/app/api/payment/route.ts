@@ -27,44 +27,8 @@ export async function POST(
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: 'http://localhost:3000/portraits/success',
-      cancel_url: 'http://localhost:3000/portraits'
+      success_url: 'http://localhost:3000/',
+      cancel_url: 'http://localhost:3000/'
   })
   return NextResponse.json({session})
 }
-
-
-
-
-// import Stripe from "stripe";
-// import { NextResponse, NextRequest } from "next/server";
-
-// export async function POST (request) {
-//     console.log('cresating stripe instance ')
-//     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    
-//     let data = await request.json();
-//     console.log('data is: ', data)
-    
-//     const session = await stripe.checkout.sessions.create({
-//         line_items: data.items.map(item => {
-//             return {
-//                 price_data: {
-//                     currency: "USD",
-//                     product_data: {
-//                         name: item.portraitTitle,
-//                         description: item.mode,
-//                     },
-//                     unit_amount: item.price * 100,
-//                 },
-//                 quantity: 1
-//             }
-//         }),
-//         payment_method_types: ["card"],
-//         mode: 'payment',
-//         success_url: 'http://localhost:3000',
-//         cancel_url: 'http://localhost:3000'
-//     })
-//     console.log(session.url)
-//     return NextResponse.json({url: session.url})
-// }
