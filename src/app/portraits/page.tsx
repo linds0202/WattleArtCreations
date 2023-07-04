@@ -7,7 +7,7 @@ import { useAuth } from '../firebase/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
-import { EmailAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
 
@@ -16,6 +16,8 @@ const uiConfig = {
   signInFlow: 'popup', 
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
+    GoogleAuthProvider.PROVIDER_ID,
+    FacebookAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
       // Avoid redirects after sign-in.
@@ -181,11 +183,6 @@ export default function Portraits() {
       <Dialog onClose={() => setLogin(false)} open={login}>
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
       </Dialog>
-      
-      {/* <div className='flex justify-around items-center mt-10 w-10/12'>
-        <Link href='/personal' className='block'>Return to Personal Landing Page</Link>
-        {authUser && <Link href={`/dashboard/${authUser.uid}`} className='block'>My Dashboard</Link>}
-      </div> */}
     </div>
   )
 }

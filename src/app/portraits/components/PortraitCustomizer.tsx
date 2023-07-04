@@ -3,7 +3,7 @@ import { auth } from '@/app/firebase/firebase';
 import { addPortrait, updatePortrait } from "@/app/firebase/firestore"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { EmailAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
@@ -53,7 +53,9 @@ interface PortraitProps {
 const uiConfig = {
     signInFlow: 'popup', 
     signInOptions: [
-      EmailAuthProvider.PROVIDER_ID,
+        EmailAuthProvider.PROVIDER_ID,
+        GoogleAuthProvider.PROVIDER_ID,
+        FacebookAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
         // Avoid redirects after sign-in.

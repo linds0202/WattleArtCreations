@@ -6,7 +6,7 @@ import { Dialog, CircularProgress } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { EmailAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
 import { auth } from '../firebase/firebase';
 
@@ -18,6 +18,8 @@ const uiConfig = {
   // signInSuccessUrl: '/',
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
+    GoogleAuthProvider.PROVIDER_ID,
+    FacebookAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
     // Avoid redirects after sign-in.

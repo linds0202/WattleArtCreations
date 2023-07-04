@@ -18,6 +18,7 @@ type Params = {
 interface PortraitData {
   uid: String,
   mode: String, 
+  portraitTitle: String,
   characters: [],
   questions: [], 
   price: Number,
@@ -78,7 +79,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <p className='min-h-screen'>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3 '>
-    <h1 className='text-2xl text-center'>Portrait Details</h1>
+    <h1 className='text-2xl text-center'>{portrait?.portraitTitle}</h1>
     <div className='mx-10 flex justify-between'>
       <div className='w-3/12'>
           <div className='w-full h-[300px] border-2 border-black flex flex-col justify-around items-center '>
@@ -96,25 +97,21 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               </UploadImg>
             </div>
           </div>
-          <div>
-              <button className='border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
+          <div className='flex flex-col items-center'>
+            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto'>See Questions</button>
+            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
           </div>
       </div>
       
       <div className='w-3/12'>
-          <p>Portrait Id: {portrait?.uid}</p>
-          <p>{portrait?.mode}</p>
+          <p>Style: {portrait?.mode}</p>
           <p>Customer: {portrait?.customer}</p>
-          <p>Customer Id: {portrait?.customerId}</p>
           {charList}
       </div>  
       <div className='w-4/12'>
           <p>Artist Id: {portrait?.artist}</p>
           <ChatBox portraitId={portraitId}/>
       </div>
-    </div>
-    <div className='w-6/12 mx-auto mb-6 text-center'>
-        <Link href='/personal' className='block'>Return to Homepage</Link> 
     </div>
   </div>
   )

@@ -27,7 +27,7 @@ export async function POST(
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: 'http://localhost:3000/',
+      success_url: `http://localhost:3000/portraits/success?portraitId=${data.items[0].id}`,
       cancel_url: 'http://localhost:3000/'
   })
   return NextResponse.json({session})
