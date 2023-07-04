@@ -262,8 +262,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         >
                                             <InfoIcon className="text-sm hover:text-cyan-600"/>
                                             {isHovering && message === 'body' && (
-                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[15%] left-[37%] m-0">
-                                                    <h2 className="text-sm text-left">Bodystyle message</h2>
+                                                <div className="w-[260px] bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[15%] left-[42%] m-0 ml-8 z-40">
+                                                    {/* <h2 className="text-sm text-left">Bodystyle message</h2> */}
+                                                    <img src="./body_type.png"  className="max-w-[240px] h-auto object-contain mx-auto"/>
                                                 </div>
                                             )}
                                         </div>
@@ -298,8 +299,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         >
                                             <InfoIcon className="text-sm hover:text-cyan-600"/>
                                             {isHovering && message === 'variations' && (
-                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[65%] m-0">
-                                                    <h2 className="text-sm text-left">Character variations message</h2>
+                                                <div className="w-[300px]  bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[25%] left-[70%] m-0 ml-4">
+                                                    <h2 className="text-sm text-left">How many versions of this character are you looking for? For additional <span className="font-bold">different</span> characters please submit and use the “add character” button.</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -319,8 +320,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     >
                                         <InfoIcon className="text-sm hover:text-cyan-600"/>
                                         {isHovering && message === 'pets' && (
-                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[15%] m-0">
-                                                <h2 className="text-sm text-left">Pets message</h2>
+                                            <div className="w-[300px]  bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[25%] left-[20%] m-0 ml-4">
+                                                <h2 className="text-sm text-left">Does your pet have a companion you’d like included? If so - check this box!</h2>
                                             </div>
                                         )}
                                 </div>
@@ -356,8 +357,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     >
                                         <InfoIcon className="text-sm hover:text-cyan-600"/>
                                         {isHovering && message === 'model' && (
-                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[30%] m-0">
-                                                <h2 className="text-sm text-left">3d Model message</h2>
+                                            <div className="w-[300px]  bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                                <h2 className="text-sm text-left">Once you have approved of your final portrait, we'll design and ship you a custom 3d-model based off the image design!</h2>
                                             </div>
                                         )}
                                     </div>
@@ -374,8 +375,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         >
                                             <InfoIcon className="text-sm hover:text-cyan-600"/>
                                             {isHovering && message === 'characterSheet' && (
-                                                <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[40%] m-0">
-                                                    <h2 className="text-sm text-left">Character Sheet message</h2>
+                                                <div className="w-[300px]  bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
+                                                    <h2 className="text-sm text-left">If you're planning on using this character for a DnD campaign, we can create a personalized character sheet to make all your friends jealous,</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -392,8 +393,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     >
                                         <InfoIcon className="text-sm hover:text-cyan-600"/>
                                         {isHovering && message === 'weaponSheet' && (
-                                            <div className="w-[300px] bg-[#E5E5E5] rounded-lg p-2 absolute -top-[25%] left-[40%] m-0">
-                                                <h2 className="text-sm text-left">Weapons Sheet message</h2>
+                                            <div className="w-[300px] bg-white border-2 border-[#282828] rounded-lg p-2 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
+                                                <h2 className="text-sm text-left">Have a special weapon that deserves it's own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it's glory.</h2>
                                             </div>
                                         )}
                                     </div>
@@ -449,7 +450,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         >
                             Character Complete
                         </motion.button>  */}
-                        <button type="submit" className='text-black border-2 border-black rounded-lg py-2 px-4 mt-2'>
+                        <button type="submit" className='text-black border-2 border-black rounded-lg py-2 px-4 mt-4'>
                             Complete Character
                         </button>
                     </Form>

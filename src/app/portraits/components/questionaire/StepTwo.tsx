@@ -229,7 +229,7 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
                             name="questions[4].q1"
                             className="w-full text-black mt-2 border-2 border-[#282828]"  
                         />
-                        <label className='w-6/12 p-4'>
+                        <label>
                             If you have any reference images or inspiration for the weapon design, please provide them.
                         </label>
                         <Field 

@@ -173,26 +173,26 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
             //Need to check if images has been changed - then update with new file info else just use the deleted set of files
 
-            // if(imageFiles.length !== 0) {
+            if(imageFiles.length !== 0) {
 
-            // }
-            // const bucket = await uploadImages(imageFiles, editPortrait.id) //formFields.file
-            // //update portrait with bucket info
-            // const updatedPortraitUrls = await updateNewPortraitWithImages(editPortrait.id, bucket)
+            }
+            const bucket = await uploadImages(imageFiles, editPortrait.id) //formFields.file
+            //update portrait with bucket info
+            const updatedPortraitUrls = await updateNewPortraitWithImages(editPortrait.id, bucket)
             
-            // let editedPortraitsData = portraits.map((portrait, i) => {
-            //     if (editIndex === i) {
-            //         return {...newPortrait}
-            //     } else {
-            //         return portrait
-            //     }
-            // })
-            // let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
+            let editedPortraitsData = portraits.map((portrait, i) => {
+                if (editIndex === i) {
+                    return {...newPortrait}
+                } else {
+                    return portrait
+                }
+            })
+            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
             
-            // updatePortrait(newPortrait.id, {...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBuckets: bucket, uploadedImageInfo: fileNames})
+            updatePortrait(newPortrait.id, {...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBuckets: bucket, uploadedImageInfo: fileNames})
             
-            // setTotalPrice(updatedTotalPrice)
-            // setPortraits(editedPortraitsData)
+            setTotalPrice(updatedTotalPrice)
+            setPortraits(editedPortraitsData)
         } else {
             
             const id = await addPortrait(newPortrait)
@@ -314,9 +314,14 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 >
                                     Add to Cart
                                 </button>}
-                                {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                    Login/Create Account to Continue
-                                </Button>}
+                                {!authUser && chars.length !== 0 && 
+                                    <>
+                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                            Login/Create Account to Continue
+                                        </Button>
+                                        <p>(You must be logined in to create a portrait)</p>
+                                    </>
+                                }
                             </div>
                             
                             {chars.length !== 0 && 
