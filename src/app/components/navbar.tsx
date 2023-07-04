@@ -58,13 +58,13 @@ export default function NavBar() {
       </div>
 
       {/* Links for Personal Route */}
-      {(currentUrl === '/personal' || currentUrl === '/portraits') && 
+      {(currentUrl === '/' || currentUrl === '/portraits') && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
                 pathname: '/portraits',
                 query: {selection: 'Photorealistic'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-cyan-600"
         >
             Photorealistic
         </Link>
@@ -72,7 +72,7 @@ export default function NavBar() {
                 pathname: '/portraits',
                 query: {selection: 'Anime'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-orange-600"
         >
             Anime
         </Link>
@@ -80,7 +80,7 @@ export default function NavBar() {
                 pathname: '/portraits',
                 query: {selection: 'NSFW'},
                 }} 
-            className="text-xl no-underline text-center"
+            className="text-xl no-underline text-center hover:text-violet-600"
         >
             NSFW
         </Link> 
@@ -150,6 +150,14 @@ export default function NavBar() {
           {(authUser.roles === 'Artist' || authUser.roles === 'admin') && <div className='pr-4'>
             <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
           </div>}
+          <div className='pr-4'>
+            {currentUrl === '/' && 
+            <Link href={'/corporate'} className='text-white no-underline'>Corporate Orders</Link>
+            }
+            {currentUrl === '/corporate' && 
+            <Link href={'/'} className='text-white no-underline'>Personal Orders</Link>
+            }
+          </div>
           <button onClick={signOut}>Logout</button>
         </>  
         }
