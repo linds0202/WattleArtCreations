@@ -305,22 +305,25 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
 
                                 {/* Add images */}
-                                <div>
-                                    <Button variant="outlined" component="label" color="secondary">
+                                <div className='w-full mt-4 flex justify-around items center'>
+                                    <Button variant="outlined" component="label" color="secondary" className='self-start mt-2'>
                                         Upload Image
                                         <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
                                     </Button>
                                     
-                                    {fileNames.length === 0 
-                                        ? <p>No File Selected</p>
-                                        : fileNames?.map((name, i) => (
-                                        <div key={i}>
-                                            <p >{name}</p>
-                                            <button type="button" onClick={() => handleDeleteImg(i)} className='ml-4 border-2 border-black rounded-md p-2 '>
-                                                <DeleteForeverIcon />
-                                            </button>
-                                        </div>        
-                                    ))}
+                                    <div className='w-8/12 flex flex-wrap justify-start items-center'>  
+                                        {fileNames.length === 0 
+                                            ? <p>No File Selected</p>
+                                            : fileNames?.map((name, i) => (
+                                            <div key={i} className='w-5/12 flex justify-between items-center border-2 border-black rounded-md m-2 p-2'>
+                                                <p className='w-10/12 h-[25px] overflow-hidden'>{name}</p>
+                                                <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
+                                                    <DeleteForeverIcon />
+                                                </button>
+                                            </div>        
+                                        ))}
+                                    </div>
+                                    
                                     
                                 </div>
 
@@ -333,7 +336,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
                                     disabled={chars.length === 0}
                                 >
-                                    Add to Cart
+                                    Add Portrait to Cart
                                 </button>}
                                 {!authUser && chars.length !== 0 && 
                                     <>
@@ -348,6 +351,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             {chars.length !== 0 && 
                               <div className='w-6/12 px-8'>
                                 <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                                <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
                                 <StepTwo 
                                     charVariations={charVariations}
                                     pet={pet}

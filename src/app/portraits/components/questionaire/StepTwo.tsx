@@ -65,7 +65,7 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
                 </div>
             </Dialog>        
             {/* Character Qs */}
-            <Accordion title="Character" >
+            <Accordion title="Character" required={false} active={true}>
                 <label className='text-sm leading-3'>
                     Personality: What is the character’s personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?
 
@@ -108,21 +108,11 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
                     name="questions[0].q4"
                     className="w-full text-black mt-2 border-2 border-[#282828]"
                 />
-                {/* <label className='text-sm leading-3'>
-                    Pose and Expression: Do you have a specific pose or expression in mind for the character, or would you like the artist to choose one that best represents the character&#39;s personality?
-                </label>
-                <Field 
-                    as="textarea"
-                    rows="3"
-                    cols="60"
-                    name="questions[0].q5" 
-                    className="w-full text-black mt-2 border-2 border-[#282828]"
-                /> */}
             </Accordion>
 
 
             {/* General Qs */}
-            <Accordion title="Multiple Versions of Character">
+            <Accordion title="Multiple Versions of Character" required={false} active={charVariations}>
             { charVariations ? 
                 <>
                     <label>
@@ -137,31 +127,10 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
                     />
                 </>
                 : <p>No extra characters variations have been added to this portrait</p>}
-    
-                {/* <label>
-                    Mood and Atmosphere: What kind of mood or atmosphere would you like to convey through the artwork (e.g., happy, mysterious, dramatic, serene, etc.)?
-                </label>
-                <Field 
-                    as="textarea"
-                    rows="4"
-                    cols="60" 
-                    name="questions[1].q2" 
-                    className="w-full text-black mt-2 border-2 border-[#282828]"  
-                />
-                <label>
-                    Special Requests: Are there any unique elements, features, or requests that you would like to include in your commission, which haven&#39;t been covered in the previous questions?
-                </label>
-                <Field 
-                    as="textarea"
-                    rows="4"
-                    cols="60" 
-                    name="questions[1].q3" 
-                    className="w-full text-black mt-2 border-2 border-[#282828]" 
-                /> */}
             </Accordion>
 
             {/* Pets Qs */}
-            <Accordion title="Pets">
+            <Accordion title="Pets" required={false} active={pet}>
                 {pet ? 
                     <>
                         <label>
@@ -189,7 +158,7 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
             </Accordion>
             
             {/* Character Sheets Qs */}
-            <Accordion title="Character Sheet">
+            <Accordion title="Character Sheet" required={false} active={charSheet}>
                 {charSheet ? 
                     <>
                         <label>
@@ -217,7 +186,7 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
             </Accordion>
 
             {/* Weapons Sheet Qs */}
-            <Accordion title="Weapons Sheet">
+            <Accordion title="Weapons Sheet" required={false} active={weaponSheet}>
                 {weaponSheet ? 
                     <>
                         <label>

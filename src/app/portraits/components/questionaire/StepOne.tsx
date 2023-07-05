@@ -405,27 +405,27 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="w-full">
                                     <div className="flex justify-between items-center">
                                         <p className="">BodyStyle: </p>
-                                        <p>{!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle]}</p>
+                                        <p>${!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle]}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Variants: </p>
-                                        <p>{(values.numCharVariations - 1) * 30}</p>
+                                        <p>${(values.numCharVariations - 1) * 30}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Pets: </p>
-                                        <p>{!values.pets ? 0 : values.numPets * 25}</p>
+                                        <p>${!values.pets ? 0 : values.numPets * 25}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">3D model: </p>
-                                        <p>{values.extras.includes('model') ? prices[selection].model : 0}</p>
+                                        <p>${values.extras.includes('model') ? prices[selection].model : 0}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Character Sheet: </p>
-                                        <p>{values.extras.includes('character') ? prices[selection].character : 0}</p>
+                                        <p>${values.extras.includes('character') ? prices[selection].character : 0}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Weapons Sheet: </p>
-                                        <p>{values.extras.includes('weapons') ? prices[selection].weapons : 0}</p>
+                                        <p>${values.extras.includes('weapons') ? prices[selection].weapons : 0}</p>
                                     </div>
                                 </div>
                                 <div className="w-full border-b-2 border-[#282828]"></div>
