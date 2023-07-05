@@ -3,7 +3,7 @@ import { auth } from '@/app/firebase/firebase';
 import { addPortrait, updatePortrait } from "@/app/firebase/firestore"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from 'next/navigation';
-import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
@@ -14,6 +14,9 @@ import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
 import { deleteImage, uploadImages } from '@/app/firebase/storage';
 import { updateNewPortraitWithImages } from '@/app/firebase/firestore';
+import { updateEditedPortraitWithImages } from '@/app/firebase/firestore';
+import { deletePortraitImages } from '@/app/firebase/firestore';
+import { requestToBodyStream } from 'next/dist/server/body-streams';
 
 
 
@@ -55,7 +58,6 @@ const uiConfig = {
     signInOptions: [
         EmailAuthProvider.PROVIDER_ID,
         GoogleAuthProvider.PROVIDER_ID,
-        FacebookAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
         // Avoid redirects after sign-in.
@@ -127,16 +129,22 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [imageFiles, setImageFiles] = useState([])
     const [fileNames, setFileNames] = useState(editPortrait ? editPortrait.uploadedImageInfo : [])
 
-    useEffect(() => {
-        if(imageFiles.length !== 0) {
-            const names = imageFiles.map(img => img.name)
-            setFileNames(names)
-        }
-    }, [imageFiles])
 
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
+
+    useEffect(() => {
+        if(imageFiles.length !== 0) {
+            const names = imageFiles.map(img => img.name)
+            if (editPortrait) {
+                console.log(fileNames)
+                setFileNames(prev => [...prev, ...names])
+            } else {
+                setFileNames(names)
+            } 
+        }
+    }, [imageFiles])
 
 
     const handleLogin = () => {
@@ -174,24 +182,32 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if (editPortrait) {
 
             //Need to check if images has been changed - then update with new file info else just use the deleted set of files
+            let newImgData = {}
 
-            if(imageFiles.length !== 0) {
-
+            if (imageFiles.length !== 0) {
+                const bucket = await uploadImages(imageFiles, editPortrait.id)
+                const newFileNames = imageFiles.map(img => img.name)
+                //update portrait with bucket info
+                const updatedPortraitUrls = await updateEditedPortraitWithImages(editPortrait.id, bucket, newFileNames, portraitData)
+                setPortraitData({...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames})
+                newImgData = {uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames}
             }
-            const bucket = await uploadImages(imageFiles, editPortrait.id) //formFields.file
-            //update portrait with bucket info
-            const updatedPortraitUrls = await updateNewPortraitWithImages(editPortrait.id, bucket)
+            console.log('newImgdata is: ', newImgData)
             
             let editedPortraitsData = portraits.map((portrait, i) => {
                 if (editIndex === i) {
-                    return {...newPortrait}
+                    if (imageFiles.length !== 0) {
+                        return {...newPortrait, ...newImgData}
+                    } else {
+                        return {...newPortrait, uploadedImageUrls: portraitData.uploadedImageUrls, uploadedImageBucket: portraitData.uploadedImageBucket, uploadedImageInfo: portraitData.uploadedImageInfo}
+                    }
                 } else {
                     return portrait
                 }
             })
             let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
             
-            updatePortrait(newPortrait.id, {...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBuckets: bucket, uploadedImageInfo: fileNames})
+            updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             
             setTotalPrice(updatedTotalPrice)
             setPortraits(editedPortraitsData)
@@ -204,7 +220,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             //update portrait with bucket info
             const updatedPortraitUrls = await updateNewPortraitWithImages(id, bucket, fileNames)
 
-            console.log('bucket is: ', bucket)
             setTotalPrice(totalPrice + price)
             setPortraits(prev => ([ ...prev,  {...newPortrait, id: id, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: bucket, uploadedImageInfo: fileNames}]))
         }
@@ -218,23 +233,27 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if(editPortrait) {
             try {
                 console.log('in edit mode')
-            
-                await deleteImage(portraitData.id, portraitData.uploadedImageInfo[i])
-                //remove file name
-                let updateUploadedImageInfo: Array<string> = portraitData.uploadedImageInfo.filter((name) => name !== portraitData.uploadedImageInfo[i])
                 
-                //remove url
+                //removes from storage
+                await deleteImage(portraitData.id, portraitData.uploadedImageInfo[i])
+                
+                //create new array of url
                 let updateUploadedImageUrls: Array<string> = portraitData.uploadedImageUrls.filter((name, j) => j !== i)
                 
-                //remove bucket ref
+                //create new array of bucket ref
                 let updateUploadedImageBucket: Array<string> = portraitData.uploadedImageBucket.filter((name, j) => i !== j)
                 
+                //remove from filenames
                 let updateFileNames: Array<string> = fileNames.filter((name) => name !== fileNames[i])
                 setFileNames(updateFileNames)
 
+                //update portrait in database
+                await deletePortraitImages(editPortrait.id, updateUploadedImageBucket, updateUploadedImageUrls, updateFileNames)
+                
+                //setPortraits to update in live data
                 setPortraitData((prev):PortraitData => ({...prev, uploadedImageUrls: updateUploadedImageUrls,
                     uploadedImageBucket: updateUploadedImageBucket,
-                    uploadedImageInfo: updateUploadedImageInfo,
+                    uploadedImageInfo: updateFileNames,
                 }))
             } catch (error) {
               console.log(error)

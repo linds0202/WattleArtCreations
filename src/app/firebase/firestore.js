@@ -124,16 +124,11 @@ export function updatePortrait( portraitId, portraitData) {
 }
 
 
-
-
 //add images to new portrait
 export async function updateNewPortraitWithImage(portraitId, imageBucket) {
   const imageUrl = await getDownloadURL(imageBucket)
   updateDoc(doc(db, 'portraits', portraitId), { imageBucket: imageUrl})
 }
-
-
-
 
 
 //add artist to portrait when claimed
@@ -178,11 +173,13 @@ export async function getPortrait(uid) {
   }
 }
 
+
 export async function updateOrCreatePortrait(portraitId, {userId}) {
   const imageUrl = await getDownloadURL(imageBucket)
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
 }
 
+//add one image to portrait
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
@@ -191,8 +188,21 @@ export async function updatePortraitWithImage(portraitId, {userId, imageBucket})
 //add customer uploaded images to new portrait
 export async function updateNewPortraitWithImages(portraitId, imageBucket, fileNames) {
   const imageUrls = await getDownloadURLs(imageBucket)
+  
   updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: imageUrls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
   return imageUrls
+}
+
+//Edit customer uploaded images to portrait
+export async function updateEditedPortraitWithImages(portraitId, imageBucket, fileNames, portraitData) {
+  const imageUrls = await getDownloadURLs(imageBucket)
+  updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: [...portraitData.uploadedImageUrls, ...imageUrls], uploadedImageBucket: [...portraitData.uploadedImageBucket, ...imageBucket], uploadedImageInfo: [...portraitData.uploadedImageInfo, ...fileNames]})
+  return [...portraitData.uploadedImageUrls, ...imageUrls]
+}
+
+//delete info for removed file
+export async function deletePortraitImages(portraitId, imageBucket, urls, fileNames) {
+  updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: urls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
 }
 
 //returns array of customers portraits
