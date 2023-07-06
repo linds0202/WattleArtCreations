@@ -166,7 +166,13 @@ export default function NavBar() {
       
       </div>
       <Dialog onClose={handleClose} open={login}>
-        {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+        <div className='bg-[#282828] flex flex-col justify-between items-center'>
+          <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
+          <div className='bg-white rounded-b-lg py-4'>
+            <h3 className='text-black text-center text-lg font-semibold pb-4'>Login/Register</h3>
+            {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+          </div>
+        </div>
       </Dialog>
     </div>
   );
