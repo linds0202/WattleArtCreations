@@ -24,7 +24,8 @@ export default function Portrait({ portrait, userId}) {
               </div>
               <div className='ml-10'>
                 <p className='mb-2'>Customer: {portrait.customer}</p>
-                <p className='mb-2'>Artist: {portrait.artist}</p>
+                <p className='mb-2'>Artist: </p>
+                <Link href={`/artistDashboard/${portrait.artist}/portfolio`} className="text-xl group-hover:underline"><p>See Artist's Portfolio</p></Link>
               </div>        
             </div>
             {(!portrait.artist && userId) && 

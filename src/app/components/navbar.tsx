@@ -31,6 +31,7 @@ const uiConfig = {
 export default function NavBar() {
   const { authUser, isLoading, signOut } = useAuth();
   const currentUrl = usePathname()
+  const baseUrl = currentUrl.split('/')[1]
   const router = useRouter();
   const [login, setLogin] = useState(false);  
   
@@ -85,6 +86,20 @@ export default function NavBar() {
         </Link> 
       </div> }
 
+      {(baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue') && (authUser?.roles === 'Artist' || authUser?.roles === 'admin') && 
+        <div className='flex justify-between items-center'>
+          <div className='pr-4'>
+            <Link href='/portraitQueue' className='text-white no-underline'>Portrait Queue</Link>
+          </div>
+          <div className='pr-4'>
+            <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white no-underline'>Dashboard</Link>
+          </div>
+          <div className='pr-4'>
+            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline'>Portfolio</Link>
+          </div>
+        </div>
+      }
+
 
       {/* Links for Corporate Route */}
       {currentUrl === '/corporate' && 
@@ -130,8 +145,10 @@ export default function NavBar() {
             Video Games
         </Link>
       </div> }
+
       <div className='w-4/12 flex justify-end items-center '>
-        <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p>
+        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>
+        {/* <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p> */}
         {!authUser && <button
               onClick={() => setLogin(true)}>
                 Login / Register
@@ -144,11 +161,12 @@ export default function NavBar() {
             <Link href={'/admin'} className='text-white no-underline'>Admin Dashboards</Link>
           </div>}
           {(authUser.roles === 'Customer' || authUser.roles === 'admin') && <div className='pr-4'>
-            <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Customer Dashboard</Link>
+            <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Dashboard</Link>
           </div>}
-          {(authUser.roles === 'Artist' || authUser.roles === 'admin') && <div className='pr-4'>
+          {/* {(authUser.roles === 'Artist' || authUser.roles === 'admin') && 
+          <div className='pr-4'>
             <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
-          </div>}
+          </div>} */}
           <div className='pr-4'>
             {currentUrl !== '/corporate' && 
             <Link href={'/corporate'} className='text-white no-underline'><img className='w-[32px] h-[32px]' src='./corporate.png' alt='Corporate Art Orders' title='Corporate Art Orders' /></Link>

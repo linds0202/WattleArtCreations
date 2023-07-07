@@ -16,11 +16,10 @@ import { deleteImage, uploadImages } from '@/app/firebase/storage';
 import { updateNewPortraitWithImages } from '@/app/firebase/firestore';
 import { updateEditedPortraitWithImages } from '@/app/firebase/firestore';
 import { deletePortraitImages } from '@/app/firebase/firestore';
-import { requestToBodyStream } from 'next/dist/server/body-streams';
 
 
 
-interface PortraitData  {
+export interface PortraitData  {
     mode: String, 
     characters: [],
     portraitTitle: String,
@@ -37,7 +36,7 @@ interface PortraitData  {
     uploadedImageUrls: Array<string>,
     uploadedImageBucket: Array<string>,
     uploadedImageInfo: Array<string>,
-    id: String
+    id: String,
   }
 
 interface PortraitProps {
@@ -98,8 +97,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     const [login, setLogin] = useState(false);
 
-    console.log('editPOrtrait is: ', editPortrait)
-
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
         mode: `${selection}`, 
         characters: [],
@@ -117,7 +114,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         uploadedImageUrls: [],
         uploadedImageBucket: [],
         uploadedImageInfo: [],
-        id: ''
+        id: '',
     })
 
     const [chars, setChars] = useState(portraitData.characters)
@@ -267,10 +264,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setImageFiles(updateImageFiles)
         }
     }
-
-    console.log('portraitData is: ', portraitData)
-    console.log('filenames: ', fileNames)
-    console.log('imagefiles: ', imageFiles)
   
 
     return (

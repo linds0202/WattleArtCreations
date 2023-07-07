@@ -45,12 +45,28 @@ export async function getUser(user) {
   }
 }
 
+//Get user by Id
+export async function getUserById(userId) {
+  const docSnap = await getDoc(doc(db, "users", userId));
+  console.log('docsnap.data(): ', docSnap.data())
+  if (!docSnap.exists()) {
+    return null
+  } else {
+    return {...docSnap.data(), uid: userId}
+  }
+}
+
 //Adds a new user to Users collection on registration
 export function addUser(user) {
   const userRef = setDoc(doc(db, 'users', user.uid), { 
     email: user.email,
     displayName: user.displayName,
-    roles: "Customer"
+    roles: "Customer",
+    artistName: "", 
+    bio: "",
+    links: [],
+    website: "",
+    country: ""
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
@@ -61,39 +77,45 @@ export function updateUser(userId, role) {
   });
 }
 
+export function updateArtist(user) {
+  updateDoc(doc(db, 'users', user.uid),  
+    { ...user }, { merge: true }
+  );
+}
+
 
 //Add new corporate consult data
-export function addConsult( data) {
-  const consultRef = addDoc(collection(db, 'consults'), { 
-    category: data.category, 
-    subcategories: data.subcategories, 
-    questions: data.questions, 
-    generalAnswers: data.generalAnswers,
-    advertisingAnswers: data.advertisingAnswers,
-    storyAnswers: data.storyAnswers,
-    tableAnswers: data.tableAnswers,
-    videoGameAnswers: data.videoGameAnswers,
-    price: '',
-    customerFirstName: data.customerFirstName,
-    customerLastName: data.customerLastName,
-    customerEmail: data.customerEmail,
-    consultant: '',
-    date: new Date,
-    status: 'Pending',
-    lastUpdatedStatus: new Date,
-    paymentComplete: false,
-  })
-  return consultRef
-}
+// export function addConsult( data) {
+//   const consultRef = addDoc(collection(db, 'consults'), { 
+//     category: data.category, 
+//     subcategories: data.subcategories, 
+//     questions: data.questions, 
+//     generalAnswers: data.generalAnswers,
+//     advertisingAnswers: data.advertisingAnswers,
+//     storyAnswers: data.storyAnswers,
+//     tableAnswers: data.tableAnswers,
+//     videoGameAnswers: data.videoGameAnswers,
+//     price: '',
+//     customerFirstName: data.customerFirstName,
+//     customerLastName: data.customerLastName,
+//     customerEmail: data.customerEmail,
+//     consultant: '',
+//     date: new Date,
+//     status: 'Pending',
+//     lastUpdatedStatus: new Date,
+//     paymentComplete: false,
+//   })
+//   return consultRef
+// }
 
-export async function getAllConsults() {
-  const allConsults = []
-    const querySnapshot = await getDocs(collection(db, "consults"));
-    querySnapshot.forEach((doc) => {
-      allConsults.push({...doc.data(), uid: doc.id})
-    });
-    return allConsults
-}
+// export async function getAllConsults() {
+//   const allConsults = []
+//     const querySnapshot = await getDocs(collection(db, "consults"));
+//     querySnapshot.forEach((doc) => {
+//       allConsults.push({...doc.data(), uid: doc.id})
+//     });
+//     return allConsults
+// }
 
 //Portraits
 export async function addPortrait( data) {
@@ -237,7 +259,6 @@ export async function getAllUnclaimed() {
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
     unclaimed.push({...doc.data(), uid: doc.id})
   });
   return unclaimed
