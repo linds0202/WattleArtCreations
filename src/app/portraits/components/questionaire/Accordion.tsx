@@ -16,7 +16,12 @@ export default function Accordion(props: FaqProps){
     return (
         <div className="flex flex-col p-3 border-b text-gray-light cursor-pointer" title={`${props.active ? "" : "Add this feature to a character to customize"}`}>
             <div className="flex flex-row items-center">
-                <p onClick={() => setExpanded(!expanded)} className={`flex-auto hover:${props.active ? "text-[#D22BD4]" : "text-black"}  ${props.active ? "text-[#2DD42B] font-bold" : "text-gray-400"}`}>{props.title}</p>
+                <p 
+                    onClick={() => setExpanded(!expanded)} 
+                    className={`flex-auto hover:${props.active ? "text-[#D22BD4]" : "text-black"}  ${props.active ? "text-[#2DD42B] font-bold" : "text-gray-400"}`}
+                >
+                    {props.title}
+                </p>
                 {expanded ? <RemoveCircleOutlineIcon onClick={() => setExpanded(!expanded)} sx={{ fontSize: 20, ":hover": { color: "#DC2626"}}} />
                     : <AddCircleOutlineIcon onClick={() => setExpanded(!expanded)} sx={{ fontSize: 20, ":hover": {color: `${props.active ? "#2DD42B" : ""}`} }}/>
                 }

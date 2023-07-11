@@ -267,12 +267,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
   
 
     return (
-        <div className='w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
-          <div className="h-[150px] w-full flex flex-col justify-center items-center">
-            <h2 className="w-full text-4xl text-center">Welcome to the {selection} Portrait Customizer</h2>
-            <p className="w-full text-center pt-4">Make your selections to customize your portrait</p>
-          </div>
-          {/* Display the portrait wizard */}
+        <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
+            <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" />
+            <div className="h-[150px] w-full flex flex-col justify-center items-center">
+                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#0075FF] font-bold'>{selection}</span> Portrait Customizer</h2>
+                <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
+            </div>
+            {/* Display the portrait wizard */}
              <div className="w-full px-4">
                   <Formik
                       initialValues={portraitData}
@@ -299,7 +300,11 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
                                 {/* Add images */}
                                 <div className='w-full mt-4 flex justify-around items center'>
-                                    <Button variant="outlined" component="label" color="secondary" className='self-start mt-2'>
+                                    {/* //color="secondary" variant="outlined" */}
+                                    <Button component="label" 
+                                        variant="outlined"
+                                        className='self-start mt-2 text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
+                                    >
                                         Upload Image
                                         <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
                                     </Button>
@@ -308,7 +313,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         {fileNames.length === 0 
                                             ? <p>No File Selected</p>
                                             : fileNames?.map((name, i) => (
-                                            <div key={i} className='w-5/12 flex justify-between items-center border-2 border-black rounded-md m-2 p-2'>
+                                            <div key={i} className='w-5/12 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
                                                 <p className='w-10/12 h-[25px] overflow-hidden'>{name}</p>
                                                 <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
                                                     <DeleteForeverIcon />

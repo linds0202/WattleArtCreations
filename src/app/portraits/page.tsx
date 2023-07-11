@@ -121,6 +121,7 @@ export default function Portraits() {
                 <p className='ml-4'>$<span>{totalPrice}</span></p>
               </div>
             </div>
+            {/* Wizard closed show calculate price button */}
             { (portraits.length !== 0 && authUser) && 
               <a 
                 onClick={async () => {
@@ -167,7 +168,7 @@ export default function Portraits() {
           setTotalPrice={setTotalPrice}
         /> }
       
-      {/* Wizard closed show calculate price button */}
+      
       { (!openWizard && portraits.length !== 0 && !authUser) && 
         <div>
           <p>Please login to continue</p>
