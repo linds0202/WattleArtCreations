@@ -21,7 +21,7 @@ const Testimonial = ({ testimonial, animate, variants, modifier }: Props) => {
       {animate ? 
         (
           <motion.div 
-            className="w-11/12 h-full flex flex-col justify-between items-center text-black p-4 border-b-2 border-black" 
+            className="w-11/12 h-full flex flex-col justify-between items-center text-[#282828] p-8 border-2 rounded-xl border-black" 
             variants={variants} 
             initial='hidden' 
             whileInView='show' 

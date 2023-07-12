@@ -51,7 +51,7 @@ export default function Portraits() {
   }, [portraits])
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-11/12 border-2 border-black rounded-lg mb-4 p-4 flex flex-wrap justify-between items-start relative' key={i}>
+    <div className='w-11/12 border-2 border-black rounded-lg mb-4 py-4 px-10 flex flex-wrap justify-between items-start relative' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
@@ -69,13 +69,13 @@ export default function Portraits() {
       
       
       <div>
-        <p className='text-black'># of characters:<span className='font-semibold ml-2'>{portrait?.characters.length}</span></p>
+        <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters.length}</span></p>
         <div className='flex justify-start'>  
           {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png'/>)}
         </div>
       </div>
       <div className='w-6/12'>
-        <p className='text-black'>Uploaded Images:</p>
+        <p className='text-black text-lg'>Uploaded Images:</p>
         <div className='flex mt-2'>
           {portrait.uploadedImageUrls.length === 0
             ? <p className='text-sm text-red-600'>(No images uploaded)</p>
@@ -84,7 +84,7 @@ export default function Portraits() {
       </div>
       
       <div>
-        <p className='text-black mt-2'>Price:  ${portrait?.price}</p>
+        <p className='text-black mt-2 text-lg'>Price:  ${portrait?.price}</p>
       </div>
     </div>
   ))

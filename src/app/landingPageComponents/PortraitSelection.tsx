@@ -15,7 +15,7 @@ const container = {
     show: {
         transition: {
             when: "beforeChildren",
-            staggerChildren: 0.1,
+            staggerChildren: 0.25,
         }
     }
 }
@@ -28,6 +28,17 @@ const testimonialVariant = {
     show: {
         opacity: 1,
         y: 0
+    }
+}
+
+const splatterVariant = {
+    hidden: {
+        opacity: 0,
+        scale: 0
+    },
+    show: {
+        opacity: 1,
+        scale: 1
     }
 }
 
@@ -153,16 +164,100 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 <img src='./drips/personal_top_full.png' className="absolute w-full top-[100%] left-0 right-0"/>
             </div>
 
-            <div className='py-[150px] flex justify-center'>
-                <motion.div className='flex justify-around py-20 w-[85%]' variants={container} initial='hidden' 
-                whileInView='show'>
-                    {options[`${mode}`].testimonials.map((el:object, i:number) => {
-                        return <Testimonial key={i} testimonial={{author: el.author, body:el.body }} animate={true} variants={testimonialVariant} modifier={i}/>
-                    })}
+            <div className='pt-[150px] pb-[75px] flex justify-center'>
+                <motion.div 
+                    className='flex justify-around py-20 w-[85%] relative' 
+                    variants={container} 
+                    initial='hidden'
+                    whileInView='show'
+                    viewport={{ once: true }}
+                >
+                    <div className="w-4/12 h-full flex justify-center items-center" >
+                        <motion.div 
+                            className="w-11/12 h-full flex flex-col justify-between items-center text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            variants={testimonialVariant} 
+                            initial='hidden' 
+                            whileInView='show' 
+                            viewport={{ once: true }}
+                            transition={{ delay: 0 + 1 / 3.5, duration: .25, type: 'spring' }}
+                        >
+                            <p>&ldquo;{options[`${mode}`].testimonials[0].body}&ldquo;</p>
+                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[0].author}</p>
+                        </motion.div>
+                    </div>
+
+                    <div className="w-4/12 h-full flex justify-center items-center" >
+
+                        <motion.div 
+                            className="w-11/12 h-full flex flex-col justify-between items-center text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            variants={testimonialVariant} 
+                            initial='hidden' 
+                            whileInView='show'
+                            viewport={{ once: true }} 
+                            transition={{ delay: .25 + 1 / 3.5, duration: .25, type: 'spring' }}
+                        >
+                            <p>&ldquo;{options[`${mode}`].testimonials[1].body}&ldquo;</p>
+                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[1].author}</p>
+                        </motion.div>
+                    </div>
+
+                    <div className="w-4/12 h-full flex justify-center items-center" >
+                        <motion.div 
+                            className="w-11/12 h-full flex flex-col justify-between items-center text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            variants={testimonialVariant} 
+                            initial='hidden' 
+                            whileInView='show' 
+                            viewport={{ once: true }}
+                            transition={{ delay: .5 + 1 / 3.5, duration: .25, type: 'spring' }}
+                        >
+                            <p>&ldquo;{options[`${mode}`].testimonials[2].body}&ldquo;</p>
+                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[2].author}</p>
+                        </motion.div>
+                    </div>
+
+                    {/* Splatters */}
+                    <motion.img 
+                        className="absolute -top-[50px] left-[75px] z-40" 
+                        src='./testimonials/top_left.png' 
+                        variants={splatterVariant} 
+                        initial='hidden' 
+                        whileInView='show' 
+                        viewport={{ once: true }}
+                        transition={{ delay: 1.5, duration: .25, type: 'spring' }}
+                    />
+                     
+                    <motion.img 
+                        className="absolute top-[75%] right-[50px] z-40" 
+                        src='./testimonials/bottom_right.png' 
+                        variants={splatterVariant} 
+                        initial='hidden' 
+                        whileInView='show' 
+                        viewport={{ once: true }}
+                        transition={{ delay: 1.5, duration: .5, type: 'spring' }}
+                    />
+                    <motion.img 
+                        className="absolute -top-[50px] right-[190px] z-40" 
+                        src='./testimonials/top_right.png' 
+                        variants={splatterVariant} 
+                        initial='hidden' 
+                        whileInView='show' 
+                        viewport={{ once: true }}
+                        transition={{ delay: 1.5, duration: .25, type: 'spring' }}
+                    />
+                    <motion.img 
+                        className="absolute top-[73%] left-[30px] z-40" 
+                        src='./testimonials/bottom_left.png' 
+                        variants={splatterVariant} 
+                        initial='hidden' 
+                        whileInView='show' 
+                        viewport={{ once: true }}
+                        transition={{ delay: 1.5, duration: .5, type: 'spring' }}
+                    />
+
                 </motion.div>
             </div>
 
-            <div className="flex flex-col items-center py-[100px]">
+            <div className="flex flex-col items-center pt-[100px]">
                 <h2 className="text-4xl font-bold mb-4">Ready to start your own masterpiece?</h2>
                 <p className="text-2xl font-semibold mb-8">Head on over to the portrait builder and </p>
                 

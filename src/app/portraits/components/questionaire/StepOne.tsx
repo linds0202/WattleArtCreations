@@ -215,7 +215,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         <DeleteForeverIcon />
                     </button>
 
-                    <img className="w-[128px] h-[128px] object-contain mx-auto rounded-xl my-4" src={`./customizer/${char.bodyStyle}.png`} />
+                    <img className="w-[128px] h-[128px] object-cover mx-auto rounded-xl my-4" src={`./customizer/${char.bodyStyle}.png`} />
                     
                     <div className="w-full bg-[#282828] text-white rounded-b-lg p-4">
                         <div className="w-full flex justify-center">
