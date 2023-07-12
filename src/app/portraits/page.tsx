@@ -71,7 +71,7 @@ export default function Portraits() {
       <div>
         <p className='text-black'># of characters:<span className='font-semibold ml-2'>{portrait?.characters.length}</span></p>
         <div className='flex justify-start'>  
-          {portrait?.characters.map(char => <img className='w-[32px] h-[32px] mr-2' src='./customizer/character.png'/>)}
+          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png'/>)}
         </div>
       </div>
       <div className='w-6/12'>
