@@ -430,7 +430,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 </div>
                             </div>
                             <div className="w-[45%] bg-[#E5E5E5] rounded-xl p-4 flex flex-col justify-between items-start relative border-b-8 border-[#282828]">
-                                {/* <img className="absolute top-[100%] left-0 right-0 -z-10" src='./customizer/customizer_bottom.png' /> */}
                                 <h2 className="w-full text-2xl font-bold">Options Pricing</h2>
                                 <div className="w-full">
                                     <div className="flex justify-between items-center">
