@@ -10,7 +10,6 @@ const UpdateInfoButton = ({ editLink }: UpdateButtonProps) => {
     const { dirty, isSubmitting } = useFormikContext()
 
     let disableButton = !dirty && !editLink
-    console.log('disable button is: ', disableButton)
 
     return (
         <div>

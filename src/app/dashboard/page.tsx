@@ -30,7 +30,6 @@ export default function Dashboard() {
 
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
 
-
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
     if (!isLoading && !authUser) {

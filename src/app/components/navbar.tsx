@@ -147,9 +147,14 @@ export default function NavBar() {
       </div> }
 
       <div className='w-4/12 flex justify-end items-center '>
-        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>
+        {authUser?.roles === 'Customer' && 
+        <Link href={`/dashboard/${authUser?.uid}/profile`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        
+        {authUser?.roles === 'Artist' && 
+        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        
         <Link href={`/artistDashboard/`} className='text-white no-underline pr-4'>Artists</Link>
-        {/* <p className='text-white text-base pr-4 m-0'>{authUser?.displayName}</p> */}
+        
         {!authUser && <button
               onClick={() => setLogin(true)}>
                 Login / Register

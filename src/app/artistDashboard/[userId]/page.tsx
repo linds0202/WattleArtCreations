@@ -62,7 +62,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
       :  myPortraits?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} userId={userId}/>
+        <Portrait key={portrait.uid} portrait={portrait} userId={userId} role={authUser.roles}/>
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>

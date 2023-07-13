@@ -52,6 +52,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     handleGetPortraits()
   }, [])
 
+
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
@@ -61,7 +62,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
       :  myPortraits?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} />
+        <Portrait key={portrait.uid} portrait={portrait} userId={authUser.uid} role={authUser.roles}/>
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>

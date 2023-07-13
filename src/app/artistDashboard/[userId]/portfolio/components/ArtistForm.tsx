@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Formik, Form, Field} from 'formik';
 import { UserData } from '../page';
-import { updateArtist } from '@/app/firebase/firestore';
+import { updateUserData } from '@/app/firebase/firestore';
 import UpdateInfoButton from './UpdateInfoButton';
 import CancelUpdateButton from './CancelUpdate';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -65,7 +65,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
-                    updateArtist({...userData, ...values, links: links})
+                    updateUserData({...userData, ...values, links: links})
 
                     helpers.setSubmitting(false)
                     setUserData({...userData, ...values})

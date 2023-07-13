@@ -48,7 +48,7 @@ export async function getUser(user) {
 //Get user by Id
 export async function getUserById(userId) {
   const docSnap = await getDoc(doc(db, "users", userId));
-  console.log('docsnap.data(): ', docSnap.data())
+  
   if (!docSnap.exists()) {
     return null
   } else {
@@ -77,7 +77,7 @@ export function updateUser(userId, role) {
   });
 }
 
-export function updateArtist(user) {
+export function updateUserData(user) {
   updateDoc(doc(db, 'users', user.uid),  
     { ...user }, { merge: true }
   );

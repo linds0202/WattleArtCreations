@@ -35,7 +35,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  console.log('authUser in portraitQueue page is: ', authUser?.uid)
+  console.log('authUser in portraitQueue page is: ', authUser?.roles)
 
   const [unclaimed, setUnclaimed] = useState<Array<PortraitData>>([])
 
@@ -65,7 +65,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       {unclaimed.length === 0 ? 
         <p>No portraits to display</p>
       :  unclaimed?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} userId={authUser?.uid} />
+        <Portrait key={portrait.uid} portrait={portrait} userId={authUser?.uid} role={authUser.roles}/>
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>
