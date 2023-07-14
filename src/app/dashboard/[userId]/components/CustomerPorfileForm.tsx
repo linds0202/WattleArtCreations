@@ -1,11 +1,14 @@
 
 import { Formik, Form, Field} from 'formik';
-import { UserData } from '../page';
+import { UserData } from './Profile'
 import UpdateInfoButton from '@/app/artistDashboard/[userId]/portfolio/components/UpdateInfoButton';
 import CancelUpdateButton from '@/app/artistDashboard/[userId]/portfolio/components/CancelUpdate';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { updateUserData } from '@/app/firebase/firestore';
+// import AvatarUploader from './AvatarUploader';
+// import { useState } from 'react';
+// import AddIcon from '@mui/icons-material/Add';
 
 interface CustomerFormValues {
     displayName: String,
@@ -21,11 +24,25 @@ interface customerFormProps {
 
 const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormProps) => {
 
+    // const [openUpload, setOpenUpload] = useState(false)
+    // const [updateUser, setUpdateUser] = useState({})
 
     const initialValues: CustomerFormValues = {
         displayName: userData.displayName,
         country: userData.country
     }
+
+    // const onClickAdd = () => {
+    //     // setOpenUpload(true)
+    //     console.log('userData.avatar: ', userData.avatar)
+    //     if(userData.avatar) {
+    //         console.log('changing UpdateUser')
+    //         setUpdateUser({avatar: userData.avatar, avatarBucket: userData.avatarBucket})
+    //     } else {
+    //         setUpdateUser({})
+    //     }
+        
+    // }
 
 
     return (
@@ -69,6 +86,16 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                             className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                         />
                         </div>
+                        {/* <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} >
+                            <AddIcon />
+                        </IconButton> */}
+
+                        {/* <AvatarUploader 
+                            edit={updateUser}
+                            showDialog={openUpload}
+                            onCloseDialog={() => setOpenUpload(false)}>
+                        </AvatarUploader> */}
+    
                     </div>
                     
                     <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>

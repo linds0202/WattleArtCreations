@@ -4,9 +4,12 @@ import { useEffect, useState } from 'react';
 import { getUserById } from '@/app/firebase/firestore';
 import { useAuth } from '@/app/firebase/auth';
 import { useRouter, usePathname } from 'next/navigation';
-import CustomerProfileForm from './components/CustomerPorfileForm';
+import CustomerProfileForm from './CustomerPorfileForm';
 import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
 import Image from 'next/image'
+import AvatarUploader from './AvatarUploader';
+import AddIcon from '@mui/icons-material/Add';
 
 export interface UserData {
     uid: String,
@@ -17,7 +20,9 @@ export interface UserData {
     bio: string,
     links: string[],
     website: string,
-    country: string
+    country: string,
+    avatar: string,
+    avatarBucket: string
 }
 
 
@@ -28,12 +33,16 @@ const Profile = () => {
 
     const [userData, setUserData] = useState(null)
     const [isEdit, setIsEdit] = useState(false)
+    const [openUpload, setOpenUpload] = useState(false)
+    const [updateUser, setUpdateUser] = useState({})
+    const [changeAvatar, setChangeAvatar] = useState(false)
 
     useEffect(() => {
         if (!isLoading && !authUser) {
             router.push('/')
         }
     }, [authUser, isLoading]);
+
 
 
     useEffect(() => {
@@ -43,18 +52,42 @@ const Profile = () => {
         }
     
         handleGetUser()
-    }, [])
+    }, [changeAvatar])
 
     const handleClick = () => {
         setIsEdit(true)
     }
+
+    const onClickAdd = () => {
+        setOpenUpload(true)
+        
+        if(userData?.avatar) {
+            setUpdateUser({ avatarBucket: userData.avatarBucket}) 
+        } else {
+            setUpdateUser({})
+        }
+    }
     
     return (
-        <div className='relative  p-10'>
+        <div className='relative p-10'>
             <div className='flex'>
-                <div className='w-[175px] h-[175px] bg-[#e5e5e5] border-2 border-[#282828] rounded-full flex justify-center items-center'>
-                  <Image src={'/user.png'} alt='Default Avatar' width={150} height={150} />
+                <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
+                    <Image src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
+                    
+                    <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} className='absolute bottom-0 right-0 text-[#282828]' >
+                        <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
+                    </IconButton>
                 </div>
+
+                
+
+                <AvatarUploader
+                    setChangeAvatar={setChangeAvatar}
+                    setUserData={setUserData} 
+                    edit={updateUser}
+                    showDialog={openUpload}
+                    onCloseDialog={() => setOpenUpload(false)}>
+                </AvatarUploader>
 
                 {userData && <div className='w-[49%] flex flex-col justify-start items-start ml-10'>
                     <h1 className='text-4xl font-bold mt-8'>{userData?.displayName}</h1>

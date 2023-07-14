@@ -48,11 +48,20 @@ export async function getUser(user) {
 //Get user by Id
 export async function getUserById(userId) {
   const docSnap = await getDoc(doc(db, "users", userId));
-  
+
+  let avatarBucket = ''
+  if (docSnap.data().avatarBucket !== undefined) {
+    avatarBucket = await getDownloadURL(docSnap.data().avatarBucket)
+  }
+
   if (!docSnap.exists()) {
     return null
   } else {
-    return {...docSnap.data(), uid: userId}
+    return {
+      ...docSnap.data(), 
+      uid: userId,
+      avatar: avatarBucket
+    }
   }
 }
 
@@ -130,7 +139,7 @@ export async function addPortrait( data) {
     customerId: data.customerId,
     artist: '',
     date: new Date,
-    status: 'Unpaid',
+    status: 'Incomplete',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
     uploadedImageUrls: [],
@@ -226,6 +235,25 @@ export async function updateEditedPortraitWithImages(portraitId, imageBucket, fi
 export async function deletePortraitImages(portraitId, imageBucket, urls, fileNames) {
   updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: urls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
 }
+
+
+
+//Update user's Avatar
+export async function addAvatar(userId, imageBucket) {
+  const avatarUrl = await getDownloadURL(imageBucket)
+
+  updateDoc(doc(db, 'users', userId), { avatar: avatarUrl, avatarBucket: imageBucket})
+  return avatarUrl
+}
+
+// Updates user's avatar image
+export async function updateAvatar( uid, imageBucket) {
+  updateDoc(doc(db, 'users', uid), { avatarBucket: imageBucket}); 
+}
+
+
+
+
 
 //returns array of customers portraits
 export async function getCustomersPortraits( uid ) {

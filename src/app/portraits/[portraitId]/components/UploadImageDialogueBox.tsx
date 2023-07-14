@@ -13,20 +13,9 @@ const DEFAULT_FORM_STATE = {
   file: null,
 };
 
-/* 
- Dialog to input receipt information
- 
- props:
-  - edit is the receipt to edit
-  - showDialog boolean for whether to show this dialog
-  - onError emits to notify error occurred
-  - onSuccess emits to notify successfully saving receipt
-  - onCloseDialog emits to close dialog
- */
+
 export default function UploadImg(props) {
     const authUser = useAuth()
-
-    console.log('userId: ', props.userId)
 
     const isEdit = false    //Object.keys(props.edit).length > 0;
     const [formFields, setFormFields] = useState(isEdit ? props.edit : DEFAULT_FORM_STATE);
@@ -80,7 +69,7 @@ export default function UploadImg(props) {
             </Typography>
             <DialogContent >
                 <Stack direction="row" spacing={2} >
-                {(isEdit && !formFields.fileName) && <Avatar alt="receipt image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
+                {(isEdit && !formFields.fileName) && <Avatar alt="portrait image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
                 <Button variant="outlined" component="label" color="secondary">
                     Upload Image
                     <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />

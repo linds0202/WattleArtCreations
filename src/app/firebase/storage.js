@@ -7,6 +7,9 @@ const BUCKET_URL = "gs://wattleartcreations.appspot.com";
  
 // Uploads image and returns the storage bucket
 export async function uploadImage(image, portraitId) {
+  console.log('in upload image')
+  console.log('image is: ', image)
+  console.log('portraitId is: ', portraitId)
   const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
   const bucket = `${BUCKET_URL}/${portraitId}/${formattedDate}.jpg`;
   await uploadBytes(ref(storage, bucket), image);
