@@ -137,9 +137,9 @@ export async function addPortrait( data) {
     price: data.price,
     customer: data.customer,
     customerId: data.customerId,
-    artist: '',
+    artist: [],
     date: new Date,
-    status: 'Incomplete',
+    status: 'Unclaimed',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
     uploadedImageUrls: [],
@@ -163,10 +163,9 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 
 //add artist to portrait when claimed
-export function addArtist( portraitId, artistId) {
+export function addArtist( portraitId, artistId, displayName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
-    artist: artistId,
-    status: 'Claimed'
+    artist: arrayUnion({artistName: displayName, id: artistId}),
   });
 }
 
@@ -268,8 +267,8 @@ export async function getCustomersPortraits( uid ) {
 }
 
 //returns array of artists claimed portraits
-export async function getArtistsPortraits( uid ) {
-  const q = query(collection(db, "portraits"), where("artist", "==", uid));
+export async function getArtistsPortraits( displayName, uid ) {
+  const q = query(collection(db, "portraits"), where("artist", "array-contains", { id: uid, artistName: displayName })); //"artist.artistName", "==", uid
   const portraits = []
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -282,7 +281,7 @@ export async function getArtistsPortraits( uid ) {
 //returns all portraits that are not claimed for portrait queue
 export async function getAllUnclaimed() {
   const unclaimed = []
-  const q = query(collection(db, "portraits"), where("artist", "==", ""));
+  const q = query(collection(db, "portraits"), where("status", "==", "Unclaimed"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {

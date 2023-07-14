@@ -23,7 +23,7 @@ interface PortraitData {
   price: Number,
   customer: String,
   customerId: String,
-  artist: String,
+  artist: String[],
   date: Timestamp,
   status: String,
   lastUpdatedStatus: Timestamp,

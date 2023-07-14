@@ -1,16 +1,23 @@
 import React from 'react'
 import { addArtist } from '../firebase/firestore'
 import { useRouter } from 'next/navigation'
+import { PortraitData } from '../portraits/components/PortraitCustomizer'
 
 import Link from 'next/link'
 
-export default function Portrait({ portrait, userId, role}) {
+interface PortraitProps {
+  portrait: PortraitData,
+  userId: string,
+  displayName: string
+  role: string
+}
+
+export default function Portrait({ portrait, userId, displayName, role}: PortraitProps) {
   const router = useRouter()
 
-
   const handleClaim = async () => {
-    const updatedPortrait = await addArtist(portrait.uid, userId)
-    router.push(`/portraitQueue`)
+    const updatedPortrait = await addArtist(portrait.uid, userId, displayName)
+    router.push(`/artistDashboard/${userId}`)
   }
   
   return (
@@ -25,15 +32,17 @@ export default function Portrait({ portrait, userId, role}) {
               <div className='ml-10'>
                 <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>
                 <p className='mb-2'>Artist: 
-                {portrait.artist !== "" 
-                  ? <Link href={`/artistDashboard/${portrait.artist}/portfolio`} className="text-xl group-hover:underline ml-4">
-                      <span>See Artist's Portfolio</span>
+                {portrait.artist.length  
+                  ? portrait.artist.map((artist, i) => 
+                    <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-xl group-hover:underline ml-4">
+                      <span>{artist.artistName}</span>
                     </Link>
+                  )
                   : <span className='ml-4'>No artist assigned yet</span>}
                 </p>
               </div>        
             </div>
-            {(!portrait.artist && role === 'Artist') && 
+            {(portrait.artist.filter(artist => artist.id === userId).length < 1 && role === 'Artist') && 
               <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
             }
             <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>

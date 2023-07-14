@@ -35,9 +35,9 @@ export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  console.log('authUser in portraitQueue page is: ', authUser?.roles)
 
   const [unclaimed, setUnclaimed] = useState<Array<PortraitData>>([])
+  const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -51,10 +51,13 @@ export default function Dashboard({ params: { userId }}: Params) {
     const handleGetUnclaimed = async () => {
       const unclaimed = await getAllUnclaimed();
       setUnclaimed(unclaimed)
+      const available = unclaimed.filter(portrait => portrait.artist.filter(artist => artist.id === authUser.uid).length === 0)
+      setFiltered(available)
     }
 
     handleGetUnclaimed()
   }, [])
+
 
   return ((!authUser) ? 
     <p>Loading ...</p>
@@ -64,8 +67,8 @@ export default function Dashboard({ params: { userId }}: Params) {
     <div className='flex flex-col items-center'>
       {unclaimed.length === 0 ? 
         <p>No portraits to display</p>
-      :  unclaimed?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} userId={authUser?.uid} role={authUser.roles}/>
+      :  filtered?.map(portrait => (
+        <Portrait key={portrait.uid} portrait={portrait} userId={authUser?.uid} displayName={authUser.displayName} role={authUser.roles}/>
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>

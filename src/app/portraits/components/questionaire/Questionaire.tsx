@@ -3,20 +3,24 @@ import { useState, useRef } from "react"
 
 import StepOne from "./StepOne"
 import StepTwo from "./StepTwo"
+import { PortraitData } from "../PortraitCustomizer"
 
-export interface PortraitData  {
-    mode: String, 
-    characters: [],
-    questions: [{}, {}, {}, {}, {}], 
-    price: Number,
-    customer: String,
-    artist: String,
-    date: Date,
-    status: String,
-    lastUpdatedStatus: Date,
-    paymentComplete: Boolean,
+// export interface PortraitData  {
+//     mode: String, 
+//     characters: [],
+//     questions: [{}, {}, {}, {}, {}], 
+//     price: Number,
+//     customer: String,
+//     artist: String,
+//     date: Date,
+//     status: String,
+//     lastUpdatedStatus: Date,
+//     paymentComplete: Boolean,
+// }
+
+interface QuestionaireProps {
+    option: 
 }
-
 
 
 const Questionaire = ({ option, setOpenWizard }) => {

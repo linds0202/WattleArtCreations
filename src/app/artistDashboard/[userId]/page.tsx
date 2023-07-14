@@ -7,6 +7,7 @@ import { useAuth } from '../../firebase/auth';
 import { getArtistsPortraits } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import Portrait from '@/app/components/Portrait';
+import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 
 type Params = {
   params: {
@@ -14,27 +15,13 @@ type Params = {
   }
 }
 
-interface PortraitData {
-  uid: String,
-  styleOne: String, 
-  styleTwo: String, 
-  styleThree: String, 
-  characters: [],
-  questions: [], 
-  price: Number,
-  customer: String,
-  artist: String,
-  date: Timestamp,
-  status: String,
-  lastUpdatedStatus: Timestamp,
-  paymentComplete: Boolean,
-}
-
 export default function ArtistDashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
+
+  console.log('authUser in artist dashboard: ', authUser?.uid)
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -46,7 +33,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     const handleGetPortraits = async () => {
-      const getMyPortraits = await getArtistsPortraits(userId);
+      const getMyPortraits = await getArtistsPortraits(authUser?.displayName, authUser?.uid);
       setMyPortaits(getMyPortraits)
     }
 
@@ -62,7 +49,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
       :  myPortraits?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} userId={userId} role={authUser.roles}/>
+        <Portrait key={portrait.uid} portrait={portrait} userId={userId} displayName={authUser.displayName} role={authUser.roles}/>
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>

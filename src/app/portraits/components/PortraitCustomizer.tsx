@@ -28,7 +28,10 @@ export interface PortraitData  {
     price: number,
     customer: String,
     customerId: '',
-    artist: String,
+    artist: [
+        {artistName: string,
+        id: string}
+    ],
     date: Date,
     status: String,
     lastUpdatedStatus: Date,
@@ -106,7 +109,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         price: 0,
         customer: '',
         customerId: '',
-        artist: '',
+        artist: [{artistName: "", id: ""}],
         date: new Date(),
         status: 'Unpaid',
         lastUpdatedStatus: new Date(),
@@ -122,7 +125,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
-    const [formFields, setFormFields] = useState(DEFAULT_FORM_STATE); //isEdit ? props.edit : 
+    const [formFields, setFormFields] = useState(DEFAULT_FORM_STATE); 
     const [imageFiles, setImageFiles] = useState([])
     const [fileNames, setFileNames] = useState(editPortrait ? editPortrait.uploadedImageInfo : [])
 
