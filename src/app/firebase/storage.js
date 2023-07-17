@@ -26,8 +26,6 @@ export async function uploadImages(images, portraitId) {
     await uploadBytes(ref(storage, bucket ), file)
     uploadedImgs.push(bucket)
   }
-
-  console.log(uploadedImgs)
   
   return uploadedImgs;
 }

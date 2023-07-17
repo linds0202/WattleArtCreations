@@ -176,7 +176,7 @@ export default function Portraits() {
                     })
                     .then(response => response.json())
                     .then(response => {
-                      console.log('response on front end: ', response);
+                      console.log('response.session on front end: ', response.session);
                       router.push(response.session.url)
                       // window.location.href = response.session.url;
                     })

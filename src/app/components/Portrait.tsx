@@ -30,8 +30,8 @@ export default function Portrait({ portrait, userId, displayName, role}: Portrai
                 <p className='mb-2'>Status: {portrait.status}</p>
               </div>
               <div className='ml-10'>
-                <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>
-                <p className='mb-2'>Artist: 
+                {role === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
+                {role === 'Customer' && <p className='mb-2'>Artist: 
                 {portrait.artist.length  
                   ? portrait.artist.map((artist, i) => 
                     <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-xl group-hover:underline ml-4">
@@ -39,7 +39,7 @@ export default function Portrait({ portrait, userId, displayName, role}: Portrai
                     </Link>
                   )
                   : <span className='ml-4'>No artist assigned yet</span>}
-                </p>
+                </p>}
               </div>        
             </div>
             {(portrait.artist.filter(artist => artist.id === userId).length < 1 && role === 'Artist') && 
