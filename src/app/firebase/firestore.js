@@ -138,6 +138,7 @@ export async function addPortrait( data) {
     customer: data.customer,
     customerId: data.customerId,
     artist: [],
+    artistAssigned: false,
     date: new Date,
     status: 'Unclaimed',
     lastUpdatedStatus: new Date,
@@ -162,10 +163,18 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 }
 
 
-//add artist to portrait when claimed
+//add artist to artist list for portrait when claimed
 export function addArtist( portraitId, artistId, displayName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({artistName: displayName, id: artistId}),
+  });
+}
+
+//Assign artist to portrait per customer action
+export function addSelectedArtist( portraitId, artistId, displayName) {
+  updateDoc(doc(db, 'portraits', portraitId), { 
+    artist: [{artistName: displayName, id: artistId}],
+    artistAssigned: true,
   });
 }
 

@@ -20,8 +20,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   const router = useRouter();
 
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
-
-  console.log('authUser in artist dashboard: ', authUser?.uid)
+  const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -35,20 +34,70 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     const handleGetPortraits = async () => {
       const getMyPortraits = await getArtistsPortraits(authUser?.displayName, authUser?.uid);
       setMyPortaits(getMyPortraits)
+      setFiltered(getMyPortraits)
     }
 
     handleGetPortraits()
   }, [])
+
+  const handleFilter= (filter: string) => {
+    
+    if(filter === 'Bid') {
+      const filteredPortraits = myPortraits.filter(portrait => !portrait.artistAssigned)
+
+      setFiltered(filteredPortraits)
+    }
+    if(filter === 'In Progress') {
+      const filteredPortraits = myPortraits.filter(portrait => portrait.artistAssigned)
+
+       setFiltered(filteredPortraits)
+    }
+    if(filter === 'Completed') {
+      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Complete')
+      setFiltered(filteredPortraits)
+    }
+    if(filter === 'Clear') {
+      setFiltered(myPortraits)
+    }
+  }
+
+
 
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3'>
     <h1 className='text-2xl text-center'>Artist Dashboard</h1>
+    
+    <button 
+      onClick={() => handleFilter('Bid')} 
+      className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+    >
+      Bid
+    </button>
+    <button 
+      onClick={() => handleFilter('In Progress')} 
+      className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+    >
+      In Progress
+    </button>
+    <button 
+      onClick={() => handleFilter('Completed')} 
+      className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+    >
+      Completed
+    </button>
+    <button 
+      onClick={() => handleFilter('Clear')} 
+      className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+    >
+      Clear
+    </button>
+    
     <div className='flex flex-col items-center'>
       {myPortraits.length === 0 ? 
         <p>No portraits to display</p>
-      :  myPortraits?.map(portrait => (
+      :  filtered?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} userId={userId} displayName={authUser.displayName} role={authUser.roles}/>
       )) }
     </div>   

@@ -32,6 +32,7 @@ export interface PortraitData  {
         {artistName: string,
         id: string}
     ],
+    artistAssigned: boolean,
     date: Date,
     status: String,
     lastUpdatedStatus: Date,
@@ -110,6 +111,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         customer: '',
         customerId: '',
         artist: [{artistName: "", id: ""}],
+        artistAssigned: false,
         date: new Date(),
         status: 'Unpaid',
         lastUpdatedStatus: new Date(),
