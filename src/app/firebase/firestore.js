@@ -75,7 +75,12 @@ export function addUser(user) {
     bio: "",
     links: [],
     website: "",
-    country: ""
+    country: "",
+    activeCommissions: 0,
+    maxCommissions: 0,
+    totalCompletedCommissions: 0,
+    lifeTimeEarnings: 0,
+    paymentsOwing: 0
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
@@ -94,37 +99,37 @@ export function updateUserData(user) {
 
 
 //Add new corporate consult data
-// export function addConsult( data) {
-//   const consultRef = addDoc(collection(db, 'consults'), { 
-//     category: data.category, 
-//     subcategories: data.subcategories, 
-//     questions: data.questions, 
-//     generalAnswers: data.generalAnswers,
-//     advertisingAnswers: data.advertisingAnswers,
-//     storyAnswers: data.storyAnswers,
-//     tableAnswers: data.tableAnswers,
-//     videoGameAnswers: data.videoGameAnswers,
-//     price: '',
-//     customerFirstName: data.customerFirstName,
-//     customerLastName: data.customerLastName,
-//     customerEmail: data.customerEmail,
-//     consultant: '',
-//     date: new Date,
-//     status: 'Pending',
-//     lastUpdatedStatus: new Date,
-//     paymentComplete: false,
-//   })
-//   return consultRef
-// }
+export function addConsult( data) {
+  const consultRef = addDoc(collection(db, 'consults'), { 
+    category: data.category, 
+    subcategories: data.subcategories, 
+    questions: data.questions, 
+    generalAnswers: data.generalAnswers,
+    advertisingAnswers: data.advertisingAnswers,
+    storyAnswers: data.storyAnswers,
+    tableAnswers: data.tableAnswers,
+    videoGameAnswers: data.videoGameAnswers,
+    price: '',
+    customerFirstName: data.customerFirstName,
+    customerLastName: data.customerLastName,
+    customerEmail: data.customerEmail,
+    consultant: '',
+    date: new Date,
+    status: 'Pending',
+    lastUpdatedStatus: new Date,
+    paymentComplete: false,
+  })
+  return consultRef
+}
 
-// export async function getAllConsults() {
-//   const allConsults = []
-//     const querySnapshot = await getDocs(collection(db, "consults"));
-//     querySnapshot.forEach((doc) => {
-//       allConsults.push({...doc.data(), uid: doc.id})
-//     });
-//     return allConsults
-// }
+export async function getAllConsults() {
+  const allConsults = []
+    const querySnapshot = await getDocs(collection(db, "consults"));
+    querySnapshot.forEach((doc) => {
+      allConsults.push({...doc.data(), uid: doc.id})
+    });
+    return allConsults
+}
 
 //Portraits
 export async function addPortrait( data) {

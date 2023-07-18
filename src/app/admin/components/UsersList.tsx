@@ -3,70 +3,80 @@ import '../menu/styles.css'
 import { useState, useEffect } from "react"
 import { getAllUsers, getAllCustomers } from "@/app/firebase/firestore"
 import User from "./User";
+import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 
-interface UserData {
-  uid: String,
-  email: String,
-  displayName: String,
-  roles: String
-}
 
 export default function UsersList() {
-  const [allCustomers, setAllCustomers] = useState<Array<UserData>>([])
-  const [filteredCustomers, setFilteredCustomers] = useState<Array<UserData>>([])  
+  const [allUsers, setAllUsers] = useState<Array<UserData>>([])
+  const [filteredUsers, setFilteredUsers] = useState<Array<UserData>>([])  
   const [button, setButton] = useState<String>('')
 
   useEffect(() => {
     const handleGetAllUsers = async () => {
-      const customersArr = await getAllCustomers();
-      setAllCustomers(customersArr)
-      setFilteredCustomers(customersArr)
+      const usersArr = await getAllUsers();
+      setAllUsers(usersArr)
+      setFilteredUsers(usersArr)
     }
 
     handleGetAllUsers()
   }, [])
 
-  const handleGetPending = () => {
-    const filtered = allCustomers.filter(customer => customer.roles.includes('artist'))
-    setFilteredCustomers(filtered)
+  const handleGetArtists = () => {
+    const filtered = allUsers.filter(user => user.roles === 'Artist')
+    setFilteredUsers(filtered)
 
     setButton('B1')
   }
 
-  const handleGetClaimed = () => {
-    const filtered = allCustomers.filter(customer => customer.roles.includes('admin'))
-    setFilteredCustomers(filtered)
+  const handleGetCustomers = () => {
+    const filtered = allUsers.filter(user => user.roles === 'Customer')
+    setFilteredUsers(filtered)
+
     setButton('B2')
   }
 
-  const handleClearPortraits = () => {
-    setFilteredCustomers(allCustomers)
+  const handleGetAdmins = () => {
+    const filtered = allUsers.filter(user => user.roles.includes('Admin'))
+    setFilteredUsers(filtered)
+    setButton('B3')
+  }
+
+  const handleClearFilters = () => {
+    setFilteredUsers(allUsers)
     setButton('')
   }
 
   return (
-    <div className="w-full py-10">
-      <h1 className='text-4xl text-center pt-10 mb-20 font-semibold'>All Users</h1>
-      <div className='w-full mx-auto flex justify-between mb-6 px-10 w-10/12'>
+    <div className="w-full">
+      <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>All Users</h1>
+      <div className='w-full mx-auto flex justify-between mb-6 px-10'>
         <motion.button 
           className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
-          onClick={handleGetPending} 
+          onClick={handleGetArtists} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
-          Pending Commissions
+          Artists
         </motion.button>
 
         <motion.button 
           className={button === 'B2' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
-          onClick={handleGetClaimed} 
+          onClick={handleGetCustomers} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
-          Claimed Commissions
+          Customers
+        </motion.button>
+
+        <motion.button 
+          className={button === 'B3' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
+          onClick={handleGetAdmins} 
+          whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
+        >
+          Admins
         </motion.button>
 
         <motion.button 
           className='border-2 border-black rounded-lg p-2 w-3/12' 
-          onClick={handleClearPortraits} 
+          onClick={handleClearFilters} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
           Clear Filters
@@ -79,18 +89,18 @@ export default function UsersList() {
               <tr>
                 <th>Id</th>
                 <th>Display Name</th>
-                <th>Emial</th>
-                <th>Roles</th>
-                <th>View Orders</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>View Details</th>
               </tr>
             </thead>
             <tbody>
-              {filteredCustomers.length === 0 ? 
+              {filteredUsers.length === 0 ? 
                 <tr>
                   <td>No customers to display</td>
                 </tr>
-              :  filteredCustomers?.map(customer => (
-                <User key={customer.uid} customer={customer} />
+              :  filteredUsers?.map(user => (
+                <User key={user.uid} user={user} />
               )) }
             </tbody>
         </table>

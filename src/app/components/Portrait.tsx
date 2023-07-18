@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { addArtist } from '../firebase/firestore'
 import { useRouter } from 'next/navigation'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'

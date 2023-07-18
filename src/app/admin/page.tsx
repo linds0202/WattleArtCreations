@@ -43,16 +43,11 @@ export default function Dashboard({ params: { userId }}: Params) {
         </ViewContext.Provider> 
       </div>
         {view === 'Portraits' ?
-          <PortraitList />
+          <PortraitList user={authUser} />
         : view === 'Consultations' ?
           <ConsultList />
         : <UsersList />
         }
-        
-      
-    </div>
-    <div className='w-6/12 mx-auto mb-6 text-center'>
-        <Link href='/' className='block'>Return Home</Link> 
     </div>
   </div>
   )

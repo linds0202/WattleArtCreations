@@ -10,21 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Image from 'next/image'
 import AvatarUploader from './AvatarUploader';
 import AddIcon from '@mui/icons-material/Add';
-
-export interface UserData {
-    uid: String,
-    displayName: String,
-    email: String,
-    roles: String,
-    artistName: string,
-    bio: string,
-    links: string[],
-    website: string,
-    country: string,
-    avatar: string,
-    avatarBucket: string
-}
-
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 
 const Profile = () => {
 

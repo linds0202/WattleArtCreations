@@ -18,7 +18,12 @@ export interface UserData {
     bio: string,
     links: string[],
     website: string,
-    country: string
+    country: string,
+    activeCommissions: number,
+    maxCommissions: number,
+    totalCompletedCommissions: number,
+    lifeTimeEarnings: number,
+    paymentsOwing: number
 }
 
 

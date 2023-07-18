@@ -51,7 +51,6 @@ export const MenuContainer = () => {
 
   }, [])
 
-  console.log(open)
 
   return (
     <motion.nav

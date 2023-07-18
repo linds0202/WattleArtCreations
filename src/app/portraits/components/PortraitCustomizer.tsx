@@ -20,13 +20,13 @@ import { deletePortraitImages } from '@/app/firebase/firestore';
 
 
 export interface PortraitData  {
-    mode: String, 
+    mode: string, 
     characters: [],
-    portraitTitle: String,
-    requiredQs: [String, String, String],
+    portraitTitle: string,
+    requiredQs: [string, string],
     questions: [{}, {}, {}, {}, {}], 
     price: number,
-    customer: String,
+    customer: string,
     customerId: '',
     artist: [
         {artistName: string,
@@ -34,13 +34,13 @@ export interface PortraitData  {
     ],
     artistAssigned: boolean,
     date: Date,
-    status: String,
+    status: string,
     lastUpdatedStatus: Date,
-    paymentComplete: Boolean,
+    paymentComplete: boolean,
     uploadedImageUrls: Array<string>,
     uploadedImageBucket: Array<string>,
     uploadedImageInfo: Array<string>,
-    id: String,
+    id: string,
   }
 
 interface PortraitProps {
@@ -105,7 +105,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         mode: `${selection}`, 
         characters: [],
         portraitTitle: '',
-        requiredQs: ['', '', ''],
+        requiredQs: ['', ''],
         questions: [{}, {}, {}, {}, {}],
         price: 0,
         customer: '',

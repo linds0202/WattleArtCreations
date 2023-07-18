@@ -1,4 +1,3 @@
-import { addPortrait } from "@/app/firebase/firestore"
 import { useEffect, useState } from "react"
 import { Formik, Form, Field } from 'formik';
 import { Slider, Button, Dialog } from '@mui/material';
@@ -9,8 +8,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
-import { PortraitData } from "./Questionaire";
-import { motion } from "framer-motion";
+import { PortraitData } from "../PortraitCustomizer";
 
 interface MyCharValues {
     bodyStyle: string,
