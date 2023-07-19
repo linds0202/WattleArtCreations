@@ -8,9 +8,10 @@ import { useAuth } from '../firebase/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
-import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
+import { PortraitData } from './components/PortraitCustomizer';
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -18,7 +19,6 @@ const uiConfig = {
   signInOptions: [
     EmailAuthProvider.PROVIDER_ID,
     GoogleAuthProvider.PROVIDER_ID,
-    FacebookAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
       // Avoid redirects after sign-in.
@@ -36,7 +36,7 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState([])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState(null)
   const [editPortrait, setEditPortrait] = useState(null)
@@ -112,7 +112,6 @@ export default function Portraits() {
   }
 
 
-
   return (
     <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black'>
       {!openWizard && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
@@ -178,12 +177,10 @@ export default function Portraits() {
                     .then(response => {
                       console.log('response.session on front end: ', response.session);
                       router.push(response.session.url)
-                      // window.location.href = response.session.url;
                     })
                   } catch (err) {
                     console.log('fetch error: ', err)
                   }
-                  
                 }}
                 className="flex items-center justify-center rounded-md border-2 border-[#0075FF] bg-[#0075FF] px-6 py-3 text-base font-medium cursor-pointer text-white mt-4 hover:scale-105"
               >

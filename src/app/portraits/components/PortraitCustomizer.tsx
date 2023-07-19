@@ -194,7 +194,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 setPortraitData({...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames})
                 newImgData = {uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames}
             }
-            console.log('newImgdata is: ', newImgData)
             
             let editedPortraitsData = portraits.map((portrait, i) => {
                 if (editIndex === i) {

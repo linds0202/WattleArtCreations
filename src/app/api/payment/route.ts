@@ -10,8 +10,6 @@ export async function POST(
 ) {
 
   let data = await req.json();
-
-  console.log('in api data is: ', data)
   
   const session = await stripe.checkout.sessions.create({
       line_items: data.items.map(item => {
@@ -29,7 +27,7 @@ export async function POST(
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `http://localhost:3000/portraits/success?portraitId=${data.items[0].id}`, //?&session_id=${session.id}
+      success_url: `http://localhost:3000/portraits/success?session_id={CHECKOUT_SESSION_ID}`, 
       cancel_url: 'http://localhost:3000/'
   })
   console.log('in api session is: ', session)

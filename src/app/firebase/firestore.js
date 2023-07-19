@@ -159,7 +159,7 @@ export async function getAllConsults() {
     return allConsults
 }
 
-//Portraits
+//Create new Portrait
 export async function addPortrait( data) {
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
@@ -173,7 +173,7 @@ export async function addPortrait( data) {
     artist: [],
     artistAssigned: false,
     date: new Date,
-    status: 'Unclaimed',
+    status: 'Unordered',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
     uploadedImageUrls: [],
@@ -185,7 +185,7 @@ export async function addPortrait( data) {
 
 //edit portrait before purchase
 export function updatePortrait( portraitId, portraitData) {
-  updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
+  updateDoc(doc(db, 'portraits', portraitId), { ...portraitData, });
 }
 
 
@@ -198,6 +198,7 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 //add artist to artist list for portrait when claimed
 export function addArtist( portraitId, artistId, displayName) {
+  console.log('calling addArtist')
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({artistName: displayName, id: artistId}),
   });
@@ -205,6 +206,7 @@ export function addArtist( portraitId, artistId, displayName) {
 
 //Assign artist to portrait per customer action
 export function addSelectedArtist( portraitId, artistId, displayName) {
+  console.log('calling addSelectedArtist')
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: [{artistName: displayName, id: artistId}],
     artistAssigned: true,

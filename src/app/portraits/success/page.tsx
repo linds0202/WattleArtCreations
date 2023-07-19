@@ -4,19 +4,28 @@ import Link from "next/link"
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from "@/app/firebase/auth";
+import { updatePortrait } from "@/app/firebase/firestore";
 
 const SuccessPage = () => {
   const router = useRouter();
   const { authUser, isLoading } = useAuth();
 
   const searchParams = useSearchParams()
-  const portraitId = searchParams.get('portraitId')
-  
+  const sessionId = searchParams.get('session_id')
+  const id = searchParams.get('id0')
+  console.log('id is: ', id)
+
   useEffect(() => {
     if (!isLoading && !authUser) {
         router.push('/')
     }
   }, [authUser, isLoading]);
+
+
+  const handleTimerStart = () => {
+    console.log('starting timer')
+    updatePortrait
+  }
   
   return (
     <div>
@@ -29,8 +38,11 @@ const SuccessPage = () => {
       <p>You can visit your dashboard to see your Portraits</p>
       <Link href={`/dashboard/${authUser?.uid}`} className='text-black no-underline'>Customer Dashboard</Link>
 
-      <p>Or visit your custom portrait page where you can collaborate with your artist</p>
-      <Link href={`/portraits/${portraitId}`} className='text-black no-underline'>Portrait Page</Link>
+      <p>Start the 24hr timer for the questionaire</p>
+      <button onClick={handleTimerStart}>Start timer</button>
+
+      {/* <p>Or visit your custom portrait page where you can collaborate with your artist</p>
+      <Link href={`/portraits/${portraitId}`} className='text-black no-underline'>Portrait Page</Link> */}
 
       <p>Should you have any questions or concerns, don&#39;t hesitate to contact us. We&#39;re always here to help and ensure that your custom digital art commission experience is enjoyable and hassle-free.</p>
       
