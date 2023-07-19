@@ -1,4 +1,21 @@
-import { addDoc, setDoc, collection, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, query, onSnapshot, where, orderBy, limit, serverTimestamp } from 'firebase/firestore'; 
+import { 
+  addDoc,
+  setDoc,
+  collection, 
+  getDocs, 
+  deleteDoc, 
+  doc, 
+  getDoc, 
+  updateDoc, 
+  arrayUnion, 
+  query, 
+  onSnapshot, 
+  where, 
+  orderBy, 
+  limit, 
+  serverTimestamp, 
+  increment
+} from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
@@ -85,15 +102,26 @@ export function addUser(user) {
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
 
+//update user role
 export function updateUser(userId, role) {
   updateDoc(doc(db, 'users', userId), { 
     roles: role
   });
 }
 
+//update any user data
 export function updateUserData(user) {
   updateDoc(doc(db, 'users', user.uid),  
     { ...user }, { merge: true }
+  );
+}
+
+//update any user data
+export async function updateArtistComms(userId) {
+  await updateDoc(doc(db, 'users', userId),  
+    { 
+      activeCommissions: increment(-1)
+    }
   );
 }
 
@@ -305,10 +333,6 @@ export async function getAllUnclaimed() {
   return unclaimed
 }
 
-// Deletes receipt with given @id.
-export function deleteCharacter(id) {
-  deleteDoc(doc(db, CHARACTER_COLLECTION, id));
-}
 
 //Add chat message
 export function addChatMessage( portraitId, message, displayName, uid  ) {

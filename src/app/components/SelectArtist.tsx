@@ -10,7 +10,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { PortraitData } from '../portraits/components/PortraitCustomizer';
-import { addSelectedArtist } from '../firebase/firestore';
+import { addSelectedArtist, updateArtistComms } from '../firebase/firestore';
 
 interface SelectArtistProps {
     open: boolean,
@@ -40,6 +40,10 @@ export default function SelectArtist({ open, setOpen, portrait }: SelectArtistPr
             if (selectedArtist === '') {
                 setOpen(false)
             } else {
+                for (const artist of portrait.artist) {
+                    if (artist.id !== selectedArtist) updateArtistComms(artist.id)
+                }
+
                 const selection = portrait.artist.filter(artist => artist.id === selectedArtist)[0]
                 const updatedArtist = await addSelectedArtist(portrait.uid, selection.id, selection.artistName)
                 setOpen(false)

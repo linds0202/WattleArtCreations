@@ -23,8 +23,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const router = useRouter();
 
   const [open, setOpen] = useState(false)
-  // const [artistSelected, setArtistSelected] =useState(false)
-
   const [action, setAction] = useState(false)
 
   const [portrait, setPortait] = useState<PortraitData>()
@@ -49,7 +47,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const handleUpload = () => {
     setAction(true)
   }
-
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -125,7 +122,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           {charList}
       </div>  
       <div className='w-4/12'>
-          {/* <p>Artist Id: {portrait?.artist}</p> */}
           <ChatBox portraitId={portraitId}/>
       </div>
     </div>

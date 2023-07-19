@@ -1,23 +1,25 @@
-import { addArtist } from '../firebase/firestore'
+import { addArtist, updateUserData } from '../firebase/firestore'
 import { useRouter } from 'next/navigation'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
+import { UserData } from '../artistDashboard/[userId]/portfolio/page'
 
 
 import Link from 'next/link'
 
 interface PortraitProps {
   portrait: PortraitData,
-  userId: string,
-  displayName: string
-  role: string
+  user: UserData,
 }
 
-export default function Portrait({ portrait, userId, displayName, role}: PortraitProps) {
+export default function Portrait({ portrait, user}: PortraitProps) {
     const router = useRouter()
 
     const handleClaim = async () => {
-      const updatedPortrait = await addArtist(portrait.uid, userId, displayName)
-      router.push(`/artistDashboard/${userId}`)
+      const updatedArtist = {...user, activeCommissions: user.activeCommissions + 1}
+      console.log('updatedArtist is: ', updatedArtist)
+      await updateUserData(updatedArtist)
+      const updatedPortrait = await addArtist(portrait.uid, user.uid, user.displayName)
+      router.push(`/artistDashboard/${user.uid}`)
     }
     
     return (
@@ -30,7 +32,7 @@ export default function Portrait({ portrait, userId, displayName, role}: Portrai
                   <p className='mb-2'>Status: {portrait.status}</p>
                 </div>
                 <div className='ml-10'>
-                  {role === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
+                  {user?.roles === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
                   <p className='mb-2'>Artist: 
                   {portrait.artist.length  
                     ? portrait.artist.map((artist, i) => 
@@ -43,7 +45,7 @@ export default function Portrait({ portrait, userId, displayName, role}: Portrai
                 </div>        
               </div>
               
-              {(portrait.artist.filter(artist => artist.id === userId).length < 1 && role === 'Artist') && 
+              {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
                 <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
               }
               <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>
