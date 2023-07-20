@@ -16,7 +16,8 @@ interface MyCharValues {
     pets: boolean,
     numPets: number,
     extras: [],
-    total: number
+    total: number,
+    charDiscount: boolean
 }
 
 interface MyCharProps {
@@ -40,6 +41,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
     const [modelPrice, setModelPrice] = useState<number>(0)
     const [discount, setDiscount] = useState<boolean>(false)
+    const [highPrice, setHighPrice] = useState<number>(0)
+    const [highestPriceIndex, setHighestPriceIndex] = useState<number>(0)
     
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
@@ -47,7 +50,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         pets: false,
         numPets: 0,
         extras: [],
-        total: 0
+        total: 0,
+        charDiscount: false
     })
 
     const [message, setMessage] = useState('')
@@ -74,8 +78,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             if(char.extras.includes('weapons')) setWeaponSheet(true)
 
         })
-
     }, [chars])
+
+    console.log('chars are: ', chars)
+    console.log('highPrice are: ', highPrice)
+    console.log('highestPIndex are: ', highestPriceIndex)
 
     const handleCharSubmit = (values) => {
         setCharVariations(false)
@@ -93,30 +100,78 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         + (modelPrice ? prices[selection]['model'] : 0)
                         + (characterSheetPrice ? prices[selection]['character'] : 0)
                         + (weaponsPrice ? prices[selection]['weapons'] : 0)
-        
-        if (discount) {
-            totalPrice *= .9
-        }
-
 
         if (isEdit) {
-            let updateCharArr = chars.map((char, i) => {
-                if (i === editCharIndex) {
-                    return {...values, total: totalPrice}
+            if (chars.length > 1) {
+                setDiscount(true)
+                if (totalPrice > highPrice && editCharIndex !== highestPriceIndex) {
+                    const updatedDiscount = chars.map((char, i) => {
+                        if (i === editCharIndex ) {
+                            setHighPrice(totalPrice)
+                            setHighestPriceIndex(i)
+                            return {...char, total: totalPrice, charDiscount: false}
+                        } else {
+                            return {...char, charDiscount: true}
+                        }
+                    })
+                    setChars(updatedDiscount)
                 } else {
-                    return char
+                    //if new price is less than highest price - update edited price & set new high price info
+                    if (totalPrice > highPrice) {
+                        setHighPrice(totalPrice)
+                    }
+                    let updateCharArr = chars.map((char, i) => {
+                        if (i === editCharIndex) {
+                            return {...values, total: totalPrice}
+                        } else {
+                            return char
+                        }
+                    })
+                    setChars(updateCharArr)
                 }
-            })
-            setChars(updateCharArr)
-
+            } else {
+                //if there's only 1 char - update the price
+                let updateCharArr = chars.map((char, i) => {
+                    if (i === editCharIndex) {
+                        return {...values, total: totalPrice}
+                    } else {
+                        return char
+                    }
+                })
+                setDiscount(false)
+                setHighPrice(totalPrice)
+                setHighestPriceIndex(0)
+                setChars(updateCharArr)
+            }
         } else {
-            setChars([...chars, {...values, total: totalPrice}])
+            if (chars.length > 0) {
+                setDiscount(true)
+                const updatedDiscount = chars.map(char => {
+                    if (totalPrice >= highPrice) {
+                        setHighPrice(totalPrice)
+                        setHighestPriceIndex(chars.length)
+                        return {...char, charDiscount: true}
+                    } else {
+                        return char
+                    }
+                })
+                if (updatedDiscount.every(char => char.charDiscount)) {
+                    setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: false}])
+                } else {
+                    console.log('setting non-highest price')
+                    setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: true}])
+                }
+            } else {
+                setDiscount(false)
+                setHighPrice(totalPrice)
+                setHighestPriceIndex(0)
+                setChars([...chars, {...values, total: totalPrice}])
+            }
         }
         setIsEdit(false)
         setModelPrice(0)
         setCharacterSheetPrice(0)
         setWeaponsPrice(0)
-        setDiscount(false)
         setOpenCharMod(false)
     }
 
@@ -127,9 +182,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             pets: false,
             numPets: 0,
             extras: [],
-            total: 0
+            total: 0,
+            charDiscount: false
         })
-        if (chars.length > 0) setDiscount(true)
+
         setOpenCharMod(true)
     }
 
@@ -139,13 +195,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
 
-        if(i > 0) {
-            setDiscount(true)
-        } else {
-            setDiscount(false)
-        }
-
-
         if (chars[i].extras.includes('model')) setModelPrice(prices[selection]['model'])
         if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices[selection]['character'])
         if (chars[i].extras.includes('weapons')) setWeaponsPrice(prices[selection]['weapons'])
@@ -154,17 +203,46 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     }
 
     const handleDeleteChar = (index: number) => {
-        let deleteCharArr = chars.filter((char, i) => i !== index)
-        
-        if (deleteCharArr.length < 1) {
-            setDiscount(false)
-        }
+        console.log('index, highestPriceIndex is: ', index, highestPriceIndex)
 
-        if (deleteCharArr.length === 1 && index === 0) {
-            deleteCharArr[0].total = (deleteCharArr[0].total / .9)
-        }
+        if (index === highestPriceIndex) {
+            let highest = 0
+            let highIndex = 0
+            let deleteCharArr = chars.filter((char, i) => i !== index)
+            console.log('deletchararr: ', deleteCharArr)
+            //set new highest price & index
+            deleteCharArr.forEach((char, i) => {
+                if (char.total > highest) {
+                    highest = char.total
+                    highIndex = i
+                    setHighPrice(char.total)
+                    setHighestPriceIndex(i)
+                }
+            })
 
-        setChars(deleteCharArr)
+            console.log('highest, index: ', highest, highIndex)
+
+            const updateDeleteCharArr = deleteCharArr.map((char, i) => {
+                if (i === highIndex) {
+                    return {...char, charDiscount: false}
+                } else {
+                    return char
+                }
+            })
+            console.log('updateDeleteCharArr: ', updateDeleteCharArr)
+            setChars(updateDeleteCharArr)
+        } else {
+            let deleteCharArr = chars.filter((char, i) => i !== index)
+            let highest = 0
+            deleteCharArr.forEach((char, i) => {
+                if (char.total > highest) {
+                    setHighPrice(char.total)
+                    setHighestPriceIndex(i)
+                }
+            })
+            setChars(deleteCharArr)
+
+        }
     }
 
     const calcModelPrice = () => {
@@ -206,7 +284,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <div key={i} 
                     className='w-[48%] h-auto mt-8 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                 >
-                    <div className="w-[75px] h-[75px] absolute -top-[15px] -left-[10px] rounded-full bg-[#0075FF] flex justify-center items-center">
+                    <div className={`w-[75px] h-[75px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex justify-center items-center`}>
                         <p className="text-white text-2xl font-bold">${char.total}</p>
                     </div>
                     <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
@@ -235,7 +313,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10 hover:bg-none border-2 border-black'>
                         <AddCircleOutlineIcon sx={{ fontSize: 80 }}/>
                         <h4 className='m-0'>Add character</h4>
-                        {chars?.length !== 0 && <span className='text-red-600 text-xl mt-2'> Additional Characters 10% off</span>}
+                        {chars?.length !== 0 && <div className="flex flex-col justify-center items-center"><span className='text-red-600 text-xl mt-2'> Additional Characters 10% off*</span><span className='text-[#E5E5E5] text-sm mt-2'>(*discount applied to lowest value characters)</span></div>}
                     </Button>
                 </div>
             }
@@ -456,16 +534,20 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     </div>
                                 </div>
                                 <div className="self-end w-full flex justify-between items-center">
-                                    <p className={`w-full ${!discount ? "font-bold text-xl" : "font-semibold"}`}>{!discount ? 'Total: ' : 'Sub total: '}</p>
-                                <p className={`w-3/4 flex justify-between items-center ${!discount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-xl" : "font-semibold"}`}><span className="w-full text-right">$ {(0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
-                                        + ((values.numCharVariations - 1) * 30) 
-                                        + (values.pets ? values.numPets * 25 : 0)
-                                        + modelPrice
-                                        + characterSheetPrice
-                                        + weaponsPrice).toFixed(2)}
-                                        </span></p>
+                                    <p className={`w-full ${!discount ? "font-bold text-xl" : "font-semibold"}`}>{!values.charDiscount ? 'Total: ' : 'Sub total: '}</p>
+                                    <p className={`w-3/4 flex justify-between items-center ${!values.charDiscount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-xl" : "font-semibold"}`}>
+                                        <span className="w-full text-right">
+                                            $ {(0 + 
+                                                (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                                + ((values.numCharVariations - 1) * 30) 
+                                                + (values.pets ? values.numPets * 25 : 0)
+                                                + modelPrice
+                                                + characterSheetPrice
+                                                + weaponsPrice).toFixed(2)}
+                                        </span>
+                                    </p>
                                 </div> 
-                                { discount && 
+                                { values.charDiscount && 
                                 <> 
                                     <div className="w-full flex justify-between items-center">
                                         <p className="text-red-600 text-sm">Additional Character Discount (10%)</p>
