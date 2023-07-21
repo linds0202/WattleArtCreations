@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
-import { getCustomersPortraits } from '../../firebase/firestore';
+import { getCustomersPortraits, getUserById } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import Portrait from '../../components/Portrait';
 import Profile from './components/Profile';
+import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 
 type Params = {
   params: {
@@ -15,25 +16,26 @@ type Params = {
   }
 }
 
-interface PortraitData {
-  uid: String,
-  mode: String, 
-  characters: [],
-  questions: [], 
-  price: Number,
-  customer: String,
-  customerId: String,
-  artist: String,
-  date: Timestamp,
-  status: String,
-  lastUpdatedStatus: Timestamp,
-  paymentComplete: Boolean,
-}
+// interface PortraitData {
+//   uid: String,
+//   mode: String, 
+//   characters: [],
+//   questions: [], 
+//   price: Number,
+//   customer: String,
+//   customerId: String,
+//   artist: String,
+//   date: Timestamp,
+//   status: String,
+//   lastUpdatedStatus: Timestamp,
+//   paymentComplete: Boolean,
+// }
 
 export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  const [currentUser , setCurrentUser] = useState(null)
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
@@ -46,6 +48,12 @@ export default function Dashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
+    const handleCurrentUser = async () => {
+      const latestUser = await getUserById(authUser?.uid)
+      setCurrentUser(latestUser)
+    }
+    handleCurrentUser()
+
     const handleGetPortraits = async () => {
       const getMyPortraits = await getCustomersPortraits(userId);
       setMyPortaits(getMyPortraits)
@@ -110,7 +118,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       {filtered.length === 0 ? 
         <p>No portraits to display</p>
       :  filtered?.map(portrait => (
-        <Portrait key={portrait.uid} portrait={portrait} userId={authUser.uid} role={authUser.roles}/>
+        <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
       )) }
     </div>   
     <div className='w-6/12 mx-auto mb-6 text-center'>

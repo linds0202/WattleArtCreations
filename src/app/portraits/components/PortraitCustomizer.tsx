@@ -127,7 +127,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
-    // const [formFields, setFormFields] = useState(DEFAULT_FORM_STATE); 
     const [imageFiles, setImageFiles] = useState([])
     const [fileNames, setFileNames] = useState(editPortrait ? editPortrait.uploadedImageInfo : [])
 
@@ -164,8 +163,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const setFileData = (target) => {
         if (target.files.length !== 0) {
             const file = target.files[0];
-            // setFormFields(prevState => ({...prevState, fileName: file.name}));
-            // setFormFields(prevState => ({...prevState, file}));
             const newEntry = {
                 fileName: file.name,
                 file: file,
@@ -217,7 +214,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             const id = await addPortrait(newPortrait)
             
             //upload img to bucket
-            const bucket = await uploadImages(imageFiles, id) //formFields.file
+            const bucket = await uploadImages(imageFiles, id)
             //update portrait with bucket info
             const updatedPortraitUrls = await updateNewPortraitWithImages(id, bucket, fileNames)
 
