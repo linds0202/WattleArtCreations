@@ -136,10 +136,19 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 </div>        
               </div>
               
+              {/* If artist & not max commissions show claim button*/}
               {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
                 <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
               }
-              {user?.roles === 'Customer' && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+
+              {/* If not ordered - click to add to cart */}
+              {user?.roles === 'Customer' && !portrait.paymentComplete && 
+                <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p>Add to Cart</p></Link>
+              }
+
+              {/* If payment complete - link to individual portrait page */}
+              {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+              
               {user?.roles === 'Artist' && 
                 <button className='text-black' onClick={handleViewDetails}>View Details</button>         
               }

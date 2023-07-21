@@ -12,6 +12,7 @@ import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
 import { PortraitData } from './components/PortraitCustomizer';
+import { getPortrait } from '../firebase/firestore';
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -30,7 +31,8 @@ export default function Portraits() {
 
   const searchParams = useSearchParams()
   const selection = searchParams.get('selection')
-
+  const portraitId = searchParams.get('portrait_id')
+  console.log('portraitId: ', portraitId)
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
@@ -43,8 +45,20 @@ export default function Portraits() {
   const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
-    if (portraits.length === 0 && !openWizard) setOpenWizard(true)
+    if (portraitId) {
+      const handleGetPortrait = async () => {
+        const addedPortrait:PortraitData = await getPortrait(portraitId)
+        setPortraits(prev => [...prev, addedPortrait])
+      }
+      
+      handleGetPortrait()
+      
+    } else {
+      if (portraits.length === 0 && !openWizard) setOpenWizard(true)
+    }
   }, [])
+
+  console.log('portraits list is: ', portraits)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -69,7 +83,7 @@ export default function Portraits() {
       
       
       <div>
-        <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters.length}</span></p>
+        <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters?.length}</span></p>
         <div className='flex justify-start'>  
           {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png'/>)}
         </div>
