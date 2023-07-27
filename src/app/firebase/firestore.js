@@ -14,7 +14,9 @@ import {
   orderBy, 
   limit, 
   serverTimestamp, 
-  increment
+  increment,
+  startAfter,
+  endBefore
 } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
@@ -98,7 +100,10 @@ export function addUser(user) {
     totalCompletedCommissions: 0,
     lifeTimeEarnings: 0,
     paymentsOwing: 0,
-    totalPortraits: 0
+    totalPortraits: 0,
+    totalStars: 0,
+    totalReviews: 0,
+    starRating: 0
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
@@ -117,7 +122,39 @@ export function updateUserData(user) {
   );
 }
 
-//update any user data
+//update artist when commission completed
+export async function updateArtistOnCompletion(userId, price) {
+  await updateDoc(doc(db, 'users', userId),  
+    { 
+      activeCommissions: increment(-1),
+      totalCompletedCommissions: increment(1),
+      paymentsOwing: increment(price),
+    }
+  );
+}
+
+//update artist rating with new testimonial
+export async function updateArtistRating(userId, stars) {
+  const docSnap = await getDoc(doc(db, "users", userId));
+
+  let newRating
+  if (docSnap.data().totalStars) {
+    const allStars = (docSnap.data().totalStars + stars) / (docSnap.data().totalReviews + 1)
+    newRating = Math.round( allStars * 100 + Number.EPSILON ) / 100
+  } else {
+    newRating = stars / (docSnap.data().totalReviews + 1)
+  }
+  
+  await updateDoc(doc(db, 'users', userId),  
+  { 
+    totalReviews: increment(1),
+    totalStars: increment(stars),
+    starRating: newRating
+  }
+);
+}
+
+//update artist comms when bid on portrait
 export async function updateArtistComms(userId) {
   await updateDoc(doc(db, 'users', userId),  
     { 
@@ -200,7 +237,6 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 //add artist to artist list for portrait when claimed
 export function addArtist( portraitId, artistId, displayName) {
-  console.log('calling addArtist')
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({artistName: displayName, id: artistId}),
     status: 'Unassigned',
@@ -209,7 +245,6 @@ export function addArtist( portraitId, artistId, displayName) {
 
 //Assign artist to portrait per customer action
 export function addSelectedArtist( portraitId, artistId, displayName) {
-  console.log('calling addSelectedArtist')
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: [{artistName: displayName, id: artistId}],
     artistAssigned: true,
@@ -366,14 +401,75 @@ export async function getChats(setMessages, portraitId) {
 }
 
 //Add a new Testimonial
-//Create new Portrait
 export async function addTestimonial( data) {
+  
+  updateArtistRating(data.artistId, data.stars)
+
   const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
     portraitId: data.portraitId,
     artistId: data.artistId,
     customerId: data.customerId,
     customerDisplayName: data.displayName,
-    text: data.text
+    text: data.text,
+    stars: data.stars
   })
   return testimonialRef.id
 }
+
+
+export async function getArtistsTestimonials( artistId) {
+    const testimonials = []
+
+    const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), limit(5)))
+
+    documentSnapshots.forEach((doc) => {
+      testimonials.push({...doc.data(), uid: doc.id})
+    });
+    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1]
+
+    return { testimonials, lastVisible }
+}
+
+export async function getNextTestimonials(artistId, last) {
+  const testimonials = []
+
+  const next = await getDocs(query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), startAfter(last), limit(5)))
+
+  next.forEach((doc) => {
+    testimonials.push({...doc.data(), uid: doc.id})
+  });
+  const lastVisible = next.docs[next.docs.length-1]
+  
+  return { testimonials, lastVisible }
+}
+
+export async function getPreviousTestimonials(artistId, last) {
+  const testimonials = []
+
+  const next = await getDocs(query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), endBefore(last), limit(5)))
+
+  next.forEach((doc) => {
+    testimonials.push({...doc.data(), uid: doc.id})
+  });
+  const lastVisible = next.docs[next.docs.length-1]
+  
+  return { testimonials, lastVisible }
+}
+
+
+  // const first = query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), limit(5))
+  // const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), limit(5)))
+  // console.log('documentSnapShot: ', documentSnapshots.data)
+  
+  // // Get the last visible document
+  // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  // console.log("last", lastVisible);
+
+  // // Construct a new query starting at this document,
+  // // get the next 5 testimonials.
+  // const next = query(collection(db, "testimonials"),
+  //   where("artistId", "==", artistId),    
+  //   orderBy("stars", "desc"),
+  //   startAfter(lastVisible),
+  //   limit(5));
+//}

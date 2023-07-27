@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
-import { getPortrait, updatePortrait } from '../../firebase/firestore';
+import { getPortrait, updatePortrait, updateArtistOnCompletion } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import Questions from './components/Questions';
 import ChatBox from './components/ChatBox';
@@ -92,8 +92,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       } else {
         newPortrait = {...portrait, artistComplete: true}
       }
-      
+      console.log('artist is: ', portrait?.artist[0].id)
+      console.log('price over here is: ', portrait?.price)
+      updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
+
       updatePortrait(newPortrait?.uid, newPortrait)
+      
       setPortrait(newPortrait)
 
     }
@@ -123,12 +127,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     
   ))
 
-
   const handleOpenQuestions = () => {
     setOpenQuestions(true)
   }
-
-  console.log('portrait is: ', portrait)
 
   return ((!authUser) ? 
     <p className='min-h-screen'>Loading ...</p>

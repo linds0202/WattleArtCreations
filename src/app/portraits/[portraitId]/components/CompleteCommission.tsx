@@ -15,8 +15,6 @@ interface CompleteCommissionProps {
 const CompleteCommission = ({ role, openComplete, setOpenComplete, setCompleted, portraitId, artistId }: CompleteCommissionProps) => {
     const router = useRouter();
 
-    console.log('portrait id: ', portraitId)
-
     const handleComplete = () => {
         setCompleted(true)        
         setOpenComplete(false)

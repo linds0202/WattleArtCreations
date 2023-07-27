@@ -1,11 +1,7 @@
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-
 import { Formik, Form, Field} from 'formik';
-import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
-import UpdateInfoButton from '@/app/artistDashboard/[userId]/portfolio/components/UpdateInfoButton';
-import CancelUpdateButton from '@/app/artistDashboard/[userId]/portfolio/components/CancelUpdate';
 import { addTestimonial } from '@/app/firebase/firestore';
+import { Rating } from '@mui/material';
+import { useState } from 'react';
 
 interface CustomerTestimonialProps {
     setOpenTestimonial: Function,
@@ -24,62 +20,68 @@ interface CustomerFormValues {
 
 const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, artistId, customerId, setReviewed }: CustomerTestimonialProps) => {
     
+    const [rating, setRating] = useState<number | null>(2)
+
     const initialValues: CustomerFormValues = {
         displayName: displayName,
         text: "",
         stars: 0
     }
 
-    const handleCancel = () => {
-        console.log('canceling the testimonial')
-        setOpenTestimonial(false)
-    }
-
     return (
-        <div className='w-8/12 mx-auto my-10 border-2 border-black rounded-xl relative'>
-            <p className='text-center text-3xl font-bold mt-4'>Leave a Review!</p>
-
-            <IconButton onClick={() => setIsEdit(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
-
+        <div>
+            <h3 className='text-2xl text-center font-semibold'>Rate & Review your experience</h3>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
-                    addTestimonial({...values, portraitId: portraitId, artistId: artistId, customerId: customerId})
-                    console.log('submitting the values: ', values)
+                
+                    addTestimonial({...values, stars: rating, portraitId: portraitId, artistId: artistId, customerId: customerId})
+                    
                     setReviewed(true)
                     helpers.setSubmitting(false)
                     helpers.resetForm(values)
                     setOpenTestimonial(false)
                 }}
             >
-                <Form className='flex flex-col px-20 py-8'>
-                    <div className='w-full flex justify-between items-center'>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
-                            Name:
-                        </label>
-                        <Field 
-                            name="displayName" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                <Form className='flex flex-col px-8'>
+                    <div className='w-full'>
+                        <Rating
+                            size="large"
+                            name="stars"
+                            value={rating}
+                            onChange={(event, newValue) => {
+                                setRating(newValue)
+                        }}
                         />
-                        </div>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
-                            Review:
-                        </label>
-                        <Field 
-                            name="text" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        />
+                        <div>
+                            <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                                Review:
+                            </label>
+                            <Field 
+                                required
+                                as="textarea"
+                                rows="5"
+                                cols="60" 
+                                name="text" 
+                                className="w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-xl p-4"
+                            />
                         </div>    
+
+                        <div className='w-full flex items-center'>
+                            <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                                Name:
+                            </label>
+                            <Field 
+                                name="displayName" 
+                                className="w-full ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                            />
+                        </div>
+                        
                     </div>
                     
                     <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
-                        <button type='submit'>Submit Testimonial</button>
-                        <button type='button' onClick={handleCancel}>Cancel</button>
+                        <button type='submit' className='py-2 px-4 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#282828]'>Submit Testimonial</button>
                     </div>
                     
                 </Form>

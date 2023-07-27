@@ -3,11 +3,14 @@
 import { useEffect, useState } from 'react';
 import { getAllArtists } from '../firebase/firestore'
 import { SocialIcon } from 'react-social-icons'
+import { Rating } from '@mui/material';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import Link from 'next/link';
+import { UserData } from './[userId]/portfolio/page';
 
 const page = () => {
     
-    const [artistData, setArtistData] = useState([])
+    const [artistData, setArtistData] = useState<Array<UserData>>([])
     
     useEffect(() => {
         const handleGetArtists = async () => {
@@ -24,10 +27,21 @@ const page = () => {
             <div className='bg-[#282828] rounded-b-lg text-white p-4'>
                 <Link href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
+                    <div className='w-8/12 mx-auto mt-2 flex justify-around items-center'>
+                        <Rating 
+                            name="read-only" 
+                            value={artist.starRating} 
+                            readOnly 
+                            precision={0.5} 
+                            emptyIcon={<StarBorderOutlinedIcon style={{ color: '#E5E5E5' }} fontSize="inherit" />}
+                        />
+                        <span>({artist.starRating})</span>
+                        <p className='ml-4 text-sm'><span>{artist.totalReviews}</span> reviews</p>
+                    </div>
                     <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 10).join(" ")}...</p>
                 </Link>
                 <div className='flex justify-center items-center mt-2'>
-                    {artist.links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
+                    {artist.links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '30px', height: '30px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
                 </div>
             </div>
         </div>
