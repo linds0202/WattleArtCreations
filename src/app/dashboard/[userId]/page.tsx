@@ -63,9 +63,18 @@ export default function Dashboard({ params: { userId }}: Params) {
     handleGetPortraits()
   }, [])
 
-  const handleFilter= (filter) => {
-    if(filter === 'Incomplete') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Incomplete')
+  const handleFilter= (filter: string) => {
+    if(filter === 'Unordered') {
+      const filteredPortraits = myPortraits.filter(portrait => !portrait.paymentComplete)
+      console.log(filteredPortraits)
+      setFiltered(filteredPortraits)
+    }
+    // if(filter === 'UnClaimed') {
+    //   const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Unclaimed' && portrait.paymentComplete && portrait.artist.length > 0)
+    //   setFiltered(filteredPortraits)
+    // }
+    if(filter === 'Unassigned') {
+      const filteredPortraits = myPortraits.filter(portrait => portrait.paymentComplete && !portrait.artistAssigned)
       setFiltered(filteredPortraits)
     }
     if(filter === 'Pending') {
@@ -74,6 +83,10 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
     if(filter === 'In Progress') {
       const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'In Progress')
+      setFiltered(filteredPortraits)
+    }
+    if(filter === 'Completed') {
+      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Completed')
       setFiltered(filteredPortraits)
     }
     if(filter === 'Clear') {
@@ -90,22 +103,28 @@ export default function Dashboard({ params: { userId }}: Params) {
     <h2 className='text-3xl'>My Portraits</h2>
     <div className='flex justify-around items-center mt-4'>
       <button 
-        onClick={() => handleFilter('Incomplete')} 
+        onClick={() => handleFilter('Unordered')} 
         className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
       >
-        Incomplete
+        Unordered
       </button>
       <button 
-        onClick={() => handleFilter('Pending')} 
+        onClick={() => handleFilter('Unassigned')} 
         className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
       >
-        Pending
+        Unassigned
       </button>
       <button 
         onClick={() => handleFilter('In Progress')} 
         className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
       >
         In Progress
+      </button>
+      <button 
+        onClick={() => handleFilter('Completed')} 
+        className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+      >
+        Completed
       </button>
       <button 
         onClick={() => handleFilter('Clear')} 
@@ -116,14 +135,11 @@ export default function Dashboard({ params: { userId }}: Params) {
     </div>
     <div className='flex flex-col items-center'>
       {filtered.length === 0 ? 
-        <p>No portraits to display</p>
+        <p className='text-2xl font-bold mt-8'>No portraits to display</p>
       :  filtered?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
       )) }
     </div>   
-    <div className='w-6/12 mx-auto mb-6 text-center'>
-      <Link href='/personal' className='block'>Return to Homepage</Link> 
-    </div>
   </div>
   )
 }

@@ -241,7 +241,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 }
             })
             setChars(deleteCharArr)
-
         }
     }
 
@@ -284,8 +283,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <div key={i} 
                     className='w-[48%] h-auto mt-8 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                 >
-                    <div className={`w-[75px] h-[75px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex justify-center items-center`}>
-                        <p className="text-white text-2xl font-bold">${char.total}</p>
+                    <div className={`w-[75px] h-[75px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex flex-col justify-center items-center`}>
+                        <p className="text-white text-2xl font-bold">
+                            ${!char.charDiscount 
+                            ? <span>{char.total}</span> 
+                            : 
+                            <span>{char.total * .9}</span>
+                            }                        
+                        </p>
+                        {char.charDiscount && <p className="text-white text-xs line-through">${char.total}</p>}
                     </div>
                     <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
                         <DeleteForeverIcon />

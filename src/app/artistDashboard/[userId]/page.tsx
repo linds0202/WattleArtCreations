@@ -106,14 +106,11 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     
     
     <div className='flex flex-col items-center'>
-      {myPortraits.length === 0 ? 
-        <p>No portraits to display</p>
+      {filtered.length === 0 ? 
+        <p className='text-2xl font-bold mt-8'>No portraits to display</p>
       :  filtered?.map(portrait => (
         <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
       )) }
-    </div>   
-    <div className='w-6/12 mx-auto mb-6 text-center'>
-      <Link href='/portraitQueue' className='block'>Return to Portrait Queue</Link> 
     </div>
   </div>
   )

@@ -17,10 +17,7 @@ const ChatBox = ({ portraitId }) => {
         foo()
     }, [])
 
-    console.log('messages in chatbox is: ', messages)
-
-
-  
+   
     return (
       <main className="w-full relative">
         <div className="messages-wrapper">

@@ -97,7 +97,8 @@ export function addUser(user) {
     maxCommissions: 0,
     totalCompletedCommissions: 0,
     lifeTimeEarnings: 0,
-    paymentsOwing: 0
+    paymentsOwing: 0,
+    totalPortraits: 0
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
@@ -172,6 +173,7 @@ export async function addPortrait( data) {
     customerId: data.customerId,
     artist: [],
     artistAssigned: false,
+    artistComplete: false,
     date: new Date,
     status: 'Unordered',
     lastUpdatedStatus: new Date,
@@ -201,6 +203,7 @@ export function addArtist( portraitId, artistId, displayName) {
   console.log('calling addArtist')
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({artistName: displayName, id: artistId}),
+    status: 'Unassigned',
   });
 }
 
@@ -210,6 +213,7 @@ export function addSelectedArtist( portraitId, artistId, displayName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: [{artistName: displayName, id: artistId}],
     artistAssigned: true,
+    status: 'In Progress'
   });
 }
 
@@ -359,4 +363,17 @@ export async function getChats(setMessages, portraitId) {
     setMessages(messages);
   });
   return unsubscribe;
+}
+
+//Add a new Testimonial
+//Create new Portrait
+export async function addTestimonial( data) {
+  const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
+    portraitId: data.portraitId,
+    artistId: data.artistId,
+    customerId: data.customerId,
+    customerDisplayName: data.displayName,
+    text: data.text
+  })
+  return testimonialRef.id
 }

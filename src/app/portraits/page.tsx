@@ -32,7 +32,7 @@ export default function Portraits() {
   const searchParams = useSearchParams()
   const selection = searchParams.get('selection')
   const portraitId = searchParams.get('portrait_id')
-  console.log('portraitId: ', portraitId)
+
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 

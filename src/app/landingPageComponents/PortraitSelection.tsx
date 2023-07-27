@@ -65,7 +65,10 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             splashImg: './splashArt/Anime.png',
             bgImg: './splashArt/PRBackground_V2.png',
             desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
-            testimonials: [{author: 'Bob', body: 'good job'}],
+            testimonials: [
+                {author: 'Bob', body: 'good job'}, 
+                {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
+                {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
             basePrices: []
         },
         NSFW: {

@@ -8,6 +8,7 @@ import { Dialog } from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Accordion from '../portraits/components/questionaire/Accordion'
+import Image from 'next/image'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -114,71 +115,92 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     )
     
     return (
-      <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex flex-col hover:cursor-pointer hover:scale-105 transition duration-500 group'>
-            <h4 className='text-xl font-bold text-[#0075FF]'>{portrait.portraitTitle}<span className='text-sm font-light text-black ml-4'>({portrait.mode})</span></h4>
-            <div className='flex justify-between mt-2'>
-              <div className='w-9/12 flex'>
-                <div>
-                  <p className='mb-2'>Ordered on: {new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</p>
-                  <p className='mb-2'>Status: {portrait.status}</p>
+      <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center hover:border-[#0075FF] hover:border-4'>
+        <div className='relative w-[120px] h-[120px] object-cover object-top rounded-xl'>
+        <Image
+            src={`${portrait.mode === 'Photorealistic' 
+              ? '/defaultImgs/photo.png' 
+              : portrait.mode === 'Anime' 
+              ? '/defaultImgs/anime.png' 
+              : '/defaultImgs/nsfw.png'}`}
+            fill
+            alt="Default Image"
+            className='self-start object-cover rounded-xl'
+        />
+        </div>
+
+
+        <div className='flex flex-col'>
+          <h4 className='text-xl font-bold text-[#0075FF]'>{portrait.portraitTitle}<span className='text-sm font-light text-black ml-4'>({portrait.mode})</span></h4>
+          <div className='flex'>
+            <div>
+              <p className='mb-2'>Ordered on: {new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</p>
+              <p className='mb-2'>Status: {portrait.status}</p>
+            </div>
+            <div className='ml-10'>
+              {user?.roles === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
+              <p className='mb-2'>Artist: 
+              {portrait.artist.length  
+                ? portrait.artist.map((artist, i) => 
+                  <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-[#2DD42B] hover:text-[#165f15] text-xl group-hover:underline ml-4">
+                    <span>{artist.artistName}</span>
+                  </Link>
+                )
+                : <span className='ml-4'>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
+              </p>
+            </div>        
+          </div>
+        </div>
+        
+        
+        <div className='flex justify-between mt-2'>
+                    
+          {/* If artist & not max commissions show claim button*/}
+          {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
+            <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
+          }
+
+          {/* If not ordered - click to add to cart */}
+          {user?.roles === 'Customer' && !portrait.paymentComplete && 
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p>Add to Cart</p></Link>
+          }
+
+          {/* If payment complete - link to individual portrait page */}
+          {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+          
+          {user?.roles === 'Artist' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
+            <button className='text-black' onClick={handleViewDetails}>View Details</button>         
+          }
+
+          {/* If on artists dashboard & claimed - link to individual portrait page */}
+          {user?.roles === 'Artist' && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+
+          {openArtistDetails && 
+            <Dialog 
+                onClose={() => setOpenArtistDetails(false)} 
+                open={openArtistDetails} 
+                fullWidth={true}
+                maxWidth='md'
+                PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+            >
+                <IconButton onClick={() => setOpenArtistDetails(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+                <div className="flex flex-col justify-center items-center">
+                  <div className='w-1/12 h-1/12 bg-[#0075FF] rounded-full py-4 px-2'>
+                    <p className='text-center text-white text-xl font-bold'>${portrait.price}</p>
+                  </div>
+                  <p className='text-xl text-center font-bold mt-0'>{portrait.portraitTitle} <span className='text-sm text-[#959595]'>({portrait.mode})</span></p>
+                  <p>Number of Characters: {portrait.characters.length}</p>
+                  {characters}
+                  {requiredQuestions}
+                  {optionalQuestions}
                 </div>
-                <div className='ml-10'>
-                  {user?.roles === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
-                  <p className='mb-2'>Artist: 
-                  {portrait.artist.length  
-                    ? portrait.artist.map((artist, i) => 
-                      <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-xl group-hover:underline ml-4">
-                        <span>{artist.artistName}</span>
-                      </Link>
-                    )
-                    : <span className='ml-4'>No artist assigned yet</span>}
-                  </p>
-                </div>        
-              </div>
-              
-              {/* If artist & not max commissions show claim button*/}
-              {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-                <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
-              }
-
-              {/* If not ordered - click to add to cart */}
-              {user?.roles === 'Customer' && !portrait.paymentComplete && 
-                <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p>Add to Cart</p></Link>
-              }
-
-              {/* If payment complete - link to individual portrait page */}
-              {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
-              
-              {user?.roles === 'Artist' && 
-                <button className='text-black' onClick={handleViewDetails}>View Details</button>         
-              }
-
-              {openArtistDetails && 
-                <Dialog 
-                    onClose={() => setOpenArtistDetails(false)} 
-                    open={openArtistDetails} 
-                    fullWidth={true}
-                    maxWidth='md'
-                    PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-                >
-                    <IconButton onClick={() => setOpenArtistDetails(false)} className='absolute top-2 right-2 text-white'>
-                        <CloseIcon className='text-black hover:text-red-600'/>
-                    </IconButton>
-                    <div className="flex flex-col justify-center items-center">
-                      <div className='w-1/12 h-1/12 bg-[#0075FF] rounded-full py-4 px-2'>
-                        <p className='text-center text-white text-xl font-bold'>${portrait.price}</p>
-                      </div>
-                      <p className='text-xl text-center font-bold mt-0'>{portrait.portraitTitle} <span className='text-sm text-[#959595]'>({portrait.mode})</span></p>
-                      <p>Number of Characters: {portrait.characters.length}</p>
-                      {characters}
-                      {requiredQuestions}
-                      {optionalQuestions}
-                    </div>
-                      {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-                        <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
-                      }
-                </Dialog>}
-            </div>  
+                  {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
+                    <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
+                  }
+            </Dialog>}
+        </div>  
       </div>
     )
 }

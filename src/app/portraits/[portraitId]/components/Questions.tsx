@@ -13,10 +13,11 @@ interface QuestionsProps {
     setPortrait: Function,
     openQuestions: boolean,
     setOpenQuestions: Function,
-    canEditQs: boolean
+    canEditQs: boolean,
+    role: string
 }
 
-const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, canEditQs }: QuestionsProps) => {
+const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, canEditQs, role }: QuestionsProps) => {
     
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
@@ -81,22 +82,21 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                             </div>                            
                         </div>
 
-                        {canEditQs ? 
+                        {canEditQs && role === 'Customer' &&
                             <button 
                                 type="submit" 
                                 className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black'
                             >
                                 Update Answers
                             </button>
-                        :
+                        }
                             <button 
                                 type="button" 
                                 onClick={handleClose}
                                 className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black'
                             >
-                                Back to Portrait
+                                {canEditQs ? "Don't save" : "Back to Portrait"}
                             </button>
-                        }
                     </Form>
                 )}
             </Formik>
