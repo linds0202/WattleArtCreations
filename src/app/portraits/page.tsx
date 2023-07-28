@@ -58,7 +58,6 @@ export default function Portraits() {
     }
   }, [])
 
-  console.log('portraits list is: ', portraits)
 
   useEffect(() => {
     window.scrollTo(0, 0)

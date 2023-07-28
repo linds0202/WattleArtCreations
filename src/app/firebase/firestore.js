@@ -122,6 +122,13 @@ export function updateUserData(user) {
   );
 }
 
+//update customer total commissions
+export function updateCustomerCommissionsTotal(userId) {
+  updateDoc(doc(db, 'users', userId), { 
+    totalCompletedCommissions: increment(1)
+  });
+}
+
 //update artist when commission completed
 export async function updateArtistOnCompletion(userId, price) {
   await updateDoc(doc(db, 'users', userId),  
@@ -455,21 +462,3 @@ export async function getPreviousTestimonials(artistId, last) {
   
   return { testimonials, lastVisible }
 }
-
-
-  // const first = query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), limit(5))
-  // const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("artistId", "==", artistId), orderBy("stars", "desc"), limit(5)))
-  // console.log('documentSnapShot: ', documentSnapshots.data)
-  
-  // // Get the last visible document
-  // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-  // console.log("last", lastVisible);
-
-  // // Construct a new query starting at this document,
-  // // get the next 5 testimonials.
-  // const next = query(collection(db, "testimonials"),
-  //   where("artistId", "==", artistId),    
-  //   orderBy("stars", "desc"),
-  //   startAfter(lastVisible),
-  //   limit(5));
-//}

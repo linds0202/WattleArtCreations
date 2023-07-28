@@ -129,7 +129,7 @@ const page = () => {
 
     return (
         <div className='relative'>
-            <div className='flex'>
+            <div className='flex justify-around'>
                 <div className='w-[48%] h-[80vh] flex flex-wrap justify-around items-center mt-4'>
                     <div className='w-[56%] h-[60%] border-2 border-black relative'>
                         <Image src={'/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
@@ -163,28 +163,32 @@ const page = () => {
                         <span>({userData?.starRating})</span>
                         <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> reviews</p>
                     </div>
-                    <p className='w-8/12 mt-4'>{userData?.bio}</p>
+                    <p className='w-10/12 mt-4'>{userData?.bio}</p>
                     
 
 
-                    <div>
-
+                    <div className='border-2 border-[#282828] rounded-xl p-4 flex flex-col justify-center mt-4'>
+                        <h3 className='text-2xl font-bold text-center'>Reviews</h3>
                         {testimonials?.map((testimonial, i) => (
-                            <div key={i}>
-                                <p>{testimonial.stars}</p>
+                            <div key={i} className='w-10/12 mx-auto flex flex-col justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
+                                <div className='flex items-center'>
+                                    <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="small" />
+                                    <span className='ml-2'>({testimonial.stars})</span>
+                                </div>
                                 <p>{testimonial.text}</p>
-                                <p>{testimonial.displayName}</p>
+                                <p className='self-end'>- {testimonial.customerDisplayName}</p>
                             </div>
                         ))}
+                        <div className='flex justify-center py-4'>
+                            <button type='button' onClick={handlePrevious} disabled={disablePrevious}  className={`${!disablePrevious ? 'text-green-600' : 'text-red-600' }`}>
+                                <ArrowBackIosIcon fontSize="large"/>
+                            </button>
 
-                        <button type='button' onClick={handlePrevious} disabled={disablePrevious} className={`${!disablePrevious ? 'text-green-600' : 'text-red-600' }`}>
-                            <ArrowBackIosIcon />
-                        </button>
-
-                        
-                        <button type='button' onClick={handleNext} disabled={disableNext} className={`${!disableNext ? 'text-green-600' : 'text-red-600' }`}>
-                            <ArrowForwardIosIcon />
-                        </button>                        
+                            
+                            <button type='button' onClick={handleNext} disabled={disableNext} className={`${!disableNext ? 'text-green-600' : 'text-red-600' }`}>
+                                <ArrowForwardIosIcon fontSize="large"/>
+                            </button>    
+                        </div>                    
                     </div>
 
 

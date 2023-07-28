@@ -55,12 +55,12 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
       setFiltered(filteredPortraits)
     }
     if(filter === 'In Progress') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.artistAssigned)
+      const filteredPortraits = myPortraits.filter(portrait => portrait.artistAssigned && portrait.status !== 'Completed')
 
        setFiltered(filteredPortraits)
     }
     if(filter === 'Completed') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Complete')
+      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Completed')
       setFiltered(filteredPortraits)
     }
     if(filter === 'Clear') {
