@@ -115,7 +115,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     )
     
     return (
-      <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center hover:border-[#0075FF] hover:border-4'>
+      <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center'>
         <div className='relative w-[120px] h-[120px] object-cover object-top rounded-xl'>
         <Image
             src={`${portrait.mode === 'Photorealistic' 
@@ -134,20 +134,23 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           <h4 className='text-xl font-bold text-[#0075FF]'>{portrait.portraitTitle}<span className='text-sm font-light text-black ml-4'>({portrait.mode})</span></h4>
           <div className='flex'>
             <div>
-              <p className='mb-2'>Ordered on: {new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</p>
+              {portrait?.status !== 'Unordered' && <p className='mb-2'>Ordered on: {new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</p>}
               <p className='mb-2'>Status: {portrait.status}</p>
             </div>
             <div className='ml-10'>
               {user?.roles === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
-              <p className='mb-2'>Artist: 
-              {portrait.artist.length  
-                ? portrait.artist.map((artist, i) => 
-                  <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-[#2DD42B] hover:text-[#165f15] text-xl group-hover:underline ml-4">
-                    <span>{artist.artistName}</span>
-                  </Link>
-                )
-                : <span className='ml-4'>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
-              </p>
+              {portrait?.status !== 'Unordered' && 
+                <p className='mb-2'>
+                  {portrait.status === 'Unassigned' ? 'Pending Artist(s): ' : 'Artist: '} 
+                    {portrait.artist.length  
+                      ? portrait.artist.map((artist, i) => 
+                        <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-[#2DD42B] hover:text-[#165f15] text-xl group-hover:underline ml-4">
+                          <span>{artist.artistName}</span>
+                        </Link>
+                      )
+                      : <span className={`ml-4 ${portrait.status === 'Unclaimed' ? 'text-red-600' : ''}`}>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
+                </p>
+              }
             </div>        
           </div>
         </div>
@@ -162,7 +165,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
           {/* If not ordered - click to add to cart */}
           {user?.roles === 'Customer' && !portrait.paymentComplete && 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p>Add to Cart</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Add to Cart</p></Link>
           }
 
           {/* If payment complete - link to individual portrait page */}

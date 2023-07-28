@@ -1,21 +1,24 @@
 import { useAuth } from '@/app/firebase/auth';
 import { auth } from '@/app/firebase/firebase';
-import { addPortrait, updatePortrait } from "@/app/firebase/firestore"
 import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
 import StepOne from "./questionaire/StepOne"
 import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
 import { deleteImage, uploadImages } from '@/app/firebase/storage';
-import { updateNewPortraitWithImages } from '@/app/firebase/firestore';
-import { updateEditedPortraitWithImages } from '@/app/firebase/firestore';
-import { deletePortraitImages } from '@/app/firebase/firestore';
+import { 
+    addPortrait, 
+    updatePortrait, 
+    updateNewPortraitWithImages, 
+    updateCustomerCommissionsTotal, 
+    updateEditedPortraitWithImages, 
+    deletePortraitImages 
+} from '@/app/firebase/firestore';
 
 
 
@@ -81,12 +84,18 @@ const prices = {
     Anime: {
         Headshot: 120,
         Half: 140,
-        Full: 200
+        Full: 200,
+        model: 150,
+        character: 120,
+        weapons: 125
     },
     NSFW: {
         Headshot: 150,
         Half: 200,
-        Full: 225
+        Full: 225,
+        model: 150,
+        character: 120,
+        weapons: 125
     }
 }
 
@@ -141,7 +150,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if(imageFiles.length !== 0) {
             const names = imageFiles.map(img => img.name)
             if (editPortrait) {
-                console.log(fileNames)
                 setFileNames(prev => [...prev, ...names])
             } else {
                 setFileNames(names)
@@ -157,7 +165,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
         if (authUser) {
-        setLogin(false)
+            setLogin(false)
         }
     }, [authUser])
 
@@ -222,6 +230,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
             setTotalPrice(totalPrice + price)
             setPortraits(prev => ([ ...prev,  {...newPortrait, id: id, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: bucket, uploadedImageInfo: fileNames}]))
+
+            //Add completed portrait to users reward totals
+            updateCustomerCommissionsTotal(authUser.uid)
         }
 
         setEditPortrait(null)

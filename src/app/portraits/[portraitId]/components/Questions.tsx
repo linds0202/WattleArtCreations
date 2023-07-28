@@ -46,6 +46,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const handleClose = () => {
         setOpenQuestions(false)
     }
+
+    console.log('canEditQs in questions: ', canEditQs)
     
     return (
         <Dialog 

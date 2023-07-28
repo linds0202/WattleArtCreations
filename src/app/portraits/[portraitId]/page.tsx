@@ -76,7 +76,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
       //console.log(`h: ${h} m: ${m} s: ${s}`)
 
-      if ( h <= 0 && m <= 0 && s <= 0) {
+      if (difference <= 0 ) { //h <= 0 && m <= 0 && s <= 0
         setCanEditQs(false)
       }
     }, 10000);
@@ -84,7 +84,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     return () => clearInterval(interval)
   }, [portrait])
 
+  console.log('canEditQs: ', canEditQs)
+
   useEffect(() => {
+    
     if (completed) {
       let newPortrait
       if (authUser?.roles === 'Customer') {
@@ -92,8 +95,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       } else {
         newPortrait = {...portrait, artistComplete: true}
       }
-      console.log('artist is: ', portrait?.artist[0].id)
-      console.log('price over here is: ', portrait?.price)
+      
       updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
 
       updatePortrait(newPortrait?.uid, newPortrait)
@@ -208,7 +210,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             </div>
           }
           <div className='flex flex-col items-center'>
-            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto' onClick={handleOpenQuestions}>See Questions</button>
+            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto' onClick={handleOpenQuestions}>
+              See Questions
+            </button>
       
             {portrait?.status !== 'Completed' && portrait?.artistComplete && authUser?.roles === 'Customer' && 
               <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>

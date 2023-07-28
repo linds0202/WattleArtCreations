@@ -3,7 +3,9 @@ import { Avatar, Button, Dialog, DialogActions, DialogContent, Stack, TextField,
 import { useAuth } from '@/app/firebase/auth';
 import { replaceImage, uploadImage } from '../../../firebase/storage';
 import { addAvatar, updateAvatar } from '@/app/firebase/firestore';
-import { UserData } from './Profile';
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DEFAULT_FILE_NAME = "No file selected";
 
@@ -90,6 +92,9 @@ export default function AvatarUploader(props) {
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
+            <IconButton onClick={() => props.onCloseDialog(false)} className='absolute top-2 right-2 text-white'>
+                <CloseIcon className='text-black hover:text-red-600'/>
+            </IconButton>
 
             <Typography variant="h4" className='text-center text-[#0075FF] text-semibold'>
                 {isEdit ? "Edit" : "Add"} Avatar
