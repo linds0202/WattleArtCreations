@@ -2,7 +2,7 @@ import {useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
 import { addChatMessage } from "@/app/firebase/firestore";
 
-const SendMessage = ({ scroll, portraitId }) => {
+const SendMessage = ({ portraitId }) => {
     const { authUser } = useAuth()
     const [message, setMessage] = useState('')
   
@@ -20,7 +20,6 @@ const SendMessage = ({ scroll, portraitId }) => {
         await addChatMessage(portraitId, message, displayName, uid);
         
         setMessage(""); 
-        scroll.current.scrollIntoView({ behavior: "smooth" });
     }
 
     return (

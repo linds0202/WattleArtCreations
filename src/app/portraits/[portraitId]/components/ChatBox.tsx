@@ -20,13 +20,13 @@ const ChatBox = ({ portraitId }) => {
    
     return (
       <main className="w-full relative">
-        <div className="messages-wrapper">
+        <div className="messages-wrapper" id="chatBox">
           {messages?.map((message) => (
-            <Message key={message.id} message={message} />
+            <Message key={message.id}  message={message} />
           ))}
         </div>
         <span ref={scroll}></span>
-        <SendMessage scroll={scroll} portraitId={portraitId} />
+        <SendMessage portraitId={portraitId} />
       </main>
     );
   };

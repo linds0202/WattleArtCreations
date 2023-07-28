@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useAuth } from "@/app/firebase/auth";
 
 interface Message {
@@ -12,6 +12,11 @@ interface Message {
 
 const Message = ( {message}: Message) => {
     const { authUser } = useAuth()
+
+    useEffect(() => {
+        const element = document.getElementById('chatBox')
+        element.scrollTop += 1000
+    }, [])
 
     return (
         <div

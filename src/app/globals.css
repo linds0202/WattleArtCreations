@@ -96,6 +96,8 @@ table {
   padding: 30px;
   margin-bottom: 60px;
   background-color: #D9D9D9;
+  height: 75vh;
+  overflow: scroll;
 }
 .chat-bubble {
   border-radius: 20px 20px 20px 0;
