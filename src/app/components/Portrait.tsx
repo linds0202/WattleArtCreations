@@ -160,23 +160,23 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                     
           {/* If artist & not max commissions show claim button*/}
           {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-            <button onClick={handleClaim} className='border-black border-2 rounded-lg ml-4 px-4'>Claim</button>
+            <button onClick={handleClaim} className='border-black border-2 rounded-lg px-4 mx-4'>Claim</button>
           }
 
           {/* If not ordered - click to add to cart */}
           {user?.roles === 'Customer' && !portrait.paymentComplete && 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-3xl group-hover:underline"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Add to Cart</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-2xl"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Add to Cart</p></Link>
           }
 
           {/* If payment complete - link to individual portrait page */}
-          {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+          {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]"><p>Portrait Page</p></Link>}
           
           {user?.roles === 'Artist' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
-            <button className='text-black' onClick={handleViewDetails}>View Details</button>         
+            <button className='text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]' onClick={handleViewDetails}>View Details</button>         
           }
 
           {/* If on artists dashboard & claimed - link to individual portrait page */}
-          {user?.roles === 'Artist' && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.uid}`} className="text-3xl group-hover:underline"><p>View Details</p></Link>}
+          {user?.roles === 'Artist' && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.uid}`} className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]"><p>Portrait Page</p></Link>}
 
           {openArtistDetails && 
             <Dialog 

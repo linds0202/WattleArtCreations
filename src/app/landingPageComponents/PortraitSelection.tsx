@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { useEffect, useRef } from 'react'
-import Testimonial from "./Testimonial"
 import Footer from "@/app/components/Footer"
 import { Carousel } from "react-responsive-carousel"
 import {
@@ -78,7 +77,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             splashImg: './splashArt/NSFW.png',
             bgImg: './splashArt/PRBackground_V2.png',
             desc: "Indulge in the provocative yet tasteful world of NSFW portraits, where your desires are embraced with artistry and confidentiality. Our experienced artists are skilled at transforming your boldest visions into captivating digital art. Whether it's a daring depiction of a real individual or an original character, every piece is an exploration of sensuality and passion, handled with the utmost respect and professionalism.",
-            testimonials: [{author: 'Bob', body: 'good job'}],
+            testimonials: [{author: 'Bob', body: 'good job'}, 
+                {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
+                {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
             basePrices: []
         }
     }

@@ -12,11 +12,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
   return (
     <div className='w-full h-[100vh] mt-[50px] mb-[125px]'>
       <FadeHeader />
-      {/* <div className="flex justify-center">
-          <SlideCards setMode={setMode} />
-      </div> */}
-
-      
+        
       <nav className='w-11/12 mx-auto border-2 border-[#282828] rounded-t-xl pl-2 pt-2 pr-2'>
         <ul className='flex rounded-t-xl'>
           {categories.map((item, i) => (

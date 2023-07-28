@@ -29,7 +29,8 @@ export interface UserData {
     paymentsOwing: number,
     starRating: number,
     totalReviews: number,
-    totalStars: number
+    totalStars: number,
+    oldEnough: boolean
 }
 
 
@@ -130,30 +131,44 @@ const page = () => {
     return (
         <div className='relative'>
             <div className='flex justify-around'>
-                <div className='w-[48%] h-[80vh] flex flex-wrap justify-around items-center mt-4'>
-                    <div className='w-[56%] h-[60%] border-2 border-black relative'>
-                        <Image src={'/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                <div className='w-[48%]'>
+                    <div className='w-full h-[80vh] flex flex-wrap justify-around items-center mt-4'>
+                        <div className='w-[56%] h-[60%] border-2 border-black relative'>
+                            <Image src={'/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                        </div>
+                        <div className='w-[36%] h-[60%] flex flex-col justify-between items-center'>
+                            <div className='w-full h-[48%] border-2 border-black relative'>
+                                <Image src={'/heroImgs/heroImg2.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                            </div>
+                            <div className='w-full h-[48%] border-2 border-black relative'>
+                                <Image src={'/heroImgs/heroImg3.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                            </div>
+                        </div>
+                        <div className='w-[96%] h-[35%] flex justify-between items-center'>
+                            <div className='w-[30%] h-full border-2 border-black relative'>
+                                <Image src={'/heroImgs/heroImg4.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                            </div>
+                            <div className='w-[30%] h-full border-2 border-black relative'>
+                                <Image src={'/heroImgs/heroImg5.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                            </div>
+                            <div className='w-[30%] h-full border-2 border-black relative'>
+                                <Image src={'/heroImgs/heroImg6.JPG'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                            </div>
+                        </div>
                     </div>
-                    <div className='w-[36%] h-[60%] flex flex-col justify-between items-center'>
-                        <div className='w-full h-[48%] border-2 border-black relative'>
-                            <Image src={'/heroImgs/heroImg2.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
-                        </div>
-                        <div className='w-full h-[48%] border-2 border-black relative'>
-                            <Image src={'/heroImgs/heroImg3.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
-                        </div>
-                    </div>
-                    <div className='w-[96%] h-[35%] flex justify-between items-center'>
-                        <div className='w-[30%] h-full border-2 border-black relative'>
-                            <Image src={'/heroImgs/heroImg4.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
-                        </div>
-                        <div className='w-[30%] h-full border-2 border-black relative'>
-                            <Image src={'/heroImgs/heroImg5.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
-                        </div>
-                        <div className='w-[30%] h-full border-2 border-black relative'>
-                            <Image src={'/heroImgs/heroImg6.JPG'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
-                        </div>
-                    </div>
+                    
+                    {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
+                        <p>Follow me: </p>
+                        <div className='flex justify-between items-center ml-4'>
 
+                            {links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
+
+                            {userData?.website !== "" &&
+                            <SocialIcon url={`${userData?.website}`} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>}
+                            
+                        </div>
+                    </div>}
+                    
                 </div>
 
                 {userData && <div className='w-[49%] flex flex-col justify-center items-center'>
@@ -189,25 +204,6 @@ const page = () => {
                                 <ArrowForwardIosIcon fontSize="large"/>
                             </button>    
                         </div>                    
-                    </div>
-
-
-
-
-
-
-
-
-                    <div className='w-6/12 mt-8'>
-                        <p>Follow me: </p>
-                        <div className='flex justify-between items-center mt-4'>
-
-                            {links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
-
-                            {userData?.website !== "" &&
-                            <SocialIcon url={`${userData?.website}`} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>}
-                            
-                        </div>
                     </div>
                 </div>}
             </div>

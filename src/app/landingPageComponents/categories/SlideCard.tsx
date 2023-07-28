@@ -1,14 +1,52 @@
 'use client'
 
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import "./styles.css";
-import { ModeProps } from "../Home";
+import { ModeProps } from "../Home"
+import { useState, useEffect } from "react";
+import { useAuth } from "@/app/firebase/auth";
+import { auth } from "@/app/firebase/firebase";
+import { getUserById, updateUserData } from "@/app/firebase/firestore";
+import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Button, Dialog } from '@mui/material';
 
-import Router, { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
+
+// Configure FirebaseUI., 
+const uiConfig = {
+    signInFlow: 'popup', 
+    signInOptions: [
+        EmailAuthProvider.PROVIDER_ID,
+        GoogleAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+        // Avoid redirects after sign-in.
+        signInSuccessWithAuthResult: () => false,
+    },
+};
 
 export default function SlideCard({ setMode, mode }: ModeProps) {
+
+    const { authUser, isLoading } = useAuth();
+    const [login, setLogin] = useState(false);
+    const [user, setUser] = useState<UserData>(null)
+
+    const [checkOpen, setCheckOpen] = useState(false)
+
+    const handleLogin = () => {
+        setLogin(true)
+    }
+
+    // Redirect if finished loading and there's an existing user (user is logged in)
+    useEffect(() => {
+        if (authUser) {
+            setLogin(false)
+        }
+    }, [authUser])
 
     const category = {
         Photorealistic: {
@@ -54,40 +92,108 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
         }
     }
     
+    const handleSelection = async (mode: string) => {
+        if (mode === 'NSFW') {
+            const allowed = await getUserById(authUser?.uid)
+            setUser(allowed)
+            
+            if(allowed.oldEnough) {
+                setMode('NSFW')
+            } else {
+                setCheckOpen(true)
+            }
+        } else {
+            setMode(mode)
+        }
+        
+    }
 
-  return (
-    <div className="flex justify-start w-full">
-        <div className="flex px-4 py-8 justify-between ">
-            <div className="w-[49%]">
-                <Carousel
-                    showArrows={false} 
-                    showThumbs={false} 
-                    autoPlay={true} 
-                    showStatus={false}
-                    infiniteLoop 
-                    className="portrait-carousel-root portrait-carousel"
-                >
-                    {category[mode].imgs.map(el => {
-                            return (
-                            <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
-                        )})
+    const handleConfirm = () => {
+        updateUserData({...user, oldEnough: true})
+        setCheckOpen(false)
+        setMode('NSFW')
+    }
+
+    const handleCancel = () => {
+        setCheckOpen(false)
+        setMode('Home')
+    }
+
+
+    return (
+        <div className="flex justify-start w-full">
+            <div className="flex px-4 py-8 justify-between ">
+                <div className="w-[49%]">
+                    { (mode === "Photorealistic" || mode === 'Anime') &&
+                        <Carousel
+                            showArrows={false} 
+                            showThumbs={false} 
+                            autoPlay={true} 
+                            showStatus={false}
+                            infiniteLoop 
+                            className="portrait-carousel-root portrait-carousel"
+                        >
+                            {category[mode].imgs.map(el => {
+                                    return (
+                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
+                                )})
+                            }
+                        </Carousel>
                     }
-                </Carousel>
-            </div>
-            <div className="w-[45%] flex flex-col pt-14 pr-[5%] justify-center">
-                <p className="font-bold text-4xl mb-10">{mode} Portrait</p>
-                <p className="text-xl mb-10">{category[mode].text}</p>
-                <div className="flex justify-center">
-                <motion.button 
-                    className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition" onClick={() => setMode(mode)} 
-                    whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
-                    whileTap={{ scale: 1.05 }}
-                >
-                    Start Customizing
-                </motion.button>
+
+                    {mode === 'NSFW' && 
+                        <img className='w-[80%] h-auto object-contain' src="./nsfwImgs/nsfw1.jpg" />
+                    }
+                </div>
+                <div className="w-[45%] flex flex-col pt-14 pr-[5%] justify-center">
+                    { (mode === "Photorealistic" || mode === 'Anime') &&
+                        <>
+                            <p className="font-bold text-4xl mb-10">{mode} Portrait</p>
+                            <p className="text-xl mb-10">{category[mode].text}</p>
+                        </>
+
+                    }
+                    <div className="flex justify-center">
+                        {!authUser && mode === 'NSFW' &&
+                            <div>
+                                <button onClick={handleLogin} className='w-full text-black hover:text-white hover:bg-[#282828] border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                    Login/Create Account to Continue
+                                </button>
+                                <p className="text-black mt-2">(You must be logined in to create a NSFW portrait)</p>
+                            </div>
+                        }
+                        {authUser && <motion.button 
+                            className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
+                            onClick={() => handleSelection(mode)} 
+                            whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
+                            whileTap={{ scale: 1.05 }}
+                        >
+                            Start Customizing
+                        </motion.button>}   
+                    </div>
                 </div>
             </div>
+
+            {checkOpen && authUser && 
+
+                <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white border-2 border-[#282828]">
+                    <h2 className="text-3xl font-bold">You must be over <span className="text-[#0075FF] text-4xl">18</span> to create a NSFW Portrait</h2>
+                    <p className="text-center mt-4 text-xl">Are you over 18?</p>
+                    <div className="w-8/12 mx-auto mt-2 flex justify-around items-center">
+                        <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] py-2" onClick={handleConfirm}>Yes</button>
+                        <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-red-600 py-2" onClick={handleCancel}>No</button>
+                    </div>
+                </div>
+            }
+
+            {/* Prompt for login */}
+            <Dialog onClose={() => setLogin(false)} open={login}>
+                {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+            </Dialog>
+
+            
+            
         </div>
-    </div>
-  );
+
+    )
 }

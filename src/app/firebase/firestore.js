@@ -103,7 +103,8 @@ export function addUser(user) {
     totalPortraits: 0,
     totalStars: 0,
     totalReviews: 0,
-    starRating: 0
+    starRating: 0,
+    oldEnough: false
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }

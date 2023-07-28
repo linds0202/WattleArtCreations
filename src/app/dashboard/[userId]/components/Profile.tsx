@@ -160,7 +160,7 @@ const Profile = () => {
                         <div className='w-full'>
                             <div className='flex items-center mb-2'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
-                                <p className='ml-2'>(<span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed portraits)</p>
+                                <p className='ml-2'>(<span className='font-semibold'>{userData?.totalCompletedCommissions}</span> purchased portraits)</p>
                             </div>
                             <div className='ml-2 w-full'>
                                 <p className='text-sm'>Progress to next discount:</p>
