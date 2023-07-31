@@ -119,6 +119,8 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
         setMode('Home')
     }
 
+    console.log('mode is: ', mode)
+
 
     return (
         <div className="flex justify-start w-full">
@@ -154,22 +156,41 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
 
                     }
                     <div className="flex justify-center">
-                        {!authUser && mode === 'NSFW' &&
-                            <div>
-                                <button onClick={handleLogin} className='w-full text-black hover:text-white hover:bg-[#282828] border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                    Login/Create Account to Continue
-                                </button>
-                                <p className="text-black mt-2">(You must be logined in to create a NSFW portrait)</p>
-                            </div>
+                        {mode === 'NSFW' 
+                            ? !authUser ?
+                                <div>
+                                    <button onClick={handleLogin} className='w-full text-black hover:text-white hover:bg-[#282828] border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                        Login/Create Account to Continue
+                                    </button>
+                                    <p className="text-black mt-2">(You must be logined in to create a NSFW portrait)</p>
+                                </div>
+                                : <motion.button 
+                                    className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
+                                    onClick={() => handleSelection(mode)} 
+                                    whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
+                                    whileTap={{ scale: 1.05 }}
+                                    >
+                                        Start Customizing
+                                </motion.button>  
+                            : <motion.button 
+                                className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
+                                onClick={() => handleSelection(mode)} 
+                                whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
+                                whileTap={{ scale: 1.05 }}
+                                >
+                                    Start Customizing
+                            </motion.button>  
                         }
-                        {authUser && <motion.button 
+                        {/* {mode !== 'NSFW' &&
+                            <motion.button 
                             className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
                             onClick={() => handleSelection(mode)} 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
-                        >
-                            Start Customizing
-                        </motion.button>}   
+                            >
+                                Start Customizing
+                            </motion.button>  
+                        }    */}
                     </div>
                 </div>
             </div>

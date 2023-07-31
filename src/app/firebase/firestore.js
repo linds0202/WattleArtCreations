@@ -232,6 +232,8 @@ export async function addPortrait( data) {
 
 //edit portrait before purchase
 export function updatePortrait( portraitId, portraitData) {
+  console.log('in update portrait portraitid is: ', portraitId)
+  console.log('in update portratrait, portrait data is: ', portraitData)
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 

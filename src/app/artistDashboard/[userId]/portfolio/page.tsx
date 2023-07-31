@@ -115,13 +115,8 @@ const page = () => {
             setPage(page - 1)
             setDisableNext(false)
         }
-        fetchPreviousData();
-    };
-
-
-
-    console.log('page: ', page)
-
+        fetchPreviousData()
+    }
 
 
     const handleClick = () => {
@@ -161,10 +156,27 @@ const page = () => {
                         <p>Follow me: </p>
                         <div className='flex justify-between items-center ml-4'>
 
-                            {links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
+                            {links.map((link, i) => 
+                                <SocialIcon 
+                                    key={i} 
+                                    url={link} 
+                                    title={link}
+                                    target="_blank" 
+                                    fgColor={'#FFFFFF'} 
+                                    style={{width: '40px', height: '40px', marginRight: 10}} 
+                                    className='hover:scale-125 transition ease-in-out duration-300'
+                                />)
+                            }
 
                             {userData?.website !== "" &&
-                            <SocialIcon url={`${userData?.website}`} target="_blank" fgColor={'#FFFFFF'} style={{width: '40px', height: '40px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>}
+                            <SocialIcon 
+                                url={`${userData?.website}`} 
+                                target="_blank" 
+                                fgColor={'#FFFFFF'} 
+                                style={{width: '40px', height: '40px', marginRight: 10}} 
+                                className='hover:scale-125 transition ease-in-out duration-300'
+                                title={`${userData?.website}`} 
+                            />}
                             
                         </div>
                     </div>}
@@ -173,7 +185,10 @@ const page = () => {
 
                 {userData && <div className='w-[49%] flex flex-col justify-center items-center'>
                     <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
-                    <div className='flex justify-around items-center py-4'>
+                    <div className='flex justify-around items-center py-2'>
+                        <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed commissions</p>
+                    </div>
+                    <div className='flex justify-around items-center pb-4'>
                         <Rating name="read-only" value={userData?.starRating} readOnly precision={0.5} size="large"/>
                         <span>({userData?.starRating})</span>
                         <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> reviews</p>

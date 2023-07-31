@@ -74,17 +74,14 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       const s = Math.floor(difference - (h * 3600) - (m * 60))
       setSeconds(s)
 
-      //console.log(`h: ${h} m: ${m} s: ${s}`)
 
-      if (difference <= 0 ) { //h <= 0 && m <= 0 && s <= 0
+      if (difference <= 0 ) { 
         setCanEditQs(false)
       }
     }, 10000);
 
     return () => clearInterval(interval)
   }, [portrait])
-
-  console.log('canEditQs: ', canEditQs)
 
   useEffect(() => {
     
@@ -209,17 +206,18 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               <p>You time to edit your responses has ended. You can still see your answers but will no longer be able to edit them.</p>
             </div>
           }
+
           <div className='flex flex-col items-center'>
-            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto' onClick={handleOpenQuestions}>
+            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-4' onClick={handleOpenQuestions}>
               See Questions
             </button>
       
             {portrait?.status !== 'Completed' && portrait?.artistComplete && authUser?.roles === 'Customer' && 
-              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Complete Commission</button>
+              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Complete Commission</button>
             }
 
             {portrait?.status !== 'Completed' && !portrait?.artistComplete && authUser?.roles === 'Artist' && 
-              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto'>Mark Complete</button>
+              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Mark Complete</button>
             }
 
             {portrait?.status === 'Completed' && <p>This commission is complete!</p>}

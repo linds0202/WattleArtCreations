@@ -165,7 +165,11 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
           {/* If not ordered - click to add to cart */}
           {user?.roles === 'Customer' && !portrait.paymentComplete && 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-2xl"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Add to Cart</p></Link>
+            <div>
+              <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="text-2xl"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Add to Cart</p></Link>
+
+              <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}&edit=true`} className="text-2xl"><p className='text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]'>Continue Customizing</p></Link>
+            </div>
           }
 
           {/* If payment complete - link to individual portrait page */}

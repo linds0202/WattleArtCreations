@@ -36,12 +36,34 @@ const page = () => {
                             emptyIcon={<StarBorderOutlinedIcon style={{ color: '#E5E5E5' }} fontSize="inherit" />}
                         />
                         <span>({artist.starRating})</span>
-                        <p className='ml-4 text-sm'><span>{artist.totalReviews}</span> reviews</p>
+                        <p className='ml-2 text-sm'>&#x2022; <span className='ml-2 font-semibold'>{artist.totalReviews}</span> reviews</p>
                     </div>
+                    <p className='ml-4 text-sm text-center'><span className='font-semibold'>{artist.totalCompletedCommissions}</span> completed commissions</p>
                     <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 10).join(" ")}...</p>
                 </Link>
                 <div className='flex justify-center items-center mt-2'>
-                    {artist.links.map((link, i) => <SocialIcon key={i} url={link} target="_blank" fgColor={'#FFFFFF'} style={{width: '30px', height: '30px', marginRight: 10}} className='hover:scale-125 transition ease-in-out duration-300'/>)}
+                    {artist.links.map((link, i) => 
+                        <SocialIcon 
+                            key={i} 
+                            url={link} 
+                            title={link}
+                            target="_blank" 
+                            fgColor={'#FFFFFF'} 
+                            style={{width: '30px', height: '30px', marginRight: 10}} 
+                            className='hover:scale-125 transition ease-in-out duration-300'
+                        />)
+                    }
+
+                        {artist?.website !== "" &&
+                            <SocialIcon 
+                                url={`${artist?.website}`} 
+                                target="_blank" 
+                                fgColor={'#FFFFFF'} 
+                                style={{width: '30px', height: '30px', marginRight: 10}} 
+                                className='hover:scale-125 transition ease-in-out duration-300'
+                                title={`${artist?.website}`} 
+                            />
+                        }
                 </div>
             </div>
         </div>

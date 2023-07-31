@@ -83,33 +83,20 @@ const Profile = () => {
 
         if (userData?.totalCompletedCommissions === 0) {
             //setDiscount(awards[0])
-            return ''
+            return '../../badges/one.png'
         } else if (userData?.totalCompletedCommissions > 0 && userData?.totalCompletedCommissions < 3) {
             //setDiscount(awards[1])
             return '../../badges/one.png'
-        } else if (userData?.totalCompletedCommissions > 3 && userData?.totalCompletedCommissions < 7) {
-            //setDiscount(awards[3])
+        } else if (userData?.totalCompletedCommissions >= 3 && userData?.totalCompletedCommissions < 7) {
+            //setDiscount(awards[2])
             return '../../badges/two.png'
-        } else if (userData?.totalCompletedCommissions > 7 && userData?.totalCompletedCommissions < 10) {
-            //setDiscount(awards[7])
+        } else if (userData?.totalCompletedCommissions >= 7 && userData?.totalCompletedCommissions < 10) {
+            //setDiscount(awards[3])
             return '../../badges/three.png'
         } else {
-            //setDiscount(awards[10])
+            //setDiscount(awards[4])
             return '../../badges/four.png'
         }
-
-        // switch(userData?.totalCompletedCommissions) {
-        //     case 1:
-        //       return '../../badges/one.png'
-        //     case 2:
-        //         return '../../badges/two.png'              
-        //     case 3:
-        //         return '../../badges/three.png'
-        //     case 4:
-        //         return '../../badges/three.png'
-        //     default:
-        //       return ''
-        //   }
     }
     
     return (
@@ -153,7 +140,7 @@ const Profile = () => {
 
                 <div className='w-[40%] border-2 border-[#282828] rounded-xl p-4  relative'>
                     <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#0075FF] text-white font-bold rounded-full flex justify-center items-center'>
-                        <p className='text-center'>-{discount.discount}%</p>
+                        <p className='text-center'>-{discount?.discount}%</p>
                     </div>
                     <div className='flex items-center'>
                         <img src={handleSetBadge()} className='w-[64px] h-[64px] mr-4'/> 

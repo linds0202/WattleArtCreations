@@ -32,6 +32,10 @@ export default function Portraits() {
   const searchParams = useSearchParams()
   const selection = searchParams.get('selection')
   const portraitId = searchParams.get('portrait_id')
+  const continueEdit = searchParams.get('edit')
+
+  console.log('continue edit is: ', continueEdit)
+
 
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
@@ -45,18 +49,33 @@ export default function Portraits() {
   const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
-    if (portraitId) {
+    if (portraitId && continueEdit) {
+      console.log('in here')
+      const handleGetPortrait = async () => {
+        const addedPortrait:PortraitData = await getPortrait(portraitId)
+        setPortraits(prev => [...prev, addedPortrait])
+        console.log('added portrait is: ', addedPortrait)
+        setEditPortrait(addedPortrait)
+        setEditIndex(0)
+        setOpenWizard(true)
+      }
+      
+      handleGetPortrait()
+      
+    } else if (portraitId && !continueEdit) {
       const handleGetPortrait = async () => {
         const addedPortrait:PortraitData = await getPortrait(portraitId)
         setPortraits(prev => [...prev, addedPortrait])
       }
       
       handleGetPortrait()
-      
     } else {
       if (portraits.length === 0 && !openWizard) setOpenWizard(true)
     }
   }, [])
+
+  console.log('edit portrait: ', editPortrait)
+  console.log('edit index is: ', editIndex)
 
 
   useEffect(() => {

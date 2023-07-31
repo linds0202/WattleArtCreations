@@ -148,7 +148,7 @@ export default function NavBar() {
 
       <div className='w-4/12 flex justify-end items-center '>
         {authUser?.roles === 'Customer' && 
-        <Link href={`/dashboard/${authUser?.uid}/profile`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        <p className='text-white pr-4'>{authUser?.displayName}</p>}
         
         {authUser?.roles === 'Artist' && 
         <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>}

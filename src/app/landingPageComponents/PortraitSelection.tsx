@@ -1,5 +1,7 @@
 import Link from "next/link"
-import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation';
+import { useAuth } from "../firebase/auth";
+import { useEffect } from 'react'
 import Footer from "@/app/components/Footer"
 import { Carousel } from "react-responsive-carousel"
 import {
@@ -43,6 +45,9 @@ const splatterVariant = {
 
 
 const PortraitSelection = ({ mode, setMode }: ModeProps) => {
+    const { authUser, isLoading } = useAuth();
+    const router = useRouter();
+    
     const options = {
         Photorealistic: {
             title: mode,
@@ -90,6 +95,13 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         window.scrollTo(0, 0)
     }, [])
 
+    // Listen to changes for loading and authUser, redirect if needed
+    useEffect(() => {
+        if (!isLoading && !authUser && mode === 'NSFW') {
+            alert('You must be logged in to customizing a NSFW portrait. Returning to home page . . . ')
+            setMode('Home')
+        }
+    }, [authUser, isLoading]);
 
     let { scrollY } = useScroll()
     let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
