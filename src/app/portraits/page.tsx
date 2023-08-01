@@ -34,9 +34,6 @@ export default function Portraits() {
   const portraitId = searchParams.get('portrait_id')
   const continueEdit = searchParams.get('edit')
 
-  console.log('continue edit is: ', continueEdit)
-
-
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
@@ -73,10 +70,6 @@ export default function Portraits() {
       if (portraits.length === 0 && !openWizard) setOpenWizard(true)
     }
   }, [])
-
-  console.log('edit portrait: ', editPortrait)
-  console.log('edit index is: ', editIndex)
-
 
   useEffect(() => {
     window.scrollTo(0, 0)

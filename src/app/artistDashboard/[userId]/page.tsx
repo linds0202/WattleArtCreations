@@ -43,9 +43,10 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
       setMyPortaits(getMyPortraits)
       setFiltered(getMyPortraits)
     }
-    console.log('getting portraits')
     handleGetPortraits()
   }, [])
+
+  console.log('my portratits: ', myPortraits)
 
   const handleFilter= (filter: string) => {
     

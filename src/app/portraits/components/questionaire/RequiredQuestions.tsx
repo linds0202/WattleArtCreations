@@ -9,7 +9,7 @@ const RequiredQuestions = () => {
             <h2 className='text-xl font-bold mt-4'>Required Questions</h2>
             <div>
                 <div className='w-10/12 p-3 flex justify-start items-center'>
-                    <label className='text-base text-gray-light leading-3 mr-2'>
+                    <label className='text-sm text-gray-light mr-2'>
                         Name your portrait:
                     </label>
                     <Field 
@@ -26,10 +26,10 @@ const RequiredQuestions = () => {
                     <Field 
                         required
                         as="textarea"
-                        rows="3"
+                        rows="4"
                         cols="60" 
                         name="requiredQs[0]" 
-                        className="w-full text-black mt-2 border-2 border-[#282828]"
+                        className="text-sm w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"
                     />
                 </Accordion>
                 <Accordion title="Inspirations and References" required={true} active={true}>
@@ -39,10 +39,10 @@ const RequiredQuestions = () => {
                     <Field 
                         required
                         as="textarea"
-                        rows="3"
+                        rows="4"
                         cols="60" 
                         name="requiredQs[1]"
-                        className="w-full text-black mt-2 border-2 border-[#282828]"
+                        className="text-sm w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"
                     />
                 </Accordion>
             </div>

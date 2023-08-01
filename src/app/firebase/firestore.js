@@ -232,8 +232,6 @@ export async function addPortrait( data) {
 
 //edit portrait before purchase
 export function updatePortrait( portraitId, portraitData) {
-  console.log('in update portrait portraitid is: ', portraitId)
-  console.log('in update portratrait, portrait data is: ', portraitData)
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 
@@ -361,7 +359,7 @@ export async function getCustomersPortraits( uid ) {
 
 //returns array of artists claimed portraits
 export async function getArtistsPortraits( displayName, uid ) {
-  const q = query(collection(db, "portraits"), where("artist", "array-contains", { id: uid, artistName: displayName })); //"artist.artistName", "==", uid
+  const q = query(collection(db, "portraits"), where("artist", "array-contains", { id: uid, artistName: displayName })); 
   const portraits = []
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -374,7 +372,7 @@ export async function getArtistsPortraits( displayName, uid ) {
 //returns all portraits that are not claimed for portrait queue
 export async function getAllUnclaimed() {
   const unclaimed = []
-  const q = query(collection(db, "portraits"), where("status", "==", "Unclaimed"));
+  const q = query(collection(db, "portraits"), where("status", "in", ["Unclaimed", "Unassigned"]));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {

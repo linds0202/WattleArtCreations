@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import SelectArtist from '@/app/components/SelectArtist';
 import CompleteCommission from './components/CompleteCommission';
 import { PortraitData } from '../components/PortraitCustomizer';
+import ArtistList from './components/ArtistList';
 import Link from 'next/link';
 
 
@@ -27,6 +28,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
   const [open, setOpen] = useState(false)
   const [openQuestions, setOpenQuestions] = useState(false)
+  const [openArtistList, setOpenArtistList] = useState(false)
+  const [artistIndex, setArtistIndex] = useState(0)
   const [action, setAction] = useState(false)
   const [openComplete, setOpenComplete] = useState(false)
   const [completed, setCompleted] = useState(false)
@@ -130,11 +133,16 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setOpenQuestions(true)
   }
 
-  return ((!authUser) ? 
-    <p className='min-h-screen'>Loading ...</p>
+  const handleOpenArtistList = (i:number) => {
+    setArtistIndex(i)
+    setOpenArtistList(true)
+  }
+
+  return ((!authUser && isLoading) ? 
+    <p className='min-h-screen text-center text-4xl'>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3 '>
-    <h1 className='text-2xl text-center'>{portrait?.portraitTitle}</h1>
+    <h1 className='text-3xl text-center'>{portrait?.portraitTitle} <span className='text-xl text-[#bababa]'>({portrait?.mode})</span></h1>
     <div className='mx-10 flex justify-between'>
       <div className='w-3/12'>
           <div className='w-full h-[300px] border-2 border-pink-600 flex flex-col justify-around items-center '>
@@ -154,21 +162,40 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           </div>
           
           {/* select artist */}
-          <div className='border-2 border-green-600'>
+          <div className='border-2 border-green-600 p-4'>
             {!portrait?.artistAssigned ? 
             <div>
-              <p>Below are artists that would like to complete your portrait. Click on a name to see their portfolios & read reviews.</p>
-              <p className='mb-2'>Artist: 
-                {portrait?.artist.length ? portrait.artist.map((artist, i) => 
-                  <Link key={i} href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} className="text-xl group-hover:underline ml-4">
-                    <span>{artist.artistName}</span>
-                  </Link>
-                )
-                : <span className='ml-4'>No artist availble yet, check back soon</span>}
-              </p>
-              <p>To choose the artist to work with, click below.</p>
+              <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
+              <p>Below are artists that would like to complete your portrait. Click on a name learn more and select your artist.</p>
+              {portrait?.artist.length  
+                ? 
+                <div className='flex justify-around'>
+                  {portrait.artist.map((artist, i) =>  
+                    <button 
+                      key={i} 
+                      type='button' 
+                      onClick={() => handleOpenArtistList(i)}
+                      className='text-xl hover:text-[#0075FF]'
+                    >
+                      {artist.artistName}
+                    </button>
+                  )}
+              
+                  <ArtistList 
+                    openArtistList={openArtistList} 
+                    setOpenArtistList={setOpenArtistList} 
+                    artists={portrait.artist} 
+                    artistIndex={artistIndex}
+                    setArtistIndex={setArtistIndex}
+                    portrait={portrait}
+                    setPortrait={setPortrait}
+                  />
+                </div> 
+              : <span className='ml-4'>No artist availble yet, check back soon</span>}
+              
+              {/* <p>Know which artist you want to work with?</p>
               <Button onClick={handleClickOpen} disabled={portrait?.artistAssigned}>Select Your Artist</Button>
-              <SelectArtist open={open} setOpen={setOpen} portrait={portrait} />
+              <SelectArtist open={open} setOpen={setOpen} portrait={portrait} /> */}
             </div>
             : <p>Your artist is: <span>{portrait?.artist[0].artistName}</span></p>
             }
@@ -246,7 +273,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       }
       
       <div className='w-3/12'>
-          <p>Style: {portrait?.mode}</p>
           <p>Customer: {portrait?.customer}</p>
           {charList}
       </div>  
