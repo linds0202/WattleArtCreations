@@ -19,8 +19,6 @@ interface PortraitProps {
 export default function Portrait({ portrait, user}: PortraitProps) {
     const router = useRouter()
 
-    console.log('user in portrait is: ', user)
-
     const [openArtistDetails, setOpenArtistDetails] = useState(false)
 
     const [charVariations, setCharVariations] = useState(false)
@@ -55,7 +53,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     const characters = portrait.characters.map((char, i) => (
       <div key={i} className='w-[48%] h-[125px] border-2 border=[#282828] rounded-xl p-2 text-sm flex mb-2'>
         <img 
-          className={` ${char.bodyStyle === 'Full' ? 'w-[32px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
+          className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
           src={`./customizer/${char.bodyStyle}.png`} 
         />
         <div className='ml-2'>
@@ -251,7 +249,20 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]"><p>Portrait Page</p></Link>}
           
           {user?.roles === 'Artist' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
-            <button className='text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]' onClick={handleViewDetails}>View Details</button>         
+            <div>
+              {portrait?.reassigned && 
+                <Link 
+                  href={`/portraits/${portrait.uid}`}
+                  rel="noopener noreferrer" 
+                  target="_blank" 
+                  className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]">
+                    See History
+                </Link>
+              }
+
+              {!portrait.reassigned && <button className='text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]' onClick={handleViewDetails}>View Details</button>
+              }    
+            </div>     
           }
 
           {/* If on artists dashboard & claimed - link to individual portrait page */}

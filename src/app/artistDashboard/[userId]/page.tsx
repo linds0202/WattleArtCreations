@@ -8,6 +8,7 @@ import { getArtistsPortraits, getUserById } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import Portrait from '@/app/components/Portrait';
 import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
+import { UserData } from './portfolio/page';
 
 type Params = {
   params: {
@@ -32,21 +33,22 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    const handleCurrentUser = async () => {
-      const latestUser = await getUserById(authUser?.uid)
-      setCurrentUser(latestUser)
-    }
-    handleCurrentUser()
+    let latestUser
 
     const handleGetPortraits = async () => {
-      const getMyPortraits = await getArtistsPortraits(authUser?.displayName, authUser?.uid);
+      const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
       setMyPortaits(getMyPortraits)
       setFiltered(getMyPortraits)
     }
-    handleGetPortraits()
-  }, [])
+    
+    const handleCurrentUser = async () => {
+      latestUser = await getUserById(authUser?.uid)
+      setCurrentUser(latestUser)
+      handleGetPortraits()
+    }
 
-  console.log('my portratits: ', myPortraits)
+    handleCurrentUser()
+  }, [])
 
   const handleFilter= (filter: string) => {
     

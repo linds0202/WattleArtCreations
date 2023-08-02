@@ -57,23 +57,22 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, setCompleted,
                 </div>
             </>}
 
-            {role === 'Artist' && 
+            {/* {role === 'Artist' && 
             <>
                 <div className='flex flex-col justify-center items-center mb-8'>
                     <div className="flex justify-center items-center mb-4">
                         <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
-                        <p className='text-xl text-center font-bold mt-0'>Complete the Commission?</p>
+                        <p className='text-xl text-center font-bold mt-0'>Submit Revision for Review?</p>
                         <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
                     </div>
-                    <p className='text-center text-lg mb-4'>Click complete below to indicate to the customer that you are finished with this portrait.</p>
-                    <p className='text-center text-lg'>Clicking below will <span className='text-[#0075FF] font-semibold'>complete</span> your commission and notify the customer.*</p>
+                    <p className='text-center text-lg mb-4'>Uploading an image will notify the customer that it is ready for review.</p>
                 </div>
                 
                 <div className='w-8/12 mx-auto flex justify-around items-center'>
                     <button onClick={handleCancel} className='text-xl text-[#282828] border-2 border-[#282828] hover:bg-red-600 hover:text-white rounded-xl py-2 px-2'>Cancel</button>
-                    <button onClick={handleComplete} className='text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>Mark Complete</button>
+                    <button onClick={handleComplete} className='text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>Submit Revision</button>
                 </div>
-            </>}
+            </>} */}
             <p className='absolute bottom-2 left-2 text-[#8f8f8f] text-sm mt-8'>*This cannot be undone</p>
 
         </Dialog>

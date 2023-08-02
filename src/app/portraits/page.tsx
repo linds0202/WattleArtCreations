@@ -92,7 +92,6 @@ export default function Portraits() {
         </button>
       </div>
       
-      
       <div>
         <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters?.length}</span></p>
         <div className='flex justify-start'>  

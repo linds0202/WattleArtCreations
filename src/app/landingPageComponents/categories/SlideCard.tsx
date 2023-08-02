@@ -119,8 +119,6 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
         setMode('Home')
     }
 
-    console.log('mode is: ', mode)
-
 
     return (
         <div className="flex justify-start w-full">

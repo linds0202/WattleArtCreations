@@ -36,7 +36,6 @@ export interface PortraitData  {
         id: string}
     ],
     artistAssigned: boolean,
-    artistComplete: boolean,
     date: Date,
     status: string,
     lastUpdatedStatus: Date,
@@ -45,6 +44,9 @@ export interface PortraitData  {
     uploadedImageBucket: Array<string>,
     uploadedImageInfo: Array<string>,
     id: string,
+    revisions: number,
+    revised: boolean,
+    reassigned: boolean
   }
 
 interface PortraitProps {
@@ -122,7 +124,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         customerId: '',
         artist: [{artistName: "", id: ""}],
         artistAssigned: false,
-        artistComplete: false,
         date: new Date(),
         status: 'Unpaid',
         lastUpdatedStatus: new Date(),
@@ -131,6 +132,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         uploadedImageBucket: [],
         uploadedImageInfo: [],
         id: '',
+        revisions: 2,
+        revised: false,
+        reassigned: false
     })
 
     const [chars, setChars] = useState(portraitData.characters)

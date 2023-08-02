@@ -26,6 +26,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  const [portrait, setPortrait] = useState<PortraitData>()
   const [open, setOpen] = useState(false)
   const [openQuestions, setOpenQuestions] = useState(false)
   const [openArtistList, setOpenArtistList] = useState(false)
@@ -39,7 +40,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [loadingTime, setLoadingTime] = useState(false)
-  const [portrait, setPortrait] = useState<PortraitData>()
+  
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   }, [authUser, isLoading]);
 
   useEffect(() => {
+    console.log('getting the portrait')
     const handleGetPortrait = async () => {
       const currentPortrait = await getPortrait(portraitId);
       setPortrait(currentPortrait)
@@ -56,6 +58,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
     handleGetPortrait()
   }, [])
+
+  console.log('portrait is: ', portrait)
 
   useEffect(() => {
 
@@ -89,12 +93,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   useEffect(() => {
     
     if (completed) {
-      let newPortrait
-      if (authUser?.roles === 'Customer') {
-        newPortrait = {...portrait, status: 'Completed'}
-      } else {
-        newPortrait = {...portrait, artistComplete: true}
-      }
+      const  newPortrait = {...portrait, status: 'Completed'}
       
       updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
 
@@ -105,18 +104,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
   }, [completed])
 
-
   const handleUpload = () => {
     setAction(true)
   }
   
-  const handleClickOpen = () => {
-    setOpen(true);
-  }
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // }
 
-  const handleCompleteCommission = () => {
-    setOpenComplete(true)
-  }
+  // const handleCompleteCommission = () => {
+  //   setOpenComplete(true)
+  // }
 
   const charList = portrait?.characters.map((char, i) => (
     <div key={i} className='border-2 border-black mt-4 pl-4'>
@@ -128,41 +126,44 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     </div>
     
   ))
-
+  
+  // Displays Questions
   const handleOpenQuestions = () => {
     setOpenQuestions(true)
   }
 
+  //Displays artist selection list for customer
   const handleOpenArtistList = (i:number) => {
     setArtistIndex(i)
     setOpenArtistList(true)
   }
 
-  return ((!authUser && isLoading) ? 
+  const handleAccept = () => {
+    setOpenComplete(true)
+  }
+
+  const handleReject = () => {
+    const revisions = portrait?.revisions - 1
+    updatePortrait(portrait?.uid, {...portrait, revisions: revisions, revised: false})
+  }
+
+  const handleDownloadFinal = () => {
+    alert('Download Final Image!')
+  }
+
+  return ((!authUser || isLoading) ? 
     <p className='min-h-screen text-center text-4xl'>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3 '>
-    <h1 className='text-3xl text-center'>{portrait?.portraitTitle} <span className='text-xl text-[#bababa]'>({portrait?.mode})</span></h1>
+    <h1 className='text-3xl text-center mb-4'>{portrait?.portraitTitle} <span className='text-xl text-[#bababa]'>({portrait?.mode})</span></h1>
     <div className='mx-10 flex justify-between'>
-      <div className='w-3/12'>
-          <div className='w-full h-[300px] border-2 border-pink-600 flex flex-col justify-around items-center '>
-            <div className='w-full flex justify-around'>
-              {portrait?.images?.map((img, i) => <img key={i} className="h-[50px] w-[50px]" src={img.imageUrl} />)}
-            </div>
-            <div>
-              <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>
-              <UploadImg 
-                showDialog={action} 
-                onCloseDialog={() => setAction(false)} 
-                portraitId={portraitId}
-                userId={authUser.uid}
-              >
-              </UploadImg>
-            </div>
-          </div>
-          
+      <div className='w-8/12'>
+
+        {/* Choose Artist & edit question countdown */}
+        <div className='w-full flex'>
+
           {/* select artist */}
-          <div className='border-2 border-green-600 p-4'>
+          <div className='w-[50%] border-2 border-green-600 p-4'>
             {!portrait?.artistAssigned ? 
             <div>
               <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
@@ -201,64 +202,121 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             }
             
           </div>
-          
-          {canEditQs ?
-            <div className='border-2 border-blue-600'>
-              <p>You have 24 hours after purchase to answer/change your responses to the questions. Answering these questions helps your artist bring your vision to life</p>
-              <p>Purchase date: {new Date(portrait?.lastUpdatedStatus.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.lastUpdatedStatus.seconds * 1000).toLocaleTimeString()}</p>
-              <p>Time remaining to revise answers:</p>
 
-              {loadingTime ? 
-                <div className='w-8/12 mx-auto mt-4 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg'>
-                  <div >
-                    <span className="text-xl font-semibold">{hours}</span>
-                    <span className="font-light">Hrs</span>
-                  </div>
-                  <span className="mx-2">:</span>
-                  <div >
-                    <span className="text-xl font-semibold">{minutes}</span>
-                    <span className="font-light">Mins</span>
-                  </div>
-                  <span className="mx-2">:</span>
-                  <div >
-                    <span className="text-xl font-semibold">{seconds}</span>
-                    <span className="font-light">Secs</span>
-                  </div>
-                </div>
-                : <p>Calculating . . . </p>
-              }
-            </div>
-            :
-            <div>
-              <p>You time to edit your responses has ended. You can still see your answers but will no longer be able to edit them.</p>
-            </div>
-          }
+          {/* Edit or See Questions */}
+          <div className='w-[50%] border-2 border-blue-600 p-2'>
+            {canEditQs ?
+              <div>
+                <p>You have 24 hours after purchase to answer/change your responses to the questions. Answering these questions helps your artist bring your vision to life</p>
+                <p className='mt-4 font-semibold'>Purchase date: <span className='font-light text-md'>{new Date(portrait?.lastUpdatedStatus.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.lastUpdatedStatus.seconds * 1000).toLocaleTimeString()}</span></p>
+                
+                <p className='mt-4 font-semibold'>Time remaining to revise answers:</p>
 
-          <div className='flex flex-col items-center'>
-            <button className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-4' onClick={handleOpenQuestions}>
+                {loadingTime ? 
+                  <div className='w-6/12 mx-auto mt-2 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg'>
+                    <div >
+                      <span className="text-xl font-semibold">{hours}</span>
+                      <span className="font-light">Hrs</span>
+                    </div>
+                    <span className="mx-2">:</span>
+                    <div >
+                      <span className="text-xl font-semibold">{minutes}</span>
+                      <span className="font-light">Mins</span>
+                    </div>
+                    <span className="mx-2">:</span>
+                    <div >
+                      <span className="text-xl font-semibold">{seconds}</span>
+                      <span className="font-light">Secs</span>
+                    </div>
+                  </div>
+                  : <p>Calculating . . . </p>
+                }
+              </div>
+              :
+              <div>
+                <p className='text-sm'>You time to edit your responses has ended. You can still see your answers but will no longer be able to edit them.</p>
+              </div>
+            }
+            <button className='w-1/2 mx-auto border-2 border-black rounded-lg p-2 mt-4 mb-4' onClick={handleOpenQuestions}>
               See Questions
             </button>
-      
-            {portrait?.status !== 'Completed' && portrait?.artistComplete && authUser?.roles === 'Customer' && 
-              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Complete Commission</button>
-            }
-
-            {portrait?.status !== 'Completed' && !portrait?.artistComplete && authUser?.roles === 'Artist' && 
-              <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Mark Complete</button>
-            }
-
-            {portrait?.status === 'Completed' && <p>This commission is complete!</p>}
-
-            {openComplete && 
-              <CompleteCommission 
-                role={authUser?.roles} 
-                openComplete={openComplete} 
-                setOpenComplete={setOpenComplete} 
-                setCompleted={setCompleted} 
-                portraitId={portrait?.uid}  
-                artistId={portrait?.artist[0].id}
-              />}
           </div>
+
+        </div> 
+
+        <div className='w-3/12'>
+            <p>Customer: {portrait?.customer}</p>
+            {charList}
+        </div> 
+
+
+        {/* Image Upload Section */}
+        <div className='flex mb-8'>
+          
+          {/* Final images */}
+          <div className='w-full h-[300px] border-2 border-pink-600 flex flex-col justify-around items-center '>
+            <p>Final Images</p>
+            <div className='w-full flex justify-around'>
+              {portrait?.images?.map((img, i) => <img key={i} className="h-[50px] w-[50px]" src={img.imageUrl} />)}
+            </div>
+            <div>
+              {authUser?.roles === 'Artist' && !portrait?.revised && <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>}
+
+              {authUser?.roles === 'Customer' && portrait?.revised && portrait?.status !== 'Completed' &&
+              <div>
+                <button className='border-2 border-black rounded-lg p-2'  onClick={handleAccept}>Accept as Final Image</button>
+                {portrait?.revisions !== 0 && <button className='border-2 border-black rounded-lg p-2'  onClick={handleReject}>Request Revision</button>}
+              </div>}
+              {portrait?.status === 'Completed' && <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>}
+
+              <UploadImg 
+                showDialog={action} 
+                onCloseDialog={() => setAction(false)} 
+                portraitId={portraitId}
+                userId={authUser.uid}
+              >
+              </UploadImg>
+            </div>
+            <p className='w-full text-right'>
+              <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> revisions remaining</p>
+          </div>
+
+
+          {/* display images customer uploaded during creation */}
+          <div className='border-2 border-red-600'>
+            <p className='text-black text-lg'>Images uploaded by customer during portrait creation:</p>
+
+            <div className='flex mt-2'>
+              {portrait?.uploadedImageUrls.length === 0
+                ? <p className='text-sm text-red-600'>(No images uploaded)</p>
+                : portrait?.uploadedImageUrls.map((img, i) => <img className="w-[32px] h-[32px] mr-4" key={i} src={img}/>)}
+            </div>
+          </div>
+        </div>
+
+
+        <div className='flex flex-col items-center'>
+             
+          {/* {portrait?.status !== 'Completed' && portrait?.artistComplete && authUser?.roles === 'Customer' && 
+            <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Complete Commission</button>
+          }
+
+          {portrait?.status !== 'Completed' && !portrait?.artistComplete && authUser?.roles === 'Artist' && 
+            <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Mark Complete</button>
+          } */}
+
+          {portrait?.status === 'Completed' && <p>This commission is complete!</p>}
+
+          {openComplete && 
+            <CompleteCommission 
+              role={authUser?.roles} 
+              openComplete={openComplete} 
+              setOpenComplete={setOpenComplete} 
+              setCompleted={setCompleted} 
+              portraitId={portrait?.uid}  
+              artistId={portrait?.artist[0].id}
+            />}
+        </div>
       </div>
 
       {openQuestions && 
@@ -271,11 +329,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           role={authUser?.roles}
         />
       }
-      
-      <div className='w-3/12'>
-          <p>Customer: {portrait?.customer}</p>
-          {charList}
-      </div>  
       
       <div className='w-4/12'>
           <ChatBox portraitId={portraitId}/>

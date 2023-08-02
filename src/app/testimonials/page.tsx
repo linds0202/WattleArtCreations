@@ -15,6 +15,10 @@ const page = () => {
     const [openTestimonial, setOpenTestimonial] = useState(true)
     const [reviewed, setReviewed] = useState(false)
 
+    const handleDownloadFinal = () => {
+        alert('Downloading Image!')
+    }
+
     return (
         <div className='flex flex-col justify-center items-center'>
             <div className='w-10/12'>
@@ -24,9 +28,11 @@ const page = () => {
                 <p>To help you make the most of your experience, we&#39;ve put together some important information, next steps, and additional options to enhance your digital art:</p>
             </div>
             
-            <div className='flex'>
+            <div className='py-8 px-4 flex'>
                 <div className='w-6/12'>
-                    <p><span className='font-semibold'>Digital File Delivery:</span> Your digital artwork will be sent to you via email as a high-resolution file. You can expect to receive your artwork within [time frame] after confirming your satisfaction with the final piece. If you encounter any issues with your digital file, please contact our support team at [email/contact information].</p>   
+                    <p><span className='font-semibold'>Digital File Delivery:</span> Your digital artwork can be downloaded as a high-resolution file. You can always access the download via the individual portrait page on your dashboard. Select 'Completed' and then navigate to the portrait page.</p> 
+                    <p>If you encounter any issues with your digital file, please contact our support team at [email/contact information].</p> 
+                    <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
                 </div>
                         
                 

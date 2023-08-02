@@ -143,15 +143,19 @@ export async function updateArtistOnCompletion(userId, price) {
 
 //update artist rating with new testimonial
 export async function updateArtistRating(userId, stars) {
+  console.log('stars is: ', stars)
   const docSnap = await getDoc(doc(db, "users", userId));
 
   let newRating
   if (docSnap.data().totalStars) {
     const allStars = (docSnap.data().totalStars + stars) / (docSnap.data().totalReviews + 1)
+    console.log('allStars: ', allStars)
     newRating = Math.round( allStars * 100 + Number.EPSILON ) / 100
   } else {
     newRating = stars / (docSnap.data().totalReviews + 1)
   }
+
+  console.log('newRating: ', newRating)
   
   await updateDoc(doc(db, 'users', userId),  
   { 
@@ -218,7 +222,6 @@ export async function addPortrait( data) {
     customerId: data.customerId,
     artist: [],
     artistAssigned: false,
-    artistComplete: false,
     date: new Date,
     status: 'Unordered',
     lastUpdatedStatus: new Date,
@@ -226,12 +229,18 @@ export async function addPortrait( data) {
     uploadedImageUrls: [],
     uploadedImageBucket: [],
     uploadedImageInfo: [],
+    revisions: data.revisions,
+    revised: false,
+    reassigned: false
   })
   return portraitRef.id
 }
 
 //edit portrait before purchase
 export function updatePortrait( portraitId, portraitData) {
+  console.log('portraitId: ', portraitId)
+  console.log('portraitData: ', portraitData)
+
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 
@@ -244,9 +253,9 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 
 //add artist to artist list for portrait when claimed
-export function addArtist( portraitId, artistId, displayName) {
+export function addArtist( portraitId, artistId, artistName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
-    artist: arrayUnion({artistName: displayName, id: artistId}),
+    artist: arrayUnion({ id: artistId, artistName: artistName}),
     status: 'Unassigned',
   });
 }
@@ -300,10 +309,10 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
   updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
 }
 
-//add one image to portrait
+//Submit an image for review 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
-  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl})})
+  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl}), revised: true})
 }
 
 //add customer uploaded images to new portrait
@@ -359,6 +368,7 @@ export async function getCustomersPortraits( uid ) {
 
 //returns array of artists claimed portraits
 export async function getArtistsPortraits( displayName, uid ) {
+  
   const q = query(collection(db, "portraits"), where("artist", "array-contains", { id: uid, artistName: displayName })); 
   const portraits = []
   const querySnapshot = await getDocs(q);
@@ -419,7 +429,8 @@ export async function addTestimonial( data) {
     customerId: data.customerId,
     customerDisplayName: data.displayName,
     text: data.text,
-    stars: data.stars
+    stars: data.stars,
+    includeImg: data.includeImg
   })
   return testimonialRef.id
 }

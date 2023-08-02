@@ -73,7 +73,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
 
                     <button 
                         onClick={handleSelect}
-                        className='border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#0075FF] hover:bg-[#0075FF] hover:text-white'
+                        className='border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#0075FF] hover:text-white'
                     >
                         Select Artist
                     </button>

@@ -14,6 +14,7 @@ export default function Dashboard() {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  const [loadingPortraits, setLoadingPortraits] = useState(true)
   const [currentUser , setCurrentUser] = useState(null)
   const [unclaimed, setUnclaimed] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
@@ -24,8 +25,6 @@ export default function Dashboard() {
         router.push('/')
     }
   }, [authUser, isLoading]);
-
-
 
   useEffect(() => {
     const handleGetUnclaimed = async () => {
@@ -41,10 +40,12 @@ export default function Dashboard() {
     }
     handleCurrentUser()
     handleGetUnclaimed()
+
+    setLoadingPortraits(false)
   }, [])
 
-
-  return ((!authUser) ? 
+ 
+  return ((loadingPortraits) ? 
     <p>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3'>

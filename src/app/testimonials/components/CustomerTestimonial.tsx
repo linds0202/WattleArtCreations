@@ -15,7 +15,8 @@ interface CustomerTestimonialProps {
 interface CustomerFormValues {
     displayName: String,
     text: string,
-    stars: number
+    stars: number,
+    includeImg: boolean
 }
 
 const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, artistId, customerId, setReviewed }: CustomerTestimonialProps) => {
@@ -25,7 +26,8 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
     const initialValues: CustomerFormValues = {
         displayName: displayName,
         text: "",
-        stars: 0
+        stars: 0,
+        includeImg: false
     }
 
     return (
@@ -36,7 +38,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
                 
-                    addTestimonial({...values, stars: rating, portraitId: portraitId, artistId: artistId, customerId: customerId})
+                    addTestimonial({...values, stars: rating, portraitId: portraitId, artistId: artistId, customerId: customerId, includeImg: values.includeImg})
                     
                     setReviewed(true)
                     helpers.setSubmitting(false)
@@ -66,7 +68,12 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
                                 name="text" 
                                 className="w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-xl p-4"
                             />
-                        </div>    
+                        </div>  
+
+                        <label>
+                            <Field type="checkbox" name="includeImg"/>
+                            <span className='ml-2 font-semibold'>Include Image: Do you want to include your final image in your review?</span>
+                        </label> 
 
                         <div className='w-full flex items-center'>
                             <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>

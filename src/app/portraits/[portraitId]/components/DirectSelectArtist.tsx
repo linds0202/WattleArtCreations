@@ -46,7 +46,7 @@ const DirectSelectArtist = ({ open, setOpen, portrait, setPortrait, artistId, se
             <DialogTitle>Choose This Artist</DialogTitle>
             
             <DialogContent>
-                <p>Do you want to select <span>{name}</span> as your artist?</p>
+                <p>Do you want to select <span className="text-[#0075FF]">{name}</span> as your artist?</p>
                 <p className='text-sm'>(Once you select your artist, you will not be able to change)</p>
             </DialogContent>
             <DialogActions>
