@@ -8,6 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import StepTwo from '../../components/questionaire/StepTwo';
 import RequiredQuestions from '../../components/questionaire/RequiredQuestions';
 import Accordion from '../../components/questionaire/Accordion';
+import CharList from '@/app/components/CharList';
+import EnlargedImage from '@/app/components/EnlargedImage';
 
 interface QuestionsProps {
     portrait: PortraitData,
@@ -24,6 +26,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
+    const [openImage, setOpenImage] = useState(false)
+    const [src, setSrc] = useState('')
 
     useEffect(() => {
         portrait.characters.forEach((char) => {
@@ -37,6 +41,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
 
         })
     }, [])
+
 
     const requiredQuestions = (
         <div>
@@ -141,6 +146,11 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const handleClose = () => {
         setOpenQuestions(false)
     }
+
+    const handleEnlarge = (i) => {
+        setSrc(portrait?.uploadedImageUrls[i])
+        setOpenImage(true)
+    }
     
     return (
         <Dialog 
@@ -153,7 +163,43 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             <IconButton onClick={() => setOpenQuestions(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
-            <h2>Customer Questions</h2>
+            
+            <h1 className='text-3xl font-bold mb-8'>Portrait Details</h1>
+
+            
+            <div className='flex justify-between items-center mb-4'>
+                <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-md text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
+
+                <p className='text-md font-semibold'><span className='font-normal'>Purchased Date:</span> {new Date(portrait.date.toDate()).toLocaleDateString("en-US")} </p>           
+            
+            </div>
+
+            {/* display character details */}
+            <CharList portrait={portrait} />
+
+            {/* display images customer uploaded during creation */}
+            <div className=' my-4'>
+                <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click to enlarge)</span></p>
+
+                <div className='w-full flex mt-4'>
+                {portrait?.uploadedImageUrls.length === 0
+                    ? <p className='text-lg text-red-600'>(No images uploaded)</p>
+                    : portrait?.uploadedImageUrls.map((img, i) => 
+                        <img 
+                            className="w-[64px] h-[64px] mr-4" 
+                            key={i} 
+                            src={img}
+                            onClick={() => handleEnlarge(i)}
+                        />
+                    )}
+                </div>
+            </div>
+
+            {openImage &&
+                <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src}/>
+            }
+
+            <h2 className='text-2xl font-bold text-[#0075FF]'>Customer Questions</h2>
             
             {canEditQs && role === 'Customer'
             ? <Formik
@@ -162,7 +208,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             >
                 {({ values }) => (
                     <Form className='w-full '>
-                        <div className='flex flex-between'>
+                        <div className='flex'>
                             <div className='w-6/12 flex flex-col items-center'>
                                 <RequiredQuestions />
                             </div>
@@ -179,20 +225,23 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                             </div>                            
                         </div>
 
-                        <button 
-                            type="submit" 
-                            className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black'
-                        >
-                            Update Answers
-                        </button>
+                        <div className='w-8/12 mx-auto flex justify-between items-center'>
+                            <button 
+                                type="submit" 
+                                className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#2DD42B]'
+                            >
+                                Update Answers
+                            </button>
 
-                        <button 
-                            type="button" 
-                            onClick={handleClose}
-                            className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black'
-                        >
-                            Don't save
-                        </button>
+                            <button 
+                                type="button" 
+                                onClick={handleClose}
+                                className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
+                            >
+                                Don't save
+                            </button>
+                        </div>
+                        
                             
                     </Form>
                 )}
@@ -204,7 +253,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 <button 
                     type="button" 
                     onClick={handleClose}
-                    className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black'
+                    className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
                 >
                     {canEditQs && role === 'Customer' ? "Don't save" : "Back to Portrait"}
                 </button>

@@ -36,7 +36,7 @@ const awards = {
     },
 }
 
-const Profile = () => {
+const Profile = (user: UserData) => {
 
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -58,7 +58,7 @@ const Profile = () => {
 
     useEffect(() => {
         const handleGetUser = async () => {
-          const getMyUserData = await getUserById(authUser.uid);
+          const getMyUserData = await getUserById(authUser?.uid);
           setUserData(getMyUserData)
         }
     

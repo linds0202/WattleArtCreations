@@ -1,29 +1,54 @@
 import {useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
-import { addChatMessage } from "@/app/firebase/firestore";
+import { addChatMessage, addChatImage } from "@/app/firebase/firestore";
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import { uploadImage } from "@/app/firebase/storage";
 
 const SendMessage = ({ portraitId }) => {
+    
     const { authUser } = useAuth()
+    
     const [message, setMessage] = useState('')
+    const [img, setImg] = useState(null);
   
     const sendMessage = async (event) => {
         event.preventDefault();
         
         //check if message is empty
-        if (message.trim() === "") {
-          alert("Enter valid message");
-          return;
+        if (message.trim() === "" && !img) {
+          alert("Enter valid message")
+          return
         }
 
-        const { uid, displayName } = authUser;
+        const { uid, displayName } = authUser
         
-        await addChatMessage(portraitId, message, displayName, uid);
+        if (img) {
+            const imageBucket = await uploadImage(img, portraitId)
+
+            console.log('imageBucket is: ', imageBucket)
+            
+            console.log('calling addchatimage with: ', portraitId, imageBucket, message, displayName, uid)
+            const chatUrls = await addChatImage(portraitId, imageBucket, message, displayName, uid)
+          } else {
+            await addChatMessage(portraitId, message, displayName, uid)
+          }
         
-        setMessage(""); 
+        setMessage("")
+        setImg(null)
     }
 
     return (
         <form onSubmit={(event) => sendMessage(event)} className="send-message">
+            <input
+                type="file"
+                style={{ display: "none" }}
+                id="file"
+                onChange={(e) => setImg(e.target.files[0])}
+            />
+            <label htmlFor="file" className="flex justify-center items-center mr-2">
+                <PhotoCameraIcon fontSize="large" className="text-white cursor-pointer"/>
+            </label>
+
             <label htmlFor="messageInput" hidden>
                 Enter Message
             </label>
@@ -36,6 +61,7 @@ const SendMessage = ({ portraitId }) => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
             />
+
             <button type="submit">Send</button>
         </form>
     );

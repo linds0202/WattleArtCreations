@@ -59,8 +59,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     handleGetPortrait()
   }, [])
 
-  console.log('portrait is: ', portrait)
-
   useEffect(() => {
 
     const interval = setInterval(() => {
@@ -107,25 +105,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const handleUpload = () => {
     setAction(true)
   }
-  
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // }
 
-  // const handleCompleteCommission = () => {
-  //   setOpenComplete(true)
-  // }
-
-  const charList = portrait?.characters.map((char, i) => (
-    <div key={i} className='border-2 border-black mt-4 pl-4'>
-        <p>Char {i + 1} : </p>
-        <p>Body Style: {char.bodyStyle}</p>
-        <p># Character Variations: {char.numCharVariations}</p>
-        <p># Pets: {char.numPets}</p>
-        <p>Extras: {char.extras.length === 0 ? 'None' : char.extras.join(', ')}</p>
-    </div>
+  // const charList = portrait?.characters.map((char, i) => (
+  //   <div key={i} className='border-2 border-black mt-4 pl-4'>
+  //       <p>Char {i + 1} : </p>
+  //       <p>Body Style: {char.bodyStyle}</p>
+  //       <p># Character Variations: {char.numCharVariations}</p>
+  //       <p># Pets: {char.numPets}</p>
+  //       <p>Extras: {char.extras.length === 0 ? 'None' : char.extras.join(', ')}</p>
+  //   </div>
     
-  ))
+  // ))
   
   // Displays Questions
   const handleOpenQuestions = () => {
@@ -193,10 +183,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   />
                 </div> 
               : <span className='ml-4'>No artist availble yet, check back soon</span>}
-              
-              {/* <p>Know which artist you want to work with?</p>
-              <Button onClick={handleClickOpen} disabled={portrait?.artistAssigned}>Select Your Artist</Button>
-              <SelectArtist open={open} setOpen={setOpen} portrait={portrait} /> */}
             </div>
             : <p>Your artist is: <span>{portrait?.artist[0].artistName}</span></p>
             }
@@ -246,7 +232,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
         <div className='w-3/12'>
             <p>Customer: {portrait?.customer}</p>
-            {charList}
         </div> 
 
 
@@ -282,7 +267,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           </div>
 
 
-          {/* display images customer uploaded during creation */}
+          {/* display images customer uploaded during creation
           <div className='border-2 border-red-600'>
             <p className='text-black text-lg'>Images uploaded by customer during portrait creation:</p>
 
@@ -291,19 +276,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 ? <p className='text-sm text-red-600'>(No images uploaded)</p>
                 : portrait?.uploadedImageUrls.map((img, i) => <img className="w-[32px] h-[32px] mr-4" key={i} src={img}/>)}
             </div>
-          </div>
+            {charList}
+          </div> */}
         </div>
 
 
         <div className='flex flex-col items-center'>
-             
-          {/* {portrait?.status !== 'Completed' && portrait?.artistComplete && authUser?.roles === 'Customer' && 
-            <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Complete Commission</button>
-          }
-
-          {portrait?.status !== 'Completed' && !portrait?.artistComplete && authUser?.roles === 'Artist' && 
-            <button onClick={handleCompleteCommission} className='w-8/12 border-2 border-black rounded-lg p-2 mt-4 mx-auto mb-10'>Mark Complete</button>
-          } */}
 
           {portrait?.status === 'Completed' && <p>This commission is complete!</p>}
 

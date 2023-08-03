@@ -99,7 +99,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     <p>Loading ...</p>
   :
   <div className='bg-white text-black min-h-screen pt-3'>
-    <Profile />
+    <Profile user={currentUser}/>
     <h2 className='text-3xl'>My Portraits</h2>
     <div className='flex justify-around items-center mt-4'>
       <button 

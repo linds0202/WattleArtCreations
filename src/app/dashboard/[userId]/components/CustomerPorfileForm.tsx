@@ -38,6 +38,8 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
+                    console.log('in form userData is: ', userData)
+                    console.log('values is: ', values)
                     updateUserData({...userData, ...values})
 
                     helpers.setSubmitting(false)

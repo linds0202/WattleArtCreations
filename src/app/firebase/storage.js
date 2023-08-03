@@ -11,8 +11,11 @@ export async function uploadImage(image, portraitId) {
   console.log('image is: ', image)
   console.log('portraitId is: ', portraitId)
   const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+  console.log('formatted date: ', formattedDate)
   const bucket = `${BUCKET_URL}/${portraitId}/${formattedDate}.jpg`;
-  await uploadBytes(ref(storage, bucket), image);
+  console.log('bucket is: ', bucket)
+  const checking = await uploadBytes(ref(storage, bucket), image);
+  console.log('checking: ', checking)
   return bucket;
 }
 

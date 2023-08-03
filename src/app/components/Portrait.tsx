@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Accordion from '../portraits/components/questionaire/Accordion'
 import Image from 'next/image'
-import { relative } from 'path'
+import CharList from './CharList'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -50,28 +50,28 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       setOpenArtistDetails(true)
     }
 
-    const characters = portrait.characters.map((char, i) => (
-      <div key={i} className='w-[48%] h-[125px] border-2 border=[#282828] rounded-xl p-2 text-sm flex mb-2'>
-        <img 
-          className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
-          src={`./customizer/${char.bodyStyle}.png`} 
-        />
-        <div className='ml-2'>
-          <p className='text-md font-semibold text-center'>Character {i + 1}</p>
-          <div className='flex justify-between'>
-            <p className='font-semibold'>Variations: <span className='font-light'>{char.numCharVariations}</span></p>
-            <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p>
-          </div>
+    // const characters = portrait.characters.map((char, i) => (
+    //   <div key={i} className='w-[48%] h-[125px] border-2 border=[#282828] rounded-xl p-2 text-sm flex mb-2'>
+    //     <img 
+    //       className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
+    //       src={`./customizer/${char.bodyStyle}.png`} 
+    //     />
+    //     <div className='ml-2'>
+    //       <p className='text-md font-semibold text-center'>Character {i + 1}</p>
+    //       <div className='flex justify-between'>
+    //         <p className='font-semibold'>Variations: <span className='font-light'>{char.numCharVariations}</span></p>
+    //         <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p>
+    //       </div>
           
-          <p className='text-xs font-semibold'>Extras: <span className='font-light'>{char.extras.map(extra => {
-            if (extra === 'character') return 'Character Sheet'
-            if (extra === 'model') return '3D Model'
-            if (extra === 'weapons') return 'Weapon Sheet'
-          }).join(', ')}</span></p>
-        </div>
+    //       <p className='text-xs font-semibold'>Extras: <span className='font-light'>{char.extras.map(extra => {
+    //         if (extra === 'character') return 'Character Sheet'
+    //         if (extra === 'model') return '3D Model'
+    //         if (extra === 'weapons') return 'Weapon Sheet'
+    //       }).join(', ')}</span></p>
+    //     </div>
         
-      </div>
-    ))
+    //   </div>
+    // ))
 
     const requiredQuestions = (
       <div>
@@ -308,9 +308,10 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                         <p className='font-semibold text-xl'>Commission: <span className='text-[#0075FF]'>${portrait.price}</span></p>
                       </div>
                       
-                      <div className='flex flex-wrap justify-between items-center mt-2'>
+                      <CharList portrait={portrait}/>
+                      {/* <div className='flex flex-wrap justify-between items-center mt-2'>
                         {characters}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   

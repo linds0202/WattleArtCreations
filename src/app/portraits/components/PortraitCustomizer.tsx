@@ -3,7 +3,7 @@ import { auth } from '@/app/firebase/firebase';
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { Formik, Form, Field} from 'formik';
+import { Formik, Form} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -190,8 +190,11 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         
         const price = chars.reduce((sum, char) => sum += char.total, 0)
 
+        console.log('portraitFormData: ', portraitFormData)
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
-        
+        console.log('newPortrait: ', newPortrait)
+
+
         if (editPortrait) {
 
             //Need to check if images has been changed - then update with new file info else just use the deleted set of files
@@ -219,9 +222,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             })
             let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
             
-            console.log('newPortrait is: ', newPortrait.uid)
+            console.log('newPortrait is: ', newPortrait.id)
 
-            updatePortrait(newPortrait.uid, {...editedPortraitsData[editIndex]})
+            updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             
             setTotalPrice(updatedTotalPrice)
             setPortraits(editedPortraitsData)

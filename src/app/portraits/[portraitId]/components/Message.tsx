@@ -3,10 +3,11 @@ import { useAuth } from "@/app/firebase/auth";
 
 interface Message {
     message: {
-        portraitId: String,
-        name: String,
-        text: String,
-        uid: String
+        portraitId: string,
+        name: string,
+        text: string,
+        uid: string,
+        img: string
     }
 }
 
@@ -23,7 +24,8 @@ const Message = ( {message}: Message) => {
             className={`chat-bubble ${message.uid === authUser?.uid ? "right" : ""}`}>
             <div className="chat-bubble__right">
                 <p className="user-name">{message.name}</p>
-                <p className="user-message">{message.text}</p>
+                {message.text !== '' && <p className="user-message">{message.text}</p>}
+                {message.img && <img className='w-[64px] h-[64px]' src={message.img} />}
             </div>
         </div>
     );

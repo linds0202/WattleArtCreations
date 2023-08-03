@@ -9,12 +9,12 @@ const ChatBox = ({ portraitId }) => {
     const [messages, setMessages] = useState([]);
     
     useEffect(() => {
-        const foo = async () => {
+        const getMessages = async () => {
             const unsubscribe = await getChats(setMessages, portraitId);
             
-            return () => unsubscribe();
+            return () => unsubscribe()
         }
-        foo()
+        getMessages()
     }, [])
 
    

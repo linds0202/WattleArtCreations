@@ -118,6 +118,7 @@ export function updateUser(userId, role) {
 
 //update any user data
 export function updateUserData(user) {
+  console.log('in update user data: ', user)
   updateDoc(doc(db, 'users', user.uid),  
     { ...user }, { merge: true }
   );
@@ -143,27 +144,23 @@ export async function updateArtistOnCompletion(userId, price) {
 
 //update artist rating with new testimonial
 export async function updateArtistRating(userId, stars) {
-  console.log('stars is: ', stars)
   const docSnap = await getDoc(doc(db, "users", userId));
 
   let newRating
   if (docSnap.data().totalStars) {
     const allStars = (docSnap.data().totalStars + stars) / (docSnap.data().totalReviews + 1)
-    console.log('allStars: ', allStars)
     newRating = Math.round( allStars * 100 + Number.EPSILON ) / 100
   } else {
     newRating = stars / (docSnap.data().totalReviews + 1)
   }
-
-  console.log('newRating: ', newRating)
   
   await updateDoc(doc(db, 'users', userId),  
-  { 
-    totalReviews: increment(1),
-    totalStars: increment(stars),
-    starRating: newRating
-  }
-);
+    { 
+      totalReviews: increment(1),
+      totalStars: increment(stars),
+      starRating: newRating
+    }
+  )
 }
 
 //update artist comms when bid on portrait
@@ -238,9 +235,6 @@ export async function addPortrait( data) {
 
 //edit portrait before purchase
 export function updatePortrait( portraitId, portraitData) {
-  console.log('portraitId: ', portraitId)
-  console.log('portraitData: ', portraitData)
-
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 
@@ -400,8 +394,25 @@ export function addChatMessage( portraitId, message, displayName, uid  ) {
     text: message,
     name: displayName,
     createdAt: serverTimestamp(),
-    uid,
+    uid
   });
+}
+
+//upload image in chat
+export async function addChatImage( portraitId, imageBucket, message, displayName, uid  ) {
+  
+  console.log('in here, image bucket is: ', imageBucket)
+  const imageUrl = await getDownloadURL(imageBucket)
+  console.log('imageUrl: ', imageUrl)
+  
+  addDoc(collection(db, "messages"), {
+    portraitId: portraitId,
+    text: message,
+    name: displayName,
+    createdAt: serverTimestamp(),
+    img: imageUrl,
+    uid
+  })
 }
 
 // Get All chat messages
