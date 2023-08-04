@@ -7,9 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import StepTwo from '../../components/questionaire/StepTwo';
 import RequiredQuestions from '../../components/questionaire/RequiredQuestions';
-import Accordion from '../../components/questionaire/Accordion';
 import CharList from '@/app/components/CharList';
 import EnlargedImage from '@/app/components/EnlargedImage';
+import DisplayedRequiredQuestions from '@/app/components/DisplayedRequiredQuestions';
+import DisplayedOptionalQuestions from '@/app/components/DisplayedOptionalQuestions';
+import { MyCharValues } from '../../components/questionaire/StepOne';
 
 interface QuestionsProps {
     portrait: PortraitData,
@@ -30,7 +32,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const [src, setSrc] = useState('')
 
     useEffect(() => {
-        portrait.characters.forEach((char) => {
+        portrait.characters.forEach((char: MyCharValues) => {
             if (char.numCharVariations > 1) setCharVariations(true)
 
             if(char.pets) setPet(true)
@@ -41,100 +43,6 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
 
         })
     }, [])
-
-
-    const requiredQuestions = (
-        <div>
-          <Accordion title="Character Basics" required={false} active={true}>
-            <p className='text-sm'>
-            Please provide a description of the character, including their name, age, gender, and any significant features. Additionally, please include their body type, hair color and style, eye color, and skin tone as is applicable.
-            </p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.requiredQs[0]}</p>
-          </Accordion>
-          <Accordion title="Inspirations and References" required={false} active={true}>
-            <p className='text-sm'>
-            Are there any existing artworks, characters, or scenes that inspire your commission idea? Please provide links or images to help the artist understand your vision better.
-            </p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.requiredQs[1]}</p>
-          </Accordion>
-        </div>
-      )
-  
-      const optionalQuestions = (
-        <div>
-          {/* general character qs */}
-          <Accordion title="Character Basics" required={false} active={true}>
-            <div>
-              <p className='text-sm'><span>Personality:</span> What is the character's personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q1}</p>
-              <p className='text-sm'><span>Clothing and Accessories:</span> What kind of clothing and accessories does your character wear?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q2}</p>
-              <p className='text-sm'><span>Pose and Expression:</span> Do you have a specific pose or expression in mind for the character?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q3}</p>
-              <p className='text-sm'><span>Special Requests:</span> Are there any unique elements, features, or requests that you would like to include in your commission, which haven’t been covered in the previous questions?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q4}</p>
-            </div> 
-          </Accordion>
-  
-          {/* Character variation qs */}
-          <Accordion title="Character Variations" required={false} active={charVariations}>
-            <div>
-                {charVariations ?
-                <>
-                    <p className='text-sm leading-3'>What variations would you like between each version (e.g., different outfits, expressions, poses, or color schemes)?</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[1].q1}</p>
-                </>
-                : <p className='text-sm font-semibold'>No Pets were added to this portrait.</p>
-                }
-            </div> 
-          </Accordion>
-  
-          {/* Pet qs */}
-          <Accordion title="Pet / Familiar:" required={false} active={pet}>
-            <div>
-                {pet ?
-                <>
-                    <p className='text-sm leading-3'>For your pet/familiar, please describe their appearance, including any unique features or accessories.</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[2].q1}</p>
-                    <p className='text-sm leading-3'>How would you like the pet/familiar to interact with the character in the artwork (e.g., sitting beside the character, perched on the character's shoulder, etc.)?</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[2].q2}</p>
-                </>
-                : <p className='text-sm font-semibold'>No Pet was added to this portrait.</p>
-                }
-            </div> 
-          </Accordion>
-  
-          {/* Character Sheet qs */}
-          <Accordion title="Character Sheet:" required={false} active={charSheet}>
-            <div>
-                {charSheet ?
-                <>
-                    <p className='text-sm leading-3'>Please provide any relevant character information that should be included on the character sheet, such as name, race, class, abilities, and backstory.</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[3].q1}</p>
-                    <p className='text-sm leading-3'>Are there any specific visual elements or layouts you&#39;d like incorporated into the character sheet design?</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[3].q2}</p>
-                </>
-                : <p className='text-sm font-semibold'>No Character sheet was added to this portrait</p>
-                }
-            </div> 
-          </Accordion>
-  
-          {/* Weapon Sheet qs */}
-          <Accordion title="Character Sheet:" required={false} active={weaponSheet}>
-            <div>
-                {weaponSheet ?
-                <>
-                    <p className='text-sm leading-3'>Please describe the weapon(s) in detail, including material, size, and any unique features or embellishments.</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[4].q1}</p>
-                    <p className='text-sm leading-3'>If you have any reference images or inspiration for the weapon design, please provide them.</p>
-                    <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[4].q2}</p>
-                </>
-                : <p className='text-sm font-semibold'>No Weapon Sheet was added to this portrait.</p>
-                }
-            </div> 
-          </Accordion>
-        </div>
-    )
       
 
     const updateQuestions =(values: PortraitData) => {
@@ -170,7 +78,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             <div className='flex justify-between items-center mb-4'>
                 <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-md text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
 
-                <p className='text-md font-semibold'><span className='font-normal'>Purchased Date:</span> {new Date(portrait.date.toDate()).toLocaleDateString("en-US")} </p>           
+                <p className='text-md'>Purchase Date: <span className='font-semibold text-[#0075FF]'>{new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</span> </p>           
             
             </div>
 
@@ -179,14 +87,14 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
 
             {/* display images customer uploaded during creation */}
             <div className=' my-4'>
-                <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click to enlarge)</span></p>
+                <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click image to enlarge)</span></p>
 
                 <div className='w-full flex mt-4'>
                 {portrait?.uploadedImageUrls.length === 0
                     ? <p className='text-lg text-red-600'>(No images uploaded)</p>
                     : portrait?.uploadedImageUrls.map((img, i) => 
                         <img 
-                            className="w-[64px] h-[64px] mr-4" 
+                            className="w-[64px] h-[64px] object-contain mr-4 cursor-pointer" 
                             key={i} 
                             src={img}
                             onClick={() => handleEnlarge(i)}
@@ -199,7 +107,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src}/>
             }
 
-            <h2 className='text-2xl font-bold text-[#0075FF]'>Customer Questions</h2>
+            <h2 className='text-2xl font-bold text-[#0075FF] border-t-2 border-[#E5E5E5] pt-4'>Customer Questions</h2>
+            <p className='text-sm text-[#9e9e9e] text-center'>(You have 24 hours from purchase to update/revise your answers)</p>
             
             {canEditQs && role === 'Customer'
             ? <Formik
@@ -241,15 +150,21 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 Don't save
                             </button>
                         </div>
-                        
                             
                     </Form>
                 )}
             </Formik>
             :
             <div>
-                {requiredQuestions}
-                {optionalQuestions}
+                <DisplayedRequiredQuestions portrait={portrait}/>
+                <DisplayedOptionalQuestions 
+                    portrait={portrait} 
+                    charVariations={charVariations}
+                    pet={pet}
+                    charSheet={charSheet}
+                    weaponSheet={weaponSheet} 
+                />
+                
                 <button 
                     type="button" 
                     onClick={handleClose}
@@ -258,8 +173,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                     {canEditQs && role === 'Customer' ? "Don't save" : "Back to Portrait"}
                 </button>
             </div>
-            }
-            
+            } 
         </Dialog>
     )
 }

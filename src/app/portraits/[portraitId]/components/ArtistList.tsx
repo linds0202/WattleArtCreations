@@ -7,6 +7,7 @@ import { getUserById } from '@/app/firebase/firestore';
 import { PortraitData } from '../../components/PortraitCustomizer';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 
 interface ArtistListProps {
     openArtistList: boolean,
@@ -25,7 +26,7 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
     const [allArtists, setAllArtists] = useState([])
     
     useEffect(() => {
-        const allArtistsInfo = []
+        const allArtistsInfo: Array<UserData> = []
         
         const handleGetAllArtists = async () => {
             

@@ -7,9 +7,11 @@ import Link from 'next/link'
 import { Dialog } from '@mui/material'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Accordion from '../portraits/components/questionaire/Accordion'
 import Image from 'next/image'
 import CharList from './CharList'
+import { MyCharValues } from '../portraits/components/questionaire/StepOne'
+import DisplayedOptionalQuestions from './DisplayedOptionalQuestions'
+import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -27,7 +29,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     const [weaponSheet, setWeaponSheet] = useState(false)
 
     useEffect(() => {
-      portrait.characters.forEach((char) => {
+      portrait.characters.forEach((char: MyCharValues) => {
           if (char.numCharVariations > 1) setCharVariations(true)
 
           if(char.pets) setPet(true)
@@ -50,137 +52,6 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       setOpenArtistDetails(true)
     }
 
-    // const characters = portrait.characters.map((char, i) => (
-    //   <div key={i} className='w-[48%] h-[125px] border-2 border=[#282828] rounded-xl p-2 text-sm flex mb-2'>
-    //     <img 
-    //       className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
-    //       src={`./customizer/${char.bodyStyle}.png`} 
-    //     />
-    //     <div className='ml-2'>
-    //       <p className='text-md font-semibold text-center'>Character {i + 1}</p>
-    //       <div className='flex justify-between'>
-    //         <p className='font-semibold'>Variations: <span className='font-light'>{char.numCharVariations}</span></p>
-    //         <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p>
-    //       </div>
-          
-    //       <p className='text-xs font-semibold'>Extras: <span className='font-light'>{char.extras.map(extra => {
-    //         if (extra === 'character') return 'Character Sheet'
-    //         if (extra === 'model') return '3D Model'
-    //         if (extra === 'weapons') return 'Weapon Sheet'
-    //       }).join(', ')}</span></p>
-    //     </div>
-        
-    //   </div>
-    // ))
-
-    const requiredQuestions = (
-      <div>
-        <Accordion title="Character Basics" required={false} active={true}>
-          <p className='text-sm leading-4 mt-2'>
-          Please provide a description of the character, including their name, age, gender, and any significant features. Additionally, please include their body type, hair color and style, eye color, and skin tone as is applicable.
-          </p>
-          <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.requiredQs[0]}</p>
-        </Accordion>
-        <Accordion title="Inspirations and References:" required={false} active={true}>
-          <p className='text-sm leading-4 mt-2'>
-          Are there any existing artworks, characters, or scenes that inspire your commission idea? Please provide links or images to help the artist understand your vision better.
-          </p>
-          <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.requiredQs[1]}</p>
-        </Accordion>
-      </div>
-    )
-
-    const optionalQuestions = (
-      <div>
-        {/* general character qs */}
-        <Accordion title="Character Basics" required={false} active={true}>
-          <div>
-            <p className='text-sm leading-4 mt-2'><span>Personality:</span> What is the character's personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?</p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-              {portrait.questions[0].q1 ? portrait.questions[0].q1 : 'N/A'}
-            </p>
-            <p className='text-sm leading-4 mt-2'><span>Clothing and Accessories:</span> What kind of clothing and accessories does your character wear?</p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-              {portrait.questions[0].q2 ? portrait.questions[0].q2 : 'N/A'}
-            </p>
-            <p className='text-sm leading-4 mt-2'><span>Pose and Expression:</span> Do you have a specific pose or expression in mind for the character?</p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-              {portrait.questions[0].q3 ? portrait.questions[0].q3 : 'N/A'}
-            </p>
-            <p className='text-sm leading-4 mt-2'><span>Special Requests:</span> Are there any unique elements, features, or requests that you would like to include in your commission, which haven’t been covered in the previous questions?</p>
-            <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-              {portrait.questions[0].q4 ? portrait.questions[0].q4 : 'N/A'}
-            </p>
-          </div> 
-        </Accordion>
-
-        {/* Character variation qs */}
-        <Accordion title="Character Variations" required={false} active={charVariations}>
-          {charVariations
-            ? <div>
-              <p className='text-sm leading-4 mt-2'>What variations would you like between each version (e.g., different outfits, expressions, poses, or color schemes)?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[1].q1 ? portrait.questions[1].q1 : 'N/A'}
-              </p>
-            </div> 
-            : <p className='text-sm font-semibold'>No Character Variations were ordered</p>
-          }
-        </Accordion>
-
-        {/* Pet qs */}
-        <Accordion title="Pet / Familiar:" required={false} active={pet}>
-          {pet
-            ? <div>
-              <p className='text-sm leading-4 mt-2'>For your pet/familiar, please describe their appearance, including any unique features or accessories.</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[2].q1 ? portrait.questions[2].q1 : 'N/A'}
-              </p>
-              <p className='text-sm leading-4 mt-2'>How would you like the pet/familiar to interact with the character in the artwork (e.g., sitting beside the character, perched on the character's shoulder, etc.)?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[2].q2 ? portrait.questions[2].q2 : 'N/A'}
-              </p>
-            </div> 
-            : <p className='text-sm font-semibold'>No Pet was ordered</p>
-          }
-        </Accordion>
-
-        {/* Character Sheet qs */}
-        <Accordion title="Character Sheet:" required={false} active={charSheet}>
-          {charSheet 
-            ? <div>
-              <p className='text-sm leading-4 mt-2'>Please provide any relevant character information that should be included on the character sheet, such as name, race, class, abilities, and backstory.</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[3].q1 ? portrait.questions[3].q1 : 'N/A'}
-              </p>
-              <p className='text-sm leading-4 mt-2'>Are there any specific visual elements or layouts you&#39;d like incorporated into the character sheet design?</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[3].q2 ? portrait.questions[3].q2 : 'N/A'}
-              </p>
-            </div> 
-            : <p className='text-sm font-semibold'>No Character Sheet was ordered</p>
-          }
-        </Accordion>
-
-        {/* Weapon Sheet qs */}
-        <Accordion title="Weapon Sheet:" required={false} active={weaponSheet}>
-          {weaponSheet 
-            ? <div>
-              <p className='text-sm leading-4 mt-2'>Please describe the weapon(s) in detail, including material, size, and any unique features or embellishments.</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[4].q1 ? portrait.questions[4].q1 : 'N/A'}
-              </p>
-              <p className='text-sm leading-4 mt-2'>If you have any reference images or inspiration for the weapon design, please provide them.</p>
-              <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>
-                {portrait.questions[4].q2 ? portrait.questions[4].q2 : 'N/A'}
-              </p>
-            </div> 
-            : <p className='text-sm font-semibold'>No Weapon Sheet was ordered</p>
-          }
-          
-        </Accordion>
-      </div>
-    )
-    
     return (
       <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center'>
         <div className='relative w-[120px] h-[120px] object-cover object-top rounded-xl'>
@@ -309,14 +180,19 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                       </div>
                       
                       <CharList portrait={portrait}/>
-                      {/* <div className='flex flex-wrap justify-between items-center mt-2'>
-                        {characters}
-                      </div> */}
+        
                     </div>
                   </div>
                   
-                  {requiredQuestions}
-                  {optionalQuestions}
+                  <DisplayedRequiredQuestions portrait={portrait} />
+                  
+                  <DisplayedOptionalQuestions 
+                    portrait={portrait} 
+                    charVariations={charVariations}
+                    pet={pet}
+                    charSheet={charSheet}
+                    weaponSheet={weaponSheet} 
+                  />
                 </div>
                   {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
                     <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#0075FF]'>Claim</button>

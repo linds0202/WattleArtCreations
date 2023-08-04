@@ -97,6 +97,7 @@ table {
   margin-bottom: 60px;
   background-color: #D9D9D9;
   height: 75vh;
+  border-radius: 20px 20px 0 0 ;
   overflow: scroll;
 }
 .chat-bubble {
@@ -147,6 +148,7 @@ table {
   display: flex;
   align-items: center;
   border: 1px solid red;
+  border-radius: 0 0 20px 20px;
 }
 .send-message > input {
   height: 40px;

@@ -50,7 +50,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   }, [authUser, isLoading]);
 
   useEffect(() => {
-    console.log('getting the portrait')
     const handleGetPortrait = async () => {
       const currentPortrait = await getPortrait(portraitId);
       setPortrait(currentPortrait)
@@ -105,17 +104,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const handleUpload = () => {
     setAction(true)
   }
-
-  // const charList = portrait?.characters.map((char, i) => (
-  //   <div key={i} className='border-2 border-black mt-4 pl-4'>
-  //       <p>Char {i + 1} : </p>
-  //       <p>Body Style: {char.bodyStyle}</p>
-  //       <p># Character Variations: {char.numCharVariations}</p>
-  //       <p># Pets: {char.numPets}</p>
-  //       <p>Extras: {char.extras.length === 0 ? 'None' : char.extras.join(', ')}</p>
-  //   </div>
-    
-  // ))
   
   // Displays Questions
   const handleOpenQuestions = () => {
@@ -153,41 +141,38 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         <div className='w-full flex'>
 
           {/* select artist */}
+          {!portrait?.artistAssigned &&
           <div className='w-[50%] border-2 border-green-600 p-4'>
-            {!portrait?.artistAssigned ? 
-            <div>
-              <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
-              <p>Below are artists that would like to complete your portrait. Click on a name learn more and select your artist.</p>
-              {portrait?.artist.length  
-                ? 
-                <div className='flex justify-around'>
-                  {portrait.artist.map((artist, i) =>  
-                    <button 
-                      key={i} 
-                      type='button' 
-                      onClick={() => handleOpenArtistList(i)}
-                      className='text-xl hover:text-[#0075FF]'
-                    >
-                      {artist.artistName}
-                    </button>
-                  )}
-              
-                  <ArtistList 
-                    openArtistList={openArtistList} 
-                    setOpenArtistList={setOpenArtistList} 
-                    artists={portrait.artist} 
-                    artistIndex={artistIndex}
-                    setArtistIndex={setArtistIndex}
-                    portrait={portrait}
-                    setPortrait={setPortrait}
-                  />
-                </div> 
-              : <span className='ml-4'>No artist availble yet, check back soon</span>}
-            </div>
-            : <p>Your artist is: <span>{portrait?.artist[0].artistName}</span></p>
-            }
+            <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
+            <p>Below are artists that would like to complete your portrait. Click on a name learn more and select your artist.</p>
+            {portrait?.artist.length  
+              ? 
+              <div className='flex justify-around'>
+                {portrait.artist.map((artist, i) =>  
+                  <button 
+                    key={i} 
+                    type='button' 
+                    onClick={() => handleOpenArtistList(i)}
+                    className='text-xl hover:text-[#0075FF]'
+                  >
+                    {artist.artistName}
+                  </button>
+                )}
             
-          </div>
+                <ArtistList 
+                  openArtistList={openArtistList} 
+                  setOpenArtistList={setOpenArtistList} 
+                  artists={portrait.artist} 
+                  artistIndex={artistIndex}
+                  setArtistIndex={setArtistIndex}
+                  portrait={portrait}
+                  setPortrait={setPortrait}
+                />
+              </div> 
+              : <p className='text-center text-lg text-red-600 mt-4'>No artist availble yet, check back soon</p>
+            }
+          </div>}
+            
 
           {/* Edit or See Questions */}
           <div className='w-[50%] border-2 border-blue-600 p-2'>
@@ -228,11 +213,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             </button>
           </div>
 
-        </div> 
-
-        <div className='w-3/12'>
-            <p>Customer: {portrait?.customer}</p>
-        </div> 
+        </div>
 
 
         {/* Image Upload Section */}
@@ -266,18 +247,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> revisions remaining</p>
           </div>
 
-
-          {/* display images customer uploaded during creation
-          <div className='border-2 border-red-600'>
-            <p className='text-black text-lg'>Images uploaded by customer during portrait creation:</p>
-
-            <div className='flex mt-2'>
-              {portrait?.uploadedImageUrls.length === 0
-                ? <p className='text-sm text-red-600'>(No images uploaded)</p>
-                : portrait?.uploadedImageUrls.map((img, i) => <img className="w-[32px] h-[32px] mr-4" key={i} src={img}/>)}
-            </div>
-            {charList}
-          </div> */}
         </div>
 
 
@@ -309,9 +278,33 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       }
       
       <div className='w-4/12'>
-          <ChatBox portraitId={portraitId}/>
+        <div className='w-full flex justify-between mb-2'>
+          <p className='text-xl'>Customer: <span className='text-[#2DD42B] ml-2' >{portrait?.customer}</span></p>
+
+
+          {!portrait?.artistAssigned && <p className='text-xl'>Artist: 
+            <span className='text-red-600 ml-2'>No artist assigned yet</span>
+          </p>}
+
+          {portrait?.artistAssigned && <p className='text-xl'>Artist: 
+            <Link 
+              href={`/artistDashboard/${portrait?.artist[0].id}/portfolio`} 
+              rel="noopener noreferrer" 
+              target="_blank"
+              className="text-[#2DD42B] hover:text-[#165f15] hover:underline ml-2"
+            >
+              <span>{portrait?.artist[0].artistName}</span>
+            </Link>
+          </p>}
+        
+        </div> 
+        
+        <ChatBox portraitId={portraitId}/>
+      
       </div>
     </div>
   </div>
   )
 }
+
+

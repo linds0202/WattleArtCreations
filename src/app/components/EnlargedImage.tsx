@@ -1,9 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, Stack, TextField, Typography } from '@mui/material';
-import { useAuth } from '@/app/firebase/auth';
-import { replaceImage, uploadImage } from '../../../firebase/storage';
-import { addAvatar, updateAvatar } from '@/app/firebase/firestore';
-import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
+import { Dialog, DialogContent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 

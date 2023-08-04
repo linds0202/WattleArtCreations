@@ -1,5 +1,5 @@
-import React from 'react'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
+import { MyCharValues } from '../portraits/components/questionaire/StepOne'
 
 interface CharListProps {
     portrait: PortraitData
@@ -7,20 +7,21 @@ interface CharListProps {
 
 const CharList = ({ portrait }: CharListProps) => {
     
-    const charList = portrait.characters.map((char, i) => (
-        <div key={i} className='w-[48%] h-[125px] border-2 border=[#282828] rounded-xl p-2 text-sm flex mb-2'>
+    const charList = portrait.characters.map((char: MyCharValues, i) => (
+        <div key={i} className='w-[48%] h-[125px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex justify-between items-center mb-2'>
           <img 
-            className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover mx-auto rounded-xl`} 
+            className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover rounded-xl`} 
             src={`../../customizer/${char.bodyStyle}.png`} 
           />
-          <div className='ml-2'>
+
+          <div className='w-full ml-4 self-start'>
             <p className='text-md font-semibold text-center'>Character {i + 1}</p>
             <div className='flex justify-between'>
               <p className='font-semibold'>Variations: <span className='font-light'>{char.numCharVariations}</span></p>
               <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p>
             </div>
             
-            <p className='text-xs font-semibold'>Extras: <span className='font-light'>{char.extras.map(extra => {
+            <p className='text-md font-semibold'>Extras: <span className='text-sm font-light'>{char.extras.map(extra => {
               if (extra === 'character') return 'Character Sheet'
               if (extra === 'model') return '3D Model'
               if (extra === 'weapons') return 'Weapon Sheet'

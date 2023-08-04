@@ -10,12 +10,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
 import { PortraitData } from "../PortraitCustomizer";
 
-interface MyCharValues {
+export interface MyCharValues {
     bodyStyle: string,
     numCharVariations: number,
     pets: boolean,
     numPets: number,
-    extras: [],
+    extras: [string],
     total: number,
     charDiscount: boolean
 }

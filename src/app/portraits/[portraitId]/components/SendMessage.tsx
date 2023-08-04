@@ -25,9 +25,6 @@ const SendMessage = ({ portraitId }) => {
         if (img) {
             const imageBucket = await uploadImage(img, portraitId)
 
-            console.log('imageBucket is: ', imageBucket)
-            
-            console.log('calling addchatimage with: ', portraitId, imageBucket, message, displayName, uid)
             const chatUrls = await addChatImage(portraitId, imageBucket, message, displayName, uid)
           } else {
             await addChatMessage(portraitId, message, displayName, uid)
@@ -46,7 +43,7 @@ const SendMessage = ({ portraitId }) => {
                 onChange={(e) => setImg(e.target.files[0])}
             />
             <label htmlFor="file" className="flex justify-center items-center mr-2">
-                <PhotoCameraIcon fontSize="large" className="text-white cursor-pointer"/>
+                <PhotoCameraIcon fontSize="large" className={`${img ? "text-[#2DD42B]" : "text-white"} cursor-pointer hover:text-[#0075FF]`}/>
             </label>
 
             <label htmlFor="messageInput" hidden>
