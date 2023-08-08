@@ -7,15 +7,12 @@ const BUCKET_URL = "gs://wattleartcreations.appspot.com";
  
 // Uploads image and returns the storage bucket
 export async function uploadImage(image, portraitId) {
-  console.log('in upload image')
-  console.log('image is: ', image)
-  console.log('portraitId is: ', portraitId)
   const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
-  console.log('formatted date: ', formattedDate)
+  
   const bucket = `${BUCKET_URL}/${portraitId}/${formattedDate}.jpg`;
-  console.log('bucket is: ', bucket)
+ 
   const checking = await uploadBytes(ref(storage, bucket), image);
-  console.log('checking: ', checking)
+
   return bucket;
 }
 
@@ -57,4 +54,21 @@ export async function getDownloadURLs(bucket) {
     urls.push(downlaodUrl)
   }
   return urls
+}
+
+export async function downloadImage(url) {
+  
+  var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = 'blob';
+  xhr.onload = function() {
+    var a = document.createElement('a');
+    a.href = window.URL.createObjectURL(xhr.response);
+    a.download = "finalImage.jpg"; // Name the file anything you'd like.
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+  };
+  xhr.open('GET', url);
+  xhr.send();
 }

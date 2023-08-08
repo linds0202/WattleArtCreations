@@ -14,6 +14,9 @@ import CompleteCommission from './components/CompleteCommission';
 import { PortraitData } from '../components/PortraitCustomizer';
 import ArtistList from './components/ArtistList';
 import Link from 'next/link';
+import EnlargedImage from '@/app/components/EnlargedImage';
+import RequestRevision from './components/RequestRevision';
+import { downloadImage } from '@/app/firebase/storage';
 
 
 type Params = {
@@ -32,14 +35,19 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openArtistList, setOpenArtistList] = useState(false)
   const [artistIndex, setArtistIndex] = useState(0)
   const [action, setAction] = useState(false)
-  const [openComplete, setOpenComplete] = useState(false)
-  const [completed, setCompleted] = useState(false)
 
   const [canEditQs, setCanEditQs] = useState(true);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [loadingTime, setLoadingTime] = useState(false)
+  
+  const [openImage, setOpenImage] = useState(false)
+  const [imgSrc, setImgSrc] = useState('')
+  const [openComplete, setOpenComplete] = useState(false)
+  const [openRevison, setOpenRevision] = useState(false)
+  const [completed, setCompleted] = useState(false)
+  const [requestRevision, setRequestRevision] = useState(false)
   
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -101,6 +109,18 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
   }, [completed])
 
+  useEffect(() => {
+    if (requestRevision) {
+      const revisions = portrait?.revisions - 1
+      const  newPortrait = {...portrait, revisions: revisions, revised: false}
+      
+      updatePortrait(portrait?.uid, {...portrait, revisions: revisions, revised: false})
+
+      setPortrait(newPortrait)
+      setRequestRevision(false)
+    }
+  }, [requestRevision])
+  
   const handleUpload = () => {
     setAction(true)
   }
@@ -121,12 +141,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   }
 
   const handleReject = () => {
-    const revisions = portrait?.revisions - 1
-    updatePortrait(portrait?.uid, {...portrait, revisions: revisions, revised: false})
+    setOpenRevision(true)
   }
 
   const handleDownloadFinal = () => {
-    alert('Download Final Image!')
+    console.log('calling downloadImage')
+    downloadImage(portrait?.images[portrait?.images.length - 1].imageUrl)
+  }
+
+  const handleEnlarge = (src: string) => {
+    setImgSrc(src)
+    setOpenImage(true)
   }
 
   return ((!authUser || isLoading) ? 
@@ -223,17 +248,33 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           <div className='w-full h-[300px] border-2 border-pink-600 flex flex-col justify-around items-center '>
             <p>Final Images</p>
             <div className='w-full flex justify-around'>
-              {portrait?.images?.map((img, i) => <img key={i} className="h-[50px] w-[50px]" src={img.imageUrl} />)}
+              {portrait?.images?.map((img, i) => 
+                <img 
+                  key={i}        
+                  className='w-[128px] h-[128px] object-contain cursor-pointer' 
+                  src={img.imageUrl} 
+                  onClick={() => handleEnlarge(img.imageUrl)}
+                /> 
+              )} 
             </div>
+            {openImage &&
+              <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgSrc}/>
+            }
             <div>
               {authUser?.roles === 'Artist' && !portrait?.revised && <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>}
 
               {authUser?.roles === 'Customer' && portrait?.revised && portrait?.status !== 'Completed' &&
               <div>
                 <button className='border-2 border-black rounded-lg p-2'  onClick={handleAccept}>Accept as Final Image</button>
-                {portrait?.revisions !== 0 && <button className='border-2 border-black rounded-lg p-2'  onClick={handleReject}>Request Revision</button>}
+                <button className='border-2 border-black rounded-lg p-2'  onClick={handleReject}>{portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}</button>
               </div>}
-              {portrait?.status === 'Completed' && <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>}
+              {portrait?.status === 'Completed' && 
+                // <a href={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} download>
+                //     <img src={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} className='w-[128px] h-[128px] object-contain cursor-pointer'  />
+                // </a>
+                <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
+              
+              }
 
               <UploadImg 
                 showDialog={action} 
@@ -244,7 +285,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               </UploadImg>
             </div>
             <p className='w-full text-right'>
-              <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> revisions remaining</p>
+              <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining</p>
           </div>
 
         </div>
@@ -262,7 +303,18 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               setCompleted={setCompleted} 
               portraitId={portrait?.uid}  
               artistId={portrait?.artist[0].id}
-            />}
+            />
+          }
+
+          {openRevison && 
+            <RequestRevision
+              role={authUser?.roles} 
+              openRevision={openRevison} 
+              setOpenRevision={setOpenRevision} 
+              setRequestRevision={setRequestRevision} 
+              remainingRevisions={portrait?.revisions}
+            />
+          }
         </div>
       </div>
 
@@ -306,5 +358,3 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   </div>
   )
 }
-
-

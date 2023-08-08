@@ -1,16 +1,13 @@
 import {useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
-import { addChatMessage, addChatImage } from "@/app/firebase/firestore";
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import { uploadImage } from "@/app/firebase/storage";
+import { addChatMessage } from "@/app/firebase/firestore";
 
 const SendMessage = ({ portraitId }) => {
     
     const { authUser } = useAuth()
     
     const [message, setMessage] = useState('')
-    const [img, setImg] = useState(null);
-  
+
     const sendMessage = async (event) => {
         event.preventDefault();
         
@@ -22,29 +19,14 @@ const SendMessage = ({ portraitId }) => {
 
         const { uid, displayName } = authUser
         
-        if (img) {
-            const imageBucket = await uploadImage(img, portraitId)
+        await addChatMessage(portraitId, message, displayName, uid)
 
-            const chatUrls = await addChatImage(portraitId, imageBucket, message, displayName, uid)
-          } else {
-            await addChatMessage(portraitId, message, displayName, uid)
-          }
-        
         setMessage("")
-        setImg(null)
     }
 
+
     return (
-        <form onSubmit={(event) => sendMessage(event)} className="send-message">
-            <input
-                type="file"
-                style={{ display: "none" }}
-                id="file"
-                onChange={(e) => setImg(e.target.files[0])}
-            />
-            <label htmlFor="file" className="flex justify-center items-center mr-2">
-                <PhotoCameraIcon fontSize="large" className={`${img ? "text-[#2DD42B]" : "text-white"} cursor-pointer hover:text-[#0075FF]`}/>
-            </label>
+        <form onSubmit={(event) => sendMessage(event)} className="send-mesg"> 
 
             <label htmlFor="messageInput" hidden>
                 Enter Message
@@ -59,7 +41,7 @@ const SendMessage = ({ portraitId }) => {
                 onChange={(e) => setMessage(e.target.value)}
             />
 
-            <button type="submit">Send</button>
+            <button type="submit" className="submit-button">Send</button>
         </form>
     );
 };

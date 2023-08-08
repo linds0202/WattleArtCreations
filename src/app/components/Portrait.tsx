@@ -12,6 +12,7 @@ import CharList from './CharList'
 import { MyCharValues } from '../portraits/components/questionaire/StepOne'
 import DisplayedOptionalQuestions from './DisplayedOptionalQuestions'
 import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
+import EnlargedImage from './EnlargedImage'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -22,6 +23,8 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     const router = useRouter()
 
     const [openArtistDetails, setOpenArtistDetails] = useState(false)
+    const [openImage, setOpenImage] = useState(false)
+    const [src, setSrc] = useState('')
 
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
@@ -51,6 +54,11 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     const handleViewDetails = () => {
       setOpenArtistDetails(true)
     }
+
+    const handleEnlarge = (i) => {
+      setSrc(portrait?.uploadedImageUrls[i])
+      setOpenImage(true)
+  }
 
     return (
       <div className='border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center'>
@@ -154,28 +162,9 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   <h2 className='text-3xl font-bold mt-2'>{portrait.portraitTitle} Portrait Details</h2>
                   <span className='text-md text-[#959595] mb-4'>({portrait.mode})</span>
                   <div className='w-full mb-4 flex justify-start items-center'>
-                    {/* <div className='flex flex-col'> */}
-                      <div className='relative w-[240px] h-[240px] object-cover object-top rounded-xl'>
-                        <Image
-                            src={`${portrait.mode === 'Photorealistic' 
-                              ? '/defaultImgs/photo.png' 
-                              : portrait.mode === 'Anime' 
-                              ? '/defaultImgs/anime.png' 
-                              : '/defaultImgs/nsfw.png'}`}
-                            fill
-                            alt="Default Image"
-                            className='self-start object-cover rounded-xl'
-                        />
-                      </div>
-
-                      {/* <div className='flex flex-col justify-between items-start'>
-                        <p className='text-xl font-bold mt-2'>{portrait.portraitTitle} <span className='text-sm text-[#959595] ml-2'>({portrait.mode})</span></p>
-                        <p className='font-semibold'>Customer: <span>{portrait.customer}</span></p>
-                      </div> */}
-
                     <div className='w-full ml-4'>
-                      <div className='flex justify-between items-center'>
-                        <p className='font-semibold'>Number of Characters: <span className='text-2xl text-[#2DD42B] font-bold'>{portrait.characters.length}</span></p>
+                      <div className='flex justify-between items-center mb-8'>
+                        <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</span></p>
                         <p className='font-semibold text-xl'>Commission: <span className='text-[#0075FF]'>${portrait.price}</span></p>
                       </div>
                       
@@ -183,6 +172,29 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         
                     </div>
                   </div>
+
+                  <div className='w-full my-4'>
+                    <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click image to enlarge)</span></p>
+
+                    <div className='w-full flex mt-4'>
+                      {portrait?.uploadedImageUrls.length === 0
+                        ? <p className='text-lg text-red-600'>(No images uploaded)</p>
+                        : portrait?.uploadedImageUrls.map((img, i) => 
+                          <img 
+                            className="w-[64px] h-[64px] object-contain mr-4 cursor-pointer" 
+                            key={i} 
+                            src={img}
+                            onClick={() => handleEnlarge(i)}
+                          />
+                      )}
+                    </div>
+                  </div>
+                  {openImage &&
+                    <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src}/>
+                  }
+
+
+                  <p className='text-xl font-bold mt-2 text-center'>Customer Responses</p>
                   
                   <DisplayedRequiredQuestions portrait={portrait} />
                   
@@ -197,6 +209,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
                     <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#0075FF]'>Claim</button>
                   }
+                <button type='button' onClick={() => setOpenArtistDetails(false)} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#282828]'>Close</button>
             </Dialog>}
         </div>  
       </div>

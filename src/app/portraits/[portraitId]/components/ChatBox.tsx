@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
 import { getChats } from "@/app/firebase/firestore";
+import SendImg from "./SendImg";
 
 const ChatBox = ({ portraitId }) => {
     const scroll = useRef();
@@ -26,7 +27,11 @@ const ChatBox = ({ portraitId }) => {
           ))}
         </div>
         <span ref={scroll}></span>
-        <SendMessage portraitId={portraitId} />
+        <div className="send-message-container">
+          <SendImg portraitId={portraitId} />
+          <SendMessage portraitId={portraitId} />
+        </div>
+        
       </main>
     );
   };

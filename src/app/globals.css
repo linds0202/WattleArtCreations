@@ -103,7 +103,7 @@ table {
 .chat-bubble {
   border-radius: 20px 20px 20px 0;
   padding: 15px;
-  background-color: #d9d9d9;
+  background-color: #efefef;
   color: #282828;
   width: max-content;
   max-width: calc(100% - 50px);
@@ -116,7 +116,6 @@ table {
   margin-left: auto;
   border-radius: 20px 20px 0 20px;
   background-color: #fff;
-  box-shadow: -2px 2px 1px 1px #d9d9d9;
 }
 .chat-bubble__left {
   width: 35px;
@@ -131,7 +130,7 @@ table {
   color: #282828;
 }
 .user-message {
-  word-break: break-all;
+  word-break: normal;
 }
 .message-time {
   display: block;
@@ -139,18 +138,25 @@ table {
 }
 
 /* send message */
-.send-message {
+.send-message-container {
   position: absolute;
   bottom: -45px;
   width: 100%;
-  padding: 20px 30px;
+  padding: 20px 20px;
   background-color: #282828;
   display: flex;
   align-items: center;
-  border: 1px solid red;
   border-radius: 0 0 20px 20px;
 }
-.send-message > input {
+
+.send-mesg {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.send-mesg > input {
+  width: 80%;
   height: 40px;
   padding: 10px 10px;
   border-radius: 5px 0 0 5px;
@@ -160,15 +166,15 @@ table {
   color: #282828;
   font-size: 1rem;
 }
-.send-message > input:placeholder {
+.send-mesg > input:placeholder {
   color: #ddd;
 }
-.send-message > :is(input, button):focus {
+.send-mesg > :is(input, button):focus {
   outline: none;
   border-bottom: 1px solid #dbdbdb;
 }
-.send-message > button {
-  width: 70px;
+.submit-button {
+  width: 20%;
   height: 40px;
   padding: 5px 10px;
   border-radius: 0 5px 5px 0;

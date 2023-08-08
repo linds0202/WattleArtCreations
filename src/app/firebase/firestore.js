@@ -399,15 +399,12 @@ export function addChatMessage( portraitId, message, displayName, uid  ) {
 }
 
 //upload image in chat
-export async function addChatImage( portraitId, imageBucket, message, displayName, uid  ) {
+export async function addChatImage( portraitId, imageBucket, displayName, uid  ) {
   
-  console.log('in here, image bucket is: ', imageBucket)
   const imageUrl = await getDownloadURL(imageBucket)
-  console.log('imageUrl: ', imageUrl)
   
   addDoc(collection(db, "messages"), {
     portraitId: portraitId,
-    text: message,
     name: displayName,
     createdAt: serverTimestamp(),
     img: imageUrl,
