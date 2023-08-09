@@ -26,7 +26,8 @@ export default function useFirebaseAuth() {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
-        roles: userData.roles
+        roles: userData.roles,
+        oldEnough: userData.oldEnough
       });
     }
 
@@ -43,6 +44,7 @@ export default function useFirebaseAuth() {
 
   return {
     authUser,
+    setAuthUser,
     isLoading,
     signOut
   };
@@ -50,6 +52,7 @@ export default function useFirebaseAuth() {
 
 const AuthUserContext = createContext({
   authUser: null,
+  setAuthUser: async (authUser) => {},
   isLoading: true,
   signOut: async () => {}
 });

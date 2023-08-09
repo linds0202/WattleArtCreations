@@ -1,6 +1,4 @@
 
-import Testimonial from "./Testimonial"
-
 const Testimonials = () => {
   
     const testimonials = [
@@ -24,7 +22,6 @@ const Testimonials = () => {
     return (
         <div className='w-full h-[70vh] flex justify-between items-center'>
             {testimonials.map((testimonial, i) => (
-                // <Testimonial key={i} testimonial={testimonial}/>
                 <div key={i} className="relative w-4/12 h-full flex flex-col justify-center items-center text-black px-12 py-8 mx-4">
                     <p className="text-center">&ldquo;{testimonial.body}&ldquo;</p>
                     <p className='mt-4 text-base font-bold text-right pr-10'>-{testimonial.author}</p>

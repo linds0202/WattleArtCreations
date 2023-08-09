@@ -63,7 +63,7 @@ export default function Dashboard() {
         )) }
       </div>
       : <div className='flex justify-center items-center mt-10'>
-          <p className='w-6/12 text-center'>You have maxed out your commission amount. Finish a commission or reach out to admin</p>
+          <p className='w-6/12 text-2xl text-center text-red-600 font-semibold'>You have maxed out your commission amount. Finish a commission or reach out to admin</p>
         </div>
       }
 

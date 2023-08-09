@@ -119,6 +119,8 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
         setMode('Home')
     }
 
+    console.log('authUser is: ', authUser)
+
 
     return (
         <div className="flex justify-start w-full">
@@ -179,16 +181,6 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                                     Start Customizing
                             </motion.button>  
                         }
-                        {/* {mode !== 'NSFW' &&
-                            <motion.button 
-                            className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
-                            onClick={() => handleSelection(mode)} 
-                            whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
-                            whileTap={{ scale: 1.05 }}
-                            >
-                                Start Customizing
-                            </motion.button>  
-                        }    */}
                     </div>
                 </div>
             </div>
@@ -206,11 +198,18 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
             }
 
             {/* Prompt for login */}
-            <Dialog onClose={() => setLogin(false)} open={login}>
+            {/* <Dialog onClose={() => setLogin(false)} open={login}>
                 {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+            </Dialog> */}
+            <Dialog onClose={() => setLogin(false)} open={login}>
+                <div className='bg-[#282828] flex flex-col justify-between items-center'>
+                    <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
+                    <div className='bg-white rounded-b-lg py-4'>
+                        <h3 className='text-black text-center text-lg font-semibold pb-4'>Login/Register</h3>
+                        {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+                    </div>
+                </div>
             </Dialog>
-
-            
             
         </div>
 

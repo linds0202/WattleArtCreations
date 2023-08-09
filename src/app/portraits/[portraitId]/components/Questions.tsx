@@ -135,12 +135,6 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                         </div>
 
                         <div className='w-8/12 mx-auto flex justify-between items-center'>
-                            <button 
-                                type="submit" 
-                                className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#2DD42B]'
-                            >
-                                Update Answers
-                            </button>
 
                             <button 
                                 type="button" 
@@ -148,6 +142,13 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
                             >
                                 Don't save
+                            </button>
+
+                            <button 
+                                type="submit" 
+                                className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#2DD42B]'
+                            >
+                                Update Answers
                             </button>
                         </div>
                             
@@ -164,14 +165,16 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                     charSheet={charSheet}
                     weaponSheet={weaponSheet} 
                 />
+                <div className='w-3/12 mx-auto'>
+                    <button 
+                        type="button" 
+                        onClick={handleClose}
+                        className='w-full mx-auto rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
+                    >
+                        {canEditQs && role === 'Customer' ? "Don't save" : "Back to Portrait"}
+                    </button>
+                </div>
                 
-                <button 
-                    type="button" 
-                    onClick={handleClose}
-                    className='w-3/12 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
-                >
-                    {canEditQs && role === 'Customer' ? "Don't save" : "Back to Portrait"}
-                </button>
             </div>
             } 
         </Dialog>

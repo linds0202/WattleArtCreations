@@ -47,11 +47,9 @@ export default function Portraits() {
 
   useEffect(() => {
     if (portraitId && continueEdit) {
-      console.log('in here')
       const handleGetPortrait = async () => {
         const addedPortrait:PortraitData = await getPortrait(portraitId)
         setPortraits(prev => [...prev, addedPortrait])
-        console.log('added portrait is: ', addedPortrait)
         setEditPortrait(addedPortrait)
         setEditIndex(0)
         setOpenWizard(true)

@@ -90,7 +90,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       if (difference <= 0 ) { 
         setCanEditQs(false)
       }
-    }, 10000);
+    }, 2000);
 
     return () => clearInterval(interval)
   }, [portrait])
@@ -160,175 +160,219 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   <div className='bg-white text-black min-h-screen pt-3 '>
     <h1 className='text-3xl text-center mb-4'>{portrait?.portraitTitle} <span className='text-xl text-[#bababa]'>({portrait?.mode})</span></h1>
     <div className='mx-10 flex justify-between'>
-      <div className='w-8/12'>
-
-        {/* Choose Artist & edit question countdown */}
-        <div className='w-full flex'>
-
-          {/* select artist */}
-          {!portrait?.artistAssigned &&
-          <div className='w-[50%] border-2 border-green-600 p-4'>
-            <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
-            <p>Below are artists that would like to complete your portrait. Click on a name learn more and select your artist.</p>
-            {portrait?.artist.length  
-              ? 
-              <div className='flex justify-around'>
-                {portrait.artist.map((artist, i) =>  
-                  <button 
-                    key={i} 
-                    type='button' 
-                    onClick={() => handleOpenArtistList(i)}
-                    className='text-xl hover:text-[#0075FF]'
-                  >
-                    {artist.artistName}
-                  </button>
-                )}
+      
+      {/* Lefthand section */}
+      <div className='w-8/12 flex flex-col justify-start'>
+        
+        <div className='w-[100%] pb-4 border-b-2 border-[#bababa]'>
+          {portrait?.status === 'Completed' && <p>This commission is complete!</p>}
+          <p className='text-xl'>To Do: <span className='text-[#0075FF] text-sm'>(Below are tasks that need your attention)</span></p>
+        </div>
+        
+        <div className='w-[100%] flex'>
+          {/* Choose Artist & edit question countdown */}
+          <div className='w-5/12 flex flex-col'>
             
-                <ArtistList 
-                  openArtistList={openArtistList} 
-                  setOpenArtistList={setOpenArtistList} 
-                  artists={portrait.artist} 
-                  artistIndex={artistIndex}
-                  setArtistIndex={setArtistIndex}
-                  portrait={portrait}
-                  setPortrait={setPortrait}
-                />
-              </div> 
-              : <p className='text-center text-lg text-red-600 mt-4'>No artist availble yet, check back soon</p>
-            }
-          </div>}
-            
+            {/* select artist */}
+            {!portrait?.artistAssigned &&
+            <div className='w-full border-2 border-green-600 p-4'>
+              <h3 className='text-xl font-bold text-center'>Choose Your Artist</h3>
+              <p>Below are artists that would like to complete your portrait. Click on a name learn more and select your artist.</p>
+              {portrait?.artist.length  
+                ? 
+                <div className='flex justify-around'>
+                  {portrait.artist.map((artist, i) =>  
+                    <button 
+                      key={i} 
+                      type='button' 
+                      onClick={() => handleOpenArtistList(i)}
+                      className='text-xl hover:text-[#0075FF]'
+                    >
+                      {artist.artistName}
+                    </button>
+                  )}
+              
+                  <ArtistList 
+                    openArtistList={openArtistList} 
+                    setOpenArtistList={setOpenArtistList} 
+                    artists={portrait.artist} 
+                    artistIndex={artistIndex}
+                    setArtistIndex={setArtistIndex}
+                    portrait={portrait}
+                    setPortrait={setPortrait}
+                  />
+                </div> 
+                : <p className='text-center text-lg text-red-600 mt-4'>No artist availble yet, check back soon</p>
+              }
+            </div>}
+              
 
-          {/* Edit or See Questions */}
-          <div className='w-[50%] border-2 border-blue-600 p-2'>
-            {canEditQs ?
-              <div>
-                <p>You have 24 hours after purchase to answer/change your responses to the questions. Answering these questions helps your artist bring your vision to life</p>
-                <p className='mt-4 font-semibold'>Purchase date: <span className='font-light text-md'>{new Date(portrait?.lastUpdatedStatus.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.lastUpdatedStatus.seconds * 1000).toLocaleTimeString()}</span></p>
-                
-                <p className='mt-4 font-semibold'>Time remaining to revise answers:</p>
+            {/* Edit or See Questions */}
+            <div className='w-full border-2 border-blue-600 p-4'>
+              <h3 className='text-xl font-bold text-center'>Questions</h3>
+              {canEditQs ?
+                <div>
+                  <p className='mt-4 font-semibold'>Time remaining to revise answers:</p>
 
-                {loadingTime ? 
-                  <div className='w-6/12 mx-auto mt-2 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg'>
-                    <div >
-                      <span className="text-xl font-semibold">{hours}</span>
-                      <span className="font-light">Hrs</span>
+                  {loadingTime ? 
+                    <div className='w-8/12 mt-2 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg'>
+                      <div >
+                        <span className="text-xl font-semibold">{hours}</span>
+                        <span className="font-light ml-2">Hrs</span>
+                      </div>
+                      <span className="mx-2">:</span>
+                      <div >
+                        <span className="text-xl font-semibold">{minutes}</span>
+                        <span className="font-light ml-2">Mins</span>
+                      </div>
+                      <span className="mx-2">:</span>
+                      <div >
+                        <span className="text-xl font-semibold">{seconds}</span>
+                        <span className="font-light ml-2">Secs</span>
+                      </div>
                     </div>
-                    <span className="mx-2">:</span>
-                    <div >
-                      <span className="text-xl font-semibold">{minutes}</span>
-                      <span className="font-light">Mins</span>
-                    </div>
-                    <span className="mx-2">:</span>
-                    <div >
-                      <span className="text-xl font-semibold">{seconds}</span>
-                      <span className="font-light">Secs</span>
-                    </div>
-                  </div>
-                  : <p>Calculating . . . </p>
-                }
-              </div>
-              :
-              <div>
-                <p className='text-sm'>You time to edit your responses has ended. You can still see your answers but will no longer be able to edit them.</p>
-              </div>
-            }
-            <button className='w-1/2 mx-auto border-2 border-black rounded-lg p-2 mt-4 mb-4' onClick={handleOpenQuestions}>
-              See Questions
-            </button>
+                    : <p>Calculating . . . </p>
+                  }
+
+                  <p className='mt-4'>You have 24 hours after purchase to answer/change your responses to the questions. Answering these questions helps your artist bring your vision to life</p>
+                  <p className='mt-4 font-semibold'>Purchase date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.lastUpdatedStatus.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.lastUpdatedStatus.seconds * 1000).toLocaleTimeString()}</span></p>
+                  
+                  
+                </div>
+                :
+                <div>
+                  <p className='text-sm'>You time to edit your responses has ended. You can still see your answers but will no longer be able to edit them.</p>
+                </div>
+              }
+              
+              {loadingTime && <div className='w-1/2 mx-auto'>
+                <button className='w-full text-xl border-2 border-black hover:text-white hover:bg-[#0075FF] rounded-lg p-2 mt-4 mb-4' onClick={handleOpenQuestions}>
+                  See Questions
+                </button>
+              </div>}
+              
+            </div>
+
           </div>
 
-        </div>
-
-
-        {/* Image Upload Section */}
-        <div className='flex mb-8'>
-          
-          {/* Final images */}
-          <div className='w-full h-[300px] border-2 border-pink-600 flex flex-col justify-around items-center '>
-            <p>Final Images</p>
-            <div className='w-full flex justify-around'>
-              {portrait?.images?.map((img, i) => 
-                <img 
-                  key={i}        
-                  className='w-[128px] h-[128px] object-contain cursor-pointer' 
-                  src={img.imageUrl} 
-                  onClick={() => handleEnlarge(img.imageUrl)}
-                /> 
-              )} 
-            </div>
-            {openImage &&
-              <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgSrc}/>
-            }
+          {/* Image Upload Section */}
+          <div className='w-7/12 h-[80vh] p-4 border-2 border-pink-600 flex flex-col justify-between items-center'>
+            
+            {/* Final images */}
             <div>
-              {authUser?.roles === 'Artist' && !portrait?.revised && <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>}
+              <h3 className='text-xl font-bold text-center m-0'>Final Images</h3>
+              <p className='text-center'>
+                <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
+              </p>
+            </div>
 
-              {authUser?.roles === 'Customer' && portrait?.revised && portrait?.status !== 'Completed' &&
-              <div>
-                <button className='border-2 border-black rounded-lg p-2'  onClick={handleAccept}>Accept as Final Image</button>
-                <button className='border-2 border-black rounded-lg p-2'  onClick={handleReject}>{portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}</button>
-              </div>}
-              {portrait?.status === 'Completed' && 
-                // <a href={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} download>
-                //     <img src={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} className='w-[128px] h-[128px] object-contain cursor-pointer'  />
-                // </a>
-                <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
-              
+            <div className='w-full h-[260px] flex justify-around mb-4'>
+              {portrait?.images?.length > 0 
+                ? <img 
+                className='w-[256px] h-[256px] object-contain cursor-pointer'
+                src={portrait?.images[portrait?.images.length - 1].imageUrl} 
+                onClick={() => handleEnlarge(portrait?.images[0].imageUrl)}
+              />
+              : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images uploaded yet</p>
+              }
+            </div>
+
+            
+            <div className='w-full'>
+              <div className='w-full h-[100px] flex justify-around border-2 border-black mb-4'>
+                {portrait?.images?.map((img, i) => 
+                  <img 
+                    key={i}        
+                    className='w-[96px] h-[96px] object-contain cursor-pointer' 
+                    src={img.imageUrl} 
+                    onClick={() => handleEnlarge(img.imageUrl)}
+                  /> 
+                )} 
+              </div>
+
+              {openImage &&
+                <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgSrc}/>
               }
 
-              <UploadImg 
-                showDialog={action} 
-                onCloseDialog={() => setAction(false)} 
-                portraitId={portraitId}
-                userId={authUser.uid}
-              >
-              </UploadImg>
+              <div className='w-full flex justify-center items-center'>
+                {authUser?.roles === 'Artist' && !portrait?.revised && <button className='border-2 border-black rounded-lg p-2'  onClick={handleUpload}>Upload Image</button>}
+
+                {authUser?.roles === 'Customer' && portrait?.revised && portrait?.status !== 'Completed' &&
+                <div className='w-full flex justify-around'>
+                  
+                  <button 
+                    className='w-5/12 border-2 border-black hover:text-white hover:bg-[#0075FF] rounded-lg p-2'  
+                    onClick={handleReject}
+                  >
+                      {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}
+                  </button>
+                  
+                  <button 
+                    className='w-5/12 border-2 border-black hover:text-white hover:bg-[#2DD42B] rounded-lg p-2'  
+                    onClick={handleAccept}
+                  >
+                    Accept as Final Image
+                  </button>
+
+                </div>}
+
+                {portrait?.status === 'Completed' && 
+                  // <a href={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} download>
+                  //     <img src={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} className='w-[128px] h-[128px] object-contain cursor-pointer'  />
+                  // </a>
+                  <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
+                }
+
+                <UploadImg 
+                  showDialog={action} 
+                  onCloseDialog={() => setAction(false)} 
+                  portraitId={portraitId}
+                  userId={authUser.uid}
+                >
+                </UploadImg>
+              </div>
+
             </div>
-            <p className='w-full text-right'>
-              <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining</p>
+
           </div>
 
         </div>
 
+        {openComplete && 
+          <CompleteCommission 
+            role={authUser?.roles} 
+            openComplete={openComplete} 
+            setOpenComplete={setOpenComplete} 
+            setCompleted={setCompleted} 
+            portraitId={portrait?.uid}  
+            artistId={portrait?.artist[0].id}
+          />
+        }
 
-        <div className='flex flex-col items-center'>
+        {openRevison && 
+          <RequestRevision
+            role={authUser?.roles} 
+            openRevision={openRevison} 
+            setOpenRevision={setOpenRevision} 
+            setRequestRevision={setRequestRevision} 
+            remainingRevisions={portrait?.revisions}
+          />
+        }
 
-          {portrait?.status === 'Completed' && <p>This commission is complete!</p>}
-
-          {openComplete && 
-            <CompleteCommission 
-              role={authUser?.roles} 
-              openComplete={openComplete} 
-              setOpenComplete={setOpenComplete} 
-              setCompleted={setCompleted} 
-              portraitId={portrait?.uid}  
-              artistId={portrait?.artist[0].id}
-            />
-          }
-
-          {openRevison && 
-            <RequestRevision
-              role={authUser?.roles} 
-              openRevision={openRevison} 
-              setOpenRevision={setOpenRevision} 
-              setRequestRevision={setRequestRevision} 
-              remainingRevisions={portrait?.revisions}
-            />
-          }
-        </div>
+        {openQuestions && 
+          <Questions 
+            portrait={portrait} 
+            setPortrait={setPortrait} 
+            openQuestions={openQuestions} 
+            setOpenQuestions={setOpenQuestions} 
+            canEditQs={canEditQs}
+            role={authUser?.roles}
+          />
+        }
       </div>
 
-      {openQuestions && 
-        <Questions 
-          portrait={portrait} 
-          setPortrait={setPortrait} 
-          openQuestions={openQuestions} 
-          setOpenQuestions={setOpenQuestions} 
-          canEditQs={canEditQs}
-          role={authUser?.roles}
-        />
-      }
       
+      {/* Righthand section */}
       <div className='w-4/12'>
         <div className='w-full flex justify-between mb-2'>
           <p className='text-xl'>Customer: <span className='text-[#2DD42B] ml-2' >{portrait?.customer}</span></p>

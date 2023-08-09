@@ -27,12 +27,13 @@ export interface UserData {
     totalCompletedCommissions: number,
     lifeTimeEarnings: number,
     paymentsOwing: number,
+    totalPOrtraits: number,
     starRating: number,
     totalReviews: number,
     totalStars: number,
-    oldEnough: boolean
+    oldEnough: boolean,
+    joinedOn: Date
 }
-
 
 
 const page = () => {

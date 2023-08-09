@@ -104,7 +104,8 @@ export function addUser(user) {
     totalStars: 0,
     totalReviews: 0,
     starRating: 0,
-    oldEnough: false
+    oldEnough: false,
+    joinedOn: new Date,
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
 }
@@ -117,8 +118,14 @@ export function updateUser(userId, role) {
 }
 
 //update any user data
+export function updateUserById(userId) {
+  updateDoc(doc(db, 'users', userId),  
+    { oldEnough: true }
+  );
+}
+
+//update any user data
 export function updateUserData(user) {
-  console.log('in update user data: ', user)
   updateDoc(doc(db, 'users', user.uid),  
     { ...user }, { merge: true }
   );

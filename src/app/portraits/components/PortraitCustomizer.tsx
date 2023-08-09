@@ -222,9 +222,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             })
             let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
             
-            console.log('newPortrait is: ', newPortrait.id)
+            console.log('newPortrait is: ', newPortrait.uid)
 
-            updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
+            updatePortrait(newPortrait.uid, {...editedPortraitsData[editIndex]})
             
             setTotalPrice(updatedTotalPrice)
             setPortraits(editedPortraitsData)

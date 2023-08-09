@@ -1,4 +1,3 @@
-import { useState } from "react"
 import ParallaxHero from "./ParallaxHero"
 import HIW from "./HIW"
 import CategoryContainer from "./categories/CategoryContainer"
@@ -13,16 +12,14 @@ export interface ModeProps {
 
 export default function Home ({ setMode, mode }: ModeProps) {
     
-    const [loading, setLoading] = useState(true);
-    
     return (
-        <div className="flex flex-col justify-around items-center">
-            <ParallaxHero />
-            <HIW />
-            <Testimonials />
-            <CategoryContainer setMode={setMode} mode={mode}/>
-            <Gallery />
-            <Footer />
-        </div>
+    <div className="flex flex-col justify-around items-center">
+        <ParallaxHero />
+        <HIW />
+        <Testimonials />
+        <CategoryContainer setMode={setMode} mode={mode}/>
+        <Gallery />
+        <Footer />
+    </div>
     )
 }

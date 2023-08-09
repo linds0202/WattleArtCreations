@@ -2,17 +2,16 @@ import { motion } from "framer-motion"
 import '../menu/styles.css'
 import { useState, useEffect } from "react"
 import { Timestamp } from 'firebase/firestore';
-import { getAllPortraits } from "@/app/firebase/firestore"
+import { getAllPortraits, getUserById } from "@/app/firebase/firestore"
 import Portrait from "@/app/components/Portrait";
 import { PortraitData } from "@/app/portraits/components/PortraitCustomizer";
+import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 
-
-
-
-export default function PortraitList(user) {
+export default function PortraitList({ user }) {
   const [allPortraits, setAllPortaits] = useState<Array<PortraitData>>([])
   const [filteredPortraits, setFilteredPortraits] = useState<Array<PortraitData>>([])  
   const [button, setButton] = useState<String>('')
+  const [currentAdmin, setCurrentAdmin] = useState<UserData>(null)
 
   useEffect(() => {
     const handleGetAllPortraits = async () => {
@@ -21,7 +20,13 @@ export default function PortraitList(user) {
       setFilteredPortraits(portraitsArr)
     }
 
+    const handleGetUser = async () => {
+      const currentUser = await getUserById(user.uid)
+      setCurrentAdmin(currentUser)
+    }
+
     handleGetAllPortraits()
+    handleGetUser()
   }, [])
 
   const handleGetPending = () => {
@@ -48,8 +53,6 @@ export default function PortraitList(user) {
     setButton('')
   }
 
-  console.log(filteredPortraits)
-
   return (
         <div className="w-full flex flex-col items-center">
           <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Portrait List</h1>
@@ -68,11 +71,12 @@ export default function PortraitList(user) {
               <p>No portraits to display</p>
             :  filteredPortraits?.map(portrait => (
               <Portrait 
-                key={portrait.id} 
-                portrait={portrait} 
-                userId={user.uid} 
-                displayName={user.displayName} 
-                role={user.roles}
+                key={portrait.uid} 
+                portrait={portrait}
+                user={currentAdmin} 
+                // userId={user.uid} 
+                // displayName={user.displayName} 
+                // role={user.roles}
               />
             )) }
           </div>   

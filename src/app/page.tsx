@@ -1,17 +1,30 @@
 'use client' 
 
 import "./globals.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./firebase/auth";
+import { useSearchParams } from 'next/navigation';
 import Home from "./landingPageComponents/Home"
 import PortraitSelection from "./landingPageComponents/PortraitSelection"
 
 
 export default function Personal() {
     const { isLoading } = useAuth();
-    const [mode, setMode] = useState('Home')
-  
-    return ((isLoading) ? 
+    const searchParams = useSearchParams()
+    const selection = searchParams.get('selection')
+
+    const [mode, setMode] = useState(selection !== null ? selection : 'Home')
+    
+    useEffect(() => {
+        if (selection) {
+            setMode(selection)
+        } else {
+            setMode('Home')
+        }
+        
+    }, [selection])
+
+    return ((isLoading ) ? 
     <></>
     :
         <main className="bg-white text-black no-underline min-h-screen">

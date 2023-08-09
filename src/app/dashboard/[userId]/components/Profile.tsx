@@ -3,14 +3,13 @@
 import { useEffect, useState } from 'react';
 import { getUserById } from '@/app/firebase/firestore';
 import { useAuth } from '@/app/firebase/auth';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import CustomerProfileForm from './CustomerPorfileForm';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image'
 import AvatarUploader from './AvatarUploader';
 import AwardProgressBar from './AwardProgressBar';
-import AddIcon from '@mui/icons-material/Add';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 
 const awards = {
@@ -48,12 +47,12 @@ const Profile = (user: UserData) => {
     const [changeAvatar, setChangeAvatar] = useState(false)
     const [discount, setDiscount] = useState(awards[0])
 
+
     useEffect(() => {
         if (!isLoading && !authUser) {
             router.push('/')
         }
     }, [authUser, isLoading]);
-
 
 
     useEffect(() => {
@@ -101,43 +100,46 @@ const Profile = (user: UserData) => {
     
     return (
         <div className='relative p-10'>
-            <div className='flex items-center'>
-                <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
-                    <Image src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
-                    
-                    <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} className='absolute bottom-0 right-0 text-[#282828]' >
-                        <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
-                    </IconButton>
-                </div>
-
-                
-
-                <AvatarUploader
-                    setChangeAvatar={setChangeAvatar}
-                    setUserData={setUserData} 
-                    edit={updateUser}
-                    showDialog={openUpload}
-                    onCloseDialog={() => setOpenUpload(false)}>
-                </AvatarUploader>
-
-                {userData && 
-                    <div className='w-[30%] flex flex-col justify-center items-start ml-10'>
-                        <div className='flex items-center'>
-                            <h1 className='text-4xl font-bold'>{userData?.displayName}</h1>
-                            {!isEdit && 
-                                <button 
-                                    onClick={handleClick}
-                                    className="ml-4"
-                                >
-                                    <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }}/>
-                                </button>
-                            }
-                        </div>
+            <div className='flex justify-between items-center'>
+                <div className='flex justify-between items-center'>
+                    <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
+                        <Image src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
                         
-                        <p className='w-8/12 mt-4'>Welcome to your dashboard</p>                    
+                        <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} className='absolute bottom-0 right-0 text-[#282828]' >
+                            <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
+                        </IconButton>
                     </div>
-                }
 
+                    
+
+                    <AvatarUploader
+                        setChangeAvatar={setChangeAvatar}
+                        setUserData={setUserData} 
+                        edit={updateUser}
+                        showDialog={openUpload}
+                        onCloseDialog={() => setOpenUpload(false)}>
+                    </AvatarUploader>
+
+                    {userData && 
+                        <div className='w-[60%] flex flex-col justify-center items-start ml-10'>
+                            <div className='flex items-center'>
+                                <h1 className='text-4xl font-bold'>{userData?.displayName}</h1>
+                                {!isEdit && 
+                                    <button 
+                                        onClick={handleClick}
+                                        className="ml-4"
+                                    >
+                                        <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }}/>
+                                    </button>
+                                }
+                            </div>
+                            
+                            <p className='w-8/12 mt-4'>Welcome to your dashboard</p>                    
+                        </div>
+                    }
+
+                </div>
+                
                 <div className='w-[40%] border-2 border-[#282828] rounded-xl p-4  relative'>
                     <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#0075FF] text-white font-bold rounded-full flex justify-center items-center'>
                         <p className='text-center'>-{discount?.discount}%</p>

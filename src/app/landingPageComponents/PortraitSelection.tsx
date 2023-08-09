@@ -1,7 +1,12 @@
 import Link from "next/link"
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../firebase/auth";
-import { useEffect } from 'react'
+import { auth } from "../firebase/firebase";
+import { useEffect, useState } from 'react'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import { updateUserById } from "../firebase/firestore";
+import { Dialog } from '@mui/material';
 import Footer from "@/app/components/Footer"
 import { Carousel } from "react-responsive-carousel"
 import {
@@ -10,6 +15,23 @@ import {
     useTransform,
 } from "framer-motion";
 import { ModeProps } from "./Home";
+
+// Configure FirebaseUI.
+const uiConfig = {
+    signInFlow: 'popup', // popup signin flow rather than redirect flow
+    // signInSuccessUrl: '/',
+    signInOptions: [
+      EmailAuthProvider.PROVIDER_ID,
+      GoogleAuthProvider.PROVIDER_ID,
+    ],
+    callbacks: {
+      // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => {
+        return false
+      }
+    },
+};
+  
 
 const container = {
     hidden: {},
@@ -91,24 +113,94 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const imgSrc = options[`${mode}`].splashImg
     const bgImgSrc = options[`${mode}`].bgImg
 
+    const [openLogin, setOpenLogin] = useState(false)
+    const [openConfirm, setOpenConfirm] = useState(false)
+
     useEffect(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo(0, 0)        
     }, [])
 
-    // Listen to changes for loading and authUser, redirect if needed
+    // Listen to changes for loading, authUser, and mode and redirect if needed
     useEffect(() => {
-        if (!isLoading && !authUser && mode === 'NSFW') {
-            alert('You must be logged in to customizing a NSFW portrait. Returning to home page . . . ')
+        console.log('authUser: ', authUser)
+        if (!isLoading && mode === 'NSFW' && !authUser ) {
+            setOpenLogin(true)
             setMode('Home')
         }
-    }, [authUser, isLoading]);
+
+        if (!authUser?.oldEnough && mode === 'NSFW') {
+            setOpenConfirm(true)
+        }
+
+    }, [authUser, isLoading, mode]);
 
     let { scrollY } = useScroll()
     let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
     let opacity = useTransform(scrollY, [0, 200], [0, 1])
+
+    const handleClose = () => {
+        setOpenLogin(false)
+    }
+
+    const handleConfirm = () => {
+        updateUserById(authUser?.uid)
+        setOpenConfirm(false)
+        setMode('NSFW')
+    }
+
+    const handleCancel = () => {
+        setOpenConfirm(false)
+        setMode('Home')
+    }
   
     return (
         <div>
+            {/* {mode === 'NSFW' 
+                ? !authUser ?
+                    <div>
+                        <button onClick={handleLogin} className='w-full text-black hover:text-white hover:bg-[#282828] border-2 border-black rounded-lg p-2 text-center mt-4'>
+                            Login/Create Account to Continue
+                        </button>
+                        <p className="text-black mt-2">(You must be logined in to create a NSFW portrait)</p>
+                    </div>
+                    : <button 
+                        className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
+                        onClick={() => handleSelection(mode)} 
+                        >
+                            Start Customizing
+                    </button>  
+                : <button 
+                    className="text-xl mb-4 border-2 border-black w-[50%] rounded-md px-4 py-2 hover:bg-black hover:text-white transition"
+                    onClick={() => handleSelection(mode)} 
+                    >
+                        Start Customizing
+                </button>  
+            }*/}
+            {openLogin &&
+                <Dialog onClose={handleClose} open={openLogin}>
+                    <div className='bg-[#282828] flex flex-col justify-between items-center'>
+                        <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
+                        <div className='bg-white rounded-b-lg py-4'>
+                            <h3 className='text-black text-center text-lg font-semibold pb-4'>Login/Register</h3>
+                            {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+                        </div>
+                    </div>
+                </Dialog>
+            } 
+
+            {openConfirm && authUser && !authUser.oldEnough &&
+            <div className="fixed w-full h-[100vh] bg-black z-[90]">
+                <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white border-2 border-[#282828] z-[100]">
+                    <h2 className="text-3xl font-bold">You must be over <span className="text-[#0075FF] text-4xl">18</span> to create a NSFW Portrait</h2>
+                    <p className="text-center mt-4 text-xl">Are you over 18?</p>
+                    <div className="w-8/12 mx-auto mt-2 flex justify-around items-center">
+                        <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] py-2" onClick={handleConfirm}>Yes</button>
+                        <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-red-600 py-2" onClick={handleCancel}>No</button>
+                    </div>
+                </div>
+            </div>
+            }
+
             <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
                 <motion.div 
                     className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" 

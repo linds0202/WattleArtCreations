@@ -9,6 +9,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
 import { auth } from '../firebase/firebase';
+import { updateUserById } from '../firebase/firestore';
 
 // const REDIRECT_PAGE = '/dashboard';
 
@@ -29,11 +30,12 @@ const uiConfig = {
 };
 
 export default function NavBar() {
-  const { authUser, isLoading, signOut } = useAuth();
+  const { authUser, setAuthUser, isLoading, signOut } = useAuth()
   const currentUrl = usePathname()
   const baseUrl = currentUrl.split('/')[1]
-  const router = useRouter();
-  const [login, setLogin] = useState(false);  
+  const router = useRouter()
+  const [login, setLogin] = useState(false)
+  const [openConfirm, setOpenConfirm] = useState(false)
   
   const handleClose = () => {
     setLogin(false)
@@ -44,24 +46,52 @@ export default function NavBar() {
     if (authUser) {
       setLogin(false)
     }
-  }, [authUser])
+  }, [authUser, login])
+
+  const handleOldEnough = () => {
+    if (!authUser) {
+      setLogin(true)
+    } else if (!authUser.oldEnough) {
+      setOpenConfirm(true)
+    } else {
+      router.push('/?selection=NSFW')
+    }
+  }
+
+  const handleConfirm = () => {
+    updateUserById(authUser?.uid)
+    setAuthUser({...authUser, oldEnough: true})
+    setOpenConfirm(false)
+    router.refresh()
+  }
+
+  const handleCancel = () => {
+      setOpenConfirm(false)
+      router.push('/')
+  }
 
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
     <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
       <div className='w-4/12 flex justify-start'>
-        <Link href='/' className='flex justify-between items-center no-underline'>
+        <Link 
+          href={{
+            pathname: '/',
+            query: {selection: 'Home'},
+            }} 
+          className='flex justify-between items-center no-underline'
+        >
           <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
           <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
         </Link>
       </div>
 
-      {/* Links for Personal Route */}
-      {(currentUrl === '/' || currentUrl === '/portraits') && 
+      {/* Links for Personal Route if not artist*/}
+      {((currentUrl === '/' || currentUrl === '/portraits') && authUser?.roles !== 'Artist') && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
-                pathname: '/portraits',
+                pathname: '/',
                 query: {selection: 'Photorealistic'},
                 }} 
             className="text-xl no-underline text-center hover:text-cyan-600"
@@ -69,24 +99,32 @@ export default function NavBar() {
             Photorealistic
         </Link>
         <Link href={{
-                pathname: '/portraits',
+                pathname: '/',
                 query: {selection: 'Anime'},
                 }} 
             className="text-xl no-underline text-center hover:text-orange-600"
         >
             Anime
         </Link>
-        <Link href={{
-                pathname: '/portraits',
+        <button 
+          onClick={handleOldEnough}
+          className="text-xl no-underline text-center hover:text-violet-600"
+        >
+          NSFW
+        </button>
+      </div> }
+
+      {/* <Link href={{
+                pathname: '/',
                 query: {selection: 'NSFW'},
                 }} 
             className="text-xl no-underline text-center hover:text-violet-600"
         >
             NSFW
-        </Link> 
-      </div> }
+        </Link> */}
 
-      {(baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue') && (authUser?.roles === 'Artist' || authUser?.roles === 'admin') && 
+      {/* (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue') && */}
+      {(authUser?.roles === 'Artist' || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue'))) && 
         <div className='flex justify-between items-center'>
           <div className='pr-4'>
             <Link href='/portraitQueue' className='text-white no-underline'>Portrait Queue</Link>
@@ -189,6 +227,18 @@ export default function NavBar() {
         }
       
       </div>
+      
+      {openConfirm && authUser && !authUser.oldEnough &&
+        <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white text-black border-2 border-[#282828] z-[100]">
+            <h2 className="text-3xl font-bold">You must be over <span className="text-[#0075FF] text-4xl">18</span> to create a NSFW Portrait</h2>
+            <p className="text-center mt-4 text-xl">Are you over 18?</p>
+            <div className="w-8/12 mx-auto mt-2 flex justify-around items-center">
+                <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] py-2" onClick={handleConfirm}>Yes</button>
+                <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-red-600 py-2" onClick={handleCancel}>No</button>
+            </div>
+        </div>
+      }
+
       <Dialog onClose={handleClose} open={login}>
         <div className='bg-[#282828] flex flex-col justify-between items-center'>
           <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
