@@ -271,7 +271,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 ? <img 
                 className='w-[256px] h-[256px] object-contain cursor-pointer'
                 src={portrait?.images[portrait?.images.length - 1].imageUrl} 
-                onClick={() => handleEnlarge(portrait?.images[0].imageUrl)}
+                onClick={() => handleEnlarge(portrait?.images[portrait?.images.length - 1].imageUrl)}
               />
               : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images uploaded yet</p>
               }
