@@ -4,6 +4,7 @@ import {useState} from 'react'
 import { useAuth } from '../firebase/auth'
 import { useSearchParams } from 'next/navigation'
 import CustomerTestimonial from './components/CustomerTestimonial'
+import { downloadImage } from '../firebase/storage'
 
 
 const page = () => {
@@ -16,7 +17,7 @@ const page = () => {
     const [reviewed, setReviewed] = useState(false)
 
     const handleDownloadFinal = () => {
-        alert('Downloading Image!')
+        downloadImage(portrait?.images[portrait?.images.length - 1].imageUrl)
     }
 
     return (
@@ -32,7 +33,10 @@ const page = () => {
                 <div className='w-6/12'>
                     <p><span className='font-semibold'>Digital File Delivery:</span> Your digital artwork can be downloaded as a high-resolution file. You can always access the download via the individual portrait page on your dashboard. Select 'Completed' and then navigate to the portrait page.</p> 
                     <p>If you encounter any issues with your digital file, please contact our support team at [email/contact information].</p> 
-                    <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
+                    {portrait?.status === 'Completed' && 
+                        <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
+                    }
+                    {/* <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button> */}
                 </div>
                         
                 

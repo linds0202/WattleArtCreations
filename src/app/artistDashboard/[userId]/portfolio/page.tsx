@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { Rating, IconButton } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import FullReview from './components/FullReview';
 
 export interface UserData {
     uid: String,
@@ -54,8 +55,10 @@ const page = () => {
     const [disableNext, setDisableNext] = useState(false);
     const [disablePrevious, setDisablePrevious] = useState(true);
     const [page, setPage] = useState(1)
+    const [openTestimonial, setOpenTestimnonial] = useState(false)
 
 
+    console.log('testimonials: ', testimonials)
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -77,6 +80,12 @@ const page = () => {
     useEffect(() => {
         const fetchData = async () => {
             const firstTestimonials = await getArtistsTestimonials(artistId)
+            console.log('firstTestimonoials: ', firstTestimonials)
+            
+            if (firstTestimonials.testimonials.length < 5) {
+                setDisableNext(true)
+            }
+
             setTestimonials(firstTestimonials.testimonials)
             setLast(firstTestimonials.lastVisible)
         };
@@ -87,6 +96,8 @@ const page = () => {
     const handleNext = () => {
         const fetchNextData = async () => {
             const nextTestimonials = await getNextTestimonials(artistId, last)
+
+            console.log('nextTestimonials: ', nextTestimonials)
         
             if (nextTestimonials.testimonials.length < 5) {
                 setDisableNext(true)
@@ -98,6 +109,7 @@ const page = () => {
             setPage(page + 1)
             setDisablePrevious(false)
         }
+
         fetchNextData();
     }
     
@@ -119,6 +131,9 @@ const page = () => {
         fetchPreviousData()
     }
 
+    const handleOpenTestimonial = (i) => {
+        setOpenTestimnonial(true)
+    }
 
     const handleClick = () => {
         setIsEdit(true)
@@ -187,36 +202,51 @@ const page = () => {
                 {userData && <div className='w-[49%] flex flex-col justify-center items-center'>
                     <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
                     <div className='flex justify-around items-center py-2'>
-                        <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed commissions</p>
+                        <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed {userData?.totalCompletedCommissions === 1 ? 'commission' : 'commissions'}</p>
                     </div>
                     <div className='flex justify-around items-center pb-4'>
                         <Rating name="read-only" value={userData?.starRating} readOnly precision={0.5} size="large"/>
                         <span>({userData?.starRating})</span>
-                        <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> reviews</p>
+                        <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> {userData?.totalReviews === 1 ? 'review' : 'reviews'}</p>
                     </div>
                     <p className='w-10/12 mt-4'>{userData?.bio}</p>
                     
 
 
-                    <div className='border-2 border-[#282828] rounded-xl p-4 flex flex-col justify-center mt-4'>
+                    <div className='w-10/12 border-2 border-[#282828] rounded-xl p-4 flex flex-col justify-center mt-4'>
                         <h3 className='text-2xl font-bold text-center'>Reviews</h3>
                         {testimonials?.map((testimonial, i) => (
-                            <div key={i} className='w-10/12 mx-auto flex flex-col justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
-                                <div className='flex items-center'>
-                                    <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="small" />
-                                    <span className='ml-2'>({testimonial.stars})</span>
+                            <div key={i} className='w-10/12 mx-auto flex justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
+                                <div className='w-[30%]'>
+                                    <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain'/>
                                 </div>
-                                <p>{testimonial.text}</p>
-                                <p className='self-end'>- {testimonial.customerDisplayName}</p>
+                                <div className='w-[70%] mx-auto flex flex-col justify-between items-center py-4'>
+                                    <div className='flex items-center'>
+                                        <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="small" />
+                                        <span className='ml-2'>({testimonial.stars})</span>
+                                    </div>
+                                    <p>
+                                        {testimonial.text.split(/\s+/).slice(0, 20).join(" ")}... 
+                                        <span 
+                                            onClick={() => handleOpenTestimonial(i)}
+                                            className='text-[#2DD42B] hover:text-[#165f15] cursor-pointer'
+                                        >
+                                            (Read more)
+                                        </span>
+                                    </p>
+                                    <p className='self-end'>- {testimonial.customerDisplayName}</p>
+                                </div>
+                                <FullReview openTestimonial={openTestimonial} setOpenTestimnonial={setOpenTestimnonial} testimonial={testimonial}/>
                             </div>
                         ))}
+                        
                         <div className='flex justify-center py-4'>
-                            <button type='button' onClick={handlePrevious} disabled={disablePrevious}  className={`${!disablePrevious ? 'text-green-600' : 'text-red-600' }`}>
+                            <button type='button' onClick={handlePrevious} disabled={disablePrevious}  className={`${!disablePrevious ? 'text-[#2DD42B]' : 'text-[#E9E9E9]' }`}>
                                 <ArrowBackIosIcon fontSize="large"/>
                             </button>
 
                             
-                            <button type='button' onClick={handleNext} disabled={disableNext} className={`${!disableNext ? 'text-green-600' : 'text-red-600' }`}>
+                            <button type='button' onClick={handleNext} disabled={disableNext} className={`${!disableNext ? 'text-[#2DD42B]' : 'text-[#E9E9E9]' }`}>
                                 <ArrowForwardIosIcon fontSize="large"/>
                             </button>    
                         </div>                    

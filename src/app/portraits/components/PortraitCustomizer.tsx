@@ -46,7 +46,9 @@ export interface PortraitData  {
     id: string,
     revisions: number,
     revised: boolean,
-    reassigned: boolean
+    reassigned: boolean,
+    additionalRevision: boolean,
+    artistSubmitted: Date[]
   }
 
 interface PortraitProps {
@@ -134,7 +136,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         id: '',
         revisions: 2,
         revised: false,
-        reassigned: false
+        reassigned: false,
+        additionalRevision: false,
+        artistSubmitted: []
     })
 
     const [chars, setChars] = useState(portraitData.characters)

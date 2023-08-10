@@ -29,7 +29,18 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
                 
                 <div className='ml-4 w-[60%] flex flex-col justify-between items-start'>
                     <div>
-                        <h2 className='text-3xl font-bold text-left'>{artist.artistName}</h2>
+                        <h2 className='text-3xl font-bold text-left'>
+                            <Link 
+                                href={`/artistDashboard/${artist.uid}/portfolio`} 
+                                rel="noopener noreferrer" 
+                                target="_blank"
+                                className="text-[#2DD42B] hover:text-[#165f15]"
+                            >
+                                <span className='ml-2'>
+                                {artist.artistName}
+                                </span> 
+                            </Link>
+                        </h2>
                         <div className='flex items-center'>
                             <Rating 
                                 name="read-only" 
@@ -64,9 +75,9 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
                                 href={`/artistDashboard/${artist.uid}/portfolio`} 
                                 rel="noopener noreferrer" 
                                 target="_blank"
-                                className="text-[#2DD42B] hover:text-[#165f15]"
+                                className="text-[#2DD42B] hover:text-[#165f15] ml-2"
                             >
-                            (more)
+                            (see full portfolio)
                             </Link>
                         </span>
                     </p>

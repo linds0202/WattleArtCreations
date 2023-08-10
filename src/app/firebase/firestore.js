@@ -235,7 +235,9 @@ export async function addPortrait( data) {
     uploadedImageInfo: [],
     revisions: data.revisions,
     revised: false,
-    reassigned: false
+    reassigned: false,
+    additionalRevision: false,
+    artistSubmitted: []
   })
   return portraitRef.id
 }
@@ -313,7 +315,7 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
 //Submit an image for review 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
-  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl}), revised: true})
+  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl}), revised: true, artistSubmitted: arrayUnion(new Date) })
 }
 
 //add customer uploaded images to new portrait
@@ -350,8 +352,6 @@ export async function addAvatar(userId, imageBucket) {
 export async function updateAvatar( uid, imageBucket) {
   updateDoc(doc(db, 'users', uid), { avatarBucket: imageBucket}); 
 }
-
-
 
 
 
@@ -433,10 +433,17 @@ export async function getChats(setMessages, portraitId) {
   return unsubscribe;
 }
 
+
 //Add a new Testimonial
 export async function addTestimonial( data) {
   
   updateArtistRating(data.artistId, data.stars)
+
+  let imgUrl
+
+  if (data.includeImg) {
+    imgUrl = await getPortrait(data.portraitId)
+  }
 
   const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
     portraitId: data.portraitId,
@@ -445,7 +452,8 @@ export async function addTestimonial( data) {
     customerDisplayName: data.displayName,
     text: data.text,
     stars: data.stars,
-    includeImg: data.includeImg
+    includeImg: data.includeImg,
+    imgUrl: imgUrl.images[imgUrl.images.length - 1].imageUrl
   })
   return testimonialRef.id
 }

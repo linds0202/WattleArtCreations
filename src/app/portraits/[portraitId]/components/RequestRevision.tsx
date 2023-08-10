@@ -93,7 +93,6 @@ const RequestRevision = ({ role, openRevision, setOpenRevision, setRequestRevisi
                     <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-red-600 hover:text-white rounded-xl py-2 px-2'>Cancel</button>
                     <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>
                         {remainingRevisions === 0 ? 'Request Additional Revisions' : 'Request Revision'}
-                        {/* {remainingRevisions === 0 && <span className='text-sm text-[#bababa] ml-2'>(Additional Cost)</span>} */}
                     </button>
                 </div>
             </>}
