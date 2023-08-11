@@ -93,19 +93,19 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   //   return () => clearInterval(interval)
   // }, [portrait])
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    if (completed) {
-      const  newPortrait = {...portrait, status: 'Completed'}
+  //   if (completed) {
+  //     const  newPortrait = {...portrait, status: 'Completed'}
       
-      updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
+  //     // updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
 
-      updatePortrait(newPortrait?.uid, newPortrait)
+  //     // updatePortrait(newPortrait?.uid, newPortrait)
       
-      setPortrait(newPortrait)
+  //     setPortrait(newPortrait)
 
-    }
-  }, [completed])
+  //   }
+  // }, [completed])
 
   useEffect(() => {
     if (requestRevision) {
@@ -119,12 +119,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
   }, [requestRevision])
   
-  const handleUpload = () => {
-    console.log([...portrait?.artistSubmitted, new Date])
+  const handleUpload = async () => {
     // const  newPortrait = {...portrait, artistSubmission: [...portrait?.artistSubmitted, ] }
       
     // updatePortrait(portrait?.uid, {...portrait, revisions: revisions, revised: false})
-
     // setPortrait(newPortrait)
     
     setAction(true)
@@ -157,6 +155,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setImgSrc(src)
     setOpenImage(true)
   }
+
+  console.log('portrait on main portrait page: ', portrait)
 
   return ((!authUser || isLoading) ? 
     <p className='min-h-screen text-center text-4xl'>Loading ...</p>
@@ -243,17 +243,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 </div>}
 
                 {portrait?.status === 'Completed' && 
-                  // <a href={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} download>
-                  //     <img src={`${portrait?.images[portrait?.images.length - 1].imageUrl}`} className='w-[128px] h-[128px] object-contain cursor-pointer'  />
-                  // </a>
                   <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
                 }
 
                 <UploadImg 
                   showDialog={action} 
                   onCloseDialog={() => setAction(false)} 
-                  portraitId={portraitId}
                   userId={authUser.uid}
+                  portrait={portrait}
+                  setPortrait={setPortrait}
                 >
                 </UploadImg>
               </div>
@@ -269,9 +267,11 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             role={authUser?.roles} 
             openComplete={openComplete} 
             setOpenComplete={setOpenComplete} 
-            setCompleted={setCompleted} 
-            portraitId={portrait?.uid}  
-            artistId={portrait?.artist[0].id}
+            //setCompleted={setCompleted} 
+            portrait={portrait}
+            setPortrait={setPortrait}
+            // portraitId={portrait?.uid}  
+            // artistId={portrait?.artist[0].id}
           />
         }
 

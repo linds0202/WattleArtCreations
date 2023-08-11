@@ -22,7 +22,7 @@ const Submission = ({ portrait }: SubmissionProps) => {
     
           const now = Timestamp.fromDate(new Date())      
     
-          const difference = 604800 - (now.seconds - portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1].seconds)
+          const difference = 604800 - (now.seconds - portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1]?.seconds)
     
           const d = Math.floor((difference / 86400))
           setDays(d)
@@ -76,7 +76,7 @@ const Submission = ({ portrait }: SubmissionProps) => {
                         : <p>Calculating . . . </p>
                     }
                     
-                    <p className='mt-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1].seconds * 1000).toDateString() + ' at ' + new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1].seconds * 1000).toLocaleTimeString()}</span></p>
+                    <p className='mt-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1]?.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1]?.seconds * 1000).toLocaleTimeString()}</span></p>
                     
                     
                     </div>

@@ -60,6 +60,23 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       setOpenImage(true)
   }
 
+  const showStatus = () => {
+    switch(portrait.status) {
+      case 'Unordered':
+        return 'Unordered'
+      case 'Unclaimed':
+        return 'Awaiting Available Artist(s)'
+      case 'Unassigned':
+        return 'Select Artist'
+      case 'In Progress':
+        return 'In Progress'
+      case 'Completed':
+        return 'Completed'
+      default:
+        return ''
+    }
+  }
+
   
 
   return (
@@ -82,9 +99,11 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         <h4 className='text-xl font-bold text-[#0075FF]'>{portrait.portraitTitle}<span className='text-sm font-light text-black ml-4'>({portrait.mode})</span></h4>
         <div className='flex'>
           <div>
-            {portrait?.status !== 'Unordered' && <p className='mb-2'>Ordered on: {new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</p>}
-            <p className='mb-2'>Status: {portrait.status}</p>
+            <p className='mb-2'>Created on: {new Date(portrait.creationDate.toDate()).toLocaleDateString("en-US")}</p>
+            {portrait?.status !== 'Unordered' && <p className='mb-2'>Ordered on: {new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</p>}
+            <p className='mb-2'>Status: {showStatus()}</p>
           </div>
+          
           <div className='ml-10'>
             {user?.roles === 'Artist' && <p className='mb-2'>Customer:<span className='ml-4'>{portrait.customer}</span></p>}
             {portrait?.status !== 'Unordered' && 
@@ -129,7 +148,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         {/* If payment complete - link to individual portrait page */}
         {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]"><p>Portrait Page</p></Link>}
         
-        {user?.roles === 'Artist' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
           <div>
             {portrait?.reassigned && 
               <Link 
@@ -146,7 +165,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </div>     
         }
 
-        {user?.roles === 'Admin' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
+        {/* {user?.roles === 'Admin' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
           <div>
             {portrait?.reassigned && 
               <Link 
@@ -161,7 +180,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
             {!portrait.reassigned && <button className='text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]' onClick={handleViewDetails}>View Details</button>
             }    
           </div>     
-        }
+        } */}
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
@@ -184,7 +203,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <div className='w-full mb-4 flex justify-start items-center'>
                   <div className='w-full ml-4'>
                     <div className='flex justify-between items-center mb-8'>
-                      <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.date.toDate()).toLocaleDateString("en-US")}</span></p>
+                      <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
                       <p className='font-semibold text-xl'>Commission: <span className='text-[#0075FF]'>${portrait.price}</span></p>
                     </div>
                     

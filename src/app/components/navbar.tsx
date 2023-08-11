@@ -18,7 +18,10 @@ const uiConfig = {
   signInFlow: 'popup', // popup signin flow rather than redirect flow
   // signInSuccessUrl: '/',
   signInOptions: [
-    EmailAuthProvider.PROVIDER_ID,
+    {
+      provider: EmailAuthProvider.PROVIDER_ID,
+      requireDisplayName: false
+    },
     GoogleAuthProvider.PROVIDER_ID,
   ],
   callbacks: {

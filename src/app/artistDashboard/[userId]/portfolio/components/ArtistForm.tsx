@@ -143,8 +143,8 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                         </div>
                     </div>
                     <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
-                        <UpdateInfoButton editLink={editLink} />
                         <CancelUpdateButton setIsEdit={setIsEdit} />
+                        <UpdateInfoButton editLink={editLink} />
                     </div>
                     
                 </Form>

@@ -72,8 +72,8 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                     </div>
                     
                     <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
-                        <UpdateInfoButton editLink={true} />
                         <CancelUpdateButton setIsEdit={setIsEdit} />
+                        <UpdateInfoButton editLink={true} />
                     </div>
                     
                 </Form>

@@ -226,7 +226,8 @@ export async function addPortrait( data) {
     customerId: data.customerId,
     artist: [],
     artistAssigned: false,
-    date: new Date,
+    creationDate: new Date,
+    purchaseDate: new Date,
     status: 'Unordered',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
@@ -268,7 +269,8 @@ export function addSelectedArtist( portraitId, artistId, displayName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: [{artistName: displayName, id: artistId}],
     artistAssigned: true,
-    status: 'In Progress'
+    status: 'In Progress',
+    lastUpdatedStatus: new Date
   });
 }
 
@@ -293,9 +295,11 @@ export async function getAllPortraits() {
 
 //Get one Portrait from uid
 export async function getPortrait(uid) {
+  console.log('in getPortrait')
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
+    console.log('docsnap.data: ', docSnap.data())
     return {
       ...docSnap.data(), 
       uid: uid     

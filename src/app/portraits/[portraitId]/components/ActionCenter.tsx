@@ -26,9 +26,6 @@ const ActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
     const [loadingTime, setLoadingTime] = useState(false)
-    
-    console.log('portrait: ', portrait)
-    console.log('portrait: ', portrait?.additionalRevision)
 
     useEffect(() => {
 
@@ -106,7 +103,16 @@ const ActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
                     : <p className='text-center text-lg text-red-600 mt-4'>No artist availble yet, check back soon</p>
                     }
                 </div>}
-                {portrait?.artistAssigned && <p>Your artist is: {portrait.artist[0].artistName}</p>}
+                {portrait?.artistAssigned && <p>Your artist is: 
+                    <Link 
+                        href={`/artistDashboard/${portrait.artist[0].id}/portfolio`} 
+                        rel="noopener noreferrer" 
+                        target="_blank"
+                        className="text-[#2DD42B] hover:text-[#165f15] ml-2"
+                    >
+                        {portrait.artist[0].artistName}
+                    </Link>
+                </p>}
             </Accordion>
 
             <Accordion title={`Step Two - Customer Questions ${canEditQs ? '(Edit Answers)' : '(View Questions)'}`} required={false} active={false} >
@@ -171,45 +177,66 @@ const ActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
             </Accordion>
             
             <Accordion title={'Step Three - Review Artist Submission'} required={false} active={false} >
+                {!portrait?.revised && 
+                    <div>
+                        <p>Your artist has not submitted an image yet. No action needed at this time.</p>
+                    </div>
+                }
+                {portrait?.revised && 
+                    <div>
+                        <p>Your artist has submited an image for your review. You have 7 days* to review the image.</p>
+                        <p className="text-sm text-[#bababa]">*Failure to respond within this time will result in the image being approved</p>
                 
-                <p>Your artist has submited an image for your review. You have 7 days* to review the image.</p>
-                <p className="text-sm text-[#bababa]">*Failure to respond within this time will result in the image being approved</p>
-                
-                <Submission portrait={portrait} />
-
+                        <Submission portrait={portrait} />
+                    </div>
+                }
             </Accordion>
             
             <Accordion title={'Step Four - Release Payment or Request Additional Revisions'} required={false} active={false} >
                 <div className="flex flex-col justify-center items-center">
-                    <p>You have used all of the included revisions</p>
-                    <Link 
-                            href='/revisions' 
-                            rel="noopener noreferrer" 
-                            target="_blank"
-                            className="text-[#2DD42B] hover:text-[#165f15] ml-2"
-                        >
-                            <span className='font-semibold'>(see complete policy)</span> 
-                    </Link>
-                    
-                    {!portrait?.additionalRevision && 
+                    {!portrait.revised 
+                    ? <p>Your artist is hard at work creating your master piece. Check back later</p>
+                    : <div>
+                        {portrait?.revisions > 0 &&  
+                            <div>
+                                <p>Happy with your artist's latest submission?</p>
+                                <p>Select 'Accept as Final Image' in the Final Image section of this page </p>
+                            </div>
+                        }
+                            
+                        {portrait?.revisions === 0 && 
                         <div>
-                            <p>If you are satified with your portrait, click 'Accept as Final' in the Final images area of this page to release payment to your artist & download your image</p>
-
-                            <p>If you need an additional revision, chat your artist and they can arrange this service</p>
-                        </div>
-                    }
-                    
-                    {portrait?.additionalRevision && 
-                        <div>
-                            <p className="mb-4">Click the payment link to purchase an additional revision for this portrait</p>
-                            <div className="w-10/12 mx-auto p-2">
-                                <Link 
-                                href='https://buy.stripe.com/test_3cs14g82bbBX3nOcMM' 
-                                className="mb-8 py-2 px-4 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF]"    
-                            >Purchase Additional Revision</Link>
-                            </div> 
-                        </div>
-                    }
+                            <p>You have used all of the included revisions</p>
+                            <Link 
+                                    href='/revisions' 
+                                    rel="noopener noreferrer" 
+                                    target="_blank"
+                                    className="text-[#2DD42B] hover:text-[#165f15] ml-2"
+                                >
+                                    <span className='font-semibold'>(see complete policy)</span> 
+                            </Link>
+                            
+                            {!portrait?.additionalRevision && 
+                                <div>
+                                    <p>If you are satified with your portrait, click 'Accept as Final' in the Final images area of this page to release payment to your artist & download your image</p>
+    
+                                    <p>If you need an additional revision, chat your artist and they can arrange this service</p>
+                                </div>
+                            }
+                            
+                            {portrait?.additionalRevision && 
+                                <div>
+                                    <p className="mb-4">Click the payment link to purchase an additional revision for this portrait</p>
+                                    <div className="w-10/12 mx-auto p-2">
+                                        <Link 
+                                        href='https://buy.stripe.com/test_3cs14g82bbBX3nOcMM' 
+                                        className="mb-8 py-2 px-4 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF]"    
+                                    >Purchase Additional Revision</Link>
+                                    </div> 
+                                </div>
+                            }
+                        </div>}
+                    </div>}
                 </div>
                 
             </Accordion>

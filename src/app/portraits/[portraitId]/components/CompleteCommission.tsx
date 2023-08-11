@@ -2,23 +2,35 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Dialog } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { PortraitData } from '../../components/PortraitCustomizer';
+import { updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore';
 
 interface CompleteCommissionProps {
     role: string,
     openComplete: boolean,
     setOpenComplete: Function,
-    setCompleted: Function,
-    portraitId: string,
-    artistId: string
+    // setCompleted: Function,
+    portrait: PortraitData,
+    setPortrait: Function
+    // portraitId: string,
+    // artistId: string
 }
 
-const CompleteCommission = ({ role, openComplete, setOpenComplete, setCompleted, portraitId, artistId }: CompleteCommissionProps) => {
+const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, setPortrait }: CompleteCommissionProps) => {
     const router = useRouter();
 
     const handleComplete = () => {
-        setCompleted(true)        
+        const  newPortrait = {...portrait, status: 'Completed'}
+        console.log('newPortrait: ', newPortrait)
+        
+        updateArtistOnCompletion(portrait?.artist[0].id, portrait?.price)
+
+        updatePortrait(newPortrait?.uid, newPortrait)
+
+        //setCompleted(true)
+        setPortrait(newPortrait)        
         setOpenComplete(false)
-        router.push(`/testimonials?portraitId=${portraitId}&artistId=${artistId}`)
+        // router.push(`/testimonials?portraitId=${portraitId}&artistId=${artistId}`)
     }
 
     const handleCancel = () => {

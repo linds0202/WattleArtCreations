@@ -18,7 +18,7 @@ const CancelUpdateButton = ({ setIsEdit }: CancelButtonProps) => {
             <button 
                 onClick={handleCancel}
                 type='button'
-                className="rounded-lg py-2 px-4 border-2 border-black hover:border-red-600 hover:text-red-600"
+                className="rounded-xl py-2 px-4 border-2 border-black hover:bg-[#282828] hover:text-white"
                 title={`${dirty ? "Changes will be lost" : ""}`}
             >
                 Cancel Edit

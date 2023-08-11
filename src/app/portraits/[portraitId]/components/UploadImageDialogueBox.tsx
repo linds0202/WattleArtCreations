@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Avatar, Button, Dialog, DialogActions, DialogContent, Stack, TextField, Typography } from '@mui/material';
 import { useAuth } from '../../../firebase/auth';
 import { uploadImage } from '../../../firebase/storage';
-import { updatePortraitWithImage } from '@/app/firebase/firestore';
+import { updatePortraitWithImage, getPortrait } from '@/app/firebase/firestore';
 
 
 const DEFAULT_FILE_NAME = "No file selected";
@@ -24,7 +24,7 @@ export default function UploadImg(props) {
     // If the receipt to edit or whether to close or open the dialog ever changes, reset the form fields
     useEffect(() => {
         if (props.showDialog) {
-        setFormFields(isEdit ? props.edit : DEFAULT_FORM_STATE);
+            setFormFields(isEdit ? props.edit : DEFAULT_FORM_STATE);
         }
     }, [props.edit, props.showDialog])
 
@@ -49,8 +49,16 @@ export default function UploadImg(props) {
     const handleSubmit = async () => {
         setIsSubmitting(true);
         try {
-            const bucket = await uploadImage(formFields.file, props.portraitId)
-            await updatePortraitWithImage(props.portraitId, {userId: props.userId, imageBucket: bucket})
+            const bucket = await uploadImage(formFields.file, props.portrait.uid)
+
+            console.log('bucket in upload is: ', bucket)
+            
+            const portraitWithImages = await updatePortraitWithImage(props.portrait.uid, {userId: props.userId, imageBucket: bucket})
+            //console.log('updated portrait: ', {...props.portrait, images: [...props.portrait?.images, {userId: props.userId, imageBucket: bucket}], revised: true, artistSubmitted: [...props.portrait.artistSubmitted, new Date] })
+            
+            const updatedPortrait = await getPortrait(props.portrait.uid)
+            console.log('updatedPortratit is: ', updatedPortrait)
+            props.setPortrait(updatedPortrait)
         } catch (error) {
             console.log(error)
         }
