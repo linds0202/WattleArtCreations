@@ -15,10 +15,11 @@ const CustomerRevision = ({portrait, note, img, latest, index}: CustomerRevision
             <ActionCenterAccordion title={`${index >= 2 ? 'Additional Revision Request': 'Revision Request'}`} open={latest} attention={latest} >
                 
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col items-center">
-                    <div className="flex items-center">
+                    <div className="flex justify-between items-center">
                         <img src={img} className='w-[96px] h-[96px] object-contain rounded-lg'/>
-                    
-                        <p className="ml-4 text-sm bg-white p-2 rounded-lg">{note?.text}</p>
+                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                            <p >{note?.text}</p>
+                        </div>
                     </div>
                     <p className="w-[100%] text-sm mt-2 text-[#0075FF] font-semibold">Revision Requested on: <span className="text-black ml-2">{new Date(note?.date.seconds * 1000).toDateString() + ' at ' + new Date(note?.date.seconds * 1000).toLocaleTimeString()}</span></p>
                 </div>

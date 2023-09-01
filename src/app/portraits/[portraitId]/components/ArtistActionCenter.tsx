@@ -12,10 +12,11 @@ import Submission from "./Submission"
 export interface ActionCenterProps {
     portrait: PortraitData,
     setPortrait: Function,
+    setOpenRevision: Function
 }
 
 
-const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
+const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCenterProps) => {
     const { authUser, isLoading } = useAuth();
 
     const [openQuestions, setOpenQuestions] = useState(false)
@@ -56,22 +57,25 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
         return () => clearInterval(interval)
     }, [portrait])
 
-    // const revisions = portrait?.revisionNotes.map((note, i) =>
-    //     <ActionCenterAccordion key ={i} title={`Revision #${i + 1}`} required={false} active={false}>
-    //         <p>{note.text}</p>
-    //         <p className="text-sm">Revision Requested on: {new Date(note.date.seconds * 1000).toLocaleString()}</p>
-    //     </ActionCenterAccordion>
-    // )
-
     const customerRevisions = portrait?.finalImages.map((image, i) =>
         <div key={i}>
             {i < 2 &&
             <div>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                            <p>You submitted an image on:</p>
+                            <p className="font-semibold">{new Date(image.date.seconds * 1000).toLocaleString()}</p>
+                        </div>
+                        
+                    </div>
+                </ActionCenterAccordion>
+                {/* <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                         <p className="bg-white py-2 px-4 rounded-lg">You submitted an image on: <span className="font-semibold ml-2">{new Date(image.date.seconds * 1000).toLocaleString()}</span></p>
                     </div>
-                </ActionCenterAccordion>
+                </ActionCenterAccordion> */}
                 {portrait?.revisionNotes[i] 
                 ? <CustomerRevision 
                     key={i} 
@@ -83,7 +87,6 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
                 />
                 : <ActionCenterAccordion title={'Awaiting Customer Response'} open={true} attention={true} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        {/* <p>Your customer has not responded yet.</p> */}
                         <Submission portrait={portrait}/>
                     </div>
                     
@@ -93,8 +96,8 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
                 {(portrait?.finalImages.length === portrait?.revisionNotes.length && portrait?.revisionNotes.length - 1 === i) && 
                 <ActionCenterAccordion title={`${portrait?.artistSubmitted.length === portrait?.revisionNotes.length ? 'Submit Image' : 'Artist Submission'}`} open={portrait?.finalImages.length === portrait?.revisionNotes.length} attention={portrait?.finalImages.length === portrait?.revisionNotes.length} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <p className="font-semibold ">Your customer submited a revision request for your review on: </p>
-                        <p className='text-sm'>{new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</p>
+                        <p className="font-semibold ">Your customer requested a revision on: </p>
+                        <p className='text-md'>{new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</p>
                 
                         {(portrait?.finalImages.length === portrait?.revisionNotes.length) && 
                         <div className="flex items-center mt-4">
@@ -110,8 +113,13 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
             {i >= 2 &&
             <>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <p className="bg-white py-2 px-4 rounded-lg">You submitted an image on: <span className="font-semibold ml-2">{new Date(image.date.seconds * 1000).toLocaleString()}</span></p>
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                            <p>You submitted an image on:</p>
+                            <p className="font-semibold">{new Date(image.date.seconds * 1000).toLocaleString()}</p>
+                        </div>
+                        
                     </div>
                 </ActionCenterAccordion>
                 {portrait?.revisionNotes[i] 
@@ -125,7 +133,6 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
                 />
                 : <ActionCenterAccordion title={'Awaiting Customer Response'} open={true} attention={true} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        {/* <p>Your customer has not responded yet.</p> */}
                         <Submission portrait={portrait}/>
                     </div>
                     
@@ -226,57 +233,63 @@ const ArtistActionCenter = ({ portrait, setPortrait }: ActionCenterProps) => {
 
             
             
-            <ActionCenterAccordion title={'Additional Revisions'} open={portrait?.additionalRevisionRequest || portrait?.additionalRevision} attention={portrait?.additionalRevisionRequest || portrait?.additionalRevision} >
-                <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                    {portrait?.revised
-                    ? <p>{portrait?.revisions !== 0 ? "You have not completed all included revisions yet" : "Your customer has not responded to your submission yet"}</p>
-                    : <div>
-                        {portrait?.additionalRevisionRequest 
-                        ? <div>
+            {portrait?.additionalRevisionRequest && 
+            <div>
+
+                <ActionCenterAccordion title={'Chat with Your Customer'} open={true} attention={true} >
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
+                        <p className="bg-white py-2 px-4 rounded-lg">Chat with your customer about their revision request. Discuss additional costs and time requirements. When ready, select a level for the revision below to create a payment button for your customer</p>
+                    </div>
+                </ActionCenterAccordion>
+
+
+
+
+
+                <ActionCenterAccordion title={'Additional Revisions'} open={portrait?.additionalRevisionRequest || portrait?.additionalRevision} attention={portrait?.additionalRevisionRequest || portrait?.additionalRevision} >
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
+                        {portrait?.revised
+                        ? <p>"Your customer has not responded to your submission yet"</p>
+                        : <div>
                             {portrait?.additionalRevision 
-                            ? <div>
-                                
-                                <p className="text-center">Your customer has purchased a{`${portrait?.revisionLevel === 'Intermediate' ? 'n' : ''}`} <span className="text-[#0075FF] font-semibold">{portrait?.revisionLevel} Addtional Revision</span></p>
-                                <div className="flex mt-4">
-                                    <p className="font-semibold mr-4">Next Step: </p>
-                                    <p>Upload your revised image</p>
+                                ? <div>
+                                    
+                                    <p className="text-center">Your customer has purchased a{`${portrait?.revisionLevel === 'Intermediate' ? 'n' : ''}`} <span className="text-[#0075FF] font-semibold">{portrait?.revisionLevel} Addtional Revision</span></p>
+                                    <div className="flex mt-4">
+                                        <p className="font-semibold mr-4">Next Step: </p>
+                                        <p>Upload your revised image</p>
+                                    </div>
+                                    
+                                    <ArtistCounter portrait={portrait} first={false}/>
                                 </div>
+                                : <div className="flex flex-col justify-center items-center">
+                                    <p className="text-center text-xl">Your customer has requested an <span className="text-[#0075FF] font-semibold">Addtional Revision</span></p>
+                                    <button
+                                        type="button"
+                                        onClick={handleAdditionalRevision}
+                                        className="my-4 border-2 border-[#282828] bg-white rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828] "
+                                        >
+                                            {portrait?.revisionLevel === "" ? "Select Revision Level" : "Change Revision Level"}
+                                    </button>
+                                    {portrait?.revisionLevel !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#0075FF]">{portrait?.revisionLevel}</span></p>}
+                                </div>
+                                }
                                 
-                                <ArtistCounter portrait={portrait} first={false}/>
-                            </div>
-                            : <div className="flex flex-col justify-center items-center">
-                                <p className="text-center text-xl">Your customer has requested an <span className="text-[#0075FF] font-semibold">Addtional Revision</span></p>
-                                <button
-                                    type="button"
-                                    onClick={handleAdditionalRevision}
-                                    className="my-4 border-2 border-[#282828] bg-white rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828] "
-                                    >
-                                        {portrait?.revisionLevel === "" ? "Select Revision Level" : "Change Revision Level"}
-                                </button>
-                                {portrait?.revisionLevel !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#0075FF]">{portrait?.revisionLevel}</span></p>}
-                            </div>
+
+                            {openAdditionalRevision &&
+                                <AdditionalRevision 
+                                    openAdditionalRevision={openAdditionalRevision}
+                                    setOpenAdditionalRevision={setOpenAdditionalRevision}
+                                    portrait={portrait}
+                                    setPortrait={setPortrait}
+                                />
                             }
-                            
-                            
-                        </div>
-                        : <p>You have not completed all included revisions yet</p>
-                        }
+                                
+                        </div>}
                         
-
-
-                        {openAdditionalRevision &&
-                            <AdditionalRevision 
-                                openAdditionalRevision={openAdditionalRevision}
-                                setOpenAdditionalRevision={setOpenAdditionalRevision}
-                                portrait={portrait}
-                                setPortrait={setPortrait}
-                            />
-                        }
-                            
-                    </div>}
-                      
-                </div>
-            </ActionCenterAccordion>
+                    </div>
+                </ActionCenterAccordion>
+            </div>}
 
 
             <ActionCenterAccordion title={'Portrait Complete - Payment Released'} open={portrait?.status === 'Completed'} attention={portrait?.status === 'Completed'} >

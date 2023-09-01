@@ -101,7 +101,7 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
 
                     <div className='w-[45%] ml-8 flex flex-col justify-between'>
                     <label className=''>
-                        Add a description of your revision - your artist will use this to make customized quote
+                        Add a description of your revision {remainingRevisions === 0 ? '- your artist will use this to make customized quote' : ''}
                     </label>
                     <textarea
                         rows={10}

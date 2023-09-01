@@ -127,7 +127,18 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   <div className='relative min-h-[100vh]'>
     <img className="w-full absolute -top-[16px] left-0" src="../../drips/wizard3.png" />
     <div className='bg-white text-black min-h-screen pt-3 pb-36'>
-      <h1 className='text-4xl font-bold text-center pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
+      <div className='relative'>
+        <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
+        
+        <button 
+            className='absolute top-2 right-7 w-1/7 text-xl border-2 border-black bg-white hover:text-white hover:bg-[#0075FF] rounded-lg p-2' onClick={handleOpenQuestions}
+        >
+            View Portrait Details
+        </button>
+      </div>
+      
+
+      
       <div className='mx-4 flex justify-between'>
         
         {/* Lefthand section */}
@@ -155,8 +166,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             <div className='w-6/12 border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
               <div>
                 {authUser?.roles === 'Customer' 
-                  ? <CustomerActionCenter portrait={portrait} setPortrait={setPortrait}  />
-                  : <ArtistActionCenter portrait={portrait} setPortrait={setPortrait} />
+                  ? <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />
+                  : <ArtistActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}/>
                 }
                 {portrait?.status === "Completed" &&
                   <div className='my-8 flex flex-wrap justify-between items-center'>
@@ -193,12 +204,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 <div className='w-full'>
                   <div className='flex justify-center items-center mb-4'>
                     <h3 className='text-2xl font-bold m-0'>Final Images</h3>
-                    {/* <p className='text-xl ml-4'>
-                      <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
-                    </p> */}
                   </div>
-                  
-                
 
                   <div className='w-full h-[260px] flex justify-around mb-4'>
                     {portrait?.finalImages?.length > 0 

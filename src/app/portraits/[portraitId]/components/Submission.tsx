@@ -53,7 +53,6 @@ const Submission = ({ portrait }: SubmissionProps) => {
                     <div className='mt-2 flex items-center'>
                         <div>
                             <p className='font-semibold mr-4'>Remaining review time: </p>
-                            {/* <p className="text-sm pr-8">(Image will be automatically accepted when time is up)</p> */}
                         </div>
                         {loadingTime ? 
                             <div className='w-6/12 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg bg-white'>
