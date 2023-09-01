@@ -13,6 +13,7 @@ import DisplayedOptionalQuestions from './DisplayedOptionalQuestions'
 import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
 import EnlargedImage from './EnlargedImage'
 import { UserData } from '../artistDashboard/[userId]/portfolio/page'
+import ImgSet from './ImgSet'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -20,49 +21,53 @@ interface PortraitProps {
 }
 
 export default function Portrait({ portrait, user}: PortraitProps) {
-    const router = useRouter()
+  const router = useRouter()
 
-    const [openArtistDetails, setOpenArtistDetails] = useState(false)
-    const [openImage, setOpenImage] = useState(false)
-    const [src, setSrc] = useState('')
+  const [openArtistDetails, setOpenArtistDetails] = useState(false)
+  const [ openImgSet, setOpenImgSet] = useState(false)
+  const [imgSetIndex, setImgSetIndex] = useState(0)
+  // const [openImage, setOpenImage] = useState(false)
+  // const [src, setSrc] = useState('')
 
-    const [charVariations, setCharVariations] = useState(false)
-    const [pet, setPet] = useState(false)
-    const [charSheet, setCharSheet] = useState(false)
-    const [weaponSheet, setWeaponSheet] = useState(false)
+  const [charVariations, setCharVariations] = useState(false)
+  const [pet, setPet] = useState(false)
+  const [charSheet, setCharSheet] = useState(false)
+  const [weaponSheet, setWeaponSheet] = useState(false)
 
-    useEffect(() => {
-      portrait.characters.forEach((char: MyCharValues) => {
-          if (char.numCharVariations > 1) setCharVariations(true)
+  useEffect(() => {
+    portrait.characters.forEach((char: MyCharValues) => {
+        if (char.numCharVariations > 1) setCharVariations(true)
 
-          if(char.pets) setPet(true)
-      
-          if(char.extras.includes('character')) setCharSheet(true)
-      
-          if(char.extras.includes('weapons')) setWeaponSheet(true)
+        if(char.pets) setPet(true)
+    
+        if(char.extras.includes('character')) setCharSheet(true)
+    
+        if(char.extras.includes('weapons')) setWeaponSheet(true)
 
-      })
-    }, [])
+    })
+  }, [])
 
-    const handleClaim = async () => {
-      const updatedArtist = {...user, activeCommissions: user.activeCommissions + 1}
-      updateUserData(updatedArtist)
-      const updatedPortrait = addArtist(portrait.uid, user.uid, user.artistName)
-      router.push(`/artistDashboard/${user.uid}`)
-    }
-
-    const handleViewDetails = () => {
-      setOpenArtistDetails(true)
-    }
-
-    const handleEnlarge = (i) => {
-      setSrc(portrait?.uploadedImageUrls[i])
-      setOpenImage(true)
+  const handleClaim = async () => {
+    const updatedArtist = {...user, activeCommissions: user.activeCommissions + 1}
+    const update = await updateUserData(updatedArtist)
+    const updatedPortrait = addArtist(portrait.uid, user.uid, user.artistName)
+    router.push(`/artistDashboard/${user.uid}`)
   }
+
+  const handleViewDetails = () => {
+    setOpenArtistDetails(true)
+  }
+
+  const handleOpenImgSet = (i: number) => {
+    setImgSetIndex(i)
+    setOpenImgSet(true)
+  }
+
+
 
   const showStatus = () => {
     switch(portrait.status) {
-      case 'Unordered':
+      case 'Unpaid':
         return 'Unordered'
       case 'Unclaimed':
         return 'Awaiting Available Artist(s)'
@@ -165,23 +170,6 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </div>     
         }
 
-        {/* {user?.roles === 'Admin' && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
-          <div>
-            {portrait?.reassigned && 
-              <Link 
-                href={`/portraits/${portrait.uid}`}
-                rel="noopener noreferrer" 
-                target="_blank" 
-                className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]">
-                  See History
-              </Link>
-            }
-
-            {!portrait.reassigned && <button className='text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]' onClick={handleViewDetails}>View Details</button>
-            }    
-          </div>     
-        } */}
-
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
         {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.uid}`} className="text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828]"><p>Portrait Page</p></Link>}
@@ -215,22 +203,32 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <div className='w-full my-4'>
                   <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click image to enlarge)</span></p>
 
-                  <div className='w-full flex mt-4'>
-                    {portrait?.uploadedImageUrls.length === 0
-                      ? <p className='text-lg text-red-600'>(No images uploaded)</p>
-                      : portrait?.uploadedImageUrls.map((img, i) => 
-                        <img 
-                          className="w-[64px] h-[64px] object-contain mr-4 cursor-pointer" 
+                  <div className='flex mt-2'>
+                    {portrait?.images.length === 0
+                      ? <p className='text-sm text-red-600'>(No images uploaded)</p>
+                      : portrait.images.map((imgSet, i) => 
+                        <div 
                           key={i} 
-                          src={img}
-                          onClick={() => handleEnlarge(i)}
-                        />
-                    )}
+                          className='flex justify-center items-center border-2 border-[#282828] rounded-lg mr-4'
+                          onClick={() => handleOpenImgSet(i)}
+                        >
+                          {imgSet.imageUrls.map((url, i) => <img 
+                            className="w-[64px] h-[64px] object-contain m-2 cursor-pointer" 
+                            key={i} 
+                            src={url}
+                          />)}
+                        </div>)
+                      }
                   </div>
                 </div>
-                {openImage &&
-                  <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src}/>
+                {openImgSet && 
+                  <ImgSet 
+                    openImgSet={openImgSet} 
+                    setOpenImgSet={setOpenImgSet} 
+                    imgSet={portrait?.images[imgSetIndex]}
+                  />
                 }
+                
 
 
                 <p className='text-xl font-bold mt-2 text-center'>Customer Responses</p>

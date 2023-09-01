@@ -103,6 +103,8 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                             </label>
                             <Field 
                                 name="maxCommissions" 
+                                type="number"
+                                min="0"
                                 className="w-10/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                         </div>

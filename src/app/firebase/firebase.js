@@ -1,10 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getStorage, connectStorageEmulator } from 'firebase/storage';
+
 
 // Configure Firebase.
-const firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyCefhN_WDoVg78rqE6xvsxZ2mhog2R9q58",
   authDomain: "wattleartcreations.firebaseapp.com",
   projectId: "wattleartcreations",
@@ -14,7 +15,18 @@ const firebaseConfig = {
   measurementId: "G-X3LFHN1S9C"
 };
 
+
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
+//connectAuthEmulator(auth,'http://127.0.0.1:9099')
+
 export const db = getFirestore(app);
+//connectFirestoreEmulator(db, '127.0.0.1', 8080); //Remove this line for production
+
 export const storage = getStorage(app); 
+
+// if (location.hostname === "localhost") {
+//   // Point to the Storage emulator running on localhost.
+//   connectStorageEmulator(storage, "127.0.0.1", 9199);
+// } 

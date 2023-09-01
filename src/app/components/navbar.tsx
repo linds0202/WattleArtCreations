@@ -210,18 +210,7 @@ export default function NavBar() {
           {(authUser.roles === 'Customer' || authUser.roles === 'admin') && <div className='pr-4'>
             <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Dashboard</Link>
           </div>}
-          {/* {(authUser.roles === 'Artist' || authUser.roles === 'admin') && 
-          <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser.uid}`} className='text-white no-underline'>Artist Dashboard</Link>
-          </div>} */}
-          <div className='pr-4'>
-            {currentUrl !== '/corporate' && 
-            <Link href={'/corporate'} className='text-white no-underline'><img className='w-[32px] h-[32px]' src='./corporate.png' alt='Corporate Art Orders' title='Corporate Art Orders' /></Link>
-            }
-            {currentUrl === '/corporate' && 
-            <Link href={'/'} className='text-white no-underline'><img className='w-[32px] h-[32px]' src='./HIWIcons/artwork2.png' alt='Personal Art Orders' title='Personal Art Orders' /></Link>
-            }
-          </div>
+    
           <button onClick={signOut}>Logout</button>
           <div className='pl-4'>
             <Link href={'/'} className='text-white no-underline'><img className='w-[32px] h-[32px] text-white' src='./bag.png' alt='Personal Art Orders' title='Personal Art Orders' /></Link>

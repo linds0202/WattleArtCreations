@@ -3,23 +3,45 @@ import { auth } from '@/app/firebase/firebase';
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { Formik, Form} from 'formik';
+import { Formik, Form, Field} from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import StepOne from "./questionaire/StepOne"
 import RequiredQuestions from './questionaire/RequiredQuestions';
 import StepTwo from "./questionaire/StepTwo"
-import { deleteImage, uploadImages } from '@/app/firebase/storage';
+import AddImages from './AddImages';
+import { deleteImages, uploadImages } from '@/app/firebase/storage';
 import { 
     addPortrait, 
     updatePortrait, 
-    updateNewPortraitWithImages, 
+    getImageUrls,
     updateCustomerCommissionsTotal, 
-    updateEditedPortraitWithImages, 
     deletePortraitImages 
 } from '@/app/firebase/firestore';
 
+export interface UploadedImgs {
+    imageUrls: Array<string>,
+    fileNames: Array<string>,
+    text: string,
+}
+
+interface FinalImages {
+    imageUrl: string,
+    userId: string,
+    date: Date,
+}
+
+export interface CustomerRevision {
+    text: string,
+    date: Date
+}
+
+export interface Upload {
+    files: [File],
+    text: string
+}
 
 
 export interface PortraitData  {
@@ -31,25 +53,25 @@ export interface PortraitData  {
     price: number,
     customer: string,
     customerId: '',
-    artist: [
-        {artistName: string,
-        id: string}
-    ],
+    artist: [],
     artistAssigned: boolean,
     creationDate: Date,
     purchaseDate: Date,
     status: string,
     lastUpdatedStatus: Date,
     paymentComplete: boolean,
-    uploadedImageUrls: Array<string>,
-    uploadedImageBucket: Array<string>,
-    uploadedImageInfo: Array<string>,
     id: string,
     revisions: number,
     revised: boolean,
     reassigned: boolean,
     additionalRevision: boolean,
-    artistSubmitted: Date[]
+    artistSubmitted: Array<Date>,
+    images: Array<UploadedImgs>
+    finalImages: Array<FinalImages>,
+    revisionLevel: string,
+    additionalRevisionRequest: boolean,
+    purchaseRevisionLink: string,
+    revisionNotes: Array<CustomerRevision>
   }
 
 interface PortraitProps {
@@ -125,22 +147,25 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         price: 0,
         customer: '',
         customerId: '',
-        artist: [{artistName: "", id: ""}],
+        artist: [],
         artistAssigned: false,
         creationDate: new Date(),
         purchaseDate: new Date(),
         status: 'Unpaid',
         lastUpdatedStatus: new Date(),
         paymentComplete: false,
-        uploadedImageUrls: [],
-        uploadedImageBucket: [],
-        uploadedImageInfo: [],
         id: '',
         revisions: 2,
         revised: false,
         reassigned: false,
         additionalRevision: false,
-        artistSubmitted: []
+        artistSubmitted: [],
+        images: [],
+        finalImages: [],
+        revisionLevel: "",
+        additionalRevisionRequest: false,
+        purchaseRevisionLink: '',
+        revisionNotes: []
     })
 
     const [chars, setChars] = useState(portraitData.characters)
@@ -148,24 +173,15 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
-    const [imageFiles, setImageFiles] = useState([])
-    const [fileNames, setFileNames] = useState(editPortrait ? editPortrait.uploadedImageInfo : [])
 
+    const [openUpload, setOpenUpload] = useState(false)
+    const [editImgGroup, setEditImgGroup] = useState(null)
+    const [editImgIndex, setEditImgIndex] = useState()
+    const [uploads, setUploads] = useState<Array<Upload>>([])
 
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
-
-    useEffect(() => {
-        if(imageFiles.length !== 0) {
-            const names = imageFiles.map(img => img.name)
-            if (editPortrait) {
-                setFileNames(prev => [...prev, ...names])
-            } else {
-                setFileNames(names)
-            } 
-        }
-    }, [imageFiles])
 
 
     const handleLogin = () => {
@@ -180,74 +196,61 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     }, [authUser])
 
 
-    const setFileData = (target) => {
-        if (target.files.length !== 0) {
-            const file = target.files[0];
-            const newEntry = {
-                fileName: file.name,
-                file: file,
-            }
-            setImageFiles(prevState => [...prevState, newEntry.file])
-        }
-    }
-
-
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += char.total, 0)
 
-        console.log('portraitFormData: ', portraitFormData)
+        
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
-        console.log('newPortrait: ', newPortrait)
-
-
+        
         if (editPortrait) {
+            let newImages
+            if (uploads.length !== 0) {
+                const bucket = await uploadImages(uploads, editPortrait.id)
 
-            //Need to check if images has been changed - then update with new file info else just use the deleted set of files
-            let newImgData = {}
-
-            if (imageFiles.length !== 0) {
-                const bucket = await uploadImages(imageFiles, editPortrait.id)
-                const newFileNames = imageFiles.map(img => img.name)
                 //update portrait with bucket info
-                const updatedPortraitUrls = await updateEditedPortraitWithImages(editPortrait.id, bucket, newFileNames, portraitData)
-                setPortraitData({...newPortrait, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames})
-                newImgData = {uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: [...portraitData.uploadedImageBucket, ...bucket], uploadedImageInfo: fileNames}
+                const updatedImages = await getImageUrls(editPortrait.id, bucket, uploads)
+                newImages = [...updatedImages]
             }
-            
+
             let editedPortraitsData = portraits.map((portrait, i) => {
                 if (editIndex === i) {
-                    if (imageFiles.length !== 0) {
-                        return {...newPortrait, ...newImgData}
+                    if (uploads.length !== 0) {
+                        return {...newPortrait, images: [...editPortrait.images, ...newImages]}
                     } else {
-                        return {...newPortrait, uploadedImageUrls: portraitData.uploadedImageUrls, uploadedImageBucket: portraitData.uploadedImageBucket, uploadedImageInfo: portraitData.uploadedImageInfo}
+                        return { ...newPortrait, images: [...portraitData.images]}
                     }
                 } else {
                     return portrait
                 }
             })
-            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
-            
-            console.log('newPortrait is: ', newPortrait.uid)
 
-            updatePortrait(newPortrait.uid, {...editedPortraitsData[editIndex]})
+            let updatedTotalPrice = portraits.reduce((sum, p) => sum += p.price, 0)
+
+            updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             
             setTotalPrice(updatedTotalPrice)
             setPortraits(editedPortraitsData)
         } else {
             
-            const id = await addPortrait(newPortrait)
-            
+
+            const id = await addPortrait(newPortrait)            
+
             //upload img to bucket
-            const bucket = await uploadImages(imageFiles, id)
+            const bucket = await uploadImages(uploads, id)
+
             //update portrait with bucket info
-            const updatedPortraitUrls = await updateNewPortraitWithImages(id, bucket, fileNames)
-
+            const updatedImages = await getImageUrls(id, bucket, uploads)
             setTotalPrice(totalPrice + price)
-            setPortraits(prev => ([ ...prev,  {...newPortrait, id: id, uploadedImageUrls: updatedPortraitUrls, uploadedImageBucket: bucket, uploadedImageInfo: fileNames}]))
+            
+            const updatedPortrait = {...newPortrait, id: id, images: [...updatedImages] }
+               
+            updatePortrait(id, updatedPortrait)
+            
+            setPortraits(prev => ([ ...prev, updatedPortrait ]))
 
-            //Add completed portrait to users reward totals
-            updateCustomerCommissionsTotal(authUser.uid)
+            // //Add completed portrait to users reward totals
+            // updateCustomerCommissionsTotal(authUser.uid)
         }
 
         setEditPortrait(null)
@@ -255,45 +258,51 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     }  
 
-    const handleDeleteImg = async (i) => {
-        if(editPortrait) {
+    const handleEditImgGroup = (i) => {
+        setEditImgIndex(i)
+        setEditImgGroup(uploads[i])
+               
+        setOpenUpload(true)
+    }
+  
+    const handleDeleteImgGroup = async (i) => {
+        if (editPortrait) {
             try {
-                console.log('in edit mode')
                 
-                //removes from storage
-                await deleteImage(portraitData.id, portraitData.uploadedImageInfo[i])
+                //removes images from storage
+                await deleteImages(portraitData.id, portraitData.images[i].fileNames)
                 
-                //create new array of url
-                let updateUploadedImageUrls: Array<string> = portraitData.uploadedImageUrls.filter((name, j) => j !== i)
-                
-                //create new array of bucket ref
-                let updateUploadedImageBucket: Array<string> = portraitData.uploadedImageBucket.filter((name, j) => i !== j)
-                
-                //remove from filenames
-                let updateFileNames: Array<string> = fileNames.filter((name) => name !== fileNames[i])
-                setFileNames(updateFileNames)
+                //create new array of images
+                let updateUploadedImagesArr: Array<UploadedImgs> = portraitData.images.filter((img, j) => j !== i)
+                console.log('updateUploadedImagesArr: ', updateUploadedImagesArr)
 
+                //console.log('calling deletportrait Images')
                 //update portrait in database
-                await deletePortraitImages(editPortrait.id, updateUploadedImageBucket, updateUploadedImageUrls, updateFileNames)
+                await deletePortraitImages(editPortrait.id, updateUploadedImagesArr)
                 
                 //setPortraits to update in live data
-                setPortraitData((prev):PortraitData => ({...prev, uploadedImageUrls: updateUploadedImageUrls,
-                    uploadedImageBucket: updateUploadedImageBucket,
-                    uploadedImageInfo: updateFileNames,
-                }))
+                setPortraitData((prev):PortraitData => ({...prev, images: updateUploadedImagesArr }))
+
+                let editedPortraitsData = portraits.map((portrait, i) => {
+                    if (editIndex === i) {
+                       return {...editPortrait, images: updateUploadedImagesArr }
+                    } else {
+                        return portrait
+                    }
+                })
+
+                setPortraits(editedPortraitsData)
+                
             } catch (error) {
               console.log(error)
             }
         } else {
-            console.log('not edit mode')
-            let updateFileNames: Array<string> = fileNames.filter((name) => name !== fileNames[i])
-            setFileNames(updateFileNames)
-
-            let updateImageFiles = imageFiles.filter((file, j) => j !== i)
-            setImageFiles(updateImageFiles)
+                       
+            const updatedImgGroup: Array<Upload> = uploads.filter((imgGroup, index) => i !== index)
+            setUploads(updatedImgGroup)
         }
+        
     }
-  
 
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
@@ -326,39 +335,70 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 />
                                 <RequiredQuestions />
 
-
-                                {/* Add images */}
-                                <div className='w-full mt-4 flex justify-around items center'>
-                                    {/* //color="secondary" variant="outlined" */}
-                                    <Button component="label" 
-                                        variant="outlined"
-                                        className='self-start mt-2 text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
+                                <div className='w-[100%] flex flex-wrap items-center mt-4'>
+                                    {/* Add images */}
+                                    <button
+                                        type='button'
+                                        onClick={() => setOpenUpload(true)}
+                                        className='border-2 border-[#282828] rounded-xl px-4 py-2 hover:text-white hover:bg-[#0075FF]'
                                     >
-                                        Upload Image
-                                        <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
-                                    </Button>
-                                    
-                                    <div className='w-8/12 flex flex-wrap justify-start items-center'>  
-                                        {fileNames.length === 0 
-                                            ? <p>No File Selected</p>
-                                            : fileNames?.map((name, i) => (
-                                            <div key={i} className='w-5/12 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
-                                                <p className='w-10/12 h-[25px] overflow-hidden'>{name}</p>
-                                                <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
+                                        Add Images
+                                    </button>
+                                    <div className='flex'>
+                                        {uploads.length !== 0 && uploads.map((imgGroup, i) => 
+                                            <div key={i} className='border-2 border-[#282828] rounded-lg mx-4 p-2 flex '>
+                                                {imgGroup.files.map((img, i) => <p key={i} className='mx-4'>{img.name}</p>)}
+                                                
+                                                <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#0075FF] ml-4'>
+                                                    <EditIcon />
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => handleDeleteImgGroup(i)} 
+                                                    className='ml-4 hover:text-red-600 '
+                                                    title='Remove from order? Unordered portraits can be found on your dashboard'
+                                                >
                                                     <DeleteForeverIcon />
                                                 </button>
-                                            </div>        
-                                        ))}
+                                            </div>
+                                        )}
                                     </div>
-                                    
-                                    
+
+                                    {editPortrait && portraitData?.images.length !== 0 &&
+                                    <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 border-[#282828] rounded-xl p-4'>
+                                        <p>Remove previously uploaded images:</p>
+                                        {portraitData.images.map((imgGroup, i) =>
+                                        <div key={i} className='border-2 border-[#282828] rounded-lg mx-4 p-2 flex '>
+                                            {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain'/>)}
+
+                                            <button 
+                                                type="button" 
+                                                onClick={() => handleDeleteImgGroup(i)} 
+                                                className='ml-4 hover:text-red-600 '
+                                                title='Remove from order? Unordered portraits can be found on your dashboard'
+                                            >
+                                                <DeleteForeverIcon />
+                                            </button>
+                                        </div>)}
+                                    </div>}
                                 </div>
+                                
+                                
+                                {openUpload && <AddImages 
+                                    uploads={uploads}
+                                    setUploads={setUploads}
+                                    openUpload={openUpload}
+                                    setOpenUpload={setOpenUpload}
+                                    editImgGroup={editImgGroup}
+                                    setEditImgGroup={setEditImgGroup}
+                                    editImgIndex={editImgIndex}
+                                />}
 
 
                                 {/* Submit Button */}
                                 {authUser && <button 
                                     type="submit" 
-                                    className={`w-3/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 
+                                    className={`w-6/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 
                                         ? 'text-black border-2 border-black' 
                                         : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
                                     disabled={chars.length === 0}

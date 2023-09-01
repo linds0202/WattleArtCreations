@@ -8,6 +8,7 @@ import { getAllUnclaimed, getUserById } from '../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import Portrait from '../components/Portrait';
 import { PortraitData } from '../portraits/components/PortraitCustomizer';
+import Footer from '../components/Footer';
 
 export default function Dashboard() {
 
@@ -48,28 +49,31 @@ export default function Dashboard() {
   return ((loadingPortraits) ? 
     <p>Loading ...</p>
   :
-  <div className='bg-white text-black min-h-screen pt-3'>
-    <div className='w-full flex justify-center items-center relative'>
-      <h1 className='text-2xl text-center'>Available Commissions</h1>
-      {currentUser && <p className='absolute top-2 right-10'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
-    </div>
-    
-    {currentUser?.activeCommissions < currentUser?.maxCommissions 
-      ? <div className='flex flex-col items-center'>
-        {unclaimed.length === 0 ? 
-          <p>No portraits to display</p>
-        :  filtered?.map(portrait => (
-          <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
-        )) }
+  <div className='relative min-h-[100vh]'>
+    <div className='bg-white text-black min-h-screen pt-3 pb-36'>
+      <div className='w-full flex justify-center items-center relative'>
+        <h1 className='text-2xl text-center'>Available Commissions</h1>
+        {currentUser && <p className='absolute top-2 right-10'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
       </div>
-      : <div className='flex justify-center items-center mt-10'>
-          <p className='w-6/12 text-2xl text-center text-red-600 font-semibold'>You have maxed out your commission amount. Finish a commission or reach out to admin</p>
+      
+      {currentUser?.activeCommissions < currentUser?.maxCommissions 
+        ? <div className='flex flex-col items-center'>
+          {unclaimed.length === 0 ? 
+            <p>No portraits to display</p>
+          :  filtered?.map(portrait => (
+            <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
+          )) }
         </div>
-      }
+        : <div className='flex justify-center items-center mt-10'>
+            <p className='w-6/12 text-2xl text-center text-red-600 font-semibold'>You have maxed out your commission amount. Finish a commission or reach out to admin</p>
+          </div>
+        }
 
-    <div className='w-6/12 mx-auto mb-6 text-center mt-10'>
-      <Link href={`/artistDashboard/${authUser?.uid}`} className='block'>Return To Artist Dashboard</Link> 
+      <div className='w-6/12 mx-auto mb-6 text-center mt-10'>
+        <Link href={`/artistDashboard/${authUser?.uid}`} className='block'>Return To Artist Dashboard</Link> 
+      </div>
     </div>
+    <Footer />
   </div>
   )
 }

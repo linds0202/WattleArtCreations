@@ -122,7 +122,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
     // Listen to changes for loading, authUser, and mode and redirect if needed
     useEffect(() => {
-        console.log('authUser: ', authUser)
+
         if (!isLoading && mode === 'NSFW' && !authUser ) {
             setOpenLogin(true)
             setMode('Home')

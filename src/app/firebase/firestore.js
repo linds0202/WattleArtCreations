@@ -125,7 +125,7 @@ export function updateUserById(userId) {
 }
 
 //update any user data
-export function updateUserData(user) {
+export async function updateUserData(user) {
   updateDoc(doc(db, 'users', user.uid),  
     { ...user }, { merge: true }
   );
@@ -231,14 +231,17 @@ export async function addPortrait( data) {
     status: 'Unordered',
     lastUpdatedStatus: new Date,
     paymentComplete: false,
-    uploadedImageUrls: [],
-    uploadedImageBucket: [],
-    uploadedImageInfo: [],
     revisions: data.revisions,
     revised: false,
     reassigned: false,
     additionalRevision: false,
-    artistSubmitted: []
+    artistSubmitted: [],
+    images: [],
+    finalImages: [],
+    revisionLevel: "",
+    additionalRevisionRequest: data.additionalRevisionRequest,
+    purchaseRevisionLink: data.purchaseRevisionLink,
+    revisionNotes: []
   })
   return portraitRef.id
 }
@@ -295,11 +298,11 @@ export async function getAllPortraits() {
 
 //Get one Portrait from uid
 export async function getPortrait(uid) {
-  console.log('in getPortrait')
+
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
   if (docSnap.exists()) {
-    console.log('docsnap.data: ', docSnap.data())
+
     return {
       ...docSnap.data(), 
       uid: uid     
@@ -319,15 +322,36 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
 //Submit an image for review 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
   const imageUrl = await getDownloadURL(imageBucket)
-  updateDoc(doc(db, 'portraits', portraitId), { images: arrayUnion({userId, imageUrl}), revised: true, artistSubmitted: arrayUnion(new Date) })
+  updateDoc(doc(db, 'portraits', portraitId), 
+    { 
+      finalImages: arrayUnion({userId, imageUrl, date: new Date}), 
+      revised: true, 
+      artistSubmitted: arrayUnion(new Date),    
+    })
 }
 
-//add customer uploaded images to new portrait
-export async function updateNewPortraitWithImages(portraitId, imageBucket, fileNames) {
-  const imageUrls = await getDownloadURLs(imageBucket)
+//add customer uploaded images to portrait
+export async function getImageUrls(portraitId, imageBucket, uploads) { 
+  const urls = []
+  for (const bucket of imageBucket) {
+    const imageUrls = await getDownloadURLs(bucket)
+    urls.push(imageUrls)
+  }
+
+  const fileNames = []
+  for(const fileGroup of uploads) {
+    const fileGroupNames = []
+    for(const file of fileGroup.files) {
+      fileGroupNames.push(file.name)
+    }
+    fileNames.push(fileGroupNames)
+  }
   
-  updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: imageUrls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
-  return imageUrls
+  const newImgs = urls.map((urlSet, i) => {
+    return {imageUrls: urlSet, fileNames: fileNames[i], text: uploads[i].text} 
+  })
+
+  return newImgs
 }
 
 //Edit customer uploaded images to portrait
@@ -338,8 +362,8 @@ export async function updateEditedPortraitWithImages(portraitId, imageBucket, fi
 }
 
 //delete info for removed file
-export async function deletePortraitImages(portraitId, imageBucket, urls, fileNames) {
-  updateDoc(doc(db, 'portraits', portraitId), { uploadedImageUrls: urls, uploadedImageBucket: imageBucket, uploadedImageInfo: fileNames})
+export async function deletePortraitImages(portraitId, images) {
+  updateDoc(doc(db, 'portraits', portraitId), { images: images})
 }
 
 
@@ -457,9 +481,20 @@ export async function addTestimonial( data) {
     text: data.text,
     stars: data.stars,
     includeImg: data.includeImg,
-    imgUrl: imgUrl.images[imgUrl.images.length - 1].imageUrl
+    imgUrl: imgUrl.finalImages[imgUrl.finalImages.length - 1].imageUrl
   })
   return testimonialRef.id
+}
+
+//Get testimonial for one portrait
+export async function getTestimonial(portraitId) {
+  const testimonial = []
+  const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("portraitId", "==", portraitId)))
+
+  documentSnapshots.forEach((doc) => {
+    testimonial.push({...doc.data(), uid: doc.id})
+  })
+  return testimonial[0]
 }
 
 

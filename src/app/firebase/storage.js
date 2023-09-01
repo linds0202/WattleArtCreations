@@ -17,14 +17,18 @@ export async function uploadImage(image, portraitId) {
 }
 
 // Uploads MULTIPLE images and returns the storage bucket
-export async function uploadImages(images, portraitId) {
+export async function uploadImages(uploads, portraitId) {
   const uploadedImgs = []
-  
-  for (const file of images) {
-    //const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
-    const bucket = `${BUCKET_URL}/${portraitId}/${file.name}`;
-    await uploadBytes(ref(storage, bucket ), file)
-    uploadedImgs.push(bucket)
+
+  for (const upload of uploads) {
+    const imgSet = []
+    for (const file of upload.files) {
+      //const formattedDate = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+      const bucket = `${BUCKET_URL}/${portraitId}/${file.name}`;
+      await uploadBytes(ref(storage, bucket ), file)
+      imgSet.push(bucket)
+    }
+    uploadedImgs.push(imgSet)
   }
   
   return uploadedImgs;
@@ -39,6 +43,15 @@ export function replaceImage(image, bucket) {
 export function deleteImage(id, name) {
   // Delete the file
   deleteObject(ref(storage, `${id}/${name}`))
+}
+
+// Deletes existing images in storage
+export async function deleteImages(id, names) {
+  // Delete the file
+  for(const name of names) {
+    await deleteObject(ref(storage, `${id}/${name}`))
+  }
+  
 }
 
 // Gets the download URL from the reference URL

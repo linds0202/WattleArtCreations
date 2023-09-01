@@ -80,10 +80,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         })
     }, [chars])
 
-    console.log('chars are: ', chars)
-    console.log('highPrice are: ', highPrice)
-    console.log('highestPIndex are: ', highestPriceIndex)
-
     const handleCharSubmit = (values) => {
         setCharVariations(false)
         setPet(false)
@@ -158,7 +154,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 if (updatedDiscount.every(char => char.charDiscount)) {
                     setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: false}])
                 } else {
-                    console.log('setting non-highest price')
                     setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: true}])
                 }
             } else {
@@ -203,13 +198,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     }
 
     const handleDeleteChar = (index: number) => {
-        console.log('index, highestPriceIndex is: ', index, highestPriceIndex)
 
         if (index === highestPriceIndex) {
             let highest = 0
             let highIndex = 0
             let deleteCharArr = chars.filter((char, i) => i !== index)
-            console.log('deletchararr: ', deleteCharArr)
+            
             //set new highest price & index
             deleteCharArr.forEach((char, i) => {
                 if (char.total > highest) {
@@ -220,8 +214,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 }
             })
 
-            console.log('highest, index: ', highest, highIndex)
-
             const updateDeleteCharArr = deleteCharArr.map((char, i) => {
                 if (i === highIndex) {
                     return {...char, charDiscount: false}
@@ -229,7 +221,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     return char
                 }
             })
-            console.log('updateDeleteCharArr: ', updateDeleteCharArr)
+            
             setChars(updateDeleteCharArr)
         } else {
             let deleteCharArr = chars.filter((char, i) => i !== index)

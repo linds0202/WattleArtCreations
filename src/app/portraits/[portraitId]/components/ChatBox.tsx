@@ -21,7 +21,7 @@ const ChatBox = ({ portraitId }) => {
    
     return (
       <main className="w-full relative">
-        <div className="messages-wrapper" id="chatBox">
+        <div className="messages-wrapper scrollbar-hide" id="chatBox">
           {messages?.map((message) => (
             <Message key={message.id}  message={message} />
           ))}

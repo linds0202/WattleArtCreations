@@ -1,6 +1,5 @@
-import {useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
-import { addChatMessage, addChatImage } from "@/app/firebase/firestore";
+import { addChatImage } from "@/app/firebase/firestore";
 import PhotoIcon from '@mui/icons-material/Photo';
 import { uploadImage } from "@/app/firebase/storage";
 

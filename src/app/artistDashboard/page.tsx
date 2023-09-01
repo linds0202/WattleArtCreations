@@ -7,6 +7,7 @@ import { Rating } from '@mui/material';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import Link from 'next/link';
 import { UserData } from './[userId]/portfolio/page';
+import Footer from '../components/Footer';
 
 const page = () => {
     
@@ -70,12 +71,15 @@ const page = () => {
     ))
 
     return (
-        <div className='p-4'>
-            <h1 className='text-6xl font-bold'>Our Artists</h1>
-            <p className='text-center'>Something here about the artists</p>
-            <div className='flex flex-wrap justify-around items-center mt-4'>
-                {artistList}
+        <div className='relative min-h-[100vh]'>
+            <div className='pb-36'>
+                <h1 className='text-6xl font-bold p-4'>Our Artists</h1>
+                <p className='text-center'>Something here about the artists</p>
+                <div className='flex flex-wrap justify-around items-center mt-4'>
+                    {artistList}
+                </div>
             </div>
+            <Footer />
         </div>
     )
 }

@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, Stack, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Dialog } from '@mui/material';
 import { useAuth } from '../../../firebase/auth';
 import { uploadImage } from '../../../firebase/storage';
 import { updatePortraitWithImage, getPortrait } from '@/app/firebase/firestore';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const DEFAULT_FILE_NAME = "No file selected";
@@ -50,14 +52,11 @@ export default function UploadImg(props) {
         setIsSubmitting(true);
         try {
             const bucket = await uploadImage(formFields.file, props.portrait.uid)
-
-            console.log('bucket in upload is: ', bucket)
             
             const portraitWithImages = await updatePortraitWithImage(props.portrait.uid, {userId: props.userId, imageBucket: bucket})
             //console.log('updated portrait: ', {...props.portrait, images: [...props.portrait?.images, {userId: props.userId, imageBucket: bucket}], revised: true, artistSubmitted: [...props.portrait.artistSubmitted, new Date] })
             
             const updatedPortrait = await getPortrait(props.portrait.uid)
-            console.log('updatedPortratit is: ', updatedPortrait)
             props.setPortrait(updatedPortrait)
         } catch (error) {
             console.log(error)
@@ -71,29 +70,48 @@ export default function UploadImg(props) {
         <Dialog
             onClose={() => closeDialog()}
             open={props.showDialog}
-            component="form">
-            <Typography variant="h4" >
-                {isEdit ? "EDIT" : "ADD"} Image
-            </Typography>
-            <DialogContent >
-                <Stack direction="row" spacing={2} >
+            fullWidth={true}
+            maxWidth='sm'
+            PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+        >
+            <IconButton onClick={() => closeDialog()} className='absolute top-2 right-2 text-white'>
+                <CloseIcon className='text-black hover:text-red-600'/>
+            </IconButton>
+            <div className="flex justify-center items-center mb-4">
+                <img className="mr-4 w-[25%] justify-self-center" src="../../drips/side_splashL.png" />
+                <h4 className='text-3xl font-bold text-center'>Add Image</h4>
+                <img className="ml-4 w-[25%] justify-self-center" src="../../drips/side_splashR.png" />
+            </div>
+            
+            
+            <div className='my-4 flex items-center'>
                 {(isEdit && !formFields.fileName) && <Avatar alt="portrait image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
-                <Button variant="outlined" component="label" color="secondary">
+                
+                <Button 
+                    variant="outlined"
+                    component="label" 
+                    className='text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF]'
+                >
                     Upload Image
                     <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
                 </Button>
-                <Typography>{formFields.fileName}</Typography>
-                </Stack>
-            </DialogContent>
-            <DialogActions>
+
+                <p className='ml-4'>{formFields.fileName}</p>
+            </div>
+            <div className='mt-8 flex justify-center items-center'>
                 {isSubmitting ? 
-                <Button color="secondary" variant="contained" disabled={true}>
+                <button type='button' disabled={true} className='text-xl text-[#e8e8e8] px-4 py-2 border-2 border-[##e8e8e8] rounded-xl' >
                     Submitting...
-                </Button> :
-                <Button color="secondary" variant="contained" disabled={isDisabled()} onClick={handleSubmit}>
+                </button> :
+                <button 
+                    type='button'
+                    disabled={isDisabled()} 
+                    onClick={handleSubmit}
+                    className='text-xl px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] cursor-pointer'    
+                >
                     Submit
-                </Button>}
-            </DialogActions>
+                </button>}
+            </div>
         </Dialog>
     )
 }

@@ -30,7 +30,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         //setCompleted(true)
         setPortrait(newPortrait)        
         setOpenComplete(false)
-        // router.push(`/testimonials?portraitId=${portraitId}&artistId=${artistId}`)
+        router.push(`/testimonials?portraitId=${portrait.uid}&artistId=${portrait?.artist[0].id}`)
     }
 
     const handleCancel = () => {
@@ -44,7 +44,6 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             fullWidth={true}
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-            className='relative'
         >
             <IconButton onClick={() => setOpenComplete(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
