@@ -7,7 +7,7 @@ import SlideCard from './SlideCard'
 const CategoryContainer = ({ setMode, mode }: ModeProps) => {
 
   const categories = ['Photorealistic', 'Anime', 'NSFW']
-  const [selectedCat, setSelectedCat] = useState(categories[0]);
+  const [selectedCat, setSelectedCat] = useState(mode === 'Home' ? categories[0] : categories[categories.indexOf(mode)]);
 
   return (
     <div className='w-full h-[100vh] mt-[50px] mb-[125px]'>

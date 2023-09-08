@@ -64,19 +64,7 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
                         >
                             <span className='font-semibold'>(see complete policy)</span> 
                         </Link></p>
-                        
-    
-                        {/* <p className='mb-4'>Our standard commission process includes <span className='text-[#2DD42B] text-xl font-bold'>2</span> free revisions on the final submitted piece.
-                        <Link 
-                            href='/revisions' 
-                            rel="noopener noreferrer" 
-                            target="_blank"
-                            className="text-[#2DD42B] hover:text-[#165f15] ml-2"
-                        >
-                            <span className='font-semibold'>(see complete policy)</span> 
-                        </Link>
-                        </p> */}
-                    
+                                            
 
                         {remainingRevisions > 0 &&
                             <div className='mt-8'>
@@ -90,11 +78,11 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
 
                         {remainingRevisions === 0 &&
                             <div className='flex flex-col items-center border-2 border-[#0075FF] rounded-xl p-4'>
-                                <p className='text-center text-lg'>You have utilized all of the included revisions for this portrait. </p>
+                                <p className='text-center text-lg font-bold'>You have utilized all included revisions for this portrait. </p>
                                 
-                                <h4 className='self-start font-semibold'>How to request additional revisions:</h4>
+                                <h4 className='mt-2 self-start text-[#0075FF] font-semibold'>To request an additional revision:</h4>
                                 
-                                <p>Discuss with Your Artist - If you need further adjustments, communicate your concerns with the artist. They will provide guidance on how to proceed and what can be done to ensure your satisfaction. If you decide to proceed with additional revisions, they will post a purchase link on your portrait page.</p>
+                                <p>If you need further adjustments, click below to notify your artist. They will provide guidance on how to proceed and what can be done to ensure your satisfaction. If you decide to proceed with additional revisions, they will post a purchase link on your portrait page.</p>
                             </div>
                         }
                     </div>
@@ -119,7 +107,7 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             <div className='w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
                 <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
                 <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>
-                    {remainingRevisions === 0 ? 'Request Additional Revisions' : 'Request Revision'}
+                    {remainingRevisions === 0 ? 'Request an Additional Revision' : 'Request Revision'}
                 </button>
             </div>
 

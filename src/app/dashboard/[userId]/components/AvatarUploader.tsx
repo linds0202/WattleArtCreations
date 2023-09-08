@@ -91,14 +91,18 @@ export default function AvatarUploader(props) {
             fullWidth={true}
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+            // className='z-10 bg-white'
         >
             <IconButton onClick={() => props.onCloseDialog(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
 
-            <Typography variant="h4" className='text-center text-[#0075FF] text-semibold'>
-                {isEdit ? "Edit" : "Add"} Avatar
-            </Typography>
+            <div className="flex justify-center items-center mb-4">
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <p className='text-4xl text-center font-bold mt-0'>{isEdit ? "Edit" : "Add"} Avatar</p>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+            </div>
+    
             <DialogContent >
                 <div className='flex justify-center items-center'>
                 <Button 

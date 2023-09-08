@@ -57,6 +57,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
 
         })
     }, [])
+
+    console.log('role is: ', role)
       
 
     const updateQuestions = async (values: PortraitData) => {
@@ -124,7 +126,12 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             
-            <h1 className='text-3xl font-bold mb-2'>Portrait Details </h1>
+            <div className="flex justify-center items-center mb-4">
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <p className='text-4xl text-center font-bold mt-0'>Portrait Details</p>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+            </div>
+
             {canEditQs && role !== 'Customer' && <p className='text-sm text-[#9e9e9e] text-center mb-8'>Customer can still edit the following info</p>}
 
             
@@ -139,36 +146,37 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             <CharList portrait={portrait} />
 
             {/* display images customer uploaded during creation */}
-            <div className=' my-4'>
+            <div className='bg-[#e8e8e8] rounded-lg p-4 my-4'>
                 <p className='text-black'>Images uploaded by customer: <span className='text-[#9e9e9e]'>(click image to enlarge)</span></p>
 
                 <div className='w-full flex mt-4'>
-                    {role !== 'Customer' && portrait?.images.length === 0
-                        ? <p className='text-lg text-red-600'>(No images uploaded)</p>
-                        : portrait.images.map((imgSet, i) => 
-                            <div 
-                                key={i} 
-                                className={`relative flex justify-start items-center border-2 border-[#282828] rounded-lg mr-4 ${canEditQs && role === 'Customer' ? 'pr-4' : ''}`}
-                                
-                            >
-                                {imgSet.imageUrls.map((url, j) => <img 
-                                    className="w-[32px] h-[32px] object-contain m-2 cursor-pointer" 
-                                    key={j} 
-                                    src={url}
-                                    onClick={() => handleOpenImgSet(i)}
-                                />)}
-                                
-                            </div>
-                        )
+                    {role !== 'Customer' && portrait?.images.length === 0 && <p className='text-lg text-red-600'>(No images uploaded)</p>}
+                    
+                    {portrait?.images.length !== 0 && ((!canEditQs && role === 'Customer') || role !== 'Customer') &&
+                    <div className='w-full bg-white rounded-xl p-4 flex flex-wrap'> 
+                            {portrait.images.map((imgSet, i) => 
+                                <div 
+                                    key={i} 
+                                    className={`relative flex justify-start items-center border-2 border-[#282828] rounded-lg mr-4 ${canEditQs && role === 'Customer' ? 'pr-4' : ''}`}
+                                    
+                                >
+                                    {imgSet.imageUrls.map((url, j) => <img 
+                                        className="w-[32px] h-[32px] object-contain m-2 cursor-pointer" 
+                                        key={j} 
+                                        src={url}
+                                        onClick={() => handleOpenImgSet(i)}
+                                    />)}
+                                    
+                                </div>
+                            )}
+                        </div>
                     }
 
 
-
-
                     {canEditQs && role === 'Customer' &&
-                    <div>
-                        <div className='w-[48%] border-2 border-[#282828] rounded-xl p-4 flex flex-wrap'>
-                            <p className='w-full'>Previously Uploaded Image Sets:</p>
+                    <div className='w-full flex justify-around'>
+                        <div className='w-[48%] bg-white rounded-xl px-4 py-2 flex flex-wrap'>
+                            <p className='w-full mb-2'>Previously Uploaded Image Sets:</p>
                             {portrait?.images.length === 0
                                 ? <p className='text-lg text-red-600'>(No images uploaded)</p>
                                 : portrait.images.map((imgSet, i) => 
@@ -202,11 +210,9 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                         </div>
 
                     
-                        <div  className='w-[48%] border-2 border-[#282828] rounded-xl p-4 flex flex-wrap items-center'>
+                        <div  className='w-[48%] bg-white rounded-xl px-4 py-2 flex flex-wrap items-center'>
                             
-                            <div className='w-full flex justify-between'>
-                                <p>Upload Images:</p>
-                            </div>
+                            <p className='w-full mb-2'>Upload Images:</p>
                         
                             {openUpload && 
                                 <UploadImages 
@@ -249,6 +255,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                     
                     
                 </div>
+
                 {openImgSet && 
                   <ImgSet 
                     openImgSet={openImgSet} 

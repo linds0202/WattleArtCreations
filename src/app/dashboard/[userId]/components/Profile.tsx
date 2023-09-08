@@ -99,9 +99,9 @@ const Profile = (user: UserData) => {
     }
     
     return (
-        <div className='relative p-10'>
+        <div className='relative px-14 py-4'>
             <div className='flex justify-between items-center'>
-                <div className='flex justify-between items-center'>
+                <div className='text-white flex justify-between items-center'>
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
                         <Image src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
                         
@@ -109,8 +109,6 @@ const Profile = (user: UserData) => {
                             <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
                         </IconButton>
                     </div>
-
-                    
 
                     <AvatarUploader
                         setChangeAvatar={setChangeAvatar}
@@ -121,7 +119,7 @@ const Profile = (user: UserData) => {
                     </AvatarUploader>
 
                     {userData && 
-                        <div className='w-[60%] flex flex-col justify-center items-start ml-10'>
+                        <div className='w-[60%] flex flex-col justify-center items-start ml-16'>
                             <div className='flex items-center'>
                                 <h1 className='text-4xl font-bold'>{userData?.displayName}</h1>
                                 {!isEdit && 
@@ -129,7 +127,7 @@ const Profile = (user: UserData) => {
                                         onClick={handleClick}
                                         className="ml-4"
                                     >
-                                        <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }}/>
+                                        <EditIcon sx={{ fontSize: 24, color: '#FFFFFF', ":hover": { color: "#0075FF"} }}/>
                                     </button>
                                 }
                             </div>
@@ -140,7 +138,7 @@ const Profile = (user: UserData) => {
 
                 </div>
                 
-                <div className='w-[40%] border-2 border-[#282828] rounded-xl p-4  relative'>
+                <div className='w-[40%] bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
                     <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#0075FF] text-white font-bold rounded-full flex justify-center items-center'>
                         <p className='text-center'>-{discount?.discount}%</p>
                     </div>

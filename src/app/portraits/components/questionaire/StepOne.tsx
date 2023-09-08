@@ -275,15 +275,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <div key={i} 
                     className='w-[48%] h-auto mt-8 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                 >
-                    <div className={`w-[75px] h-[75px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex flex-col justify-center items-center`}>
+                    <div className={`w-[110px] h-[110px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex flex-col justify-center items-center`}>
                         <p className="text-white text-2xl font-bold">
                             ${!char.charDiscount 
-                            ? <span>{char.total}</span> 
+                            ? <span>{char.total.toFixed(2)}</span> 
                             : 
-                            <span>{char.total * .9}</span>
+                            <span>{(char.total * .9).toFixed(2)}</span>
                             }                        
                         </p>
-                        {char.charDiscount && <p className="text-white text-xs line-through">${char.total}</p>}
+                        {char.charDiscount && <p className="text-white text-xs line-through">${char.total.toFixed(2)}</p>}
                     </div>
                     <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
                         <DeleteForeverIcon />
@@ -306,6 +306,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     </div>
                 </div>
             ))}
+            
             {!openCharMod && 
                 <div className='w-5/12 flex flex-col justify-center items-center'>
                     <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10 hover:bg-none border-2 border-black'>
@@ -570,11 +571,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             </div>   
                         </div> 
                         <div className="w-10/12 flex justify-center items-center">
-                            {/* <img className="mt-8 mr-8 w-[15%] justify-self-center" src="./drips/side_splashL.png" /> */}
                             <button type="submit" className='text-black hover:text-white border-2 border-black hover:bg-[#282828] rounded-lg py-2 px-4 mt-8'>
                                 Complete Character
                             </button>
-                            {/* <img className="mt-8 ml-8 w-[15%] justify-self-center" src="./drips/side_splashR.png" /> */}
                         </div>
                         
                     </Form>
@@ -587,24 +586,3 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 }
 
 export default StepOne
-
-
-
-        {/* <Formik
-            initialValues={portraitData}
-            onSubmit={handleSubmit}
-        >
-            {({ values }) => (
-            <Form> */}
-                {/* <div className='flex justify-around items-center w-8/12 mx-auto'>
-                    <button 
-                        // type="submit" 
-                        onClick={handleSubmit}
-                        className='w-4/12 mx-auto my-4 text-black border-2 border-black rounded-lg px-4 py-2'>
-                        Finished Adding Characters
-                    </button>
-                </div> */}
-{/*                 
-            </Form>
-            )}
-        </Formik> */}

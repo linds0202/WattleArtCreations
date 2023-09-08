@@ -54,6 +54,7 @@ export interface PortraitData  {
     customer: string,
     customerId: '',
     artist: [],
+    artistNotes: [],
     artistAssigned: boolean,
     creationDate: Date,
     purchaseDate: Date,
@@ -65,7 +66,6 @@ export interface PortraitData  {
     revised: boolean,
     reassigned: boolean,
     additionalRevision: boolean,
-    artistSubmitted: Array<Date>,
     images: Array<UploadedImgs>
     finalImages: Array<FinalImages>,
     revisionLevel: string,
@@ -132,7 +132,7 @@ const DEFAULT_FORM_STATE = {
 };
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
-    
+
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
@@ -148,6 +148,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         customer: '',
         customerId: '',
         artist: [],
+        artistNotes: [],
         artistAssigned: false,
         creationDate: new Date(),
         purchaseDate: new Date(),
@@ -159,7 +160,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         revised: false,
         reassigned: false,
         additionalRevision: false,
-        artistSubmitted: [],
         images: [],
         finalImages: [],
         revisionLevel: "",
@@ -190,11 +190,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
+        console.log('authUser: ', authUser)
         if (authUser) {
             setLogin(false)
+        } else if(selection === 'NSFW' && !authUser?.oldEnough) {
+            setLogin(true)
         }
     }, [authUser])
-
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
@@ -249,8 +251,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             
             setPortraits(prev => ([ ...prev, updatedPortrait ]))
 
-            // //Add completed portrait to users reward totals
-            // updateCustomerCommissionsTotal(authUser.uid)
+            //Add completed portrait to users reward totals
+            updateCustomerCommissionsTotal(authUser.uid)
         }
 
         setEditPortrait(null)
@@ -276,7 +278,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 let updateUploadedImagesArr: Array<UploadedImgs> = portraitData.images.filter((img, j) => j !== i)
                 console.log('updateUploadedImagesArr: ', updateUploadedImagesArr)
 
-                //console.log('calling deletportrait Images')
                 //update portrait in database
                 await deletePortraitImages(editPortrait.id, updateUploadedImagesArr)
                 
@@ -365,10 +366,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     </div>
 
                                     {editPortrait && portraitData?.images.length !== 0 &&
-                                    <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 border-[#282828] rounded-xl p-4'>
-                                        <p>Remove previously uploaded images:</p>
+                                    <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 bg-[#e8e8e8] rounded-xl p-4'>
+                                        <p>Previously uploaded images:</p>
                                         {portraitData.images.map((imgGroup, i) =>
-                                        <div key={i} className='border-2 border-[#282828] rounded-lg mx-4 p-2 flex '>
+                                        <div key={i} className='bg-white rounded-lg mx-4 p-2 flex '>
                                             {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain'/>)}
 
                                             <button 
@@ -432,7 +433,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                           <div className='mt-8 w-full flex justify-around items-center'>
                             {/* Prompt for login */}
                             <Dialog onClose={() => setLogin(false)} open={login}>
-                              {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+                                <div className=''>
+                                    {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
+                                </div>
+                              
                             </Dialog>
                           </div>
                       </Form>
@@ -444,113 +448,3 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 }
 
 export default PortraitCustomizer
-
-
-// const { authUser, isLoading } = useAuth();
-// const [login, setLogin] = useState(false);
-
-// const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
-//     mode: option, 
-//     characters: [],
-//     questions: [{}, {}, {}, {}, {}],
-//     price: 0,
-//     customer: '',
-//     customerId: '',
-//     artist: '',
-//     date: new Date(),
-//     status: '',
-//     lastUpdatedStatus: new Date(),
-//     paymentComplete: false,
-// })
-
-// const [chars, setChars] = useState(portraitData.characters)
-// const [pet, setPet] = useState(false)
-// const [charSheet, setCharSheet] = useState(false)
-// const [weaponSheet, setWeaponSheet] = useState(false)
-// const [customizing, setCustomizing] = useState(false)
-
-
-// const submitPortrait = async (portraitFormData: PortraitData) => {
-
-//     const newPortrait = {...portraitFormData, characters: chars}
-    
-//     if (editPortrait) {
-//         let editedPortraitsData = portraits.map((portrait, i) => {
-//             if (editIndex === i) {
-//                 return newPortrait
-//             } else {
-//                 return portrait
-//             }
-//         })
-//         setPortraits(editedPortraitsData)
-//     } else {
-//         setPortraits(prev => ([ ...prev,  newPortrait]))
-//     }
-//     setEditPortrait(null)
-//     setOpenWizard(false)
-// }    
-
-// console.log('portraitData (in portrait customizer): ', portraitData)
-
-
-// (
-//     <div className="w-11/12 mx-auto">
-
-//         <StepOne 
-//             option={option} 
-//             portraitData={portraitData} 
-//             setPortraitData={setPortraitData}
-//             chars={chars}
-//             setChars={setChars} 
-//             setPet={setPet}
-//             setCharSheet={setCharSheet}
-//             setWeaponSheet={setWeaponSheet} 
-//             setCustomizing={setCustomizing}
-//         />
-    
-//         {authUser && portraitData.characters.length !== 0 && !customizing && 
-//             <Formik
-//                 initialValues={portraitData}
-//                 onSubmit={submitPortrait}
-//             >
-//             {({ values }) => (
-//                 <Form className='w-full '>
-//                     <div>
-//                         <h3>Let us know more. . .</h3>
-//                         <StepTwo 
-//                             pet={pet}
-//                             charSheet={charSheet}
-//                             weaponSheet={weaponSheet} 
-//                         />
-//                     </div>
-//                     <div className='mt-8 w-full flex justify-around items-center'>
-//                         <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-//                             Finish Portrait
-//                         </button>
-//                     </div>
-//                 </Form>
-//             )}
-//         </Formik>}
-
-//         { ( portraitData.characters.length !== 0 && !customizing && !authUser) && 
-//             <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px] h-[400px] rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4'>
-//                 <h3 className='text-2xl font-bold'>Please login to continue</h3>
-//                 <p>In order to fully customize your portrait, please create an account</p>
-//                 <Button variant="contained" color="secondary"
-//                     onClick={() => setLogin(true)}>
-//                     Login / Register
-//                 </Button>
-//             </div>
-//         }
-            {/* {authUser && <button type="submit" className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-                                Add to Cart
-                            </button>}
-                            {!authUser && chars.length !== 0 && <Button onClick={handleLogin} className='w-3/12 text-black border-2 border-black rounded-lg p-2 text-center'>
-                                Login/Create Account to Continue
-                            </Button>} */}
-//         {/* Prompt for login */}
-//         <Dialog onClose={() => setLogin(false)} open={login}>
-//             <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-//         </Dialog>
-//     </div>
-// )

@@ -27,7 +27,7 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
     }
 
     return (
-        <div className='w-8/12 mx-auto my-10 border-2 border-black rounded-xl relative'>
+        <div className='w-8/12 mx-auto my-10 bg-white border-2 border-black rounded-xl relative'>
             <p className='text-center text-3xl font-bold mt-4'>Customer Details</p>
 
             <IconButton onClick={() => setIsEdit(false)} className='absolute top-2 right-2 text-white'>

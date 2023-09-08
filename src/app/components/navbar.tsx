@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Dialog, CircularProgress } from '@mui/material';
+import { Dialog, CircularProgress, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -10,13 +10,13 @@ import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
 import { auth } from '../firebase/firebase';
 import { updateUserById } from '../firebase/firestore';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-// const REDIRECT_PAGE = '/dashboard';
 
 // Configure FirebaseUI.
 const uiConfig = {
   signInFlow: 'popup', // popup signin flow rather than redirect flow
-  // signInSuccessUrl: '/',
   signInOptions: [
     {
       provider: EmailAuthProvider.PROVIDER_ID,
@@ -33,14 +33,20 @@ const uiConfig = {
 };
 
 export default function NavBar() {
+  
   const { authUser, setAuthUser, isLoading, signOut } = useAuth()
   const currentUrl = usePathname()
   const baseUrl = currentUrl.split('/')[1]
   const router = useRouter()
+  
   const [login, setLogin] = useState(false)
   const [openConfirm, setOpenConfirm] = useState(false)
+  const [clickedNSFW, setClickedNSFW] = useState(false)
   
-  const handleClose = () => {
+
+  const handleClose = (event, reason) => {
+    if (reason && reason == "backdropClick") 
+        return;
     setLogin(false)
   }
 
@@ -48,10 +54,20 @@ export default function NavBar() {
   useEffect(() => {
     if (authUser) {
       setLogin(false)
+      
+      if (!authUser?.oldEnough && clickedNSFW) {
+        setOpenConfirm(true)
+      } else if(clickedNSFW) {
+        router.push('/?selection=NSFW') 
+      }
     }
   }, [authUser, login])
 
-  const handleOldEnough = () => {
+  const handleOldEnough = (e) => {
+    e.preventDefault()
+    
+    setClickedNSFW(true)
+    
     if (!authUser) {
       setLogin(true)
     } else if (!authUser.oldEnough) {
@@ -64,13 +80,19 @@ export default function NavBar() {
   const handleConfirm = () => {
     updateUserById(authUser?.uid)
     setAuthUser({...authUser, oldEnough: true})
+    setClickedNSFW(false)
     setOpenConfirm(false)
-    router.refresh()
+    router.push('/?selection=NSFW')
   }
 
   const handleCancel = () => {
       setOpenConfirm(false)
       router.push('/')
+  }
+
+  const handleRedirect = () => {
+    setLogin(false)
+    router.push('/')
   }
 
   return ((isLoading ) ? 
@@ -117,16 +139,7 @@ export default function NavBar() {
         </button>
       </div> }
 
-      {/* <Link href={{
-                pathname: '/',
-                query: {selection: 'NSFW'},
-                }} 
-            className="text-xl no-underline text-center hover:text-violet-600"
-        >
-            NSFW
-        </Link> */}
-
-      {/* (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue') && */}
+     
       {(authUser?.roles === 'Artist' || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue'))) && 
         <div className='flex justify-between items-center'>
           <div className='pr-4'>
@@ -223,22 +236,38 @@ export default function NavBar() {
       {openConfirm && authUser && !authUser.oldEnough &&
         <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white text-black border-2 border-[#282828] z-[100]">
             <h2 className="text-3xl font-bold">You must be over <span className="text-[#0075FF] text-4xl">18</span> to create a NSFW Portrait</h2>
-            <p className="text-center mt-4 text-xl">Are you over 18?</p>
-            <div className="w-8/12 mx-auto mt-2 flex justify-around items-center">
+            <p className="text-center mt-12 text-2xl">Are you over 18?</p>
+            <div className="w-8/12 mx-auto mt-8 flex justify-around items-center">
+                
+                <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#282828] py-2" onClick={handleCancel}>No</button>
+
                 <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] py-2" onClick={handleConfirm}>Yes</button>
-                <button className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-red-600 py-2" onClick={handleCancel}>No</button>
             </div>
         </div>
       }
 
       <Dialog onClose={handleClose} open={login}>
-        <div className='bg-[#282828] flex flex-col justify-between items-center'>
+        
+        <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
+          <IconButton onClick={() => setLogin(false)} className='absolute top-2 right-2 text-white'>
+              <CloseIcon className='text-white hover:text-red-600'/>
+          </IconButton>
           <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
-          <div className='bg-white rounded-b-lg py-4'>
-            <h3 className='text-black text-center text-lg font-semibold pb-4'>Login/Register</h3>
-            {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
-          </div>
+          <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+          <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+          
+          <Button 
+              onClick={handleRedirect}
+              className='pt-4'
+          >
+              <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
+                  <p className='text-md' >Return to Homepage</p>
+              </div>
+                  
+          </Button>  
         </div>
+        
       </Dialog>
     </div>
   );

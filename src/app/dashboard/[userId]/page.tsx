@@ -95,56 +95,61 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-
+  // f_hero_drip
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
-    <div className='bg-white text-black pt-3 pb-36'>
-        <Profile user={currentUser}/>
-        <h2 className='text-3xl'>My Portraits</h2>
-        <div className='flex justify-around items-center mt-4'>
-          <button 
-            onClick={() => handleFilter('Unordered')} 
-            className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
-          >
-            Unordered
-          </button>
-          <button 
-            onClick={() => handleFilter('Unassigned')} 
-            className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
-          >
-            Unassigned
-          </button>
-          <button 
-            onClick={() => handleFilter('In Progress')} 
-            className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
-          >
-            In Progress
-          </button>
-          <button 
-            onClick={() => handleFilter('Completed')} 
-            className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
-          >
-            Completed
-          </button>
-          <button 
-            onClick={() => handleFilter('Clear')} 
-            className='border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
-          >
-            Clear Filters
-          </button>
-        </div>
-        <div className='flex flex-col items-center'>
-          {filtered.length === 0 ? 
-            <p className='text-2xl font-bold mt-8'>No portraits to display</p>
-          :  filtered?.map(portrait => (
-            <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
-          )) }
-        </div>   
-      </div>
+    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../drips/dashboard_top.png" /> 
 
-      <Footer />
+    <div className=' text-black pt-3 pb-36'>
+    
+      <Profile user={currentUser}/>
+      
+      <h2 className='text-4xl  font-bold'>My Portraits</h2>
+      
+      <div className='flex justify-around items-center mt-4'>
+        <button 
+          onClick={() => handleFilter('Unordered')} 
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+        >
+          Unordered
+        </button>
+        <button 
+          onClick={() => handleFilter('Unassigned')} 
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+        >
+          Select Artist
+        </button>
+        <button 
+          onClick={() => handleFilter('In Progress')} 
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+        >
+          In Progress
+        </button>
+        <button 
+          onClick={() => handleFilter('Completed')} 
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+        >
+          Completed
+        </button>
+        <button 
+          onClick={() => handleFilter('Clear')} 
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+        >
+          Clear Filters
+        </button>
+      </div>
+      <div className='mt-4 flex flex-col items-center'>
+        {filtered.length === 0 ? 
+          <p className='text-2xl font-bold mt-8'>No portraits to display</p>
+        :  filtered?.map(portrait => (
+          <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
+        )) }
+      </div>   
+    </div>
+    
+    <Footer />
   </div>
   
   )

@@ -12,7 +12,6 @@ const Submission = ({ portrait }: SubmissionProps) => {
     const [days, setDays] = useState(0);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(0);
     const [loadingTime, setLoadingTime] = useState(false)
     
     useEffect(() => {
@@ -32,10 +31,7 @@ const Submission = ({ portrait }: SubmissionProps) => {
     
           const m = Math.floor((difference  - (d * 86400) - (h * 3600)) / 60)
           setMinutes(m)
-    
-          const s = Math.floor(difference - (d * 86400) - (h * 3600) - (m * 60))
-        //   setSeconds(s)
-    
+        
     
           if (difference <= 0 ) { 
             setCanApprove(false)
@@ -76,7 +72,7 @@ const Submission = ({ portrait }: SubmissionProps) => {
                         
                     </div>
                     
-                    <p className='mt-4 mb-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1]?.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.artistSubmitted[portrait?.artistSubmitted.length - 1]?.seconds * 1000).toLocaleTimeString()}</span></p>
+                    <p className='mt-4 mb-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</span></p>
                     
                     
                 </div>

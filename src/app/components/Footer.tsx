@@ -10,7 +10,7 @@ export default function Footer(){
         <div className={`w-[100%] ${(currentUrl === '/' || currentUrl === '/corporate') ? '' : 'absolute bottom-0 h-28'}`}>
             {(currentUrl === '/' || currentUrl === '/corporate') 
             ? <div className='w-full h-[500px] relative mt-0 footer'>
-                <div className='w-5/12 absolute bottom-[16%] left-[33%] flex justify-between'>
+                <div className='w-[37%] absolute bottom-[16%] left-[35%] flex justify-between'>
                     <Link href='/' className='no-underline'>
                         <div className='ml-4 flex items-center w-10/12'>
                             <img src={'./Logo_Circle.png'} alt={'logo'} className='w-[64px] h-[64px]' />
@@ -48,7 +48,7 @@ export default function Footer(){
                     <div>
                         <Link href='/' className='no-underline'>
                             <div className='ml-4 flex items-center w-10/12'>
-                                <img src={'./Logo_Circle.png'} alt={'logo'} className='w-[64px] h-[64px]' />
+                                <img src={'../Logo_Circle.png'} alt={'logo'} className='w-[64px] h-[64px]' />
                                 <div className='w-full ml-4 '>
                                     <p className='font-semibold text-xl mb-0 text-white no-underline'>Wattle Art Creations</p>
                                 </div>

@@ -71,11 +71,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                         
                     </div>
                 </ActionCenterAccordion>
-                {/* <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <p className="bg-white py-2 px-4 rounded-lg">You submitted an image on: <span className="font-semibold ml-2">{new Date(image.date.seconds * 1000).toLocaleString()}</span></p>
-                    </div>
-                </ActionCenterAccordion> */}
+            
                 {portrait?.revisionNotes[i] 
                 ? <CustomerRevision 
                     key={i} 
@@ -94,7 +90,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                 }
 
                 {(portrait?.finalImages.length === portrait?.revisionNotes.length && portrait?.revisionNotes.length - 1 === i) && 
-                <ActionCenterAccordion title={`${portrait?.artistSubmitted.length === portrait?.revisionNotes.length ? 'Submit Image' : 'Artist Submission'}`} open={portrait?.finalImages.length === portrait?.revisionNotes.length} attention={portrait?.finalImages.length === portrait?.revisionNotes.length} >
+                <ActionCenterAccordion title={`${portrait?.finalImages.length === portrait?.revisionNotes.length ? 'Submit Image' : 'Artist Submission'}`} open={portrait?.finalImages.length === portrait?.revisionNotes.length} attention={portrait?.finalImages.length === portrait?.revisionNotes.length} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                         <p className="font-semibold ">Your customer requested a revision on: </p>
                         <p className='text-md'>{new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</p>
@@ -110,6 +106,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                     </div>
                 </ActionCenterAccordion>}
             </div>}
+
             {i >= 2 &&
             <>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
@@ -122,6 +119,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                         
                     </div>
                 </ActionCenterAccordion>
+                
                 {portrait?.revisionNotes[i] 
                 ? <CustomerRevision 
                         key={i} 
@@ -220,7 +218,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
 
 
 
-            {portrait?.artistSubmitted.length === 0 
+            {portrait?.finalImages.length === 0 
             ? <ActionCenterAccordion title={'First Upload'} open={true} attention={true} >
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                     <h3 className='text-xl font-bold text-center mb-4'>Submit an Image</h3>
@@ -232,25 +230,23 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
 
 
             
-            
+            {/* Additional Revisions */}
             {portrait?.additionalRevisionRequest && 
             <div>
 
-                <ActionCenterAccordion title={'Chat with Your Customer'} open={true} attention={true} >
+                {!portrait?.additionalRevision && <ActionCenterAccordion title={'Chat with Your Customer'} open={true} attention={true} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <p className="bg-white py-2 px-4 rounded-lg">Chat with your customer about their revision request. Discuss additional costs and time requirements. When ready, select a level for the revision below to create a payment button for your customer</p>
+                        <p className="bg-white py-2 px-4 rounded-lg">Chat with your customer about their revision request. Discuss additional costs and time requirements. When ready, select the level for the revision below to create a payment button for your customer</p>
                     </div>
-                </ActionCenterAccordion>
+                </ActionCenterAccordion>}
 
 
 
 
 
-                <ActionCenterAccordion title={'Additional Revisions'} open={portrait?.additionalRevisionRequest || portrait?.additionalRevision} attention={portrait?.additionalRevisionRequest || portrait?.additionalRevision} >
+                {!portrait?.revised && <ActionCenterAccordion title={'Additional Revisions'} open={portrait?.additionalRevisionRequest || portrait?.additionalRevision} attention={portrait?.additionalRevisionRequest || portrait?.additionalRevision} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        {portrait?.revised
-                        ? <p>"Your customer has not responded to your submission yet"</p>
-                        : <div>
+                        <div>
                             {portrait?.additionalRevision 
                                 ? <div>
                                     
@@ -285,10 +281,10 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                                 />
                             }
                                 
-                        </div>}
+                        </div>
                         
                     </div>
-                </ActionCenterAccordion>
+                </ActionCenterAccordion>}
             </div>}
 
 

@@ -68,12 +68,18 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
       <IconButton onClick={() => setOpenUpload(false)} className='absolute top-2 right-2 text-white'>
           <CloseIcon className='text-black hover:text-red-600'/>
       </IconButton>
+
+      <div className="flex justify-center items-center mb-4">
+          <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+          <p className='text-4xl text-center font-bold mt-0'>Image Upload</p>
+          <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+      </div>
       
       <div className='w-10/12 flex justify-between items-center'>
         <div className="flex justify-center items-center">
           <Button component="label" 
               variant="outlined"
-              className='self-start mt-2 text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
+              className='self-start text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
           >
               Upload Image
               <input type="file" hidden onInput={(event) => {handleFile(event.target)}} />
@@ -95,7 +101,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
         </div>
       </div>
       
-      <div className='w-10/12 '>
+      <div className='w-full mt-4 flex flex-col'>
         <label className='text-sm leading-3'>
             Add info about your images
         </label>
@@ -106,14 +112,14 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
             value={ text || "" }
             name="text"
             onChange={ onChange } 
-            className="text-sm w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"
+            className="text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"
         />
       </div>
       <div className='mt-4 flex'>
         <button
           type='button'
           onClick={() => setOpenUpload(false)}
-          className='border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-red-600 hover:text-white'
+          className='border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#282828] hover:text-white'
         >
           Cancel
         </button>

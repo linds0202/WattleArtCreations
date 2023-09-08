@@ -10,12 +10,12 @@ interface CustomerRevisionProps {
 }
 
 const CustomerRevision = ({portrait, note, img, latest, index}: CustomerRevisionProps) => {
-    
+    console.log('latest: ', latest)
     return (
             <ActionCenterAccordion title={`${index >= 2 ? 'Additional Revision Request': 'Revision Request'}`} open={latest} attention={latest} >
                 
-                <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col items-center">
-                    <div className="flex justify-between items-center">
+                <div className="w-full bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col items-center">
+                    <div className="w-full flex justify-between items-center">
                         <img src={img} className='w-[96px] h-[96px] object-contain rounded-lg'/>
                         <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
                             <p >{note?.text}</p>

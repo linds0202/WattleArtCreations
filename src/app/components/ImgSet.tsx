@@ -32,12 +32,18 @@ const ImgSet = ({openImgSet, setOpenImgSet, imgSet }: ImgSetProps ) => {
             onClose={() => setOpenImgSet(false)} 
             open={openImgSet} 
             fullWidth={true}
-            maxWidth='sm'
-            PaperProps={{ sx: { maxHeight: '100vh', p: 6, backgroundColor: "white"} }}
+            maxWidth='lg'
+            PaperProps={{ sx: { maxHeight: '80vh', p: 6, backgroundColor: "white"} }}
         >
             <IconButton onClick={() => setOpenImgSet(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
+
+            <div className="flex justify-center items-center mb-4">
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <p className='text-4xl text-center font-bold mt-0'>Uploaded Image Set</p>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+            </div>
             
             <DialogContent
                 style={{height:'80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
@@ -52,7 +58,14 @@ const ImgSet = ({openImgSet, setOpenImgSet, imgSet }: ImgSetProps ) => {
                 </div>
                 
                 <p className='w-10/12 mx-auto border-2 border-[#E9E9E9] rounded-lg p-4 mt-8'>{imgSet.text}</p>
-
+                
+                <button 
+                    type='button' 
+                    onClick={() => setOpenImgSet(false)}
+                    className='w-1/3 mt-8 text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#282828] hover:text-white'
+                >
+                    Close
+                </button>
                 
                 {openImage &&
                   <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src} final={false}/>

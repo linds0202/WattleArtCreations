@@ -23,12 +23,12 @@ const page = () => {
     }, [])
 
     const artistList = artistData.map((artist, i) => (
-        <div key={i} className='w-[30%] border-2 border-[#282828] rounded-xl'>
-            <img className='w-[90%] h-[250px] object-cover mx-auto rounded-t-xl ml-4 mt-4 mr-4' src='./animeImgs/anime10.png' />
-            <div className='bg-[#282828] rounded-b-lg text-white p-4'>
+        <div key={i} className='w-[30%] h-[100%] border-2 border-[#282828] rounded-xl pt-4'>
+            <img className='w-[90%] h-[50%] object-cover mx-auto rounded-t-xl' src='./animeImgs/anime10.png' />
+            <div className='w-[100%] h-[50%] bg-[#282828] rounded-b-lg text-white p-4 flex flex-col justify-between'>
                 <Link href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
-                    <div className='w-8/12 mx-auto mt-2 flex justify-around items-center'>
+                    <div className='w-6/12 mx-auto mt-2 flex justify-around items-center'>
                         <Rating 
                             name="read-only" 
                             value={artist.starRating} 
@@ -40,7 +40,7 @@ const page = () => {
                         <p className='ml-2 text-sm'>&#x2022; <span className='ml-2 font-semibold'>{artist.totalReviews}</span> reviews</p>
                     </div>
                     <p className='ml-4 text-sm text-center'><span className='font-semibold'>{artist.totalCompletedCommissions}</span> completed commissions</p>
-                    <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 10).join(" ")}...</p>
+                    <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 20).join(" ")}...</p>
                 </Link>
                 <div className='flex justify-center items-center mt-2'>
                     {artist.links.map((link, i) => 
@@ -72,10 +72,11 @@ const page = () => {
 
     return (
         <div className='relative min-h-[100vh]'>
+            <img className="w-full absolute -top-[16px] left-0" src="../customizer/customizer.png" />
             <div className='pb-36'>
                 <h1 className='text-6xl font-bold p-4'>Our Artists</h1>
                 <p className='text-center'>Something here about the artists</p>
-                <div className='flex flex-wrap justify-around items-center mt-4'>
+                <div className='h-[65vh] flex flex-wrap justify-around items-center my-4'>
                     {artistList}
                 </div>
             </div>

@@ -10,24 +10,28 @@ interface ArtistDetailsProps {
     artist: UserData,
     portrait: PortraitData,
     setPortrait: Function,
-    setOpenArtistList: Function
+    setOpenArtistList: Function,
+    artistNote: string,
+    handleClose: Function
 }
 
-const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: ArtistDetailsProps) => {
+const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artistNote, handleClose}: ArtistDetailsProps) => {
     const [openSelect, setOpenSelect] = useState(false)
     
     const handleSelect = () => {
         setOpenSelect(true)
     }
+
+    
     
     return (
-        <div className='p-4'>
-            <div className='w-full h-full flex'>
-                <div className='w-[40%]'>
-                    <img src='../../../photoImgs/photo4.jpg' className='w-[240px] h-[240px] object-cover rounded-xl'/>
+        <div className='mt-2 p-4 flex flex-col items-center'>
+            <div className='w-full h-full flex items-center'>
+                <div className='w-[35%]'>
+                    <img src='../../../photoImgs/photo4.jpg' className='w-[240px] h-[240px] mx-auto object-cover rounded-xl'/>
                 </div>
                 
-                <div className='ml-4 w-[60%] flex flex-col justify-between items-start'>
+                <div className='w-[65%] flex flex-col justify-between items-start'>
                     <div>
                         <h2 className='text-3xl font-bold text-left'>
                             <Link 
@@ -36,7 +40,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
                                 target="_blank"
                                 className="text-[#2DD42B] hover:text-[#165f15]"
                             >
-                                <span className='ml-2'>
+                                <span className=''>
                                 {artist.artistName}
                                 </span> 
                             </Link>
@@ -69,25 +73,24 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
                     </div>
                     
                     
-                    <p className=''>
-                        {artist.bio.split(/\s+/).slice(0, 15).join(" ")} . . .
-                        <span><Link 
+                    <p className='mt-4'>
+                        {artist.bio.split(/\s+/).slice(0, 25).join(" ")} . . .
+                        <p><Link 
                                 href={`/artistDashboard/${artist.uid}/portfolio`} 
                                 rel="noopener noreferrer" 
                                 target="_blank"
-                                className="text-[#2DD42B] hover:text-[#165f15] ml-2"
+                                className="text-[#2DD42B] hover:text-[#165f15]"
                             >
                             (see full portfolio)
                             </Link>
-                        </span>
+                        </p>
                     </p>
-
-                    <button 
-                        onClick={handleSelect}
-                        className='border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#0075FF] hover:text-white'
-                    >
-                        Select Artist
-                    </button>
+                    <div className='w-full bg-[#e8e8e8] rounded-lg p-4 mt-4'>
+                        <p className='text-sm font-semibold'>Note from artist:</p>
+                        <div className='h-[100px] mt-2 overflow-auto'>
+                            <p className='overflow-auto' >{artistNote}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -102,6 +105,23 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList}: Artis
                     name={artist.artistName} 
                 />
             }
+            <div className='w-8/12 mt-4 flex justify-around'>
+                <button 
+                    type="button" 
+                    onClick={handleClose}
+                    className='w-5/12 px-4 py-2 border-2 border-black rounded-xl hover:text-white hover:bg-[#282828] '
+                >
+                    Choose Later
+                </button>
+
+                <button 
+                    onClick={handleSelect}
+                    className='w-5/12 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#0075FF] hover:text-white'
+                >
+                    Select Artist
+                </button>
+            </div>
+            
         </div>
     )
 }

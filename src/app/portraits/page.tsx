@@ -140,6 +140,7 @@ export default function Portraits() {
 
   return (
     <div className='relative min-h-[100vh]'>
+      <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" />
       <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black pb-36'>
         {!openWizard && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
 
@@ -232,7 +233,8 @@ export default function Portraits() {
             portraits={portraits}
             totalPrice={totalPrice}
             setTotalPrice={setTotalPrice}
-          /> }
+          /> 
+        }
         
         
         { (!openWizard && portraits.length !== 0 && !authUser) && 

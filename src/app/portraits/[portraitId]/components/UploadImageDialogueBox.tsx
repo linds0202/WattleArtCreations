@@ -54,8 +54,7 @@ export default function UploadImg(props) {
             const bucket = await uploadImage(formFields.file, props.portrait.uid)
             
             const portraitWithImages = await updatePortraitWithImage(props.portrait.uid, {userId: props.userId, imageBucket: bucket})
-            //console.log('updated portrait: ', {...props.portrait, images: [...props.portrait?.images, {userId: props.userId, imageBucket: bucket}], revised: true, artistSubmitted: [...props.portrait.artistSubmitted, new Date] })
-            
+                    
             const updatedPortrait = await getPortrait(props.portrait.uid)
             props.setPortrait(updatedPortrait)
         } catch (error) {

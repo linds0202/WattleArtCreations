@@ -58,14 +58,19 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
             onClose={() => setOpenArtistList(false)} 
             open={openArtistList} 
             fullWidth={true}
-            maxWidth='md'
+            maxWidth='lg'
             PaperProps={{ sx: { px: 2, py: 4, backgroundColor: "white", minHeight: '80vh',
-            maxHeight: '80vh', justifyContent: 'space-between', alignItems: 'center'} }}
+            maxHeight: '80vh'} }}
         >
             <IconButton onClick={() => setOpenArtistList(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
-            <h2 className='text-4xl font-bold'>Your Artist List</h2>
+            <div className="flex justify-center items-center mb-4">
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <p className='text-4xl text-center font-bold mt-0'>Your Artist List</p>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+            </div>
+            {/* <h2 className='text-4xl font-bold'>Your Artist List</h2> */}
             <div className='w-full flex justify-between items-center'>
                 <button 
                     type="button" 
@@ -82,6 +87,8 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                     portrait={portrait} 
                     setPortrait={setPortrait} 
                     setOpenArtistList={setOpenArtistList}
+                    artistNote={portrait.artistNotes[artistIndex]}
+                    handleClose={handleClose}
                 />
                 
                 <button 
@@ -94,17 +101,10 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                     <p>Next Artist</p>
                 </button>
 
-            </div>
-            
+            </div>           
 
 
-            <button 
-                type="button" 
-                onClick={handleClose}
-                className='px-4 py-2 text-center border-2 border-black rounded-xl hover:text-white hover:bg-[#282828] '
-            >
-                Choose Later
-            </button>
+
 
         </Dialog>
     )

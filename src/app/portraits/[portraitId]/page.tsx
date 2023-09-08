@@ -82,9 +82,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       let newPortrait 
       if (revisions < 0) {
   
-        newPortrait = {...portrait, revised: false, additionalRevision: true, revisionNotes: [...portrait?.revisionNotes, revisionNote]} 
+        newPortrait = {...portrait, revised: false, additionalRevisionRequest: true, revisionNotes: [...portrait?.revisionNotes, revisionNote]} 
       
         updatePortrait(portrait?.uid, {...portrait, additionalRevisionRequest: true, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote]})
+
+        setPortrait(newPortrait)
+
       } else {
         newPortrait = {...portrait, revisions: revisions, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote] }
         
@@ -135,6 +138,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         >
             View Portrait Details
         </button>
+
+        {openQuestions && 
+            <Questions 
+                portrait={portrait} 
+                setPortrait={setPortrait} 
+                openQuestions={openQuestions} 
+                setOpenQuestions={setOpenQuestions} 
+                canEditQs={false}
+                role={authUser?.roles}
+            />
+        }
       </div>
       
 
@@ -146,17 +160,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           
           <div className='w-[100%] flex justify-between items-center'>
             <p className='w-6/12 text-left text-2xl font-semibold pb-2'>Action Center <span className='text-[#0075FF] text-sm'>(Below are tasks that need your attention)</span></p>
-
-            {openQuestions && 
-                <Questions 
-                    portrait={portrait} 
-                    setPortrait={setPortrait} 
-                    openQuestions={openQuestions} 
-                    setOpenQuestions={setOpenQuestions} 
-                    canEditQs={false}
-                    role={authUser?.roles}
-                />
-            }
             
           </div>
           
@@ -169,24 +172,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   ? <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />
                   : <ArtistActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}/>
                 }
-                {portrait?.status === "Completed" &&
-                  <div className='my-8 flex flex-wrap justify-between items-center'>
-                    <p className='text-xl font-semibold w-[100%]'>Customer's Testimonial:</p>
-                    <div className='mt-4 border-2 border-[#282828] rounded-xl p-4 flex items-center'>
-                      <div className='w-[48%]'>
-                        {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain'/>}
-                      </div>
-                      <div className='w-[48%]'>
-                        <div className='flex items-center'>
-                            <Rating name="read-only" value={testimonial?.stars} readOnly precision={0.5} size="small" />
-                            <span className='ml-2'>({testimonial?.stars})</span>
-                        </div>
-                        <p>"{testimonial?.text}"</p>
-                        <p className='text-right'>- {testimonial?.customerDisplayName}</p>
-                      </div>
-                    </div>
-                  </div>
-                }
               </div>
 
             </div>
@@ -196,8 +181,34 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               <div className='w-full px-4'>
               
                 {portrait?.status === 'Completed' && 
-                  <div>
-                    <p className='text-2xl font-bold text-center text-[#0075FF] mb-4'>This commission is complete!</p>
+                  <div className='flex flex-col items-center'>
+                    <p className='text-2xl font-bold text-center text-[#0075FF] mb-2'>This commission is complete!</p>
+                    <button 
+                      className='w-1/2 mx-auto border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#0075FF]'  
+                      onClick={handleDownloadFinal}
+                    >
+                      Download Final Image
+                    </button>
+
+
+                    {portrait?.status === "Completed" &&
+                    <div className='my-8 flex flex-wrap justify-between items-center'>
+                      <p className='text-xl font-semibold w-[100%]'>Customer's Testimonial:</p>
+                      <div className='mt-4 border-2 border-[#282828] rounded-xl p-4 flex items-center'>
+                        <div className='w-[40%]'>
+                          {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto '/>}
+                        </div>
+                        <div className='w-[55%]'>
+                          <div className='flex items-center'>
+                              <Rating name="read-only" value={testimonial?.stars} readOnly precision={0.5} size="small" />
+                              <span className='ml-2'>({testimonial?.stars})</span>
+                          </div>
+                          <p>"{testimonial?.text}"</p>
+                          <p className='text-right'>- {testimonial?.customerDisplayName}</p>
+                        </div>
+                      </div>
+                    </div>
+                    }
                   </div>
                 }
               
@@ -208,7 +219,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
                   <div className='w-full h-[260px] flex justify-around mb-4'>
                     {portrait?.finalImages?.length > 0 
-                      ? <img 
+                      && <img 
                         onContextMenu={(e)=> e.preventDefault()}
                         className='w-[256px] h-[256px] object-contain cursor-pointer'
                         src={portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl} 
@@ -218,14 +229,14 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           final: true
                         })}
                       />
-                      : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images uploaded yet</p>
                       }
                   </div>
 
 
                   <div className='w-full'>
                     <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
-                      {portrait?.finalImages?.map((img, i) => 
+                      {portrait?.finalImages?.length > 0 
+                      ? portrait?.finalImages?.map((img, i) => 
                         <img 
                           onContextMenu={(e)=> e.preventDefault()}
                           key={i}        
@@ -237,7 +248,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                             final: true
                           })}
                         /> 
-                      )} 
+                      )
+                    : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images to display</p>} 
                     </div>
 
                     {openImage &&
@@ -266,17 +278,13 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         </button>
                         
                         <button 
-                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#2DD42B] rounded-lg p-2'  
+                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#0075FF] rounded-lg p-2'  
                           onClick={handleAccept}
                         >
                           Accept as Final Image
                         </button>
 
                       </div>}
-
-                      {portrait?.status === 'Completed' && 
-                        <button className='border-2 border-black rounded-lg p-2'  onClick={handleDownloadFinal}>Download Final Image</button>
-                      }
                       
 
                       <UploadImg 

@@ -225,6 +225,7 @@ export async function addPortrait( data) {
     customer: data.customer,
     customerId: data.customerId,
     artist: [],
+    artistNotes: [],
     artistAssigned: false,
     creationDate: new Date,
     purchaseDate: new Date,
@@ -235,7 +236,6 @@ export async function addPortrait( data) {
     revised: false,
     reassigned: false,
     additionalRevision: false,
-    artistSubmitted: [],
     images: [],
     finalImages: [],
     revisionLevel: "",
@@ -260,9 +260,10 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 
 //add artist to artist list for portrait when claimed
-export function addArtist( portraitId, artistId, artistName) {
+export async function addArtist( portraitId, artistId, artistName, artistNote) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({ id: artistId, artistName: artistName}),
+    artistNotes: arrayUnion(artistNote),
     status: 'Unassigned',
   });
 }
@@ -325,8 +326,11 @@ export async function updatePortraitWithImage(portraitId, {userId, imageBucket})
   updateDoc(doc(db, 'portraits', portraitId), 
     { 
       finalImages: arrayUnion({userId, imageUrl, date: new Date}), 
-      revised: true, 
-      artistSubmitted: arrayUnion(new Date),    
+      revised: true,
+      additionalRevision: false,
+      additionalRevisionRequest: false,
+      purchaseRevisionLink: ''
+      // artistSubmitted: arrayUnion(new Date),    
     })
 }
 

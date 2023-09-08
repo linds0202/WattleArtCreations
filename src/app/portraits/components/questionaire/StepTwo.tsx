@@ -40,7 +40,8 @@ const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionPro
     }, [authUser])
 
     const handleRedirect = () => {
-        router.push('/personal')
+        setLogin(false)
+        //router.push('/personal')
     }
 
     return (

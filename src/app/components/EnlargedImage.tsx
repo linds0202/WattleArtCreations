@@ -32,12 +32,12 @@ const EnlargedImage = ({openImage, setOpenImage, src, date, final}: EnlargedImag
             <DialogContent
                 style={{height:'80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
             >
-                    <img onContextMenu={(e)=> handleRightClick(e)} src={src} className='max-h-[80%] w-auto'/>
-                    {final && <div onContextMenu={(e)=> handleRightClick(e)} className='absolute top-0 left-0 bg-sky-500/10 h-[100%] w-[100%] border-2 border-[#282828]'></div>}
-                    {final && <p className='mt-4'>Submitted: {new Date(date).toDateString() + ' at ' + new Date(date).toLocaleTimeString()}</p>}
+                <img onContextMenu={(e)=> handleRightClick(e)} src={src} className='max-h-[80%] w-auto'/>
+                {final && <div onContextMenu={(e)=> handleRightClick(e)} className='absolute top-0 left-0 bg-sky-500/10 h-[100%] w-[100%] border-2 border-[#282828]'></div>}
+                {final && <p className='mt-4'>Submitted: {new Date(date).toDateString() + ' at ' + new Date(date).toLocaleTimeString()}</p>}
             </DialogContent>
                     
-                </Dialog>
+        </Dialog>
     )
 }
 
