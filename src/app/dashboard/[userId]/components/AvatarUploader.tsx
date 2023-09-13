@@ -7,17 +7,24 @@ import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-const DEFAULT_FILE_NAME = "No file selected";
+interface FormState {
+    fileName: string,
+    file: File | null,
+    imageBucket: string,
+    imageUrl: string, 
+}
+
+const DEFAULT_FILE_NAME: string = "No file selected";
 
 // Default form state for the dialog
-const DEFAULT_FORM_STATE = {
+const DEFAULT_FORM_STATE: FormState = {
   fileName: DEFAULT_FILE_NAME,
   file: null,
   imageBucket: "",
   imageUrl: "",
 };
 
-export default function AvatarUploader(props) {
+export default function AvatarUploader(props: any) {
     
     const isEdit = Object.keys(props.edit).length > 0;
     const { authUser } = useAuth();
@@ -25,24 +32,25 @@ export default function AvatarUploader(props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-    
-
-    // If the receipt to edit or whether to close or open the dialog ever changes, reset the form fields
+    // If the avatar to edit or whether to close or open the dialog ever changes, reset the form fields
     useEffect(() => {
         if (props.showDialog) {
             setFormFields(isEdit ? {...DEFAULT_FORM_STATE, imageBucket: props.edit.avatarBucket} : DEFAULT_FORM_STATE);
         }
-    }, [props.edit, props.showDialog])
+    }, [props.edit, props.showDialog, isEdit])
 
     // Check whether any of the form fields are unedited
     const isDisabled = () => formFields.fileName === DEFAULT_FILE_NAME
 
 
     // Set the relevant fields for receipt image
-    const setFileData = (target) => {
-        const file = target.files[0];
-        setFormFields(prevState => ({...prevState, fileName: file.name}));
-        setFormFields(prevState => ({...prevState, file}));
+    const setFileData = (event: React.FormEvent<HTMLInputElement>) => {
+        if (event.currentTarget.files){
+            const file: File = event?.currentTarget?.files[0];
+            setFormFields(prevState => ({...prevState, fileName: file.name, file: file}));
+            //setFormFields(prevState => ({...prevState, file}));
+        }
+        
     }
 
     const closeDialog = () => {
@@ -62,7 +70,7 @@ export default function AvatarUploader(props) {
                     await replaceImage(formFields.file, formFields.imageBucket);
                 }
                 await updateAvatar( authUser.uid, formFields.imageBucket); //const url = 
-                props.setChangeAvatar(prev => !prev)
+                props.setChangeAvatar((prev: boolean) => !prev)
             } else {
                 // Adding avatar
                 // Store image into Storage
@@ -71,7 +79,7 @@ export default function AvatarUploader(props) {
                 // Store data into Firestore
                 const url = await addAvatar(authUser.uid, bucket);
             
-                props.setUserData((prev):UserData => ({...prev, avatar: url,
+                props.setUserData((prev: UserData) => ({...prev, avatar: url,
                     avatarBucket: bucket
                 }))
             } 
@@ -91,16 +99,15 @@ export default function AvatarUploader(props) {
             fullWidth={true}
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-            // className='z-10 bg-white'
         >
             <IconButton onClick={() => props.onCloseDialog(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
 
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>{isEdit ? "Edit" : "Add"} Avatar</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
     
             <DialogContent >
@@ -111,7 +118,7 @@ export default function AvatarUploader(props) {
                     className='text-black border-2 rounded-xl border-[#282828] hover:text-[#0075FF]'
                 >
                     Upload Avatar
-                    <input type="file" hidden onInput={(event) => {setFileData(event.target)}} className='text-lg' />
+                    <input type="file" hidden onInput={(event) => {setFileData(event)}} className='text-lg' />
                 </Button>
                 <p className='text-xl ml-8'>{formFields.fileName}</p>
                 </div>

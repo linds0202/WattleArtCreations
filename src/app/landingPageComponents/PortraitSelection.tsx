@@ -70,7 +70,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
     
-    const options = {
+    const options: any = {
         Photorealistic: {
             title: mode,
             tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
@@ -137,7 +137,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
     let opacity = useTransform(scrollY, [0, 200], [0, 1])
 
-    const handleClose = (event, reason) => {
+    const handleClose = ({event, reason}: {event: any, reason: any}) => {
         //don't let them just click off of the dialogue box
         if (reason && reason == "backdropClick") 
             return;
@@ -165,7 +165,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             {openLogin &&
                 <Dialog onClose={handleClose} open={openLogin}>
                     <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
-                        <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
+                        <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle art creations logo'/>
                         <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
                         <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
                         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
@@ -276,7 +276,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         </Link>
                     </motion.button>  
                 </motion.div>
-                <img src='./drips/personal_top_full.png' className="absolute w-full top-[100%] left-0 right-0"/>
+                <img src='./drips/personal_top_full.png' className="absolute w-full top-[100%] left-0 right-0" alt='background black paint drips'/>
             </div>
 
             <div className='pt-[150px] pb-[75px] flex justify-center'>

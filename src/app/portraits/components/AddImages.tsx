@@ -7,11 +7,11 @@ import { Field } from 'formik';
 import { Upload } from './PortraitCustomizer';
 
 interface AddImagesProps {
-  uploads: [Upload],
+  uploads: Upload[],
   setUploads: Function,
   openUpload: boolean,
   setOpenUpload: Function,
-  editImgGroup: Upload,
+  editImgGroup: Upload | null,
   setEditImgGroup: Function,
   editImgIndex: number,
 }
@@ -19,37 +19,40 @@ interface AddImagesProps {
 const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGroup, setEditImgGroup, editImgIndex }: AddImagesProps) => { 
 
 
-  const [files, setFiles] = useState(editImgGroup ? editImgGroup.files : [])
-  const [fileNames, setFileNames] = useState( editImgGroup ? editImgGroup.files : [])
+  const [files, setFiles] = useState<Array<File>>(editImgGroup ? editImgGroup.files : [])
   const [text, setText] = useState(editImgGroup ? editImgGroup.text : '')  
 
-  const handleFile = (target) => {
-    if (target.files.length !== 0) {
-        setFiles(prevState => [...prevState, target.files[0]])
+  const handleFile = (event: React.FormEvent<HTMLInputElement>) => { 
+    const newFiles = (event.currentTarget as HTMLInputElement).files;
+    if (!newFiles) {
+      return;
+    } else {
+      setFiles([...files, newFiles[0]])
     }
+
   }
 
   
-  const handleDeleteImg = (i) => {
+  const handleDeleteImg = (i: number) => {
   
     let updateImageFiles = files.filter((file, j) => j !== i)
   
     setFiles(updateImageFiles)
   }
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setText(e.target.value)
   }
 
   const handleSave = () => {
     if (editImgGroup) {
-      const newUpload = {files: files, fileNames: fileNames, text: text}
+      const newUpload: Upload = {files: files, text: text} //fileNames: fileNames,
       const uploadsCopy = [...uploads]
       uploadsCopy.splice(editImgIndex, 1, newUpload)
       
       setUploads(uploadsCopy)
     } else {
-      const newUpload = {files: files, fileNames: fileNames, text: text}
+      const newUpload: Upload = {files: files, text: text} //fileNames: fileNames,
       setUploads([...uploads, newUpload])
     }
     
@@ -70,9 +73,9 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
       </IconButton>
 
       <div className="flex justify-center items-center mb-4">
-          <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+          <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
           <p className='text-4xl text-center font-bold mt-0'>Image Upload</p>
-          <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+          <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='cblack accent paint splash'/>
       </div>
       
       <div className='w-10/12 flex justify-between items-center'>
@@ -82,7 +85,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
               className='self-start text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
           >
               Upload Image
-              <input type="file" hidden onInput={(event) => {handleFile(event.target)}} />
+              <input type="file" hidden onInput={(event) => handleFile(event)} />
           </Button>
         </div>
         

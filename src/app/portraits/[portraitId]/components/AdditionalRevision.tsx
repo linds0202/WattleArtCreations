@@ -16,7 +16,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
     
     const [level, setLevel] = useState(portrait?.revisionLevel !== "" ? portrait?.revisionLevel : "Simple")
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLevel(e.target.value)
     }
 
@@ -42,7 +42,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
 
         const updatedPortrait = {...portrait, revisionLevel: level, purchaseRevisionLink: link}
 
-        updatePortrait(portrait.uid, updatedPortrait)
+        updatePortrait(portrait.id, updatedPortrait)
         
         setPortrait(updatedPortrait)
 

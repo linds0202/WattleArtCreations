@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Upload } from '../../components/PortraitCustomizer';
 
 interface UploadImagesProps {
-  uploads: [Upload],
+  uploads: Upload[],
   setUploads: Function,
   openUpload: boolean,
   setOpenUpload: Function,
@@ -15,25 +15,31 @@ interface UploadImagesProps {
 const UploadImages = ({ uploads, setUploads, openUpload, setOpenUpload }: UploadImagesProps) => { 
 
 
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState<Array<File>>([])
   const [text, setText] = useState('')  
 
-  const handleFile = (target) => {
-    if (target.files.length !== 0) {
-        setFiles(prevState => [...prevState, target.files[0]])
+  const handleFile = (event: React.FormEvent<HTMLInputElement>) => {
+    const newFiles = (event.currentTarget as HTMLInputElement).files;
+    if (!newFiles) {
+      return;
+    } else {
+      setFiles([...files, newFiles[0]])
     }
+    // if (event.target.files.length !== 0) {
+    //     setFiles(prevState => [...prevState, event.target.files[0]])
+    // }
   }
 
   
-  const handleDeleteImg = (i) => {
+  const handleDeleteImg = (i: number) => {
   
     let updateImageFiles = files.filter((file, j) => j !== i)
   
     setFiles(updateImageFiles)
   }
 
-  const onChange = (e) => {
-    setText(e.target.value)
+  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value)
   }
 
   const handleSave = () => {
@@ -63,7 +69,7 @@ const UploadImages = ({ uploads, setUploads, openUpload, setOpenUpload }: Upload
               className='self-start mt-2 text-black hover:text-white border-2 border-[#282828] bg-white hover:bg-[#282828] hover:border-[#282828] rounded-xl'
           >
               Upload Image
-              <input type="file" hidden onInput={(event) => {handleFile(event.target)}} />
+              <input type="file" hidden onInput={(event) => {handleFile(event)}} />
           </Button>
         </div>
         
@@ -86,9 +92,8 @@ const UploadImages = ({ uploads, setUploads, openUpload, setOpenUpload }: Upload
         <label className='text-sm leading-3'>
             Add info about your images
         </label>
-        {/* <textarea rows={5} cols={33}></textarea> */}
+  
         <textarea
-            // as="textarea"
             rows={3}
             cols={60} 
             value={ text || "" }

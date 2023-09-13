@@ -11,7 +11,7 @@ interface ClaimFormProps {
     openClaimForm: boolean
     setOpenClaimForm: Function,
     setOpenArtistDetails: Function,
-    user: UserData,
+    user: UserData | null,
     portrait: PortraitData
 }
 
@@ -21,16 +21,18 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
     const [artistNote, setArtistNote] = useState('')
 
     const handleRequest = async () => {
-        const updatedArtist = {...user, activeCommissions: user.activeCommissions + 1}
-        const update = await updateUserData(updatedArtist)
-        const updatedPortrait = await addArtist(portrait.id, user.uid, user.artistName, artistNote)
-        // router.push(`/artistDashboard/${user.uid}`)
+        if (user) {
+            const updatedArtist = {...user, activeCommissions: user.activeCommissions + 1}
+            const update = await updateUserData(updatedArtist)
+            const updatedPortrait = await addArtist(portrait.id, user.uid, user.artistName, artistNote)
+        }
+        
         setOpenClaimForm(false)
         setOpenArtistDetails(false)
-        router.push(`/artistDashboard/${user.uid}`)
+        if (user) router.push(`/artistDashboard/${user.uid}`)
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newNote = e.target.value
         setArtistNote(newNote)
     }
@@ -54,14 +56,14 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
         
         <div className='flex flex-col justify-center items-center'>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
-                <p className='text-2xl text-center font-bold mt-0'>Artist's Note</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash' />
+                <p className='text-2xl text-center font-bold mt-0'>Artist&apos;s Note</p>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             
             <div className='w-full flex flex-col items-center'>
                 <label className='w-10/12'>
-                    Leave a note for the customer as to why you'd be the best artist to create this portrait
+                    Leave a note for the customer as to why you&apos;d be the best artist to create this portrait
                 </label>
                 <textarea
                     rows={10}

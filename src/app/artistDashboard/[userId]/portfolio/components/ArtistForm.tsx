@@ -23,7 +23,7 @@ interface artistFormProps {
     setUserData: Function,
     userData: UserData,
     setIsEdit: Function,
-    links: string[],
+    links: string[] | [],
     setLinks: Function
 }
 
@@ -45,8 +45,8 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
         setOpenLinksMod(true)
     }
 
-    const handleDeleteLink = (i) => {
-        let updatedlinks: Array<string> = links.filter((link) => link !== links[i])
+    const handleDeleteLink = (i: number) => {
+        let updatedlinks: Array<string> = links?.filter((link) => link !== links[i])
         setLinks(updatedlinks)
         setEditLink(true)
     }
@@ -63,14 +63,15 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
 
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values, helpers) => {
+                onSubmit={async (values, helpers) => {
                     helpers.setSubmitting(true)
-                    updateUserData({...userData, ...values, links: links})
-
+                    const updatedUser = await updateUserData({...userData, ...values, links: links.length !== 0 ? links : []})
+                    console.log('out here updatedUser is: ', updatedUser)
+                    
                     helpers.setSubmitting(false)
                     setUserData({...userData, ...values})
                     
-                    helpers.resetForm(values)
+                    helpers.resetForm()
                     setEditLink(false)
                     setIsEdit(false)
                 }}
@@ -130,7 +131,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                                 </div>        
                             ))}
 
-                            <AddLinks openLinksMod={openLinksMod} setOpenLinksMod={setOpenLinksMod} setLinks={setLinks} setEditLink={setEditLink} />
+                            <AddLinks links={links} openLinksMod={openLinksMod} setOpenLinksMod={setOpenLinksMod} setLinks={setLinks} setEditLink={setEditLink} />
                         </div>
                         <div className='mt-4 w-full'>
                             <label className='text-base text-gray-light leading-3 mr-2 font-semibold text-[#0075FF]'>
@@ -154,26 +155,3 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
 }
 
 export default ArtistForm
-
-
-{/* <div className='w-full mt-4 flex justify-around items center'>
-    <Button variant="outlined" component="label" color="secondary" className='self-start mt-2'>
-        Upload Image
-        <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
-    </Button>
-    
-    <div className='w-8/12 flex flex-wrap justify-start items-center'>  
-        {fileNames.length === 0 
-            ? <p>No File Selected</p>
-            : fileNames?.map((name, i) => (
-            <div key={i} className='w-5/12 flex justify-between items-center border-2 border-black rounded-md m-2 p-2'>
-                <p className='w-10/12 h-[25px] overflow-hidden'>{name}</p>
-                <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
-                    <DeleteForeverIcon />
-                </button>
-            </div>        
-        ))}
-    </div>
-    
-    
-</div> */}

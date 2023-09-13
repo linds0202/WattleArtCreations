@@ -42,6 +42,14 @@ const uiConfig = {
   },
 };
 
+interface ConsultWizardProps {
+  category: string,
+  selection: string,
+  setStartConsult: Function,
+  setOpenWizard: Function,
+  setConsult: Function
+}
+
 
 const questions = {
   "general": ['What is your business about?', 'What are your brand values and your mission statement?', 'What is the timeline for the project?', 'Have you seen any of our previous work that you particularly like and/or dislike? This can help us understand your preferences and create an artwork that meets your expectations.', 'If you have any reference images you would like us to look at, please provide them.', 'Do you have any questions for us?'],
@@ -51,7 +59,7 @@ const questions = {
   "Video Game Assets": ['What is the name of the video game that you are developing?', 'What is the character&#39;s backstory and personality?', 'What is your budget for the video game model(s)?', 'What is the purpose of the character (e.g., playable character, NPC, etc.)?', 'Are there any specific poses or animations that you want to be included for the character?', 'Are there any specific guidelines or requirements for the character (e.g., size, proportions, color schemes, etc.)?']
 }
 
-export default function ConsultWizard({ category, selection, setStartConsult, setOpenWizard, setConsult }) {
+export default function ConsultWizard({ category, selection, setStartConsult, setOpenWizard, setConsult }: ConsultWizardProps) {
 
   const { authUser } = useAuth();
   const [login, setLogin] = useState(false);
@@ -128,7 +136,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     setConsult(true)
   }
 
-  const handleNextStep = (newData, final=false) => {
+  const handleNextStep = (newData: any, final=false) => {
 
     setCorporateData(prev => ({ ...prev, ...newData }))
     
@@ -140,7 +148,7 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
     setCurrentStep(prev => prev + 1)   
   } 
 
-  const handlePrevStep = (newData) => {
+  const handlePrevStep = (newData: any) => {
     setCorporateData(prev => ({ ...prev, ...newData }))
 
     setCurrentStep(prev => prev - 1)
@@ -153,9 +161,9 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
   }
 
   const steps = [
-    <General next={handleNextStep} data={corporateData}/>, 
-    <Other next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
-    <Final next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
+    <General key={1} next={handleNextStep} data={corporateData}/>, 
+    <Other key={2} next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
+    <Final key={3} next={handleNextStep} prev={handlePrevStep} data={corporateData}/>,
   ]
 
   if (submitFinal) {
@@ -197,8 +205,8 @@ export default function ConsultWizard({ category, selection, setStartConsult, se
 }
 
 
-const General = (props) => {
-  const handleSubmit = (values) => {
+const General = (props: any) => {
+  const handleSubmit = (values: any) => {
     props.next(values)
   }
 
@@ -211,7 +219,7 @@ const General = (props) => {
         <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>General Questions</h3>
           <div className='max-h-96 flex flex-col flex-wrap'>
-            {props.data.questions.general.map((q, i) => (
+            {props.data.questions.general.map(({q, i}: {q: string, i: number}) => (
               <div key={i} className='w-6/12'>
                 <label className='text-white text-sm leading-3 w-11/12 m-0'>
                   {q}
@@ -235,8 +243,8 @@ const General = (props) => {
   )
 }
 
-const Other = (props) => {
-  const handleSubmit = (values) => {
+const Other = (props: any) => {
+  const handleSubmit = (values: any) => {
     props.next(values)
   }
 
@@ -267,7 +275,7 @@ const Other = (props) => {
         <Form className='h-[32rem] py-2 px-4 flex flex-col items-center justify-between'>
           <h3 className='text-white text-center text-lg'>{choice} Questions</h3>
           <div className='max-h-96 flex flex-col flex-wrap'>
-            {props.data.questions[props.data.category].map((q, i) => (
+            {props.data.questions[props.data.category].map(({q, i}: {q: string, i: number}) => (
               <div key={i} className='w-6/12'>
                 <label className='text-white text-sm text-left leading-3 w-10/12 m-0'>
                   {q}
@@ -299,8 +307,8 @@ const Other = (props) => {
   )
 }
 
-const Final = (props) => {
-  const handleSubmit = (values) => {
+const Final = (props: any) => {
+  const handleSubmit = (values: any) => {
     props.next(values, true)
   }
 

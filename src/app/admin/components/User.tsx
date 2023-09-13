@@ -1,11 +1,17 @@
 import { motion } from "framer-motion"
 import EditIcon from '@mui/icons-material/Edit';
 import { updateUser } from "@/app/firebase/firestore";
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import UserDetails from "./UserDetails";
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 
-export default function User( {user}:UserData ) {
+interface UserProps {
+    user: UserData
+}
+
+type SelectChangeEventHandler = React.ChangeEventHandler<HTMLSelectElement>
+
+export default function User( {user}: UserProps ) {
     const [openRole, setOpenRole] = useState(false)
     const [currentRole, setCurrentRole] = useState(user.roles)
     const [openDetails, setOpenDetails] = useState(false)
@@ -15,7 +21,7 @@ export default function User( {user}:UserData ) {
         setOpenDetails(true)
     }
 
-    const handleSelect = (e) => {
+    const handleSelect: SelectChangeEventHandler = (e) => {
         if (e.target.value === currentRole) alert('already that')
         else if (e.target.value === 'select one') return
         else {

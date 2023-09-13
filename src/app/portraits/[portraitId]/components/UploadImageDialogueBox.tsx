@@ -5,7 +5,14 @@ import { uploadImage } from '../../../firebase/storage';
 import { updatePortraitWithImage, getPortrait } from '@/app/firebase/firestore';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Upload } from '../../components/PortraitCustomizer';
 
+// interface UploadImageProps {
+//     uploads: Upload[],
+//     setUploads: Function,
+//     openUpload: boolean,
+//     setOpenUpload: Function
+// }
 
 const DEFAULT_FILE_NAME = "No file selected";
 
@@ -16,32 +23,37 @@ const DEFAULT_FORM_STATE = {
 };
 
 
-export default function UploadImg(props) {
+export default function UploadImg(props: any) {
     const authUser = useAuth()
-
-    const isEdit = false    //Object.keys(props.edit).length > 0;
-    const [formFields, setFormFields] = useState(isEdit ? props.edit : DEFAULT_FORM_STATE);
+   
+    const [formFields, setFormFields] = useState<{fileName: string, file: File | null}>(DEFAULT_FORM_STATE);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // If the receipt to edit or whether to close or open the dialog ever changes, reset the form fields
     useEffect(() => {
         if (props.showDialog) {
-            setFormFields(isEdit ? props.edit : DEFAULT_FORM_STATE);
+            setFormFields(DEFAULT_FORM_STATE); 
         }
-    }, [props.edit, props.showDialog])
+    }, [props.showDialog]) 
 
     // Check whether any of the form fields are unedited
     const isDisabled = () => formFields.fileName === DEFAULT_FILE_NAME
 
-
-    // Set the relevant fields for receipt image
-    const setFileData = (target) => {
-        if (target.files.length !== 0) {
-            const file = target.files[0];
-            setFormFields(prevState => ({...prevState, fileName: file.name}));
-            setFormFields(prevState => ({...prevState, file}));
+    const setFileData = (event: React.FormEvent<HTMLInputElement>) => {
+        if (event.currentTarget.files){
+            const file: File = event?.currentTarget?.files[0];
+            if (file) setFormFields(prevState => ({...prevState, fileName: file.name, file: file}));
         }
+        
     }
+    // Set the relevant fields for receipt image
+    // const setFileData = (target) => {
+    //     if (target.files.length !== 0) {
+    //         const file = target.files[0];
+    //         setFormFields(prevState => ({...prevState, fileName: file.name}));
+    //         setFormFields(prevState => ({...prevState, file}));
+    //     }
+    // }
+
 
     const closeDialog = () => {
         setIsSubmitting(false);
@@ -77,14 +89,14 @@ export default function UploadImg(props) {
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[25%] justify-self-center" src="../../drips/side_splashL.png" />
+                <img className="mr-4 w-[25%] justify-self-center" src="../../drips/side_splashL.png" alt='black paint accent splash' />
                 <h4 className='text-3xl font-bold text-center'>Add Image</h4>
-                <img className="ml-4 w-[25%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="ml-4 w-[25%] justify-self-center" src="../../drips/side_splashR.png" alt='black paint accent splash'/>
             </div>
             
-            
+            {/* isEdit &&  */}
             <div className='my-4 flex items-center'>
-                {(isEdit && !formFields.fileName) && <Avatar alt="portrait image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> }
+                {/* {(!formFields.fileName) && <Avatar alt="portrait image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> } */}
                 
                 <Button 
                     variant="outlined"
@@ -92,7 +104,7 @@ export default function UploadImg(props) {
                     className='text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF]'
                 >
                     Upload Image
-                    <input type="file" hidden onInput={(event) => {setFileData(event.target)}} />
+                    <input type="file" hidden onInput={(event) => {setFileData(event)}} />
                 </Button>
 
                 <p className='ml-4'>{formFields.fileName}</p>

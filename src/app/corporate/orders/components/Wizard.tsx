@@ -3,7 +3,7 @@ import MyCarousel from '../../../components/MyCarousel'
 import ConsultWizard from './ConsultWizard'
 import { useState } from 'react'
 
-export default function Wizard({ selection, category, setOpenWizard, setConsult }) {
+export default function Wizard({ selection, category, setOpenWizard, setConsult }: any) {
     const [startConsult, setStartConsult] = useState(false)
 
     const handleClick = () => {
@@ -13,7 +13,7 @@ export default function Wizard({ selection, category, setOpenWizard, setConsult 
         <div>
             {!startConsult && (
                 <div className='flex justify-around items-center h-full'>
-                    <MyCarousel selection={selection} />
+                    <MyCarousel />
                     <div className='w-4/12 h-3/4 flex flex-col justify-center items-center gap-y-8'>
                         <h2 className='text-3xl font-bold'>Call To Action</h2>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad obcaecati repudiandae reiciendis ducimus dolor, aspernatur nesciunt, quod praesentium modi repellat quia in repellendus</p>

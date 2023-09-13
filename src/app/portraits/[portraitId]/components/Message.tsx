@@ -1,15 +1,11 @@
 import {useEffect, useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
 import EnlargedImage from "@/app/components/EnlargedImage";
+import {ChatMessage} from "./ChatBox" 
+import { Timestamp } from "firebase/firestore";
 
 interface Message {
-    message: {
-        portraitId: string,
-        name: string,
-        text: string,
-        uid: string,
-        img: string
-    }
+    message: ChatMessage
 }
 
 const Message = ( {message}: Message) => {
@@ -20,7 +16,7 @@ const Message = ( {message}: Message) => {
 
     useEffect(() => {
         const element = document.getElementById('chatBox')
-        element.scrollTop += 1000
+        if (element) element.scrollTop += 1000
     }, [])
 
     const handleEnlarge = (src: string) => {
@@ -35,7 +31,8 @@ const Message = ( {message}: Message) => {
                 <p className="user-name">{message.name}</p>
                 {message.text !== '' && <p className="user-message">{message.text}</p>}
                 {message.img && 
-                    <img 
+                    <img
+                        alt='images uploaded to chat' 
                         className='w-[64px] h-[64px] object-contain cursor-pointer' 
                         src={message.img} 
                         onClick={() => handleEnlarge(message.img)}
@@ -43,7 +40,7 @@ const Message = ( {message}: Message) => {
                 }
 
                 {openImage &&
-                    <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgSrc}/>
+                    <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgSrc} date={Timestamp.now()} final={false}/>
                 }
             </div>
         </div>

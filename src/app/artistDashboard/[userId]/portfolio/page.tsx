@@ -8,17 +8,18 @@ import ArtistForm from './components/ArtistForm';
 import { SocialIcon } from 'react-social-icons';
 import EditIcon from '@mui/icons-material/Edit';
 import Image from 'next/image';
-import { Rating, IconButton } from '@mui/material';
+import { Rating } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FullReview from './components/FullReview';
 import Footer from '@/app/components/Footer';
+import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 
 export interface UserData {
-    uid: String,
-    displayName: String,
-    email: String,
-    roles: String,
+    uid: string,
+    displayName: string,
+    email: string,
+    roles: string,
     artistName: string,
     bio: string,
     links: string[],
@@ -29,16 +30,28 @@ export interface UserData {
     totalCompletedCommissions: number,
     lifeTimeEarnings: number,
     paymentsOwing: number,
-    totalPOrtraits: number,
+    totalPortraits: number,
     starRating: number,
     totalReviews: number,
     totalStars: number,
     oldEnough: boolean,
-    joinedOn: Date
+    joinedOn: Date,
+    avatar: string,
+}
+
+export interface TestimonialData {
+    artistId: string,
+    customerDisplayName: string,
+    customerId: string,
+    imgUrl: string,
+    includeImg: boolean,
+    portraitId: string,
+    stars: number,
+    text: string
 }
 
 
-const page = () => {
+const Portfolio = () => {
 
     const currentUrl = usePathname()
     const artistId = currentUrl.split('/')[2]
@@ -46,20 +59,18 @@ const page = () => {
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
-    const [userData, setUserData] = useState(null)
+    const [userData, setUserData] = useState<UserData | null>(null)
     const [isEdit, setIsEdit] = useState(false)
-    const [links, setLinks] = useState([])
+    const [links, setLinks] = useState<Array<string> | []>(userData ? userData.links : [])
 
     //For pagination of testimonials
-    const [testimonials, setTestimonials] = useState([]);
-    const [last, setLast] = useState()
+    const [testimonials, setTestimonials] = useState<Array<TestimonialData>>([]);
+    const [last, setLast] = useState<QueryDocumentSnapshot<DocumentData>>()
     const [disableNext, setDisableNext] = useState(false);
     const [disablePrevious, setDisablePrevious] = useState(true);
     const [page, setPage] = useState(1)
     const [openTestimonial, setOpenTestimnonial] = useState(false)
 
-
-    console.log('testimonials: ', testimonials)
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -70,8 +81,8 @@ const page = () => {
 
     useEffect(() => {
         const handleGetUser = async () => {
-          const getMyUserData = await getUserById(artistId);
-          setLinks(getMyUserData?.links)
+          const getMyUserData: UserData | null = await getUserById(artistId);
+          if (getMyUserData) setLinks(getMyUserData?.links)
           setUserData(getMyUserData)
         }
         handleGetUser()
@@ -81,14 +92,16 @@ const page = () => {
     useEffect(() => {
         const fetchData = async () => {
             const firstTestimonials = await getArtistsTestimonials(artistId)
-            console.log('firstTestimonoials: ', firstTestimonials)
+            console.log('firstTestimonials: ', firstTestimonials)
             
             if (firstTestimonials.testimonials.length < 5) {
                 setDisableNext(true)
             }
-
-            setTestimonials(firstTestimonials.testimonials)
-            setLast(firstTestimonials.lastVisible)
+            if (firstTestimonials) {
+                setTestimonials(firstTestimonials.testimonials)
+                setLast(firstTestimonials.lastVisible)
+            }
+            
         };
 
         fetchData();
@@ -97,8 +110,6 @@ const page = () => {
     const handleNext = () => {
         const fetchNextData = async () => {
             const nextTestimonials = await getNextTestimonials(artistId, last)
-
-            console.log('nextTestimonials: ', nextTestimonials)
         
             if (nextTestimonials.testimonials.length < 5) {
                 setDisableNext(true)
@@ -132,7 +143,7 @@ const page = () => {
         fetchPreviousData()
     }
 
-    const handleOpenTestimonial = (i) => {
+    const handleOpenTestimonial = (i: number) => {
         setOpenTestimnonial(true)
     }
 
@@ -220,7 +231,7 @@ const page = () => {
                             {testimonials?.map((testimonial, i) => (
                                 <div key={i} className='w-10/12 mx-auto flex justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
                                     <div className='w-[30%]'>
-                                        <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain'/>
+                                        <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain' alt='thumbnail for user testimonial'/>
                                     </div>
                                     <div className='w-[70%] mx-auto flex flex-col justify-between items-center py-4'>
                                         <div className='flex items-center'>
@@ -257,16 +268,16 @@ const page = () => {
                 </div>
                 
                 {authUser?.uid === artistId && !isEdit && 
-                    <button 
-                        onClick={handleClick}
-                        className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#0075FF]"
-                    >
-                        <EditIcon sx={{ fontSize: 36, color: '#282828', ":hover": { color: "#0075FF"} }}/>
-                    </button>
+                        <button 
+                            onClick={handleClick}
+                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#0075FF]"
+                        >
+                            <EditIcon sx={{ fontSize: 36, color: '#282828', ":hover": { color: "#0075FF"} }}/>
+                        </button>
                 }
                 
 
-                {isEdit && <ArtistForm 
+                {isEdit && userData && links !== undefined && <ArtistForm 
                     setUserData={setUserData} 
                     userData={userData} 
                     setIsEdit={setIsEdit}
@@ -282,4 +293,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Portfolio

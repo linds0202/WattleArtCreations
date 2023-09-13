@@ -10,8 +10,6 @@ import { ActionCenterProps } from "./ArtistActionCenter"
 import CustomerRevision from "./CustomerRevision"
 
 
-
-
 const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCenterProps) => {
     const { authUser, isLoading } = useAuth();
 
@@ -62,7 +60,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 {(portrait.finalImages.length - 1 !== i || !portrait?.revised) &&  
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
-                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='images associated with this submission by artist'/>
                         <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
                             <p>Artist submitted image on:</p>
                             <p className="font-semibold">{new Date(submission.date.seconds * 1000).toLocaleString()}</p>
@@ -93,7 +91,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                             {portrait?.revised && 
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
-                                        <img src={submission.imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                                        <img src={submission.imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='image associated with this artist submission'/>
                                         <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                     </div>
                             
@@ -140,7 +138,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 {/* Post artist Final Free submission */}
                 {((i !== portrait?.finalImages.length - 1 || portrait?.additionalRevisionRequest) || portrait?.status === 'Completed') && <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
-                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnail'/>
                         <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
                             <p>Artist submitted image on:</p>
                             <p className="font-semibold">{new Date(portrait?.finalImages[i].date.seconds * 1000).toLocaleString()}</p>
@@ -164,7 +162,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     <ActionCenterAccordion title={`${portrait?.revised ? 'Review Artist Submission' : 'Awaiting Artist Submission'}`} open={portrait?.revised} attention={portrait?.revised} >
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                             <div className="flex justify-between items-center mb-4">
-                                <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                                <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
                                 <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span className="font-semibold">Request an Additional Revision</span></p>
                             </div>
                     
@@ -382,7 +380,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         {portrait?.revised && 
                             <div>
                                 <div className="flex justify-between items-center mb-4">
-                                    <img src={portrait?.finalImages[0].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                                    <img src={portrait?.finalImages[0].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
                                     <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                 </div>
                         
@@ -425,8 +423,8 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     : <div className="w-full">
                         {portrait?.revisions >= 0 && portrait?.status !== 'Completed' && 
                             <div>
-                                <p className="text-xl text-center font-semibold">Happy with your artist's latest submission?</p>
-                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select '<span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span>' in the Final Image section of this page to release payment and download your final image.</p>
+                                <p className="text-xl text-center font-semibold">Happy with your artist&apos;s latest submission?</p>
+                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
                             </div>
                         }
                         {portrait?.revisions >= 0 && portrait?.status === 'Completed' && 

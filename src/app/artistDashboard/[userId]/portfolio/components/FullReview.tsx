@@ -1,22 +1,13 @@
 import { Dialog, DialogContent } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Rating, IconButton } from '@mui/material';
+import { TestimonialData } from '../page';
 
 interface FullReviewProps {
     openTestimonial: boolean,
     setOpenTestimnonial: Function,
-    testimonial: {
-        artistId: string,
-        customerDisplayName: string,
-        customerId: string,
-        imgUrl: string,
-        includeImg: boolean,
-        portraitId: string,
-        stars: number,
-        text: string
-    }
+    testimonial: TestimonialData
 }
-
 
 const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullReviewProps ) => {
     
@@ -36,7 +27,7 @@ const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullRev
             <DialogContent
                 style={{height:'80vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
             >
-                {testimonial.includeImg && <img src={testimonial.imgUrl} className='max-h-[80%] w-auto'/>}
+                {testimonial.includeImg && <img src={testimonial.imgUrl} className='max-h-[80%] w-auto' alt='thumbnail of final image in customer review'/>}
                 <div className='p-8 flex flex-col items-center'>
                     <div className='flex items-center mb-4'>
                         <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="large" />

@@ -35,18 +35,21 @@ const awards = {
     },
 }
 
-const Profile = (user: UserData) => {
+interface ProfileProps {
+    user: UserData | null
+}
+
+const Profile = ({user}: ProfileProps) => {
 
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
-    const [userData, setUserData] = useState(null)
+    const [userData, setUserData] = useState<UserData | null>(user ? user : null)
     const [isEdit, setIsEdit] = useState(false)
     const [openUpload, setOpenUpload] = useState(false)
     const [updateUser, setUpdateUser] = useState({})
-    const [changeAvatar, setChangeAvatar] = useState(false)
+    const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
     const [discount, setDiscount] = useState(awards[0])
-
 
     useEffect(() => {
         if (!isLoading && !authUser) {
@@ -57,11 +60,12 @@ const Profile = (user: UserData) => {
 
     useEffect(() => {
         const handleGetUser = async () => {
-          const getMyUserData = await getUserById(authUser?.uid);
-          setUserData(getMyUserData)
+            const getMyUserData: UserData | null = await getUserById(authUser?.uid);
+            setUserData(getMyUserData)
         }
-    
+          
         handleGetUser()
+        
     }, [changeAvatar])
 
     const handleClick = () => {
@@ -72,30 +76,31 @@ const Profile = (user: UserData) => {
         setOpenUpload(true)
         
         if(userData?.avatar) {
-            setUpdateUser({ avatarBucket: userData.avatarBucket}) 
+            setUpdateUser({ avatarBucket: userData.avatar}) 
         } else {
             setUpdateUser({})
         }
     }
 
     const handleSetBadge = () => {
-
-        if (userData?.totalCompletedCommissions === 0) {
-            //setDiscount(awards[0])
-            return '../../badges/one.png'
-        } else if (userData?.totalCompletedCommissions > 0 && userData?.totalCompletedCommissions < 3) {
-            //setDiscount(awards[1])
-            return '../../badges/one.png'
-        } else if (userData?.totalCompletedCommissions >= 3 && userData?.totalCompletedCommissions < 7) {
-            //setDiscount(awards[2])
-            return '../../badges/two.png'
-        } else if (userData?.totalCompletedCommissions >= 7 && userData?.totalCompletedCommissions < 10) {
-            //setDiscount(awards[3])
-            return '../../badges/three.png'
-        } else {
-            //setDiscount(awards[4])
-            return '../../badges/four.png'
-        }
+        if (userData?.totalCompletedCommissions) {
+            if (userData?.totalCompletedCommissions === 0) {
+                //setDiscount(awards[0])
+                return '../../badges/one.png'
+            } else if (userData?.totalCompletedCommissions > 0 && userData?.totalCompletedCommissions < 3) {
+                //setDiscount(awards[1])
+                return '../../badges/one.png'
+            } else if (userData?.totalCompletedCommissions >= 3 && userData?.totalCompletedCommissions < 7) {
+                //setDiscount(awards[2])
+                return '../../badges/two.png'
+            } else if (userData?.totalCompletedCommissions >= 7 && userData?.totalCompletedCommissions < 10) {
+                //setDiscount(awards[3])
+                return '../../badges/three.png'
+            } else {
+                //setDiscount(awards[4])
+                return '../../badges/four.png'
+            }
+        } 
     }
     
     return (
@@ -143,7 +148,7 @@ const Profile = (user: UserData) => {
                         <p className='text-center'>-{discount?.discount}%</p>
                     </div>
                     <div className='flex items-center'>
-                        <img src={handleSetBadge()} className='w-[64px] h-[64px] mr-4'/> 
+                        <img src={handleSetBadge()} className='w-[64px] h-[64px] mr-4' alt='user rewards badge icon'/> 
                         <div className='w-full'>
                             <div className='flex items-center mb-2'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
@@ -151,7 +156,7 @@ const Profile = (user: UserData) => {
                             </div>
                             <div className='ml-2 w-full'>
                                 <p className='text-sm'>Progress to next discount:</p>
-                                <AwardProgressBar completed={userData?.totalCompletedCommissions} bgcolor={'#0075FF'}/>
+                                <AwardProgressBar completed={userData ? userData?.totalCompletedCommissions : 0} bgcolor={'#0075FF'}/>
                             </div>
                         </div>      
                     </div>

@@ -1,16 +1,24 @@
 import * as React from "react";
-import { motion } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 
-const Path = props => (
+interface PathProps {
+    props: any
+}
+
+const Path = (props: any) => (
   <motion.path
     strokeWidth="3"
     stroke="#fff"
     strokeLinecap="round"
     {...props}
   />
-);
+)
 
-export const MenuToggle = ({ func }) => (
+interface MenuToggleProps {
+    func: Function
+}
+
+export const MenuToggle = ({ func }: MenuToggleProps) => (
         <div className="relative">
             <button onClick={() => func()} className="toggle-button md:hidden">
                 <svg width="23" height="23" viewBox="0 0 23 23">

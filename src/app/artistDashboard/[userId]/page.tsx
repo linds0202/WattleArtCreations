@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
@@ -21,7 +20,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  const [currentUser , setCurrentUser] = useState(null)
+  const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
@@ -34,7 +33,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    let latestUser
+    let latestUser: UserData | null
 
     const handleGetPortraits = async () => {
       const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
@@ -44,7 +43,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
-      setCurrentUser(latestUser)
+      if (latestUser) setCurrentUser(latestUser)
       handleGetPortraits()
     }
 
@@ -78,7 +77,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     <p>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../customizer/customizer.png" />
+    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../customizer/customizer.png" alt='background black paint drips'/>
     <div className='text-black min-h-screen pt-3 relative pb-36'>
         <h1 className='text-4xl text-center font-bold my-8'>Artist Dashboard</h1>
         {currentUser && <p className='absolute top-4 right-14 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
@@ -115,7 +114,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
           {filtered.length === 0 ? 
             <p className='text-2xl font-bold mt-8'>No portraits to display</p>
           :  filtered?.map(portrait => (
-            <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
+            <Portrait key={portrait.id} portrait={portrait} user={currentUser} />
           )) }
         </div>
       </div>

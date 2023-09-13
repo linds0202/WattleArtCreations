@@ -10,6 +10,7 @@ const CharList = ({ portrait }: CharListProps) => {
     const charList = portrait.characters.map((char: MyCharValues, i) => (
         <div key={i} className='w-[48%] h-[125px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex justify-between items-center mb-2'>
           <img 
+            alt='default character style thumbnail'
             className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover rounded-xl`} 
             src={`../../customizer/${char.bodyStyle}.png`} 
           />

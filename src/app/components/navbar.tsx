@@ -44,7 +44,7 @@ export default function NavBar() {
   const [clickedNSFW, setClickedNSFW] = useState(false)
   
 
-  const handleClose = (event, reason) => {
+  const handleClose = ({event, reason}: {event: any, reason: any}) => {
     if (reason && reason == "backdropClick") 
         return;
     setLogin(false)
@@ -63,7 +63,7 @@ export default function NavBar() {
     }
   }, [authUser, login])
 
-  const handleOldEnough = (e) => {
+  const handleOldEnough = (e: React.MouseEvent<HTMLElement> ) => {
     e.preventDefault()
     
     setClickedNSFW(true)
@@ -252,7 +252,7 @@ export default function NavBar() {
           <IconButton onClick={() => setLogin(false)} className='absolute top-2 right-2 text-white'>
               <CloseIcon className='text-white hover:text-red-600'/>
           </IconButton>
-          <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' />
+          <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/>
           <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
           <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>

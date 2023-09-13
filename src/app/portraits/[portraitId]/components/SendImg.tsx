@@ -3,23 +3,30 @@ import { addChatImage } from "@/app/firebase/firestore";
 import PhotoIcon from '@mui/icons-material/Photo';
 import { uploadImage } from "@/app/firebase/storage";
 
-const SendImg = ({ portraitId }) => {
+interface SendImgProps {
+    portraitId: string
+}
+
+const SendImg = ({ portraitId }: SendImgProps) => {
     
     const { authUser } = useAuth()
  
 
-    const sendImg = async (e) => {
+    const sendImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
         const { uid, displayName } = authUser
         
-        const imageBucket = await uploadImage(e.target.files[0], portraitId)
+        if (e.target.files) {
+            const imageBucket = await uploadImage(e.target.files[0], portraitId)
 
-        const chatUrls = await addChatImage(portraitId, imageBucket, displayName, uid)
+            const chatUrls = await addChatImage(portraitId, imageBucket, displayName, uid)
+        }
+        
     }
-
+//onSubmit={(event) => sendImg(event)}
     return (
-        <form onSubmit={(event) => sendImg(event)} className="">
+        <form  className="">
             <input
                 type="file"
                 style={{ display: "none" }}

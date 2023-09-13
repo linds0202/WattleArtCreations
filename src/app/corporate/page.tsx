@@ -9,13 +9,6 @@ export default function Corporate() {
   const searchParams = useSearchParams()
   const selection = searchParams.get('selection')
   const [mode, setMode] = useState('CorpHome')
-  console.log('selection is: ', selection)
-  
-  // if (selection && selection !== mode) {
-  //   setMode(selection)
-  // }
-  
-  console.log('mode is: ', mode)
 
   return (
     <main className="bg-white text-black no-underline min-h-screen">

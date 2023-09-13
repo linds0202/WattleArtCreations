@@ -1,19 +1,24 @@
 import { Dialog, DialogContent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { Timestamp } from 'firebase/firestore';
 
 interface EnlargedImageProps {
     openImage: boolean,
     setOpenImage: Function,
     src: string,
-    date: Date,
+    date: Timestamp,
     final: boolean
 }
 
 
 const EnlargedImage = ({openImage, setOpenImage, src, date, final}: EnlargedImageProps ) => {
        
-    const handleRightClick = (e) => {
+    const handleRightClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (final) e.preventDefault()
+    }
+
+    const handleRightClickImg = (e: React.MouseEvent<HTMLImageElement>) => {
         if (final) e.preventDefault()
     }
 
@@ -32,9 +37,9 @@ const EnlargedImage = ({openImage, setOpenImage, src, date, final}: EnlargedImag
             <DialogContent
                 style={{height:'80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
             >
-                <img onContextMenu={(e)=> handleRightClick(e)} src={src} className='max-h-[80%] w-auto'/>
+                <img onContextMenu={(e)=> handleRightClickImg(e)} src={src} className='max-h-[80%] w-auto' alt='enlarged final image'/>
                 {final && <div onContextMenu={(e)=> handleRightClick(e)} className='absolute top-0 left-0 bg-sky-500/10 h-[100%] w-[100%] border-2 border-[#282828]'></div>}
-                {final && <p className='mt-4'>Submitted: {new Date(date).toDateString() + ' at ' + new Date(date).toLocaleTimeString()}</p>}
+                {final && <p className='mt-4'>Submitted: {new Date(date.toDate()).toLocaleDateString("en-US")}</p>}
             </DialogContent>
                     
         </Dialog>
@@ -42,3 +47,5 @@ const EnlargedImage = ({openImage, setOpenImage, src, date, final}: EnlargedImag
 }
 
 export default EnlargedImage
+
+// new Date(date).toDateString() + ' at ' + new Date(date).toLocaleTimeString()

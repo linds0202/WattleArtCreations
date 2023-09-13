@@ -1,9 +1,6 @@
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, RefObject } from "react"
 
 export default function useOnScreen(ref: RefObject<HTMLElement>) {
-
-
-  console.log(ref)
 
   const options = {
     root: ref.current,
@@ -17,7 +14,10 @@ export default function useOnScreen(ref: RefObject<HTMLElement>) {
 
 
   useEffect(() => {
-    observer.observe(ref.current)
+    if (ref){
+      observer.observe(ref.current!)
+    }
+    
     return () => observer.disconnect()
   }, [])
 

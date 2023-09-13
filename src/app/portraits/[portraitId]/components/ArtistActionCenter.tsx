@@ -63,7 +63,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             <div>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
-                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='thumbnail associated with this artist submission'/>
                         <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
                             <p>You submitted an image on:</p>
                             <p className="font-semibold">{new Date(image.date.seconds * 1000).toLocaleString()}</p>
@@ -111,7 +111,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             <>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
-                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg'/>
+                        <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnail'/>
                         <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
                             <p>You submitted an image on:</p>
                             <p className="font-semibold">{new Date(image.date.seconds * 1000).toLocaleString()}</p>
@@ -222,7 +222,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             ? <ActionCenterAccordion title={'First Upload'} open={true} attention={true} >
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                     <h3 className='text-xl font-bold text-center mb-4'>Submit an Image</h3>
-                    <p>Upload your first submission by clicking '<span className="text-[#0075FF] font-semibold">Upload Image</span>' in the final image section of this page.</p>
+                    <p>Upload your first submission by clicking &apos;<span className="text-[#0075FF] font-semibold">Upload Image</span>&apos; in the final image section of this page.</p>
                     <ArtistCounter portrait={portrait} first={true}/>
                 </div>
             </ActionCenterAccordion>

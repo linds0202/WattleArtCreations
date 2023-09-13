@@ -20,6 +20,9 @@ import {
     updateCustomerCommissionsTotal, 
     deletePortraitImages 
 } from '@/app/firebase/firestore';
+import { MyCharValues } from './questionaire/StepOne';
+import { Timestamp } from 'firebase/firestore';
+import { Artist } from '@/app/components/Portrait';
 
 export interface UploadedImgs {
     imageUrls: Array<string>,
@@ -30,16 +33,16 @@ export interface UploadedImgs {
 interface FinalImages {
     imageUrl: string,
     userId: string,
-    date: Date,
+    date: Timestamp,
 }
 
 export interface CustomerRevision {
     text: string,
-    date: Date
+    date: Timestamp
 }
 
 export interface Upload {
-    files: [File],
+    files: File[],
     text: string
 }
 
@@ -49,17 +52,17 @@ export interface PortraitData  {
     characters: [],
     portraitTitle: string,
     requiredQs: [string, string],
-    questions: [{}, {}, {}, {}, {}], 
+    questions: [{q1: string, q2: string, q3: string, q4: string}, {q1: string}, {q1: string, q2: string}, {q1: string, q2: string}, {q1: string, q2: string}], 
     price: number,
     customer: string,
     customerId: '',
-    artist: [],
+    artist: Array<Artist>,
     artistNotes: [],
     artistAssigned: boolean,
-    creationDate: Date,
-    purchaseDate: Date,
+    creationDate: Timestamp,
+    purchaseDate: Timestamp,
     status: string,
-    lastUpdatedStatus: Date,
+    lastUpdatedStatus: Timestamp,
     paymentComplete: boolean,
     id: string,
     revisions: number,
@@ -75,8 +78,8 @@ export interface PortraitData  {
   }
 
 interface PortraitProps {
-    selection: String,
-    editPortrait: PortraitData,
+    selection: string | null,
+    editPortrait: PortraitData | null,
     setEditPortrait: Function,
     editIndex: number,
     portraits: PortraitData[],
@@ -99,7 +102,7 @@ const uiConfig = {
     },
 };
 
-const prices = {
+const prices: any = {
     Photorealistic: {
         Headshot: 100,
         Half: 130,
@@ -132,7 +135,7 @@ const DEFAULT_FORM_STATE = {
 };
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
-
+    if (selection === undefined || !selection) selection = ''
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
@@ -143,17 +146,17 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         characters: [],
         portraitTitle: '',
         requiredQs: ['', ''],
-        questions: [{}, {}, {}, {}, {}],
+        questions: [{q1: '', q2: '', q3: '', q4: ''}, {q1: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}],
         price: 0,
         customer: '',
         customerId: '',
         artist: [],
         artistNotes: [],
         artistAssigned: false,
-        creationDate: new Date(),
-        purchaseDate: new Date(),
+        creationDate: Timestamp.now(),
+        purchaseDate: Timestamp.now(),
         status: 'Unpaid',
-        lastUpdatedStatus: new Date(),
+        lastUpdatedStatus: Timestamp.now(),
         paymentComplete: false,
         id: '',
         revisions: 2,
@@ -168,16 +171,17 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         revisionNotes: []
     })
 
-    const [chars, setChars] = useState(portraitData.characters)
+    const [chars, setChars] = useState<Array<MyCharValues>>(portraitData.characters)
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
 
     const [openUpload, setOpenUpload] = useState(false)
-    const [editImgGroup, setEditImgGroup] = useState(null)
-    const [editImgIndex, setEditImgIndex] = useState()
+    const [editImgGroup, setEditImgGroup] = useState<Upload | null>(null)
+    const [editImgIndex, setEditImgIndex] = useState<number>(0)
     const [uploads, setUploads] = useState<Array<Upload>>([])
+
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -190,7 +194,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
-        console.log('authUser: ', authUser)
         if (authUser) {
             setLogin(false)
         } else if(selection === 'NSFW' && !authUser?.oldEnough) {
@@ -200,19 +203,20 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
-        const price = chars.reduce((sum, char) => sum += char.total, 0)
+        const price = chars.reduce((sum, char) => sum += char?.total, 0)
 
         
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
         
         if (editPortrait) {
-            let newImages
+            let newImages: UploadedImgs[]
             if (uploads.length !== 0) {
                 const bucket = await uploadImages(uploads, editPortrait.id)
 
                 //update portrait with bucket info
                 const updatedImages = await getImageUrls(editPortrait.id, bucket, uploads)
                 newImages = [...updatedImages]
+                console.log('newImages is: ', newImages)
             }
 
             let editedPortraitsData = portraits.map((portrait, i) => {
@@ -226,6 +230,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                     return portrait
                 }
             })
+
+            
 
             let updatedTotalPrice = portraits.reduce((sum, p) => sum += p.price, 0)
 
@@ -249,10 +255,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                
             updatePortrait(id, updatedPortrait)
             
-            setPortraits(prev => ([ ...prev, updatedPortrait ]))
+            setPortraits([ ...portraits, updatedPortrait ])
 
             //Add completed portrait to users reward totals
-            updateCustomerCommissionsTotal(authUser.uid)
+            updateCustomerCommissionsTotal(authUser?.uid)
         }
 
         setEditPortrait(null)
@@ -260,14 +266,14 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     }  
 
-    const handleEditImgGroup = (i) => {
+    const handleEditImgGroup = (i: number) => {
         setEditImgIndex(i)
         setEditImgGroup(uploads[i])
                
         setOpenUpload(true)
     }
   
-    const handleDeleteImgGroup = async (i) => {
+    const handleDeleteImgGroup = async (i: number) => {
         if (editPortrait) {
             try {
                 
@@ -299,7 +305,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             }
         } else {
                        
-            const updatedImgGroup: Array<Upload> = uploads.filter((imgGroup, index) => i !== index)
+            const updatedImgGroup = uploads.filter((imgGroup, index) => i !== index)
             setUploads(updatedImgGroup)
         }
         
@@ -307,7 +313,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
-            <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" />
+            <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" alt='background black paint drips'/>
             <div className="h-[150px] w-full flex flex-col justify-center items-center">
                 <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#0075FF] font-bold'>{selection}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
@@ -370,7 +376,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         <p>Previously uploaded images:</p>
                                         {portraitData.images.map((imgGroup, i) =>
                                         <div key={i} className='bg-white rounded-lg mx-4 p-2 flex '>
-                                            {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain'/>)}
+                                            {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain' alt='thumbnail of customer uploaded images'/>)}
 
                                             <button 
                                                 type="button" 

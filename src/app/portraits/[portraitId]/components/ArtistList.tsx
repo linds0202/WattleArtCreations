@@ -8,14 +8,12 @@ import { PortraitData } from '../../components/PortraitCustomizer';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
+import { Artist } from '@/app/components/Portrait';
 
 interface ArtistListProps {
     openArtistList: boolean,
     setOpenArtistList: Function,
-    artists: [{
-        artistName: string,
-        id: string
-    }],
+    artists: Array<Artist>,
     artistIndex: number,
     setArtistIndex: Function,
     portrait: PortraitData,
@@ -23,7 +21,7 @@ interface ArtistListProps {
 }
 
 const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, setArtistIndex, portrait, setPortrait }: ArtistListProps) => {
-    const [allArtists, setAllArtists] = useState([])
+    const [allArtists, setAllArtists] = useState<UserData[]>([])
     
     useEffect(() => {
         const allArtistsInfo: Array<UserData> = []
@@ -31,8 +29,8 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
         const handleGetAllArtists = async () => {
             
             for (const artist of artists){
-                const artistInfo = await getUserById(artist.id)
-                allArtistsInfo.push(artistInfo)
+                const artistInfo: UserData | null = await getUserById(artist.id)
+                if (artistInfo) allArtistsInfo.push(artistInfo)
             }
         }
         
@@ -66,9 +64,9 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Your Artist List</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             {/* <h2 className='text-4xl font-bold'>Your Artist List</h2> */}
             <div className='w-full flex justify-between items-center'>

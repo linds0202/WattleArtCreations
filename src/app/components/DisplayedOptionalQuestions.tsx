@@ -16,7 +16,7 @@ const DisplayedOptionalQuestions = ({portrait, charVariations, pet, charSheet, w
       {/* general character qs */}
       <Accordion title="Character Basics" required={false} active={true}>
         <div>
-          <p className='text-sm'><span>Personality:</span> What is the character's personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?</p>
+          <p className='text-sm'><span>Personality:</span> What is the character&apos;s personality like? Are there any specific traits or quirks that you would like to be reflected in the artwork?</p>
           <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q1}</p>
           <p className='text-sm'><span>Clothing and Accessories:</span> What kind of clothing and accessories does your character wear?</p>
           <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[0].q2}</p>
@@ -47,7 +47,7 @@ const DisplayedOptionalQuestions = ({portrait, charVariations, pet, charSheet, w
             <>
                 <p className='text-sm leading-3'>For your pet/familiar, please describe their appearance, including any unique features or accessories.</p>
                 <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[2].q1}</p>
-                <p className='text-sm leading-3'>How would you like the pet/familiar to interact with the character in the artwork (e.g., sitting beside the character, perched on the character's shoulder, etc.)?</p>
+                <p className='text-sm leading-3'>How would you like the pet/familiar to interact with the character in the artwork (e.g., sitting beside the character, perched on the character&apos;s shoulder, etc.)?</p>
                 <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[2].q2}</p>
             </>
             : <p className='text-sm font-semibold'>No Pet was added to this portrait.</p>

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
@@ -10,6 +9,7 @@ import Portrait from '../../components/Portrait';
 import Profile from './components/Profile';
 import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 import Footer from '@/app/components/Footer';
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 
 type Params = {
   params: {
@@ -17,26 +17,13 @@ type Params = {
   }
 }
 
-// interface PortraitData {
-//   uid: String,
-//   mode: String, 
-//   characters: [],
-//   questions: [], 
-//   price: Number,
-//   customer: String,
-//   customerId: String,
-//   artist: String,
-//   date: Timestamp,
-//   status: String,
-//   lastUpdatedStatus: Timestamp,
-//   paymentComplete: Boolean,
-// }
+
 
 export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  const [currentUser , setCurrentUser] = useState(null)
+  const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
@@ -50,8 +37,9 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     const handleCurrentUser = async () => {
-      const latestUser = await getUserById(authUser?.uid)
+      const latestUser: UserData | null = await getUserById(authUser?.uid)
       setCurrentUser(latestUser)
+      
     }
     handleCurrentUser()
 
@@ -70,10 +58,6 @@ export default function Dashboard({ params: { userId }}: Params) {
       console.log(filteredPortraits)
       setFiltered(filteredPortraits)
     }
-    // if(filter === 'UnClaimed') {
-    //   const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Unclaimed' && portrait.paymentComplete && portrait.artist.length > 0)
-    //   setFiltered(filteredPortraits)
-    // }
     if(filter === 'Unassigned') {
       const filteredPortraits = myPortraits.filter(portrait => portrait.paymentComplete && !portrait.artistAssigned)
       setFiltered(filteredPortraits)
@@ -95,12 +79,11 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  // f_hero_drip
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../drips/dashboard_top.png" /> 
+    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../drips/dashboard_top.png" alt='background black paint drips'/> 
 
     <div className=' text-black pt-3 pb-36'>
     
@@ -144,7 +127,7 @@ export default function Dashboard({ params: { userId }}: Params) {
         {filtered.length === 0 ? 
           <p className='text-2xl font-bold mt-8'>No portraits to display</p>
         :  filtered?.map(portrait => (
-          <Portrait key={portrait.uid} portrait={portrait} user={currentUser} />
+          <Portrait key={portrait.id} portrait={portrait} user={currentUser} />
         )) }
       </div>   
     </div>

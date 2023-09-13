@@ -17,12 +17,31 @@ import ArtistActionCenter from './components/ArtistActionCenter';
 import { Rating } from '@mui/material';
 import Questions from './components/Questions';
 import Footer from '@/app/components/Footer';
+import { Timestamp } from 'firebase/firestore';
+
 
 interface EnlargeProps {
   src: string,
-  date: Date,
+  date: Timestamp,
   final: boolean 
 }
+
+interface RevisionNote {
+  text: string,
+  date: Timestamp
+}
+
+interface Testimonial {
+  artistId: string,
+  customerDisplayName: string,
+  customerId: string,
+  imgUrl: string,
+  includeImg: boolean,
+  portraitId: string,
+  stars: number,
+  text: string
+}
+
 type Params = {
   params: {
     portraitId: string
@@ -39,15 +58,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openImage, setOpenImage] = useState(false)
   const [imgEnlarge, setImgEnlarge] = useState<EnlargeProps>({
     src: '',
-    date: new Date,
+    date: Timestamp.now(),
     final: false 
   })
   const [openComplete, setOpenComplete] = useState(false)
   const [openRevison, setOpenRevision] = useState(false)
   const [requestRevision, setRequestRevision] = useState(false)
 
-  const [testimonial, setTestimonial] = useState(null)
-  const [revisionNote, setRevisionNote] = useState(null)
+  const [testimonial, setTestimonial] = useState<Testimonial | null>(null)
+  const [revisionNote, setRevisionNote] = useState<RevisionNote>({text:'', date: Timestamp.now()})
 
   const [openQuestions, setOpenQuestions] = useState(false)
   
@@ -61,14 +80,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
   useEffect(() => {
     const handleGetPortrait = async () => {
-      const currentPortrait = await getPortrait(portraitId);
-
-      if (currentPortrait.status === "Completed") {
-        const customerTestimonial = await getTestimonial(currentPortrait.id)
-        setTestimonial(customerTestimonial)
+      const currentPortrait: PortraitData | null = await getPortrait(portraitId);
+      if (currentPortrait) {
+        if (currentPortrait.status === "Completed") {
+          const customerTestimonial = await getTestimonial(currentPortrait.id)
+          setTestimonial(customerTestimonial)
+        }
+  
+        setPortrait(currentPortrait)
       }
-
-      setPortrait(currentPortrait)
     }
 
     handleGetPortrait()
@@ -78,20 +98,25 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   useEffect(() => {
     if (requestRevision) {
 
-      const revisions = portrait?.revisions - 1
+      const revisions = portrait?.revisions! - 1
       let newPortrait 
-      if (revisions < 0) {
-  
-        newPortrait = {...portrait, revised: false, additionalRevisionRequest: true, revisionNotes: [...portrait?.revisionNotes, revisionNote]} 
       
-        updatePortrait(portrait?.uid, {...portrait, additionalRevisionRequest: true, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote]})
+      if (revisions < 0) {
+        if (portrait) {
+        
+          newPortrait = {...portrait, revised: false, additionalRevisionRequest: true, revisionNotes: [...portrait?.revisionNotes, revisionNote]} 
+        
+          updatePortrait(portrait?.id, {...portrait, additionalRevisionRequest: true, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote]})
+        }
 
-        setPortrait(newPortrait)
+        if (newPortrait) setPortrait(newPortrait)
 
       } else {
-        newPortrait = {...portrait, revisions: revisions, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote] }
+        if (portrait) {
+          newPortrait = {...portrait, revisions: revisions, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote] }
         
-        updatePortrait(portrait?.uid, {...portrait, revisions: revisions, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote]})
+          updatePortrait(portrait?.id, {...portrait, revisions: revisions, revised: false, revisionNotes: [...portrait?.revisionNotes, revisionNote]})
+        } 
       }
 
       setPortrait(newPortrait)
@@ -128,7 +153,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <p className='min-h-screen text-center text-4xl'>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-full absolute -top-[16px] left-0" src="../../drips/wizard3.png" />
+    <img className="w-full absolute -top-[16px] left-0" src="../../drips/wizard3.png" alt='background black paint drip'/>
     <div className='bg-white text-black min-h-screen pt-3 pb-36'>
       <div className='relative'>
         <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
@@ -139,7 +164,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             View Portrait Details
         </button>
 
-        {openQuestions && 
+        {openQuestions && portrait &&
             <Questions 
                 portrait={portrait} 
                 setPortrait={setPortrait} 
@@ -169,9 +194,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             <div className='w-6/12 border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
               <div>
                 {authUser?.roles === 'Customer' 
-                  ? <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />
-                  : <ArtistActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}/>
-                }
+                  ? <>{portrait && <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />}</>
+                  : <>{portrait && <ArtistActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}/>
+                }</>
+              }
               </div>
 
             </div>
@@ -193,17 +219,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
                     {portrait?.status === "Completed" &&
                     <div className='my-8 flex flex-wrap justify-between items-center'>
-                      <p className='text-xl font-semibold w-[100%]'>Customer's Testimonial:</p>
+                      <p className='text-xl font-semibold w-[100%]'>Customer&apos;s Testimonial:</p>
                       <div className='mt-4 border-2 border-[#282828] rounded-xl p-4 flex items-center'>
                         <div className='w-[40%]'>
-                          {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto '/>}
+                          {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto ' alt='customer finished image in testimonial'/>}
                         </div>
                         <div className='w-[55%]'>
                           <div className='flex items-center'>
                               <Rating name="read-only" value={testimonial?.stars} readOnly precision={0.5} size="small" />
                               <span className='ml-2'>({testimonial?.stars})</span>
                           </div>
-                          <p>"{testimonial?.text}"</p>
+                          <p>&quot;{testimonial?.text}&quot;</p>
                           <p className='text-right'>- {testimonial?.customerDisplayName}</p>
                         </div>
                       </div>
@@ -218,14 +244,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   </div>
 
                   <div className='w-full h-[260px] flex justify-around mb-4'>
-                    {portrait?.finalImages?.length > 0 
+                    {portrait && portrait?.finalImages?.length > 0 
                       && <img 
+                        alt='thumbnail for final images'
                         onContextMenu={(e)=> e.preventDefault()}
                         className='w-[256px] h-[256px] object-contain cursor-pointer'
                         src={portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl} 
                         onClick={() => handleEnlarge({
                           src: portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl, 
-                          date: new Date, 
+                          date: Timestamp.now(), 
                           final: true
                         })}
                       />
@@ -235,9 +262,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
                   <div className='w-full'>
                     <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
-                      {portrait?.finalImages?.length > 0 
+                      {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
                         <img 
+                          alt='final image thumbnail'
                           onContextMenu={(e)=> e.preventDefault()}
                           key={i}        
                           className='w-[64px] h-[64px] object-contain cursor-pointer' 
@@ -257,7 +285,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     }
 
                     <div className='w-full flex justify-center items-center'>
-                      {authUser?.roles === 'Artist' && !portrait?.revised && portrait?.revisions >= 0 && 
+                      {authUser?.roles === 'Artist' && portrait && !portrait?.revised && portrait?.revisions >= 0 && 
                         <button 
                           className={`border-2 border-[#282828] rounded-lg p-2`}   //${!portrait?.additionalRevision ? 'border-[#e8e8e8] text-[#e8e8e8]' : 'border-black'}
                           onClick={handleUpload}
@@ -305,7 +333,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             </div>
           </div>
 
-          {openComplete && 
+          {openComplete && portrait &&
             <CompleteCommission 
               role={authUser?.roles} 
               openComplete={openComplete} 
@@ -315,12 +343,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             />
           }
 
-          {openRevison && 
+          {openRevison && portrait &&
             <RequestRevision
               openRevision={openRevison} 
               setOpenRevision={setOpenRevision} 
               setRequestRevision={setRequestRevision} 
-              remainingRevisions={portrait?.revisions}
+              remainingRevisions={portrait.revisions}
               revisionNote={revisionNote}
               setRevisionNote={setRevisionNote}
             />

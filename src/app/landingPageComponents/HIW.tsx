@@ -43,7 +43,7 @@ const letters = words.split('');
 
 const FADE_IN_ANIMATION_VARIANTS = {
     initial: { y: 200, opacity: 0 },
-    animate: (i) => ({ y: 0, opacity: 1, transition: { delay: i * 0.1 } }),
+    animate: (i: number) => ({ y: 0, opacity: 1, transition: { delay: i * 0.1 } }),
   };
 
 

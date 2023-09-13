@@ -15,13 +15,13 @@ export interface MyCharValues {
     numCharVariations: number,
     pets: boolean,
     numPets: number,
-    extras: [string],
+    extras: string[],
     total: number,
     charDiscount: boolean
 }
 
 interface MyCharProps {
-    prices: Object
+    prices: any,
     portraitData: PortraitData, 
     chars: MyCharValues[],
     setChars: Function,
@@ -36,7 +36,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const selection = portraitData.mode
     const [openCharMod, setOpenCharMod] = useState(false);
     const [isEdit, setIsEdit] = useState(false)
-    const [editCharIndex, setEditCharIndex] = useState<number | null>(null)
+    const [editCharIndex, setEditCharIndex] = useState<number>(0)
     const [weaponsPrice, setWeaponsPrice] = useState<number>(0)
     const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
     const [modelPrice, setModelPrice] = useState<number>(0)
@@ -57,7 +57,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const [message, setMessage] = useState('')
     const [isHovering, setIsHovering] = useState(false);
 
-    const handleMouseOver = (e) => {
+    const handleMouseOver = (e: any) => {
         setMessage(e)
         setIsHovering(true);
     };
@@ -80,7 +80,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         })
     }, [chars])
 
-    const handleCharSubmit = (values) => {
+    const handleCharSubmit = (values: MyCharValues) => {
+
         setCharVariations(false)
         setPet(false)
         setCharSheet(false)
@@ -289,7 +290,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         <DeleteForeverIcon />
                     </button>
 
-                    <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-auto rounded-xl my-4`} src={`./customizer/${char.bodyStyle}.png`} />
+                    <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-auto rounded-xl my-4`} src={`./customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
                     
                     <div className="w-full bg-[#282828] text-white rounded-b-lg p-4">
                         <div className="w-full flex justify-center">
@@ -331,9 +332,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center">
-                <img className="mr-8 w-[10%] justify-self-center" src="./drips/side_splashL.png" />
+                <img className="mr-8 w-[10%] justify-self-center" src="./drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
-                <img className="ml-8 w-[10%] justify-self-center" src="./drips/side_splashR.png" />
+                <img className="ml-8 w-[10%] justify-self-center" src="./drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             <div className="w-full">
                 <Formik
@@ -368,7 +369,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                             {isHovering && message === 'body' && (
                                                 <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[75px] left-[42%] m-0 ml-8 z-40">
-                                                    <img src="./body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg"/>
+                                                    <img src="./body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
                                                 </div>
                                             )}
                                         </div>
@@ -404,7 +405,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                             {isHovering && message === 'variations' && (
                                                 <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[70%] m-0 ml-4 z-40">
-                                                    <h2 className="text-white text-md text-left">How many versions of this character are you looking for? For additional <span className="text-[#0075FF] font-bold">different</span> characters please click "Complete Character" then use the “add character” button.</h2>
+                                                    <h2 className="text-white text-md text-left">How many versions of this character are you looking for? For additional <span className="text-[#0075FF] font-bold">different</span> characters please click &quot;Complete Character&quot; then use the “add character” button.</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -462,7 +463,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                         {isHovering && message === 'model' && (
                                             <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we'll design and ship you a custom <span className="text-[#0075FF] font-bold">3d-model</span> based off the image design!</h2>
+                                                <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#0075FF] font-bold">3d-model</span> based off the image design!</h2>
                                             </div>
                                         )}
                                     </div>
@@ -480,7 +481,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                             {isHovering && message === 'characterSheet' && (
                                                 <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
-                                                    <h2 className="text-white text-md text-left">If you're planning on using this character for a <span className="text-[#0075FF] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous,</h2>
+                                                    <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#0075FF] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -498,7 +499,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                         {isHovering && message === 'weaponSheet' && (
                                             <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
-                                                <h2 className="text-white text-md text-left">Have a <span className="text-[#0075FF] font-bold">special weapon</span> that deserves it's own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it's glory.</h2>
+                                                <h2 className="text-white text-md text-left">Have a <span className="text-[#0075FF] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
                                             </div>
                                         )}
                                     </div>

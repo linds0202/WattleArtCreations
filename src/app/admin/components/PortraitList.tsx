@@ -7,11 +7,39 @@ import Portrait from "@/app/components/Portrait";
 import { PortraitData } from "@/app/portraits/components/PortraitCustomizer";
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 
-export default function PortraitList({ user }) {
+
+interface PortraitListProps {
+  user: UserData
+}
+
+interface AdminUser {
+  avatar: string,
+  displayName: string,
+  email: string,
+  roles: string,
+  uid: string,
+  artistName: string, 
+  bio: string,
+  links: string[],
+  website:string,
+  country: string,
+  activeCommissions: number,
+  maxCommissions: number,
+  totalCompletedCommissions: number,
+  lifeTimeEarnings: number,
+  paymentsOwing: number,
+  totalPortraits: number,
+  totalStars: number,
+  totalReviews: number,
+  starRating: number,
+  joinedOn: Timestamp,
+}
+
+export default function PortraitList({ user }: PortraitListProps) {
   const [allPortraits, setAllPortaits] = useState<Array<PortraitData>>([])
   const [filteredPortraits, setFilteredPortraits] = useState<Array<PortraitData>>([])  
-  const [button, setButton] = useState<String>('')
-  const [currentAdmin, setCurrentAdmin] = useState<UserData>(null)
+  const [button, setButton] = useState<string>('')
+  const [currentAdmin, setCurrentAdmin] = useState<null | UserData>(null)
 
   useEffect(() => {
     const handleGetAllPortraits = async () => {
@@ -21,8 +49,9 @@ export default function PortraitList({ user }) {
     }
 
     const handleGetUser = async () => {
-      const currentUser = await getUserById(user.uid)
-      setCurrentAdmin(currentUser)
+      const currentUser: UserData | null = await getUserById(user.uid)
+      console.log('current user: ', currentUser )
+      if(currentUser) setCurrentAdmin(currentUser)
     }
 
     handleGetAllPortraits()
@@ -71,12 +100,9 @@ export default function PortraitList({ user }) {
               <p>No portraits to display</p>
             :  filteredPortraits?.map(portrait => (
               <Portrait 
-                key={portrait.uid} 
+                key={portrait.id} 
                 portrait={portrait}
                 user={currentAdmin} 
-                // userId={user.uid} 
-                // displayName={user.displayName} 
-                // role={user.roles}
               />
             )) }
           </div>   

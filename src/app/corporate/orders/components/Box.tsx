@@ -1,7 +1,13 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-export function Box({ choice, setSelection, setOpenWizard }) {
+interface BoxProps {
+  choice: string,
+  setSelection: Function,
+  setOpenWizard: Function
+}
+
+export function Box({ choice, setSelection, setOpenWizard }: BoxProps) {
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -11,7 +17,7 @@ export function Box({ choice, setSelection, setOpenWizard }) {
 
   const scale = useTransform(scrollYProgress, [0, .25, 0.75, 1], [0.5, 1, 1, 0.5]);
 
-  function handleClick(choice) {
+  function handleClick(choice: string) {
     setSelection(choice)
     setOpenWizard(true)
   }

@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { UserData } from './[userId]/portfolio/page';
 import Footer from '../components/Footer';
 
-const page = () => {
+const ArtistDashboard = () => {
     
     const [artistData, setArtistData] = useState<Array<UserData>>([])
     
@@ -24,7 +24,7 @@ const page = () => {
 
     const artistList = artistData.map((artist, i) => (
         <div key={i} className='w-[30%] h-[100%] border-2 border-[#282828] rounded-xl pt-4'>
-            <img className='w-[90%] h-[50%] object-cover mx-auto rounded-t-xl' src='./animeImgs/anime10.png' />
+            <img className='w-[90%] h-[50%] object-cover mx-auto rounded-t-xl' src='./animeImgs/anime10.png' alt='artist image'/>
             <div className='w-[100%] h-[50%] bg-[#282828] rounded-b-lg text-white p-4 flex flex-col justify-between'>
                 <Link href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
@@ -72,7 +72,7 @@ const page = () => {
 
     return (
         <div className='relative min-h-[100vh]'>
-            <img className="w-full absolute -top-[16px] left-0" src="../customizer/customizer.png" />
+            <img className="w-full absolute -top-[16px] left-0" src="../customizer/customizer.png" alt='background black paint drips'/>
             <div className='pb-36'>
                 <h1 className='text-6xl font-bold p-4'>Our Artists</h1>
                 <p className='text-center'>Something here about the artists</p>
@@ -85,4 +85,4 @@ const page = () => {
     )
 }
 
-export default page
+export default ArtistDashboard

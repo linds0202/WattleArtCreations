@@ -5,22 +5,36 @@ import { onAuthStateChanged, signOut as authSignOut } from 'firebase/auth';
 import { auth } from './firebase';
 import { getUser } from './firestore';
 
+export interface AuthUserData {
+  uid: string | null,
+  email: string | null,
+  displayName: string | null | undefined,
+  roles: string | null,
+  oldEnough: boolean
+}
+
 export default function useFirebaseAuth() {
-  const [authUser, setAuthUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [authUser, setAuthUser] = useState<AuthUserData | null>({
+    uid: null,
+    email: null,
+    displayName: null,
+    roles: null,
+    oldEnough: false
+  });
+  const [isLoading, setIsLoading] = useState<any>(true);
 
   const clear = () => {
     setAuthUser(null);
     setIsLoading(false);
   };
 
-  const authStateChanged = async (user) => {
+  const authStateChanged = async (user: any) => {
     setIsLoading(true);
     if (!user) {
         clear();
         return;
     } else {
-      const userData = await getUser(user)
+      const userData: any = await getUser(user)
 
       setAuthUser({
         uid: user.uid,
@@ -52,14 +66,14 @@ export default function useFirebaseAuth() {
 
 const AuthUserContext = createContext({
   authUser: null,
-  setAuthUser: async (authUser) => {},
+  setAuthUser: async (authUser: any) => {},
   isLoading: true,
   signOut: async () => {}
 });
 
-export function AuthUserProvider({ children }) {
-  const auth = useFirebaseAuth();
+export function AuthUserProvider({ children }: any) {
+  const auth: any = useFirebaseAuth();
   return <AuthUserContext.Provider value={auth}>{children}</AuthUserContext.Provider>;
 }
 
-export const useAuth = () => useContext(AuthUserContext);
+export const useAuth = () => useContext<any>(AuthUserContext);

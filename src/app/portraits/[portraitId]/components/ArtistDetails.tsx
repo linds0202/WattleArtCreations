@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, MouseEventHandler } from 'react';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 import DirectSelectArtist from './DirectSelectArtist';
 import { PortraitData } from '../../components/PortraitCustomizer';
@@ -12,7 +12,7 @@ interface ArtistDetailsProps {
     setPortrait: Function,
     setOpenArtistList: Function,
     artistNote: string,
-    handleClose: Function
+    handleClose: MouseEventHandler<HTMLButtonElement>
 }
 
 const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artistNote, handleClose}: ArtistDetailsProps) => {
@@ -28,7 +28,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
         <div className='mt-2 p-4 flex flex-col items-center'>
             <div className='w-full h-full flex items-center'>
                 <div className='w-[35%]'>
-                    <img src='../../../photoImgs/photo4.jpg' className='w-[240px] h-[240px] mx-auto object-cover rounded-xl'/>
+                    <img src='../../../photoImgs/photo4.jpg' className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
                 </div>
                 
                 <div className='w-[65%] flex flex-col justify-between items-start'>

@@ -31,7 +31,7 @@ const uiConfig = {
 export default function Portraits() {
 
   const searchParams = useSearchParams()
-  const selection = searchParams.get('selection')
+  const selection: string | null = searchParams.get('selection')
   const portraitId = searchParams.get('portrait_id')
   const continueEdit = searchParams.get('edit')
 
@@ -42,15 +42,16 @@ export default function Portraits() {
 
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [openWizard, setOpenWizard] = useState(false)
-  const [editIndex, setEditIndex] = useState(null)
-  const [editPortrait, setEditPortrait] = useState(null)
+  const [editIndex, setEditIndex] = useState<number>(0)
+  const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
   const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
     if (portraitId && continueEdit) {
       const handleGetPortrait = async () => {
-        const addedPortrait:PortraitData = await getPortrait(portraitId)
-        setPortraits(prev => [...prev, addedPortrait])
+        const addedPortrait: PortraitData | null = await getPortrait(portraitId)
+      
+        if (addedPortrait) setPortraits(prev => [...prev, addedPortrait])
         setEditPortrait(addedPortrait)
         setEditIndex(0)
         setOpenWizard(true)
@@ -60,8 +61,9 @@ export default function Portraits() {
       
     } else if (portraitId && !continueEdit) {
       const handleGetPortrait = async () => {
-        const addedPortrait:PortraitData = await getPortrait(portraitId)
-        setPortraits(prev => [...prev, addedPortrait])
+        const addedPortrait: PortraitData | null = await getPortrait(portraitId)
+
+        if (addedPortrait) setPortraits(prev => [...prev, addedPortrait])
       }
       
       handleGetPortrait()
@@ -94,7 +96,7 @@ export default function Portraits() {
       <div>
         <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters?.length}</span></p>
         <div className='flex justify-start'>  
-          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png'/>)}
+          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png' alt='small human icon'/>)}
         </div>
       </div>
       <div className='w-6/12'>
@@ -103,7 +105,7 @@ export default function Portraits() {
           {portrait?.images.length
             ? portrait.images.map((imgSet, i) => 
               <div key={i} className='flex justify-around items-center border-2 border-[#282828] rounded-lg p-2 mx-2'>
-                {imgSet.imageUrls.map((url, i) => <img className="w-[32px] h-[32px] mx-2" key={i} src={url}/>)}
+                {imgSet.imageUrls.map((url, i) => <img className="w-[32px] h-[32px] mx-2" key={i} src={url} alt='thumbnail of customer uploaded image'/>)}
               </div>)
             : <p className='text-sm text-red-600'>(No images uploaded)</p>}
         </div>
@@ -124,13 +126,13 @@ export default function Portraits() {
   ))
   
 
-  const handleEdit = (i) => {
+  const handleEdit = (i: number) => {
     setEditPortrait(portraits[i])
     setEditIndex(i)
     setOpenWizard(true)
   }
 
-  const handleDelete = (i) => {
+  const handleDelete = (i: number) => {
     alert('Portraits removed from your cart are not deleted. They can be found on your dashboard to be ordered at a later time')
     let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
     setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price, 0))
@@ -140,7 +142,7 @@ export default function Portraits() {
 
   return (
     <div className='relative min-h-[100vh]'>
-      <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" />
+      <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" alt='background black paint drips'/>
       <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black pb-36'>
         {!openWizard && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
 

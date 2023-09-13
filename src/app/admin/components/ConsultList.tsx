@@ -4,10 +4,10 @@ import { useState, useEffect } from "react"
 import { getAllConsults } from "@/app/firebase/firestore"
 import ConsultRow from "./ConsultRow";
 
-interface CorporateData {
-    uid: String,
-    category: String, 
-    subcategories: String, 
+export interface CorporateData {
+    uid: string,
+    category: string, 
+    subcategories: string, 
     questions: [], 
     generalAnswers: {},
     advertisementAnswers: {},
@@ -15,12 +15,12 @@ interface CorporateData {
     tableAnswers: {},
     videoGameAnswers: {},
     price: Number,
-    customerFirstName: String,
-    customerLastName: String,
-    customerEmail: String,
-    consultant: String,
+    customerFirstName: string,
+    customerLastName: string,
+    customerEmail: string,
+    consultant: string,
     date: Date,
-    status: String,
+    status: string,
     lastUpdatedStatus: Date,
     paymentComplete: Boolean,
   }

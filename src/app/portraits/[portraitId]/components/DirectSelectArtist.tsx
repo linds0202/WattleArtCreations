@@ -33,7 +33,7 @@ const DirectSelectArtist = ({ open, setOpen, portrait, setPortrait, artistId, se
             }
 
             const selection = portrait.artist.filter(artist => artist.id === artistId)[0]
-            const updatedArtist = await addSelectedArtist(portrait.uid, selection.id, selection.artistName)
+            const updatedArtist = await addSelectedArtist(portrait.id, selection.id, selection.artistName)
             const updatedPortrait = {...portrait, artist: [{artistName: selection.artistName, id: selection.id}], artistAssigned: true, status: 'In Progress', lastUpdatedStatus: new Date}
             setPortrait(updatedPortrait)
             setOpen(false)

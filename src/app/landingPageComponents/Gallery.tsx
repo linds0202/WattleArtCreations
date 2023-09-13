@@ -100,7 +100,7 @@ export default function Gallery() {
                     className="carousel__slide"
                   >
                     {/* {i + 1} */}
-                    <img className="w-[300px] h-[300px] object-cover rounded-xl" src={`${i}`} />
+                    <img className="w-[300px] h-[300px] object-cover rounded-xl" src={`${i}`} alt='gallery image'/>
                   </motion.div>
                 ))}
               </motion.div>

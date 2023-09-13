@@ -6,8 +6,8 @@ import { useState } from 'react';
 interface CustomerTestimonialProps {
     setOpenTestimonial: Function,
     displayName: string,
-    portraitId: string,
-    artistId: string,
+    portraitId: string | null,
+    artistId: string | null,
     customerId: string,
     setReviewed: Function
 }
@@ -42,7 +42,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
                     
                     setReviewed(true)
                     helpers.setSubmitting(false)
-                    helpers.resetForm(values)
+                    helpers.resetForm()
                     setOpenTestimonial(false)
                 }}
             >

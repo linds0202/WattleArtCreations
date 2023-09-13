@@ -14,17 +14,15 @@ interface CustomerFormValues {
 
 interface customerFormProps {
     setUserData: Function,
-    userData: UserData,
+    userData: UserData | null,
     setIsEdit: Function,
 }
 
 
 const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormProps) => {
 
-    const initialValues: CustomerFormValues = {
-        displayName: userData.displayName,
-        country: userData.country
-    }
+    const initialValues: CustomerFormValues = userData ? { displayName: userData.displayName, country: userData.country} : 
+        {displayName: "", country: ""}
 
     return (
         <div className='w-8/12 mx-auto my-10 bg-white border-2 border-black rounded-xl relative'>
@@ -38,14 +36,13 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
-                    console.log('in form userData is: ', userData)
-                    console.log('values is: ', values)
+                    
                     updateUserData({...userData, ...values})
 
                     helpers.setSubmitting(false)
                     setUserData({...userData, ...values})
                     
-                    helpers.resetForm(values)
+                    helpers.resetForm()
                     setIsEdit(false)
                 }}
             >

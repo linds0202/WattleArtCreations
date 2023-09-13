@@ -13,10 +13,16 @@ import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
 import EnlargedImage from './EnlargedImage'
 import ImgSet from './ImgSet'
 import ClaimForm from './ClaimForm'
+import { UserData } from '../artistDashboard/[userId]/portfolio/page'
 
 interface PortraitProps {
   portrait: PortraitData,
-  user: UserData
+  user: UserData | null
+}
+
+export interface Artist {
+  artistName: string,
+  id: string
 }
 
 export default function Portrait({ portrait, user}: PortraitProps) {
@@ -84,7 +90,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           return 'No Artist Bids'
         case 'Unassigned':
           let claimed
-          portrait.artist.forEach(artist => {
+          portrait.artist.forEach((artist: any) => {
             if(artist.id === user?.uid) claimed = true
           })
           return claimed ? 'Waiting for customer to select artist' : 'Available'
@@ -136,10 +142,10 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               <p className='font-semibold'>
                 {portrait.status === 'Unassigned' ? 'Pending Artist(s): ' : 'Artist: '} 
                   {portrait.artist.length  
-                    ? portrait.artist.map((artist, i) => 
+                    ? portrait.artist.map((artist: Artist, i) => 
                       <Link 
                         key={i} 
-                        href={`/artistDashboard/${portrait.artist[i].id}/portfolio`} 
+                        href={`/artistDashboard/${artist.id}/portfolio`} 
                         className="text-[#2DD42B] hover:text-[#165f15] text-xl hover:underline ml-4"
                         rel="noopener noreferrer" 
                         target="_blank"
@@ -164,27 +170,27 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       <div className='w-[15%] flex flex-col justify-between'>
                   
         {/* If artist & not max commissions show claim button*/}
-        {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
+        {(portrait.artist.filter((artist: Artist) => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
           <button onClick={handleClaim} className='w-full text-xl border-black border-2 rounded-xl px-4 py-2 mb-4 hover:bg-[#0075FF] hover:text-white'>Claim</button>
         }
 
         {/* If not ordered - click to add to cart */}
         {user?.roles === 'Customer' && !portrait.paymentComplete && 
           <div>
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]'>Add to Cart</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]'>Add to Cart</p></Link>
 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.uid}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#0075FF] hover:border-[#0075FF]'>Continue Customizing</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#0075FF] hover:border-[#0075FF]'>Continue Customizing</p></Link>
           </div>
         }
 
         {/* If payment complete - link to individual portrait page */}
-        {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.uid}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p className='text-center'>Portrait Page</p></Link>}
+        {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p className='text-center'>Portrait Page</p></Link>}
         
         {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
           <div>
             {portrait?.reassigned && 
               <Link 
-                href={`/portraits/${portrait.uid}`}
+                href={`/portraits/${portrait.id}`}
                 rel="noopener noreferrer" 
                 target="_blank" 
                 className="w-full text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]">
@@ -199,7 +205,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.uid}`} className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p>Portrait Page</p></Link>}
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.id}`} className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p>Portrait Page</p></Link>}
 
         {openClaimForm &&
           <ClaimForm
@@ -250,6 +256,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                           onClick={() => handleOpenImgSet(i)}
                         >
                           {imgSet.imageUrls.map((url, i) => <img 
+                            alt='customer uploaded image thumbnail'
                             className="w-[64px] h-[64px] object-contain m-2 cursor-pointer" 
                             key={i} 
                             src={url}
@@ -283,7 +290,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               <div className='w-6/12 mx-auto flex justify-between items-center mt-4 py-4'>
                 <button type='button' onClick={() => setOpenArtistDetails(false)} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#282828]'>Close</button>
 
-                {(portrait.artist.filter(artist => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
+                {(portrait.artist.filter((artist: Artist) => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
                   <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#0075FF]'>Claim</button>
                 }
               </div>

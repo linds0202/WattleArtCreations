@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { PortraitData } from '../portraits/components/PortraitCustomizer';
 import { addSelectedArtist, updateArtistComms } from '../firebase/firestore';
+import { Artist } from './Portrait';
 
 interface SelectArtistProps {
     open: boolean,
@@ -23,7 +24,7 @@ export default function SelectArtist({ open, setOpen, portrait }: SelectArtistPr
 
     const [selectedArtist, setSelectedArtist] = useState<string>('');
 
-    const artistChoices = portrait?.artist.map((artist) => <option key={artist.id} value={artist.id}>{artist.artistName}</option>)
+    const artistChoices = portrait?.artist.map((artist: Artist) => <option key={artist.id} value={artist.id}>{artist.artistName}</option>)
 
     const handleChange = (event: SelectChangeEvent<typeof selectedArtist>) => {
         setSelectedArtist(event.target.value || '')
@@ -40,12 +41,13 @@ export default function SelectArtist({ open, setOpen, portrait }: SelectArtistPr
             if (selectedArtist === '') {
                 setOpen(false)
             } else {
-                for (const artist of portrait.artist) {
+                let artist: Artist
+                for (artist of portrait.artist) {
                     if (artist.id !== selectedArtist) updateArtistComms(artist.id)
                 }
 
-                const selection = portrait.artist.filter(artist => artist.id === selectedArtist)[0]
-                const updatedArtist = await addSelectedArtist(portrait.uid, selection.id, selection.artistName)
+                const selection: Artist = portrait.artist.filter((artist: Artist) => artist.id === selectedArtist)[0]
+                const updatedArtist = await addSelectedArtist(portrait.id, selection.id, selection.artistName)
                 setOpen(false)
             }
         }

@@ -2,17 +2,21 @@ import {useState} from "react";
 import { useAuth } from "@/app/firebase/auth";
 import { addChatMessage } from "@/app/firebase/firestore";
 
-const SendMessage = ({ portraitId }) => {
+interface SendMessageProps {
+    portraitId: string
+}
+
+const SendMessage = ({ portraitId }: SendMessageProps) => {
     
     const { authUser } = useAuth()
     
     const [message, setMessage] = useState('')
 
-    const sendMessage = async (event) => {
+    const sendMessage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         
         //check if message is empty
-        if (message.trim() === "" && !img) {
+        if (message.trim() === "") {
           alert("Enter valid message")
           return
         }
@@ -24,9 +28,9 @@ const SendMessage = ({ portraitId }) => {
         setMessage("")
     }
 
-
+//onSubmit={(event) => sendMessage(event)}
     return (
-        <form onSubmit={(event) => sendMessage(event)} className="send-mesg"> 
+        <form className="send-mesg"> 
 
             <label htmlFor="messageInput" hidden>
                 Enter Message

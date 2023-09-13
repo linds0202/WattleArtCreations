@@ -69,14 +69,14 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                         >
                             {category[mode].imgs.map(el => {
                                     return (
-                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain"/>  
+                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain" alt='default mode image'/>  
                                 )})
                             }
                         </Carousel>
                     }
 
                     {mode === 'NSFW' && 
-                        <img className='w-[80%] h-auto object-contain' src="./nsfwImgs/nsfw1.jpg" />
+                        <img className='w-[80%] h-auto object-contain' src="./nsfwImgs/nsfw1.jpg" alt='category image'/>
                     }
                 </div>
                 <div className="w-[45%] flex flex-col pt-14 pr-[5%] justify-center">

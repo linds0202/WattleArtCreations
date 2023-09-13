@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import EnlargedImage from './EnlargedImage';
+import { Timestamp } from 'firebase/firestore';
 
 
 interface MyImgSet {
@@ -14,7 +15,7 @@ interface MyImgSet {
 interface ImgSetProps {
     openImgSet: boolean,
     setOpenImgSet: Function,
-    imgSet: Array<MyImgSet>
+    imgSet: MyImgSet
 }
 
 
@@ -40,9 +41,9 @@ const ImgSet = ({openImgSet, setOpenImgSet, imgSet }: ImgSetProps ) => {
             </IconButton>
 
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Uploaded Image Set</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             
             <DialogContent
@@ -50,6 +51,7 @@ const ImgSet = ({openImgSet, setOpenImgSet, imgSet }: ImgSetProps ) => {
             >
                 <div className='w-full flex justify-center items-center'>
                     {imgSet.imageUrls.map((img, i) => <img 
+                        alt='customer uploaded image thumbnail'
                         className="w-[128px] h-[128px] object-contain m-8 cursor-pointer" 
                         key={i} 
                         src={img}
@@ -68,7 +70,7 @@ const ImgSet = ({openImgSet, setOpenImgSet, imgSet }: ImgSetProps ) => {
                 </button>
                 
                 {openImage &&
-                  <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src} final={false}/>
+                  <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={src} final={false} date={Timestamp.now()}/>
                 }
             </DialogContent>
                     

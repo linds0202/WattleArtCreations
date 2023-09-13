@@ -35,7 +35,7 @@ const Testimonial = ({ testimonial, animate, variants, modifier }: Props) => {
         <div className="relative w-11/12 h-full flex flex-col justify-center items-center text-black p-8">
           <p className="text-center">&ldquo;{testimonial.body}&ldquo;</p>
           <p className=' text-base font-bold text-right pr-10'>-{testimonial.author}</p>
-          <img src={`./drips/testimonial_1.png`} className="absolute top-0 left-0 w-full h-full object-fill"/>
+          <img src={`./drips/testimonial_1.png`} className="absolute top-0 left-0 w-full h-full object-fill" alt='black paint drip frame'/>
         </div>
       )
 }

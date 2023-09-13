@@ -17,7 +17,7 @@ export default function Orders() {
     const [selection, setSelection] = useState('')
 
 
-    const choices = {
+    const choices: any = {
         'Advertising': {
             'Graphic Design': ['img1.png', 'img2.png', 'img3.png', 'img4.png'],
             'Social Media Kits': ['img1.png', 'img2.png', 'img3.png', 'img4.png'],
@@ -41,13 +41,18 @@ export default function Orders() {
         }
     }
 
-    const choice = choices[productChoice]
+    let selectionButtons = []
+    let choice: Object
+    if (productChoice) {
+        choice = choices[productChoice]
 
-    const selectionButtons = []
-
-    for (const item in choice) {
-        selectionButtons.push(item)
+        let item: string
+        for (item in choice) {
+            selectionButtons.push(item)
+        }
     }
+
+    
 
     return (
         <main className="h-screen bg-white text-black no-underline relative p-4">

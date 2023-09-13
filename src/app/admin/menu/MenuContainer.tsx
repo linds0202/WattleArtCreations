@@ -4,6 +4,7 @@ import { motion, sync} from "framer-motion";
 import { useDimensions } from "./use-dimensions";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
+import { MutableRefObject } from "react";
 
 import './styles.css'
 
@@ -28,8 +29,8 @@ const sidebar = {
 };
 
 export const MenuContainer = () => {
-  const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
+  const containerRef: any = useRef(null);
+  const { height } = useDimensions(containerRef)
 
   const [open, setOpen] = useState(true)
 

@@ -25,7 +25,7 @@ const Testimonials = () => {
                 <div key={i} className="relative w-4/12 h-full flex flex-col justify-center items-center text-black px-12 py-8 mx-4">
                     <p className="text-center">&ldquo;{testimonial.body}&ldquo;</p>
                     <p className='mt-4 text-base font-bold text-right pr-10'>-{testimonial.author}</p>
-                    <img src={`./drips/testimonial_${i + 1}.png`} className="absolute top-0 left-0 w-full h-full object-fill"/>
+                    <img src={`./drips/testimonial_${i + 1}.png`} className="absolute top-0 left-0 w-full h-full object-fill" alt='testimonial black paint drip frame'/>
                 </div>
             ))}
         </div>

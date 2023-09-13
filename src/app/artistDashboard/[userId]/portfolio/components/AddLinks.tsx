@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface AddLinksProps {
+    links: string[] | [],
     openLinksMod: boolean,
     setOpenLinksMod: Function,
     setLinks: Function,
@@ -14,7 +15,7 @@ interface AddLinkForm {
     link: string
 }
 
-const AddLinks = ({ openLinksMod, setOpenLinksMod, setLinks, setEditLink }: AddLinksProps) => {
+const AddLinks = ({ links, openLinksMod, setOpenLinksMod, setLinks, setEditLink }: AddLinksProps) => {
     
     const initialValues = {
         link: ""
@@ -23,7 +24,7 @@ const AddLinks = ({ openLinksMod, setOpenLinksMod, setLinks, setEditLink }: AddL
     const handleSubmit = (values: AddLinkForm) => {
         if (values.link !== '') {
             setEditLink(true)
-            setLinks(prev => [...prev, values.link])
+            setLinks([...links, values.link])
         }
         setOpenLinksMod(false)
     }

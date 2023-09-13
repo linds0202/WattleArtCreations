@@ -4,6 +4,7 @@ import { Dialog } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CustomerRevision } from '../../components/PortraitCustomizer';
+import { Timestamp } from 'firebase/firestore';
 
 interface RequestRevisionProps {
     openRevision: boolean,
@@ -22,8 +23,8 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
         setOpenRevision(false)
     }
 
-    const handleChange = (e) => {
-        const newNote = {text: e.target.value, date: new Date}
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newNote = {text: e.target.value, date: Timestamp.now()}
         setRevisionNote(newNote)
     }
 
@@ -38,7 +39,6 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             fullWidth={true}
             maxWidth='lg'
             PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
-            // className='relative top-10'
         >
             <IconButton onClick={() => setOpenRevision(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
@@ -47,9 +47,9 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             
             <div className='flex flex-col justify-center items-center'>
                 <div className="flex justify-center items-center mb-4">
-                    <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                    <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black paint splash accent'/>
                     <p className='text-2xl text-center font-bold mt-0'>Request Revision</p>
-                    <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                    <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black paint splash accent'/>
                 </div>
                 
                 <div className='w-full flex'>

@@ -31,7 +31,7 @@ export const FadeHeader = () => {
         className="mx-auto"
         variants={FADE_DOWN_ANIMATION_VARIANTS}
       >
-        <img src="./drips/side_splashL.png" className="w-full" />
+        <img src="./drips/side_splashL.png" className="w-full" alt='black paint drip accent'/>
       </motion.div>
       <motion.h1
         className="mx-8 text-center font-display text-4xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]"
@@ -45,7 +45,7 @@ export const FadeHeader = () => {
         className="mx-auto"
         variants={FADE_DOWN_ANIMATION_VARIANTS}
       >
-        <img src="./drips/side_splashR.png" className="w-full" />
+        <img src="./drips/side_splashR.png" className="w-full" alt='black paint drip accent'/>
       </motion.div>
     </motion.div>
     

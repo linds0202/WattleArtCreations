@@ -2,8 +2,13 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { CorporateData } from "./ConsultList";
 
-export default function ConsultRow({ consult }) {
+interface ConsultRowProps {
+    consult: CorporateData
+}
+
+export default function ConsultRow({ consult }: ConsultRowProps) {
     const [openModal, setOpenModal] = useState<Boolean>(false)
 
     const handleViewConsult = () => {
@@ -45,13 +50,13 @@ export default function ConsultRow({ consult }) {
                         <p className="font-semibold text-xl mb-10">{consult.category} {consult.subcategories}</p>
                         <p className="font-semibold text-xl  mb-10"><span className="font-bold text-3xl">Customer Name: </span>{consult.customerFirstName} {consult.customerLastName}</p>
                         <p className="font-semibold text-xl  mb-10"><span className="font-bold text-3xl">Customer Email: </span>{consult.customerEmail}</p>
-                        {consult.questions.general.map((q, i) => 
+                        {/* {consult?.questions?.general.map((q, i) => 
                         
                         <div key={q} className="w-10/12">
                             <p className="text-xl font-bold mb-2">{q}</p>
                             <p className="text-lg font-semibold mb-10">{consult.generalAnswers[`q${i}`]}</p>
                         </div>    
-                        )}
+                        )} */}
                     </div>
                     
             </div>} 

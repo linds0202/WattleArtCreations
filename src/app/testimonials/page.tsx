@@ -7,25 +7,26 @@ import CustomerTestimonial from './components/CustomerTestimonial'
 import { downloadImage } from '../firebase/storage'
 import Link from 'next/link'
 import { getPortrait } from '../firebase/firestore'
+import { PortraitData } from '../portraits/components/PortraitCustomizer'
 
 
-const page = () => {
+const Testimonials = () => {
     const { authUser } = useAuth()
     const searchParams = useSearchParams()
     const portraitId = searchParams.get('portraitId')
     const artistId = searchParams.get('artistId')
-    const [portrait, setPortrait] = useState(null)
+    const [portrait, setPortrait] = useState<PortraitData | null>(null)
     const [openTestimonial, setOpenTestimonial] = useState(true)
     const [reviewed, setReviewed] = useState(false)
 
     useEffect(() => {
         const handleGetPortrait = async () => {
-            const currentPortrait = await getPortrait(portraitId)
-            setPortrait(currentPortrait)
+            const currentPortrait: PortraitData | null = await getPortrait(portraitId)
+            if (currentPortrait) setPortrait(currentPortrait)
         }   
 
         handleGetPortrait()
-    }, [])
+    }, [portraitId])
     
     const handleDownloadFinal = () => {
         downloadImage(portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl)
@@ -36,7 +37,7 @@ const page = () => {
             <div className='pb-36 flex flex-col justify-center items-center'>
                 <div className='w-10/12 mt-4'>
                     <h1 className='text-3xl font-bold'>Congratulations on Your Custom Artwork!</h1>
-                    <p>Thank you for choosing Wattle Art Creations for your custom art commission. We're delighted to know that you're happy with the final artwork, and we can't wait for you to showcase and enjoy your digital masterpiece!</p>
+                    <p>Thank you for choosing Wattle Art Creations for your custom art commission. We&apos;re delighted to know that you&apos;re happy with the final artwork, and we can&apos;t wait for you to showcase and enjoy your digital masterpiece!</p>
                     
                     <p>To help you make the most of your experience, we&#39;ve put together some important information, next steps, and additional options to enhance your digital art:</p>
                 </div>
@@ -44,7 +45,7 @@ const page = () => {
                 <div className='py-8 px-4 flex'>
                     <div className='w-6/12 flex flex-col items-center'>
                         <div>
-                            <p><span className='font-semibold text-xl'>Digital File Delivery:</span> Your digital artwork can be downloaded as a high-resolution file. You can always access the download via the individual portrait page on your dashboard. Select 'Completed' and then navigate to the portrait page.</p> 
+                            <p><span className='font-semibold text-xl'>Digital File Delivery:</span> Your digital artwork can be downloaded as a high-resolution file. You can always access the download via the individual portrait page on your dashboard. Select &apos;Completed&apos; and then navigate to the portrait page.</p> 
                             <p>If you encounter any issues with your digital file, please contact our support team at [email/contact information].</p> 
                             {portrait?.status === 'Completed' && 
                                 <button 
@@ -73,7 +74,7 @@ const page = () => {
                     <div className='w-6/12'>
                         <h2 className='font-bold text-xl'>Share Your Experience:</h2>
                         
-                        <p>We'd love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
+                        <p>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
 
                         {openTestimonial && 
                             <CustomerTestimonial 
@@ -104,9 +105,9 @@ const page = () => {
                 
                 
                 <div className='w-10/12'>
-                    <p>Once again, thank you for choosing Wattle Art Creations for your custom digital art commission. We're honored to have been part of your artistic journey, and we hope to have the opportunity to create more stunning artwork for you in the future.</p>
+                    <p>Once again, thank you for choosing Wattle Art Creations for your custom digital art commission. We&apos;re honored to have been part of your artistic journey, and we hope to have the opportunity to create more stunning artwork for you in the future.</p>
 
-                    <p>If you have any questions or concerns, please don't hesitate to contact our support team. Enjoy your one-of-a-kind digital masterpiece!</p>
+                    <p>If you have any questions or concerns, please don&apos;t hesitate to contact our support team. Enjoy your one-of-a-kind digital masterpiece!</p>
                 </div>
                 
             </div>
@@ -115,4 +116,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Testimonials

@@ -2,19 +2,19 @@ import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2022-11-15',
+})
+//: NextApiRequest, : NextApiResponse<any>
 export async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
+  req: any
 ) {
 
   let data = await req.json();
 
-  console.log('in api data is: ', data)
   
   const session = await stripe.checkout.sessions.create({
-      line_items: data.items.map(item => {
+      line_items: data.items.map((item: any) => {
           return {
               price_data: {
                   currency: "USD",

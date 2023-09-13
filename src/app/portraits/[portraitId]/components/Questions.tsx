@@ -16,8 +16,7 @@ import { deleteImages } from '@/app/firebase/storage';
 import { deletePortraitImages } from '@/app/firebase/firestore';
 import { UploadedImgs } from '../../components/PortraitCustomizer';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Button, Dialog } from '@mui/material';
-import AddImages from '../../components/AddImages';
+import { Dialog } from '@mui/material';
 import { Upload } from '../../components/PortraitCustomizer';
 import UploadImages from './CustomerUploads';
 import { uploadImages } from '@/app/firebase/storage';
@@ -46,7 +45,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const [uploads, setUploads] = useState<Array<Upload>>([])
 
     useEffect(() => {
-        portrait.characters.forEach((char: MyCharValues) => {
+        portrait?.characters.forEach((char: MyCharValues) => {
             if (char.numCharVariations > 1) setCharVariations(true)
 
             if(char.pets) setPet(true)
@@ -58,23 +57,20 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
         })
     }, [])
 
-    console.log('role is: ', role)
-      
-
     const updateQuestions = async (values: PortraitData) => {
         
         if (uploads.length !== 0) {
-            const bucket = await uploadImages(uploads, portrait.id)
+            const bucket = await uploadImages(uploads, portrait?.id)
 
             //update portrait with bucket info
-            const updatedImages = await getImageUrls(portrait.id, bucket, uploads)
+            const updatedImages = await getImageUrls(portrait?.id, bucket, uploads)
             
 
-            const updatedValues = {...values, images: [...portrait.images, ...updatedImages]}
+            const updatedValues = {...values, images: [...portrait?.images, ...updatedImages]}
             updatePortrait(values.id, updatedValues)
             setPortrait(updatedValues)
         } else {
-            setPortrait({...values, images: portrait.images})
+            setPortrait({...values, images: portrait?.images})
         }
         
         setOpenQuestions(false)
@@ -89,7 +85,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
         setOpenImgSet(true)
     }
 
-    const handleDeleteImgGroup = async (i) => {
+    const handleDeleteImgGroup = async (i: number) => {
        
         //removes images from storage
         await deleteImages(portrait.id, portrait.images[i].fileNames)
@@ -108,7 +104,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
         setOpenUpload(true)
     }
 
-    const handleDeleteNewImgGroup = (i) => {
+    const handleDeleteNewImgGroup = (i: number) => {
         const updatedImgGroup = uploads.filter((upload, index) => i !== index)
 
         setUploads(updatedImgGroup)
@@ -127,9 +123,9 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             </IconButton>
             
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Portrait Details</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" />
+                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
 
             {canEditQs && role !== 'Customer' && <p className='text-sm text-[#9e9e9e] text-center mb-8'>Customer can still edit the following info</p>}
@@ -161,6 +157,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                     
                                 >
                                     {imgSet.imageUrls.map((url, j) => <img 
+                                        alt='customer uploaded image'
                                         className="w-[32px] h-[32px] object-contain m-2 cursor-pointer" 
                                         key={j} 
                                         src={url}
@@ -186,6 +183,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                         
                                     >
                                         {imgSet.imageUrls.map((url, j) => <img 
+                                            alt='customer uploaded image'
                                             className="w-[32px] h-[32px] object-contain m-2 cursor-pointer" 
                                             key={j} 
                                             src={url}
@@ -299,7 +297,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 onClick={handleClose}
                                 className='w-1/3 rounded-lg p-2 text-center mt-4 text-black border-2 border-black hover:text-white hover:bg-[#282828]'
                             >
-                                Don't save
+                                Don&apos;t save
                             </button>
 
                             <button 

@@ -73,14 +73,34 @@ export async function getUserById(userId) {
     avatarBucket = await getDownloadURL(docSnap.data().avatarBucket)
   }
 
+  const user = {
+    displayName: docSnap.data().displayname, 
+    email: docSnap.data().email, 
+    roles: docSnap.data().roles, 
+    oldEnough: docSnap.data().oldEnough,
+    uid: userId,
+    avatar: avatarBucket,
+    artistName: docSnap.data().artistName, 
+    bio: docSnap.data().bio,
+    links: docSnap.data().links,
+    website: docSnap.data().website,
+    country: docSnap.data().country,
+    activeCommissions: docSnap.data().activeCommissions,
+    maxCommissions: docSnap.data().maxCommissions,
+    totalCompletedCommissions: docSnap.data().totalCompletedCommissions,
+    lifeTimeEarnings: docSnap.data().lifeTimeEarnings,
+    paymentsOwing: docSnap.data().paymentsOwing,
+    totalPortraits: docSnap.data().totalPortraits,
+    totalStars: docSnap.data().totalStars,
+    totalReviews: docSnap.data().totalReviews,
+    starRating: docSnap.data().starRating,
+    joinedOn: docSnap.data().joinedOn,
+  }
+
   if (!docSnap.exists()) {
     return null
   } else {
-    return {
-      ...docSnap.data(), 
-      uid: userId,
-      avatar: avatarBucket
-    }
+    return user
   }
 }
 
@@ -106,8 +126,9 @@ export function addUser(user) {
     starRating: 0,
     oldEnough: false,
     joinedOn: new Date,
+    avatar: ""
   })
-  return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer" }
+  return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer", oldEnough: false }
 }
 
 //update user role
@@ -126,8 +147,21 @@ export function updateUserById(userId) {
 
 //update any user data
 export async function updateUserData(user) {
+
+  let updatedUser
+  if (user.displayName === undefined) {
+    updatedUser = {
+      ...user,
+      displayName: ''
+    }
+  } else {
+    updatedUser = { ... user }
+  }
+
   updateDoc(doc(db, 'users', user.uid),  
-    { ...user }, { merge: true }
+    { 
+      ...updatedUser,
+    }, { merge: true }
   );
 }
 
@@ -269,7 +303,7 @@ export async function addArtist( portraitId, artistId, artistName, artistNote) {
 }
 
 //Assign artist to portrait per customer action
-export function addSelectedArtist( portraitId, artistId, displayName) {
+export async function addSelectedArtist( portraitId, artistId, displayName) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: [{artistName: displayName, id: artistId}],
     artistAssigned: true,
@@ -302,15 +336,42 @@ export async function getPortrait(uid) {
 
   const docSnap = await getDoc(doc(db, "portraits", uid));
 
+  const newPortrait = {
+    mode: docSnap.data().mode,
+    characters: docSnap.data().characters,
+    portraitTitle: docSnap.data().portraitTitle,
+    requiredQs: docSnap.data().requiredQs,
+    questions: docSnap.data().questions, 
+    price: docSnap.data().price,
+    customer: docSnap.data().customer,
+    customerId: docSnap.data().customerId,
+    artist: docSnap.data().artist,
+    artistNotes: docSnap.data().artistNotes,
+    artistAssigned: docSnap.data().artistAssigned,
+    creationDate: docSnap.data().creationDate,
+    purchaseDate: docSnap.data().purchaseDate,
+    status: docSnap.data().status,
+    lastUpdatedStatus: docSnap.data().lastUpdatedStatus,
+    paymentComplete: docSnap.data().paymentComplete,
+    revisions: docSnap.data().revisions,
+    revised: docSnap.data().revised,
+    reassigned: docSnap.data().reassigned,
+    additionalRevision: docSnap.data().additionalRevision,
+    images: docSnap.data().images,
+    finalImages: docSnap.data().finalImages,
+    revisionLevel: docSnap.data().revisionLevel,
+    additionalRevisionRequest: docSnap.data().additionalRevisionRequest,
+    purchaseRevisionLink: docSnap.data().purchaseRevisionLink,
+    revisionNotes: docSnap.data().revisionNotes, 
+    id: uid
+  }
+
   if (docSnap.exists()) {
 
-    return {
-      ...docSnap.data(), 
-      uid: uid     
-    }
+    return newPortrait
   } else {
     console.log("No such document!");
-    return ({})
+    return (null)
   }
 }
 
@@ -427,10 +488,11 @@ export async function getAllUnclaimed() {
 
 
 //Add chat message
-export function addChatMessage( portraitId, message, displayName, uid  ) {
+export async function addChatMessage( portraitId, message, displayName, uid  ) {
   addDoc(collection(db, "messages"), {
     portraitId: portraitId,
     text: message,
+    img: '',
     name: displayName,
     createdAt: serverTimestamp(),
     uid
@@ -446,6 +508,7 @@ export async function addChatImage( portraitId, imageBucket, displayName, uid  )
     portraitId: portraitId,
     name: displayName,
     createdAt: serverTimestamp(),
+    text: '',
     img: imageUrl,
     uid
   })
