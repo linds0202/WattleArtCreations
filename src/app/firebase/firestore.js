@@ -74,7 +74,7 @@ export async function getUserById(userId) {
   }
 
   const user = {
-    displayName: docSnap.data().displayname, 
+    displayName: docSnap.data().displayName, 
     email: docSnap.data().email, 
     roles: docSnap.data().roles, 
     oldEnough: docSnap.data().oldEnough,

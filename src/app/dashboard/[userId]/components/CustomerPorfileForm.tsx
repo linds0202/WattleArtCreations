@@ -17,7 +17,7 @@ interface customerFormProps {
     userData: UserData | null,
     setIsEdit: Function,
 }
-
+// className='absolute top-2 right-2 text-white'
 
 const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormProps) => {
 
@@ -27,10 +27,11 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
     return (
         <div className='w-8/12 mx-auto my-10 bg-white border-2 border-black rounded-xl relative'>
             <p className='text-center text-3xl font-bold mt-4'>Customer Details</p>
-
-            <IconButton onClick={() => setIsEdit(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+            <div style={{position: 'absolute', top: 2, right: 2, zIndex: 1000, color: 'white'}}>
+                <IconButton onClick={() => setIsEdit(false)} >
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
 
             <Formik
                 initialValues={initialValues}
@@ -40,6 +41,7 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                     updateUserData({...userData, ...values})
 
                     helpers.setSubmitting(false)
+
                     setUserData({...userData, ...values})
                     
                     helpers.resetForm()

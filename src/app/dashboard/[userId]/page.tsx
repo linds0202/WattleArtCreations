@@ -42,6 +42,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
       const latestUser: UserData | null = await getUserById(userId)
       if (latestUser) {
+        console.log('setting currentUser to: ', latestUser)
         setCurrentUser(latestUser)
       }
 
@@ -57,6 +58,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     handleGetPortraits()
     setPageLoading(false)
   }, [])
+
 
   const handleFilter= (filter: string) => {
     if(filter === 'Unordered') {
