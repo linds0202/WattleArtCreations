@@ -68,6 +68,7 @@ const AuthUserContext = createContext({
   authUser: null,
   setAuthUser: async (authUser: any) => {},
   isLoading: true,
+  setIsLoading: async () => {},
   signOut: async () => {}
 });
 
