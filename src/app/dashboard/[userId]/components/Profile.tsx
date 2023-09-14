@@ -110,9 +110,12 @@ const Profile = ({user}: ProfileProps) => {
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
                         <Image priority={true} src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
                         
-                        <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} sx={{display: 'absolute', bottom: 0, right: 0, color: '#282828'}} >
-                            <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
-                        </IconButton>
+                        <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 1000}}>
+                            <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} >
+                                <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
+                            </IconButton>
+                        </div>
+                        
                     </div>
 
                     <AvatarUploader
