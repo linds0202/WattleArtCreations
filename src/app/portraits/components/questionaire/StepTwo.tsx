@@ -37,6 +37,7 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
     const [stepLogin, setStepLogin] = useState(false);
     
     useEffect(() => {
+        console.log('selection is: ', selection)
         if (selection !== 'NSFW') {
             if (!authUser) {
                 console.log('opening login box')
@@ -44,6 +45,7 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
             } else {
                 console.log('closing login box')
                 setStepLogin(false)
+                router.push(`/portraits?selection=${selection}`)
             }
         }
         
