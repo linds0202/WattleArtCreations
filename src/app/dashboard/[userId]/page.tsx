@@ -29,7 +29,6 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
-    setIsLoading(false)
     if (!isLoading && !authUser) {
         router.push('/')
     }
@@ -37,6 +36,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
+    setIsLoading(false)
     const handleCurrentUser = async () => {
 
       const latestUser: UserData | null = await getUserById(userId)
@@ -85,7 +85,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   }
 
   return ((!authUser || !isLoading) ? 
-    <p>Loading ...</p>
+    <></>
   :
   <div className='relative min-h-[100vh]'>
     <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../drips/dashboard_top.png" alt='background black paint drips'/> 
