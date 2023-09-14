@@ -36,7 +36,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    setIsLoading(false)
+    setIsLoading(true)
     const handleCurrentUser = async () => {
 
       const latestUser: UserData | null = await getUserById(userId)
@@ -54,13 +54,12 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
 
     handleGetPortraits()
-    setIsLoading(true)
+    setIsLoading(false)
   }, [])
 
   const handleFilter= (filter: string) => {
     if(filter === 'Unordered') {
       const filteredPortraits = myPortraits.filter(portrait => !portrait.paymentComplete)
-      console.log(filteredPortraits)
       setFiltered(filteredPortraits)
     }
     if(filter === 'Unassigned') {

@@ -34,7 +34,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    // setIsLoading(true)
+    setIsLoading(true)
     let latestUser: UserData | null
 
     const handleGetPortraits = async () => {
@@ -50,7 +50,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     }
 
     handleCurrentUser()
-    // setIsLoading(false)
+    setIsLoading(false)
   }, [])
 
   const handleFilter= (filter: string) => {
