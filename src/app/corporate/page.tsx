@@ -1,5 +1,6 @@
 'use client' 
 
+import '../globals.css'
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import CorpHome from "./components/CorpHome"

@@ -1,5 +1,6 @@
 'use client'
 
+import '../../../globals.css'
 import { useEffect, useState } from 'react';
 import { getUserById, getArtistsTestimonials, getNextTestimonials, getPreviousTestimonials } from '@/app/firebase/firestore';
 import { useAuth } from '@/app/firebase/auth';

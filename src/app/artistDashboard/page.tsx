@@ -1,5 +1,6 @@
 'use client'
 
+import '../globals.css'
 import { useEffect, useState } from 'react';
 import { getAllArtists } from '../firebase/firestore'
 import { SocialIcon } from 'react-social-icons'
@@ -10,13 +11,10 @@ import { UserData } from './[userId]/portfolio/page';
 import Footer from '../components/Footer';
 import { useAuth } from '../firebase/auth';
 
-import '../globals.css'
 
 const ArtistDashboard = () => {
-    
-    const [artistData, setArtistData] = useState<Array<UserData>>([])
-
     const {isLoading} = useAuth()
+    const [artistData, setArtistData] = useState<Array<UserData>>([])
     
     useEffect(() => {
         const handleGetArtists = async () => {
@@ -77,7 +75,7 @@ const ArtistDashboard = () => {
 
     return (
         (isLoading) ?  
-            <p>Loading...</p>
+            <p></p>
         :   
         (
             <div className='relative min-h-[100vh]'>

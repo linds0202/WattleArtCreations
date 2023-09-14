@@ -1,5 +1,6 @@
 'use client'
 
+import '../globals.css'
 import Link from 'next/link';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';

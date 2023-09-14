@@ -1,4 +1,6 @@
 
+import '../globals.css'
+
 const page = () => {
   return (
     <div>

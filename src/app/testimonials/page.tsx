@@ -1,5 +1,6 @@
 'use client'
 
+import '../globals.css'
 import {useState, useEffect} from 'react'
 import { useAuth } from '../firebase/auth'
 import { useSearchParams } from 'next/navigation'
