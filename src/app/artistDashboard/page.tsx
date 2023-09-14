@@ -9,6 +9,8 @@ import Link from 'next/link';
 import { UserData } from './[userId]/portfolio/page';
 import Footer from '../components/Footer';
 
+import '../globals.css'
+
 const ArtistDashboard = () => {
     
     const [artistData, setArtistData] = useState<Array<UserData>>([])
@@ -26,7 +28,7 @@ const ArtistDashboard = () => {
         <div key={i} className='w-[30%] h-[100%] border-2 border-[#282828] rounded-xl pt-4'>
             <img className='w-[90%] h-[50%] object-cover mx-auto rounded-t-xl' src='./animeImgs/anime10.png' alt='artist image'/>
             <div className='w-[100%] h-[50%] bg-[#282828] rounded-b-lg text-white p-4 flex flex-col justify-between'>
-                <Link href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
+                <Link prefetch={false} href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
                     <div className='w-6/12 mx-auto mt-2 flex justify-around items-center'>
                         {/* <Rating 
