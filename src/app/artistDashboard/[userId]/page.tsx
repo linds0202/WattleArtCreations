@@ -21,6 +21,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   const { authUser, isLoading, setIsLoading } = useAuth();
   const router = useRouter();
 
+  const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
@@ -34,7 +35,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    setIsLoading(true)
+    setPageLoading(true)
     let latestUser: UserData | null
 
     const handleGetPortraits = async () => {
@@ -50,7 +51,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     }
 
     handleCurrentUser()
-    setIsLoading(false)
+    setPageLoading(false)
   }, [])
 
   const handleFilter= (filter: string) => {
@@ -76,7 +77,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
 
-  return ((!authUser || isLoading) ? 
+  return ((!authUser || pageLoading) ? 
     <></>
   :
   <div className='relative min-h-[100vh]'>

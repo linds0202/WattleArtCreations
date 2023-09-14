@@ -20,9 +20,10 @@ type Params = {
 
 
 export default function Dashboard({ params: { userId }}: Params) {
-  const { authUser, isLoading, setIsLoading } = useAuth();
+  const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
@@ -36,7 +37,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
-    setIsLoading(true)
+    setPageLoading(true)
     const handleCurrentUser = async () => {
 
       const latestUser: UserData | null = await getUserById(userId)
@@ -54,7 +55,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
 
     handleGetPortraits()
-    setIsLoading(false)
+    setPageLoading(false)
   }, [])
 
   const handleFilter= (filter: string) => {
@@ -83,7 +84,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  return ((!authUser || isLoading) ? 
+  return ((!authUser || pageLoading) ? 
     <></>
   :
   <div className='relative min-h-[100vh]'>
