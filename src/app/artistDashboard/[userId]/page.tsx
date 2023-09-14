@@ -18,7 +18,7 @@ type Params = {
 }
 
 export default function ArtistDashboard({ params: { userId }}: Params) {
-  const { authUser, isLoading } = useAuth();
+  const { authUser, isLoading, setIsLoading } = useAuth();
   const router = useRouter();
 
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -34,6 +34,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   useEffect(() => {
+    setIsLoading(true)
     let latestUser: UserData | null
 
     const handleGetPortraits = async () => {
@@ -49,6 +50,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     }
 
     handleCurrentUser()
+    setIsLoading(false)
   }, [])
 
   const handleFilter= (filter: string) => {
@@ -75,7 +77,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
 
   return ((!authUser || isLoading) ? 
-    <p>Loading ...</p>
+    <></>
   :
   <div className='relative min-h-[100vh]'>
     <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../customizer/customizer.png" alt='background black paint drips'/>

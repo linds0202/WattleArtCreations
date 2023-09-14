@@ -73,8 +73,8 @@ const ArtistDashboard = () => {
         </div>
     ))
 
-    return (
-        (isLoading) ?  
+    return ((isLoading) 
+        ?  
             <p></p>
         :   
         (

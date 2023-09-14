@@ -152,7 +152,9 @@ const Portfolio = () => {
         setIsEdit(true)
     }
 
-    return (
+    return ((isLoading) ?
+        <></>
+        :
         <div className='relative min-h-[100vh]'>
             <div className='relative pb-36'>
                 <div className='flex justify-around'>
