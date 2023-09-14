@@ -139,7 +139,7 @@ export function updateUser(userId, role) {
 }
 
 //update any user data
-export function updateUserById(userId) {
+export async function updateUserById(userId) {
   updateDoc(doc(db, 'users', userId),  
     { oldEnough: true }
   );

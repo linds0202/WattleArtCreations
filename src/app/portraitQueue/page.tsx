@@ -31,26 +31,36 @@ export default function Dashboard() {
 
   useEffect(() => {
     setLoadingPortraits(true)
-
+    
+    if (!authUser.uid) {
+      return
+    }
+    
     const handleGetUnclaimed = async () => {
       const unclaimed = await getAllUnclaimed();
       const available = unclaimed.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
       setFiltered(available)
     }
+    console.log('authUser: ', authUser)
 
     const handleCurrentUser = async () => {
+      console.log('getting user by Id: ', authUser?.uid)
       const latestUser: UserData | null = await getUserById(authUser?.uid)
-      if (latestUser) setCurrentUser(latestUser)
+      if (latestUser) {
+        console.log('setting current user with: ', latestUser)
+        setCurrentUser(latestUser)
+      }
     }
+    
     handleCurrentUser()
     handleGetUnclaimed()
 
     setLoadingPortraits(false)
-  }, [])
+  }, [authUser])
 
  
-  return ((loadingPortraits) ? 
-    <p>Loading ...</p>
+  return ((loadingPortraits || isLoading) ? 
+    <p></p>
   :
   <div className='relative min-h-[100vh]'>
     <img className="w-full fixed -top-[16px] left-0 -z-10" src="./customizer/portrait_queque.png" alt='background black paint drips'/>

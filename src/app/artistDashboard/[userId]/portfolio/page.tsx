@@ -81,9 +81,13 @@ const Portfolio = () => {
 
 
     useEffect(() => {
+    
         const handleGetUser = async () => {
           const getMyUserData: UserData | null = await getUserById(artistId);
+          
+          
           if (getMyUserData) setLinks(getMyUserData?.links)
+          
           setUserData(getMyUserData)
         }
         handleGetUser()
@@ -93,7 +97,6 @@ const Portfolio = () => {
     useEffect(() => {
         const fetchData = async () => {
             const firstTestimonials = await getArtistsTestimonials(artistId)
-            console.log('firstTestimonials: ', firstTestimonials)
             
             if (firstTestimonials.testimonials.length < 5) {
                 setDisableNext(true)

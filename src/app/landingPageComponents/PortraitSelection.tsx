@@ -15,11 +15,12 @@ import {
     useTransform,
 } from "framer-motion";
 import { ModeProps } from "./Home";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Configure FirebaseUI.
 const uiConfig = {
     signInFlow: 'popup', // popup signin flow rather than redirect flow
-    // signInSuccessUrl: '/',
     signInOptions: [
       EmailAuthProvider.PROVIDER_ID,
       GoogleAuthProvider.PROVIDER_ID,
@@ -120,6 +121,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         window.scrollTo(0, 0)        
     }, [])
 
+
     // Listen to changes for loading, authUser, and mode and redirect if needed
     useEffect(() => {
 
@@ -138,9 +140,17 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     let opacity = useTransform(scrollY, [0, 200], [0, 1])
 
     const handleClose = ({event, reason}: {event: any, reason: any}) => {
-        //don't let them just click off of the dialogue box
-        if (reason && reason == "backdropClick") 
-            return;
+        if (reason && reason === "backdropClick") {
+            console.log('clicked outside so nothing')
+            return
+        }
+        setOpenLogin(false)
+    }
+
+    const handleXClose = () => {
+        if (mode === 'NSFW') {
+            router.push('/')
+        }
         setOpenLogin(false)
     }
 
@@ -148,6 +158,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         updateUserById(authUser?.uid)
         setOpenConfirm(false)
         setMode('NSFW')
+        // router.push('/portraits?selection=NSFW')
     }
 
     const handleCancel = () => {
@@ -165,8 +176,13 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             {openLogin &&
                 <Dialog onClose={handleClose} open={openLogin}>
                     <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
+                        <IconButton onClick={handleXClose} className='absolute top-2 right-2 text-white'>
+                            <CloseIcon className='text-white hover:text-red-600'/>
+                        </IconButton>
+
                         <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle art creations logo'/>
                         <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+                        <h4>Portrait Selection</h4>
                         <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
                         <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
                         

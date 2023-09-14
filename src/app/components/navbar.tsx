@@ -1,5 +1,7 @@
 'use client'
 
+
+import '../globals.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import { Dialog, CircularProgress, Button } from '@mui/material';
@@ -45,8 +47,17 @@ export default function NavBar() {
   
 
   const handleClose = ({event, reason}: {event: any, reason: any}) => {
-    if (reason && reason == "backdropClick") 
-        return;
+    console.log('reason is: ', reason)
+    if (reason && reason == "backdropClick") {
+      console.log('backdropClicked. Not closing dialog.')
+      return;
+    }
+    setClickedNSFW(false)
+    setLogin(false) 
+  }
+
+  const handleXClose = () => {
+    setClickedNSFW(false)
     setLogin(false)
   }
 
@@ -54,11 +65,12 @@ export default function NavBar() {
   useEffect(() => {
     if (authUser) {
       setLogin(false)
-      
-      if (!authUser?.oldEnough && clickedNSFW) {
-        setOpenConfirm(true)
-      } else if(clickedNSFW) {
-        router.push('/?selection=NSFW') 
+      if (clickedNSFW) {
+        if (authUser?.oldEnough){
+          router.push('/?selection=NSFW') 
+        } else {
+          setOpenConfirm(true)
+        }
       }
     }
   }, [authUser, login])
@@ -75,13 +87,16 @@ export default function NavBar() {
     } else {
       router.push('/?selection=NSFW')
     }
+    // setClickedNSFW(false)
   }
 
-  const handleConfirm = () => {
-    updateUserById(authUser?.uid)
+  const handleConfirm = async () => {
+    await updateUserById(authUser?.uid)
     setAuthUser({...authUser, oldEnough: true})
+    
     setClickedNSFW(false)
     setOpenConfirm(false)
+    
     router.push('/?selection=NSFW')
   }
 
@@ -249,12 +264,14 @@ export default function NavBar() {
       <Dialog onClose={handleClose} open={login}>
         
         <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
-          <IconButton onClick={() => setLogin(false)} className='absolute top-2 right-2 text-white'>
+          <IconButton onClick={handleXClose} className='absolute top-2 right-2 text-white'>
               <CloseIcon className='text-white hover:text-red-600'/>
           </IconButton>
+
           <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/>
           <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
-          <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
+          <h4>Nav Bar</h4>
+          {clickedNSFW && <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>}
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
           
           <Button 

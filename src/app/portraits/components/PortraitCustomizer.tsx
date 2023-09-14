@@ -188,18 +188,41 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     }, [])
 
 
+    // Redirect if finished loading and there's an existing user (user is logged in)
+    useEffect(() => {
+        console.log('authUser: ', authUser)
+        if(selection === 'NSFW') {
+            if (authUser) {
+                setLogin(false)
+               
+                if (authUser?.oldEnough){
+                    router.push('/portraits?selection=NSFW')
+                    return
+                    
+                } else {
+                    router.push('/')
+                }                
+            } else {
+                setLogin(true)
+            }
+        }  
+    }, [authUser])
+
+
     const handleLogin = () => {
         setLogin(true)
     }
-
-    // Redirect if finished loading and there's an existing user (user is logged in)
-    useEffect(() => {
-        if (authUser) {
-            setLogin(false)
-        } else if(selection === 'NSFW' && !authUser?.oldEnough) {
-            setLogin(true)
+    
+    const handleClose = (event: object, reason: string) => {
+        if (reason && reason == "backdropClick") {
+            return
         }
-    }, [authUser])
+    }
+
+    const handleRedirect = () => {
+        setLogin(false)
+        router.push('/')
+    }
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
@@ -427,6 +450,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 <h3 className='text-xl font-bold'>Let us know more. . .</h3>
                                 <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
                                 <StepTwo 
+                                    selection={selection}
                                     charVariations={charVariations}
                                     pet={pet}
                                     charSheet={charSheet}
@@ -438,12 +462,38 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                           
                           <div className='mt-8 w-full flex justify-around items-center'>
                             {/* Prompt for login */}
-                            <Dialog onClose={() => setLogin(false)} open={login}>
+                            <Dialog onClose={handleClose} open={login}>
+                                <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
+                                    <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+                                    <h4>Portrait Customizer</h4>
+                                    {selection === 'NSFW' 
+                                        ? <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
+                                        :
+                                        <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
+                                    }
+                                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+                                    <Button 
+                                        onClick={handleRedirect}
+                                        className='pt-4'
+                                    >
+                                        <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
+                                            <p className='text-md' >Return to Homepage</p>
+                                            <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
+                                        </div>
+                                            
+                                    </Button>
+                                    
+                                </div>
+                            </Dialog>        
+
+
+
+                            {/* <Dialog onClose={() => setLogin(false)} open={login}>
                                 <div className=''>
                                     {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
                                 </div>
                               
-                            </Dialog>
+                            </Dialog> */}
                           </div>
                       </Form>
                   )}

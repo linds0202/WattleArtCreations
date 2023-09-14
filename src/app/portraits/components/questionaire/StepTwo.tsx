@@ -22,32 +22,42 @@ const uiConfig = {
 };
 
 interface MyQuestionProps { 
+    selection: string,
     charVariations: Boolean,
     pet: Boolean,
     charSheet: Boolean, 
     weaponSheet: Boolean,
 }
 
-const StepTwo = ({ charVariations, pet, charSheet, weaponSheet } : MyQuestionProps) => {
+const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : MyQuestionProps) => {
     
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
-    const [login, setLogin] = useState(false);
+    const [stepLogin, setStepLogin] = useState(false);
     
     useEffect(() => {
-        !authUser ? setLogin(true) : setLogin(false)
+        if (selection !== 'NSFW') {
+            !authUser ? setStepLogin(true) : setStepLogin(false)
+        }
+        
     }, [authUser])
 
     const handleRedirect = () => {
-        setLogin(false)
-        //router.push('/personal')
+        setStepLogin(false)
+        router.push('/')
     }
 
+    const handleClose = (event: object, reason: string) => {
+        if (reason && reason == "backdropClick") {
+            return
+        }
+    }
+    
     return (
         <>
             {/* Prompt for login */}
-            <Dialog onClose={() => setLogin(false)} open={login}>
+            <Dialog onClose={handleClose} open={stepLogin}>
                 <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
                     <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
                     <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
