@@ -102,7 +102,7 @@ const Profile = ({user}: ProfileProps) => {
             }
         } 
     }
-    
+    // className='absolute bottom-0 right-0 text-[#282828]'
     return (
         <div className='relative px-14 py-4'>
             <div className='flex justify-between items-center'>
@@ -110,7 +110,7 @@ const Profile = ({user}: ProfileProps) => {
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
                         <Image priority={true} src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
                         
-                        <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} className='absolute bottom-0 right-0 text-[#282828]' >
+                        <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} sx={{display: 'absolute', bottom: 0, right: 0, color: '#282828'}} >
                             <EditIcon sx={{ fontSize: 24, color: '#282828', ":hover": { color: "#0075FF"} }} />
                         </IconButton>
                     </div>
