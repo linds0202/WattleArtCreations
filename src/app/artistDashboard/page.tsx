@@ -8,12 +8,15 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import Link from 'next/link';
 import { UserData } from './[userId]/portfolio/page';
 import Footer from '../components/Footer';
+import { useAuth } from '../firebase/auth';
 
 import '../globals.css'
 
 const ArtistDashboard = () => {
     
     const [artistData, setArtistData] = useState<Array<UserData>>([])
+
+    const {isLoading} = useAuth()
     
     useEffect(() => {
         const handleGetArtists = async () => {
@@ -73,17 +76,22 @@ const ArtistDashboard = () => {
     ))
 
     return (
-        <div className='relative min-h-[100vh]'>
-            <img className="w-full absolute -top-[16px] left-0" src="../customizer/customizer.png" alt='background black paint drips'/>
-            <div className='pb-36'>
-                <h1 className='text-6xl font-bold p-4 text-center'>Our Artists</h1>
-                <p className='text-center'>Something here about the artists</p>
-                <div className='h-[65vh] flex flex-wrap justify-around items-center my-4'>
-                    {artistList}
+        (isLoading) ?  
+            <p>Loading...</p>
+        :   
+        (
+            <div className='relative min-h-[100vh]'>
+                <img className="w-full absolute -top-[16px] left-0" src="../customizer/customizer.png" alt='background black paint drips'/>
+                <div className='pb-36'>
+                    <h1 className='text-6xl font-bold p-4 text-center'>Our Artists</h1>
+                    <p className='text-center'>Something here about the artists</p>
+                    <div className='h-[65vh] flex flex-wrap justify-around items-center my-4'>
+                        {artistList}
+                    </div>
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        )
     )
 }
 
