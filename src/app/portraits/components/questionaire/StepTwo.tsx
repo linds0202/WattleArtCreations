@@ -38,7 +38,13 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
     
     useEffect(() => {
         if (selection !== 'NSFW') {
-            !authUser ? setStepLogin(true) : setStepLogin(false)
+            if (!authUser) {
+                console.log('opening login box')
+                setStepLogin(true)
+            } else {
+                console.log('closing login box')
+                setStepLogin(false)
+            }
         }
         
     }, [authUser])
