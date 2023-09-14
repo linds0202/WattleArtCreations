@@ -84,7 +84,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  return ((!authUser || pageLoading) ? 
+  return ((!authUser || pageLoading || isLoading) ? 
     <></>
   :
   <div className='relative min-h-[100vh]'>
