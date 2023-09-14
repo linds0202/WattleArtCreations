@@ -140,11 +140,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     let opacity = useTransform(scrollY, [0, 200], [0, 1])
 
     const handleClose = ({event, reason}: {event: any, reason: any}) => {
-        if (reason && reason === "backdropClick") {
-            console.log('clicked outside so nothing')
+        if (reason && reason == "backdropClick") {
             return
         }
-        setOpenLogin(false)
     }
 
     const handleXClose = () => {
