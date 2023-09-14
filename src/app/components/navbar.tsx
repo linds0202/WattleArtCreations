@@ -85,6 +85,7 @@ export default function NavBar() {
     } else if (!authUser.oldEnough) {
       setOpenConfirm(true)
     } else {
+      setClickedNSFW(false)
       router.push('/?selection=NSFW')
     }
     // setClickedNSFW(false)
