@@ -22,7 +22,7 @@ const uiConfig = {
 };
 
 interface MyQuestionProps { 
-    selection: string,
+    selection: string | null,
     charVariations: Boolean,
     pet: Boolean,
     charSheet: Boolean, 

@@ -282,6 +282,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 <h3 className='text-xl font-bold mt-4'>Let us know more. . .</h3>
                                 <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
                                 <StepTwo 
+                                    selection={portrait.mode}
                                     charVariations={charVariations}
                                     pet={pet}
                                     charSheet={charSheet}

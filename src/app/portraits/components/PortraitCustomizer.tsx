@@ -190,7 +190,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
-        console.log('authUser: ', authUser)
         if(selection === 'NSFW') {
             if (authUser) {
                 setLogin(false)
