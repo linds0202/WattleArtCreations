@@ -20,7 +20,7 @@ type Params = {
 
 
 export default function Dashboard({ params: { userId }}: Params) {
-  const { authUser, isLoading } = useAuth();
+  const { authUser, isLoading, setIsLoading } = useAuth();
   const router = useRouter();
 
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -29,6 +29,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
+    setIsLoading(false)
     if (!isLoading && !authUser) {
         router.push('/')
     }
@@ -53,6 +54,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
 
     handleGetPortraits()
+    setIsLoading(true)
   }, [])
 
   const handleFilter= (filter: string) => {
@@ -82,7 +84,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  return ((!authUser) ? 
+  return ((!authUser || !isLoading) ? 
     <p>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
@@ -92,7 +94,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     
       {currentUser && <Profile user={currentUser}/>}
       
-      <h2 className='text-4xl  font-bold'>My Portraits</h2>
+      <h2 className='text-4xl text-center font-bold'>My Portraits</h2>
       
       <div className='flex justify-around items-center mt-4'>
         <button 
