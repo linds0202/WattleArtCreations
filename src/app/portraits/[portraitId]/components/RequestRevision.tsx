@@ -38,7 +38,7 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             open={openRevision} 
             fullWidth={true}
             maxWidth='lg'
-            PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "white", position: 'relative'} }}
         >
             <IconButton onClick={() => setOpenRevision(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>

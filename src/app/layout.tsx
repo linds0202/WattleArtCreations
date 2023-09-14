@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Custom art creations',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode

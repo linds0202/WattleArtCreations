@@ -29,20 +29,20 @@ const ArtistDashboard = () => {
                 <Link href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
                     <div className='w-6/12 mx-auto mt-2 flex justify-around items-center'>
-                        <Rating 
+                        {/* <Rating 
                             name="read-only" 
                             value={artist.starRating} 
                             readOnly 
                             precision={0.5} 
                             emptyIcon={<StarBorderOutlinedIcon style={{ color: '#E5E5E5' }} fontSize="inherit" />}
-                        />
+                        /> */}
                         <span>({artist.starRating})</span>
                         <p className='ml-2 text-sm'>&#x2022; <span className='ml-2 font-semibold'>{artist.totalReviews}</span> reviews</p>
                     </div>
                     <p className='ml-4 text-sm text-center'><span className='font-semibold'>{artist.totalCompletedCommissions}</span> completed commissions</p>
                     <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 20).join(" ")}...</p>
                 </Link>
-                <div className='flex justify-center items-center mt-2'>
+                {/* <div className='flex justify-center items-center mt-2'>
                     {artist.links.map((link, i) => 
                         <SocialIcon 
                             key={i} 
@@ -65,7 +65,7 @@ const ArtistDashboard = () => {
                                 title={`${artist?.website}`} 
                             />
                         }
-                </div>
+                </div> */}
             </div>
         </div>
     ))

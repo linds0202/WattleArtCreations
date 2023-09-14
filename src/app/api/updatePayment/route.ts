@@ -32,6 +32,5 @@ export async function POST(
       success_url: `http://localhost:3000/portraits/success?portraitId=${data.items[0].id}`, //?&session_id=${session.id}
       cancel_url: 'http://localhost:3000/'
   })
-  console.log('in api session is: ', session)
   return NextResponse.json({session})
 }

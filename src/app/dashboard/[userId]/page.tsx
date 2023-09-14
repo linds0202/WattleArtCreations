@@ -18,7 +18,6 @@ type Params = {
 }
 
 
-
 export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
@@ -37,9 +36,12 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     const handleCurrentUser = async () => {
-      const latestUser: UserData | null = await getUserById(authUser?.uid)
-      setCurrentUser(latestUser)
-      
+
+      const latestUser: UserData | null = await getUserById(userId)
+      if (latestUser) {
+        setCurrentUser(latestUser)
+      }
+
     }
     handleCurrentUser()
 
@@ -87,7 +89,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
     <div className=' text-black pt-3 pb-36'>
     
-      <Profile user={currentUser}/>
+      {currentUser && <Profile user={currentUser}/>}
       
       <h2 className='text-4xl  font-bold'>My Portraits</h2>
       

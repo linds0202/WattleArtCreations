@@ -57,7 +57,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
             fullWidth={true}
             maxWidth='md'
             PaperProps={{ sx: { px: 2, py: 4, backgroundColor: "white", minHeight: '80vh',
-            maxHeight: '80vh', justifyContent: 'space-between', alignItems: 'center'} }}
+            maxHeight: '80vh', justifyContent: 'space-between', alignItems: 'center', position: 'relative'} }}
         >
             <IconButton onClick={() => setOpenAdditionalRevision(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
