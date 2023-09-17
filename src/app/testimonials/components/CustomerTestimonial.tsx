@@ -1,6 +1,6 @@
 import { Formik, Form, Field} from 'formik';
 import { addTestimonial } from '@/app/firebase/firestore';
-import { Rating } from '@mui/material';
+import Rating from '@mui/material/Rating';
 import { useState } from 'react';
 
 interface CustomerTestimonialProps {

@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export',
   experimental: {
     appDir: true,
   },
@@ -11,9 +10,12 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    unoptimized: true
+    // unoptimized: true
   },
 }
 
-module.exports = nextConfig
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
 
+module.exports = withBundleAnalyzer(nextConfig)

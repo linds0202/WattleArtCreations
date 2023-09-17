@@ -1,10 +1,9 @@
-import * as React from "react";
+
 import { useRef, useState, useEffect } from "react";
-import { motion, sync} from "framer-motion";
+import { motion} from "framer-motion";
 import { useDimensions } from "./use-dimensions";
 import { MenuToggle } from "./MenuToggle";
 import { Navigation } from "./Navigation";
-import { MutableRefObject } from "react";
 
 import './styles.css'
 

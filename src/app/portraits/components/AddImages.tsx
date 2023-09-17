@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button, Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -73,9 +74,9 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
       </IconButton>
 
       <div className="flex justify-center items-center mb-4">
-          <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
+          <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
           <p className='text-4xl text-center font-bold mt-0'>Image Upload</p>
-          <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='cblack accent paint splash'/>
+          <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='cblack accent paint splash'/>
       </div>
       
       <div className='w-10/12 flex justify-between items-center'>

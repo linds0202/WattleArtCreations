@@ -2,7 +2,8 @@ import { Field } from 'formik';
 import Accordion from './Accordion';
 import { useState, useEffect } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { Button, Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/app/firebase/firebase';
 import { useAuth } from '@/app/firebase/auth';
@@ -37,13 +38,10 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
     const [stepLogin, setStepLogin] = useState(false);
     
     useEffect(() => {
-        console.log('selection is: ', selection)
         if (selection !== 'NSFW') {
             if (!authUser) {
-                console.log('opening login box')
                 setStepLogin(true)
             } else {
-                console.log('closing login box')
                 setStepLogin(false)
                 router.push(`/portraits?selection=${selection}`)
             }

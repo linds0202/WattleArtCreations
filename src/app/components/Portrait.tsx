@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
 import Link from 'next/link'
-import { Dialog } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image'
@@ -10,10 +10,9 @@ import CharList from './CharList'
 import { MyCharValues } from '../portraits/components/questionaire/StepOne'
 import DisplayedOptionalQuestions from './DisplayedOptionalQuestions'
 import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
-import EnlargedImage from './EnlargedImage'
-import ImgSet from './ImgSet'
 import ClaimForm from './ClaimForm'
 import { UserData } from '../artistDashboard/[userId]/portfolio/page'
+import ImgSet from './ImgSet'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -112,10 +111,10 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       <div className='relative w-[175px] h-[175px] object-cover object-top rounded-xl'>
         <Image
             src={`${portrait.mode === 'Photorealistic' 
-              ? '/defaultImgs/photo.png' 
+              ? '/images/defaultImgs/photo.png' 
               : portrait.mode === 'Anime' 
-              ? '/defaultImgs/anime.png' 
-              : '/defaultImgs/nsfw.png'}`}
+              ? '/images/defaultImgs/anime.png' 
+              : '/images/defaultImgs/nsfw.png'}`}
             fill
             alt="Default Image"
             className='self-start object-cover rounded-xl'

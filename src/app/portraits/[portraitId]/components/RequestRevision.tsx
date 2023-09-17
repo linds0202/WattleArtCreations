@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CustomerRevision } from '../../components/PortraitCustomizer';
@@ -47,9 +47,9 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             
             <div className='flex flex-col justify-center items-center'>
                 <div className="flex justify-center items-center mb-4">
-                    <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black paint splash accent'/>
+                    <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint splash accent'/>
                     <p className='text-2xl text-center font-bold mt-0'>Request Revision</p>
-                    <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black paint splash accent'/>
+                    <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black paint splash accent'/>
                 </div>
                 
                 <div className='w-full flex'>

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { Formik, Form, Field } from 'formik';
-import { Slider, Button, Dialog } from '@mui/material';
-import { TextField } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
+import Slider from '@mui/material/Slider';
+import TextField from '@mui/material/TextField';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -290,7 +292,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         <DeleteForeverIcon />
                     </button>
 
-                    <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-auto rounded-xl my-4`} src={`./customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
+                    <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-auto rounded-xl my-4`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
                     
                     <div className="w-full bg-[#282828] text-white rounded-b-lg p-4">
                         <div className="w-full flex justify-center">
@@ -332,9 +334,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center">
-                <img className="mr-8 w-[10%] justify-self-center" src="./drips/side_splashL.png" alt='black accent paint splash'/>
+                <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
-                <img className="ml-8 w-[10%] justify-self-center" src="./drips/side_splashR.png" alt='black accent paint splash'/>
+                <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             <div className="w-full">
                 <Formik
@@ -369,7 +371,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             <InfoIcon className="text-sm hover:text-[#0075FF]"/>
                                             {isHovering && message === 'body' && (
                                                 <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[75px] left-[42%] m-0 ml-8 z-40">
-                                                    <img src="./body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
+                                                    <img src="./images/body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
                                                 </div>
                                             )}
                                         </div>

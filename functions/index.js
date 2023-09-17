@@ -1,23 +1,13 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+//import * as functions from 'firebase-functions';  
+//import admin from 'firebase-admin';    
+//admin.initializeApp();
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const { Timestamp } = require('firebase-admin/firestore');
+
+admin.initializeApp(functions.config().firebase);
+
+const usersRef = admin.firestore().collection('users')
 
 exports.makeUppercase = functions.firestore.document('/messages/{documentId}')
     .onCreate((snap, context) => {
@@ -35,4 +25,51 @@ exports.makeEmail = functions.firestore.document('/emails/{documentId}')
     console.log(`Sending email for ${email.days} remaining to approve your artist submission for the ${email.text} portrait. Login in and check your dashboard for more info.`);
     return email.days
     });
-  
+
+
+exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/payments/{documentId}')
+    .onCreate(async (snap, context) => {
+    
+    const payment = snap.data();
+
+    if (payment.status === 'succeeded') {
+        const portraitIds = payment.metadata.portraitIds.split(',')
+        console.log('portraitIds: ', portraitIds)
+        for (let i = 0; i < portraitIds.length; i++) {
+            const portraitDocRef = admin.firestore().collection("portraits").doc(portraitIds[i]);
+            const answer = await portraitDocRef.update({
+                "status": 'Unclaimed',
+                "paymentComplete": true,
+                "purchaseDate": Timestamp.now()
+            })
+          }
+
+        const userId = payment.metadata.userId
+        console.log('userId: ', userId)
+        const userDocRef = admin.firestore().collection("users").doc(userId);
+
+        await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+    }
+    // const portraitIds = payment.metadata.portraitIds.split(',')
+    // console.log('portraitIds: ', portraitIds)
+    // for (let i = 0; i < portraitIds.length; i++) {
+    //     const portraitDocRef = admin.firestore().collection("portraits").doc(portraitIds[i]);
+    //     const answer = await portraitDocRef.update({
+    //         "status": 'Unclaimed',
+    //         "paymentComplete": true,
+    //         "purchaseDate": Timestamp.now()
+    //     })
+    //   }
+
+
+    // const userId = payment.metadata.userId
+    // console.log('userId: ', userId)
+    // const userDocRef = admin.firestore().collection("users").doc(userId);
+
+    // await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+    
+
+
+
+    return payment
+    });

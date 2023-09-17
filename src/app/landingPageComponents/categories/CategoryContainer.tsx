@@ -4,6 +4,7 @@ import { FadeHeader } from './FadeHeader'
 import { motion, AnimatePresence } from 'framer-motion'
 import SlideCard from './SlideCard'
 
+
 const CategoryContainer = ({ setMode, mode }: ModeProps) => {
 
   const categories = ['Photorealistic', 'Anime', 'NSFW']
@@ -24,9 +25,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
               <p className='text-2xl py-2'>{item}</p>
               {item === selectedCat ? (
                 // add into motion.div class - layoutId="underline"
-                <motion.div className="underline relative" > 
-                  <img src="./drips/f_hero_drip_b.png" className="w-full absolute top-[100%] left-0 right-0" />
-                </motion.div>
+                <img src="./images/drips/f_hero_drip_b.png" className="w-full absolute top-[100%] left-0 right-0" /> 
               ) : null}
             </li>
           ))}
@@ -43,7 +42,7 @@ const CategoryContainer = ({ setMode, mode }: ModeProps) => {
             className='relative'
           >
             {selectedCat ? <SlideCard mode={selectedCat} setMode={setMode} /> : "😋"}
-            <img src="./drips/personal_underHang.png" className="w-full absolute top-[98%] left-0 right-0" />
+            <img src="./images/drips/personal_underHang.png" className="w-full absolute top-[98%] left-0 right-0" />
           </motion.div>
         </AnimatePresence>
       </main>

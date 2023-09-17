@@ -12,11 +12,6 @@ export type ActionCenterAccordionProps = {
 export default function ActionCenterAccordion({title, children, open, attention}: ActionCenterAccordionProps){
     const [expanded, setExpanded] = useState(open)
 
-    // if (title === 'Artist Selection') {
-    //     console.log('open: ', open)
-    //     console.log('attention: ', attention)
-    //     console.log('expanded: ', expanded)
-    // }
     useEffect(() => {
         setExpanded(open)
 

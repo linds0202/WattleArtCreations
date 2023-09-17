@@ -56,9 +56,9 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
         
         <div className='flex flex-col justify-center items-center'>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash' />
+                <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash' />
                 <p className='text-2xl text-center font-bold mt-0'>Artist&apos;s Note</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             
             <div className='w-full flex flex-col items-center'>

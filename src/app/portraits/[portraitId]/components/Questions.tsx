@@ -16,7 +16,7 @@ import { deleteImages } from '@/app/firebase/storage';
 import { deletePortraitImages } from '@/app/firebase/firestore';
 import { UploadedImgs } from '../../components/PortraitCustomizer';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import { Upload } from '../../components/PortraitCustomizer';
 import UploadImages from './CustomerUploads';
 import { uploadImages } from '@/app/firebase/storage';
@@ -123,9 +123,9 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             </IconButton>
             
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
+                <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Portrait Details</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
 
             {canEditQs && role !== 'Customer' && <p className='text-sm text-[#9e9e9e] text-center mb-8'>Customer can still edit the following info</p>}

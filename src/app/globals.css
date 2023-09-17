@@ -45,14 +45,12 @@ table {
 
 /* HERO SECTION */
 .hero {
-  /* background-image: url('/heroImgs/hero_bg2.png'); */
-  /* background-image: url('/drips/parallax_bg.png'); */
   background-size: cover;
 }
 
 
 .footer {
-  background-image: url(../../public/footer4.png);
+  background-image: url(../../public/images/footer4.png);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -60,7 +58,7 @@ table {
 
 /* Personal Landing Testimonials */
 .testimonial {
-  background-image: url('/drips/splatter2.png');
+  background-image: url(../../public/images/drips/splatter2.png);
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -344,7 +342,7 @@ table {
 
 /* Personal CTA section */
 .cta-frame {
-  background-image: url('/drips/CTA_frame.png');
+  background-image: url('/images/drips/CTA_frame.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;  
@@ -352,7 +350,7 @@ table {
 
 /* Corporate Landing Page Section */
 .corp-wrapper {
-  background-image: url('/drips/circle_drip_frame.png');
+  background-image: url('/images/drips/circle_drip_frame.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;  

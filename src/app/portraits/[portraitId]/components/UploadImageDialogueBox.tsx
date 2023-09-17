@@ -1,18 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Avatar, Button, Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import { useAuth } from '../../../firebase/auth';
 import { uploadImage } from '../../../firebase/storage';
 import { updatePortraitWithImage, getPortrait } from '@/app/firebase/firestore';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Upload } from '../../components/PortraitCustomizer';
 
-// interface UploadImageProps {
-//     uploads: Upload[],
-//     setUploads: Function,
-//     openUpload: boolean,
-//     setOpenUpload: Function
-// }
 
 const DEFAULT_FILE_NAME = "No file selected";
 
@@ -89,9 +83,9 @@ export default function UploadImg(props: any) {
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[25%] justify-self-center" src="../../drips/side_splashL.png" alt='black paint accent splash' />
+                <img className="mr-4 w-[25%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint accent splash' />
                 <h4 className='text-3xl font-bold text-center'>Add Image</h4>
-                <img className="ml-4 w-[25%] justify-self-center" src="../../drips/side_splashR.png" alt='black paint accent splash'/>
+                <img className="ml-4 w-[25%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black paint accent splash'/>
             </div>
             
             {/* isEdit &&  */}

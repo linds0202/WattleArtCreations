@@ -5,6 +5,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import "./styles.css";
 import { ModeProps } from "../Home"
+import Image from "next/image";
 
 
 export default function SlideCard({ setMode, mode }: ModeProps) {
@@ -12,42 +13,42 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
     const category = {
         Photorealistic: {
             imgs: [
-                './photoImgs/photo1.png',
-                './photoImgs/photo2.png',
-                './photoImgs/photo3.png',
-                './photoImgs/photo4.jpg',
-                './photoImgs/photo5.jpg',
-                './photoImgs/photo6.jpg',
-                './photoImgs/photo7.jpg',
-                './photoImgs/photo8.png',
-                './photoImgs/photo9.jpg',
+                '/images/photoImgs/photo1.png',
+                '/images/photoImgs/photo2.png',
+                '/images/photoImgs/photo3.png',
+                '/images/photoImgs/photo4.jpg',
+                '/images/photoImgs/photo5.jpg',
+                '/images/photoImgs/photo6.jpg',
+                '/images/photoImgs/photo7.jpg',
+                '/images/photoImgs/photo8.png',
+                '/images/photoImgs/photo9.jpg',
             ],
             text: "Welcome to a world where art isn't just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren't just images, they're narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth."
         },
         Anime: {
             imgs: [
-                './animeImgs/anime1.png',
-                './animeImgs/anime2.jpg',
-                './animeImgs/anime3.png',
-                './animeImgs/anime4.png',
-                './animeImgs/anime5.png',
-                './animeImgs/anime6.png',
-                './animeImgs/anime7.png',
-                './animeImgs/anime8.png',
-                './animeImgs/anime9.png',
-                './animeImgs/anime10.png',
+                '/images/animeImgs/anime1.png',
+                '/images/animeImgs/anime2.jpg',
+                '/images/animeImgs/anime3.png',
+                '/images/animeImgs/anime4.png',
+                '/images/animeImgs/anime5.png',
+                '/images/animeImgs/anime6.png',
+                '/images/animeImgs/anime7.png',
+                '/images/animeImgs/anime8.png',
+                '/images/animeImgs/anime9.png',
+                '/images/animeImgs/anime10.png',
             ],
             text: "Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it’s your favorite character or something completely original, let's turn the ordinary into extraordinary!"
         },
         NSFW: {
             imgs: [
-                './nsfwImgs/nsfw1.jpg',
-                './nsfwImgs/nsfw2.jpg',
-                './nsfwImgs/nsfw3.jpg',
-                './nsfwImgs/nsfw4.png',
-                './nsfwImgs/nsfw5.png',
-                './nsfwImgs/nsfw6.png',
-                './nsfwImgs/nsfw7.png',
+                '/images/nsfwImgs/nsfw1.jpg',
+                '/images/nsfwImgs/nsfw2.jpg',
+                '/images/nsfwImgs/nsfw3.jpg',
+                '/images/nsfwImgs/nsfw4.png',
+                '/images/nsfwImgs/nsfw5.png',
+                '/images/nsfwImgs/nsfw6.png',
+                '/images/nsfwImgs/nsfw7.png',
             ],
             text: "Step into a realm where art meets sensuality, where daring is celebrated and inhibition is a forgotten concept. Our curated selection of NSFW portraits pays tribute to the human form in its raw, honest, and enticing beauty. Commission your personalized NSFW portrait, and transform your deepest desires into a piece of art that's as provocative as it is personal. Navigate through our unique collection, and let's embark on a journey of artistic liberation."
         }
@@ -56,7 +57,7 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
 
     return (
         <div className="flex justify-start w-full">
-            <div className="flex px-4 py-8 justify-between ">
+            <div className="w-full flex px-4 py-8 justify-between ">
                 <div className="w-[49%]">
                     { (mode === "Photorealistic" || mode === 'Anime') &&
                         <Carousel
@@ -65,18 +66,37 @@ export default function SlideCard({ setMode, mode }: ModeProps) {
                             autoPlay={true} 
                             showStatus={false}
                             infiniteLoop 
-                            className="portrait-carousel-root portrait-carousel"
+                            className="portrait-carousel-root portrait-carousel "
                         >
-                            {category[mode].imgs.map(el => {
+                            {category[mode].imgs.map((el, i) => {
                                     return (
-                                    <img key={el} src={`${el}`} className="caro-img h-full object-contain" alt='default mode image'/>  
+                                        <div key={i} className='relative w-[550px] h-[525px] mx-auto object-cover'>
+                                            <Image 
+                                                src={`${el}`} 
+                                                alt="small Wattle Art Creations logo" 
+                                                width={550}
+                                                height={525}
+                                                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                                                priority={false}  
+                                            />
+                                        </div>
+                                    // <img key={el} src={`${el}`} className="caro-img h-full object-contain" alt='default mode image'/>  
                                 )})
                             }
                         </Carousel>
                     }
 
                     {mode === 'NSFW' && 
-                        <img className='w-[80%] h-auto object-contain' src="./nsfwImgs/nsfw1.jpg" alt='category image'/>
+                    <div className='relative w-[550px] h-[525px] mx-auto object-cover'>
+                        <Image 
+                            src='/images/nsfwImgs/nsfw1.jpg'
+                            alt="category image cover" 
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                            priority={false}  
+                        />
+                        {/* // <img className='w-[80%] h-auto object-contain' src="./nsfwImgs/nsfw1.jpg" alt='category image'/> */}
+                    </div>
                     }
                 </div>
                 <div className="w-[45%] flex flex-col pt-14 pr-[5%] justify-center">

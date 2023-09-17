@@ -6,21 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.10.8",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
+    "@next/bundle-analyzer": "^13.4.19",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
     "@types/node": "18.16.3",
     "@types/react": "18.2.1",
     "@types/react-dom": "18.2.3",
     "autoprefixer": "10.4.14",
-    "axios": "^1.4.0",
-    "bootstrap": "^5.2.3",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "encoding": "^0.1.13",
     "eslint": "8.39.0",
@@ -32,7 +33,6 @@
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-awesome-reveal": "^4.2.3",
-    "react-bootstrap": "^2.7.4",
     "react-dom": "18.2.0",
     "react-firebase-hooks": "^5.1.1",
     "react-firebaseui": "^6.0.0",
@@ -40,11 +40,10 @@
     "react-social-icons": "^5.15.0",
     "stripe": "^12.10.0",
     "tailwindcss": "3.3.2",
-    "three": "^0.152.2",
     "throttle-debounce-ts": "^1.1.1",
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "firebase": "^10.3.1"
+    "firebase": "^10.4.0"
   }
 }

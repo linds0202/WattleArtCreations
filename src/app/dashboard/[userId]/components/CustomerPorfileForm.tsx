@@ -1,4 +1,3 @@
-
 import { Formik, Form, Field} from 'formik';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 import UpdateInfoButton from '@/app/artistDashboard/[userId]/portfolio/components/UpdateInfoButton';

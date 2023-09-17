@@ -22,6 +22,62 @@ import { db } from './firebase';
 import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
 
+export async function getCheckoutUrl (items, userId) {
+
+  if (!userId) throw new Error("User is not authenticated");
+
+  const portraitIds = items.map(portrait => portrait.id).join(',')
+  
+  const checkoutSessionRef = collection(
+      db,
+      "users",
+      userId,
+      "checkout_sessions"
+  );
+
+  const docRef = await addDoc(checkoutSessionRef, {
+      line_items: items.map((item) => {
+          return {
+              price_data: {
+                  currency: "USD",
+                  product_data: {
+                      name: item.portraitTitle,
+                      description: item.mode,
+                  },
+                  unit_amount: item.price * 100,
+              },
+              quantity: 1
+          }
+      }),
+      payment_method_types: ["card"],
+      mode: 'payment',
+      success_url: `http://localhost:3000/dashboard/${userId}`,
+      cancel_url: 'http://localhost:3000/',
+      metadata: {
+        'portraitIds': portraitIds,
+        'userId': userId
+      },
+  });
+
+  // success?session_id={CHECKOUT_SESSION_ID}
+
+
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() 
+      if (error) {
+          unsubscribe();
+          reject(new Error(`An error occurred: ${error.message}`));
+      }
+      if (url) {
+          console.log("Stripe Checkout URL:", url);
+          unsubscribe();
+          resolve(url);
+      }
+      });
+  });
+};
+
 export async function getAllUsers() {
   const allUsers = []
     const querySnapshot = await getDocs(collection(db, "users"));

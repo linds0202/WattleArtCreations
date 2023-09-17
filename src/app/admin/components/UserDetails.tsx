@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Formik, Form, Field } from 'formik';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
@@ -44,9 +44,9 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center">
-                <img className="mr-8 w-[10%] justify-self-center" src="./drips/side_splashL.png" alt='black paint drips' />
+                <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
                 <p className='text-xl text-center font-bold mt-0'>Edit Artist</p>
-                <img className="ml-8 w-[10%] justify-self-center" src="./drips/side_splashR.png" alt='black paint drips'/>
+                <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black paint drips'/>
             </div>
 
 

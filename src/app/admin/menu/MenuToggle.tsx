@@ -1,9 +1,6 @@
-import * as React from "react";
-import { Variants, motion } from "framer-motion";
 
-interface PathProps {
-    props: any
-}
+import { motion } from "framer-motion";
+
 
 const Path = (props: any) => (
   <motion.path

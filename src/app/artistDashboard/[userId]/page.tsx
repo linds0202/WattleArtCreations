@@ -81,7 +81,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     <></>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../customizer/customizer.png" alt='background black paint drips'/>
+    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../images/customizer/customizer.png" alt='background black paint drips'/>
     <div className='text-black min-h-screen pt-3 relative pb-36'>
         <h1 className='text-4xl text-center font-bold my-8'>Artist Dashboard</h1>
         {currentUser && <p className='absolute top-4 right-14 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}

@@ -3,9 +3,10 @@ import { auth } from '@/app/firebase/firebase';
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { Formik, Form, Field} from 'formik';
+import { Formik, Form } from 'formik';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { Button, Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import StepOne from "./questionaire/StepOne"
@@ -17,7 +18,6 @@ import {
     addPortrait, 
     updatePortrait, 
     getImageUrls,
-    updateCustomerCommissionsTotal, 
     deletePortraitImages 
 } from '@/app/firebase/firestore';
 import { MyCharValues } from './questionaire/StepOne';
@@ -280,7 +280,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits([ ...portraits, updatedPortrait ])
 
             //Add completed portrait to users reward totals
-            updateCustomerCommissionsTotal(authUser?.uid)
+            //updateCustomerCommissionsTotal(authUser?.uid)
         }
 
         setEditPortrait(null)
@@ -333,9 +333,11 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         
     }
 
-    return (
+    return (isLoading ?
+        <></>
+        :
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
-            <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" alt='background black paint drips'/>
+            <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
             <div className="h-[150px] w-full flex flex-col justify-center items-center">
                 <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#0075FF] font-bold'>{selection}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>

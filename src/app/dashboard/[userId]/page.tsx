@@ -20,6 +20,7 @@ type Params = {
 
 
 export default function Dashboard({ params: { userId }}: Params) {
+  
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
@@ -90,7 +91,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     <></>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../drips/dashboard_top.png" alt='background black paint drips'/> 
+    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../images/drips/dashboard_top.png" alt='background black paint drips'/> 
 
     <div className=' text-black pt-3 pb-36'>
     

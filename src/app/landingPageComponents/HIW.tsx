@@ -3,6 +3,11 @@
 import React from 'react'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Design from '../../../public/images/HIWIcons/customize.png'
+import Quote from '../../../public/images/HIWIcons/quote.png'
+import Collaborate from '../../../public/images/HIWIcons/conversation.png'
+import Custom from '../../../public/images/HIWIcons/artwork2.png'
 
 const HIW = () => {
 
@@ -75,8 +80,17 @@ const FADE_IN_ANIMATION_VARIANTS = {
         >       
             <motion.li className='text-lg' variants={listItemVarient}>
                 <div className='relative w-[275px] h-[250px] py-8 px-4 flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
-                    <motion.img
-                        className='w-[96px] h-[96px]' src='./HIWIcons/customize.png' />
+                    <motion.div
+                        className='relative w-[96px] h-[96px] object-cover'>
+                        <Image 
+                            src={Design}
+                            alt="Design icon" 
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        />
+                    </motion.div>
+                    {/* <motion.img
+                        className='w-[96px] h-[96px]' src='./images/HIWIcons/customize.png' /> */}
                     <motion.p 
                         className='text-black text-center font-bold pt-4 text-lg'
                     >
@@ -95,8 +109,17 @@ const FADE_IN_ANIMATION_VARIANTS = {
             </motion.li>
             <motion.li className='text-lg' variants={listItemVarient}>
                 <div className='relative w-[275px] h-[250px] py-8 px-4 flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
-                    <motion.img
-                        className='w-[96px] h-[96px]' src='./HIWIcons/quote.png' />
+                    <motion.div
+                        className='relative w-[96px] h-[96px] object-cover'>
+                        <Image 
+                            src={Quote}
+                            alt="Quote icon" 
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        />
+                    </motion.div>
+                    {/* <motion.img
+                        className='w-[96px] h-[96px]' src='./images/HIWIcons/quote.png' /> */}
                     <motion.p 
                         className='text-black text-center font-bold pt-4 text-lg'
                     >
@@ -114,8 +137,17 @@ const FADE_IN_ANIMATION_VARIANTS = {
             </motion.li>
             <motion.li className='text-lg' variants={listItemVarient}>
                 <div className='relative w-[275px] h-[250px] py-8 px-4 flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
-                    <motion.img
-                        className='w-[96px] h-[96px]' src='./HIWIcons/conversation.png' />
+                    <motion.div
+                        className='relative w-[96px] h-[96px] object-cover'>
+                        <Image 
+                            src={Collaborate}
+                            alt="Collaborate icon" 
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        />
+                    </motion.div>
+                    {/* <motion.img
+                        className='w-[96px] h-[96px]' src='./images/HIWIcons/conversation.png' /> */}
                     <motion.p 
                         className='text-black text-center font-bold pt-4 text-lg'
                     >
@@ -133,8 +165,15 @@ const FADE_IN_ANIMATION_VARIANTS = {
             </motion.li>
             <motion.li className='text-lg' variants={listItemVarient}>
                 <div className='relative w-[275px] h-[250px] py-8 px-4 flex flex-col justify-center items-center border-2 border-black rounded-xl box-shadow-md '>
-                    <motion.img
-                        className='w-[96px] h-[96px]' src='./HIWIcons/artwork2.png' />
+                    <motion.div
+                        className='relative w-[96px] h-[96px] object-cover'>
+                        <Image 
+                            src={Custom}
+                            alt="Custom artwork icon" 
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        />
+                    </motion.div>
                     <motion.p 
                         className='text-black text-center font-bold pt-4 text-lg'
                     >

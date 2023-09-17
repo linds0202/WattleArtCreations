@@ -1,9 +1,10 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import {
     motion,
     useScroll,
     useTransform,
 } from "framer-motion";
+
 
 
 
@@ -23,7 +24,7 @@ const ParallaxHero = () => {
     return (
         <section ref={ref} className='relative hero w-full h-[350vh] flex flex-col justify-start' >
             <motion.img 
-                src='./drips/parallax_bg3.png' 
+                src='./images/drips/parallax_bg3.png' 
                 className={`absolute top-0 left-0 w-[100%] object-contain`}   
           
                 style={{
@@ -31,11 +32,24 @@ const ParallaxHero = () => {
                 }}
             />
             <motion.img 
-                src='./heroImgs/hero_bg4.png' 
+                src={'./images/heroImgs/hero_bg4.png' }
                 className={`absolute top-0 left-0 w-[100%] h-auto`}   
             />
+            {/* <div className={`absolute top-0 left-0 w-[100%] h-[100%] border-2 border-red-600`}  >
+                <div className='relative top-0 left-0 w-[100%] h-[100%] object-cover'>
+                    <Image 
+                        src={Hero} 
+                        alt="small Wattle Art Creations logo" 
+                        fill
+                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        priority={true}  
+                    />
+                </div>
+
+            </div> */}
+            
             <motion.img 
-                src='./drips/hero_drip_alt3.png' 
+                src='./images/drips/hero_drip_alt3.png' 
                 className={`sticky top-10 left-0 w-[100%]`}   
                 initial={{y: -40, opacity: 0}}
                 animate={{
@@ -74,7 +88,6 @@ const ParallaxHero = () => {
                 <span className='hover:text-[#FF7F00]'>o</span>
                 <span className='hover:text-[#FFFF00]'>n</span>
                 <span className='hover:text-[#00FF00]'>s</span>
-                {/* attle Art Creations */}
             </motion.h2>
         </section>
     );

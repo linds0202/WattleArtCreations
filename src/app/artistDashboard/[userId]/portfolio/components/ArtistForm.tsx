@@ -5,7 +5,7 @@ import { updateUserData } from '@/app/firebase/firestore';
 import UpdateInfoButton from './UpdateInfoButton';
 import CancelUpdateButton from './CancelUpdate';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import AddLinks from './AddLinks';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';

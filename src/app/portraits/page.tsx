@@ -10,11 +10,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '@/app/firebase/firebase';
+import { auth, app } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
 import { PortraitData } from './components/PortraitCustomizer';
 import { getPortrait } from '../firebase/firestore';
 import Footer from '../components/Footer';
+import { getCheckoutUrl } from '../firebase/firestore';
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -125,6 +126,22 @@ export default function Portraits() {
       <p>${portrait.price.toFixed(2)}</p>
     </div>
   ))
+
+  const checkout = async () => {
+    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid)
+    router.push(checkoutUrl)
+  }
+
+  const checkoutButton = (
+    <button
+      onClick={checkout}
+      className="bg-blue-600 p-4 px-6 text-lg rounded-lg hover:bg-blue-700 shadow-lg"
+    >
+      <div className="flex gap-2 items-center align-middle justify-center">
+        Checkout
+      </div>
+    </button>
+  );
   
 
   const handleEdit = (i: number) => {
@@ -195,28 +212,29 @@ export default function Portraits() {
               </div>
               {/* Wizard closed show calculate price button */}
               { (portraits.length !== 0 && authUser) && 
-                <a 
-                  onClick={async () => {
-                    try {
-                      await fetch('http://localhost:3000/api/payment', {
-                        method: 'POST',
-                        body: JSON.stringify({
-                          items: portraits,
-                        }),
-                      })
-                      .then(response => response.json())
-                      .then(response => {
-                        console.log('response.session on front end: ', response.session);
-                        router.push(response.session.url)
-                      })
-                    } catch (err) {
-                      console.log('fetch error: ', err)
-                    }
-                  }}
-                  className="flex items-center justify-center rounded-md border-2 border-[#0075FF] bg-[#0075FF] px-6 py-3 text-base font-medium cursor-pointer text-white mt-4 hover:scale-105"
-                >
-                  Checkout
-                </a>
+                  <div>{checkoutButton}</div>
+                // <a 
+                //   onClick={async () => {
+                //     try {
+                //       await fetch('http://localhost:3000/api/payment', {
+                //         method: 'POST',
+                //         body: JSON.stringify({
+                //           items: portraits,
+                //         }),
+                //       })
+                //       .then(response => response.json())
+                //       .then(response => {
+                //         console.log('response.session on front end: ', response.session);
+                //         router.push(response.session.url)
+                //       })
+                //     } catch (err) {
+                //       console.log('fetch error: ', err)
+                //     }
+                //   }}
+                //   className="flex items-center justify-center rounded-md border-2 border-[#0075FF] bg-[#0075FF] px-6 py-3 text-base font-medium cursor-pointer text-white mt-4 hover:scale-105"
+                // >
+                //   Checkout
+                // </a>
               }
             </div>
           </>

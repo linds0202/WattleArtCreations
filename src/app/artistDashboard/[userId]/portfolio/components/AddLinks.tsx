@@ -1,5 +1,5 @@
 import { Formik, Form, Field } from 'formik';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 

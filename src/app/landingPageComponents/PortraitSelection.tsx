@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { updateUserById } from "../firebase/firestore";
-import { Dialog, Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import Footer from "@/app/components/Footer"
 import { Carousel } from "react-responsive-carousel"
 import {
@@ -17,6 +18,8 @@ import {
 import { ModeProps } from "./Home";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Image from "next/image";
+import LogoColor from '../../../public/images/Logo_Full_ups.png'
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -75,9 +78,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         Photorealistic: {
             title: mode,
             tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
-            imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
-            splashImg: './splashArt/PR.png',
-            bgImg: './splashArt/PRBackground_V2.png',
+            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
+            splashImg: './images/splashArt/PR.png',
+            bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Embrace the power of precise strokes and discerning shadows, as our gifted artists capture your essence or your original characters in striking photorealistic detail. Here, the precision of digital technology marries the finesse of traditional artistry, resulting in a compelling photorealistic portrait that narrates your story or the tale of your created characters, and blurs the line between art and reality.",
             testimonials: [
                 {author: 'Bob', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.'}, 
@@ -88,9 +91,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         Anime: {
             title: mode,
             tagline: "Immerse Yourself in an Artistic Adventure with Custom Anime Portraits",
-            imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
-            splashImg: './splashArt/Anime.png',
-            bgImg: './splashArt/PRBackground_V2.png',
+            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
+            splashImg: './images/splashArt/Anime.png',
+            bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
             testimonials: [
                 {author: 'Bob', body: 'good job'}, 
@@ -101,9 +104,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         NSFW: {
             title: mode,
             tagline: "Unveil the Unspoken with Tasteful and Alluring NSFW Portraits",
-            imgs: ["./heroImgs/heroImg2.png", "./heroImgs/heroImg3.png", "./heroImgs/heroImg4.png", "./heroImgs/heroImg5.png", "./heroImgs/heroImg6.JPG"],
-            splashImg: './splashArt/NSFW.png',
-            bgImg: './splashArt/PRBackground_V2.png',
+            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
+            splashImg: './images/splashArt/NSFW.png',
+            bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Indulge in the provocative yet tasteful world of NSFW portraits, where your desires are embraced with artistry and confidentiality. Our experienced artists are skilled at transforming your boldest visions into captivating digital art. Whether it's a daring depiction of a real individual or an original character, every piece is an exploration of sensuality and passion, handled with the utmost respect and professionalism.",
             testimonials: [{author: 'Bob', body: 'good job'}, 
                 {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
@@ -156,7 +159,6 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         updateUserById(authUser?.uid)
         setOpenConfirm(false)
         setMode('NSFW')
-        // router.push('/portraits?selection=NSFW')
     }
 
     const handleCancel = () => {
@@ -177,8 +179,17 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         <IconButton onClick={handleXClose} className='absolute top-2 right-2 text-white'>
                             <CloseIcon className='text-white hover:text-red-600'/>
                         </IconButton>
-
-                        <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle art creations logo'/>
+                        <div className='relative w-[128px] h-[128px] object-cover my-4'>
+                            <Image 
+                                className=''
+                                src={LogoColor} 
+                                alt="Wattle Art Creations color logo" 
+                                fill
+                                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                                priority={true}  
+                            />
+                        </div>
+                        {/* <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle art creations logo'/> */}
                         <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
                         <h4>Portrait Selection</h4>
                         <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
@@ -347,7 +358,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     {/* Splatters */}
                     <motion.img 
                         className="absolute -top-[50px] left-[75px] z-40" 
-                        src='./testimonials/top_left.png' 
+                        src='./images/testimonials/top_left.png' 
                         variants={splatterVariant} 
                         initial='hidden' 
                         whileInView='show' 
@@ -357,7 +368,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                      
                     <motion.img 
                         className="absolute top-[75%] right-[50px] z-40" 
-                        src='./testimonials/bottom_right.png' 
+                        src='./images/testimonials/bottom_right.png' 
                         variants={splatterVariant} 
                         initial='hidden' 
                         whileInView='show' 
@@ -366,7 +377,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     />
                     <motion.img 
                         className="absolute -top-[50px] right-[190px] z-40" 
-                        src='./testimonials/top_right.png' 
+                        src='./images/testimonials/top_right.png' 
                         variants={splatterVariant} 
                         initial='hidden' 
                         whileInView='show' 
@@ -375,7 +386,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     />
                     <motion.img 
                         className="absolute top-[73%] left-[30px] z-40" 
-                        src='./testimonials/bottom_left.png' 
+                        src='./images/testimonials/bottom_left.png' 
                         variants={splatterVariant} 
                         initial='hidden' 
                         whileInView='show' 

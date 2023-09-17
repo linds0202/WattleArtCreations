@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Dialog } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import { useRouter } from 'next/navigation';
 import { PortraitData } from '../../components/PortraitCustomizer';
 import { updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore';
@@ -49,9 +49,9 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             <>
                 <div className='flex flex-col justify-center items-center mb-8'>
                     <div className="flex justify-center items-center mb-4">
-                        <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
+                        <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
                         <p className='text-3xl text-center font-bold mt-0'>Congratulations on Your Custom Artwork!</p>
-                        <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
+                        <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
                     </div>
                     <p className='text-center text-lg mb-4'>Thank you for choosing Wattle Art Creations for your custom art commission. We&apos;re delighted to know that you&apos;re happy with the final artwork, and we can&apos;t wait for you to showcase and enjoy your digital masterpiece!</p>
                     <p className='text-center text-lg'>Clicking below will <span className='text-[#0075FF] font-semibold'>complete</span> your commission and <span className='text-[#0075FF] font-semibold'>release</span> your payment to your artist.*</p>

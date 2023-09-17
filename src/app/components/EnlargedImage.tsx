@@ -1,4 +1,5 @@
-import { Dialog, DialogContent } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Timestamp } from 'firebase/firestore';

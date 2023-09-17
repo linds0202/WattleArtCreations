@@ -1,4 +1,4 @@
-import { Dialog } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import ArtistDetails from './ArtistDetails';
@@ -64,9 +64,9 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../drips/side_splashL.png" alt='black accent paint splash'/>
+                <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Your Artist List</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../drips/side_splashR.png" alt='black accent paint splash'/>
+                <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             {/* <h2 className='text-4xl font-bold'>Your Artist List</h2> */}
             <div className='w-full flex justify-between items-center'>

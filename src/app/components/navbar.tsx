@@ -4,7 +4,9 @@
 import '../globals.css'
 import Link from 'next/link';
 import Image from 'next/image';
-import { Dialog, CircularProgress, Button } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Dialog from '@mui/material/Dialog';
+import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -14,6 +16,9 @@ import { auth } from '../firebase/firebase';
 import { updateUserById } from '../firebase/firestore';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import Logo from '../../../public/images/Logo_Circle.png'
+import LogoColor from '../../../public/images/Logo_Full_ups.png'
+import Bag from '../../../public/images/bag.png'
 
 
 // Configure FirebaseUI.
@@ -47,7 +52,7 @@ export default function NavBar() {
   
 
   const handleClose = ({event, reason}: {event: any, reason: any}) => {
-    console.log('reason is: ', reason)
+  
     if (reason && reason == "backdropClick") {
       console.log('backdropClicked. Not closing dialog.')
       return;
@@ -67,6 +72,7 @@ export default function NavBar() {
       setLogin(false)
       if (clickedNSFW) {
         if (authUser?.oldEnough){
+          setClickedNSFW(false)
           router.push('/?selection=NSFW') 
         } else {
           setOpenConfirm(true)
@@ -123,7 +129,15 @@ export default function NavBar() {
             }} 
           className='flex justify-between items-center no-underline'
         >
-          <Image src={'/Logo_Circle.png'} alt="small Wattle Art Creations logo" width={64} height={64}/>
+          <div className='relative w-[64px] h-[64px] object-cover'>
+            <Image 
+              src={Logo} 
+              alt="small Wattle Art Creations logo" 
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              priority={true}  
+            />
+          </div>
           <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
         </Link>
       </div>
@@ -242,7 +256,19 @@ export default function NavBar() {
     
           <button onClick={signOut}>Logout</button>
           <div className='pl-4'>
-            <Link href={'/'} className='text-white no-underline'><img className='w-[32px] h-[32px] text-white' src='./bag.png' alt='Personal Art Orders' title='Personal Art Orders' /></Link>
+            <Link href={'/'} className='text-white no-underline'>
+            <div className='relative w-[32px] h-[32px] object-cover'>
+                <Image 
+                  className=''
+                  src={Bag} 
+                  alt="shopping cart icon" 
+                  fill
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  priority={true}  
+                />
+              </div>
+              {/* <img className='w-[32px] h-[32px] text-white' src='./bag.png' alt='Personal Art Orders' title='Personal Art Orders' /> */}
+            </Link>
           </div>
         </>  
         }
@@ -269,7 +295,17 @@ export default function NavBar() {
               <CloseIcon className='text-white hover:text-red-600'/>
           </IconButton>
 
-          <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/>
+          <div className='relative w-[128px] h-[128px] object-cover my-4'>
+              <Image 
+                className=''
+                src={LogoColor} 
+                alt="Wattle Art Creations color logo" 
+                fill
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                priority={true}  
+              />
+            </div>
+          {/* <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/> */}
           <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
           <h4>Nav Bar</h4>
           {clickedNSFW && <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>}

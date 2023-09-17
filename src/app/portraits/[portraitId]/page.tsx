@@ -15,7 +15,7 @@ import RequestRevision from './components/RequestRevision';
 import { downloadImage } from '@/app/firebase/storage';
 import CustomerActionCenter from './components/CustomerActionCenter';
 import ArtistActionCenter from './components/ArtistActionCenter';
-import { Rating } from '@mui/material';
+import Rating from '@mui/material/Rating';
 import Questions from './components/Questions';
 import Footer from '@/app/components/Footer';
 import { Timestamp } from 'firebase/firestore';
@@ -154,7 +154,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     <p className='min-h-screen text-center text-4xl'>Loading ...</p>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-full absolute -top-[16px] left-0" src="../../drips/wizard3.png" alt='background black paint drip'/>
+    <img className="w-full absolute -top-[16px] left-0" src="../../images/drips/wizard3.png" alt='background black paint drip'/>
     <div className='bg-white text-black min-h-screen pt-3 pb-36'>
       <div className='relative'>
         <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
