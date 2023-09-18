@@ -293,8 +293,9 @@ export default function NavBar() {
         open={login} 
         fullWidth={true}
         maxWidth='xs'
-        PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
+        PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px"} }}
       >
+        <div className='relative'>
           <IconButton onClick={handleXClose} className='absolute top-2 right-2 text-white'>
               <CloseIcon className='text-white hover:text-red-600'/>
           </IconButton>
@@ -324,7 +325,7 @@ export default function NavBar() {
               </div>
                   
           </Button>  
-        {/* </div> */}
+        </div>
         
       </Dialog>
     </div>
