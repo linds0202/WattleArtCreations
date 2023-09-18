@@ -471,7 +471,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 open={login} 
                                 fullWidth={true}
                                 maxWidth='xs'
-                                PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px"} }}
+                                PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
                             >
                         
                                 <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
