@@ -21,11 +21,12 @@ const uiConfig = {
 
 interface LoginDialogProps {
     selection?: string | null | undefined,
+    customizer?: boolean,
     login: boolean,
     setLogin: Function,
 }
 
-const LoginDialog = ({ selection, login, setLogin }: LoginDialogProps) => {
+const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProps) => {
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
@@ -64,7 +65,7 @@ const LoginDialog = ({ selection, login, setLogin }: LoginDialogProps) => {
             >
                 <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
                     <p className='text-md' >Return to Homepage</p>
-                    <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
+                    {customizer && <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>}
                 </div>
                     
             </Button>

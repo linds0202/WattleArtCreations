@@ -292,6 +292,7 @@ export default function NavBar() {
       {login &&
         <LoginDialog
           selection={clickedNSFW ? 'NSFW' : 'Photorealistic'}
+          customizer={false}
           login={login}
           setLogin={setLogin}
         />

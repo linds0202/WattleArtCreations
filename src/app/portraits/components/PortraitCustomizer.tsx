@@ -270,7 +270,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits([ ...portraits, updatedPortrait ])
 
         }
-
+        window.localStorage.setItem('charList', [])
         setEditPortrait(null)
         setOpenWizard(false)
     }  
@@ -450,6 +450,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             {customizerLogin && 
                                 <LoginDialog
                                     selection={selection}
+                                    customizer={true}
                                     login={customizerLogin}
                                     setLogin={setCustomizerLogin}
                                 />
