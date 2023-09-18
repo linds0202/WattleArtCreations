@@ -110,7 +110,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     <div className='bg-white border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center'>
       <div className='relative w-[175px] h-[175px] object-cover object-top rounded-xl'>
         <Image
-            src={`${portrait.images.length !== 0 ? portrait.images[0] : portrait.mode === 'Photorealistic' 
+            src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === 'Photorealistic' 
               ? '/images/defaultImgs/photo.png' 
               : portrait.mode === 'Anime' 
               ? '/images/defaultImgs/anime.png' 
