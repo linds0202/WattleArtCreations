@@ -33,7 +33,7 @@ const ChatBox = ({ portraitId }: ChatBoxProps) => {
         getMessages()
     }, [])
 
-   console.log('messages in chatbox is: ', messages)
+   
     return (
       <main className="w-full relative">
         <div className="messages-wrapper scrollbar-hide" id="chatBox">

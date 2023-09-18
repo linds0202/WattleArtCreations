@@ -439,15 +439,21 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
 
 //Submit an image for review 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
+  console.log('portraitId: ', portraitId)
+  console.log('userId', userId)
+  console.log('imageBucket, ', imageBucket)
+  
   const imageUrl = await getDownloadURL(imageBucket)
+
+  console.log(imageUrl)
+
   updateDoc(doc(db, 'portraits', portraitId), 
     { 
-      finalImages: arrayUnion({userId, imageUrl, date: new Date}), 
+      finalImages: arrayUnion({userId: userId, imageUrl: imageUrl, date: new Date}), 
       revised: true,
       additionalRevision: false,
       additionalRevisionRequest: false,
       purchaseRevisionLink: ''
-      // artistSubmitted: arrayUnion(new Date),    
     })
 }
 

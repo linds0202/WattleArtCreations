@@ -11,7 +11,6 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
     const { authUser } = useAuth()
     
     const [message, setMessage] = useState('')
-    console.log('message in sendMessage is: ', message)
 
     const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -29,7 +28,6 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
         setMessage("")
     }
 
-//onSubmit={(event) => sendMessage(event)}
     return (
         <form className="send-mesg" onSubmit={(event) => sendMessage(event)}> 
 

@@ -317,7 +317,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <UploadImg 
                         showDialog={action} 
                         onCloseDialog={() => setAction(false)} 
-                        userId={authUser.uid}
+                        userId={authUser?.uid}
                         portrait={portrait}
                         setPortrait={setPortrait}
                       >
