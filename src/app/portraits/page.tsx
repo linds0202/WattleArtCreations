@@ -60,10 +60,14 @@ export default function Portraits() {
     if (portraitId && continueEdit) {
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
-      
-        if (addedPortrait) setPortraits(prev => [...prev, addedPortrait])
-        setEditPortrait(addedPortrait)
-        setEditIndex(0)
+        
+        
+        if (addedPortrait) {
+          setEditIndex(portraits.length)
+          setPortraits(prev => [...prev, addedPortrait])
+          setEditPortrait(addedPortrait)
+        }
+        
         setOpenWizard(true)
       }
       
@@ -84,6 +88,9 @@ export default function Portraits() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    
+    
+
   }, [portraits])
 
   const portraitList = portraits?.map((portrait, i) => (
@@ -159,7 +166,7 @@ export default function Portraits() {
   }
 
   const handleDelete = (i: number) => {
-    alert('Portraits removed from your cart are not deleted. They can be found on your dashboard to be ordered at a later time')
+    // alert('Portraits removed from your cart are not deleted. They can be found on your dashboard to be ordered at a later time')
     let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
     setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price, 0))
     setPortraits(deletePortraitArr)
