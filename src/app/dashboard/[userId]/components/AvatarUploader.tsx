@@ -104,7 +104,7 @@ export default function AvatarUploader(props: any) {
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
             <div className='relative'>
-            <IconButton onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-2 text-white'>
+            <IconButton onClick={() => props.onCloseDialog(false)} className='w-1/12 !absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600 absolute'/>
             </IconButton>
 
