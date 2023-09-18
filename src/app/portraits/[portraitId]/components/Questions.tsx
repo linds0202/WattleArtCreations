@@ -33,6 +33,7 @@ interface QuestionsProps {
 
 const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, canEditQs, role }: QuestionsProps) => {
     console.log('made it into questions')
+    console.log('open questions is: ', openQuestions)
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
@@ -83,6 +84,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     }
 
     const handleOpenImgSet = (i: number) => {
+        
+        console.log('calling handleOpenImgGroup in questions')
         setImgSetIndex(i)
         setOpenImgSet(true)
     }
@@ -103,10 +106,12 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     }
 
     const handleAddImage = () => {
+        console.log('calling handleaddimage in questions')
         setOpenUpload(true)
     }
 
     const handleDeleteNewImgGroup = (i: number) => {
+        console.log('calling handledeleteNewImgGroup in questions')
         const updatedImgGroup = uploads.filter((upload, index) => i !== index)
 
         setUploads(updatedImgGroup)

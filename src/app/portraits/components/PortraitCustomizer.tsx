@@ -1,11 +1,7 @@
 import { useAuth } from '@/app/firebase/auth';
-import { auth } from '@/app/firebase/firebase';
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
-import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { Formik, Form } from 'formik';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,6 +19,7 @@ import {
 import { MyCharValues } from './questionaire/StepOne';
 import { Timestamp } from 'firebase/firestore';
 import { Artist } from '@/app/components/Portrait';
+import LoginDialog from '@/app/components/LoginDialog';
 
 export interface UploadedImgs {
     imageUrls: Array<string>,
@@ -49,7 +46,7 @@ export interface Upload {
 
 export interface PortraitData  {
     mode: string, 
-    characters: [],
+    characters: Array<MyCharValues>,
     portraitTitle: string,
     requiredQs: [string, string],
     questions: [{q1: string, q2: string, q3: string, q4: string}, {q1: string}, {q1: string, q2: string}, {q1: string, q2: string}, {q1: string, q2: string}], 
@@ -86,21 +83,9 @@ interface PortraitProps {
     setPortraits: Function,
     setOpenWizard: Function,
     totalPrice: number,
-    setTotalPrice: Function
+    setTotalPrice: Function,
 }
 
-// Configure FirebaseUI., 
-const uiConfig = {
-    signInFlow: 'popup', 
-    signInOptions: [
-        EmailAuthProvider.PROVIDER_ID,
-        GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-        // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => false,
-    },
-};
 
 const prices: any = {
     Photorealistic: {
@@ -135,11 +120,12 @@ const DEFAULT_FORM_STATE = {
 };
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
+
     if (selection === undefined || !selection) selection = ''
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
-    const [login, setLogin] = useState(false);
+    const [customizerLogin, setCustomizerLogin] = useState(false);
 
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
         mode: `${selection}`, 
@@ -171,8 +157,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         revisionNotes: []
     })
 
-    const [customizerLoading, setCustomizerLoading] = useState(false)
-    const [chars, setChars] = useState<Array<MyCharValues>>(portraitData.characters)
+    const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
@@ -186,53 +171,56 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     useEffect(() => {
         window.scrollTo(0, 0)
+        console.log('editPortrait: ', editPortrait)
+        
+        if (!editPortrait) {
+            const charData = window.localStorage.getItem('charList')
+            if (charData !== null && JSON.parse(charData).length !== 0) setChars(JSON.parse(charData))
+        } 
+        
     }, [])
 
+
+    useEffect(() => {
+        window.localStorage.setItem('charList', JSON.stringify(chars))
+    }, [customizerLogin])
 
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
         if(selection === 'NSFW') {
             if (authUser) {
-                setLogin(false)
+                setCustomizerLogin(false)
                
                 if (authUser?.oldEnough){
-                    router.push('/portraits?selection=NSFW')
+                    //router.push('/portraits?selection=NSFW')
                     return
-                    
                 } else {
-                    router.push('/')
+                    //router.push('/')
+                    setCustomizerLogin(true)
                 }                
             } else {
-                setLogin(true)
+                setCustomizerLogin(true)
             }
-        }  
-    }, [authUser])
-
+        } if (chars.length !== 0) {
+            if (!authUser) {
+                setPortraitData({...portraitData, characters: chars})
+                setCustomizerLogin(true)
+            } else {
+                setPortraitData({...portraitData, characters: chars})
+                setCustomizerLogin(false)
+            }
+        }
+    }, [authUser, chars])
 
     const handleLogin = () => {
-        setLogin(true)
-    }
-    
-    const handleClose = (event: object, reason: string) => {
-        setCustomizerLoading(true)
-        
-        if (reason && reason == "backdropClick") {
-            return
-        }
-
-        setCustomizerLoading(false)
+        setCustomizerLogin(true)
     }
 
-    const handleRedirect = () => {
-        setLogin(false)
-        router.push('/')
-    }
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += char?.total, 0)
 
-        
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
         
         if (editPortrait) {
@@ -258,8 +246,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 }
             })
 
-            
-
             let updatedTotalPrice = portraits.reduce((sum, p) => sum += p.price, 0)
 
             updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
@@ -268,7 +254,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits(editedPortraitsData)
         } else {
             
-
             const id = await addPortrait(newPortrait)            
 
             //upload img to bucket
@@ -284,13 +269,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             
             setPortraits([ ...portraits, updatedPortrait ])
 
-            //Add completed portrait to users reward totals
-            //updateCustomerCommissionsTotal(authUser?.uid)
         }
 
         setEditPortrait(null)
         setOpenWizard(false)
-
     }  
 
     const handleEditImgGroup = (i: number) => {
@@ -464,37 +446,16 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             }
                           </div>
                           
-                          <div className='mt-8 w-full flex justify-around items-center'>
-                            {/* Prompt for login */}
-                            <Dialog 
-                                onClose={handleClose} 
-                                open={login} 
-                                fullWidth={true}
-                                maxWidth='xs'
-                                PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
-                            >
-                        
-                                <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
-                                <h4>Portrait Customizer</h4>
-                                {selection === 'NSFW' 
-                                    ? <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
-                                    :
-                                    <p className='pb-4 text-center mt-4'>In order to fully customize your portrait, please Login or Create an Account</p>
-                                }
-                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-                                <Button 
-                                    onClick={handleRedirect}
-                                    className='pt-4'
-                                >
-                                    <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
-                                        <p className='text-md' >Return to Homepage</p>
-                                        <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
-                                    </div>
-                                        
-                                </Button>
-                            </Dialog>        
-
-                          </div>
+                        <div className='mt-8 w-full flex justify-around items-center'>
+                            {customizerLogin && 
+                                <LoginDialog
+                                    selection={selection}
+                                    login={customizerLogin}
+                                    setLogin={setCustomizerLogin}
+                                />
+                            }
+                        </div>
+                          
                       </Form>
                   )}
               </Formik>
@@ -504,3 +465,5 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 }
 
 export default PortraitCustomizer
+
+

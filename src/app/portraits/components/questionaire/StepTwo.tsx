@@ -10,17 +10,17 @@ import { useAuth } from '@/app/firebase/auth';
 import { useRouter } from 'next/navigation';
 
 // Configure FirebaseUI., 
-const uiConfig = {
-    signInFlow: 'popup', 
-    signInOptions: [
-      EmailAuthProvider.PROVIDER_ID,
-      GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-        // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => false,
-    },
-};
+// const uiConfig = {
+//     signInFlow: 'popup', 
+//     signInOptions: [
+//       EmailAuthProvider.PROVIDER_ID,
+//       GoogleAuthProvider.PROVIDER_ID,
+//     ],
+//     callbacks: {
+//         // Avoid redirects after sign-in.
+//         signInSuccessWithAuthResult: () => false,
+//     },
+// };
 
 interface MyQuestionProps { 
     selection: string | null,
@@ -35,37 +35,38 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
-    const [stepLogin, setStepLogin] = useState(false);
+    //const [stepLogin, setStepLogin] = useState(false);
     
-    useEffect(() => {
-        if (selection !== 'NSFW') {
-            if (!authUser) {
-                setStepLogin(true)
-            } else {
-                setStepLogin(false)
-                router.push(`/portraits?selection=${selection}`)
-            }
-        }
+    // useEffect(() => {
+    //     if (selection !== 'NSFW') {
+    //         if (!authUser) {
+    //             setStepLogin(true)
+    //         } else {
+    //             setStepLogin(false)
+    //             //router.refresh()
+    //         }
+    //     }
         
-    }, [authUser])
+    // }, [authUser])
 
-    const handleRedirect = () => {
-        setStepLogin(false)
-        router.push('/')
-    }
+    // const handleRedirect = () => {
+    //     setStepLogin(false)
+    //     router.push('/')
+    // }
 
-    const handleClose = (event: object, reason: string) => {
-        if (reason && reason == "backdropClick") {
-            return
-        }
-    }
+    // const handleClose = (event: object, reason: string) => {
+    //     if (reason && reason == "backdropClick") {
+    //         return
+    //     }
+    // }
     
     return (
         <>
             {/* Prompt for login */}
-            <Dialog onClose={handleClose} open={stepLogin}>
+            {/* <Dialog onClose={handleClose} open={stepLogin}>
                 <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
                     <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+                    <p>step 2</p>
                     <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
                     <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
                     <Button 
@@ -80,7 +81,7 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
                     </Button>
                     
                 </div>
-            </Dialog>        
+            </Dialog>         */}
             {/* Character Qs */}
             <Accordion title="Character" required={false} active={true}>
                 <label className='text-sm leading-3'>

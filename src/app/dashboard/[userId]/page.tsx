@@ -43,7 +43,6 @@ export default function Dashboard({ params: { userId }}: Params) {
 
       const latestUser: UserData | null = await getUserById(userId)
       if (latestUser) {
-        console.log('setting currentUser to: ', latestUser)
         setCurrentUser(latestUser)
       }
 

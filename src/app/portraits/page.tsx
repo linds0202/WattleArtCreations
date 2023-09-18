@@ -49,6 +49,14 @@ export default function Portraits() {
   const [totalPrice, setTotalPrice] = useState(0)
 
   useEffect(() => {
+    if (!isLoading && !authUser && portraits.length !== 0) {
+        setLogin(true)
+    } else if (authUser) {
+      setLogin(false)
+    }
+  }, [authUser, isLoading]);
+
+  useEffect(() => {
     if (portraitId && continueEdit) {
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
@@ -135,7 +143,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="mt-4 text-white text-xl bg-[#0075FF] border-2 border-[#0075FF] p-4 px-6 text-lg rounded-lg hover:bg-white hover:text-[#0075FF] shadow-lg"
+      className="mt-4 text-white text-xl bg-[#0075FF] border-2 border-[#0075FF] p-4 px-6 rounded-lg hover:bg-white hover:text-[#0075FF] shadow-lg"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
