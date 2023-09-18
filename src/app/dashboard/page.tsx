@@ -1,10 +1,13 @@
 'use client'
 
 import '../globals.css'
+import { useAuth } from '../firebase/auth'
 
 export default function Dashboard() {
-
-  return (
+  const { isLoading } = useAuth()
+  return (isLoading ? 
+    <></>
+    :
     <div>Dashboard</div>
   )
 }

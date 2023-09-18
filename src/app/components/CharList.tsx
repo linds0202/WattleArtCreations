@@ -12,7 +12,7 @@ const CharList = ({ portrait }: CharListProps) => {
           <img 
             alt='default character style thumbnail'
             className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover rounded-xl`} 
-            src={`../../customizer/${char.bodyStyle}.png`} 
+            src={`../../images/customizer/${char.bodyStyle}.png`} 
           />
 
           <div className='w-full ml-4 self-start'>
