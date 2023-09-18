@@ -98,7 +98,7 @@ export default function Portraits() {
       <div>
         <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters?.length}</span></p>
         <div className='flex justify-start'>  
-          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./customizer/character.png' alt='small human icon'/>)}
+          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./images/customizer/character.png' alt='small human icon'/>)}
         </div>
       </div>
       <div className='w-6/12'>
@@ -135,7 +135,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="bg-blue-600 p-4 px-6 text-lg rounded-lg hover:bg-blue-700 shadow-lg"
+      className="mt-4 text-white text-xl bg-[#0075FF] border-2 border-[#0075FF] p-4 px-6 text-lg rounded-lg hover:bg-white hover:text-[#0075FF] shadow-lg"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
@@ -158,9 +158,10 @@ export default function Portraits() {
   }
 
 
-  return (
-    <div className='relative min-h-[100vh]'>
-      <img className="w-full absolute -top-[16px] left-0" src="./customizer/customizer.png" alt='background black paint drips'/>
+  return (isLoading ?
+    <></>
+    : <div className='relative min-h-[100vh]'>
+      <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
       <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black pb-36'>
         {!openWizard && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
 

@@ -171,6 +171,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         revisionNotes: []
     })
 
+    const [customizerLoading, setCustomizerLoading] = useState(false)
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData.characters)
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
@@ -213,9 +214,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     }
     
     const handleClose = (event: object, reason: string) => {
+        setCustomizerLoading(true)
+        
         if (reason && reason == "backdropClick") {
             return
         }
+
+        setCustomizerLoading(false)
     }
 
     const handleRedirect = () => {
@@ -333,9 +338,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         
     }
 
-    return (isLoading ?
-        <></>
-        :
+    return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
             <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
             <div className="h-[150px] w-full flex flex-col justify-center items-center">
@@ -463,38 +466,34 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                           
                           <div className='mt-8 w-full flex justify-around items-center'>
                             {/* Prompt for login */}
-                            <Dialog onClose={handleClose} open={login}>
-                                <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
-                                    <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
-                                    <h4>Portrait Customizer</h4>
-                                    {selection === 'NSFW' 
-                                        ? <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
-                                        :
-                                        <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
-                                    }
-                                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-                                    <Button 
-                                        onClick={handleRedirect}
-                                        className='pt-4'
-                                    >
-                                        <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
-                                            <p className='text-md' >Return to Homepage</p>
-                                            <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
-                                        </div>
-                                            
-                                    </Button>
-                                    
-                                </div>
+                            <Dialog 
+                                onClose={handleClose} 
+                                open={login} 
+                                fullWidth={true}
+                                maxWidth='xs'
+                                PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px"} }}
+                            >
+                        
+                                <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
+                                <h4>Portrait Customizer</h4>
+                                {selection === 'NSFW' 
+                                    ? <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
+                                    :
+                                    <p className='pb-4 text-center mt-4'>In order to fully customize your portrait, please Login or Create an Account</p>
+                                }
+                                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+                                <Button 
+                                    onClick={handleRedirect}
+                                    className='pt-4'
+                                >
+                                    <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
+                                        <p className='text-md' >Return to Homepage</p>
+                                        <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
+                                    </div>
+                                        
+                                </Button>
                             </Dialog>        
 
-
-
-                            {/* <Dialog onClose={() => setLogin(false)} open={login}>
-                                <div className=''>
-                                    {!authUser && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />}
-                                </div>
-                              
-                            </Dialog> */}
                           </div>
                       </Form>
                   )}

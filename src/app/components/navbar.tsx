@@ -288,27 +288,31 @@ export default function NavBar() {
         </div>
       }
 
-      <Dialog onClose={handleClose} open={login}>
-        
-        <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
+      <Dialog 
+        onClose={handleClose} 
+        open={login} 
+        fullWidth={true}
+        maxWidth='xs'
+        PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px"} }}
+      >
           <IconButton onClick={handleXClose} className='absolute top-2 right-2 text-white'>
               <CloseIcon className='text-white hover:text-red-600'/>
           </IconButton>
 
           <div className='relative w-[128px] h-[128px] object-cover my-4'>
-              <Image 
-                className=''
-                src={LogoColor} 
-                alt="Wattle Art Creations color logo" 
-                fill
-                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                priority={true}  
-              />
-            </div>
+            <Image 
+              className=''
+              src={LogoColor} 
+              alt="Wattle Art Creations color logo" 
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              priority={true}  
+            />
+          </div>
           {/* <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/> */}
-          <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
+          <h3 className='text-2xl font-bold pb-0 mt-4'>Please Login to Continue</h3>
           <h4>Nav Bar</h4>
-          {clickedNSFW && <p className='pb-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>}
+          {clickedNSFW && <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>}
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
           
           <Button 
@@ -320,7 +324,7 @@ export default function NavBar() {
               </div>
                   
           </Button>  
-        </div>
+        {/* </div> */}
         
       </Dialog>
     </div>
