@@ -11,8 +11,9 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
     const { authUser } = useAuth()
     
     const [message, setMessage] = useState('')
+    console.log('message in sendMessage is: ', message)
 
-    const sendMessage = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
         //check if message is empty
@@ -30,7 +31,7 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
 
 //onSubmit={(event) => sendMessage(event)}
     return (
-        <form className="send-mesg"> 
+        <form className="send-mesg" onSubmit={(event) => sendMessage(event)}> 
 
             <label htmlFor="messageInput" hidden>
                 Enter Message
@@ -45,7 +46,7 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
                 onChange={(e) => setMessage(e.target.value)}
             />
 
-            <button type="submit" className="submit-button">Send</button>
+            <button type="submit" onSubmit={(event) => sendMessage(event)} className="submit-button">Send</button>
         </form>
     );
 };

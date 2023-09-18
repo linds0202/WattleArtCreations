@@ -15,7 +15,8 @@ export interface ChatMessage {
   portraitId: string,
   text: string,
   img: string,
-  uid: string
+  uid: string,
+  id: string
 }
 
 const ChatBox = ({ portraitId }: ChatBoxProps) => {
@@ -32,12 +33,12 @@ const ChatBox = ({ portraitId }: ChatBoxProps) => {
         getMessages()
     }, [])
 
-   
+   console.log('messages in chatbox is: ', messages)
     return (
       <main className="w-full relative">
         <div className="messages-wrapper scrollbar-hide" id="chatBox">
           {messages?.map((message) => (
-            <Message key={message.uid}  message={message} />
+            <Message key={message.id}  message={message} />
           ))}
         </div>
         <span ref={scroll}></span>

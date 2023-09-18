@@ -150,9 +150,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setOpenQuestions(true)
   }
 
-  return ((!authUser || isLoading) ? 
-    <p className='min-h-screen text-center text-4xl'>Loading ...</p>
-  :
+  return (
   <div className='relative min-h-[100vh]'>
     <img className="w-full absolute -top-[16px] left-0" src="../../images/drips/wizard3.png" alt='background black paint drip'/>
     <div className='bg-white text-black min-h-screen pt-3 pb-36'>
