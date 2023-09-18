@@ -86,19 +86,19 @@ const Profile = ({user}: ProfileProps) => {
         if (userData?.totalCompletedCommissions) {
             if (userData?.totalCompletedCommissions === 0) {
                 //setDiscount(awards[0])
-                return '../../images/badges/one.png'
+                return '/images/badges/one.png'
             } else if (userData?.totalCompletedCommissions > 0 && userData?.totalCompletedCommissions < 3) {
                 //setDiscount(awards[1])
-                return '../../images/badges/one.png'
+                return '/images/badges/one.png'
             } else if (userData?.totalCompletedCommissions >= 3 && userData?.totalCompletedCommissions < 7) {
                 //setDiscount(awards[2])
-                return '../../images/badges/two.png'
+                return '/images/badges/two.png'
             } else if (userData?.totalCompletedCommissions >= 7 && userData?.totalCompletedCommissions < 10) {
                 //setDiscount(awards[3])
-                return '../../images/badges/three.png'
+                return '/images/badges/three.png'
             } else {
                 //setDiscount(awards[4])
-                return '../../images/badges/four.png'
+                return '/images/badges/four.png'
             }
         } 
     }
