@@ -103,6 +103,7 @@ export default function AvatarUploader(props: any) {
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
+            <div className='relative'>
             <IconButton onClick={() => props.onCloseDialog(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
@@ -140,6 +141,7 @@ export default function AvatarUploader(props: any) {
                     Submit
                 </Button>}
             </DialogActions>
+            </div>
         </Dialog>
     )
 }

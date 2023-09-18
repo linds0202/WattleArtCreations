@@ -108,7 +108,7 @@ const Profile = ({user}: ProfileProps) => {
             <div className='flex justify-between items-center'>
                 <div className='text-white flex justify-between items-center'>
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
-                        <Image priority={true} src={`${userData?.avatar ? userData.avatar : '/user.png'}`} alt='Default Avatar' width={128} height={128} />
+                        <Image priority={true} src={`${userData?.avatar ? userData.avatar : '/images/user.png'}`} alt='Default Avatar' width={128} height={128} />
                         
                         <div style={{position: 'absolute', bottom: 0, right: 0, zIndex: 1000}}>
                             <IconButton aria-label="edit" color="secondary" onClick={onClickAdd} >
