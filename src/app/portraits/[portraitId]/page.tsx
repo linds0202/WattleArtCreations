@@ -141,6 +141,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     downloadImage(portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl)
   }
 
+  const handleDownloadImage = (i: number) => {
+    downloadImage(portrait?.finalImages[i].imageUrl)
+  }
+
   const handleEnlarge = ({src, date, final}: EnlargeProps) => {
     setImgEnlarge({src: src, date: date, final: final})
     setOpenImage(true)
@@ -207,16 +211,34 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               
                 {portrait?.status === 'Completed' && 
                   <div className='flex flex-col items-center'>
-                    <p className='text-2xl font-bold text-center text-[#0075FF] mb-2'>This commission is complete!</p>
-                    <button 
-                      className='w-1/2 mx-auto border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#0075FF]'  
-                      onClick={handleDownloadFinal}
-                    >
-                      Download Final Image
-                    </button>
+                    <div className='w-full flex flex-col items-center'>
+                      <p className='text-2xl font-bold text-center text-[#0075FF] '>This commission is complete!</p>
+                      <button 
+                        className='w-1/2 mx-auto my-4 text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#0075FF]'  
+                        onClick={handleDownloadFinal}
+                      >
+                        Download Final Image
+                      </button>
+                      <p className='text-md text-center mb-4'>You can also download each version from this commission by clicking the thumbnails below</p>
+                    </div>
+
+                    <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
+                      {portrait && portrait?.finalImages?.length > 0 
+                      ? portrait?.finalImages?.map((img, i) => 
+                        <img 
+                          alt='final image thumbnail'
+                          onContextMenu={(e)=> e.preventDefault()}
+                          key={i}        
+                          className='w-[64px] h-[64px] object-contain cursor-pointer' 
+                          src={img.imageUrl} 
+                          onClick={() => handleDownloadImage(i)}
+                        /> 
+                      )
+                    : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images to display</p>} 
+                    </div>
 
 
-                    {portrait?.status === "Completed" &&
+
                     <div className='my-8 flex flex-wrap justify-between items-center'>
                       <p className='text-xl font-semibold w-[100%]'>Customer&apos;s Testimonial:</p>
                       <div className='mt-4 border-2 border-[#282828] rounded-xl p-4 flex items-center'>
@@ -233,33 +255,41 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         </div>
                       </div>
                     </div>
-                    }
+
+
                   </div>
                 }
               
+             
                 <div className='w-full'>
-                  <div className='flex justify-center items-center mb-4'>
-                    <h3 className='text-2xl font-bold m-0'>Final Images</h3>
-                  </div>
+                  
+                  {portrait?.status !== 'Completed' &&
+                    <div>
+                      <div className='flex justify-center items-center mb-4'>
+                        <h3 className='text-2xl font-bold m-0'>Final Images</h3>
+                      </div>
 
-                  <div className='w-full h-[260px] flex justify-around mb-4'>
-                    {portrait && portrait?.finalImages?.length > 0 
-                      && <img 
-                        alt='thumbnail for final images'
-                        onContextMenu={(e)=> e.preventDefault()}
-                        className='w-[256px] h-[256px] object-contain cursor-pointer'
-                        src={portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl} 
-                        onClick={() => handleEnlarge({
-                          src: portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl, 
-                          date: Timestamp.now(), 
-                          final: true
-                        })}
-                      />
-                      }
-                  </div>
+                      <div className='w-full h-[260px] flex justify-around mb-4'>
+                        {portrait && portrait?.finalImages?.length > 0 
+                          && <img 
+                            alt='thumbnail for final images'
+                            onContextMenu={(e)=> e.preventDefault()}
+                            className='w-[256px] h-[256px] object-contain cursor-pointer'
+                            src={portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl} 
+                            onClick={() => handleEnlarge({
+                              src: portrait?.finalImages[portrait?.finalImages.length - 1].imageUrl, 
+                              date: Timestamp.now(), 
+                              final: true
+                            })}
+                          />
+                          }
+                      </div>
+                    </div>
+                  }
 
-
+                  {portrait?.status !== 'Completed' &&
                   <div className='w-full'>
+
                     <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
                       {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
@@ -279,9 +309,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     : <p className='text-xl font-semibold text-[#0075FF] text-center'>No images to display</p>} 
                     </div>
 
-                    {openImage &&
-                      <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgEnlarge.src} date={imgEnlarge.date} final={imgEnlarge.final}/>
-                    }
+
 
                     <div className='w-full flex justify-center items-center'>
                       {authUser?.roles === 'Artist' && portrait && !portrait?.revised && portrait?.revisions >= 0 && 
@@ -323,10 +351,16 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       >
                       </UploadImg>
                     </div>
+
                     <p className='text-xl text-center mt-4'>
                       <span className='text-[#0075FF] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
-                    </p>
+                    </p> 
                   </div>
+                  }
+
+                  {openImage &&
+                    <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgEnlarge.src} date={imgEnlarge.date} final={imgEnlarge.final}/>
+                  }
                 </div>
               </div>
             </div>
