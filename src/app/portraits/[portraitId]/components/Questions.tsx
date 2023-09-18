@@ -32,7 +32,7 @@ interface QuestionsProps {
 }
 
 const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, canEditQs, role }: QuestionsProps) => {
-    
+    console.log('made it into questions')
     const [charVariations, setCharVariations] = useState(false)
     const [pet, setPet] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
@@ -45,6 +45,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     const [uploads, setUploads] = useState<Array<Upload>>([])
 
     useEffect(() => {
+        console.log('setting characters')
         portrait?.characters.forEach((char: MyCharValues) => {
             if (char.numCharVariations > 1) setCharVariations(true)
 
@@ -58,7 +59,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     }, [])
 
     const updateQuestions = async (values: PortraitData) => {
-        
+        console.log('called update questions')
         if (uploads.length !== 0) {
             const bucket = await uploadImages(uploads, portrait?.id)
 
@@ -77,6 +78,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     }
 
     const handleClose = () => {
+        console.log('calling handle close in questions')
         setOpenQuestions(false)
     }
 
@@ -86,7 +88,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     }
 
     const handleDeleteImgGroup = async (i: number) => {
-       
+        console.log('calling handledeleteImgGroup in questions')
         //removes images from storage
         await deleteImages(portrait.id, portrait.images[i].fileNames)
         
