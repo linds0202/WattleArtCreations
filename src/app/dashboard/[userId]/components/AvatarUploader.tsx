@@ -101,11 +101,11 @@ export default function AvatarUploader(props: any) {
             open={props.showDialog}
             fullWidth={true}
             maxWidth='sm'
-            PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+            PaperProps={{ sx: { p: 6, backgroundColor: "white", zIndex: 1000} }}
         >
             <div className='relative'>
             <IconButton onClick={() => props.onCloseDialog(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
+                <CloseIcon className='text-black hover:text-red-600 absolute'/>
             </IconButton>
 
             <div className="flex justify-center items-center mb-4">
