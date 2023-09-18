@@ -18,7 +18,6 @@ const DEFAULT_FORM_STATE = {
 
 
 export default function UploadImg(props: any) {
-    const authUser = useAuth()
    
     const [formFields, setFormFields] = useState<{fileName: string, file: File | null}>(DEFAULT_FORM_STATE);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,15 +38,6 @@ export default function UploadImg(props: any) {
         }
         
     }
-    // Set the relevant fields for receipt image
-    // const setFileData = (target) => {
-    //     if (target.files.length !== 0) {
-    //         const file = target.files[0];
-    //         setFormFields(prevState => ({...prevState, fileName: file.name}));
-    //         setFormFields(prevState => ({...prevState, file}));
-    //     }
-    // }
-
 
     const closeDialog = () => {
         setIsSubmitting(false);
@@ -64,7 +54,8 @@ export default function UploadImg(props: any) {
             
             const portraitWithImages = await updatePortraitWithImage(props.portrait.id, {userId: props.userId, imageBucket: bucket})
                     
-            const updatedPortrait = await getPortrait(props.portrait.uid)
+            const updatedPortrait = await getPortrait(props.portrait.id)
+            console.log('changing the portrait: ', updatedPortrait)
             props.setPortrait(updatedPortrait)
         } catch (error) {
             console.log(error)
