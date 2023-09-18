@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Logo from '../../../public/images/Logo_Circle.png'
 import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Bag from '../../../public/images/bag.png'
+import LoginDialog from './LoginDialog';
 
 
 // Configure FirebaseUI.
@@ -288,7 +289,14 @@ export default function NavBar() {
         </div>
       }
 
-      <Dialog 
+      {login &&
+        <LoginDialog
+          selection={clickedNSFW ? 'NSFW' : 'Photorealistic'}
+          login={login}
+          setLogin={setLogin}
+        />
+      }
+      {/* <Dialog 
         onClose={handleClose} 
         open={login} 
         fullWidth={true}
@@ -310,7 +318,7 @@ export default function NavBar() {
               priority={true}  
             />
           </div>
-          {/* <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/> */}
+          <img src='Logo_Full_ups.png' className='w-[128px] h-[128px] my-4' alt='Wattle Art Creations logo'/>
           <h3 className='text-2xl font-bold pb-0 mt-4'>Please Login to Continue</h3>
           <h4>Nav Bar</h4>
           {clickedNSFW && <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>}
@@ -327,7 +335,7 @@ export default function NavBar() {
           </Button>  
         </div>
         
-      </Dialog>
+      </Dialog>  */}
     </div>
   );
 }
