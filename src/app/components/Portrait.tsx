@@ -116,6 +116,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               ? '/images/defaultImgs/anime.png' 
               : '/images/defaultImgs/nsfw.png'}`}
             fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             alt="Default Image"
             className='self-start object-cover rounded-xl'
         />
@@ -135,7 +136,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
             {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold'>Ordered on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>}
             
 
-            {user?.roles === 'Artist' && <p className='mb-2 font-semibold'>Customer:<span className='ml-2 text-[#2DD42B] text-xl'>{portrait.customer.toUpperCase()}</span></p>}
+            {user?.roles === 'Artist' && <p className='mb-2 font-semibold'>Customer:<span className='ml-2 text-[#2DD42B] text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
             
             {(portrait?.status !== 'Unpaid' && portrait.paymentComplete) && 
               <p className='font-semibold'>

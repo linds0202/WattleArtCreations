@@ -358,8 +358,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         
         {/* Righthand section */}
         <div className='w-4/12'>
-          <div className='w-full px-4 flex justify-between'>
-            <p className='text-xl pb-2'>Customer: <span className='text-[#2DD42B] ml-2' >{portrait?.customer}</span></p>
+          <div className='w-full px-4 flex justify-end'>
+            {/* <p className='text-xl pb-2'>Customer: <span className='text-[#2DD42B] ml-2' >{portrait?.customer}</span></p> */}
 
 
             {!portrait?.artistAssigned && <p className='text-xl pb-2'>Artist: 

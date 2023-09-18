@@ -32,22 +32,23 @@ export default function Dashboard() {
   useEffect(() => {
     setLoadingPortraits(true)
     
-    if (!authUser.uid) {
+    if (!authUser?.uid) {
       return
     }
     
     const handleGetUnclaimed = async () => {
+      console.log('getting unclaimed portraits')
       const unclaimed = await getAllUnclaimed();
       const available = unclaimed.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
       setFiltered(available)
     }
-    console.log('authUser: ', authUser)
+  
 
     const handleCurrentUser = async () => {
-      console.log('getting user by Id: ', authUser?.uid)
+     
       const latestUser: UserData | null = await getUserById(authUser?.uid)
       if (latestUser) {
-        console.log('setting current user with: ', latestUser)
+        
         setCurrentUser(latestUser)
       }
     }
@@ -63,7 +64,7 @@ export default function Dashboard() {
     <p></p>
   :
   <div className='relative min-h-[100vh]'>
-    <img className="w-full fixed -top-[16px] left-0 -z-10" src="./customizer/portrait_queque.png" alt='background black paint drips'/>
+    <img className="w-full fixed -top-[16px] left-0 -z-10" src="./images/customizer/portrait_queque.png" alt='background black paint drips'/>
     <div className='text-black min-h-screen pt-3 pb-36'>
       <div className='w-full flex justify-center items-center relative'>
         <h1 className='text-4xl text-center font-bold my-4'>Available Commissions</h1>
