@@ -5,6 +5,8 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
+import Image from 'next/image';
+import LogoColor from '../../../public/images/Logo_Full_ups.png'
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -49,6 +51,18 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
             maxWidth='xs'
             PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
         >
+            <div className='relative w-[128px] h-[128px] object-cover my-4'>
+                <Image 
+                    className=''
+                    src={LogoColor} 
+                    alt="Wattle Art Creations color logo" 
+                    fill
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    priority={true}  
+                />
+            </div>
+
+            
             <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
     
             {selection === 'NSFW' 
@@ -70,7 +84,7 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
                     
             </Button>
          
-        </Dialog>       
+        </Dialog>     
     )
 }
 

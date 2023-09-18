@@ -45,9 +45,7 @@ export default function UploadImg(props: any) {
     }
 
     const handleSubmit = async () => {
-        console.log('submitting')
-
-        console.log('formFields: ', formFields)
+    
         setIsSubmitting(true);
         try {
             const bucket = await uploadImage(formFields.file, props.portrait.id)
@@ -55,7 +53,6 @@ export default function UploadImg(props: any) {
             const portraitWithImages = await updatePortraitWithImage(props.portrait.id, {userId: props.userId, imageBucket: bucket})
                     
             const updatedPortrait = await getPortrait(props.portrait.id)
-            console.log('changing the portrait: ', updatedPortrait)
             props.setPortrait(updatedPortrait)
         } catch (error) {
             console.log(error)

@@ -23,7 +23,7 @@ import LoginDialog from './LoginDialog';
 
 
 // Configure FirebaseUI.
-const uiConfig = {
+/* const uiConfig = {
   signInFlow: 'popup', // popup signin flow rather than redirect flow
   signInOptions: [
     {
@@ -38,7 +38,7 @@ const uiConfig = {
       return false
     }
   },
-};
+}; */
 
 export default function NavBar() {
   
@@ -117,6 +117,8 @@ export default function NavBar() {
     setLogin(false)
     router.push('/')
   }
+
+  console.log('login: ', login)
 
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
@@ -289,14 +291,13 @@ export default function NavBar() {
         </div>
       }
 
-      {login &&
-        <LoginDialog
-          selection={clickedNSFW ? 'NSFW' : 'Photorealistic'}
-          customizer={false}
-          login={login}
-          setLogin={setLogin}
-        />
-      }
+
+      <LoginDialog
+        selection={clickedNSFW ? 'NSFW' : 'Photorealistic'}
+        customizer={false}
+        login={login}
+        setLogin={setLogin}
+      />
       {/* <Dialog 
         onClose={handleClose} 
         open={login} 
