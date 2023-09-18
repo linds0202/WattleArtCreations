@@ -104,9 +104,9 @@ export default function AvatarUploader(props: any) {
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
             <div className='relative'>
-            <IconButton onClick={() => props.onCloseDialog(false)} className='w-1/12 !absolute top-2 right-2 text-white'>
+            <button type='button' onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600 absolute'/>
-            </IconButton>
+            </button>
 
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
