@@ -46,7 +46,7 @@ const SendMessage = ({ portraitId }: SendMessageProps) => {
                 onChange={(e) => setMessage(e.target.value)}
             />
 
-            <button type="submit" onSubmit={(event) => sendMessage(event)} className="submit-button">Send</button>
+            <button type="button" className="submit-button">Send</button>
         </form>
     );
 };
