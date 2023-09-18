@@ -345,6 +345,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                     {loadingTime && <div className='w-1/2 mx-auto'>
                         <button 
+                            type="button"
                             className='w-full text-xl border-2 border-black bg-white hover:text-white hover:bg-[#0075FF] rounded-lg p-2 mt-4 mb-2' onClick={handleOpenQuestions}
                         >
                             {canEditQs && portrait?.status !== 'Completed' ? "Edit Answers" : "View Questions"}
