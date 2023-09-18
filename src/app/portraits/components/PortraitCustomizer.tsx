@@ -171,7 +171,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        console.log('editPortrait: ', editPortrait)
+
         
         if (!editPortrait) {
             const charData = window.localStorage.getItem('charList')
@@ -270,7 +270,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits([ ...portraits, updatedPortrait ])
 
         }
-        window.localStorage.setItem('charList', [])
+        window.localStorage.setItem('charList', JSON.stringify([]))
         setEditPortrait(null)
         setOpenWizard(false)
     }  
