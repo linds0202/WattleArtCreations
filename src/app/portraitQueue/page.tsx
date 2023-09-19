@@ -38,12 +38,12 @@ export default function Dashboard() {
       return
     }
     
-    const handleGetUnclaimed = async () => {
+    // const handleGetUnclaimed = async () => {
       
-      const unclaimed = await getAllUnclaimed();
-      const available = unclaimed.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
-      setFiltered(available)
-    }
+    //   const unclaimed = await getAllUnclaimed();
+    //   const available = unclaimed.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
+    //   setFiltered(available)
+    // }
   
 
     const handleCurrentUser = async () => {
@@ -65,13 +65,19 @@ export default function Dashboard() {
     console.log('setting up listener')
     const getPortraits = async () => {
         const unsubscribe = await getUnclaimedPortraits(setPortraits);
-        
+        console.log('unsubscribe: ', unsubscribe)
         return () => unsubscribe()
     }
     getPortraits()
 }, [])  
 
+useEffect(() => {
+    const available = portraits.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
+    setFiltered(available)
+}, [portraits])
+
 console.log('portraits is: ', portraits)
+console.log('filtered: ', filtered)
  
   return ((loadingPortraits || isLoading) ? 
     <p></p>
