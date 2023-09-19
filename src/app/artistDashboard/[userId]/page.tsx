@@ -36,35 +36,49 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   }, [authUser, isLoading]);
 
 
+  // useEffect(() => {
+  //   setPageLoading(true)
+  //   let latestUser: UserData | null
+
+  //   // const handleGetPortraits = async () => {
+  //   //   const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
+  //   //   setMyPortaits(getMyPortraits)
+  //   //   setFiltered(getMyPortraits)
+  //   // }
+    
+  //   const handleCurrentUser = async () => {
+  //     latestUser = await getUserById(authUser?.uid)
+  //     if (latestUser) setCurrentUser(latestUser)
+  //     // handleGetPortraits()
+  //   }
+
+  //   handleCurrentUser()
+  //   setPageLoading(false)
+  // }, [])
+
   useEffect(() => {
+
     setPageLoading(true)
     let latestUser: UserData | null
-
-    // const handleGetPortraits = async () => {
-    //   const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
-    //   setMyPortaits(getMyPortraits)
-    //   setFiltered(getMyPortraits)
-    // }
     
-    const handleCurrentUser = async () => {
-      latestUser = await getUserById(authUser?.uid)
-      if (latestUser) setCurrentUser(latestUser)
-      // handleGetPortraits()
-    }
-
-    handleCurrentUser()
-    setPageLoading(false)
-  }, [])
-
-  useEffect(() => {
     console.log('setting up listener')
     console.log('curretnUser: ', currentUser)
     const getPortraits = async () => {
-        const unsubscribe = await getAllMyPortraits(setPortraits, currentUser);
+        const unsubscribe = await getAllMyPortraits(setPortraits, {artistName: latestUser?.artistName, artistId: latestUser?.uid });
         console.log('unsubscribe: ', unsubscribe)
         return () => unsubscribe()
     }
-    getPortraits()
+
+    const handleCurrentUser = async () => {
+      latestUser = await getUserById(authUser?.uid)
+      if (latestUser) setCurrentUser(latestUser)
+      getPortraits()
+    }
+
+    handleCurrentUser()
+     
+    setPageLoading(false)
+
   }, []) 
 
   console.log('portraits: ', portraits)
