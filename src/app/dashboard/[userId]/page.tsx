@@ -88,27 +88,27 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   const handleFilter= (filter: string) => {
     if(filter === 'Unordered') {
-      const filteredPortraits = myPortraits.filter(portrait => !portrait.paymentComplete)
+      const filteredPortraits = portraits.filter(portrait => !portrait.paymentComplete)
       setFiltered(filteredPortraits)
     }
     if(filter === 'Unassigned') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.paymentComplete && !portrait.artistAssigned)
+      const filteredPortraits = portraits.filter(portrait => portrait.paymentComplete && !portrait.artistAssigned)
       setFiltered(filteredPortraits)
     }
     if(filter === 'Pending') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Pending')
+      const filteredPortraits = portraits.filter(portrait => portrait.status === 'Pending')
       setFiltered(filteredPortraits)
     }
     if(filter === 'In Progress') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'In Progress')
+      const filteredPortraits = portraits.filter(portrait => portrait.status === 'In Progress')
       setFiltered(filteredPortraits)
     }
     if(filter === 'Completed') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Completed')
+      const filteredPortraits = portraits.filter(portrait => portrait.status === 'Completed')
       setFiltered(filteredPortraits)
     }
     if(filter === 'Clear') {
-      setFiltered(myPortraits)
+      setFiltered(portraits)
     }
   }
 

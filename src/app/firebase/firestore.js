@@ -586,6 +586,23 @@ export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
   return unsubscribe;
 }
 
+export async function getAllCustomersPortraits(setPortraits, setFiltered, userId) {
+  console.log('artist in firestore', artist)
+  const q = query(collection(db, "portraits"), and(where("customerId", "==", userId), or(where("status", "==", "Unordered"), where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("creationDate"), limit(20))
+    
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let portraits = [];
+    console.log('query snapshot: ', QuerySnapshot)
+    QuerySnapshot.forEach((doc) => {
+      portraits.push({ ...doc.data(), id: doc.id });
+    });
+    console.log('customer portraits after push: ', portraits)
+    setPortraits(portraits);
+    setFiltered(portraits)
+  });
+  return unsubscribe;
+}
+
 //Add chat message
 export async function addChatMessage( portraitId, message, displayName, uid  ) {
   addDoc(collection(db, "messages"), {
