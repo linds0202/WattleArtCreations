@@ -38,9 +38,12 @@ const AddLinks = ({ links, openLinksMod, setOpenLinksMod, setLinks, setEditLink 
                 maxWidth='sm'
                 PaperProps={{ sx: { p: 6, backgroundColor: "white" } }}
             >
-                <IconButton onClick={() => setOpenLinksMod(false)} className='absolute top-2 right-2 text-white'>
-                    <CloseIcon className='text-black hover:text-red-600'/>
-                </IconButton>
+                <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                    <IconButton onClick={() => setOpenLinksMod(false)} className='absolute top-2 right-2 text-white'>
+                        <CloseIcon className='text-black hover:text-red-600'/>
+                    </IconButton>
+                </div>
+                
                 <p className='text-2xl text-center font-bold mt-0'>Add A Social Media link</p>
                 <div className="w-full p-4">
                     <Formik
