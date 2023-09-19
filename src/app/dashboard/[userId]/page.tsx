@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 import Footer from '@/app/components/Footer';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
+import { getAllCustomersPortraits } from '../../firebase/firestore';
 
 type Params = {
   params: {
@@ -26,7 +27,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
-  const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -37,27 +38,52 @@ export default function Dashboard({ params: { userId }}: Params) {
   }, [authUser, isLoading]);
 
 
+  // useEffect(() => {
+  //   setPageLoading(true)
+  //   const handleCurrentUser = async () => {
+
+  //     const latestUser: UserData | null = await getUserById(userId)
+  //     if (latestUser) {
+  //       setCurrentUser(latestUser)
+  //     }
+
+  //   }
+  //   handleCurrentUser()
+
+  //   const handleGetPortraits = async () => {
+  //     const getMyPortraits = await getCustomersPortraits(userId);
+  //     setMyPortaits(getMyPortraits)
+  //     setFiltered(getMyPortraits)
+  //   }
+
+  //   handleGetPortraits()
+  //   setPageLoading(false)
+  // }, [])
+
   useEffect(() => {
+
     setPageLoading(true)
+    let latestUser: UserData | null
+    
+    console.log('setting up listener')
+    const getPortraits = async () => {
+        const unsubscribe = await getAllCustomersPortraits(setPortraits, setFiltered, userId);
+        console.log('unsubscribe for customer: ', unsubscribe)
+        return () => unsubscribe()
+    }
+
     const handleCurrentUser = async () => {
-
-      const latestUser: UserData | null = await getUserById(userId)
-      if (latestUser) {
-        setCurrentUser(latestUser)
-      }
-
+      latestUser = await getUserById(authUser?.uid)
+      console.log('latestuser customer: ', latestUser)
+      if (latestUser) setCurrentUser(latestUser)
+      getPortraits()
     }
+
     handleCurrentUser()
-
-    const handleGetPortraits = async () => {
-      const getMyPortraits = await getCustomersPortraits(userId);
-      setMyPortaits(getMyPortraits)
-      setFiltered(getMyPortraits)
-    }
-
-    handleGetPortraits()
+     
     setPageLoading(false)
-  }, [])
+
+  }, []) 
 
 
   const handleFilter= (filter: string) => {

@@ -63,7 +63,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     
     console.log('setting up listener')
     const getPortraits = async () => {
-        const unsubscribe = await getAllMyPortraits(setPortraits, setFiltered, {artistName: latestUser?.artistName, artistId: latestUser?.uid });
+        const unsubscribe = await getAllMyPortraits(setPortraits, setFiltered, {artistName: latestUser?.artistName, id: latestUser?.uid });
         console.log('unsubscribe: ', unsubscribe)
         return () => unsubscribe()
     }
@@ -81,9 +81,9 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
   }, []) 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [portraits])
+  // }, [portraits])
 
   console.log('portraits: ', portraits)
 
