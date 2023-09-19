@@ -44,7 +44,7 @@ export default function User( {user}: UserProps ) {
             <td className="w-2/12 relative">
                 <div className="flex justify-between px-4">
                     {!openRole && 
-                        <p>{currentRole}</p>
+                        <p>{user.roles}</p>
                     }
                     {openRole && 
                         <select value={user.roles} onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
