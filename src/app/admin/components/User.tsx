@@ -45,7 +45,7 @@ export default function User( {user}: UserProps ) {
                         <p>{currentRole}</p>
                     }
                     {openRole && 
-                        <select value={currentRole} onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
+                        <select value={user.roles} onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
                             <option>Customer</option>
                             <option>Artist</option>
                             <option>Admin</option>
