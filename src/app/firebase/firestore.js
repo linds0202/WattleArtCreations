@@ -548,10 +548,10 @@ export async function getAllUnclaimed() {
   return unclaimed
 }
 
-// Get All chat messages
+// Get All unclaimed portraits
 export async function getUnclaimedPortraits(setPortraits) {
   const q = query(collection(db, "portraits"), where("paymentComplete", "==", true), orderBy("creationDate"), limit(50))
-  
+  console.log('inside getAllUnclaimed')
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];
     QuerySnapshot.forEach((doc) => {

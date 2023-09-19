@@ -39,7 +39,7 @@ export default function Dashboard() {
     }
     
     const handleGetUnclaimed = async () => {
-      console.log('getting unclaimed portraits')
+      
       const unclaimed = await getAllUnclaimed();
       const available = unclaimed.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
       setFiltered(available)
@@ -62,6 +62,7 @@ export default function Dashboard() {
   }, [authUser])
 
   useEffect(() => {
+    console.log('setting up listener')
     const getPortraits = async () => {
         const unsubscribe = await getUnclaimedPortraits(setPortraits);
         
