@@ -22,7 +22,7 @@ export default function User( {user}: UserProps ) {
     }
 
     const handleSelect: SelectChangeEventHandler = async (e) => {
-        if (e.target.value === currentRole) alert('already that')
+        if (e.target.value === user.roles) alert('already that')
         else if (e.target.value === 'select one') return
         else {
             console.log('incoming value: ', e.target.value)
