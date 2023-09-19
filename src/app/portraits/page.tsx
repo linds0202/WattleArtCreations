@@ -20,7 +20,7 @@ import { getCheckoutUrl } from '../firebase/firestore';
 // Configure FirebaseUI., 
 const uiConfig = {
   signInFlow: 'popup', 
-  signInOptions: signInOptions: [
+  signInOptions: [
     {
       provider: EmailAuthProvider.PROVIDER_ID,
       requireDisplayName: false
