@@ -31,12 +31,12 @@ export default function User( {user}: UserProps ) {
         }
     }
 
-    console.log('userId: ', user.uid)
+    console.log('current role: ', currentRole)
 
     return (
     <>
         <tr className="h-[75px]">
-            <td className="pl-2">{user.uid}</td>
+            <td className="pl-2">{user.uid }</td>
             <td className="pl-2">{user.displayName}</td>
             <td className="pl-2">{user.email}</td>
             <td className="w-2/12 relative">
@@ -45,7 +45,7 @@ export default function User( {user}: UserProps ) {
                         <p>{currentRole}</p>
                     }
                     {openRole && 
-                        <select value={user.roles} onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
+                        <select value={currentRole} onChange={handleSelect} className="border-b-2 border-black leading-tight outline-none">
                             <option>Customer</option>
                             <option>Artist</option>
                             <option>Admin</option>
