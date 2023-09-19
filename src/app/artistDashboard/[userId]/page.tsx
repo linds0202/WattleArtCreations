@@ -62,7 +62,6 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     let latestUser: UserData | null
     
     console.log('setting up listener')
-    console.log('curretnUser: ', currentUser)
     const getPortraits = async () => {
         const unsubscribe = await getAllMyPortraits(setPortraits, {artistName: latestUser?.artistName, artistId: latestUser?.uid });
         console.log('unsubscribe: ', unsubscribe)

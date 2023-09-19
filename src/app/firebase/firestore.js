@@ -122,6 +122,7 @@ export async function getUser(user) {
 
 //Get user by Id
 export async function getUserById(userId) {
+  console.log('userId: ', userId)
   const docSnap = await getDoc(doc(db, "users", userId));
 
   let avatarBucket = ''
@@ -562,10 +563,11 @@ export async function getUnclaimedPortraits(setPortraits) {
   return unsubscribe;
 }
 
+// , or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))
 // Get my portraits
 export async function getAllMyPortraits(setPortraits, artist) {
   console.log('artist in firestore', artist)
-  const q = query(collection(db, "portraits"), where("artists", "array-contains", artist), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")), orderBy("creationDate"), limit(20))
+  const q = query(collection(db, "portraits"), where("artists", "array-contains", artist), orderBy("creationDate"), limit(20))
   
   console.log('inside getAllUnclaimed')
   
