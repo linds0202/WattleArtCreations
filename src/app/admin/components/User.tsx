@@ -31,6 +31,8 @@ export default function User( {user}: UserProps ) {
         }
     }
 
+    console.log('userId: ', user.uid)
+
     return (
     <>
         <tr className="h-[75px]">
