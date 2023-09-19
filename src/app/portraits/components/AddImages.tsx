@@ -69,7 +69,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
       maxWidth='md'
       PaperProps={{ sx: { p: 6, backgroundColor: "white", position: 'relative'} }}
     >
-      <div className='absolute top-2 right-2 w-1/12'>
+      <div className='absolute top-2 right-2 w-1/12 mb-4'>
         <IconButton onClick={() => setOpenUpload(false)} className='text-white'>
             <CloseIcon className='text-black hover:text-red-600'/>
         </IconButton>

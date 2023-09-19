@@ -69,10 +69,13 @@ export default function UploadImg(props: any) {
             fullWidth={true}
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-        >
-            <IconButton onClick={() => closeDialog()} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+        >   
+            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => closeDialog()} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
+            
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[25%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint accent splash' />
                 <h4 className='text-3xl font-bold text-center'>Add Image</h4>
