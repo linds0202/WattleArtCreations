@@ -16,7 +16,7 @@ import {
   serverTimestamp, 
   increment,
   startAfter,
-  endBefore
+  endBefore, or
 } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
