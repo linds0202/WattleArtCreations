@@ -71,6 +71,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
+      console.log('latestuser: ', latestUser)
       if (latestUser) setCurrentUser(latestUser)
       getPortraits()
     }
