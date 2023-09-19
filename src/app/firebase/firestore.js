@@ -565,21 +565,19 @@ export async function getUnclaimedPortraits(setPortraits) {
   return unsubscribe;
 }
 
-// , or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")) where("artists", "array-contains", artist),
-// Get my portraits
+
 export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
-  console.log('artist in firestore', artist)
+  
   const q = query(collection(db, "portraits"), and(where("artist", "array-contains", artist), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("creationDate"), limit(20))
   
-  console.log('inside getAllUnclaimed')
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];
-    console.log('query snapshot: ', QuerySnapshot)
+    
     QuerySnapshot.forEach((doc) => {
       portraits.push({ ...doc.data(), id: doc.id });
     });
-    console.log('portraits after push: ', portraits)
+    
     setPortraits(portraits);
     setFiltered(portraits)
   });
@@ -587,21 +585,40 @@ export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
 }
 
 export async function getAllCustomersPortraits(setPortraits, setFiltered, userId) {
-  console.log('artist in firestore', artist)
+  
   const q = query(collection(db, "portraits"), and(where("customerId", "==", userId), or(where("status", "==", "Unordered"), where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("creationDate"), limit(20))
     
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];
-    console.log('query snapshot: ', QuerySnapshot)
+    
     QuerySnapshot.forEach((doc) => {
       portraits.push({ ...doc.data(), id: doc.id });
     });
-    console.log('customer portraits after push: ', portraits)
+    
     setPortraits(portraits);
     setFiltered(portraits)
   });
   return unsubscribe;
 }
+
+
+// Get single portrait listener
+export async function getMyPortrait(setPortrait, portraitId) {
+  //const q = query(collection(db, "portraits"), where("portraitId", "==", portraitId))
+  
+  const unsubscribe = onSnapshot(doc(db, "portraits", portraitId), (doc) => {
+    console.log("Current data: ", doc.data());
+    setPortrait(doc.data())
+  });
+
+  return unsubscribe;
+}
+
+
+
+
+
+
 
 //Add chat message
 export async function addChatMessage( portraitId, message, displayName, uid  ) {

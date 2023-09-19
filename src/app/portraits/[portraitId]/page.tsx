@@ -19,6 +19,7 @@ import Rating from '@mui/material/Rating';
 import Questions from './components/Questions';
 import Footer from '@/app/components/Footer';
 import { Timestamp } from 'firebase/firestore';
+import { getMyPortrait } from '../../firebase/firestore';
 
 
 interface EnlargeProps {
@@ -80,20 +81,29 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   }, [authUser, isLoading]);
 
   useEffect(() => {
-    const handleGetPortrait = async () => {
-      const currentPortrait: PortraitData | null = await getPortrait(portraitId);
-      if (currentPortrait) {
-        if (currentPortrait.status === "Completed") {
-          const customerTestimonial = await getTestimonial(currentPortrait.id)
-          setTestimonial(customerTestimonial)
-        }
-  
-        setPortrait(currentPortrait)
-      }
+    const getPortrait = async () => {
+        const unsubscribe = await getMyPortrait(setPortrait, portraitId);
+        
+        return () => unsubscribe()
     }
-
-    handleGetPortrait()
+    getPortrait()
   }, [])
+
+  // useEffect(() => {
+  //   const handleGetPortrait = async () => {
+  //     const currentPortrait: PortraitData | null = await getPortrait(portraitId);
+  //     if (currentPortrait) {
+  //       if (currentPortrait.status === "Completed") {
+  //         const customerTestimonial = await getTestimonial(currentPortrait.id)
+  //         setTestimonial(customerTestimonial)
+  //       }
+  
+  //       setPortrait(currentPortrait)
+  //     }
+  //   }
+
+  //   handleGetPortrait()
+  // }, [])
 
 
   useEffect(() => {

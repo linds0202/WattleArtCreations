@@ -38,43 +38,20 @@ export default function Dashboard({ params: { userId }}: Params) {
   }, [authUser, isLoading]);
 
 
-  // useEffect(() => {
-  //   setPageLoading(true)
-  //   const handleCurrentUser = async () => {
-
-  //     const latestUser: UserData | null = await getUserById(userId)
-  //     if (latestUser) {
-  //       setCurrentUser(latestUser)
-  //     }
-
-  //   }
-  //   handleCurrentUser()
-
-  //   const handleGetPortraits = async () => {
-  //     const getMyPortraits = await getCustomersPortraits(userId);
-  //     setMyPortaits(getMyPortraits)
-  //     setFiltered(getMyPortraits)
-  //   }
-
-  //   handleGetPortraits()
-  //   setPageLoading(false)
-  // }, [])
-
   useEffect(() => {
 
     setPageLoading(true)
     let latestUser: UserData | null
     
-    console.log('setting up listener')
     const getPortraits = async () => {
         const unsubscribe = await getAllCustomersPortraits(setPortraits, setFiltered, userId);
-        console.log('unsubscribe for customer: ', unsubscribe)
+      
         return () => unsubscribe()
     }
 
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
-      console.log('latestuser customer: ', latestUser)
+
       if (latestUser) setCurrentUser(latestUser)
       getPortraits()
     }

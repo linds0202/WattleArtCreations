@@ -36,41 +36,20 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   }, [authUser, isLoading]);
 
 
-  // useEffect(() => {
-  //   setPageLoading(true)
-  //   let latestUser: UserData | null
-
-  //   // const handleGetPortraits = async () => {
-  //   //   const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
-  //   //   setMyPortaits(getMyPortraits)
-  //   //   setFiltered(getMyPortraits)
-  //   // }
-    
-  //   const handleCurrentUser = async () => {
-  //     latestUser = await getUserById(authUser?.uid)
-  //     if (latestUser) setCurrentUser(latestUser)
-  //     // handleGetPortraits()
-  //   }
-
-  //   handleCurrentUser()
-  //   setPageLoading(false)
-  // }, [])
-
   useEffect(() => {
 
     setPageLoading(true)
     let latestUser: UserData | null
     
-    console.log('setting up listener')
     const getPortraits = async () => {
         const unsubscribe = await getAllMyPortraits(setPortraits, setFiltered, {artistName: latestUser?.artistName, id: latestUser?.uid });
-        console.log('unsubscribe: ', unsubscribe)
+        
         return () => unsubscribe()
     }
 
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
-      console.log('latestuser: ', latestUser)
+  
       if (latestUser) setCurrentUser(latestUser)
       getPortraits()
     }
@@ -81,16 +60,6 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
   }, []) 
 
-  // useEffect(() => {
-
-  // }, [portraits])
-
-  console.log('portraits: ', portraits)
-
-  // useEffect(() => {
-  //   const available = portraits.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
-  //   setFiltered(available)
-  // }, [portraits])
 
   const handleFilter= (filter: string) => {
     
