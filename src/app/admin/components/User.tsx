@@ -25,6 +25,8 @@ export default function User( {user}: UserProps ) {
         if (e.target.value === currentRole) alert('already that')
         else if (e.target.value === 'select one') return
         else {
+            console.log('incoming value: ', e.target.value)
+            console.log('previous value: ', currentRole)
             await updateUser(user.uid, e.target.value)
             setCurrentRole(e.target.value)
             setOpenRole(false)
