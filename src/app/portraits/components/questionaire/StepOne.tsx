@@ -329,10 +329,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             fullWidth={true}
             maxWidth='md'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-        >
-            <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+        >   
+            <div className='absolute top-2 right-2 w-1/12'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
