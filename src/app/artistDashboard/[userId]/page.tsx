@@ -58,6 +58,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     console.log('setting up listener')
+    console.log('curretnUser: ', currentUser)
     const getPortraits = async () => {
         const unsubscribe = await getAllMyPortraits(setPortraits, currentUser);
         console.log('unsubscribe: ', unsubscribe)

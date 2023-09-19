@@ -551,7 +551,7 @@ export async function getAllUnclaimed() {
 // Get All unclaimed portraits
 export async function getUnclaimedPortraits(setPortraits) {
   const q = query(collection(db, "portraits"), where("paymentComplete", "==", true), orderBy("creationDate"), limit(50))
-  console.log('inside getAllUnclaimed')
+  
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];
     QuerySnapshot.forEach((doc) => {
@@ -564,7 +564,8 @@ export async function getUnclaimedPortraits(setPortraits) {
 
 // Get my portraits
 export async function getAllMyPortraits(setPortraits, artist) {
-  const q = query(collection(db, "portraits"), where("artists", "array-contains", "artist"), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")), orderBy("creationDate"), limit(20))
+  console.log('artist in firestore', artist)
+  const q = query(collection(db, "portraits"), where("artists", "array-contains", artist), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")), orderBy("creationDate"), limit(20))
   
   console.log('inside getAllUnclaimed')
   

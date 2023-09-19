@@ -62,10 +62,9 @@ export default function Dashboard() {
   }, [authUser])
 
   useEffect(() => {
-    console.log('setting up listener')
     const getPortraits = async () => {
         const unsubscribe = await getUnclaimedPortraits(setPortraits);
-        console.log('unsubscribe: ', unsubscribe)
+      
         return () => unsubscribe()
     }
     getPortraits()
@@ -76,8 +75,7 @@ useEffect(() => {
     setFiltered(available)
 }, [portraits])
 
-console.log('portraits is: ', portraits)
-console.log('filtered: ', filtered)
+
  
   return ((loadingPortraits || isLoading) ? 
     <p></p>
