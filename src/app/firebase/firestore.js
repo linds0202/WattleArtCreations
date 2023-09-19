@@ -100,7 +100,7 @@ export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
     let users = [];
     
     QuerySnapshot.forEach((doc) => {
-      users.push({ ...doc.data(), id: doc.id });
+      users.push({ ...doc.data(), uid: doc.id });
     });
     
     setAllUsers(users);
