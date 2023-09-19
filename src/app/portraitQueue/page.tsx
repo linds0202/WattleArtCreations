@@ -12,6 +12,7 @@ import { PortraitData } from '../portraits/components/PortraitCustomizer';
 import Footer from '../components/Footer';
 import { Artist } from '../components/Portrait';
 import { UserData } from '../artistDashboard/[userId]/portfolio/page';
+import { getUnclaimedPortraits } from '../firebase/firestore';
 
 export default function Dashboard() {
 
@@ -20,6 +21,7 @@ export default function Dashboard() {
 
   const [loadingPortraits, setLoadingPortraits] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
+  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -54,11 +56,21 @@ export default function Dashboard() {
     }
     
     handleCurrentUser()
-    handleGetUnclaimed()
+    // handleGetUnclaimed()
 
     setLoadingPortraits(false)
   }, [authUser])
 
+  useEffect(() => {
+    const getPortraits = async () => {
+        const unsubscribe = await getUnclaimedPortraits(setPortraits);
+        
+        return () => unsubscribe()
+    }
+    getPortraits()
+}, [])  
+
+console.log('portraits is: ', portraits)
  
   return ((loadingPortraits || isLoading) ? 
     <p></p>

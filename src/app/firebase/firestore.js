@@ -548,6 +548,20 @@ export async function getAllUnclaimed() {
   return unclaimed
 }
 
+// Get All chat messages
+export async function getUnclaimedPortraits(setPortraits) {
+  const q = query(collection(db, "portraits"), where("paymentComplete", "==", true), orderBy("creationDate"), limit(50))
+  
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let portraits = [];
+    QuerySnapshot.forEach((doc) => {
+      portraits.push({ ...doc.data(), id: doc.id });
+    });
+    setPortraits(portraits);
+  });
+  return unsubscribe;
+}
+
 
 //Add chat message
 export async function addChatMessage( portraitId, message, displayName, uid  ) {
