@@ -25,9 +25,12 @@ import LogoColor from '../../../public/images/Logo_Full_ups.png'
 const uiConfig = {
     signInFlow: 'popup', // popup signin flow rather than redirect flow
     signInOptions: [
-      EmailAuthProvider.PROVIDER_ID,
-      GoogleAuthProvider.PROVIDER_ID,
-    ],
+        {
+          provider: EmailAuthProvider.PROVIDER_ID,
+          requireDisplayName: false
+        },
+        GoogleAuthProvider.PROVIDER_ID,
+      ],
     callbacks: {
       // Avoid redirects after sign-in.
       signInSuccessWithAuthResult: () => {
