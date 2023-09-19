@@ -565,7 +565,7 @@ export async function getUnclaimedPortraits(setPortraits) {
 
 // , or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")) where("artists", "array-contains", artist),
 // Get my portraits
-export async function getAllMyPortraits(setPortraits, artist) {
+export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
   console.log('artist in firestore', artist)
   const q = query(collection(db, "portraits"), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")), orderBy("creationDate"), limit(20))
   
@@ -579,6 +579,7 @@ export async function getAllMyPortraits(setPortraits, artist) {
     });
     console.log('portraits after push: ', portraits)
     setPortraits(portraits);
+    setFiltered(portraits)
   });
   return unsubscribe;
 }
