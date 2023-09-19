@@ -91,7 +91,7 @@ export async function getAllUsers() {
 
 export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
   
-  const q = query(collection(db, "portraits"), or(where("roles", "==", "Admin"), where("roles", "==", "Customer"), where("roles", "==", "Artist")))
+  const q = query(collection(db, "users"), or(where("roles", "==", "Admin"), where("roles", "==", "Customer"), where("roles", "==", "Artist")))
 
   console.log('q: ', q)
   
