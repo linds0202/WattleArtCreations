@@ -30,15 +30,14 @@ const EnlargedImage = ({openImage, setOpenImage, src, date, final}: EnlargedImag
             fullWidth={true}
             maxWidth='lg'
             PaperProps={{ sx: { maxHeight: '100vh', p: 6, backgroundColor: "white"} }}
-        >
-            <div className='w-full relative'>
-            
+        >   
             <div className='absolute top-2 right-2 w-1/12 mb-4'>
-                <IconButton onClick={() => setOpenImage(false)} className='absolute top-2 right-2 w-1/12 text-white'>
+                <IconButton onClick={() => setOpenImage(false)} className='text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
                 
+            <div className='w-full relative'>
                 
                 <DialogContent
                     style={{height:'80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative' }}
