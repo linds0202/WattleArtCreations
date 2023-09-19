@@ -224,10 +224,13 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               fullWidth={true}
               maxWidth='md'
               PaperProps={{ sx: { px: 6, py: 4, backgroundColor: "white"} }}
-          >
-              <IconButton onClick={() => setOpenArtistDetails(false)} className='absolute top-2 right-2 text-white'>
-                  <CloseIcon className='text-black hover:text-red-600'/>
-              </IconButton>
+          >   
+              <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => setOpenArtistDetails(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+              </div>
+              
               <div className="flex flex-col justify-center items-center">
                 <h2 className='text-3xl font-bold mt-2'>{portrait.portraitTitle} Portrait Details</h2>
                 <span className='text-md text-[#959595] mb-4'>({portrait.mode})</span>

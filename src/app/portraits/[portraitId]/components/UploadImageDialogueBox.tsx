@@ -71,7 +71,7 @@ export default function UploadImg(props: any) {
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4'>
-                <IconButton onClick={() => closeDialog()} className='absolute top-2 right-2 text-white'>
+                <IconButton onClick={() => closeDialog()} className='text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>

@@ -48,11 +48,12 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
         fullWidth={true}
         maxWidth='lg'
         PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
-    >
-        <IconButton onClick={() => setOpenClaimForm(false)} className='absolute top-2 right-2 text-white'>
-            <CloseIcon className='text-black hover:text-red-600'/>
-        </IconButton>
-        
+    >   
+        <div className='absolute top-2 right-2 w-1/12 mb-4'>
+            <IconButton onClick={() => setOpenClaimForm(false)} className='absolute top-2 right-2 text-white'>
+                <CloseIcon className='text-black hover:text-red-600'/>
+            </IconButton>
+        </div>
         
         <div className='flex flex-col justify-center items-center'>
             <div className="flex justify-center items-center mb-4">

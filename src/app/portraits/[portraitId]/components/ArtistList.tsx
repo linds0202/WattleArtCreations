@@ -59,10 +59,12 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
             maxWidth='lg'
             PaperProps={{ sx: { px: 2, py: 4, backgroundColor: "white", minHeight: '80vh',
             maxHeight: '80vh'} }}
-        >
-            <IconButton onClick={() => setOpenArtistList(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+        >   
+            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => setOpenArtistList(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
                 <p className='text-4xl text-center font-bold mt-0'>Your Artist List</p>
