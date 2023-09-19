@@ -10,6 +10,8 @@ import Portrait from '@/app/components/Portrait';
 import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 import { UserData } from './portfolio/page';
 import Footer from '@/app/components/Footer';
+import { Artist } from '@/app/components/Portrait';
+import { getAllMyPortraits } from '../../firebase/firestore';
 
 type Params = {
   params: {
@@ -23,7 +25,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
 
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
-  const [myPortraits, setMyPortaits] = useState<Array<PortraitData>>([])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -38,40 +40,57 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     setPageLoading(true)
     let latestUser: UserData | null
 
-    const handleGetPortraits = async () => {
-      const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
-      setMyPortaits(getMyPortraits)
-      setFiltered(getMyPortraits)
-    }
+    // const handleGetPortraits = async () => {
+    //   const getMyPortraits = await getArtistsPortraits(latestUser?.artistName, authUser?.uid);
+    //   setMyPortaits(getMyPortraits)
+    //   setFiltered(getMyPortraits)
+    // }
     
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
       if (latestUser) setCurrentUser(latestUser)
-      handleGetPortraits()
+      // handleGetPortraits()
     }
 
     handleCurrentUser()
     setPageLoading(false)
   }, [])
 
+  useEffect(() => {
+    console.log('setting up listener')
+    const getPortraits = async () => {
+        const unsubscribe = await getAllMyPortraits(setPortraits, currentUser);
+        console.log('unsubscribe: ', unsubscribe)
+        return () => unsubscribe()
+    }
+    getPortraits()
+  }, []) 
+
+  console.log('portraits: ', portraits)
+
+  // useEffect(() => {
+  //   const available = portraits.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
+  //   setFiltered(available)
+  // }, [portraits])
+
   const handleFilter= (filter: string) => {
     
     if(filter === 'Bid') {
-      const filteredPortraits = myPortraits.filter(portrait => !portrait.artistAssigned)
+      const filteredPortraits = portraits.filter(portrait => !portrait.artistAssigned)
 
       setFiltered(filteredPortraits)
     }
     if(filter === 'In Progress') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.artistAssigned && portrait.status !== 'Completed')
+      const filteredPortraits = portraits.filter(portrait => portrait.artistAssigned && portrait.status !== 'Completed')
 
        setFiltered(filteredPortraits)
     }
     if(filter === 'Completed') {
-      const filteredPortraits = myPortraits.filter(portrait => portrait.status === 'Completed')
+      const filteredPortraits = portraits.filter(portrait => portrait.status === 'Completed')
       setFiltered(filteredPortraits)
     }
     if(filter === 'Clear') {
-      setFiltered(myPortraits)
+      setFiltered(portraits)
     }
   }
 
