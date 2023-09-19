@@ -573,9 +573,11 @@ export async function getAllMyPortraits(setPortraits, artist) {
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];
+    console.log('query snapshot: ', QuerySnapshot)
     QuerySnapshot.forEach((doc) => {
       portraits.push({ ...doc.data(), id: doc.id });
     });
+    console.log('portraits after push: ', portraits)
     setPortraits(portraits);
   });
   return unsubscribe;
