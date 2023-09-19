@@ -41,7 +41,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4'>
-                <IconButton onClick={() => setOpenComplete(false)} className='absolute top-2 right-2 text-white'>
+                <IconButton onClick={() => setOpenComplete(false)} className='text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>

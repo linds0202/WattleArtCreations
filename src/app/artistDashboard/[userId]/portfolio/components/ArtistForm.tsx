@@ -57,9 +57,13 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
         <div className='w-8/12 mx-auto my-10 border-2 border-black rounded-xl relative'>
             <p className='text-center text-3xl font-bold mt-4'>Artist Details</p>
 
-            <IconButton onClick={() => setIsEdit(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+
+            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => setIsEdit(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
+            
 
             <Formik
                 initialValues={initialValues}
