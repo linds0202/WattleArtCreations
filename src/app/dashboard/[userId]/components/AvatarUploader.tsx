@@ -102,45 +102,47 @@ export default function AvatarUploader(props: any) {
             fullWidth={true}
             maxWidth='sm'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-        >
-            <div className='relative'>
+        >   
             <button type='button' onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600 absolute'/>
             </button>
 
-            <div className="flex justify-center items-center mb-4">
-                <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
-                <p className='text-4xl text-center font-bold mt-0'>{isEdit ? "Edit" : "Add"} Avatar</p>
-                <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
-            </div>
-    
-            <DialogContent >
-                <div className='flex justify-center items-center'>
-                <Button 
-                    variant="outlined" 
-                    component="label" 
-                    className='text-black border-2 rounded-xl border-[#282828] hover:text-[#0075FF]'
-                >
-                    Upload Avatar
-                    <input type="file" hidden onInput={(event) => {setFileData(event)}} className='text-lg' />
-                </Button>
-                <p className='text-xl ml-8'>{formFields.fileName}</p>
+            <div>
+                
+
+                <div className="flex justify-center items-center mb-4">
+                    <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
+                    <p className='text-4xl text-center font-bold mt-0'>{isEdit ? "Edit" : "Add"} Avatar</p>
+                    <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
                 </div>
-            </DialogContent>
-            <DialogActions>
-                {isSubmitting ? 
-                <Button variant="contained" disabled={true}>
-                    Submitting...
-                </Button> :
-                <Button 
-                    variant="contained" 
-                    onClick={handleSubmit} 
-                    disabled={isDisabled()}
-                    className='text-[#0075FF] hover:text-white'
-                >
-                    Submit
-                </Button>}
-            </DialogActions>
+        
+                <DialogContent >
+                    <div className='flex justify-center items-center'>
+                    <Button 
+                        variant="outlined" 
+                        component="label" 
+                        className='text-black border-2 rounded-xl border-[#282828] hover:text-[#0075FF]'
+                    >
+                        Upload Avatar
+                        <input type="file" hidden onInput={(event) => {setFileData(event)}} className='text-lg' />
+                    </Button>
+                    <p className='text-xl ml-8'>{formFields.fileName}</p>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    {isSubmitting ? 
+                    <Button variant="contained" disabled={true}>
+                        Submitting...
+                    </Button> :
+                    <Button 
+                        variant="contained" 
+                        onClick={handleSubmit} 
+                        disabled={isDisabled()}
+                        className='text-[#0075FF] hover:text-white'
+                    >
+                        Submit
+                    </Button>}
+                </DialogActions>
             </div>
         </Dialog>
     )
