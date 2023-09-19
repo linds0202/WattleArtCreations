@@ -12,7 +12,10 @@ import LogoColor from '../../../public/images/Logo_Full_ups.png'
 const uiConfig = {
     signInFlow: 'popup', 
     signInOptions: [
-        EmailAuthProvider.PROVIDER_ID,
+        {
+          provider: EmailAuthProvider.PROVIDER_ID,
+          requireDisplayName: false
+        },
         GoogleAuthProvider.PROVIDER_ID,
     ],
     callbacks: {
