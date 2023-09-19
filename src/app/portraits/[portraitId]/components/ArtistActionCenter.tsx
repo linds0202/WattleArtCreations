@@ -290,7 +290,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
 
             <ActionCenterAccordion title={'Portrait Complete - Payment Released'} open={portrait?.status === 'Completed'} attention={portrait?.status === 'Completed'} >
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                    {portrait?.status === "Complete"  
+                    {portrait?.status === "Completed"  
                         ? <div className="bg-white py-2 px-4 rounded-lg">
                             <p>Your customer has approved your last submission</p>
                             <p>This portrait is now complete. The Wattle Arts Admin team will proces your payment shortly</p>

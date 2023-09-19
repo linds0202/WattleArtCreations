@@ -89,21 +89,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     getPortrait()
   }, [])
 
-  // useEffect(() => {
-  //   const handleGetPortrait = async () => {
-  //     const currentPortrait: PortraitData | null = await getPortrait(portraitId);
-  //     if (currentPortrait) {
-  //       if (currentPortrait.status === "Completed") {
-  //         const customerTestimonial = await getTestimonial(currentPortrait.id)
-  //         setTestimonial(customerTestimonial)
-  //       }
-  
-  //       setPortrait(currentPortrait)
-  //     }
-  //   }
+  useEffect(() => {
+    const getFinalTestimonial = async () => {
+      if (portrait?.status === "Completed") {
+        const customerTestimonial = await getTestimonial(portrait?.id)
+        if (customerTestimonial) setTestimonial(customerTestimonial)
+      }
+    }
 
-  //   handleGetPortrait()
-  // }, [])
+    getFinalTestimonial()
+
+  }, [portrait?.status])
 
 
   useEffect(() => {
