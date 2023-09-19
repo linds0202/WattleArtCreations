@@ -21,11 +21,11 @@ export default function User( {user}: UserProps ) {
         setOpenDetails(true)
     }
 
-    const handleSelect: SelectChangeEventHandler = (e) => {
+    const handleSelect: SelectChangeEventHandler = async (e) => {
         if (e.target.value === currentRole) alert('already that')
         else if (e.target.value === 'select one') return
         else {
-            updateUser(user.uid, e.target.value)
+            await updateUser(user.uid, e.target.value)
             setCurrentRole(e.target.value)
             setOpenRole(false)
         }

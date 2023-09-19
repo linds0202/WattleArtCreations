@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { getAllUsers, getAllCustomers } from "@/app/firebase/firestore"
 import User from "./User";
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
+import { getAllUserInfo } from "@/app/firebase/firestore";
 
 
 export default function UsersList() {
@@ -12,13 +13,21 @@ export default function UsersList() {
   const [button, setButton] = useState<String>('')
 
   useEffect(() => {
-    const handleGetAllUsers = async () => {
-      const usersArr = await getAllUsers();
-      setAllUsers(usersArr)
-      setFilteredUsers(usersArr)
-    }
+    // const handleGetAllUsers = async () => {
+    //   const usersArr = await getAllUsers();
+    //   setAllUsers(usersArr)
+    //   setFilteredUsers(usersArr)
+    // }
 
-    handleGetAllUsers()
+    // handleGetAllUsers()
+
+    const getUsersList = async () => {
+      const unsubscribe = await getAllUserInfo(setAllUsers, setFilteredUsers);
+    
+      return () => unsubscribe()
+      } 
+
+      getUsersList()
   }, [])
 
   const handleGetArtists = () => {

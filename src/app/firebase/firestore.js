@@ -89,6 +89,24 @@ export async function getAllUsers() {
     return allUsers
 }
 
+export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
+  
+  const q = query(collection(db, "portraits"), or(where("roles", "==", "Admin"), where("roles", "==", "Customer"), where("roles", "==", "Artist")))
+  
+  
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let users = [];
+    
+    QuerySnapshot.forEach((doc) => {
+      users.push({ ...doc.data(), id: doc.id });
+    });
+    
+    setAllUsers(users);
+    setFilteredUsers(users)
+  });
+  return unsubscribe;
+}
+
 export async function getAllCustomers() {
   const allCustomers = []  
   const q = query(collection(db, "users"), where("roles", "==", 'Customer'));
@@ -191,7 +209,7 @@ export function addUser(user) {
 }
 
 //update user role
-export function updateUser(userId, role) {
+export async function updateUser(userId, role) {
   updateDoc(doc(db, 'users', userId), { 
     roles: role
   });
