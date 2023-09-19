@@ -40,9 +40,12 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             maxWidth='lg'
             PaperProps={{ sx: { p: 4, backgroundColor: "white", position: 'relative'} }}
         >
-            <IconButton onClick={() => setOpenRevision(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+
+            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => setOpenRevision(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
             
             
             <div className='flex flex-col justify-center items-center'>
