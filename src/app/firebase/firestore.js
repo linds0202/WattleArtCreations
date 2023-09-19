@@ -92,6 +92,8 @@ export async function getAllUsers() {
 export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
   
   const q = query(collection(db, "portraits"), or(where("roles", "==", "Admin"), where("roles", "==", "Customer"), where("roles", "==", "Artist")))
+
+  console.log('q: ', q)
   
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {

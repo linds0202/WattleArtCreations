@@ -30,6 +30,8 @@ export default function UsersList() {
       getUsersList()
   }, [])
 
+  console.log('users: ', allUsers)
+
   const handleGetArtists = () => {
     const filtered = allUsers.filter(user => user.roles === 'Artist')
     setFilteredUsers(filtered)
