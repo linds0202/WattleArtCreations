@@ -67,6 +67,9 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   }, []) 
 
+  console.log('portraits: ', portraits)
+  console.log('filtered: ', filtered)
+
 
   const handleFilter= (filter: string) => {
     if(filter === 'Unordered') {
