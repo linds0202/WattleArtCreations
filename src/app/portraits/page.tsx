@@ -91,9 +91,6 @@ export default function Portraits() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    
-    
-
   }, [portraits])
 
   const portraitList = portraits?.map((portrait, i) => (

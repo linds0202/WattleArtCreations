@@ -67,9 +67,6 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
     // const userDocRef = admin.firestore().collection("users").doc(userId);
 
     // await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
-    
-
-
 
     return payment
     });
