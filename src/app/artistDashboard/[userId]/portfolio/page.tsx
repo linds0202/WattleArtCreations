@@ -187,7 +187,7 @@ const Portfolio = () => {
                             </div>
                         </div>
                         
-                        {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
+                        {/* {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
                             <p>Follow me: </p>
                             <div className='flex justify-between items-center ml-4'>
 
@@ -214,7 +214,7 @@ const Portfolio = () => {
                                 />}
                                 
                             </div>
-                        </div>}
+                        </div>} */}
                         
                     </div>
 

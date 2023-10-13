@@ -54,7 +54,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
     
 
     return (
-        <div className='w-8/12 mx-auto my-10 border-2 border-black rounded-xl relative'>
+        <div className='fixed inset-x-0 top-24 w-8/12 mx-auto border-2 border-black rounded-xl bg-white'>
             <p className='text-center text-3xl font-bold mt-4'>Artist Details</p>
 
 

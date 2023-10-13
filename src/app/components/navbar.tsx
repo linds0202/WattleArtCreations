@@ -181,7 +181,7 @@ export default function NavBar() {
             <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white no-underline'>Dashboard</Link>
           </div>
           <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline'>Portfolio</Link>
+            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline'>My Portfolio</Link>
           </div>
         </div>
       }
