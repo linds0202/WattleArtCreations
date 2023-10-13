@@ -34,8 +34,9 @@ export default function useFirebaseAuth() {
         clear();
         return;
     } else {
+   
       const userData: any = await getUser(user)
-
+      
       setAuthUser({
         uid: user.uid,
         email: user.email,
@@ -77,3 +78,4 @@ export function AuthUserProvider({ children }: any) {
 }
 
 export const useAuth = () => useContext<any>(AuthUserContext);
+

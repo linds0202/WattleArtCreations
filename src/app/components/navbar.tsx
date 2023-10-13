@@ -118,7 +118,6 @@ export default function NavBar() {
     router.push('/')
   }
 
-  console.log('login: ', login)
 
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>

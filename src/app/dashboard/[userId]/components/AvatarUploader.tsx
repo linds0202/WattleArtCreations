@@ -46,7 +46,7 @@ export default function AvatarUploader(props: any) {
     const isDisabled = () => formFields.fileName === DEFAULT_FILE_NAME
 
 
-    // Set the relevant fields for receipt image
+    // Set the relevant fields for image
     const setFileData = (event: React.FormEvent<HTMLInputElement>) => {
         if (event.currentTarget.files){
             const file: File = event?.currentTarget?.files[0];

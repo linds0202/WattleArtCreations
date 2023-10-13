@@ -36,10 +36,11 @@ const awards = {
 }
 
 interface ProfileProps {
-    user: UserData | null
+    user: UserData | null,
+    badge: string
 }
 
-const Profile = ({user}: ProfileProps) => {
+const Profile = ({user, badge}: ProfileProps) => {
 
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -50,13 +51,13 @@ const Profile = ({user}: ProfileProps) => {
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
     const [discount, setDiscount] = useState(awards[0])
+ 
 
     useEffect(() => {
         if (!isLoading && !authUser) {
             router.push('/')
         }
     }, [authUser, isLoading]);
-
 
     useEffect(() => {
         const handleGetUser = async () => {
@@ -82,27 +83,8 @@ const Profile = ({user}: ProfileProps) => {
         }
     }
 
-    const handleSetBadge = () => {
-        if (userData?.totalCompletedCommissions) {
-            if (userData?.totalCompletedCommissions === 0) {
-                //setDiscount(awards[0])
-                return '../../images/badges/one.png'
-            } else if (userData?.totalCompletedCommissions > 0 && userData?.totalCompletedCommissions < 3) {
-                //setDiscount(awards[1])
-                return '../../images/badges/one.png'
-            } else if (userData?.totalCompletedCommissions >= 3 && userData?.totalCompletedCommissions < 7) {
-                //setDiscount(awards[2])
-                return '../../images/badges/two.png'
-            } else if (userData?.totalCompletedCommissions >= 7 && userData?.totalCompletedCommissions < 10) {
-                //setDiscount(awards[3])
-                return '../../images/badges/three.png'
-            } else {
-                //setDiscount(awards[4])
-                return '../../images/badges/four.png'
-            }
-        } 
-    }
     // className='absolute bottom-0 right-0 text-[#282828]'
+
     return (
         <div className='relative px-14 py-4'>
             <div className='flex justify-between items-center'>
@@ -158,7 +140,7 @@ const Profile = ({user}: ProfileProps) => {
                         <p className='text-center'>-{discount?.discount}%</p>
                     </div>
                     <div className='flex items-center'>
-                        <img src={handleSetBadge()} className='w-[64px] h-[64px] mr-4' alt='user rewards badge icon'/> 
+                        <img src={badge} className='w-[64px] h-[64px] mr-4' alt='user rewards badge icon'/> 
                         <div className='w-full'>
                             <div className='flex items-center mb-2'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>

@@ -29,6 +29,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
+  const [badge, setBadge] = useState('../../../../images/badges/one.png')
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -52,8 +53,12 @@ export default function Dashboard({ params: { userId }}: Params) {
     const handleCurrentUser = async () => {
       latestUser = await getUserById(authUser?.uid)
 
-      if (latestUser) setCurrentUser(latestUser)
+      if (latestUser) {
+        setCurrentUser(latestUser)
+        getBadge(latestUser?.totalCompletedCommissions)
+      }
       getPortraits()
+      
     }
 
     handleCurrentUser()
@@ -89,6 +94,25 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
+  const getBadge = (commissions: number) => {
+      if (commissions === 0) {
+        //setDiscount(awards[0])
+        setBadge('../../../../images/badges/one.png')
+      } else if (commissions > 0 && commissions < 3) {
+          //setDiscount(awards[1])
+          setBadge('../../../../images/badges/one.png')
+      } else if (commissions >= 3 && commissions < 7) {
+          //setDiscount(awards[2])
+          setBadge('../../../../images/badges/two.png')
+      } else if (commissions >= 7 && commissions < 10) {
+          //setDiscount(awards[3])
+          setBadge('../../../../images/badges/three.png')
+      } else {
+          //setDiscount(awards[4])
+          setBadge('../../../../images/badges/four.png')
+      }   
+  }
+
   return ((!authUser || pageLoading || isLoading) ? 
     <></>
   :
@@ -97,7 +121,7 @@ export default function Dashboard({ params: { userId }}: Params) {
 
     <div className=' text-black pt-3 pb-36'>
     
-      {currentUser && <Profile user={currentUser}/>}
+      {currentUser && <Profile user={currentUser} badge={badge}/>}
       
       <h2 className='text-4xl text-center font-bold'>My Portraits</h2>
       

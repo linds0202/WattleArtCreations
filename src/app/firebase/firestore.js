@@ -53,8 +53,8 @@ export async function getCheckoutUrl (items, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations-qssacq6oj-linds0202.vercel.app/dashboard/${userId}`,
-      cancel_url: 'https://wattle-art-creations-qssacq6oj-linds0202.vercel.app/',
+      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}`,
+      cancel_url: 'https://wattle-art-creations.vercel.app/',
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId
@@ -93,9 +93,6 @@ export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
   
   const q = query(collection(db, "users"), or(where("roles", "==", "Admin"), where("roles", "==", "Customer"), where("roles", "==", "Artist")))
 
-  console.log('q: ', q)
-  
-  
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let users = [];
     
@@ -144,7 +141,7 @@ export async function getUser(user) {
 
 //Get user by Id
 export async function getUserById(userId) {
-  console.log('userId: ', userId)
+  
   const docSnap = await getDoc(doc(db, "users", userId));
 
   let avatarBucket = ''
