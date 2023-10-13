@@ -45,7 +45,7 @@ const ArtistDashboard = () => {
                     <p className='ml-4 text-sm text-center'><span className='font-semibold'>{artist.totalCompletedCommissions}</span> completed commissions</p>
                     <p className='mt-2'>{artist.bio.split(/\s+/).slice(0, 20).join(" ")}...</p>
                 </Link>
-                <div className='flex justify-center items-center mt-2'>
+                {/* <div className='flex justify-center items-center mt-2'>
                     {artist.links.map((link, i) => 
                         <SocialIcon 
                             key={i} 
@@ -68,7 +68,7 @@ const ArtistDashboard = () => {
                                 title={`${artist?.website}`} 
                             />
                         }
-                </div>
+                </div> */}
             </div>
         </div>
     ))
