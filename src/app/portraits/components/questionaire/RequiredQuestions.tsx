@@ -8,8 +8,8 @@ const RequiredQuestions = () => {
         <div>
             <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
             <div>
-                <div className='w-10/12 p-3 flex justify-start items-center'>
-                    <label className='text-[#2DD42B] text-xl font-bold text-gray-light mr-2'>
+                <div className='p-3 flex justify-start items-center'>
+                    <label className='text-[#2DD42B] text-lg font-bold text-gray-light mr-2'>
                         Name your portrait:
                     </label>
                     <Field 
