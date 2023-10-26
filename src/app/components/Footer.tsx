@@ -11,7 +11,7 @@ export default function Footer(){
     const currentUrl = usePathname()
 
     return (
-        <div className={`w-[100%] ${(currentUrl === '/' || currentUrl === '/corporate') ? '' : 'absolute bottom-0 h-28'}`}>
+        <div className={`w-[100%] bg-gradient-to-b from-black from-30% via-[#474747] via-60% to-[#282828] to-85% ${(currentUrl === '/' || currentUrl === '/corporate') ? '' : 'absolute bottom-0 h-28'}`}>
             {(currentUrl === '/' || currentUrl === '/corporate') 
             ? <div className='w-full h-[500px] relative mt-0 footer'>
                 <div className='w-[37%] absolute bottom-[16%] left-[35%] flex justify-between'>

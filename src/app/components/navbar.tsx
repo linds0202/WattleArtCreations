@@ -122,7 +122,7 @@ export default function NavBar() {
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
-    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-50'>
+    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-[100]'>
       <div className='w-4/12 flex justify-start'>
         <Link 
           href={{

@@ -4,7 +4,7 @@ import "./globals.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "./firebase/auth";
 import { useSearchParams } from 'next/navigation';
-import Home from "./landingPageComponents/Home"
+import Home1 from "./landingPageComponents/Home1"
 import PortraitSelection from "./landingPageComponents/PortraitSelection"
 
 
@@ -29,7 +29,7 @@ export default function Personal() {
     :
         <main className="bg-white text-black no-underline min-h-screen">
             {mode === 'Home' 
-                ? <Home setMode={setMode} mode={mode} />
+                ? <Home1 setMode={setMode} mode={mode} />
                 : <PortraitSelection mode={mode} setMode={setMode}/>
             }
         </main>

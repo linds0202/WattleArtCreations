@@ -94,7 +94,7 @@ export default function Portraits() {
   }, [portraits])
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-11/12 border-2 border-black rounded-lg mb-4 py-4 px-10 flex flex-wrap justify-between items-start relative' key={i}>
+    <div className='w-11/12 border-2 border-black bg-white rounded-lg mb-4 py-4 px-10 flex flex-wrap justify-between items-start relative' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
@@ -150,7 +150,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="mt-4 text-white text-xl bg-[#0075FF] border-2 border-[#0075FF] p-4 px-6 rounded-lg hover:bg-white hover:text-[#0075FF] shadow-lg"
+      className="mt-4 text-white text-2xl bg-[#0075FF] border-2 border-[#0075FF] p-2 px-4 rounded-xl shadow-lg hover:bg-white hover:text-[#0075FF] hover:scale-105"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
@@ -175,10 +175,10 @@ export default function Portraits() {
 
   return (isLoading ?
     <></>
-    : <div className='relative min-h-[100vh]'>
+    : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-10% via-[#282828] via-50% to-[#474747] to-95%'>
       <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
-      <div className='flex flex-col space-y-4 items-center min-h-screen bg-white text-black pb-36'>
-        {!openWizard && <h1 className='text-3xl my-8 font-bold'>My Cart</h1>}
+      <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-36'>
+        {!openWizard && <h1 className='font-serif text-white text-6xl my-8 font-bold'>My Cart</h1>}
 
         {/* Display the cart */}
         <div className='w-full flex justify-between items-stretch px-8'> 
@@ -208,12 +208,13 @@ export default function Portraits() {
                   </div> 
                 : <>
                     {portraitList}
-                    <button onClick={() => setOpenWizard(true)} className='text-black hover:text-white bg-white hover:bg-[#282828] border-2 border-[#282828] rounded-lg p-2 mt-10'>
+                    <button onClick={() => setOpenWizard(true)} className='text-[#0075FF] text-2xl border-2 border-[#0075FF] bg-white rounded-xl px-4 py-2 mt-10 hover:text-white  hover:bg-[#0075FF] hover:scale-105'>
                       Add Another Portrait
                     </button>
                   </>}
               
             </div>
+
             <div className='w-4/12 flex flex-col justify-start items-center'>
               <div className='w-11/12 p-4 bg-[#E5E5E5] rounded-lg flex flex-col justify-between items-center'>
                 <h2 className='text-2xl font-bold'>Payment</h2>

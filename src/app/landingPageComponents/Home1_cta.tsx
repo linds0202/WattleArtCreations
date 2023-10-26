@@ -1,0 +1,149 @@
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import './categories/styles.css'
+import { ModeProps } from "./Home1";
+import { motion } from "framer-motion";
+
+const Home1_cta = ({ setMode, mode }: ModeProps) => {
+    const type1 = [
+            '/images/photoImgs/photo1.png',
+            '/images/photoImgs/photo2.png',
+            '/images/photoImgs/photo3.png',
+            '/images/photoImgs/photo4.jpg',
+            '/images/photoImgs/photo5.jpg',
+            '/images/photoImgs/photo6.jpg',
+            '/images/photoImgs/photo7.jpg',
+            '/images/photoImgs/photo8.png',
+            '/images/photoImgs/photo9.jpg',
+        ]
+    const type2 =  [
+            '/images/animeImgs/anime1.png',
+            '/images/animeImgs/anime2.jpg',
+            '/images/animeImgs/anime3.png',
+            '/images/animeImgs/anime4.png',
+            '/images/animeImgs/anime5.png',
+            '/images/animeImgs/anime6.png',
+            '/images/animeImgs/anime7.png',
+            '/images/animeImgs/anime8.png',
+            '/images/animeImgs/anime9.png',
+            '/images/animeImgs/anime10.png',
+        ]
+
+    return (
+        <div id='cta' className="relative h-full pt-20 mb-40 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-95%">
+            <img src="/images/cta/cta3.png" className="absolute -top-3 left-0 z-10"/>
+            
+           
+            <div className="flex flex-col">
+                <div className="w-7/12 self-end mr-20 text-center">
+                    <p className="font-serif text-7xl font-bold mb-8">Choose Your Style</p>
+                    <p className="text-2xl">Compelling call to action for this section</p>
+                    <p className="mt-8 text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat nulla, laoreet vitae sollicitudin eget, condimentum id magna. Aenean rhoncus viverra massa, eu placerat ex rutrum nec. Etiam lobortis nisl vel justo porttitor sollicitudin. Ut et ligula at sapien efficitur consequat. Suspendisse ullamcorper malesuada quam, non fermentum metus fermentum accumsan. </p>
+                </div>
+
+                <div className="relative w-10/12 mt-20 self-end flex justify-around items-center">
+                    {/* <img src="/images/cta/ctaDrip.png" className="absolute -top-[20%] right-0 -z-9"/> */}
+                    {/* <img src='/images/photoImgs/photo3.png' className="w-[450px] h-[500px] object-cover object-top rounded-xl"/> */}
+                    
+                    <div className="w-[450px] h-[500px] object-cover rounded-xl z-5">
+                        <Carousel
+                            showArrows={true} 
+                            showThumbs={false} 
+                            autoPlay={true} 
+                            showStatus={false}
+                            infiniteLoop 
+                            className="portrait-carousel-root portrait-carousel "
+                        >
+                            {type1.map((el, i) => {
+                                    return (
+                                        <img key={i} src={`${el}`} className="w-[450px] h-[500px] object-cover object-top rounded-xl"/>
+                                        // <div key={i} className='relative w-[450px] h-[500px] object-cover mx-auto rounded-xl'>
+                                        //     <Image
+                                        //         className="" 
+                                        //         src={`${el}`} 
+                                        //         alt="photorealistic image in carousel" 
+                                        //         width={450}
+                                        //         height={500}
+                                        //         sizes='(max-width: 450px) 100vw, (max-width: 500px) 50vw, 33vw'
+                                        //         priority={false}  
+                                        //     />
+                                        // </div>
+                                )})
+                            }
+                        </Carousel>
+                    </div>
+
+                    <div className="w-1/2 z-50">
+                        <p className="mt-4 text-5xl font-bold">Photorealistic</p>
+                        <p className="w-10/12 text-2xl mt-8">Welcome to a world where art isn&lsquo;t just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren&lsquo;t just images, they&lsquo;re narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth.</p>
+                        <div
+                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            onClick={() => setMode('Photorealistic')}
+                        >
+                            Customize
+                        </div>
+                    </div>
+                </div>
+
+                <div className="relative w-10/12 mt-20 ml-20 self-start flex justify-around items-center">
+                    <img src="/images/cta/ctaSmall.png" className="absolute -top-[20%] left-[30%]"/>
+                    <div className="w-1/2">
+                        <p className="text-5xl font-bold">Anime</p>
+                        <p className="text-2xl mt-8">Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it&lsquo;s your favorite character or something completely original, let&lsquo;s turn the ordinary into extraordinary!</p>
+                        <div
+                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            onClick={() => setMode('Anime')}
+                        >
+                            Customize
+                        </div>
+                    </div>
+                    
+                    <div className="w-[450px] max-h-[500px] rounded-xl">
+                        <Carousel
+                            showArrows={true} 
+                            showThumbs={false} 
+                            autoPlay={true} 
+                            showStatus={false}
+                            infiniteLoop 
+                            className="portrait-carousel-root portrait-carousel rounded-xl"
+                        >
+                            {type2.map((el, i) => {
+                                    return (
+                                        <img key={i} src={`${el}`} className="w-[450px] h-[500px] object-cover object-top rounded-xl"/>
+                                        // <div key={i} className='relative w-[450px] h-[500px] mx-auto object-cover rounded-xl'>
+                                        //     <Image
+                                        //         className="rounded-xl" 
+                                        //         src={`${el}`} 
+                                        //         alt="anime image in carousel" 
+                                        //         width={450}
+                                        //         height={500}
+                                        //         sizes='(max-width: 450px) 100vw, (max-width: 500px) 50vw, 33vw'
+                                        //         priority={false}  
+                                        //     />
+                                        // </div>
+                                )})
+                            }
+                        </Carousel>
+                    </div>
+                 
+                </div>
+
+                <div className="relative w-10/12 mt-20 mr-20 self-end flex justify-around items-center">
+                    {/* <img src="/images/cta/ctaBottom.png" className="absolute top-[100%] -right-[6%]"/> */}
+                    <div className="w-full">
+                        <img src="/images/cta/nsfw.png" />
+                        <div
+                            className='absolute bottom-10 left-[42%] w-1/6 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            onClick={() => setMode('NSFW')}
+                        >
+                            Customize
+                        </div>
+                    </div>
+                </div>
+
+            </div>        
+        </div>
+    )
+}
+
+export default Home1_cta

@@ -259,20 +259,24 @@ table {
 
 
 .carousel .slide {
-  height: 50vh;
+  width: 450px;
+  height: 500px;
+  border-radius: 12px;
 }
 
 .portrait-carousel .slide {
-  height: 70vh;
+  width: 450px;
+  height: 500px;
+  border-radius: 12px;
 }
 
 .carousel .control-next.control-arrow::before {
-  border-left: 8px solid black !important;
+  border-left: 12px solid black !important;
   
 }
 
 .carousel .control-prev.control-arrow::before {
-  border-right: 8px solid black !important;
+  border-right: 12px solid black !important;
   
 }
 

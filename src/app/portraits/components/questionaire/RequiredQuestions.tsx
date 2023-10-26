@@ -6,10 +6,10 @@ const RequiredQuestions = () => {
     
     return (
         <div>
-            <h2 className='text-xl font-bold mt-4'>Required Questions</h2>
+            <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
             <div>
                 <div className='w-10/12 p-3 flex justify-start items-center'>
-                    <label className='text-sm text-gray-light mr-2'>
+                    <label className='text-[#2DD42B] text-xl font-bold text-gray-light mr-2'>
                         Name your portrait:
                     </label>
                     <Field 

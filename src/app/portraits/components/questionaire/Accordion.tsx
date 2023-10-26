@@ -23,7 +23,7 @@ export default function Accordion(props: FaqProps){
             <div className="flex flex-row items-center">
                 <p 
                     onClick={() => setExpanded(!expanded)} 
-                    className={`cursor-pointer flex-auto hover:${props.active ? "text-[#D22BD4]" : "text-black"}  ${props.active ? "text-[#2DD42B] font-bold" : "text-gray-400"}`}
+                    className={`text-xl cursor-pointer flex-auto hover:${props.active ? "text-[#D22BD4]" : "text-black"}  ${props.active ? "text-[#2DD42B] font-bold" : "text-gray-400"}`}
                 >
                     {props.title}
                 </p>

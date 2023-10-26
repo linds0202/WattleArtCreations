@@ -174,14 +174,17 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
         
         if (!editPortrait) {
+            console.log('checking to see is theres a charlist')
             const charData = window.localStorage.getItem('charList')
             if (charData !== null && JSON.parse(charData).length !== 0) setChars(JSON.parse(charData))
+            console.log('setting charlist here to: ', charData)
         } 
         
     }, [])
 
 
     useEffect(() => {
+        console.log('setting charlist to : ', chars)
         window.localStorage.setItem('charList', JSON.stringify(chars))
     }, [customizerLogin])
 
@@ -270,6 +273,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits([ ...portraits, updatedPortrait ])
 
         }
+        console.log('setting charlist in local storage to blank')
         window.localStorage.setItem('charList', JSON.stringify([]))
         setEditPortrait(null)
         setOpenWizard(false)
@@ -320,22 +324,24 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         
     }
 
+    console.log('uploads.length: ', uploads.length)
+
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
             <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
-            <div className="h-[150px] w-full flex flex-col justify-center items-center">
+            <div className="h-[130px] w-full flex flex-col justify-center items-center">
                 <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#0075FF] font-bold'>{selection}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>
             {/* Display the portrait wizard */}
-             <div className="w-full px-4">
-                  <Formik
-                      initialValues={portraitData}
-                      onSubmit={submitPortrait}
-                  >
-                  {({ values }) => (
-                      <Form className='w-full '>
-                          <div className='flex flex-between'>
+            <div className="w-full px-4">
+                <Formik
+                    initialValues={portraitData}
+                    onSubmit={submitPortrait}
+                >
+                {({ values }) => (
+                    <Form className='w-full '>
+                        <div className='flex flex-between'>
                             <div className='w-6/12 flex flex-col items-center'>
                                 
                                 {/* Create Characters */}
@@ -349,8 +355,59 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     setCharSheet={setCharSheet}
                                     setWeaponSheet={setWeaponSheet} 
                                 />
+
+                                {openUpload && <AddImages 
+                                    uploads={uploads}
+                                    setUploads={setUploads}
+                                    openUpload={openUpload}
+                                    setOpenUpload={setOpenUpload}
+                                    editImgGroup={editImgGroup}
+                                    setEditImgGroup={setEditImgGroup}
+                                    editImgIndex={editImgIndex}
+                                />}
+
+
+                                {/* Submit Button */}
+                                {authUser && <button 
+                                    type="submit" 
+                                    className={`w-6/12 rounded-xl py-2 px-4 text-center mt-4 ${chars.length !== 0 
+                                        ? 'text-xl text-black bg-[#0075FF]/50 border-2 border-[#0075FF] hover:text-white hover:bg-[#0075FF]' 
+                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
+                                    disabled={chars.length === 0}
+                                >
+                                    Add Portrait to Cart
+                                </button>}
+
+                                {!authUser && chars.length !== 0 && 
+                                    <>
+                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                            Login/Create Account to Continue
+                                        </Button>
+                                        <p>(You must be logined in to create a portrait)</p>
+                                    </>
+                                }
+
+                                {chars.length !== 0 && 
+                                    <div className='w-full px-8 mt-10'>
+                                        <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                                        <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
+                                        <StepTwo 
+                                            selection={selection}
+                                            charVariations={charVariations}
+                                            pet={pet}
+                                            charSheet={charSheet}
+                                            weaponSheet={weaponSheet} 
+                                        />
+                                    </div>
+                                }
+                            </div>
+                        
+
+                            <div className='w-6/12 px-8'>
+
                                 <RequiredQuestions />
 
+                                {/* Images */}
                                 <div className='w-[100%] flex flex-wrap items-center mt-4'>
                                     {/* Add images */}
                                     <button
@@ -360,6 +417,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     >
                                         Add Images
                                     </button>
+                                    {uploads.length === 0 &&
+                                        <p className='text-xl text-[#2DD42B] font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    }
+
                                     <div className='flex'>
                                         {uploads.length !== 0 && uploads.map((imgGroup, i) => 
                                             <div key={i} className='border-2 border-[#282828] rounded-lg mx-4 p-2 flex '>
@@ -398,54 +459,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         </div>)}
                                     </div>}
                                 </div>
-                                
-                                
-                                {openUpload && <AddImages 
-                                    uploads={uploads}
-                                    setUploads={setUploads}
-                                    openUpload={openUpload}
-                                    setOpenUpload={setOpenUpload}
-                                    editImgGroup={editImgGroup}
-                                    setEditImgGroup={setEditImgGroup}
-                                    editImgIndex={editImgIndex}
-                                />}
 
-
-                                {/* Submit Button */}
-                                {authUser && <button 
-                                    type="submit" 
-                                    className={`w-6/12 rounded-lg p-2 text-center mt-4 ${chars.length !== 0 
-                                        ? 'text-black border-2 border-black' 
-                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
-                                    disabled={chars.length === 0}
-                                >
-                                    Add Portrait to Cart
-                                </button>}
-                                {!authUser && chars.length !== 0 && 
-                                    <>
-                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                            Login/Create Account to Continue
-                                        </Button>
-                                        <p>(You must be logined in to create a portrait)</p>
-                                    </>
-                                }
-                            </div>
-                            
-                            {chars.length !== 0 && 
-                              <div className='w-6/12 px-8'>
-                                <h3 className='text-xl font-bold'>Let us know more. . .</h3>
-                                <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
-                                <StepTwo 
-                                    selection={selection}
-                                    charVariations={charVariations}
-                                    pet={pet}
-                                    charSheet={charSheet}
-                                    weaponSheet={weaponSheet} 
-                                />
-                              </div>
-                            }
-                          </div>
-                          
+                            </div>    
+                        </div>
+                        
                         <div className='mt-8 w-full flex justify-around items-center'>
                             {customizerLogin && 
                                 <LoginDialog
@@ -457,10 +474,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             }
                         </div>
                           
-                      </Form>
-                  )}
-              </Formik>
-          </div>
+                    </Form>
+                )}
+                </Formik>
+            </div>
         </div>
       )
 }
