@@ -591,7 +591,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="h-[180px] mt-4 flex items-start">
                                      {values.extras.includes("model") && 
                                      <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <img src="/images/3DModel.png" className="w-[180px] h-[120px] object-cover rounded-lg"/>
+                                        <img src="/images/3DModel.PNG" className="w-[180px] h-[120px] object-cover rounded-lg"/>
                                         <p className="text-center font-semibold mt-2">3D Model</p>
                                     </div>}
 
