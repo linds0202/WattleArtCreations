@@ -27,7 +27,7 @@ export default function Personal() {
     return ((isLoading ) ? 
     <></>
     :
-        <main className="bg-white text-black no-underline min-h-screen">
+        <main className="bg-white text-black no-underline min-h-screen overflow-hidden">
             {mode === 'Home' 
                 ? <Home1 setMode={setMode} mode={mode} />
                 : <PortraitSelection mode={mode} setMode={setMode}/>
