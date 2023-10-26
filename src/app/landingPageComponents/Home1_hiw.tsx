@@ -144,7 +144,7 @@ const Home1_hiw = () => {
                             whileInView='animate'
                             custom={i}
                             viewport={{amount: 0.4, once: true}}
-                            className="font-serif text-white text-center font-display text-6xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-8xl md:leading-[5rem]"
+                            className="font-serif text-white text-center font-display text-6xl font-bold tracking-[-0.02em] drop-shadow-sm md:text-7xl md:leading-[5rem]"
                         >
                             {letter === ' ' ? <span>&nbsp;</span> : letter}
                         </motion.p>

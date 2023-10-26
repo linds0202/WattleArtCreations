@@ -74,7 +74,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                     </div>
 
                     <div className="w-1/2 z-50">
-                        <p className="mt-4 text-5xl font-bold">Photorealistic</p>
+                        <p className="font-serif mt-4 text-5xl font-bold">Photorealistic</p>
                         <p className="w-10/12 text-2xl mt-8">Welcome to a world where art isn&lsquo;t just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren&lsquo;t just images, they&lsquo;re narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth.</p>
                         <div
                             className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
@@ -88,7 +88,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 <div className="relative w-10/12 mt-20 ml-20 self-start flex justify-around items-center">
                     <img src="/images/cta/ctaSmall.png" className="absolute -top-[20%] left-[30%]"/>
                     <div className="w-1/2">
-                        <p className="text-5xl font-bold">Anime</p>
+                        <p className="font-serif text-5xl font-bold">Anime</p>
                         <p className="text-2xl mt-8">Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it&lsquo;s your favorite character or something completely original, let&lsquo;s turn the ordinary into extraordinary!</p>
                         <div
                             className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'

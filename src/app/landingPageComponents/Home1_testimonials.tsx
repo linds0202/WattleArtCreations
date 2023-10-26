@@ -46,7 +46,7 @@ const Home1_testimonials = () => {
         <div className="relative w-full h-[100vh] mt-10 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#282828] from-20% via-[#282828] via-35% to-black to-60% pt-28">
             <img src="/images/drips/personal_underHang.png" className="absolute -top-10 left-0"/>
             <p
-                className="font-serif text-white text-8xl text-center font-bold mb-10"
+                className="font-serif text-white text-7xl text-center font-bold mb-10"
             >
                 Past Commissions
             </p>
@@ -135,9 +135,9 @@ const Home1_testimonials = () => {
                 </motion.div>
             </div>
 
-            <div className="absolute bottom-[5%] right-[45%]">
+            <div className="absolute bottom-0 right-[45%]">
                 <motion.div
-                    className="relative w-[200px] h-[200px] rounded-xl cursor-pointer z-[20]"
+                    className="relative w-[175px] h-[175px] rounded-xl cursor-pointer z-[20]"
                     whileHover={{
                         scale: 2,
                         rotate: 360,
@@ -145,7 +145,7 @@ const Home1_testimonials = () => {
                     }}
                 >
                     <motion.img 
-                        className="absolute top-0 left-0 w-[200px] h-[200px] rounded-xl"
+                        className="absolute top-0 left-0 w-[175px] h-[175px] rounded-xl"
                         src='images/gallery/splat2.png' 
                         initial={{ opacity: 1 }}
                         whileHover={{ 
@@ -154,7 +154,7 @@ const Home1_testimonials = () => {
                         }}
                     />
                     <motion.img 
-                        className="absolute top-0 left-0 w-[200px] h-[200px] object-cover rounded-xl"
+                        className="absolute top-0 left-0 w-[175px] h-[175px] object-cover rounded-xl"
                         src='images/photoImgs/photo4.jpg' 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
