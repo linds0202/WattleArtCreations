@@ -118,12 +118,12 @@ const Home1_hiw = () => {
         </div>
 
 
-        <div className='w-full px-10 flex justify-around items-center'>
+        <div className='w-full px-10 flex items-center'>
             <div className='w-3/12 p-2'>
                 <motion.img 
                     src='/images/HIWIcons/hiw.png' 
                     alt='icon for how it works' 
-                    className='p-8'
+                    className='ml-8 p-8'
                     animate={{ rotate: [0,360]}}
                     transition={{
                         duration: 4,
@@ -134,7 +134,7 @@ const Home1_hiw = () => {
                 />
             </div>
             
-            <div className='text-white w-1/2'>
+            <div className='text-white w-5/12 ml-[5%]'>
                 <div className='flex'>
                     {letters.map((letter, i) => (
                         <motion.p
