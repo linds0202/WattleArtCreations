@@ -399,7 +399,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             }
 
 
-                            <div className="w-1/5 py-8">
+                            <div className="w-1/5 py-4">
                                 <div className='w-full flex justify-between items-end mb-4'>
                                     <div className="relative">
                                         <p className='text-lg mr-4 mb-2 font-semibold'>Body style:</p>                                        
