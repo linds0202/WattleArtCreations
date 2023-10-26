@@ -2,7 +2,6 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import './categories/styles.css'
 import { ModeProps } from "./Home1";
-import { motion } from "framer-motion";
 
 const Home1_cta = ({ setMode, mode }: ModeProps) => {
     const type1 = [

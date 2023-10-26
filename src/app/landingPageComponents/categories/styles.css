@@ -73,4 +73,31 @@
     max-width: 90%;
     height: 420px;
   }
-  
+
+  .carousel.carousel-slider .control-next {
+    height: 60px;
+    margin: auto 0;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px 0 0 10px;
+  }
+
+  .carousel.carousel-slider .control-next:hover {
+    height: 60px;
+    margin: auto 0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px 0 0 10px;
+  }
+
+  .carousel.carousel-slider .control-prev {
+    height: 60px;
+    margin: auto 0;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .carousel.carousel-slider .control-prev:hover {
+    height: 60px;
+    margin: auto 0;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0 10px 10px 0;
+  }
