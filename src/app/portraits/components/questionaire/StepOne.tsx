@@ -304,7 +304,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     <motion.img 
                         src="/images/customizer/arrow-left.png" 
                         alt="arrow pointing to add character button"
-                        className="top-10 -left-[30%] absolute w-[128px] h-[128px] object-cover"
+                        className="top-8 -left-[30%] absolute w-[128px] h-[128px] object-cover"
                         initial={{ rotate: 30, scale: 1 }}
                         animate={{ scale: 1.1 }}
                         transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
