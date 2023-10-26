@@ -20,7 +20,7 @@ const Home1_hero = () => {
                     }}
                 > */}
                     <motion.h1
-                        className='font-serif text-8xl font-bold p-0 text-left'
+                        className='font-serif text-7xl font-bold p-0 text-left'
                     >
                         Epic Custom Creations
                     </motion.h1>
@@ -31,7 +31,7 @@ const Home1_hero = () => {
                     </motion.h2>
                     
                         <div 
-                            className='w-1/2 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            className='w-7/12 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
                             onClick={() => scrollIntoTheView('cta')}
                         >
                             <p>Start Customizing</p>
