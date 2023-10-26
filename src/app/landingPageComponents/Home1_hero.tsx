@@ -84,7 +84,7 @@ const Home1_hero = () => {
                 </motion.div>
             </div>
             
-            <div className="absolute top-[75%] left-[5%]">
+            <div className="absolute top-[70%] left-[5%]">
                 <motion.div
                     className="relative w-[150px] h-[150px] rounded-xl cursor-pointer"
                     whileHover={{
