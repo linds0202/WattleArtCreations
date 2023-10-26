@@ -175,7 +175,7 @@ export default function Portraits() {
 
   return (isLoading ?
     <></>
-    : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-10% via-[#282828] via-50% to-[#474747] to-95%'>
+    : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-50% to-[#282828] to-80%'>
       <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
       <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-36'>
         {!openWizard && <h1 className='font-serif text-white text-6xl my-8 font-bold'>My Cart</h1>}
