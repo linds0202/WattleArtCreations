@@ -400,9 +400,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 
 
                             <div className="w-1/5 py-8">
-                                <div className='w-10/12 flex justify-between items-end mb-4'>
+                                <div className='w-full flex justify-between items-end mb-4'>
                                     <div className="relative">
-                                        <p className='text-xl mr-4 mb-2 font-semibold'>Body style:</p>                                        
+                                        <p className='text-lg mr-4 mb-2 font-semibold'>Body style:</p>                                        
                                         <label className='text-lg'>
                                             <Field type="radio" name="bodyStyle" value="Headshot" required className='mr-2'/>
                                             Headshot
@@ -432,7 +432,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 
                                 <div className='w-full flex justify-between items-end mb-2'>
                                     <div className='w-full relative flex justify-between items-center'>
-                                        <p className='text-xl mr-4 my-4 font-semibold'>Character Variations:</p>
+                                        <p className='text-lg mr-4 my-4 font-semibold'>Character Variations:</p>
 
                                         <TextField
                                             type="number"
@@ -471,7 +471,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="relative">
                                     <label>
                                         <Field type="checkbox" name="pets" className=''/>
-                                        <span className='text-xl ml-2 font-semibold'>Pets </span>{values.pets && <span className="text-sm"> (Use the slider to select # of pets)</span> }
+                                        <span className='text-lg ml-2 font-semibold'>Pets </span>{values.pets && <span className="text-sm"> (Use the slider to select # of pets)</span> }
                                     </label>
                                     <div
                                         className="absolute -top-[23%] left-[20%] m-0 p-0"
@@ -504,7 +504,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 </div> 
 
                                 {/* Extras */}
-                                <p className='text-xl mr-4 mb-0 font-semibold'>Extras:</p>
+                                <p className='text-lg mr-4 mb-0 font-semibold'>Extras:</p>
                                 <div className='relative ml-4 mt-2 w-full flex justify-between items-end mb-2'>
                                     <label>
                                         <Field type="checkbox" name="extras" value="model" className='mr-2' onClick={calcModelPrice}/>
