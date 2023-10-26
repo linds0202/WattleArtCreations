@@ -357,7 +357,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 />
 
                                 {/* Images */}
-                                <div className='w-[100%] flex flex-wrap items-center mt-2'>
+                                <div className='w-[100%] flex flex-wrap items-center mt-4'>
                                     {/* Add images */}
                                     <button
                                         type='button'

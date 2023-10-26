@@ -360,7 +360,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             maxWidth='xl'
             PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
         >   
-            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+            <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
                 <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
@@ -416,7 +416,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             Full
                                         </label>
                                         <div
-                                            className="absolute -top-[15%] left-[45%] m-0 p-0"
+                                            className="absolute -top-[15%] left-[42%] m-0 p-0"
                                             onMouseOver={() => handleMouseOver('body')}
                                             onMouseOut={handleMouseOut}
                                         >
@@ -453,7 +453,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             }}
                                         />
                                         <div
-                                            className="absolute top-0 left-[65%] m-0 p-0"
+                                            className="absolute top-0 left-[62%] m-0 p-0"
                                             onMouseOver={() => handleMouseOver('variations')}
                                             onMouseOut={handleMouseOut}
                                         >
@@ -591,19 +591,19 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="h-[180px] mt-4 flex items-start">
                                      {values.extras.includes("model") && 
                                      <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <img src="/images/3DModel.png" className="w-[175px] h-[120px] object-cover rounded-lg"/>
+                                        <img src="/images/3DModel.png" className="w-[180px] h-[120px] object-cover rounded-lg"/>
                                         <p className="text-center font-semibold mt-2">3D Model</p>
                                     </div>}
 
                                      {values.extras.includes("character") && 
                                      <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/characterSheet.svg" className="w-[175px] h-[120px] rounded-lg"></object>
+                                        <object type="image/svg+xml" data="images/characterSheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
                                         <p className="text-center font-semibold mt-2">Character Sheet</p>
                                     </div>}
 
                                      {values.extras.includes("weapons") && 
                                      <div className="pb-2 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[175px] h-[120px] rounded-lg"></object>
+                                        <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
                                         <p className="text-center font-semibold mt-2">Weapons Sheet</p>
                                     </div>}
                                 </div>
