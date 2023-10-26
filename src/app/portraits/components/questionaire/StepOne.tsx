@@ -687,7 +687,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         </div> 
 
                         <div className="w-10/12 flex justify-center items-center">
-                            <button type="submit" className='text-xl text-black hover:text-white border-2 border-black hover:bg-[#282828] rounded-lg py-2 px-4 mt-4'>
+                            <button type="submit" className='text-xl text-black hover:text-white border-2 border-black hover:bg-[#282828] rounded-lg py-2 px-4'>
                                 Complete Character
                             </button>
                         </div>
