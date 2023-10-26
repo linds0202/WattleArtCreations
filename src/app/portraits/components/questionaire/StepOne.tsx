@@ -358,7 +358,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             open={openCharMod} 
             fullWidth={true}
             maxWidth='xl'
-            PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4'>
                 <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>

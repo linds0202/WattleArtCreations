@@ -356,57 +356,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     setWeaponSheet={setWeaponSheet} 
                                 />
 
-                                {openUpload && <AddImages 
-                                    uploads={uploads}
-                                    setUploads={setUploads}
-                                    openUpload={openUpload}
-                                    setOpenUpload={setOpenUpload}
-                                    editImgGroup={editImgGroup}
-                                    setEditImgGroup={setEditImgGroup}
-                                    editImgIndex={editImgIndex}
-                                />}
-
-
-                                {/* Submit Button */}
-                                {authUser && <button 
-                                    type="submit" 
-                                    className={`w-6/12 rounded-xl py-2 px-4 text-center mt-4 ${chars.length !== 0 
-                                        ? 'text-xl text-black bg-[#0075FF]/50 border-2 border-[#0075FF] hover:text-white hover:bg-[#0075FF]' 
-                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
-                                    disabled={chars.length === 0}
-                                >
-                                    Add Portrait to Cart
-                                </button>}
-
-                                {!authUser && chars.length !== 0 && 
-                                    <>
-                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                            Login/Create Account to Continue
-                                        </Button>
-                                        <p>(You must be logined in to create a portrait)</p>
-                                    </>
-                                }
-
-                                {chars.length !== 0 && 
-                                    <div className='w-full px-8 mt-10'>
-                                        <h3 className='text-xl font-bold'>Let us know more. . .</h3>
-                                        <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
-                                        <StepTwo 
-                                            selection={selection}
-                                            charVariations={charVariations}
-                                            pet={pet}
-                                            charSheet={charSheet}
-                                            weaponSheet={weaponSheet} 
-                                        />
-                                    </div>
-                                }
-                            </div>
-                        
-
-                            <div className='w-6/12 px-8'>
-
-                                <RequiredQuestions />
-
                                 {/* Images */}
                                 <div className='w-[100%] flex flex-wrap items-center mt-2'>
                                     {/* Add images */}
@@ -459,6 +408,57 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         </div>)}
                                     </div>}
                                 </div>
+
+                                {openUpload && <AddImages 
+                                    uploads={uploads}
+                                    setUploads={setUploads}
+                                    openUpload={openUpload}
+                                    setOpenUpload={setOpenUpload}
+                                    editImgGroup={editImgGroup}
+                                    setEditImgGroup={setEditImgGroup}
+                                    editImgIndex={editImgIndex}
+                                />}
+
+
+                                {/* Submit Button */}
+                                {authUser && <button 
+                                    type="submit" 
+                                    className={`w-6/12 rounded-xl py-2 px-4 text-center mt-4 ${chars.length !== 0 
+                                        ? 'text-xl text-black bg-[#0075FF]/50 border-2 border-[#0075FF] hover:text-white hover:bg-[#0075FF]' 
+                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
+                                    disabled={chars.length === 0}
+                                >
+                                    Add Portrait to Cart
+                                </button>}
+
+                                {!authUser && chars.length !== 0 && 
+                                    <>
+                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                            Login/Create Account to Continue
+                                        </Button>
+                                        <p>(You must be logined in to create a portrait)</p>
+                                    </>
+                                }
+
+                                {chars.length !== 0 && 
+                                    <div className='w-full px-8 mt-10'>
+                                        <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                                        <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
+                                        <StepTwo 
+                                            selection={selection}
+                                            charVariations={charVariations}
+                                            pet={pet}
+                                            charSheet={charSheet}
+                                            weaponSheet={weaponSheet} 
+                                        />
+                                    </div>
+                                }
+                            </div>
+                        
+
+                            <div className='w-6/12 px-8'>
+
+                                <RequiredQuestions />
 
                             </div>    
                         </div>
