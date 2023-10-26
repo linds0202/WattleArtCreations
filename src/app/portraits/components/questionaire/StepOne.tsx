@@ -570,10 +570,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             
                                 {values.bodyStyle !== "" 
                                 ?<div className="w-[100%] flex">
-                                     {/* <object type="image/svg+xml" data={`images/${values.bodyStyle}.svg`} className="w-[250px] h-[275px] rounded-lg"></object> */}
-                                     <motion.img 
+                                    <motion.img 
                                         src={`images/customizer/${values.bodyStyle}.png`} 
-                                        className="w-[250px] h-[275px] object-cover object-top rounded-xl"
+                                        className="w-[225px] h-[250px] object-cover object-top rounded-xl"
                                         initial={{ 
                                             scale: 0,
                                             rotate: 0
@@ -585,26 +584,26 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data="images/createCharacter.svg" className="w-[100px] h-[100px]"></object>)}
                                     </div>
                                 </div>
-                                : <div className="w-[250px] h-[275px] border-2 border-[#282828] rounded-xl">                                 
+                                : <div className="w-[225px] h-[250px] border-2 border-[#282828] rounded-xl">                                 
                                 </div>}
                                 
 
-                                <div className="h-[190px] mt-4 flex items-start">
+                                <div className="h-[180px] mt-4 flex items-start">
                                      {values.extras.includes("model") && 
                                      <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <img src="/images/3DModel.png" className="w-[188px] h-[130px] object-cover rounded-lg"/>
+                                        <img src="/images/3DModel.png" className="w-[175px] h-[120px] object-cover rounded-lg"/>
                                         <p className="text-center font-semibold mt-2">3D Model</p>
                                     </div>}
 
                                      {values.extras.includes("character") && 
                                      <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/characterSheet.svg" className="w-[188px] h-[128px] rounded-lg"></object>
+                                        <object type="image/svg+xml" data="images/characterSheet.svg" className="w-[175px] h-[120px] rounded-lg"></object>
                                         <p className="text-center font-semibold mt-2">Character Sheet</p>
                                     </div>}
 
                                      {values.extras.includes("weapons") && 
                                      <div className="pb-2 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[188px] h-[128px] rounded-lg"></object>
+                                        <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[175px] h-[120px] rounded-lg"></object>
                                         <p className="text-center font-semibold mt-2">Weapons Sheet</p>
                                     </div>}
                                 </div>
