@@ -41,7 +41,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 self-end flex justify-around items-center">
-                    <div className="absolute top-[5%] left-[16%] ">
+                    <div className="absolute top-[4%] left-[16%] ">
                         <img src='/images/cta/ctaFrame4.png' />
                     </div>  
 
@@ -87,7 +87,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 ml-20 self-start flex justify-around items-center">
-                    <div className="absolute top-[5%] right-0">
+                    <div className="absolute top-[4%] -right-[1%]">
                         <img src='/images/cta/ctaFrame3.png' />
                     </div>  
                     <div className="w-1/2">
@@ -132,7 +132,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 mr-20 self-end flex justify-around items-center">
-                    <div className="absolute -bottom-[24%] -left-[4.5%]">
+                    <div className="absolute -bottom-[26%] -left-[4.5%]">
                         <img src='/images/cta/ctaFrameNSFW.png' />
                     </div> 
                     <div className="w-full">
