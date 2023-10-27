@@ -29,7 +29,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
         ]
 
     return (
-        <div id='cta' className="relative h-full pt-20 mb-40 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-95%">
+        <div id='cta' className="relative h-full pt-20 mb-40 bg-gradient-to-b from-black from-10% via-[#282828] via-60% to-black to-95%">
             <img src="/images/cta/cta3.png" className="absolute -top-3 left-0 z-10"/>
             
            
@@ -41,10 +41,12 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 self-end flex justify-around items-center">
-                    {/* <img src="/images/cta/ctaDrip.png" className="absolute -top-[20%] right-0 -z-9"/> */}
-                    {/* <img src='/images/photoImgs/photo3.png' className="w-[450px] h-[500px] object-cover object-top rounded-xl"/> */}
-                    
+                    <div className="absolute top-[5%] left-[16%] ">
+                        <img src='/images/cta/ctaFrame4.png' />
+                    </div>  
+
                     <div className="w-[450px] h-[500px] object-cover rounded-xl z-5">
+                        
                         <Carousel
                             showArrows={true} 
                             showThumbs={false} 
@@ -73,10 +75,10 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                     </div>
 
                     <div className="w-1/2 z-50">
-                        <p className="font-serif mt-4 text-5xl font-bold">Photorealistic</p>
-                        <p className="w-10/12 text-2xl mt-8">Welcome to a world where art isn&lsquo;t just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren&lsquo;t just images, they&lsquo;re narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth.</p>
+                        <p className="font-serif mt-4 text-4xl font-bold">Photorealistic</p>
+                        <p className="w-10/12 text-xl font-light mt-8">Welcome to a world where art isn&lsquo;t just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren&lsquo;t just images, they&lsquo;re narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth.</p>
                         <div
-                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-2xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
                             onClick={() => setMode('Photorealistic')}
                         >
                             Customize
@@ -85,12 +87,14 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 ml-20 self-start flex justify-around items-center">
-                    <img src="/images/cta/ctaSmall.png" className="absolute -top-[20%] left-[30%]"/>
+                    <div className="absolute top-[5%] right-0">
+                        <img src='/images/cta/ctaFrame3.png' />
+                    </div>  
                     <div className="w-1/2">
-                        <p className="font-serif text-5xl font-bold">Anime</p>
-                        <p className="text-2xl mt-8">Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it&lsquo;s your favorite character or something completely original, let&lsquo;s turn the ordinary into extraordinary!</p>
+                        <p className="font-serif text-4xl font-bold">Anime</p>
+                        <p className="text-xl font-light mt-8">Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it&lsquo;s your favorite character or something completely original, let&lsquo;s turn the ordinary into extraordinary!</p>
                         <div
-                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            className='w-1/3 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-2xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
                             onClick={() => setMode('Anime')}
                         >
                             Customize
@@ -108,7 +112,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                         >
                             {type2.map((el, i) => {
                                     return (
-                                        <img key={i} src={`${el}`} className="w-[450px] h-[500px] object-cover object-top rounded-xl"/>
+                                        <img key={i} src={`${el}`} className="w-[450px] h-[500px] object-cover object-top rounded-xl "/>
                                         // <div key={i} className='relative w-[450px] h-[500px] mx-auto object-cover rounded-xl'>
                                         //     <Image
                                         //         className="rounded-xl" 
@@ -128,11 +132,13 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                 </div>
 
                 <div className="relative w-10/12 mt-20 mr-20 self-end flex justify-around items-center">
-                    {/* <img src="/images/cta/ctaBottom.png" className="absolute top-[100%] -right-[6%]"/> */}
+                    <div className="absolute -bottom-[24%] -left-[4.5%]">
+                        <img src='/images/cta/ctaFrameNSFW.png' />
+                    </div> 
                     <div className="w-full">
                         <img src="/images/cta/nsfw.png" />
                         <div
-                            className='absolute bottom-10 left-[42%] w-1/6 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-4xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
+                            className='absolute bottom-[21%] left-[43.5%] w-1/6 mt-8 py-2 px-4 border-2 border-[#0075FF] rounded-xl text-white text-center text-2xl bg-[#0075FF]/50 cursor-pointer hover:bg-[#0075FF] hover:scale-105'
                             onClick={() => setMode('NSFW')}
                         >
                             Customize

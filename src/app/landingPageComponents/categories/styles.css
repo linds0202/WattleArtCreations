@@ -74,7 +74,13 @@
     height: 420px;
   }
 
+  .carousel-root {
+    border: 15px black solid;
+    border-radius: 20px;
+  }
+
   .carousel.carousel-slider .control-next {
+    z-index: 50;
     height: 60px;
     margin: auto 0;
     background: rgba(255, 255, 255, 0.8);
