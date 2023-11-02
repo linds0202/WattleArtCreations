@@ -71,7 +71,7 @@ const splatterVariant = {
         scale: 1
     }
 }
-
+// splashArt/PRBackground_V2.png
 
 const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const { authUser, isLoading } = useAuth();
@@ -81,7 +81,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         Photorealistic: {
             title: mode,
             tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
-            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
+            imgs: ["./images/photoImgs/photo7.jpg", "./images/photoImgs/photo2.png", "./images/photoImgs/photo3.png", "./images/photoImgs/photo4.jpg", "./images/photoImgs/photo5.jpg"],
             splashImg: './images/splashArt/PR.png',
             bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Embrace the power of precise strokes and discerning shadows, as our gifted artists capture your essence or your original characters in striking photorealistic detail. Here, the precision of digital technology marries the finesse of traditional artistry, resulting in a compelling photorealistic portrait that narrates your story or the tale of your created characters, and blurs the line between art and reality.",
@@ -94,12 +94,12 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         Anime: {
             title: mode,
             tagline: "Immerse Yourself in an Artistic Adventure with Custom Anime Portraits",
-            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
+            imgs: ["./images/animeImgs/anime1.png", "./images/animeImgs/anime2.jpg", "./images/animeImgs/anime3.png", "./images/animeImgs/anime4.png", "./images/animeImgs/anime5.png"],
             splashImg: './images/splashArt/Anime.png',
             bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
             testimonials: [
-                {author: 'Bob', body: 'Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. '}, 
+                {author: 'Bob', body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. '}, 
                 {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
                 {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
             basePrices: []
@@ -174,9 +174,12 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         setOpenLogin(false)
         setMode('Home')
     }
+
+    // bg-gradient-to-b from-black from-0% via-[#282828] via-50% to-black to-100%
+    // w-[40%] p-4 bg-white rounded-xl - div surrounding carous500
   
     return (
-        <div>
+        <div className="bg-black">
             {openLogin &&
                 <Dialog onClose={handleClose} open={openLogin}>
                     <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[350px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
@@ -238,9 +241,11 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             }
 
             <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
+                {/* <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-0 left-0 w-[100%] h-[100vh]"></object>
+                <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-[50%] left-0 w-[100%] h-[100vh]"></object> */}
                 <motion.div 
                     className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" 
-                    style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}}
+                    style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}} //rgba(255, 255, 255, .15)
                 >
                     <div 
                         style={{ 
@@ -250,14 +255,14 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         }} 
                         className="w-full h-full flex items-center pl-[5%]"
                     >
-                        <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-amber-200/50 text-white py-4 px-10 ">
-                            <h2 className='font-bold text-4xl mb-10 text-left'>
-                                Create a <span className="text-amber-300">{options[`${mode}`].title}</span> Portrait
+                        <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#4da0ff]/50 text-white py-8 px-10 ">
+                            <h2 className='font-bold text-4xl mb-8 text-left'>
+                                Create a <span className="text-[#4da0ff]">{options[`${mode}`].title}</span> Portrait
                             </h2>
-                            <p className="text-xl mb-[5%]">{options[`${mode}`].tagline}</p>
+                            <p className="text-2xl mb-[5%]">{options[`${mode}`].tagline}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                                className="text-xl mb-4 border-2 border-white w-[50%] rounded-md px-4 py-2 hover:bg-white hover:text-black transition" onClick={() => setMode(mode)} 
+                                className="text-black text-xl mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
                                 whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                                 whileTap={{ scale: 1.05 }}
                             >
@@ -279,24 +284,25 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             </div>
 
             <div className="flex justify-around items-center mb-[50px] pt-[100px] pb-[50px] text-white relative bg-gradient-to-b from-black from-10% to-[#282828] to-95%" >
-                <motion.div className="w-[40%] p-4 bg-white rounded-xl" >
+                <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
                     <Carousel 
-                        showArrows={false} 
-                        showThumbs={false}
-                        showStatus={false} 
+                        showArrows={true} 
+                        showThumbs={false} 
                         autoPlay={true} 
-                        infiniteLoop className="portrait-carousel-root portrait-carousel"
+                        showStatus={false}
+                        infiniteLoop 
+                        className="portrait-carousel-root portrait-carousel "
                     >
-                        {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="rounded-xl" />))}
+                        {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
                     </Carousel>
                 </motion.div>
                 
-                <motion.div className="w-[35%]" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                    <p className="font-bold text-4xl mb-8">{options[`${mode}`].title} Portrait</p>
-                    <p className="font-semibold text-xl mb-8">{options[`${mode}`].desc}</p>
+                <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
+                    <p className="font-bold text-5xl mb-8">{options[`${mode}`].title} Portrait</p>
+                    <p className="font-light text-2xl mb-8">{options[`${mode}`].desc}</p>
                     <motion.button 
                         disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                        className="text-xl mb-4 border-2 border-white w-[50%] rounded-xl px-4 py-2 hover:bg-white hover:text-black transition" onClick={() => setMode(mode)} 
+                        className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
                         whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                         whileTap={{ scale: 1.05 }}
                     >
@@ -313,12 +319,17 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         }
                     </motion.button>  
                 </motion.div>
-                <img src='images/drips/personal_top_full.png' className="absolute w-full top-[100%] -left-[1px] right-0" alt='background black paint drips'/>
+                {/* <img src='images/drips/personal_top_full.png' className="absolute w-full top-[100%] -left-[1px] right-0" alt='background black paint drips z-5'/> */}
             </div>
 
-            <div className='pt-[150px] pb-[75px] bg-gradient-to-b from-[#b7b7b7] from-10% via-[#282828] via-70% to-black to-95% flex justify-center'>
+
+
+
+
+            <div className='relative pt-[100px] mb-[100px] bg-black flex justify-center'>
+                <img src='images/drips/personal_top_full.png' className="absolute w-full -top-[12%] -left-[1px] right-0 z-10" alt='background black paint drips'/>
                 <motion.div 
-                    className='flex justify-around py-20 w-[85%] relative' 
+                    className='flex justify-around py-20 w-[85%] relative z-20' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
@@ -326,96 +337,64 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 >
                     <div className="w-4/12 h-full flex justify-center items-center" >
                         <motion.div 
-                            className="w-11/12 h-full flex flex-col justify-between items-center bg-white text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]"  
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show' 
                             viewport={{ once: true }}
                             transition={{ delay: 0 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
-                            <p>&ldquo;{options[`${mode}`].testimonials[0].body}&ldquo;</p>
-                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[0].author}</p>
+                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[0].body}&ldquo;</p>
+                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[0].author}</p>
                         </motion.div>
                     </div>
 
                     <div className="w-4/12 h-full flex justify-center items-center" >
 
                         <motion.div 
-                            className="w-11/12 h-full flex flex-col justify-between items-center bg-white text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]" 
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show'
                             viewport={{ once: true }} 
                             transition={{ delay: .25 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
-                            <p>&ldquo;{options[`${mode}`].testimonials[1].body}&ldquo;</p>
-                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[1].author}</p>
+                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[1].body}&ldquo;</p>
+                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[1].author}</p>
                         </motion.div>
                     </div>
 
                     <div className="w-4/12 h-full flex justify-center items-center" >
                         <motion.div 
-                            className="w-11/12 h-full flex flex-col justify-between items-center bg-white text-[#282828] p-8 border-2 rounded-xl border-black" 
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]" 
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show' 
                             viewport={{ once: true }}
                             transition={{ delay: .5 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
-                            <p>&ldquo;{options[`${mode}`].testimonials[2].body}&ldquo;</p>
-                            <p className=' text-base font-bold text-right pr-10'>-{options[`${mode}`].testimonials[2].author}</p>
+                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[2].body}&ldquo;</p>
+                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[2].author}</p>
                         </motion.div>
                     </div>
-
-                    {/* Splatters */}
-                    <motion.img 
-                        className="absolute -top-[50px] left-[75px] z-40" 
-                        src='./images/testimonials/top_left.png' 
-                        variants={splatterVariant} 
-                        initial='hidden' 
-                        whileInView='show' 
-                        viewport={{ once: true }}
-                        transition={{ delay: .5, duration: .25, type: 'spring' }}
-                    />
-                     
-                    <motion.img 
-                        className="absolute top-[75%] right-[20%] z-40" 
-                        src='./images/testimonials/bottom_right.png' 
-                        variants={splatterVariant} 
-                        initial='hidden' 
-                        whileInView='show' 
-                        viewport={{ once: true }}
-                        transition={{ delay: .5, duration: .5, type: 'spring' }}
-                    />
-                    <motion.img 
-                        className="absolute -top-[50px] right-[190px] z-40" 
-                        src='./images/testimonials/top_right.png' 
-                        variants={splatterVariant} 
-                        initial='hidden' 
-                        whileInView='show' 
-                        viewport={{ once: true }}
-                        transition={{ delay: .5, duration: .25, type: 'spring' }}
-                    />
-                    <motion.img 
-                        className="absolute top-[73%] left-[30px] z-40" 
-                        src='./images/testimonials/bottom_left.png' 
-                        variants={splatterVariant} 
-                        initial='hidden' 
-                        whileInView='show' 
-                        viewport={{ once: true }}
-                        transition={{ delay: .5, duration: .5, type: 'spring' }}
-                    />
-
                 </motion.div>
+                
             </div>
 
-            <div className="h-[60vh] flex flex-col justify-center items-center bg-gradient-to-b from-black from-0% via-[#282828] via-50% to-black to-100%">
-                <h2 className="text-white text-6xl font-bold mb-4">Ready to start your own masterpiece?</h2>
-                <p className="text-white text-4xl font-semibold mb-8">Head on over to the portrait builder and </p>
+
+
+
+
+
+            <div className="relative w-[100%] h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center ">
+                {/* <h2 className="text-white text-6xl font-bold mb-4">Ready to start your own masterpiece?</h2>
+                <p className="text-white text-4xl font-light mb-8">Head on over to the portrait builder and </p> */}
+                <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-9"></object>
+                <object type="image/svg+xml" data="images/splat.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-8"></object>
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-xl mb-4 border-2 border-black w-[30%] rounded-xl px-4 py-2 bg-white hover:bg-[#0075FF] hover:text-white transition" onClick={() => setMode(mode)} 
+                    className="text-xl mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff]  transition duration-200 ease-in-out z-10" onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}
                 >
@@ -439,3 +418,5 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 }
 
 export default PortraitSelection
+
+

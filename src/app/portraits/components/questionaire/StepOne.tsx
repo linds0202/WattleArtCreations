@@ -358,7 +358,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             open={openCharMod} 
             fullWidth={true}
             maxWidth='xl'
-            PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
                 <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
@@ -570,7 +570,18 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             
                                 {values.bodyStyle !== "" 
                                 ?<div className="w-[100%] flex">
-                                    <motion.img 
+                                    <motion.object 
+                                        type="image/svg+xml" 
+                                        data={`images/customizer/${values.bodyStyle}.svg`} 
+                                        className="w-[225px] h-[250px] object-cover object-top rounded-xl shadow-md"
+                                        initial={{ 
+                                            scale: 0,
+                                            rotate: 0
+                                        }}
+                                        animate={{ scale: 1, rotate: 360}}
+                                        transition={{ type: "spring", duration: .5 }}
+                                    />
+                                    {/* <motion.img 
                                         src={`images/customizer/${values.bodyStyle}.png`} 
                                         className="w-[225px] h-[250px] object-cover object-top rounded-xl"
                                         initial={{ 
@@ -579,7 +590,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         }}
                                         animate={{ scale: 1, rotate: 360}}
                                         transition={{ type: "spring", duration: .5 }}
-                                    />
+                                    /> */}
                                     <div className="h-[175px] ml-8 mt-4 flex flex-wrap items-start">
                                         {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data="images/createCharacter.svg" className="w-[100px] h-[100px]"></object>)}
                                     </div>
@@ -588,24 +599,36 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 </div>}
                                 
 
-                                <div className="h-[180px] mt-4 flex items-start">
-                                     {values.extras.includes("model") && 
-                                     <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <img src="/images/3DModel.PNG" className="w-[180px] h-[120px] object-cover rounded-lg"/>
-                                        <p className="text-center font-semibold mt-2">3D Model</p>
-                                    </div>}
+                                <div className="h-[250px] mt-4 flex items-start">
+                                    {values.extras.includes("model") && 
+                                     <motion.div 
+                                        className="w-[210px] h-[225px] pb-2 mr-12 bg-white rounded-lg"
+                                        initial={{ 
+                                            scale: 0
+                                        }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: "spring", duration: .5 }}    
+                                    >
+                                        {/* <img src="/images/3DModel.PNG" className="w-full h-[60%] object-cover rounded-t-lg"/> */}
+                                        <object type="image/svg+xml" data="images/customizer/3d.svg" className="w-full h-[60%] rounded-lg pt-4"></object>
+                                        <p className="mt-8 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4DFF90] to-[#4da0ff]">3D Model</p>
+                                    </motion.div>}
 
-                                     {values.extras.includes("character") && 
-                                     <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/characterSheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
-                                        <p className="text-center font-semibold mt-2">Character Sheet</p>
-                                    </div>}
+                                    {values.extras.includes("character") && 
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[70px] w-[250px] h-[300px] rounded-lg"></object>
+                                    }
+                                    {/* <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
+                                         <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
+                                         <p className="text-center font-semibold mt-2">Character Sheet</p>
+                                    </div> */}
 
-                                     {values.extras.includes("weapons") && 
-                                     <div className="pb-2 bg-[#e9e9e9] rounded-lg">
+                                    {values.extras.includes("weapons") && 
+                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative -top-[77px] w-[250px] h-[300px] rounded-lg"></object>    
+                                    }
+                                     {/* <div className="pb-2 bg-[#e9e9e9] rounded-lg">
                                         <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
                                         <p className="text-center font-semibold mt-2">Weapons Sheet</p>
-                                    </div>}
+                                    </div> */}
                                 </div>
                             </div>
             
@@ -613,7 +636,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 
 
 
-                            <div className="w-1/4 bg-[#E5E5E5] rounded-xl p-4 flex flex-col justify-between items-start relative border-b-8 border-[#282828]">
+                            <div className="w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col justify-between items-start relative border-b-8 border-[#282828]">
                                 
                                 <h2 className="w-full text-3xl text-center text-[#0075ff] font-bold">Options Pricing</h2>
                                 
