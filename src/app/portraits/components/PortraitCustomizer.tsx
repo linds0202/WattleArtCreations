@@ -1,7 +1,7 @@
 import { useAuth } from '@/app/firebase/auth';
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,6 +20,7 @@ import { MyCharValues } from './questionaire/StepOne';
 import { Timestamp } from 'firebase/firestore';
 import { Artist } from '@/app/components/Portrait';
 import LoginDialog from '@/app/components/LoginDialog';
+import ConfirmCancel from './questionaire/ConfirmCancel';
 
 export interface UploadedImgs {
     imageUrls: Array<string>,
@@ -121,7 +122,7 @@ const DEFAULT_FORM_STATE = {
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
 
-    if (selection === undefined || !selection) selection = ''
+    if (selection === undefined || !selection) selection = 'Photorealistic'
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
@@ -168,24 +169,22 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [editImgIndex, setEditImgIndex] = useState<number>(0)
     const [uploads, setUploads] = useState<Array<Upload>>([])
 
+    const [cancelPortrait, setCancelPortrait] = useState<boolean>(false)
+
 
     useEffect(() => {
         window.scrollTo(0, 0)
-
         
         if (!editPortrait) {
-            console.log('checking to see is theres a charlist')
             const charData = window.localStorage.getItem('charList')
             if (charData !== null && JSON.parse(charData).length !== 0) setChars(JSON.parse(charData))
-            console.log('setting charlist here to: ', charData)
         } 
-        
     }, [])
 
-
     useEffect(() => {
-        console.log('setting charlist to : ', chars)
-        window.localStorage.setItem('charList', JSON.stringify(chars))
+        if(!customizerLogin) {
+            window.localStorage.setItem('charList', JSON.stringify([]))
+        }
     }, [customizerLogin])
 
     // Redirect if finished loading and there's an existing user (user is logged in)
@@ -193,37 +192,40 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if(selection === 'NSFW') {
             if (authUser) {
                 setCustomizerLogin(false)
-               
                 if (authUser?.oldEnough){
-                    //router.push('/portraits?selection=NSFW')
                     return
                 } else {
-                    //router.push('/')
                     setCustomizerLogin(true)
+                    window.localStorage.setItem('charList', JSON.stringify(chars))
                 }                
             } else {
+                window.localStorage.setItem('charList', JSON.stringify(chars))
                 setCustomizerLogin(true)
             }
-        } if (chars.length !== 0) {
-            if (!authUser) {
-                setPortraitData({...portraitData, characters: chars})
-                setCustomizerLogin(true)
-            } else {
-                setPortraitData({...portraitData, characters: chars})
-                setCustomizerLogin(false)
+        } else {
+            if (chars.length !== 0) {
+                if (!authUser) {
+                    setPortraitData({...portraitData, characters: chars})
+                    window.localStorage.setItem('charList', JSON.stringify(chars))
+                    setCustomizerLogin(true)
+                } else {
+                    setPortraitData({...portraitData, characters: chars})
+                    setCustomizerLogin(false)
+                }
             }
         }
     }, [authUser, chars])
 
+
     const handleLogin = () => {
+        console.log('clicked login')
         setCustomizerLogin(true)
     }
-
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += char?.total, 0)
-
+    
         const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
         
         if (editPortrait) {
@@ -234,7 +236,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 //update portrait with bucket info
                 const updatedImages = await getImageUrls(editPortrait.id, bucket, uploads)
                 newImages = [...updatedImages]
-                console.log('newImages is: ', newImages)
+                /* console.log('newImages is: ', newImages) */
             }
 
             let editedPortraitsData = portraits.map((portrait, i) => {
@@ -273,7 +275,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             setPortraits([ ...portraits, updatedPortrait ])
 
         }
-        console.log('setting charlist in local storage to blank')
         window.localStorage.setItem('charList', JSON.stringify([]))
         setEditPortrait(null)
         setOpenWizard(false)
@@ -281,8 +282,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     const handleEditImgGroup = (i: number) => {
         setEditImgIndex(i)
-        setEditImgGroup(uploads[i])
-               
+        setEditImgGroup(uploads[i])      
         setOpenUpload(true)
     }
   
@@ -295,7 +295,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 
                 //create new array of images
                 let updateUploadedImagesArr: Array<UploadedImgs> = portraitData.images.filter((img, j) => j !== i)
-                console.log('updateUploadedImagesArr: ', updateUploadedImagesArr)
+                /* console.log('updateUploadedImagesArr: ', updateUploadedImagesArr) */
 
                 //update portrait in database
                 await deletePortraitImages(editPortrait.id, updateUploadedImagesArr)
@@ -316,21 +316,20 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             } catch (error) {
               console.log(error)
             }
-        } else {
-                       
+        } else {          
             const updatedImgGroup = uploads.filter((imgGroup, index) => i !== index)
             setUploads(updatedImgGroup)
-        }
-        
+        } 
     }
 
-    console.log('uploads.length: ', uploads.length)
+    const handleReturn = () => {
+        setCancelPortrait(true)
+    }
 
     return (
-        <div className='relative w-full flex flex-col justify-start items-center min-h-screen bg-white text-black pb-10'>
-            <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
+        <div className='relative w-full flex flex-col justify-start items-center min-h-screen text-white pb-10 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-90%'>
             <div className="h-[130px] w-full flex flex-col justify-center items-center">
-                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#0075FF] font-bold'>{selection}</span> Portrait Customizer</h2>
+                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#4da0ff] font-bold'>{selection}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>
             {/* Display the portrait wizard */}
@@ -342,7 +341,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 {({ values }) => (
                     <Form className='w-full '>
                         <div className='flex flex-between'>
-                            <div className='w-6/12 flex flex-col items-center'>
+                            <div className='w-6/12 flex flex-col items-center border-b border-white'>
                                 
                                 {/* Create Characters */}
                                 <StepOne 
@@ -356,26 +355,81 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     setWeaponSheet={setWeaponSheet} 
                                 />
 
+
+                                {/* Submit Button */}
+                                <div className='w-10/12 h-full my-8 flex justify-around items-center'>
+                                    <div
+                                        onClick={handleReturn}
+                                        className='border border-white rounded-xl py-2 px-4 cursor-pointer flex flex-col justify-center items-center hover:text-red-600 hover:border-red-600'
+                                    >
+                                        <p>Cancel Portrait Creation</p>
+                                        <p className='text-sm text-white/75'>(Return to cart, progress will be lost)</p>
+
+                                    </div>
+
+                                    {authUser && <button 
+                                        type="submit" 
+                                        className={`w-6/12 rounded-xl text-center ${chars.length !== 0 
+                                            ? 'text-black text-center text-4xl py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
+                                            : 'text-[#494949] p-4  border-2 border-[#494949] bg-[#E9E9E9] bg-opacity-50'}`}
+                                        disabled={chars.length === 0}
+                                        title='Complete required fields'
+                                    >
+                                        Add Portrait to Cart
+                                    </button>}
+                                
+                                </div>
+
+                                {cancelPortrait && <ConfirmCancel
+                                    cancelPortrait={cancelPortrait}
+                                    setCancelPortrait={setCancelPortrait}
+                                    setOpenWizard={setOpenWizard}
+                                />}
+
+                                {/* {!authUser && chars.length !== 0 && 
+                                    <>
+                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
+                                            Login/Create Account to Continue
+                                        </Button>
+                                        <p>(You must be logined in to create a portrait)</p>
+                                    </>
+                                } */}
+                            </div>
+                        
+
+                            <div className='w-6/12 px-8'>
+                                <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
+                                <div className='p-3 flex justify-start items-center'>
+                                    <label className='text-[#4DFF90] text-xl font-bold text-gray-light mr-2'>
+                                        Name your portrait:
+                                    </label>
+                                    <Field 
+                                        name="portraitTitle" 
+                                        className="w-8/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                        required
+                                    />
+                                </div>
+
                                 {/* Images */}
                                 <div className='w-[100%] flex flex-wrap items-center mt-4'>
                                     {/* Add images */}
                                     <button
                                         type='button'
                                         onClick={() => setOpenUpload(true)}
-                                        className='border-2 border-[#282828] rounded-xl px-4 py-2 hover:text-white hover:bg-[#0075FF]'
+                                        className='text-lg font-bold ml-2 border-2 rounded-xl px-4 py-2 text-black border-black bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out'
                                     >
                                         Add Images
                                     </button>
-                                    {uploads.length === 0 &&
-                                        <p className='text-[#2DD42B] font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
-                                    }
+                                    {/* {uploads.length === 0 && */}
+                                    <p className='text-[#4DFF90] text-xl font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    {/* } */}
 
-                                    <div className='flex'>
+                                    <div className='ml-2 flex flex-wrap'>
                                         {uploads.length !== 0 && uploads.map((imgGroup, i) => 
-                                            <div key={i} className='border-2 border-[#282828] rounded-lg mx-4 p-2 flex '>
+                                            <div key={i} className='border-2 border-[#E9E9E9] rounded-lg mr-4 my-2 p-2 flex '>
                                                 {imgGroup.files.map((img, i) => <p key={i} className='mx-4'>{img.name}</p>)}
                                                 
-                                                <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#0075FF] ml-4'>
+                                                <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#4da0ff] ml-4'>
                                                     <EditIcon />
                                                 </button>
                                                 <button 
@@ -392,7 +446,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
                                     {editPortrait && portraitData?.images.length !== 0 &&
                                     <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 bg-[#e8e8e8] rounded-xl p-4'>
-                                        <p>Previously uploaded images:</p>
+                                        <p className='text-black'>Previously uploaded images:</p>
                                         {portraitData.images.map((imgGroup, i) =>
                                         <div key={i} className='bg-white rounded-lg mx-4 p-2 flex '>
                                             {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain' alt='thumbnail of customer uploaded images'/>)}
@@ -418,50 +472,29 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     setEditImgGroup={setEditImgGroup}
                                     editImgIndex={editImgIndex}
                                 />}
-
-
-                                {/* Submit Button */}
-                                {authUser && <button 
-                                    type="submit" 
-                                    className={`w-6/12 rounded-xl py-2 px-4 text-center mt-4 ${chars.length !== 0 
-                                        ? 'text-xl text-black bg-[#0075FF]/50 border-2 border-[#0075FF] hover:text-white hover:bg-[#0075FF]' 
-                                        : 'text-[#EEEEEE] border-2 border-[#EEEEEE]'}`}
-                                    disabled={chars.length === 0}
-                                >
-                                    Add Portrait to Cart
-                                </button>}
-
-                                {!authUser && chars.length !== 0 && 
-                                    <>
-                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                            Login/Create Account to Continue
-                                        </Button>
-                                        <p>(You must be logined in to create a portrait)</p>
-                                    </>
-                                }
-
-                                {chars.length !== 0 && 
-                                    <div className='w-full px-8 mt-10'>
-                                        <h3 className='text-xl font-bold'>Let us know more. . .</h3>
-                                        <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
-                                        <StepTwo 
-                                            selection={selection}
-                                            charVariations={charVariations}
-                                            pet={pet}
-                                            charSheet={charSheet}
-                                            weaponSheet={weaponSheet} 
-                                        />
-                                    </div>
-                                }
-                            </div>
-                        
-
-                            <div className='w-6/12 px-8'>
-
+                                
                                 <RequiredQuestions />
-
                             </div>    
                         </div>
+
+
+
+                        {chars.length !== 0 && 
+                            <div className='w-10/12 mx-auto mt-8'>
+                                <div className='text-center'>
+                                    <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                                    <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
+                                </div>
+                                
+                                <StepTwo 
+                                    selection={selection}
+                                    charVariations={charVariations}
+                                    pet={pet}
+                                    charSheet={charSheet}
+                                    weaponSheet={weaponSheet} 
+                                />
+                            </div>
+                        }
                         
                         <div className='mt-8 w-full flex justify-around items-center'>
                             {customizerLogin && 

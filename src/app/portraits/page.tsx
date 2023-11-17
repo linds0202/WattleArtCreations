@@ -23,7 +23,7 @@ const uiConfig = {
   signInOptions: [
     {
       provider: EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false
+      requireDisplayName: true
     },
     GoogleAuthProvider.PROVIDER_ID,
   ],
@@ -37,6 +37,7 @@ export default function Portraits() {
 
   const searchParams = useSearchParams()
   const selection: string | null = searchParams.get('selection')
+  const direct: string | null = searchParams.get('direct')
   const portraitId = searchParams.get('portrait_id')
   const continueEdit = searchParams.get('edit')
 
@@ -45,11 +46,17 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage.getItem("Cart") && sessionStorage.getItem("Cart")?.length ? JSON.parse(sessionStorage.getItem("Cart")!)  : [])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
   const [totalPrice, setTotalPrice] = useState(0)
+
+  const defaultImgs : any = {
+    Photorealistic: '/images/defaultImgs/photo.png',
+    Anime: '/images/defaultImgs/anime.png',
+    NSFW: '/images/defaultImgs/nsfw.png',
+  }
 
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
@@ -58,6 +65,13 @@ export default function Portraits() {
       setLogin(false)
     }
   }, [authUser, isLoading]);
+
+  //update cart context on portrait addition
+  useEffect(() => {
+    console.log('portraits: ', portraits)
+    sessionStorage.setItem('Cart', JSON.stringify(portraits))
+    window.dispatchEvent(new Event("storage"))
+  }, [portraits])
 
   useEffect(() => {
     if (portraitId && continueEdit) {
@@ -69,7 +83,7 @@ export default function Portraits() {
           setEditIndex(portraits.length)
           setPortraits(prev => [...prev, addedPortrait])
           setEditPortrait(addedPortrait)
-        }
+        } 
         
         setOpenWizard(true)
       }
@@ -84,8 +98,13 @@ export default function Portraits() {
       }
       
       handleGetPortrait()
-    } else {
-      if (portraits.length === 0 && !openWizard) setOpenWizard(true)
+    } 
+    else {
+      if ((portraits.length === 0 && direct === 'true')) {
+        setOpenWizard(true)
+      } else {
+        setOpenWizard(false)
+      }
     }
   }, [])
 
@@ -94,7 +113,7 @@ export default function Portraits() {
   }, [portraits])
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-11/12 border-2 border-black bg-white rounded-lg mb-4 py-4 px-10 flex flex-wrap justify-between items-start relative' key={i}>
+    <div className='w-11/12 bg-white rounded-lg mb-4 p-4 flex justify-between items-center relative' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
@@ -103,33 +122,48 @@ export default function Portraits() {
       >
           <DeleteForeverIcon />
       </button>
-      <div className='w-full flex justify-center'>
-        <p className='text-2xl font-semibold text-[#0075FF] text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-black font-semibold'>({portrait?.mode})</span></p>
-        <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#0075FF] ml-4'>
-          <EditIcon />
-        </button>
+
+      <div className='w-[150px] h-[150px] object-cover object-top rounded-xl overflow-hidden'>
+        <img 
+          src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
+          alt={`default image for ${portrait?.mode} portrait`} 
+          className='w-[100%] h-[100%] rounded-xl'
+        />
+      </div>
+
+      <div className='w-1/2 flex flex-wrap'>
+        <div className='w-full flex justify-center'>
+          <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#4da0ff] font-semibold'>({portrait?.mode})</span></p>
+          <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#4da0ff] ml-4'>
+            <EditIcon />
+          </button>
+        </div>
+
+        <div className=''>
+          <p className='text-black text-lg'>Characters:</p>
+          <div className='mt-[6px] flex justify-start'>  
+            {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./images/customizer/character.png' alt='small human icon'/>)}
+          </div>
+        </div>
+
+
+        <div className='w-6/12 ml-16'>
+          <p className='text-black text-lg'>Uploaded Images:</p>
+          <div className='flex mt-2'>
+            {portrait?.images.length
+              ? portrait.images.map((imgSet, i) => 
+                <div key={i} className='flex justify-around items-center border-2 border-[#282828] rounded-lg p-2 mr-2'>
+                  {imgSet.imageUrls.map((url, i) => <img className="w-[32px] h-[32px] mx-2" key={i} src={url} alt='thumbnail of customer uploaded image'/>)}
+                </div>)
+              : <p className='text-sm text-red-600'>(No images uploaded)</p>}
+          </div>
+        </div>
+
       </div>
       
-      <div>
-        <p className='text-black text-lg'># of characters:<span className='font-semibold ml-2'>{portrait?.characters?.length}</span></p>
-        <div className='flex justify-start'>  
-          {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./images/customizer/character.png' alt='small human icon'/>)}
-        </div>
-      </div>
-      <div className='w-6/12'>
-        <p className='text-black text-lg'>Uploaded Images:</p>
-        <div className='flex mt-2'>
-          {portrait?.images.length
-            ? portrait.images.map((imgSet, i) => 
-              <div key={i} className='flex justify-around items-center border-2 border-[#282828] rounded-lg p-2 mx-2'>
-                {imgSet.imageUrls.map((url, i) => <img className="w-[32px] h-[32px] mx-2" key={i} src={url} alt='thumbnail of customer uploaded image'/>)}
-              </div>)
-            : <p className='text-sm text-red-600'>(No images uploaded)</p>}
-        </div>
-      </div>
       
-      <div>
-        <p className='text-black mt-2 text-lg'>Price:  ${portrait?.price}</p>
+      <div className=''>
+        <p className='text-black mt-2 text-xl font-semibold'>Price:  ${portrait?.price}</p>
       </div>
     </div>
   ))
@@ -150,7 +184,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="mt-4 text-white text-2xl bg-[#0075FF] border-2 border-[#0075FF] p-2 px-4 rounded-xl shadow-lg hover:bg-white hover:text-[#0075FF] hover:scale-105"
+      className="z-50 text-3xl font-semibold mt-8 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
@@ -171,14 +205,14 @@ export default function Portraits() {
     setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price, 0))
     setPortraits(deletePortraitArr)
   }
-
+  // bg-gradient-to-b from-black from-50% to-[#282828] to-80%
 
   return (isLoading ?
     <></>
-    : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-50% to-[#282828] to-80%'>
-      <img className="w-full absolute -top-[16px] left-0" src="./images/customizer/customizer.png" alt='background black paint drips'/>
-      <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-36'>
-        {!openWizard && <h1 className='font-serif text-white text-6xl my-8 font-bold'>My Cart</h1>}
+    : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-0% via-[#282828] via-40% to-black to-60%'>
+  
+      <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-8'>
+        {!openWizard && <h1 className='font-serif text-white text-6xl mt-16 mb-4 font-bold'>My Cart</h1>}
 
         {/* Display the cart */}
         <div className='w-full flex justify-between items-stretch px-8'> 
@@ -186,36 +220,41 @@ export default function Portraits() {
           <>
             <div className='w-8/12 flex flex-col justify-start items-center'>
               {portraits.length === 0 
-                ? <div className='flex flex-col justify-start items-center border-2 border-[#282828] rounded-xl p-8'>
+                ? <div className='flex flex-col justify-start items-center border border-white/25 rounded-xl p-8 text-white shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50'>
                     <h2 className='text-5xl'>Your Cart is Empty!</h2>
                     <div className='flex flex-col justify-between items-center mt-8'>
-                      <button onClick={() => setOpenWizard(true)} className='text-xl text-black hover:text-white bg-white hover:bg-[#282828] border-2 border-[#282828] rounded-lg p-2'>
+                      <button onClick={() => setOpenWizard(true)} className='text-xl font-bold p-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
                         Create a Portrait
                       </button>
                       <p className='text-xl mt-4'>or</p>
                       <div className='flex flex-col justify-center items-center mt-2'>
                         <p className='text-2xl text-center font-semibold'>Visit your dashboard and add a portrait to your cart</p>
-                        <div className='mt-8'>
+                        <div className='mt-8 rounded-xl w-1/4 h-auto mx-auto bg-gradient-to-r p-[4px] from-[#4DFF90] to-[#4da0ff] hover:text-white  hover:bg-[#4da0ff] hover:scale-105 z-20'>
+                        <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
                           <Link 
                             href={`/dashboard/${authUser?.uid}`} 
-                            className='text-xl text-[#0075FF] hover:text-white bg-white hover:bg-[#0075FF] border-2 border-[#0075FF] py-2 px-4 rounded-xl no-underline'
+                            className='text-xl font-bold bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] text-transparent bg-clip-text'
                           >
                             Dashboard
                           </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div> 
                 : <>
                     {portraitList}
-                    <button onClick={() => setOpenWizard(true)} className='text-[#0075FF] text-2xl border-2 border-[#0075FF] bg-white rounded-xl px-4 py-2 mt-10 hover:text-white  hover:bg-[#0075FF] hover:scale-105'>
-                      Add Another Portrait
+                    <button onClick={() => setOpenWizard(true)} className='rounded-xl w-1/4 h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#4DFF90] to-[#4da0ff] hover:text-white  hover:bg-[#4da0ff] hover:scale-105 z-20'>
+                      <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
+                        <p className='text-xl font-bold bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] text-transparent bg-clip-text'>Create Another Portrait</p>
+                      </div>
+                      
                     </button>
                   </>}
               
             </div>
 
-            <div className='w-4/12 flex flex-col justify-start items-center'>
+            <div className='w-4/12 flex flex-col justify-start items-center z-30'>
               <div className='w-11/12 p-4 bg-[#E5E5E5] rounded-lg flex flex-col justify-between items-center'>
                 <h2 className='text-2xl font-bold'>Payment</h2>
                 <div className='w-full'>
@@ -230,28 +269,6 @@ export default function Portraits() {
               {/* Wizard closed show calculate price button */}
               { (portraits.length !== 0 && authUser) && 
                   <div>{checkoutButton}</div>
-                // <a 
-                //   onClick={async () => {
-                //     try {
-                //       await fetch('http://localhost:3000/api/payment', {
-                //         method: 'POST',
-                //         body: JSON.stringify({
-                //           items: portraits,
-                //         }),
-                //       })
-                //       .then(response => response.json())
-                //       .then(response => {
-                //         console.log('response.session on front end: ', response.session);
-                //         router.push(response.session.url)
-                //       })
-                //     } catch (err) {
-                //       console.log('fetch error: ', err)
-                //     }
-                //   }}
-                //   className="flex items-center justify-center rounded-md border-2 border-[#0075FF] bg-[#0075FF] px-6 py-3 text-base font-medium cursor-pointer text-white mt-4 hover:scale-105"
-                // >
-                //   Checkout
-                // </a>
               }
             </div>
           </>
@@ -293,7 +310,7 @@ export default function Portraits() {
 
         
       </div>
-
+      <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-1 left-0 w-full"/>
       <Footer />
     </div>
   )

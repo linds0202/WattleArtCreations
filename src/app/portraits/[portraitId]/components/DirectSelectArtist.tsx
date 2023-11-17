@@ -43,10 +43,10 @@ const DirectSelectArtist = ({ open, setOpen, portrait, setPortrait, artistId, se
 
     return (
         <Dialog disableEscapeKeyDown open={open} onClose={handleCancel}>
-            <DialogTitle className="text-3xl">Choose This Artist</DialogTitle>
+            <DialogTitle className="text-3xl text-center">Choose This Artist</DialogTitle>
             
             <DialogContent>
-                <p className="text-xl text-center">Do you want to select <span className="text-[#0075FF]">{name}</span> as your artist?</p>
+                <p className="text-xl text-center">Do you want to select <span className="text-[#4da0ff]">{name}</span> as your artist?</p>
                 <p className='text-md mt-2 text-[#bababa]'>(Once you select your artist, you will not be able to change)</p>
             </DialogContent>
             <DialogActions>

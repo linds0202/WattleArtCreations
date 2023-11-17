@@ -80,9 +80,11 @@ useEffect(() => {
   return ((loadingPortraits || isLoading) ? 
     <p></p>
   :
-  <div className='relative min-h-[100vh]'>
-    <img className="w-full fixed -top-[16px] left-0 -z-10" src="./images/customizer/portrait_queque.png" alt='background black paint drips'/>
-    <div className='text-black min-h-screen pt-3 pb-36'>
+  <div className='relative min-h-[100vh] bg-black'>
+    <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-[15%] left-0 w-[100%] h-auto"/>
+    <object type="image/svg+xml" data="/images/customizer/portrait_queque.svg" className="absolute top-0 left-0 w-[100%] h-auto"/>
+    {/* <img className="w-full fixed -top-[16px] left-0 -z-10" src="./images/customizer/portrait_queque.png" alt='background black paint drips'/> */}
+    <div className='text-white min-h-screen pt-12 pb-36'>
       <div className='w-full flex justify-center items-center relative'>
         <h1 className='text-4xl text-center font-bold my-4'>Available Commissions</h1>
         {currentUser && <p className='absolute top-2 right-12 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
@@ -102,7 +104,7 @@ useEffect(() => {
           </div>
         : <p>...</p>}
 
-      <div className='w-6/12 mx-auto mb-6 text-center mt-10'>
+      <div className='relative z-50 w-6/12 mx-auto mb-6 text-center mt-10'>
         <Link href={`/artistDashboard/${authUser?.uid}`} className='block hover:font-semibold'>Return To Artist Dashboard</Link> 
       </div>
     </div>

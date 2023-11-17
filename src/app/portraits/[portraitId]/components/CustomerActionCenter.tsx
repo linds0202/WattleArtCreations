@@ -92,7 +92,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
                                         <img src={submission.imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='image associated with this artist submission'/>
-                                        <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
+                                        <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#4da0ff] font-semibold text-xl">7</span> days* to <span className="text-[#4da0ff] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                     </div>
                             
                                     <Submission portrait={portrait} />
@@ -105,7 +105,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     </ActionCenterAccordion>
                     <ActionCenterAccordion title='Request Revision' open={portrait?.revised} attention={portrait?.revised}>
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
-                            <p>You have <span className="text-xl font-semibold text-[#0075FF]">{portrait?.revisions}</span> free revisions remaining</p>
+                            <p>You have <span className="text-xl font-semibold text-[#4da0ff]">{portrait?.revisions}</span> free revisions remaining</p>
                             <button 
                             className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                             onClick={() => setOpenRevision(true)}
@@ -163,7 +163,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                             <div className="flex justify-between items-center mb-4">
                                 <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
-                                <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span className="font-semibold">Request an Additional Revision</span></p>
+                                <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#4da0ff] font-semibold text-xl">7</span> days* to <span className="text-[#4da0ff] font-semibold text-xl">Accept as Final Image</span> or <span className="font-semibold">Request an Additional Revision</span></p>
                             </div>
                     
                             <Submission portrait={portrait} />
@@ -176,7 +176,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                     <ActionCenterAccordion title='Request Additional Revision' open={portrait?.revised} attention={portrait?.revised}>
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
-                            <p>You have <span className="text-xl font-semibold text-[#0075FF]">{portrait?.revisions}</span> free revisions remaining</p>
+                            <p>You have <span className="text-xl font-semibold text-[#4da0ff]">{portrait?.revisions}</span> free revisions remaining</p>
                             <button 
                                 className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                                 onClick={() => setOpenRevision(true)}
@@ -195,7 +195,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     <ActionCenterAccordion title='Chat with Your Artist' open={portrait?.additionalRevisionRequest && portrait?.status !== 'Completed'} attention={portrait?.additionalRevisionRequest && portrait?.status !== 'Completed'} >
                         <div className="w-full bg-[#e8e8e8] rounded-lg p-4 mt-2 flex items-center">
                             <div className="w-full bg-white py-2 px-4 rounded-lg self-stretch flex flex-col justify-center">
-                                <p>Use the chat to discuss your <span className="text-xl font-semibold text-[#0075FF]">Additional Revision Request</span> with your artist. They will create a custom quote for this additional service.</p>
+                                <p>Use the chat to discuss your <span className="text-xl font-semibold text-[#4da0ff]">Additional Revision Request</span> with your artist. They will create a custom quote for this additional service.</p>
                             </div>
                         </div>
                     </ActionCenterAccordion>
@@ -211,7 +211,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                         <div className="p-2">
                                             <Link 
                                             href={portrait?.purchaseRevisionLink} 
-                                            className="mb-8 py-2 px-4 border-2 border-[#282828] bg-white rounded-xl hover:text-white hover:bg-[#0075FF]"    
+                                            className="mb-8 py-2 px-4 border-2 border-[#282828] bg-white rounded-xl hover:text-white hover:bg-[#4da0ff]"    
                                         >Purchase Additional Revision</Link>
                                         </div> 
                                     </div>
@@ -271,7 +271,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                 key={i} 
                                 type='button' 
                                 onClick={() => handleOpenArtistList(i)}
-                                className='text-xl hover:text-[#0075FF]'
+                                className='text-xl hover:text-[#4da0ff]'
                                 >
                                 {artist.artistName}
                                 </button>
@@ -347,7 +347,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     {loadingTime && <div className='w-1/2 mx-auto'>
                         <button 
                             type="button"
-                            className='w-full text-xl border-2 border-black bg-white hover:text-white hover:bg-[#0075FF] rounded-lg p-2 mt-4 mb-2' onClick={handleOpenQuestions}
+                            className='w-full text-xl border-2 border-black bg-white hover:text-white hover:bg-[#4da0ff] rounded-lg p-2 mt-4 mb-2' onClick={handleOpenQuestions}
                         >
                             {canEditQs && portrait?.status !== 'Completed' ? "Edit Answers" : "View Questions"}
                         </button>
@@ -383,7 +383,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                             <div>
                                 <div className="flex justify-between items-center mb-4">
                                     <img src={portrait?.finalImages[0].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
-                                    <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#0075FF] font-semibold text-xl">7</span> days* to <span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
+                                    <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#4da0ff] font-semibold text-xl">7</span> days* to <span className="text-[#4da0ff] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                 </div>
                         
                                 <Submission portrait={portrait} />
@@ -397,7 +397,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                 {portrait?.revised && <ActionCenterAccordion title='Request Revision' open={portrait?.revised} attention={portrait?.revised}>
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
-                        <p>You have <span className="text-xl font-semibold text-[#0075FF]">{portrait?.revisions}</span> free revisions remaining</p>
+                        <p>You have <span className="text-xl font-semibold text-[#4da0ff]">{portrait?.revisions}</span> free revisions remaining</p>
                         <button 
                           className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                           onClick={() => setOpenRevision(true)}
@@ -426,13 +426,13 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         {portrait?.revisions >= 0 && portrait?.status !== 'Completed' && 
                             <div>
                                 <p className="text-xl text-center font-semibold">Happy with your artist&apos;s latest submission?</p>
-                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#0075FF] font-semibold text-xl">Accept as Final Image</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
+                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#4da0ff] font-semibold text-xl">Accept as Final Image</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
                             </div>
                         }
                         {portrait?.revisions >= 0 && portrait?.status === 'Completed' && 
                             <div className="w-full">
                                 <p className="text-xl text-center font-semibold">Thanks for choosing Wattle Art Creations</p>
-                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Your Portrait is Complete. Click <span className="text-[#0075FF] font-semibold">Download Final Image</span> to receive your portrait</p>
+                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Your Portrait is Complete. Click <span className="text-[#4da0ff] font-semibold">Download Final Image</span> to receive your portrait</p>
                             </div>
                         }
                     </div>}

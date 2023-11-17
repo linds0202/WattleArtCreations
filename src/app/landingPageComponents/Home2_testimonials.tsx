@@ -47,7 +47,7 @@ const Home2_testimonials = () => {
             <img src="/images/drips/personal_underHang.png" className="absolute -top-10 left-0"/>
        
             <object type="image/svg+xml" data="images/past_commissions.svg" className="w-2/3 mx-auto mt-10"></object>
-            {/* <p className="-mt-4 text-6xl text-center font-bold">See our creations</p> */}
+        
             <div className="w-10/12 mx-auto mt-20 flex justify-around items-center">
                 <div 
                     className="w-1/6 object-cover hover:scale-110 cursor-pointer"
@@ -134,14 +134,25 @@ const Home2_testimonials = () => {
 
             <div className="absolute bottom-0 right-[20%]">
                 <motion.div
-                    className="relative w-[175px] h-[175px] rounded-xl cursor-pointer z-[20]"
+                    className="relative w-[175px] h-[175px] rounded-xl z-[20]"
                     whileHover={{
                         scale: 2,
                         rotate: 360,
                         transition: { duration: .3},
                     }}
                 >
-                    <motion.img 
+                    <motion.object 
+                        type="image/svg+xml" 
+                        data="images/HIWIcons/splat2.svg"
+                        className="absolute top-0 left-0 w-[175px] h-[175px] rounded-xl"
+                        initial={{ opacity: 1 }}
+                        whileHover={{ 
+                            opacity: 0,
+                            transition: { duration: .3}
+                        }}
+                    >
+                    </motion.object>
+                    {/* <motion.img 
                         className="absolute top-0 left-0 w-[175px] h-[175px] rounded-xl"
                         src='images/gallery/splat2.png' 
                         initial={{ opacity: 1 }}
@@ -149,7 +160,7 @@ const Home2_testimonials = () => {
                             opacity: 0,
                             transition: { duration: .3}
                         }}
-                    />
+                    /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[175px] h-[175px] object-cover rounded-xl"
                         src='images/photoImgs/photo4.jpg' 
@@ -164,14 +175,25 @@ const Home2_testimonials = () => {
         
             <div className="absolute bottom-[15%] right-[5%]">
                 <motion.div
-                    className="relative w-[150px] h-[150px] rounded-xl cursor-pointer"
+                    className="relative w-[150px] h-[150px] rounded-xl"
                     whileHover={{
                         scale: 2,
                         rotate: 360,
                         transition: { duration: .3},
                     }}
                 >
-                    <motion.img 
+                    <motion.object 
+                        type="image/svg+xml" 
+                        data="images/HIWIcons/splat1.svg"
+                        className="absolute top-0 left-0 w-[150px] h-[150px] rounded-xl"
+                        initial={{ opacity: 1 }}
+                        whileHover={{ 
+                            opacity: 0,
+                            transition: { duration: .3}
+                        }}
+                    >
+                    </motion.object>
+                    {/* <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] rounded-xl"
                         src='images/gallery/splat1.png' 
                         initial={{ opacity: 1 }}
@@ -179,7 +201,7 @@ const Home2_testimonials = () => {
                             opacity: 0,
                             transition: { duration: .3}
                         }}
-                    />
+                    /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
                         src='images/defaultImgs/anime.png' 

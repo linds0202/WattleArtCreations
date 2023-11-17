@@ -26,9 +26,9 @@ const ArtistDashboard = () => {
     }, [])
 
     const artistList = artistData.map((artist, i) => (
-        <div key={i} className='w-[30%] h-[100%] border-2 border-[#282828] rounded-xl pt-4'>
-            <img className='w-[90%] h-[50%] object-cover mx-auto rounded-t-xl' src='./images/animeImgs/anime10.png' alt='artist image'/>
-            <div className='w-[100%] h-[50%] bg-[#282828] rounded-b-lg text-white p-4 flex flex-col justify-between'>
+        <div key={i} className='w-[30%] h-[100%] bg-black border border-[#ffffff]/50 rounded-xl pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
+            <img className='w-[90%] h-[60%] object-cover mx-auto rounded-t-xl' src='./images/animeImgs/anime10.png' alt='artist image'/>
+            <div className='w-[100%] h-[40%] bg-[#282828] rounded-b-xl text-white p-4 flex flex-col justify-between'>
                 <Link prefetch={false} href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
                     <div className='w-6/12 mx-auto mt-2 flex justify-around items-center'>
@@ -78,11 +78,13 @@ const ArtistDashboard = () => {
             <p></p>
         :   
         (
-            <div className='relative min-h-[100vh]'>
-                <img className="w-full absolute -top-[16px] left-0" src="../images/customizer/customizer.png" alt='background black paint drips'/>
-                <div className='pb-36'>
-                    <h1 className='text-6xl font-bold p-4 text-center'>Our Artists</h1>
-                    <p className='text-center'>Something here about the artists</p>
+            <div className='relative min-h-[100vh] bg-black'>
+                {/* <img className="w-full absolute -top-[16px] left-0" src="../images/customizer/customizer.png" alt='background black paint drips'/> */}
+                <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[3%] left-0 w-[100%] h-auto -z-1"/>
+                <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-[16px] -left-1 w-[101%] h-auto -z-1"/>
+                <div className='pt-10 pb-36'>
+                    <h1 className='text-6xl text-white font-bold p-4 text-center'>Our Artists</h1>
+                    <p className='text-center text-white mb-8'>Something here about the artists</p>
                     <div className='h-[65vh] flex flex-wrap justify-around items-center my-4'>
                         {artistList}
                     </div>

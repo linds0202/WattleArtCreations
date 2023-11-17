@@ -44,8 +44,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
     const [modelPrice, setModelPrice] = useState<number>(0)
     const [discount, setDiscount] = useState<boolean>(false)
-    const [highPrice, setHighPrice] = useState<number>(0)
-    const [highestPriceIndex, setHighestPriceIndex] = useState<number>(0)
+    let highPrices = chars.map(char => char.total)
+    /* console.log("prices: " , Math.max(...highPrices)) */
+    const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
+    const [highestPriceIndex, setHighestPriceIndex] = useState<number>(highPrices.length === 0 ? 0 : highPrices.indexOf(highPrice))
     
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
@@ -103,8 +105,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         + (weaponsPrice ? prices[selection]['weapons'] : 0)
 
 
-        console.log('totalprice calc: ', totalPrice)
+       /*  console.log('totalprice calc: ', totalPrice) */
         
+        const newChar = {}
 
         if (isEdit) {
             if (chars.length > 1) {
@@ -149,12 +152,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 setChars(updateCharArr)
             }
         } else {
+            /* console.log("chars.length: ", chars.length)
+            console.log("chars in here is: ", chars) */
             if (chars.length > 0) {
                 setDiscount(true)
+                /* console.log("highprice: ", highPrice)
+                console.log("highprice index: ", highestPriceIndex) */
                 const updatedDiscount = chars.map(char => {
                     if (totalPrice >= highPrice) {
                         setHighPrice(totalPrice)
                         setHighestPriceIndex(chars.length)
+                        /* console.log("new highest price") */
                         return {...char, charDiscount: true}
                     } else {
                         return char
@@ -279,14 +287,14 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         })
     }
 
-    console.log('chars is: ', chars)
+    /* console.log('chars is: ', chars) */
 
     
 
     return (
     <>   
         <div className='self-start w-full bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
-            <h2 className="w-full text-4xl text-center mb-4 font-bold">Character List</h2>
+            <h2 className="w-full text-4xl text-center mb-4 font-bold text-black">Character List</h2>
             {!openCharMod && 
                 <div className='w-[48%] h-auto mt-8 rounded-xl bg-white flex flex-col justify-center items-center'>
                     <Button onClick={handleAddCharacter} className='flex flex-col items-center mt-10 mb-10 hover:bg-none border-2 border-black'>
@@ -299,8 +307,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 
             {chars.length === 0 && !openCharMod &&
                 <div className='relative w-[48%] h-auto mt-8 rounded-xl flex flex-col justify-center'>
-                    <p className="text-4xl font-bold text-[#0075FF]">Start Here!</p>
-                    <p className="">Add a character to your portrait</p>
+                    <p className="text-4xl font-bold text-[#4da0ff]">Start Here!</p>
+                    <p className="text-black">Add a character to your portrait</p>
                     <motion.img 
                         src="/images/customizer/arrow-left.png" 
                         alt="arrow pointing to add character button"
@@ -317,7 +325,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 <div key={i} 
                     className='w-[48%] h-auto mt-8 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                 >
-                    <div className={`w-[110px] h-[110px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#0075FF]'} flex flex-col justify-center items-center`}>
+                    <div className={`w-[110px] h-[110px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#4da0ff]'} flex flex-col justify-center items-center`}>
                         <p className="text-white text-2xl font-bold">
                             ${!char.charDiscount 
                             ? <span>{char.total.toFixed(2)}</span> 
@@ -337,7 +345,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     <div className="w-full bg-[#282828] text-white rounded-b-lg p-4">
                         <div className="w-full flex justify-center">
                             <p className="text-center text-xl">{char.bodyStyle}</p>
-                            <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#0075FF]'>
+                            <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#4da0ff]'>
                                 <EditIcon />
                             </button>
                         </div>
@@ -384,7 +392,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             
                             {values.bodyStyle === "" &&
                                 <div className='absolute -top-[25%] left-0 w-1/6 h-auto mt-8 rounded-xl flex flex-col justify-center'>
-                                    <p className="text-3xl font-bold text-[#0075FF]">Start Here!</p>
+                                    <p className="text-3xl font-bold text-[#4da0ff]">Start Here!</p>
                                     <p className="font-bold">Choose a body style to start customizing</p>
                                     <motion.img 
                                         src="/images/customizer/arrow-left.png" 
@@ -420,7 +428,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             onMouseOver={() => handleMouseOver('body')}
                                             onMouseOut={handleMouseOut}
                                         >
-                                            <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                            <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                             {isHovering && message === 'body' && (
                                                 <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[75px] left-[42%] m-0 ml-8 z-40">
                                                     <img src="./images/body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
@@ -457,10 +465,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             onMouseOver={() => handleMouseOver('variations')}
                                             onMouseOut={handleMouseOut}
                                         >
-                                            <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                            <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                             {isHovering && message === 'variations' && (
                                                 <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[70%] m-0 ml-4 z-40">
-                                                    <h2 className="text-white text-md text-left">How many versions of this character are you looking for? For additional <span className="text-[#0075FF] font-bold">different</span> characters please click &quot;Complete Character&quot; then use the “add character” button.</h2>
+                                                    <h2 className="text-white text-md text-left">How many versions of this character are you looking for? For additional <span className="text-[#4da0ff] font-bold">different</span> characters please click &quot;Complete Character&quot; then use the “add character” button.</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -478,10 +486,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         onMouseOver={() => handleMouseOver('pets')}
                                         onMouseOut={handleMouseOut}
                                     >
-                                        <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                        <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                         {isHovering && message === 'pets' && (
                                             <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[20%] m-0 ml-4 z-40">
-                                                <h2 className="text-white text-md text-left">Does your character have a <span className="text-[#0075FF] font-bold">companion</span> you’d like included? If so - check this box!</h2>
+                                                <h2 className="text-white text-md text-left">Does your character have a <span className="text-[#4da0ff] font-bold">companion</span> you’d like included? If so - check this box!</h2>
                                             </div>
                                         )}
                                     </div>
@@ -515,10 +523,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         onMouseOver={() => handleMouseOver('model')}
                                         onMouseOut={handleMouseOut}
                                     >
-                                        <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                        <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                         {isHovering && message === 'model' && (
                                             <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#0075FF] font-bold">3d-model</span> based off the image design!</h2>
+                                                <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#4da0ff] font-bold">3d-model</span> based off the image design!</h2>
                                             </div>
                                         )}
                                     </div>
@@ -533,10 +541,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                             onMouseOver={() => handleMouseOver('characterSheet')}
                                             onMouseOut={handleMouseOut}
                                         >
-                                            <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                            <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                             {isHovering && message === 'characterSheet' && (
                                                 <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
-                                                    <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#0075FF] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
+                                                    <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#4da0ff] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
                                                 </div>
                                             )}
                                         </div>
@@ -551,10 +559,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         onMouseOver={() => handleMouseOver('weaponSheet')}
                                         onMouseOut={handleMouseOut}
                                     >
-                                        <InfoIcon className="text-sm hover:text-[#0075FF]"/>
+                                        <InfoIcon className="text-sm hover:text-[#4da0ff]"/>
                                         {isHovering && message === 'weaponSheet' && (
                                             <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
-                                                <h2 className="text-white text-md text-left">Have a <span className="text-[#0075FF] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
+                                                <h2 className="text-white text-md text-left">Have a <span className="text-[#4da0ff] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
                                             </div>
                                         )}
                                     </div>
@@ -638,7 +646,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
 
                             <div className="w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col justify-between items-start relative border-b-8 border-[#282828]">
                                 
-                                <h2 className="w-full text-3xl text-center text-[#0075ff] font-bold">Options Pricing</h2>
+                                <h2 className="w-full text-3xl text-center text-[#4da0ff] font-bold">Options Pricing</h2>
                                 
                                 <div className="w-full">
                                     <div className="flex justify-between items-center">
@@ -709,7 +717,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         </div> 
 
                         <div className="w-10/12 flex justify-center items-center">
-                            <button type="submit" className='text-xl text-black hover:text-white border-2 border-black hover:bg-[#282828] rounded-lg py-2 px-4'>
+                            <button type="submit" className='text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '>
                                 Complete Character
                             </button>
                         </div>

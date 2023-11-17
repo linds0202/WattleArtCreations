@@ -34,7 +34,7 @@ const SendImg = ({ portraitId }: SendImgProps) => {
                 onChange={(e) => sendImg(e)}
             />
             <label htmlFor="file" className="flex justify-start items-center mr-2">
-                <PhotoIcon fontSize="large" className="text-white cursor-pointer hover:text-[#0075FF] z-10"/>
+                <PhotoIcon fontSize="large" className="text-white cursor-pointer hover:text-[#4da0ff] z-10"/>
             </label>
         </form>
     );

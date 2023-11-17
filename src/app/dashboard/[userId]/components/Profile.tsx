@@ -89,7 +89,7 @@ const Profile = ({user, badge}: ProfileProps) => {
         <div className='relative px-14 py-4'>
             <div className='flex justify-between items-center'>
                 <div className='text-white flex justify-between items-center'>
-                    <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl flex justify-center items-center relative'>
+                    <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl p-4 flex justify-center items-center relative'>
                         <Image 
                             priority={true} 
                             src={`${userData?.avatar ? userData.avatar : '/images/user.png'}`} 
@@ -136,7 +136,7 @@ const Profile = ({user, badge}: ProfileProps) => {
                 </div>
                 
                 <div className='w-[40%] bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
-                    <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#0075FF] text-white font-bold rounded-full flex justify-center items-center'>
+                    <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#4da0ff] text-white font-bold rounded-full flex justify-center items-center'>
                         <p className='text-center'>-{discount?.discount}%</p>
                     </div>
                     <div className='flex items-center'>
@@ -144,11 +144,11 @@ const Profile = ({user, badge}: ProfileProps) => {
                         <div className='w-full'>
                             <div className='flex items-center mb-2'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
-                                <p className='ml-2'>(<span className='font-semibold'>{userData?.totalCompletedCommissions}</span> purchased portraits)</p>
+                                <p className='ml-2'>(<span className='text-lg font-bold text-[#4da0ff] mx-[4px]'>{userData?.totalCompletedCommissions}</span>purchased portraits)</p>
                             </div>
                             <div className='ml-2 w-full'>
                                 <p className='text-sm'>Progress to next discount:</p>
-                                <AwardProgressBar completed={userData ? userData?.totalCompletedCommissions : 0} bgcolor={'#0075FF'}/>
+                                <AwardProgressBar completed={userData ? userData?.totalCompletedCommissions : 0} bgcolor={'#4da0ff'}/>
                             </div>
                         </div>      
                     </div>

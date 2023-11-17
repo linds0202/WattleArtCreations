@@ -19,67 +19,30 @@ const Home2_hiw = () => {
 
   return (
     <div className='relative w-full mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
-        <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"></object>
+        <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"></object>
         
         <div className='z-10'>
 
-        
-            {/* <div className="absolute top-[5%] right-[15%]">
-                <motion.div
-                    className="relative w-[50px] h-[50px] rounded-xl cursor-pointer"
-                    initial={{ scale: .7, rotate: 5 }}
-                    animate={{ scale: .85, rotate: -15}}
-                    transition={{ type: "spring", duration: 1, repeatType: "reverse", repeat: Infinity }}
-                >
-                    <motion.img 
-                        className="absolute top-0 left-0 w-[50px] h-[50px] rounded-xl"
-                        src='images/gallery/splat1.png' 
-                        initial={{ opacity: .8 }}
-                        whileHover={{ 
-                            opacity: 1,
-                            transition: { duration: .3}
-                        }}
-                    />
-                </motion.div>
-            </div>
-
-            <div className="absolute -top-[10%] right-[35%]">
-                <motion.div
-                    className="relative w-[75px] h-[75px] rounded-xl cursor-pointer"
-                    initial={{ scale: .7, rotate: 45 }}
-                    animate={{ scale: .8, rotate: 65}}
-                    transition={{ type: "spring", duration: 2, repeatType: "reverse", repeat: Infinity }}
-                >
-                    <motion.img 
-                        className="absolute top-0 left-0 w-[75px] h-[75px] rounded-xl"
-                        src='images/gallery/splat1.png' 
-                        initial={{ opacity: .7 }}
-                        whileHover={{ 
-                            opacity: .9,
-                            transition: { duration: .3}
-                        }}
-                    />
-                </motion.div>
-            </div> */}
-
             <div className="absolute -top-[10%] right-[15%]">
                 <motion.div
-                    className="relative w-[150px] h-[150px] rounded-xl cursor-pointer"
+                    className="relative w-[150px] h-[150px] rounded-xl"
                     whileHover={{
                         scale: 2.5,
                         rotate: 360,
                         transition: { duration: .3},
                     }}
                 >
-                    <motion.img 
+                    <motion.object
+                        type="image/svg+xml" 
+                        data="images/HIWIcons/splat1.svg" 
                         className="absolute top-0 left-0 w-[150px] h-[150px] rounded-xl"
-                        src='images/gallery/splat2.png' 
                         initial={{ opacity: 1 }}
                         whileHover={{ 
                             opacity: 0,
                             transition: { duration: .3}
                         }}
-                    />
+                    />        
+                
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
                         src='images/animeImgs/anime8.png' 
@@ -94,16 +57,17 @@ const Home2_hiw = () => {
         
             <div className="absolute top-[10%] right-[3%]">
                 <motion.div
-                    className="relative w-[200px] h-[200px] rounded-xl cursor-pointer"
+                    className="relative w-[200px] h-[200px] rounded-xl"
                     whileHover={{
                         scale: 1.4,
                         rotate: 360,
                         transition: { duration: .3},
                     }}
                 >
-                    <motion.img 
+                    <motion.object 
+                        type="image/svg+xml" 
+                        data="images/HIWIcons/splat2.svg"
                         className="absolute top-0 left-0 w-[200px] h-[200px] rounded-xl"
-                        src='images/gallery/splat1.png' 
                         initial={{ opacity: 1 }}
                         whileHover={{ 
                             opacity: 0,

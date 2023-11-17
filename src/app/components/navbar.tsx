@@ -20,6 +20,7 @@ import Logo from '../../../public/images/Logo_Circle.png'
 import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Bag from '../../../public/images/bag.png'
 import LoginDialog from './LoginDialog';
+import { Timestamp } from 'firebase/firestore';
 
 
 // Configure FirebaseUI.
@@ -43,6 +44,8 @@ import LoginDialog from './LoginDialog';
 export default function NavBar() {
   
   const { authUser, setAuthUser, isLoading, signOut } = useAuth()
+
+
   const currentUrl = usePathname()
   const baseUrl = currentUrl.split('/')[1]
   const router = useRouter()
@@ -50,12 +53,32 @@ export default function NavBar() {
   const [login, setLogin] = useState(false)
   const [openConfirm, setOpenConfirm] = useState(false)
   const [clickedNSFW, setClickedNSFW] = useState(false)
+  const [cartLength, setCartLength] = useState<Number | null>(null)
+
+  useEffect(() => {
+    function printCart() {
+      const cartData = sessionStorage.getItem('Cart')
+      if (cartData !== null && JSON.parse(cartData).length !== 0) {
+        // console.log('session storage from inside navbar: ' + JSON.parse(cartData))
+        setCartLength(JSON.parse(cartData).length)
+      }
+      else {
+        // console.log('cart is empty')
+        setCartLength(null)
+      }
+    }
+  
+    window.addEventListener('storage', printCart)
+  
+    return () => {
+      window.removeEventListener('storage', printCart)
+    }
+  }, [])
   
 
   const handleClose = ({event, reason}: {event: any, reason: any}) => {
   
     if (reason && reason == "backdropClick") {
-      console.log('backdropClicked. Not closing dialog.')
       return;
     }
     setClickedNSFW(false)
@@ -144,8 +167,10 @@ export default function NavBar() {
         </Link>
       </div>
 
+
+      {/* (currentUrl === '/' || currentUrl === '/portraits' || currentUrl === '/dashboard') && */}
       {/* Links for Personal Route if not artist*/}
-      {((currentUrl === '/' || currentUrl === '/portraits') && authUser?.roles !== 'Artist') && 
+      {( authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin') && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
                 pathname: '/',
@@ -175,13 +200,13 @@ export default function NavBar() {
       {(authUser?.roles === 'Artist' || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue'))) && 
         <div className='flex justify-between items-center'>
           <div className='pr-4'>
-            <Link href='/portraitQueue' className='text-white no-underline'>Portrait Queue</Link>
+            <Link href='/portraitQueue' className='text-white text-xl no-underline'>Portrait Queue</Link>
           </div>
           <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white no-underline'>Dashboard</Link>
+            <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-xl no-underline'>Dashboard</Link>
           </div>
           <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline'>My Portfolio</Link>
+            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-xl no-underline'>My Portfolio</Link>
           </div>
         </div>
       }
@@ -247,19 +272,28 @@ export default function NavBar() {
         </button>}
 
 
-        {authUser && 
+         
         <>
-          {authUser.roles === 'Admin' && <div className='pr-4'>
+          {authUser?.roles === 'Admin' && <div className='pr-4'>
             <Link href={'/admin'} className='text-white no-underline'>Admin Dashboards</Link>
           </div>}
-          {(authUser.roles === 'Customer' || authUser.roles === 'admin') && <div className='pr-4'>
+          {(authUser?.roles === 'Customer' || authUser?.roles === 'admin') && <div className='pr-4'>
             <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Dashboard</Link>
           </div>}
     
-          <button onClick={signOut}>Logout</button>
+          {authUser && <button onClick={signOut}>Logout</button>}
+          
           <div className='pl-4'>
-            <Link href={'/'} className='text-white no-underline'>
-            <div className='relative w-[32px] h-[32px] object-cover'>
+            <Link 
+              // href={'/portraits'} 
+              href={{
+                  pathname: '/portraits',
+                  query: {direct: 'false'},
+              }} 
+              className='text-white no-underline'
+              title='Select cancel portrait to return to cart. Progress will be lost'
+            >
+              <div className='relative w-[32px] h-[32px] object-cover'>  
                 <Image 
                   className=''
                   src={Bag} 
@@ -268,12 +302,15 @@ export default function NavBar() {
                   sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                   priority={true}  
                 />
+                {cartLength && 
+                  <div className='rounded-full w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
+                    <p>{`${cartLength}`}</p>
+                  </div>
+                }
               </div>
-              {/* <img className='w-[32px] h-[32px] text-white' src='./bag.png' alt='Personal Art Orders' title='Personal Art Orders' /> */}
             </Link>
           </div>
-        </>  
-        }
+        </> 
       
       </div>
       

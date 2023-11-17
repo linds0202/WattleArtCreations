@@ -142,7 +142,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             <div className='flex justify-between items-center mb-4'>
                 <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-md text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
 
-                <p className='text-md'>Purchase Date: <span className='font-semibold text-[#0075FF]'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span> </p>           
+                <p className='text-md'>Purchase Date: <span className='font-semibold text-[#4da0ff]'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span> </p>           
             
             </div>
 
@@ -251,7 +251,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 </div>
                                 )
                             }
-                            <button type='button' onClick={handleAddImage} className='flex flex-col items-center hover:bg-none hover:text-[#0075FF]'>
+                            <button type='button' onClick={handleAddImage} className='flex flex-col items-center hover:bg-none hover:text-[#4da0ff]'>
                                 <AddCircleOutlineIcon sx={{ fontSize: 40 }}/>
                             </button>
                         </div>
@@ -271,7 +271,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 }
             </div>
 
-            <h2 className='text-2xl font-bold text-[#0075FF] border-t-2 border-[#E5E5E5] pt-4'>Customer Questions</h2>
+            <h2 className='text-2xl font-bold text-[#4da0ff] border-t-2 border-[#E5E5E5] pt-4'>Customer Questions</h2>
             {canEditQs && role === 'Customer' && <p className='text-sm text-[#9e9e9e] text-center'>(You have 24 hours from purchase to update/revise your answers)</p> }
             
             {canEditQs && role === 'Customer'

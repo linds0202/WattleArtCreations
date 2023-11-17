@@ -158,31 +158,32 @@ const Portfolio = () => {
     return ((isLoading) ?
         <></>
         :
-        <div className='relative min-h-[100vh]'>
+        <div className='relative min-h-[100vh] bg-black'>
+            <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-1"/>
             <div className='relative pb-36'>
                 <div className='flex justify-around'>
                     <div className='w-[48%]'>
                         <div className='w-full h-[80vh] flex flex-wrap justify-around items-center mt-4'>
                             <div className='w-[56%] h-[60%] border-2 border-black relative'>
-                                <Image src={'/images/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                <Image src={'/images/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                             </div>
                             <div className='w-[36%] h-[60%] flex flex-col justify-between items-center'>
                                 <div className='w-full h-[48%] border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg2.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                    <Image src={'/images/heroImgs/heroImg2.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                                 </div>
                                 <div className='w-full h-[48%] border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg3.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                    <Image src={'/images/heroImgs/heroImg11.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                                 </div>
                             </div>
                             <div className='w-[96%] h-[35%] flex justify-between items-center'>
                                 <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg4.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                    <Image src={'/images/heroImgs/heroImg4.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                                 </div>
                                 <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg5.png'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                    <Image src={'/images/heroImgs/heroImg5.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                                 </div>
                                 <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg6.JPG'} alt='Default Avatar' fill style={{objectFit:"cover"}} /> 
+                                    <Image src={'/images/heroImgs/heroImg20.jpg'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
                                 </div>
                             </div>
                         </div>
@@ -219,21 +220,22 @@ const Portfolio = () => {
                     </div>
 
                     {userData && <div className='w-[49%] flex flex-col justify-center items-center'>
-                        <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
-                        <div className='flex justify-around items-center py-2'>
-                            <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed {userData?.totalCompletedCommissions === 1 ? 'commission' : 'commissions'}</p>
+                        <div className='w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
+                            <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
+                            <div className='flex justify-around items-center py-2'>
+                                <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed {userData?.totalCompletedCommissions === 1 ? 'commission' : 'commissions'}</p>
+                            </div>
+                            <div className='flex justify-around items-center pb-4'>
+                                <Rating name="read-only" value={userData?.starRating} readOnly precision={0.5} size="large"/>
+                                <span>({userData?.starRating})</span>
+                                <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> {userData?.totalReviews === 1 ? 'review' : 'reviews'}</p>
+                            </div>
+                            <p className='w-10/12 mt-4'>{userData?.bio}</p>
                         </div>
-                        <div className='flex justify-around items-center pb-4'>
-                            <Rating name="read-only" value={userData?.starRating} readOnly precision={0.5} size="large"/>
-                            <span>({userData?.starRating})</span>
-                            <p className='ml-2'>&#x2022; <span>{userData?.totalReviews}</span> {userData?.totalReviews === 1 ? 'review' : 'reviews'}</p>
-                        </div>
-                        <p className='w-10/12 mt-4'>{userData?.bio}</p>
-                        
 
 
-                        <div className='w-10/12 border-2 border-[#282828] rounded-xl p-4 flex flex-col justify-center mt-4'>
-                            <h3 className='text-2xl font-bold text-center'>Reviews</h3>
+                        <div className='w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center mt-4'>
+                            <h3 className='text-black text-2xl font-bold text-center'>Reviews</h3>
                             {testimonials?.map((testimonial, i) => (
                                 <div key={i} className='w-10/12 mx-auto flex justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
                                     <div className='w-[30%]'>
@@ -276,9 +278,9 @@ const Portfolio = () => {
                 {authUser?.uid === artistId && !isEdit && 
                         <button 
                             onClick={handleClick}
-                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#0075FF]"
+                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#ffffff] hover:border-[#4da0ff]"
                         >
-                            <EditIcon sx={{ fontSize: 36, color: '#282828', ":hover": { color: "#0075FF"} }}/>
+                            <EditIcon sx={{ fontSize: 36, color: '#ffffff', ":hover": { color: "#4da0ff"} }}/>
                         </button>
                 }
                 

@@ -12,6 +12,7 @@ import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
 import Footer from '@/app/components/Footer';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 import { getAllCustomersPortraits } from '../../firebase/firestore';
+import Link from 'next/link';
 
 type Params = {
   params: {
@@ -67,9 +68,6 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   }, []) 
 
-  console.log('portraits: ', portraits)
-  console.log('filtered: ', filtered)
-
 
   const handleFilter= (filter: string) => {
     if(filter === 'Unordered') {
@@ -119,50 +117,66 @@ export default function Dashboard({ params: { userId }}: Params) {
   return ((!authUser || pageLoading || isLoading) ? 
     <></>
   :
-  <div className='relative min-h-[100vh]'>
-    <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../images/drips/dashboard_top.png" alt='background black paint drips'/> 
-
-    <div className=' text-black pt-3 pb-36'>
+  <div className='relative min-h-[120vh] bg-black'>
+    {/* <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../images/drips/dashboard_top.png" alt='background black paint drips'/>  */}
+    <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-[15%] left-0 w-[100%] h-auto -z-1"/>
+    <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-1"/>
+    <div className=' text-black pt-3 pb-36 min-h-[100vh]'>
     
       {currentUser && <Profile user={currentUser} badge={badge}/>}
       
-      <h2 className='text-4xl text-center font-bold'>My Portraits</h2>
+      <h2 className='mt-8 text-4xl text-center font-bold text-white'>My Portraits</h2>
       
-      <div className='flex justify-around items-center mt-4'>
+      <div className='flex justify-around items-center mt-8'>
         <button 
           onClick={() => handleFilter('Unordered')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
         >
           Unordered
         </button>
         <button 
           onClick={() => handleFilter('Unassigned')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
         >
           Select Artist
         </button>
         <button 
           onClick={() => handleFilter('In Progress')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
         >
           In Progress
         </button>
         <button 
           onClick={() => handleFilter('Completed')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
         >
           Completed
         </button>
         <button 
           onClick={() => handleFilter('Clear')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#0075FF]'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
         >
           Clear Filters
         </button>
       </div>
       <div className='mt-4 flex flex-col items-center'>
         {filtered.length === 0 ? 
-          <p className='text-2xl font-bold mt-8'>No portraits to display</p>
+          <div className='flex flex-col justify-center items-center'>
+            <p className='text-white text-2xl font-bold mt-8'>No portraits to display</p>
+            
+            <Link 
+              href={{
+                pathname: '/',
+                query: {selection: 'Home'},
+                }} 
+              className='text-white no-underline cursor-pointer z-30'
+            >
+              <div className='mt-4 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
+                Return Home
+              </div>
+            </Link>
+            
+          </div>
         :  filtered?.map(portrait => (
           <Portrait key={portrait.id} portrait={portrait} user={currentUser} />
         )) }

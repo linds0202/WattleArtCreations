@@ -25,13 +25,13 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
     
     
     return (
-        <div className='mt-2 p-4 flex flex-col items-center'>
+        <div className='w-8/12 mt-2 p-4 flex flex-col items-center'>
             <div className='w-full h-full flex items-center'>
                 <div className='w-[35%]'>
                     <img src='../../../images/photoImgs/photo4.jpg' className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
                 </div>
                 
-                <div className='w-[65%] flex flex-col justify-between items-start'>
+                <div className='w-[65%] px-8 flex flex-col justify-between items-start'>
                     <div>
                         <h2 className='text-3xl font-bold text-left'>
                             <Link 
@@ -116,7 +116,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
 
                 <button 
                     onClick={handleSelect}
-                    className='w-5/12 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#0075FF] hover:text-white'
+                    className='w-5/12 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#4da0ff]'
                 >
                     Select Artist
                 </button>

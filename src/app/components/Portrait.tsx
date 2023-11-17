@@ -107,7 +107,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
   
 
   return (
-    <div className='bg-white border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center'>
+    <div className='bg-white border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center z-30'>
       <div className='relative w-[175px] h-[175px] object-cover object-top rounded-xl'>
         <Image
             src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === 'Photorealistic' 
@@ -126,7 +126,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       <div className='w-[60%] bg-[#e8e8e8] rounded-lg p-4 flex flex-col '>
         <div className='bg-white rounded-lg p-2 flex items-center'>
           <h4 className='w-[50%] text-2xl font-bold'>{portrait.portraitTitle.slice(0, 25)}<span className='text-base font-light text-black ml-2'>({portrait.mode})</span></h4>
-          <h4 className='text-lg font-semibold'>Status: <span className='text-xl font-bold text-[#0075FF] ml-2'>{showStatus()}</span></h4>
+          <h4 className='text-lg font-semibold'>Status: <span className='text-xl font-bold text-[#4da0ff] ml-2'>{showStatus()}</span></h4>
         </div>
         
         <div className='mt-4 flex'>
@@ -171,20 +171,20 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   
         {/* If artist & not max commissions show claim button*/}
         {(portrait.artist.filter((artist: Artist) => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-          <button onClick={handleClaim} className='w-full text-xl border-black border-2 rounded-xl px-4 py-2 mb-4 hover:bg-[#0075FF] hover:text-white'>Claim</button>
+          <button onClick={handleClaim} className='w-full text-xl border-black border-2 rounded-xl px-4 py-2 mb-4 hover:bg-[#4da0ff] hover:text-white'>Claim</button>
         }
 
         {/* If not ordered - click to add to cart */}
         {user?.roles === 'Customer' && !portrait.paymentComplete && 
           <div>
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]'>Add to Cart</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]'>Add to Cart</p></Link>
 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#0075FF] hover:border-[#0075FF]'>Continue Customizing</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#4da0ff] hover:border-[#4da0ff]'>Continue Customizing</p></Link>
           </div>
         }
 
         {/* If payment complete - link to individual portrait page */}
-        {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p className='text-center'>Portrait Page</p></Link>}
+        {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]"><p className='text-center'>Portrait Page</p></Link>}
         
         {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
           <div>
@@ -193,19 +193,19 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 href={`/portraits/${portrait.id}`}
                 rel="noopener noreferrer" 
                 target="_blank" 
-                className="w-full text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]">
+                className="w-full text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]">
                   See History
               </Link>
             }
 
-            {!portrait.reassigned && <button className='w-full text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#0075FF] hover:text-[#0075FF]' onClick={handleViewDetails}>View Details</button>
+            {!portrait.reassigned && <button className='w-full text-black text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#4da0ff] hover:text-[#4da0ff]' onClick={handleViewDetails}>View Details</button>
             }    
           </div>     
         }
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.id}`} className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#0075FF]"><p>Portrait Page</p></Link>}
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.id}`} className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]"><p>Portrait Page</p></Link>}
 
         {openClaimForm &&
           <ClaimForm
@@ -238,7 +238,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   <div className='w-full ml-4'>
                     <div className='flex justify-between items-center mb-8'>
                       <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
-                      <p className='font-semibold text-xl'>Commission: <span className='text-[#0075FF]'>${portrait.price}</span></p>
+                      <p className='font-semibold text-xl'>Commission: <span className='text-[#4da0ff]'>${portrait.price}</span></p>
                     </div>
                     
                     <CharList portrait={portrait}/>
@@ -294,7 +294,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <button type='button' onClick={() => setOpenArtistDetails(false)} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#282828]'>Close</button>
 
                 {(portrait.artist.filter((artist: Artist) => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-                  <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#0075FF]'>Claim</button>
+                  <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#4da0ff]'>Claim</button>
                 }
               </div>
                 

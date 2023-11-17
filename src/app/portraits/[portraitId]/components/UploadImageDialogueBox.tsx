@@ -89,7 +89,7 @@ export default function UploadImg(props: any) {
                 <Button 
                     variant="outlined"
                     component="label" 
-                    className='text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF]'
+                    className='text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#4da0ff]'
                 >
                     Upload Image
                     <input type="file" hidden onInput={(event) => {setFileData(event)}} />
@@ -106,7 +106,7 @@ export default function UploadImg(props: any) {
                     type='button'
                     disabled={isDisabled()} 
                     onClick={handleSubmit}
-                    className='text-xl px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] cursor-pointer'    
+                    className='text-xl px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#4da0ff] cursor-pointer'    
                 >
                     Submit
                 </button>}

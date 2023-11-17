@@ -75,7 +75,7 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                 <button 
                     type="button" 
                     onClick={handlePrevious}
-                    className={`w-2/12 flex flex-col items-center ${artistIndex === 0 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#0075FF]'}`}
+                    className={`w-2/12 flex flex-col items-center ${artistIndex === 0 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#4da0ff]'}`}
                     disabled={artistIndex === 0}
                 >
                     <ArrowBackIosIcon fontSize="large"/>
@@ -94,7 +94,7 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                 <button 
                     type="button" 
                     onClick={handleNext}
-                    className={`w-2/12 flex flex-col items-center ${artistIndex === allArtists.length - 1 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#0075FF]'}`}
+                    className={`w-2/12 flex flex-col items-center ${artistIndex === allArtists.length - 1 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#4da0ff]'}`}
                     disabled={artistIndex === allArtists.length - 1 }
                 >
                     <ArrowForwardIosIcon fontSize="large"/>

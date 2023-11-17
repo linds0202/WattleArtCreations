@@ -14,7 +14,7 @@ const uiConfig = {
     signInOptions: [
         {
           provider: EmailAuthProvider.PROVIDER_ID,
-          requireDisplayName: false
+          requireDisplayName: true
         },
         GoogleAuthProvider.PROVIDER_ID,
     ],

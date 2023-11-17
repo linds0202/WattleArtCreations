@@ -86,9 +86,21 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Embrace the power of precise strokes and discerning shadows, as our gifted artists capture your essence or your original characters in striking photorealistic detail. Here, the precision of digital technology marries the finesse of traditional artistry, resulting in a compelling photorealistic portrait that narrates your story or the tale of your created characters, and blurs the line between art and reality.",
             testimonials: [
-                {author: 'Bob', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.'}, 
-                {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
-                {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
+                {
+                    author: 'Bob', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                    imgSrc: '/images/heroImgs/heroImg7.png'    
+                }, 
+                {
+                    author: 'Jodie', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/heroImgs/heroImg2.png'   
+                }, 
+                {
+                    author: 'Alex', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/heroImgs/heroImg11.png'   
+                }],
             basePrices: []
         },
         Anime: {
@@ -99,9 +111,21 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
             testimonials: [
-                {author: 'Bob', body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. '}, 
-                {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
-                {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
+                {
+                    author: 'Bob', 
+                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
+                    imgSrc: '/images/animeImgs/anime2.jpg'
+                }, 
+                {
+                    author: 'Jodie', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/animeImgs/anime6.png'
+                }, 
+                {
+                    author: 'Alex', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/animeImgs/anime8.png'
+                }],
             basePrices: []
         },
         NSFW: {
@@ -174,9 +198,6 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         setOpenLogin(false)
         setMode('Home')
     }
-
-    // bg-gradient-to-b from-black from-0% via-[#282828] via-50% to-black to-100%
-    // w-[40%] p-4 bg-white rounded-xl - div surrounding carous500
   
     return (
         <div className="bg-black">
@@ -241,8 +262,6 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             }
 
             <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
-                {/* <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-0 left-0 w-[100%] h-[100vh]"></object>
-                <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-[50%] left-0 w-[100%] h-[100vh]"></object> */}
                 <motion.div 
                     className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" 
                     style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}} //rgba(255, 255, 255, .15)
@@ -269,7 +288,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                                 {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin'
                                 ? <Link href={{
                                         pathname: '/portraits',
-                                        query: {selection: mode},
+                                        query: {selection: mode, direct: 'true'},
                                         }} 
                                     className="text-2xl no-underline text-center"
                                 >
@@ -283,7 +302,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </motion.div>
             </div>
 
-            <div className="flex justify-around items-center mb-[50px] pt-[100px] pb-[50px] text-white relative bg-gradient-to-b from-black from-10% to-[#282828] to-95%" >
+            <div className="flex justify-around items-center mb-[50px] pt-[100px] pb-[50px] text-white relative bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
                 <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
                     <Carousel 
                         showArrows={true} 
@@ -291,7 +310,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         autoPlay={true} 
                         showStatus={false}
                         infiniteLoop 
-                        className="portrait-carousel-root portrait-carousel "
+                        className="portrait-carousel-root portrait-carousel rounded-xl"
                     >
                         {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
                     </Carousel>
@@ -306,10 +325,14 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                         whileTap={{ scale: 1.05 }}
                     >
+
+                    {/* <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]'></Link> */}
+
+
                         {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin' 
                         ? <Link href={{
                                 pathname: '/portraits',
-                                query: {selection: mode},
+                                query: {selection: mode, direct: 'true'},
                                 }} 
                             className="text-2xl no-underline text-center"
                         >
@@ -327,52 +350,58 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
 
             <div className='relative pt-[100px] mb-[100px] bg-black flex justify-center'>
-                <img src='images/drips/personal_top_full.png' className="absolute w-full -top-[12%] -left-[1px] right-0 z-10" alt='background black paint drips'/>
+                <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] -top-[6%] -left-[1px] right-0 z-20"></object>
+                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-5"></object>
+                
+                {/* <img src='images/drips/personal_top_full.svg' className="absolute w-full -top-[12%] -left-[1px] right-0 z-10" alt='background black paint drips'/> */}
                 <motion.div 
-                    className='flex justify-around py-20 w-[85%] relative z-20' 
+                    className='flex justify-around py-20 w-[85%] relative z-30' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
                     viewport={{ once: true }}
                 >
-                    <div className="w-4/12 h-full flex justify-center items-center" >
+                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
                         <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]"  
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50"  
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show' 
                             viewport={{ once: true }}
                             transition={{ delay: 0 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
+                            <img src={options[`${mode}`].testimonials[0].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8 top-0 left-0"/>
                             <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[0].body}&ldquo;</p>
                             <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[0].author}</p>
                         </motion.div>
                     </div>
 
-                    <div className="w-4/12 h-full flex justify-center items-center" >
+                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
 
                         <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]" 
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50" 
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show'
                             viewport={{ once: true }} 
                             transition={{ delay: .25 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
+                            <img src={options[`${mode}`].testimonials[1].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8"/>
                             <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[1].body}&ldquo;</p>
                             <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[1].author}</p>
                         </motion.div>
                     </div>
 
-                    <div className="w-4/12 h-full flex justify-center items-center" >
+                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
                         <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl flex flex-col justify-between items-center hover:shadow-[0_0_60px_-5px_rgba(255,255,255,0.6)]" 
+                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50" 
                             variants={testimonialVariant} 
                             initial='hidden' 
                             whileInView='show' 
                             viewport={{ once: true }}
                             transition={{ delay: .5 + 1 / 3.5, duration: .25, type: 'spring' }}
                         >
+                            <img src={options[`${mode}`].testimonials[2].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8"/>
                             <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[2].body}&ldquo;</p>
                             <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[2].author}</p>
                         </motion.div>
@@ -387,9 +416,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
 
             <div className="relative w-[100%] h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center ">
-                {/* <h2 className="text-white text-6xl font-bold mb-4">Ready to start your own masterpiece?</h2>
-                <p className="text-white text-4xl font-light mb-8">Head on over to the portrait builder and </p> */}
-                <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-9"></object>
+                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-full h-[110vh] -z-9"></object>
                 <object type="image/svg+xml" data="images/splat.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-8"></object>
                 
                 <motion.button 
@@ -399,10 +426,11 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     whileTap={{ scale: 1.05 }}
                 >
                     {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin'
-                        ? <Link href={{
+                        ? <Link 
+                            href={{
                                 pathname: '/portraits',
-                                query: {selection: mode},
-                                }} 
+                                query: {selection: mode, direct: 'true'},
+                            }} 
                             className="text-2xl no-underline text-center"
                         >
                             Start Customizing

@@ -72,7 +72,6 @@ export async function getCheckoutUrl (items, userId) {
           reject(new Error(`An error occurred: ${error.message}`));
       }
       if (url) {
-          console.log("Stripe Checkout URL:", url);
           unsubscribe();
           resolve(url);
       }
@@ -325,6 +324,7 @@ export async function getAllConsults() {
 
 //Create new Portrait
 export async function addPortrait( data) {
+  
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,

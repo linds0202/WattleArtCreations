@@ -31,14 +31,14 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
     return (
         <div id='cta' className="relative h-full pt-8 mb-60 bg-black">
             {/* <img src="/images/cta/cta3.png" className="absolute -top-3 left-0 z-10"/> */}
-            <object type="image/svg+xml" data="images/cta/cta_1.svg" className="absolute top-0 left-0 w-[75%] z-10"></object> 
+            <object type="image/svg+xml" data="images/cta/cta_1.svg" className="absolute top-0 left-0 w-[75%] z-20"></object> 
 
-            <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-0 left-0 w-[120%] h-[110vh]"></object>  
-            <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-[35%] left-0 w-[110%] h-[120vh]"></object>    
-            <object type="image/svg+xml" data="images/colored_dots.svg" className="absolute top-[73%] -left-[10%] w-[110%] h-[110vh]"></object>          
+            <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 -left-[10%] w-[120%] h-[110vh]"></object>  
+            <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-[35%] -left-[10%] w-[110%] h-[120vh]"></object>    
+            <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-[73%] -left-[10%] w-[110%] h-[110vh]"></object>          
            
             <div className="flex flex-col">
-                <div className="mt-[15%] w-7/12 self-center ml-[30%]">
+                <div className="mt-[15%] w-7/12 self-center ml-[30%] z-10">
                     <p className="font-serif text-8xl font-bold mb-8 text-gradient-to-r from-[#4DFF90] to-[#4da0ff]">Choose Your Style</p>
                     <p className="w-11/12 mt-8 text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat nulla, laoreet vitae sollicitudin eget, condimentum id magna. Aenean rhoncus viverra massa, eu placerat ex rutrum nec. Etiam lobortis nisl vel justo porttitor sollicitudin. Ut et ligula at sapien efficitur consequat. Suspendisse ullamcorper malesuada quam, non fermentum metus fermentum accumsan. </p>
                 </div>
