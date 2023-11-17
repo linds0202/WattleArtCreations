@@ -357,7 +357,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
 
                                 {/* Submit Button */}
-                                <div className='w-10/12 h-full my-8 flex justify-around items-center'>
+                                <div className='w-11/12 h-full my-8 flex justify-around items-center'>
                                     <div
                                         onClick={handleReturn}
                                         className='border border-white rounded-xl py-2 px-4 cursor-pointer flex flex-col justify-center items-center hover:text-red-600 hover:border-red-600'
@@ -370,7 +370,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     {authUser && <button 
                                         type="submit" 
                                         className={`w-6/12 rounded-xl text-center ${chars.length !== 0 
-                                            ? 'text-black text-center text-4xl py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
+                                            ? 'text-black text-center text-2xl py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
                                             : 'text-[#494949] p-4  border-2 border-[#494949] bg-[#E9E9E9] bg-opacity-50'}`}
                                         disabled={chars.length === 0}
                                         title='Complete required fields'

@@ -45,7 +45,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const [modelPrice, setModelPrice] = useState<number>(0)
     const [discount, setDiscount] = useState<boolean>(false)
     let highPrices = chars.map(char => char.total)
-    /* console.log("prices: " , Math.max(...highPrices)) */
     const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
     const [highestPriceIndex, setHighestPriceIndex] = useState<number>(highPrices.length === 0 ? 0 : highPrices.indexOf(highPrice))
     
@@ -96,16 +95,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             values.numPets = 0
         } 
 
-        
         let totalPrice = prices[selection][values.bodyStyle] 
                         + ((values.numCharVariations - 1) * 30) 
                         + values.numPets * 25
                         + (modelPrice ? prices[selection]['model'] : 0)
                         + (characterSheetPrice ? prices[selection]['character'] : 0)
                         + (weaponsPrice ? prices[selection]['weapons'] : 0)
-
-
-       /*  console.log('totalprice calc: ', totalPrice) */
         
         const newChar = {}
 
@@ -152,17 +147,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 setChars(updateCharArr)
             }
         } else {
-            /* console.log("chars.length: ", chars.length)
-            console.log("chars in here is: ", chars) */
             if (chars.length > 0) {
                 setDiscount(true)
-                /* console.log("highprice: ", highPrice)
-                console.log("highprice index: ", highestPriceIndex) */
                 const updatedDiscount = chars.map(char => {
                     if (totalPrice >= highPrice) {
                         setHighPrice(totalPrice)
                         setHighestPriceIndex(chars.length)
-                        /* console.log("new highest price") */
                         return {...char, charDiscount: true}
                     } else {
                         return char
@@ -286,9 +276,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             }
         })
     }
-
-    /* console.log('chars is: ', chars) */
-
     
 
     return (
@@ -581,7 +568,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     <motion.object 
                                         type="image/svg+xml" 
                                         data={`images/customizer/${values.bodyStyle}.svg`} 
-                                        className="w-[225px] h-[250px] object-cover object-top rounded-xl shadow-md"
+                                        className="w-[180px] h-[205px] object-cover object-top rounded-xl shadow-md"
                                         initial={{ 
                                             scale: 0,
                                             rotate: 0
@@ -603,40 +590,31 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                         {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data="images/createCharacter.svg" className="w-[100px] h-[100px]"></object>)}
                                     </div>
                                 </div>
-                                : <div className="w-[225px] h-[250px] border-2 border-[#282828] rounded-xl">                                 
+                                : <div className="w-[180px] h-[205px] border-2 border-[#282828] rounded-xl">                                 
                                 </div>}
                                 
 
-                                <div className="h-[250px] mt-4 flex items-start">
+                                <div className="h-[200px] mt-4 flex items-start">
                                     {values.extras.includes("model") && 
                                      <motion.div 
-                                        className="w-[210px] h-[225px] pb-2 mr-12 bg-white rounded-lg"
+                                        className="w-[175px] h-[190px] pb-2 mr-12 bg-white rounded-lg"
                                         initial={{ 
                                             scale: 0
                                         }}
                                         animate={{ scale: 1 }}
                                         transition={{ type: "spring", duration: .5 }}    
                                     >
-                                        {/* <img src="/images/3DModel.PNG" className="w-full h-[60%] object-cover rounded-t-lg"/> */}
                                         <object type="image/svg+xml" data="images/customizer/3d.svg" className="w-full h-[60%] rounded-lg pt-4"></object>
                                         <p className="mt-8 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#4DFF90] to-[#4da0ff]">3D Model</p>
                                     </motion.div>}
 
                                     {values.extras.includes("character") && 
-                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[70px] w-[250px] h-[300px] rounded-lg"></object>
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[50px] w-[200px] h-[250px] rounded-lg"></object>
                                     }
-                                    {/* <div className="pb-2 mr-12 bg-[#e9e9e9] rounded-lg">
-                                         <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
-                                         <p className="text-center font-semibold mt-2">Character Sheet</p>
-                                    </div> */}
 
                                     {values.extras.includes("weapons") && 
-                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative -top-[77px] w-[250px] h-[300px] rounded-lg"></object>    
+                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative -top-[57px] w-[200px] h-[250px] rounded-lg"></object>    
                                     }
-                                     {/* <div className="pb-2 bg-[#e9e9e9] rounded-lg">
-                                        <object type="image/svg+xml" data="images/weaponSheet.svg" className="w-[180px] h-[120px] rounded-lg"></object>
-                                        <p className="text-center font-semibold mt-2">Weapons Sheet</p>
-                                    </div> */}
                                 </div>
                             </div>
             
