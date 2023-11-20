@@ -249,16 +249,27 @@ table {
 /* Image Carousel Section */
 .carousel-root {
   width: 30%;
+  border-radius: 12px;
 }
 
 .home-carousel-root {
-  width: 100%
+  width: 100%;
+  border-radius: 12px;
 }
 
 .portrait-carousel-root {
-  width: 100%
+  width: 100%;
+  border-radius: 12px;
 }
 
+.portrait-carousel {
+  border-radius: 12px;
+}
+
+
+.carousel.carousel-slider {
+  border-radius: 12px;
+}
 
 .carousel .slide {
   width: 450px;

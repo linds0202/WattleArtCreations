@@ -19,8 +19,8 @@ const Home2_hiw = () => {
 
   return (
     <div className='relative w-full mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
-        <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"></object>
-        
+        {/* <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/> */}
+        <object type="image/svg+xml" data="images/HIWIcons/HIW_brick.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
         <div className='z-10'>
 
             <div className="absolute -top-[10%] right-[15%]">
@@ -133,7 +133,7 @@ const Home2_hiw = () => {
                 
             </div>
             
-            <div className='w-full px-10 flex justify-around items-stretch mb-[10px]'>
+            <div className='w-full pl-12 pr-10 flex justify-around items-stretch mb-[10px]'>
                 <div
                     className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#4da0ff] hover:bg-opacity-20 hover:border-[#4da0ff]/30'
                 >

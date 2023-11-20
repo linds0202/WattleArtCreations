@@ -302,47 +302,50 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </motion.div>
             </div>
 
-            <div className="flex justify-around items-center mb-[50px] pt-[100px] pb-[50px] text-white relative bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
-                <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
-                    <Carousel 
-                        showArrows={true} 
-                        showThumbs={false} 
-                        autoPlay={true} 
-                        showStatus={false}
-                        infiniteLoop 
-                        className="portrait-carousel-root portrait-carousel rounded-xl"
-                    >
-                        {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
-                    </Carousel>
-                </motion.div>
-                
-                <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                    <p className="font-bold text-5xl mb-8">{options[`${mode}`].title} Portrait</p>
-                    <p className="font-light text-2xl mb-8">{options[`${mode}`].desc}</p>
-                    <motion.button 
-                        disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                        className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
-                        whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
-                        whileTap={{ scale: 1.05 }}
-                    >
-
-                    {/* <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]'></Link> */}
-
-
-                        {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin' 
-                        ? <Link href={{
-                                pathname: '/portraits',
-                                query: {selection: mode, direct: 'true'},
-                                }} 
-                            className="text-2xl no-underline text-center"
+            <div className="relative w-full h-[100vh] flex justify-around items-center mb-[50px] pt-[100px] pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
+                <object type="image/svg+xml" data="images/HIWIcons/HIW_brick2.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
+                <div className="absolute top-0 left-0 w-[100%] h-[100%] flex justify-around items-center z-50">
+                    <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
+                        <Carousel 
+                            showArrows={true} 
+                            showThumbs={false} 
+                            autoPlay={true} 
+                            showStatus={false}
+                            infiniteLoop 
+                            className="portrait-carousel-root portrait-carousel rounded-xl shadow-[0_0_40px_-5px_rgba(255,255,255,0.8)]"
                         >
-                            Start Customizing
-                        </Link>
-                        : <p>Must be a customer to create a portrait</p>
-                        }
-                    </motion.button>  
-                </motion.div>
-                {/* <img src='images/drips/personal_top_full.png' className="absolute w-full top-[100%] -left-[1px] right-0" alt='background black paint drips z-5'/> */}
+                            {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
+                        </Carousel>
+                    </motion.div>
+                    
+                    <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
+                        <p className="font-bold text-5xl mb-8">{options[`${mode}`].title} Portrait</p>
+                        <p className="font-light text-2xl mb-8">{options[`${mode}`].desc}</p>
+                        <motion.button 
+                            disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
+                            className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
+                            whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
+                            whileTap={{ scale: 1.05 }}
+                        >
+
+                        {/* <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]'></Link> */}
+
+
+                            {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin' 
+                            ? <Link href={{
+                                    pathname: '/portraits',
+                                    query: {selection: mode, direct: 'true'},
+                                    }} 
+                                className="text-2xl no-underline text-center"
+                            >
+                                Start Customizing
+                            </Link>
+                            : <p>Must be a customer to create a portrait</p>
+                            }
+                        </motion.button>  
+                    </motion.div>
+                </div>
+                
             </div>
 
 
