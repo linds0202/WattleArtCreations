@@ -20,6 +20,38 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import LogoColor from '../../../public/images/Logo_Full_ups.png'
+import Home2_testimonial_group from "./Home2_testimonial_group";
+import { TestimonialType } from './Home2_testimonial'
+
+interface OptionsType {
+    Photorealistic: {
+        title: string,
+        tagline: string,
+        imgs: Array<string>,
+        splashImg: string,
+        bgImg: string,
+        desc: string,
+        testimonials: Array<TestimonialType>,
+    },
+    Anime: {
+        title: string,
+        tagline: string,
+        imgs: Array<string>,
+        splashImg: string,
+        bgImg: string,
+        desc: string,
+        testimonials: Array<TestimonialType>,
+    },
+    NSFW: {
+        title: string,
+        tagline: string,
+        imgs: Array<string>,
+        splashImg: string,
+        bgImg: string,
+        desc: string,
+        testimonials: Array<TestimonialType>,
+    },
+}
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -77,7 +109,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
     
-    const options: any = {
+    const options: OptionsType = {
         Photorealistic: {
             title: mode,
             tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
@@ -89,19 +121,48 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 {
                     author: 'Bob', 
                     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                    imgSrc: '/images/heroImgs/heroImg7.png'    
+                    imgSrc: '/images/photoImgs/photo1.png'    
                 }, 
                 {
                     author: 'Jodie', 
                     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/heroImgs/heroImg2.png'   
+                    imgSrc: '/images/photoImgs/photo2.png'   
                 }, 
                 {
                     author: 'Alex', 
                     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/heroImgs/heroImg11.png'   
+                    imgSrc: '/images/photoImgs/photo3.png'   
+                },
+                {
+                    author: 'Steve', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                    imgSrc: '/images/photoImgs/photo4.jpg'    
+                }, 
+                {
+                    author: 'Jen', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/photoImgs/photo5.jpg'   
+                }, 
+                {
+                    author: 'Bill', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/photoImgs/photo6.jpg'   
+                },
+                {
+                    author: 'Peter', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                    imgSrc: '/images/photoImgs/photo7.jpg'    
+                }, 
+                {
+                    author: 'Jacob', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/photoImgs/photo8.png'   
+                }, 
+                {
+                    author: 'Allie', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/photoImgs/photo9.jpg'   
                 }],
-            basePrices: []
         },
         Anime: {
             title: mode,
@@ -125,8 +186,37 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     author: 'Alex', 
                     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                     imgSrc: '/images/animeImgs/anime8.png'
+                },
+                {
+                    author: 'Bob', 
+                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
+                    imgSrc: '/images/animeImgs/anime2.jpg'
+                }, 
+                {
+                    author: 'Jodie', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/animeImgs/anime6.png'
+                }, 
+                {
+                    author: 'Alex', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/animeImgs/anime8.png'
+                },
+                {
+                    author: 'Bob', 
+                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
+                    imgSrc: '/images/animeImgs/anime2.jpg'
+                }, 
+                {
+                    author: 'Jodie', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                    imgSrc: '/images/animeImgs/anime6.png'
+                }, 
+                {
+                    author: 'Alex', 
+                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    imgSrc: '/images/animeImgs/anime8.png'
                 }],
-            basePrices: []
         },
         NSFW: {
             title: mode,
@@ -135,14 +225,55 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             splashImg: './images/splashArt/NSFW.png',
             bgImg: './images/splashArt/PRBackground_V2.png',
             desc: "Indulge in the provocative yet tasteful world of NSFW portraits, where your desires are embraced with artistry and confidentiality. Our experienced artists are skilled at transforming your boldest visions into captivating digital art. Whether it's a daring depiction of a real individual or an original character, every piece is an exploration of sensuality and passion, handled with the utmost respect and professionalism.",
-            testimonials: [{author: 'Bob', body: 'good job'}, 
-                {author: 'Jodie', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.'}, 
-                {author: 'Alex', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}],
-            basePrices: []
+            testimonials: [{
+                author: 'Bob', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg7.png'    
+            }, 
+            {
+                author: 'Jodie', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg2.png'   
+            }, 
+            {
+                author: 'Alex', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                imgSrc: '/images/heroImgs/heroImg11.png'   
+            },
+            {
+                author: 'Bob', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg7.png'    
+            }, 
+            {
+                author: 'Jodie', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg2.png'   
+            }, 
+            {
+                author: 'Alex', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                imgSrc: '/images/heroImgs/heroImg11.png'   
+            },
+            {
+                author: 'Bob', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg7.png'    
+            }, 
+            {
+                author: 'Jodie', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
+                imgSrc: '/images/heroImgs/heroImg2.png'   
+            }, 
+            {
+                author: 'Alex', 
+                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                imgSrc: '/images/heroImgs/heroImg11.png'   
+            }],
         }
     }
-    const imgSrc = options[`${mode}`].splashImg
-    const bgImgSrc = options[`${mode}`].bgImg
+    const imgSrc = options[`${mode}` as keyof OptionsType].splashImg
+    const bgImgSrc = options[`${mode}` as keyof OptionsType].bgImg
 
     const [openLogin, setOpenLogin] = useState(false)
     const [openConfirm, setOpenConfirm] = useState(false)
@@ -276,9 +407,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     >
                         <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#4da0ff]/50 text-white py-8 px-10 ">
                             <h2 className='font-bold text-4xl mb-8 text-left'>
-                                Create a <span className="text-[#4da0ff]">{options[`${mode}`].title}</span> Portrait
+                                Create a <span className="text-[#4da0ff]">{options[`${mode}` as keyof OptionsType].title}</span> Portrait
                             </h2>
-                            <p className="text-2xl mb-[5%]">{options[`${mode}`].tagline}</p>
+                            <p className="text-2xl mb-[5%]">{options[`${mode}` as keyof OptionsType].tagline}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
                                 className="text-black text-xl mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
@@ -314,22 +445,19 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                             infiniteLoop 
                             className="portrait-carousel-root portrait-carousel rounded-xl shadow-[0_0_40px_-5px_rgba(255,255,255,0.8)]"
                         >
-                            {options[`${mode}`].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
+                            {options[`${mode}` as keyof OptionsType].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
                         </Carousel>
                     </motion.div>
                     
                     <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                        <p className="font-bold text-5xl mb-8">{options[`${mode}`].title} Portrait</p>
-                        <p className="font-light text-2xl mb-8">{options[`${mode}`].desc}</p>
+                        <p className="font-bold text-5xl mb-8">{options[`${mode}` as keyof OptionsType].title} Portrait</p>
+                        <p className="font-light text-2xl mb-8">{options[`${mode}` as keyof OptionsType].desc}</p>
                         <motion.button 
                             disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
                             className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
                         >
-
-                        {/* <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]'></Link> */}
-
 
                             {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin' 
                             ? <Link href={{
@@ -353,64 +481,19 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
 
             <div className='relative pt-[100px] mb-[100px] bg-black flex justify-center'>
-                <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] -top-[6%] -left-[1px] right-0 z-20"></object>
+                <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] -top-[7%] -left-[1px] right-0 z-20"></object>
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-5"></object>
                 
-                {/* <img src='images/drips/personal_top_full.svg' className="absolute w-full -top-[12%] -left-[1px] right-0 z-10" alt='background black paint drips'/> */}
+                
                 <motion.div 
-                    className='flex justify-around py-20 w-[85%] relative z-30' 
+                    className='flex justify-around py-20 w-full relative z-30' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
                     viewport={{ once: true }}
                 >
-                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
-                        <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50"  
-                            variants={testimonialVariant} 
-                            initial='hidden' 
-                            whileInView='show' 
-                            viewport={{ once: true }}
-                            transition={{ delay: 0 + 1 / 3.5, duration: .25, type: 'spring' }}
-                        >
-                            <img src={options[`${mode}`].testimonials[0].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8 top-0 left-0"/>
-                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[0].body}&ldquo;</p>
-                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[0].author}</p>
-                        </motion.div>
-                    </div>
-
-                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
-
-                        <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50" 
-                            variants={testimonialVariant} 
-                            initial='hidden' 
-                            whileInView='show'
-                            viewport={{ once: true }} 
-                            transition={{ delay: .25 + 1 / 3.5, duration: .25, type: 'spring' }}
-                        >
-                            <img src={options[`${mode}`].testimonials[1].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8"/>
-                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[1].body}&ldquo;</p>
-                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[1].author}</p>
-                        </motion.div>
-                    </div>
-
-                    <div className="w-4/12 h-full flex justify-center items-center bg-black" >
-                        <motion.div 
-                            className="w-11/12 h-full text-white text-xl p-8 rounded-xl border border-transparent flex flex-col justify-between items-center hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50" 
-                            variants={testimonialVariant} 
-                            initial='hidden' 
-                            whileInView='show' 
-                            viewport={{ once: true }}
-                            transition={{ delay: .5 + 1 / 3.5, duration: .25, type: 'spring' }}
-                        >
-                            <img src={options[`${mode}`].testimonials[2].imgSrc} className="w-[350px] h-[350px] object-cover object-top rounded-xl mb-8"/>
-                            <p className="font-light text-2xl">&ldquo;{options[`${mode}`].testimonials[2].body}&ldquo;</p>
-                            <p className='self-end font-semibold'>-{options[`${mode}`].testimonials[2].author}</p>
-                        </motion.div>
-                    </div>
+                    <Home2_testimonial_group testGroup={options[`${mode}` as keyof OptionsType].testimonials}/>
                 </motion.div>
-                
             </div>
 
 
