@@ -421,7 +421,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         Add Images
                                     </button>
                                     {/* {uploads.length === 0 && */}
-                                    <p className='text-[#4DFF90] text-xl font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    <p className='text-[#4DFF90] text-lg font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
                                     {/* } */}
 
                                     <div className='ml-2 flex flex-wrap'>
