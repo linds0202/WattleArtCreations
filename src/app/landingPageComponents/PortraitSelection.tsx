@@ -433,8 +433,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </motion.div>
             </div>
 
-            <div className="relative w-full h-[100vh] flex justify-around items-center mt-[50px] mb-[50px] pt-[100px] pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
-                <object type="image/svg+xml" data="images/HIWIcons/brick_final2.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
+            <div className="relative w-full h-[110vh] flex justify-around items-center mt-[50px] mb-[50px] pt-[100px] pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
+                <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 -left-[3%] w-[105%] h-[100%]"/>
+                
                 <div className="absolute top-0 left-0 w-[90%] h-[100%] flex justify-around items-center z-50">
                     <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
                         <Carousel 
@@ -493,6 +494,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     viewport={{ once: true }}
                 >
                     <Home2_testimonial_group testGroup={options[`${mode}` as keyof OptionsType].testimonials}/>
+                
                 </motion.div>
             </div>
 

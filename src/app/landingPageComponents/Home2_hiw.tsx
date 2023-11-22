@@ -15,12 +15,11 @@ const Home2_hiw = () => {
         animate: (i: number) => ({ y: 0, opacity: 1, transition: { delay: i * 0.1 } }),
     };
 
-    // gradient-to-t from-[#74ffe8]/25 to-[#0075FF]/25
+
 
   return (
     <div className='relative w-full mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
-        {/* <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/> */}
-        <object type="image/svg+xml" data="images/HIWIcons/brick_final2.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
+        <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
         <div className='z-10'>
 
             <div className="absolute -top-[10%] right-[15%]">
