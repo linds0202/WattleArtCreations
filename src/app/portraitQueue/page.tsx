@@ -68,13 +68,15 @@ export default function Dashboard() {
         return () => unsubscribe()
     }
     getPortraits()
-}, [])  
+  }, [])  
 
-useEffect(() => {
-    const available = portraits.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0)
-    setFiltered(available)
-}, [portraits])
+  useEffect(() => {
+      const available = portraits.filter(portrait => portrait.artist.filter((artist: Artist) => artist.id === authUser?.uid).length === 0 && !portrait.artistAssigned)
+      setFiltered(available)
+  }, [portraits])
 
+  console.log('portraits: ', portraits)
+  console.log('filtered in portrait queue: ', filtered)
 
  
   return ((loadingPortraits || isLoading) ? 
