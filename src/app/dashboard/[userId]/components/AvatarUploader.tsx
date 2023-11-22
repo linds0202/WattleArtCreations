@@ -100,7 +100,7 @@ export default function AvatarUploader(props: any) {
             onClose={closeDialog}
             open={props.showDialog}
             fullWidth={true}
-            maxWidth='sm'
+            maxWidth='md'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >   
             <button type='button' onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-2 text-white'>

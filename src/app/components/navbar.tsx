@@ -141,6 +141,8 @@ export default function NavBar() {
     router.push('/')
   }
 
+  console.log('authuser.roles: ', authUser?.roles)
+
 
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
@@ -170,7 +172,7 @@ export default function NavBar() {
 
       {/* (currentUrl === '/' || currentUrl === '/portraits' || currentUrl === '/dashboard') && */}
       {/* Links for Personal Route if not artist*/}
-      {( authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin') && 
+      {( authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin') && 
       <div className='w-4/12 flex justify-around items-center'>
         <Link href={{
                 pathname: '/',
