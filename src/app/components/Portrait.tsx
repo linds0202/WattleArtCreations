@@ -101,8 +101,9 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           return ''
       }
     }
-    
   }
+
+  console.log('portrait.artistAssigned? : ', portrait.artistAssigned)
 
   
 
@@ -205,7 +206,13 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && <Link href={`/portraits/${portrait.id}`} className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]"><p>Portrait Page</p></Link>}
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && portrait.artistAssigned &&
+        <Link 
+          href={`/portraits/${portrait.id}`} 
+          className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#4da0ff]"
+        >
+          <p>Portrait Page</p>
+        </Link>}
 
         {openClaimForm &&
           <ClaimForm
