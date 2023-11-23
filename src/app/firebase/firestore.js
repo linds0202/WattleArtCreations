@@ -25,7 +25,7 @@ import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
 
 export async function getCheckoutUrl (items, userId) {
-  console.log('in get checkout url: ', userId)
+
   if (!userId) throw new Error("User is not authenticated");
 
   const portraitIds = items.map(portrait => portrait.id).join(',')
@@ -140,7 +140,7 @@ export async function getUser(user) {
 
 //Get user by Id
 export async function getUserById(userId) {
-  console.log('userId in getUserById: ', userId)
+  
   const docSnap = await getDoc(doc(db, "users", userId));
 
   let avatarBucket = ''

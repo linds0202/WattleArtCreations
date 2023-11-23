@@ -46,7 +46,7 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse(sessionStorage.getItem("Cart")!)  : [])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse((sessionStorage.getItem("Cart")!)) : [])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
@@ -69,6 +69,9 @@ export default function Portraits() {
   //update cart context on portrait addition
   useEffect(() => {
     console.log('portraits: ', portraits)
+    console.log(sessionStorage.getItem('Cart'))
+    console.log(JSON.parse(sessionStorage.getItem('Cart')!))
+    // const removePurchasedPortraits = portraits.
     sessionStorage.setItem('Cart', JSON.stringify(portraits))
     window.dispatchEvent(new Event("storage"))
   }, [portraits])

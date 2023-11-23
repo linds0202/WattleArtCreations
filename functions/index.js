@@ -34,7 +34,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
     if (payment.status === 'succeeded') {
         const portraitIds = payment.metadata.portraitIds.split(',')
-        console.log('portraitIds: ', portraitIds)
+        
         for (let i = 0; i < portraitIds.length; i++) {
             const portraitDocRef = admin.firestore().collection("portraits").doc(portraitIds[i]);
             const answer = await portraitDocRef.update({
@@ -45,7 +45,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
           }
 
         const userId = payment.metadata.userId
-        console.log('userId: ', userId)
+        
         const userDocRef = admin.firestore().collection("users").doc(userId);
         await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
     }

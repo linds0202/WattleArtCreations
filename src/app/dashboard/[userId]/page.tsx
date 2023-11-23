@@ -22,7 +22,6 @@ type Params = {
 
 
 export default function Dashboard({ params: { userId }}: Params) {
-  console.log('userId in params: ', userId) 
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
  
@@ -39,18 +38,11 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }, [authUser, isLoading]);
 
-  console.log('authUser in dashboard: ', authUser)
-  console.log('currentUser: ', currentUser)
-  console.log('portraits: ', portraits)
-  console.log('filtered: ', filtered )
-
   useEffect(() => {
-    console.log('running now')
     setPageLoading(true)
     let latestUser: UserData | null
     
     const getPortraits = async () => {
-      console.log('called get Portraits')  
       const unsubscribe = await getAllCustomersPortraits(setPortraits, setFiltered, userId);
       
         return () => unsubscribe()
@@ -63,9 +55,7 @@ export default function Dashboard({ params: { userId }}: Params) {
         setCurrentUser(latestUser)
         getBadge(latestUser?.totalCompletedCommissions)
       }
-      console.log('about to call getPortraits')
       getPortraits()
-      
     }
 
     handleCurrentUser()
