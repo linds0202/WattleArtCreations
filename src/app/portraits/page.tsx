@@ -76,9 +76,12 @@ export default function Portraits() {
   useEffect(() => {
     console.log(JSON.parse(sessionStorage.getItem('Cart')!))
     console.log('portraits: ', portraits)
+    if (sessionStorage.getItem('Cart') !== null) {
+      const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).filter((p: PortraitData) => !p.paymentComplete)
+      console.log('removedPurchsed Portrrait: ', removePurchasedPortraits)
+    }
     
-    const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).filter((p: PortraitData) => !p.paymentComplete)
-    console.log('removedPurchsed Portrrait: ', removePurchasedPortraits)
+    
     sessionStorage.setItem('Cart', JSON.stringify(portraits))
     window.dispatchEvent(new Event("storage"))
   }, [portraits])
