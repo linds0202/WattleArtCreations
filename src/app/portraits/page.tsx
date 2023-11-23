@@ -40,13 +40,19 @@ export default function Portraits() {
   const direct: string | null = searchParams.get('direct')
   const portraitId = searchParams.get('portrait_id')
   const continueEdit = searchParams.get('edit')
-
+  const complete = searchParams.get('complete')
+  console.log('complete param is: ', complete)
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse((sessionStorage.getItem("Cart")!)).map((p: PortraitData) => !p.paymentComplete) : [])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>(
+    complete ? [] 
+    : sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? 
+      JSON.parse((sessionStorage.getItem("Cart")!)) 
+      : []
+    )
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
@@ -71,7 +77,8 @@ export default function Portraits() {
     console.log(JSON.parse(sessionStorage.getItem('Cart')!))
     console.log('portraits: ', portraits)
     
-    //const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).map((p: PortraitData) => !p.paymentComplete)
+    const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).filter((p: PortraitData) => !p.paymentComplete)
+    console.log('removedPurchsed Portrrait: ', removePurchasedPortraits)
     sessionStorage.setItem('Cart', JSON.stringify(portraits))
     window.dispatchEvent(new Event("storage"))
   }, [portraits])

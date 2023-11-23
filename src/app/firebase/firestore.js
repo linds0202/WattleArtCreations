@@ -53,7 +53,7 @@ export async function getCheckoutUrl (items, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}`,
+      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
       cancel_url: 'https://wattle-art-creations.vercel.app/',
       metadata: {
         'portraitIds': portraitIds,
