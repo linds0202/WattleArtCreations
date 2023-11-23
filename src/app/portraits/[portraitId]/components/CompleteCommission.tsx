@@ -55,7 +55,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
                         <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
                     </div>
                     <p className='text-center text-lg mb-4'>Thank you for choosing Wattle Art Creations for your custom art commission. We&apos;re delighted to know that you&apos;re happy with the final artwork, and we can&apos;t wait for you to showcase and enjoy your digital masterpiece!</p>
-                    <p className='text-center text-lg'>Clicking below will <span className='text-[#4da0ff] font-semibold'>complete</span> your commission and <span className='text-[#4da0ff] font-semibold'>release</span> your payment to your artist.*</p>
+                    <p className='text-center text-lg'>Clicking below will <span className='text-[#43b4e4] font-semibold'>complete</span> your commission and <span className='text-[#43b4e4] font-semibold'>release</span> your payment to your artist.*</p>
                 </div>
                 
                 <div className='w-full mx-auto flex justify-around items-center'>
@@ -68,7 +68,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
                     
                     <button 
                         onClick={handleComplete} 
-                        className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#4da0ff] hover:text-white rounded-xl py-2 px-2'
+                        className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'
                     >
                         Release Payment
                     </button>

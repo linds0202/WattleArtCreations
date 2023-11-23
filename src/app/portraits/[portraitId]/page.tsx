@@ -168,7 +168,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
         
         <button 
-            className='absolute top-2 right-7 w-1/7 text-xl border-2 border-black bg-white hover:text-white hover:bg-[#4da0ff] rounded-lg p-2' onClick={handleOpenQuestions}
+            className='absolute top-2 right-7 w-1/7 text-xl border-2 border-black bg-white hover:text-white hover:bg-[#43b4e4] rounded-lg p-2' onClick={handleOpenQuestions}
         >
             View Portrait Details
         </button>
@@ -193,7 +193,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         <div className='w-8/12 flex flex-col justify-start'>
           
           <div className='w-[100%] flex justify-between items-center'>
-            <p className='w-6/12 text-left text-2xl font-semibold pb-2'>Action Center <span className='text-[#4da0ff] text-sm'>(Below are tasks that need your attention)</span></p>
+            <p className='w-6/12 text-left text-2xl font-semibold pb-2'>Action Center <span className='text-[#43b4e4] text-sm'>(Below are tasks that need your attention)</span></p>
             
           </div>
           
@@ -218,9 +218,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 {portrait?.status === 'Completed' && 
                   <div className='flex flex-col items-center'>
                     <div className='w-full flex flex-col items-center'>
-                      <p className='text-2xl font-bold text-center text-[#4da0ff] '>This commission is complete!</p>
+                      <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
                       <button 
-                        className='w-1/2 mx-auto my-4 text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#4da0ff]'  
+                        className='w-1/2 mx-auto my-4 text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#43b4e4]'  
                         onClick={handleDownloadFinal}
                       >
                         Download Final Image
@@ -240,7 +240,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           onClick={() => handleDownloadImage(i)}
                         /> 
                       )
-                    : <p className='text-xl font-semibold text-[#4da0ff] text-center'>No images to display</p>} 
+                    : <p className='text-xl font-semibold text-[#43b4e4] text-center'>No images to display</p>} 
                     </div>
 
 
@@ -312,7 +312,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           })}
                         /> 
                       )
-                    : <p className='text-xl font-semibold text-[#4da0ff] text-center'>No images to display</p>} 
+                    : <p className='text-xl font-semibold text-[#43b4e4] text-center'>No images to display</p>} 
                     </div>
 
 
@@ -339,7 +339,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         </button>
                         
                         <button 
-                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#4da0ff] rounded-lg p-2'  
+                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#43b4e4] rounded-lg p-2'  
                           onClick={handleAccept}
                         >
                           Accept as Final Image
@@ -359,7 +359,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     </div>
 
                     <p className='text-xl text-center mt-4'>
-                      <span className='text-[#4da0ff] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
+                      <span className='text-[#43b4e4] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
                     </p> 
                   </div>
                   }

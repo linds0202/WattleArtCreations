@@ -21,7 +21,7 @@ const CustomerRevision = ({portrait, note, img, latest, index}: CustomerRevision
                             <p >{note?.text}</p>
                         </div>
                     </div>
-                    <p className="w-[100%] text-sm mt-2 text-[#4da0ff] font-semibold">Revision Requested on: <span className="text-black ml-2">{new Date(note?.date.seconds * 1000).toDateString() + ' at ' + new Date(note?.date.seconds * 1000).toLocaleTimeString()}</span></p>
+                    <p className="w-[100%] text-sm mt-2 text-[#43b4e4] font-semibold">Revision Requested on: <span className="text-black ml-2">{new Date(note?.date.seconds * 1000).toDateString() + ' at ' + new Date(note?.date.seconds * 1000).toLocaleTimeString()}</span></p>
                 </div>
             
             </ActionCenterAccordion>

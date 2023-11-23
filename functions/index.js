@@ -47,7 +47,6 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
         const userId = payment.metadata.userId
         console.log('userId: ', userId)
         const userDocRef = admin.firestore().collection("users").doc(userId);
-
         await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
     }
     // const portraitIds = payment.metadata.portraitIds.split(',')

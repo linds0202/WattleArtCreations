@@ -14,7 +14,6 @@ const Home2_testimonial_group = ({testGroup}: TestimonialGroupProps) => {
         const newIndexes = allIndexes.map(i => i + 3)
         const updatedIndexes = newIndexes.map(i => {
             if (i >= testGroup.length) {
-                console.log('too big')
                 return i - testGroup.length
             } else{
                 return i

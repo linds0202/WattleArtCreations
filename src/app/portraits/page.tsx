@@ -46,7 +46,7 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage.getItem("Cart") && sessionStorage.getItem("Cart")?.length ? JSON.parse(sessionStorage.getItem("Cart")!)  : [])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse(sessionStorage.getItem("Cart")!)  : [])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
@@ -133,8 +133,8 @@ export default function Portraits() {
 
       <div className='w-1/2 flex flex-wrap'>
         <div className='w-full flex justify-center'>
-          <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#4da0ff] font-semibold'>({portrait?.mode})</span></p>
-          <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#4da0ff] ml-4'>
+          <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
+          <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#43b4e4] ml-4'>
             <EditIcon />
           </button>
         </div>
@@ -184,7 +184,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="z-50 text-3xl font-semibold mt-8 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+      className="z-50 text-3xl font-semibold mt-8 py-2 px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
@@ -223,17 +223,17 @@ export default function Portraits() {
                 ? <div className='flex flex-col justify-start items-center border border-white/25 rounded-xl p-8 text-white shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50'>
                     <h2 className='text-5xl'>Your Cart is Empty!</h2>
                     <div className='flex flex-col justify-between items-center mt-8'>
-                      <button onClick={() => setOpenWizard(true)} className='text-xl font-bold p-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
+                      <button onClick={() => setOpenWizard(true)} className='text-xl font-bold p-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
                         Create a Portrait
                       </button>
                       <p className='text-xl mt-4'>or</p>
                       <div className='flex flex-col justify-center items-center mt-2'>
                         <p className='text-2xl text-center font-semibold'>Visit your dashboard and add a portrait to your cart</p>
-                        <div className='mt-8 rounded-xl w-1/4 h-auto mx-auto bg-gradient-to-r p-[4px] from-[#4DFF90] to-[#4da0ff] hover:text-white  hover:bg-[#4da0ff] hover:scale-105 z-20'>
+                        <div className='mt-8 rounded-xl w-1/4 h-auto mx-auto bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>
                         <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
                           <Link 
                             href={`/dashboard/${authUser?.uid}`} 
-                            className='text-xl font-bold bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] text-transparent bg-clip-text'
+                            className='text-xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] text-transparent bg-clip-text'
                           >
                             Dashboard
                           </Link>
@@ -244,9 +244,9 @@ export default function Portraits() {
                   </div> 
                 : <>
                     {portraitList}
-                    <button onClick={() => setOpenWizard(true)} className='rounded-xl w-1/4 h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#4DFF90] to-[#4da0ff] hover:text-white  hover:bg-[#4da0ff] hover:scale-105 z-20'>
+                    <button onClick={() => setOpenWizard(true)} className='rounded-xl w-1/4 h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>
                       <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
-                        <p className='text-xl font-bold bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] text-transparent bg-clip-text'>Create Another Portrait</p>
+                        <p className='text-xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] text-transparent bg-clip-text'>Create Another Portrait</p>
                       </div>
                       
                     </button>

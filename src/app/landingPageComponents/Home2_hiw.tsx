@@ -134,40 +134,40 @@ const Home2_hiw = () => {
             
             <div className='w-full pl-12 pr-10 flex justify-around items-stretch mb-[10px]'>
                 <div
-                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#4da0ff] hover:bg-opacity-20 hover:border-[#4da0ff]/30'
+                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#43b4e4] hover:bg-opacity-20 hover:border-[#43b4e4]/30'
                 >
-                    <h4 className='text-5xl text-[#4da0ff] font-bold [text-shadow:_-4px_2px_8px_rgb(109_176_254_/_60%)]'>1.</h4>
+                    <h4 className='text-5xl text-[#43b4e4] font-bold [text-shadow:_3px_2px_4px_rgb(109_176_254_/_40%)]'>1.</h4>
                     <h3 className='font-serif text-3xl font-bold mt-4'>Design Character(s)</h3>
                     <p className='mt-8 text-lg'>Provide details about your desired artwork, including size, medium, subject matter, and any reference images or inspiration. The more information you provide, the better we can tailor the artwork to your vision.</p>
                 </div>
 
                 <div
-                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#4da0ff] hover:bg-opacity-20 hover:border-[#4da0ff]/30'
+                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#43b4e4] hover:bg-opacity-20 hover:border-[#43b4e4]/30'
                 >
-                    <h4 className='text-5xl text-[#4da0ff] font-bold [text-shadow:_-4px_2px_8px_rgb(109_176_254_/_60%)]'>2.</h4>
+                    <h4 className='text-5xl text-[#43b4e4] font-bold [text-shadow:_3px_2px_4px_rgb(109_176_254_/_40%)]'>2.</h4>
                     <h3 className='font-serif text-3xl font-bold mt-4'>Custom Quote</h3>
                     <p className='mt-8 text-lg'>Based on your project specifications, we&apos;ll provide a custom quote for your art commission. Our transparent pricing ensures no surprises along the way.</p>
                 </div>
 
                 <div
-                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#4da0ff] hover:bg-opacity-20 hover:border-[#4da0ff]/30'
+                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#43b4e4] hover:bg-opacity-20 hover:border-[#43b4e4]/30'
                 >
-                    <h4 className='text-5xl text-[#4da0ff] font-bold [text-shadow:_-4px_2px_8px_rgb(109_176_254_/_60%)]'>3.</h4>
+                    <h4 className='text-5xl text-[#43b4e4] font-bold [text-shadow:_3px_2px_4px_rgb(109_176_254_/_40%)]'>3.</h4>
                     <h3 className='font-serif text-3xl font-bold mt-4'>Collaborate</h3>
                     <p className='mt-8 text-lg'>Once you&apos;re happy with the quote, we will reserve a payment and connect you with the artist to begin the creative process. Collaborate directly with the artist to refine your vision and watch your artwork come to life.</p>
                 </div>
 
                 <div
-                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#4da0ff] hover:bg-opacity-20 hover:border-[#4da0ff]/30'
+                    className='w-1/4 mx-2 p-8 border border-transparent rounded-xl hover:bg-[#43b4e4] hover:bg-opacity-20 hover:border-[#43b4e4]/30'
                 >
-                    <h4 className='text-5xl text-[#4da0ff] font-bold [text-shadow:_-4px_2px_8px_rgb(109_176_254_/_60%)]'>4.</h4>
+                    <h4 className='text-5xl text-[#43b4e4] font-bold [text-shadow:_3px_2px_4px_rgb(109_176_254_/_40%)]'>4.</h4>
                     <h3 className='font-serif text-3xl font-bold mt-4'>Custom Artwork</h3>
                     <p className='mt-8 text-lg'>Upon completion, you&apos;ll recieve your stunning custom art piece, ready to display and enjoy for years to come. Once you&apos;re happy, you can choose when to release the reserved payment directly to the artist!</p>
                 </div>
             </div>
 
             <div 
-                className='w-1/4 mx-auto mt-8 py-2 px-4 rounded-xl text-black text-center text-4xl bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                className='w-1/4 mx-auto mt-8 py-2 px-4 rounded-xl text-black text-center text-4xl bg-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                 onClick={() => scrollIntoTheView('cta')} 
             >
                 <p>Start Customizing</p>

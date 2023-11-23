@@ -329,7 +329,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen text-white pb-10 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-90%'>
             <div className="h-[130px] w-full flex flex-col justify-center items-center">
-                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#4da0ff] font-bold'>{selection}</span> Portrait Customizer</h2>
+                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#43b4e4] font-bold'>{selection}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>
             {/* Display the portrait wizard */}
@@ -370,7 +370,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     {authUser && <button 
                                         type="submit" 
                                         className={`w-6/12 rounded-xl text-center ${chars.length !== 0 
-                                            ? 'text-black text-center text-2xl py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
+                                            ? 'text-black text-center text-2xl py-2 px-4 font-semibold bg-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
                                             : 'text-[#494949] p-4  border-2 border-[#494949] bg-[#E9E9E9] bg-opacity-50'}`}
                                         disabled={chars.length === 0}
                                         title='Complete required fields'
@@ -400,7 +400,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             <div className='w-6/12 px-8'>
                                 <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
                                 <div className='p-3 flex justify-start items-center'>
-                                    <label className='text-[#4DFF90] text-xl font-bold text-gray-light mr-2'>
+                                    <label className='text-[#43b4e4] text-xl font-bold text-gray-light mr-2'>
                                         Name your portrait:
                                     </label>
                                     <Field 
@@ -416,12 +416,12 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     <button
                                         type='button'
                                         onClick={() => setOpenUpload(true)}
-                                        className='text-lg font-bold ml-2 border-2 rounded-xl px-4 py-2 text-black border-black bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out'
+                                        className='text-lg font-bold ml-2 border-2 rounded-xl px-4 py-2 text-black border-black bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'
                                     >
                                         Add Images
                                     </button>
                                     {/* {uploads.length === 0 && */}
-                                    <p className='text-[#4DFF90] text-lg font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    <p className='text-[#43b4e4] text-lg font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
                                     {/* } */}
 
                                     <div className='ml-2 flex flex-wrap'>
@@ -429,7 +429,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                             <div key={i} className='border-2 border-[#E9E9E9] rounded-lg mr-4 my-2 p-2 flex '>
                                                 {imgGroup.files.map((img, i) => <p key={i} className='mx-4'>{img.name}</p>)}
                                                 
-                                                <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#4da0ff] ml-4'>
+                                                <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#43b4e4] ml-4'>
                                                     <EditIcon />
                                                 </button>
                                                 <button 

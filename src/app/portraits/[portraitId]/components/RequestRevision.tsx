@@ -71,19 +71,19 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
 
                         {remainingRevisions > 0 &&
                             <div className='mt-8'>
-                                <p className='text-center text-xl'>Clicking <span className='text-[#4da0ff] font-semibold'>Request Revision</span> below will notify your artist.*</p>
+                                <p className='text-center text-xl'>Clicking <span className='text-[#43b4e4] font-semibold'>Request Revision</span> below will notify your artist.*</p>
                             
-                                <p className='text-center text-lg mt-2'>You have <span className='text-[#4da0ff] font-semibold'>{remainingRevisions} {remainingRevisions === 1 ? 'revision' : 'revisions'} remaining</span> for this portrait.</p>
+                                <p className='text-center text-lg mt-2'>You have <span className='text-[#43b4e4] font-semibold'>{remainingRevisions} {remainingRevisions === 1 ? 'revision' : 'revisions'} remaining</span> for this portrait.</p>
                             </div>
                         }
 
                     
 
                         {remainingRevisions === 0 &&
-                            <div className='flex flex-col items-center border-2 border-[#4da0ff] rounded-xl p-4'>
+                            <div className='flex flex-col items-center border-2 border-[#43b4e4] rounded-xl p-4'>
                                 <p className='text-center text-lg font-bold'>You have utilized all included revisions for this portrait. </p>
                                 
-                                <h4 className='mt-2 self-start text-[#4da0ff] font-semibold'>To request an additional revision:</h4>
+                                <h4 className='mt-2 self-start text-[#43b4e4] font-semibold'>To request an additional revision:</h4>
                                 
                                 <p>If you need further adjustments, click below to notify your artist. They will provide guidance on how to proceed and what can be done to ensure your satisfaction. If you decide to proceed with additional revisions, they will post a purchase link on your portrait page.</p>
                             </div>
@@ -109,7 +109,7 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             
             <div className='w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
                 <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
-                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#4da0ff] hover:text-white rounded-xl py-2 px-2'>
+                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
                     {remainingRevisions === 0 ? 'Request an Additional Revision' : 'Request Revision'}
                 </button>
             </div>

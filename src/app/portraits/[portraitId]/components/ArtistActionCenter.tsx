@@ -194,7 +194,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                         <div className='w-1/2 mx-auto'>
                       
                             <button 
-                                className='w-full text-xl border-2 bg-white border-black hover:text-white hover:bg-[#4da0ff] rounded-lg p-2 mt-4 mb-2' 
+                                className='w-full text-xl border-2 bg-white border-black hover:text-white hover:bg-[#43b4e4] rounded-lg p-2 mt-4 mb-2' 
                                 onClick={handleOpenQuestions}
                             >
                                 View Details
@@ -222,7 +222,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             ? <ActionCenterAccordion title={'First Upload'} open={true} attention={true} >
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                     <h3 className='text-xl font-bold text-center mb-4'>Submit an Image</h3>
-                    <p>Upload your first submission by clicking &apos;<span className="text-[#4da0ff] font-semibold">Upload Image</span>&apos; in the final image section of this page.</p>
+                    <p>Upload your first submission by clicking &apos;<span className="text-[#43b4e4] font-semibold">Upload Image</span>&apos; in the final image section of this page.</p>
                     <ArtistCounter portrait={portrait} first={true}/>
                 </div>
             </ActionCenterAccordion>
@@ -250,7 +250,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                             {portrait?.additionalRevision 
                                 ? <div>
                                     
-                                    <p className="text-center">Your customer has purchased a{`${portrait?.revisionLevel === 'Intermediate' ? 'n' : ''}`} <span className="text-[#4da0ff] font-semibold">{portrait?.revisionLevel} Addtional Revision</span></p>
+                                    <p className="text-center">Your customer has purchased a{`${portrait?.revisionLevel === 'Intermediate' ? 'n' : ''}`} <span className="text-[#43b4e4] font-semibold">{portrait?.revisionLevel} Addtional Revision</span></p>
                                     <div className="flex mt-4">
                                         <p className="font-semibold mr-4">Next Step: </p>
                                         <p>Upload your revised image</p>
@@ -259,7 +259,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                                     <ArtistCounter portrait={portrait} first={false}/>
                                 </div>
                                 : <div className="flex flex-col justify-center items-center">
-                                    <p className="text-center text-xl">Your customer has requested an <span className="text-[#4da0ff] font-semibold">Addtional Revision</span></p>
+                                    <p className="text-center text-xl">Your customer has requested an <span className="text-[#43b4e4] font-semibold">Addtional Revision</span></p>
                                     <button
                                         type="button"
                                         onClick={handleAdditionalRevision}
@@ -267,7 +267,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                                         >
                                             {portrait?.revisionLevel === "" ? "Select Revision Level" : "Change Revision Level"}
                                     </button>
-                                    {portrait?.revisionLevel !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#4da0ff]">{portrait?.revisionLevel}</span></p>}
+                                    {portrait?.revisionLevel !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#43b4e4]">{portrait?.revisionLevel}</span></p>}
                                 </div>
                                 }
                                 

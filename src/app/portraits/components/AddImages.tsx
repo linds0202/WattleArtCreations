@@ -133,7 +133,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
         <button
           type='button'
           onClick={handleSave}
-          className={`ml-4 border-2 rounded-xl py-2 px-4 ${files.length !== 0  ? 'border-[#282828] hover:bg-[#4da0ff] hover:text-white' : 'border-[#bababa] text-[#bababa]'}`}
+          className={`ml-4 border-2 rounded-xl py-2 px-4 ${files.length !== 0  ? 'border-[#282828] hover:bg-[#43b4e4] hover:text-white' : 'border-[#bababa] text-[#bababa]'}`}
           disabled={ files.length === 0 }
         >
           Save

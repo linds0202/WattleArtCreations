@@ -83,7 +83,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                 <Form className='flex flex-col px-20 py-8'>
                     <div className='w-full flex justify-between items-center'>
                         <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                        <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                             Name:
                         </label>
                         <Field 
@@ -92,7 +92,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                         />
                         </div>
                         <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                        <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                             Country:
                         </label>
                         <Field 
@@ -103,7 +103,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                     </div>
                     <div className='w-full mt-4'>
                         <label className='text-base text-gray-light leading-3 mr-2'>
-                            <span className='font-semibold text-[#0075FF]'>Bio: </span>What do you want customers to know about you/your experience? 
+                            <span className='font-semibold text-[#43b4e4]'>Bio: </span>What do you want customers to know about you/your experience? 
                         </label>
                         <Field 
                             required
@@ -138,7 +138,7 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                             <AddLinks links={links} openLinksMod={openLinksMod} setOpenLinksMod={setOpenLinksMod} setLinks={setLinks} setEditLink={setEditLink} />
                         </div>
                         <div className='mt-4 w-full'>
-                            <label className='text-base text-gray-light leading-3 mr-2 font-semibold text-[#0075FF]'>
+                            <label className='text-base text-gray-light leading-3 mr-2 font-semibold text-[#43b4e4]'>
                                 Portfolio website:
                             </label>
                             <Field 

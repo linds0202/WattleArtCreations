@@ -42,7 +42,7 @@ const ConfirmCancel = ({ cancelPortrait, setCancelPortrait, setOpenWizard }: Con
         
         <div className='w-10/12 mx-auto flex flex-col justify-between items-center'>
             
-            <p className='text-2xl text-[#4da0ff] font-semibold'>Are you sure? You will loose all progress.</p>
+            <p className='text-2xl text-[#43b4e4] font-semibold'>Are you sure? You will loose all progress.</p>
             <p>To save your progress, create at least one character and complete the required questions, then add your portrait to the cart. This will save your progress and make this portrait available on your dashboard</p>
             
         </div>
@@ -59,7 +59,7 @@ const ConfirmCancel = ({ cancelPortrait, setCancelPortrait, setOpenWizard }: Con
             <button
                 type='button'
                 onClick={() => setCancelPortrait(false)}
-                className='w-1/3 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#4da0ff] hover:text-white'
+                className='w-1/3 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#43b4e4] hover:text-white'
             >
                 Continue Customizing
             </button>

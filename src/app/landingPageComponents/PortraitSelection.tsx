@@ -1,3 +1,4 @@
+
 import Link from "next/link"
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../firebase/auth";
@@ -113,9 +114,9 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         Photorealistic: {
             title: mode,
             tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
-            imgs: ["./images/photoImgs/photo7.jpg", "./images/photoImgs/photo2.png", "./images/photoImgs/photo3.png", "./images/photoImgs/photo4.jpg", "./images/photoImgs/photo5.jpg"],
-            splashImg: './images/splashArt/PR.png',
-            bgImg: './images/splashArt/PRBackground_V2.png',
+            imgs: ["/images/photoImgs/photo7.jpg", "/images/photoImgs/photo2.png", "/images/photoImgs/photo3.png", "/images/photoImgs/photo4.jpg", "/images/photoImgs/photo5.jpg"],
+            splashImg: '/images/splashArt/PR.png',
+            bgImg: '/images/splashArt/PRBackground_V2.png',
             desc: "Embrace the power of precise strokes and discerning shadows, as our gifted artists capture your essence or your original characters in striking photorealistic detail. Here, the precision of digital technology marries the finesse of traditional artistry, resulting in a compelling photorealistic portrait that narrates your story or the tale of your created characters, and blurs the line between art and reality.",
             testimonials: [
                 {
@@ -168,8 +169,8 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             title: mode,
             tagline: "Immerse Yourself in an Artistic Adventure with Custom Anime Portraits",
             imgs: ["./images/animeImgs/anime1.png", "./images/animeImgs/anime2.jpg", "./images/animeImgs/anime3.png", "./images/animeImgs/anime4.png", "./images/animeImgs/anime5.png"],
-            splashImg: './images/splashArt/Anime.png',
-            bgImg: './images/splashArt/PRBackground_V2.png',
+            splashImg: '/images/splashArt/Anime.png',
+            bgImg: '/images/splashArt/PRBackground_V2.png',
             desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
             testimonials: [
                 {
@@ -222,8 +223,8 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             title: mode,
             tagline: "Unveil the Unspoken with Tasteful and Alluring NSFW Portraits",
             imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
-            splashImg: './images/splashArt/NSFW.png',
-            bgImg: './images/splashArt/PRBackground_V2.png',
+            splashImg: '/images/splashArt/NSFW.png',
+            bgImg: '/images/splashArt/PRBackground_V2.png',
             desc: "Indulge in the provocative yet tasteful world of NSFW portraits, where your desires are embraced with artistry and confidentiality. Our experienced artists are skilled at transforming your boldest visions into captivating digital art. Whether it's a daring depiction of a real individual or an original character, every piece is an exploration of sensuality and passion, handled with the utmost respect and professionalism.",
             testimonials: [{
                 author: 'Bob', 
@@ -298,6 +299,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
     let { scrollY } = useScroll()
     let y = useTransform(scrollY, [0, 300], ['100%', '0%'])
+    let arrowOpacity = useTransform(scrollY, [0, 100], [1, 0])
     let opacity = useTransform(scrollY, [0, 200], [0, 1])
 
 
@@ -371,7 +373,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             {openConfirm && authUser && !authUser?.oldEnough &&
             <div className="fixed w-full h-[100vh] bg-[#282828] z-[90]">
                 <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white border-2 border-[#282828] z-[100]">
-                    <h2 className="text-3xl font-bold">You must be over <span className="text-[#0075FF] text-4xl">18</span> to create a NSFW Portrait</h2>
+                    <h2 className="text-3xl font-bold">You must be over <span className="text-[#43b4e4] text-4xl">18</span> to create a NSFW Portrait</h2>
                     <p className="text-center mt-4 text-xl">Are you over 18?</p>
                     <div className="w-8/12 mx-auto mt-2 flex justify-around items-center">
                         <button 
@@ -382,7 +384,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         </button>
                         
                         <button 
-                            className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#0075FF] py-2" 
+                            className="w-4/12 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4] py-2" 
                             onClick={handleConfirm}
                         >
                             Yes
@@ -393,6 +395,16 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             }
 
             <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
+                <motion.object 
+                    type="image/svg+xml" 
+                    data="images/down-arrow.svg" 
+                    className="absolute top-[70vh] left-[46%] w-[8%] h-[8%]"
+                    initial={ { y: -10 }}
+                    animate={{ y: 0}}
+                    transition={{ duration: .75, repeat: Infinity, repeatType: 'reverse', ease: "linear" }}
+                    style={{opacity: arrowOpacity}}
+                />
+                
                 <motion.div 
                     className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" 
                     style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}} //rgba(255, 255, 255, .15)
@@ -405,14 +417,14 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         }} 
                         className="w-full h-full flex items-center pl-[5%]"
                     >
-                        <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#4da0ff]/50 text-white py-8 px-10 ">
+                        <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#43b4e4]/50 text-white py-8 px-10 ">
                             <h2 className='font-bold text-4xl mb-8 text-left'>
-                                Create a <span className="text-[#4da0ff]">{options[`${mode}` as keyof OptionsType].title}</span> Portrait
+                                Create a <span className="text-[#43b4e4]">{options[`${mode}` as keyof OptionsType].title}</span> Portrait
                             </h2>
-                            <p className="text-2xl mb-[5%]">{options[`${mode}` as keyof OptionsType].tagline}</p>
+                            <p className="text-2xl font-light mb-[5%]">{options[`${mode}` as keyof OptionsType].tagline}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                                className="text-black text-xl mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
+                                className="text-black text-xl mb-4 w-[50%] rounded-md px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
                                 whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                                 whileTap={{ scale: 1.05 }}
                             >
@@ -455,7 +467,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         <p className="font-light text-2xl mb-8">{options[`${mode}` as keyof OptionsType].desc}</p>
                         <motion.button 
                             disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                            className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
+                            className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
                         >
@@ -505,11 +517,11 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
             <div className="relative w-[100%] h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center ">
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-full h-[110vh] -z-9"></object>
-                <object type="image/svg+xml" data="images/splat.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-8"></object>
+                <object type="image/svg+xml" data="images/splat.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-8"/>
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-xl mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff]  transition duration-200 ease-in-out z-10" onClick={() => setMode(mode)} 
+                    className="text-xl mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4]  transition duration-200 ease-in-out z-10" onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}
                 >

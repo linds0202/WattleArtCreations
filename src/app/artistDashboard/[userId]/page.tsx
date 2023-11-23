@@ -98,25 +98,25 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
         <div className='w-10/12 mx-auto flex justify-around items-center'>
           <button 
             onClick={() => handleFilter('Bid')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff]'
+            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Bid
           </button>
           <button 
             onClick={() => handleFilter('In Progress')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff]'
+            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             In Progress
           </button>
           <button 
             onClick={() => handleFilter('Completed')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff]'
+            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Completed
           </button>
           <button 
             onClick={() => handleFilter('Clear')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff]'
+            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Clear
           </button>

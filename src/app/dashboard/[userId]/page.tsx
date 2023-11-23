@@ -22,10 +22,10 @@ type Params = {
 
 
 export default function Dashboard({ params: { userId }}: Params) {
-  
+  console.log('userId in params: ', userId) 
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
-
+ 
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
@@ -39,25 +39,31 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }, [authUser, isLoading]);
 
+  console.log('authUser in dashboard: ', authUser)
+  console.log('currentUser: ', currentUser)
+  console.log('portraits: ', portraits)
+  console.log('filtered: ', filtered )
 
   useEffect(() => {
-
+    console.log('running now')
     setPageLoading(true)
     let latestUser: UserData | null
     
     const getPortraits = async () => {
-        const unsubscribe = await getAllCustomersPortraits(setPortraits, setFiltered, userId);
+      console.log('called get Portraits')  
+      const unsubscribe = await getAllCustomersPortraits(setPortraits, setFiltered, userId);
       
         return () => unsubscribe()
     }
 
     const handleCurrentUser = async () => {
-      latestUser = await getUserById(authUser?.uid)
-
+      latestUser = await getUserById(userId)
+      
       if (latestUser) {
         setCurrentUser(latestUser)
         getBadge(latestUser?.totalCompletedCommissions)
       }
+      console.log('about to call getPortraits')
       getPortraits()
       
     }
@@ -130,31 +136,31 @@ export default function Dashboard({ params: { userId }}: Params) {
       <div className='flex justify-around items-center mt-8'>
         <button 
           onClick={() => handleFilter('Unordered')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Unordered
         </button>
         <button 
           onClick={() => handleFilter('Unassigned')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Select Artist
         </button>
         <button 
           onClick={() => handleFilter('In Progress')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           In Progress
         </button>
         <button 
           onClick={() => handleFilter('Completed')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Completed
         </button>
         <button 
           onClick={() => handleFilter('Clear')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#4da0ff] z-30'
+          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Clear Filters
         </button>
@@ -171,7 +177,7 @@ export default function Dashboard({ params: { userId }}: Params) {
                 }} 
               className='text-white no-underline cursor-pointer z-30'
             >
-              <div className='mt-4 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
+              <div className='mt-4 py-2 px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
                 Return Home
               </div>
             </Link>

@@ -39,7 +39,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
            
             <div className="flex flex-col">
                 <div className="mt-[15%] w-7/12 self-center ml-[30%] z-10">
-                    <p className="font-serif text-8xl font-bold mb-8 text-gradient-to-r from-[#4DFF90] to-[#4da0ff]">Choose Your Style</p>
+                    <p className="font-serif text-8xl font-bold mb-8">Choose Your Style</p>
                     <p className="w-11/12 mt-8 text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat nulla, laoreet vitae sollicitudin eget, condimentum id magna. Aenean rhoncus viverra massa, eu placerat ex rutrum nec. Etiam lobortis nisl vel justo porttitor sollicitudin. Ut et ligula at sapien efficitur consequat. Suspendisse ullamcorper malesuada quam, non fermentum metus fermentum accumsan. </p>
                 </div>
 
@@ -78,7 +78,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                         <p className="font-serif mt-4 text-4xl font-bold">Photorealistic</p>
                         <p className="w-10/12 text-xl font-light mt-8">Welcome to a world where art isn&lsquo;t just seen, but deeply felt. Where the lines blur between reality and canvas. Our bespoke photorealistic portraits aren&lsquo;t just images, they&lsquo;re narratives, crafted with skill and heart, capturing the essence of your story with breath-taking accuracy and depth.</p>
                         <div
-                            className='w-1/3 mt-8 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             onClick={() => setMode('Photorealistic')}
                         >
                             Customize
@@ -92,7 +92,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                         <p className="font-serif text-4xl font-bold">Anime</p>
                         <p className="text-xl font-light mt-8">Ever dreamed of stepping into your favorite anime world, becoming a part of its vibrant colors, intricate lines, and ethereal aesthetics? We can help bring this dream to life! Our gifted artists will transform your image into a custom anime-style portrait that is unique, vibrant, and truly yours. Let us capture your essence in a style that resonates with your love for the world of anime. Whether it&lsquo;s your favorite character or something completely original, let&lsquo;s turn the ordinary into extraordinary!</p>
                         <div
-                            className='w-1/3 mt-8 py-2 px-4 bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             onClick={() => setMode('Anime')}
                         >
                             Customize
@@ -133,7 +133,7 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                     <div className="w-full">
                         <img src="/images/cta/nsfw.png" />
                         <div
-                            className='absolute bottom-[23%] left-[43.5%] w-1/6 mt-8 py-2 px-4 rounded-xl text-black text-center text-2xl bg-gradient-to-r from-[#4DFF90] to-[#4da0ff] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='absolute bottom-[23%] left-[43.5%] w-1/6 mt-8 py-2 px-4 rounded-xl text-black text-center text-2xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             onClick={() => setMode('NSFW')}
                         >
                             Customize

@@ -278,9 +278,9 @@ const Portfolio = () => {
                 {authUser?.uid === artistId && !isEdit && 
                         <button 
                             onClick={handleClick}
-                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#ffffff] hover:border-[#4da0ff]"
+                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#ffffff] hover:border-[#43b4e4]"
                         >
-                            <EditIcon sx={{ fontSize: 36, color: '#ffffff', ":hover": { color: "#4da0ff"} }}/>
+                            <EditIcon sx={{ fontSize: 36, color: '#ffffff', ":hover": { color: "#43b4e4"} }}/>
                         </button>
                 }
                 
