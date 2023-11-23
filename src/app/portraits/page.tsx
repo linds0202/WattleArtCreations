@@ -46,7 +46,7 @@ export default function Portraits() {
 
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse((sessionStorage.getItem("Cart")!)) : [])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse((sessionStorage.getItem("Cart")!)).map((p: PortraitData) => !p.paymentComplete) : [])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
@@ -68,10 +68,10 @@ export default function Portraits() {
 
   //update cart context on portrait addition
   useEffect(() => {
-    console.log('portraits: ', portraits)
-    console.log(sessionStorage.getItem('Cart'))
     console.log(JSON.parse(sessionStorage.getItem('Cart')!))
-    // const removePurchasedPortraits = portraits.
+    console.log('portraits: ', portraits)
+    
+    //const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).map((p: PortraitData) => !p.paymentComplete)
     sessionStorage.setItem('Cart', JSON.stringify(portraits))
     window.dispatchEvent(new Event("storage"))
   }, [portraits])
@@ -145,7 +145,7 @@ export default function Portraits() {
         <div className=''>
           <p className='text-black text-lg'>Characters:</p>
           <div className='mt-[6px] flex justify-start'>  
-            {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='./images/customizer/character.png' alt='small human icon'/>)}
+            {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='/images/customizer/character.png' alt='small human icon'/>)}
           </div>
         </div>
 
