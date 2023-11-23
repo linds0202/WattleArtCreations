@@ -25,6 +25,7 @@ type Params = {
 export default function Dashboard({ params: { userId, complete }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
+  console.log('complete: ', complete)
  
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -43,6 +44,7 @@ export default function Dashboard({ params: { userId, complete }}: Params) {
     setPageLoading(true)
     
     if (complete) {
+      console.log('setting session to []')
       sessionStorage.setItem('Cart', JSON.stringify([]))
     }
 
