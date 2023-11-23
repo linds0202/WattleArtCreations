@@ -2,7 +2,7 @@
 
 import '../../globals.css'
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
 import { getCustomersPortraits, getUserById } from '../../firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
@@ -17,14 +17,16 @@ import Link from 'next/link';
 type Params = {
   params: {
     userId: string,
-    complete: boolean
   }
 }
 
 
-export default function Dashboard({ params: { userId, complete }}: Params) {
+export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const complete: string | null = searchParams.get('complete')
+  
   console.log('complete: ', complete)
  
   const [pageLoading, setPageLoading] = useState(true)
@@ -42,8 +44,8 @@ export default function Dashboard({ params: { userId, complete }}: Params) {
 
   useEffect(() => {
     setPageLoading(true)
-    
-    if (complete) {
+    console.log('complete === "true": ', complete === 'true')
+    if (complete === 'true') {
       console.log('setting session to []')
       sessionStorage.setItem('Cart', JSON.stringify([]))
     }
