@@ -16,12 +16,13 @@ import Link from 'next/link';
 
 type Params = {
   params: {
-    userId: string
+    userId: string,
+    complete: boolean
   }
 }
 
 
-export default function Dashboard({ params: { userId }}: Params) {
+export default function Dashboard({ params: { userId, complete }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
  
@@ -40,6 +41,11 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     setPageLoading(true)
+    
+    if (complete) {
+      sessionStorage.setItem('Cart', JSON.stringify([]))
+    }
+
     let latestUser: UserData | null
     
     const getPortraits = async () => {
