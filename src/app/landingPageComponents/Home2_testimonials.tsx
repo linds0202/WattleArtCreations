@@ -33,7 +33,7 @@ const Home2_testimonials = () => {
        
             <object type="image/svg+xml" data="images/past_commissions.svg" className="w-2/3 mx-auto mt-10"></object>
         
-            <div className="w-full mt-20 flex justify-around items-center">
+            <div className="w-11/12 mx-auto mt-20 flex justify-around items-center">
                 <div 
                     className="w-1/12 object-cover hover:scale-110 cursor-pointer flex justify-end"
                     onClick={handlePrev}
@@ -41,15 +41,15 @@ const Home2_testimonials = () => {
                     <img src="/images/testimonials/next_left.png"/>
                 </div>
 
-               <div className="w-10/12 flex justify-between items-center">
-                <img src={featuredTestimonials[currentTestimonial]?.imgUrl} className="w-[350px] h-[400px] object-cover rounded-xl"/>
+                <div className="w-10/12 flex justify-between items-center">
+                    <img src={featuredTestimonials[currentTestimonial]?.imgUrl} className="w-[350px] h-[400px] ml-8 object-cover rounded-xl"/>
 
 
-                <div className="w-3/4 p-8">
-                    <p className="text-2xl font-thin"><span className="font-serif font-bold mr-8">&ldquo;</span>{featuredTestimonials[currentTestimonial]?.text}<span className="text-right font-serif font-bold ml-8">&rdquo;</span></p>                
-                    <p className="text-right text-2xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{featuredTestimonials[currentTestimonial]?.customerDisplayName}</p>
+                    <div className="w-3/4 p-12">
+                        <p className="text-2xl font-thin"><span className="font-serif font-bold mr-8">&ldquo;</span>{featuredTestimonials[currentTestimonial]?.text}<span className="text-right font-serif font-bold ml-8">&rdquo;</span></p>                
+                        <p className="text-right text-3xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{featuredTestimonials[currentTestimonial]?.customerDisplayName}</p>
+                    </div>
                 </div>
-               </div>
                 
 
                 <div 
