@@ -9,12 +9,9 @@ const Home2_testimonials = () => {
 
     const testimonials: Array<TestimonialType> = categories.home.testimonials
     const featuredTestimonials = testimonials.filter(test => test.featuredHome)
-
-    console.log('featuredTestimonials.length: ', featuredTestimonials)
-    
+   
     
     const handleNext = () => {
-        console.log('currentTestimonial: ', currentTestimonial)
         if(currentTestimonial < featuredTestimonials.length - 1) {
             setCurrentTestimonial(currentTestimonial + 1)
         } else {
@@ -23,7 +20,6 @@ const Home2_testimonials = () => {
     }
 
     const handlePrev = () => {
-        console.log('currentTestimonial: ', currentTestimonial)
         if(currentTestimonial === 0) {
             setCurrentTestimonial(featuredTestimonials.length - 1)
         } else {
@@ -39,25 +35,25 @@ const Home2_testimonials = () => {
         
             <div className="w-full mt-20 flex justify-around items-center">
                 <div 
-                    className="w-1/6 object-cover hover:scale-110 cursor-pointer flex justify-end"
+                    className="w-1/12 object-cover hover:scale-110 cursor-pointer flex justify-end"
                     onClick={handlePrev}
                 >
                     <img src="/images/testimonials/next_left.png"/>
                 </div>
 
-               <div className="w-2/3 flex justify-between items-center">
+               <div className="w-10/12 flex justify-between items-center">
                 <img src={featuredTestimonials[currentTestimonial]?.imgUrl} className="w-[350px] h-[400px] object-cover rounded-xl"/>
 
 
-                <div className="w-8/12 p-4">
+                <div className="w-3/4 p-8">
                     <p className="text-2xl font-thin"><span className="font-serif font-bold mr-8">&ldquo;</span>{featuredTestimonials[currentTestimonial]?.text}<span className="text-right font-serif font-bold ml-8">&rdquo;</span></p>                
-                    <p className="text-right text-4xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{featuredTestimonials[currentTestimonial]?.customerDisplayName}</p>
+                    <p className="text-right text-2xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{featuredTestimonials[currentTestimonial]?.customerDisplayName}</p>
                 </div>
                </div>
                 
 
                 <div 
-                    className="w-1/6 object-cover hover:scale-110 cursor-pointer"
+                    className="w-1/12 object-cover hover:scale-110 cursor-pointer"
                     onClick={handleNext}
                 >
                     <img src="/images/testimonials/next_right.png"/>
