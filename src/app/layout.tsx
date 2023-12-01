@@ -1,5 +1,6 @@
 
 import { AuthUserProvider } from './firebase/auth';
+import CategoriesContextProvider from './context/CategoriesContextProvider';
 import NavBar from './components/navbar'
 
 export const metadata = {
@@ -16,8 +17,10 @@ export default async function RootLayout({
     <html lang='en' className='scrollbar-hide'>
       <body>
         <AuthUserProvider>
-          <NavBar />
-          {children}
+          <CategoriesContextProvider>
+            <NavBar />
+            {children}
+          </CategoriesContextProvider>
         </AuthUserProvider>  
       </body>
     </html>

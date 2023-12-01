@@ -24,6 +24,24 @@ import { db } from './firebase';
 import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
 
+
+export async function getCategories(id) {
+  const docRef = doc(db, "categories", id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data()
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+    return {}
+  };
+}
+
+export async function setNewCategories(id, newData) {
+    updateDoc(doc(db, 'categories', id), {...newData})
+}
+
 export async function getCheckoutUrl (items, userId) {
 
   if (!userId) throw new Error("User is not authenticated");
@@ -673,6 +691,7 @@ export async function getChats(setMessages, portraitId) {
     QuerySnapshot.forEach((doc) => {
       messages.push({ ...doc.data(), id: doc.id });
     });
+    if (messages.length === 0) addChatMessage( portraitId, "Step 1: Check the Artist Selection section to pick your artist", 'Admin Bot', 'aBcDeFgHiJkLmNoPqRsTuVwxYzAb')
     setMessages(messages);
   });
   return unsubscribe;
@@ -682,23 +701,38 @@ export async function getChats(setMessages, portraitId) {
 //Add a new Testimonial
 export async function addTestimonial( data) {
   
-  updateArtistRating(data.artistId, data.stars)
+  if (data.artistId !== '') {
+    updateArtistRating(data.artistId, data.stars)
+  }
+  
 
   let imgUrl
 
+  
   if (data.includeImg) {
-    imgUrl = await getPortrait(data.portraitId)
+    if (data.portraitId) {
+      const portrait = await getPortrait(data.portraitId)
+      imgUrl = portrait.finalImages[imgUrl.finalImages.length - 1].imageUrl
+    } else {
+      imgUrl = data.imgUrl
+    }
   }
+
+
+  
 
   const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
     portraitId: data.portraitId,
     artistId: data.artistId,
+    category: data.category,
     customerId: data.customerId,
-    customerDisplayName: data.displayName,
+    customerDisplayName: data.customerDisplayName,
     text: data.text,
     stars: data.stars,
     includeImg: data.includeImg,
-    imgUrl: imgUrl.finalImages[imgUrl.finalImages.length - 1].imageUrl
+    imgUrl: imgUrl,
+    featured: data.featured,
+    featuredHome: data.featuredHome
   })
   return testimonialRef.id
 }
@@ -713,6 +747,64 @@ export async function getTestimonial(portraitId) {
   })
   return testimonial[0]
 }
+
+
+// export async function getFeaturedTestimonials(category) {
+//   const testimonials = []
+
+//   const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("category", "==", category), where("featuredHome", "==", true), orderBy("stars", "desc"), limit(9)))
+
+//   documentSnapshots.forEach((doc) => {
+//     testimonials.push({...doc.data(), uid: doc.id})
+//   });
+//   // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1]
+
+//   return testimonials
+// }
+
+export async function getAllTestimonials() {
+  const testimonials = []
+
+  const documentSnapshots = await getDocs(query(collection(db, "testimonials"), orderBy("stars", "desc"), limit(50)))
+
+  documentSnapshots.forEach((doc) => {
+    testimonials.push({...doc.data(), uid: doc.id})
+  });
+  // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1]
+
+  return testimonials
+}
+
+
+export async function updateAllFeatureTestimonials(testimonials){
+  for (const testimonial in testimonials) {
+    console.log('updating indivudal testimonials: ', testimonials[testimonial])
+    await updateDoc(doc(db, 'testimonials', testimonials[testimonial].uid), { ...testimonials[testimonial] })
+  }
+  
+}
+
+export async function updateFeatureTestimonial(testimonial){
+  await updateDoc(doc(db, 'testimonials', testimonial.uid), { ...testimonial })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export async function getArtistsTestimonials( artistId) {

@@ -6,6 +6,7 @@ import { useState } from 'react';
 interface CustomerTestimonialProps {
     setOpenTestimonial: Function,
     displayName: string,
+    category: string,
     portraitId: string | null,
     artistId: string | null,
     customerId: string,
@@ -13,18 +14,18 @@ interface CustomerTestimonialProps {
 }
 
 interface CustomerFormValues {
-    displayName: String,
+    customerDisplayName: String,
     text: string,
     stars: number,
     includeImg: boolean
 }
 
-const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, artistId, customerId, setReviewed }: CustomerTestimonialProps) => {
+const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portraitId, artistId, customerId, setReviewed }: CustomerTestimonialProps) => {
     
     const [rating, setRating] = useState<number | null>(2)
 
     const initialValues: CustomerFormValues = {
-        displayName: displayName,
+        customerDisplayName: displayName,
         text: "",
         stars: 0,
         includeImg: false
@@ -38,7 +39,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
                 
-                    addTestimonial({...values, stars: rating, portraitId: portraitId, artistId: artistId, customerId: customerId, includeImg: values.includeImg})
+                    addTestimonial({...values, stars: rating, category: category, portraitId: portraitId, artistId: artistId, customerId: customerId, includeImg: values.includeImg, featured: false, featuredHome: false})
                     
                     setReviewed(true)
                     helpers.setSubmitting(false)
@@ -80,7 +81,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, portraitId, arti
                                 Name:
                             </label>
                             <Field 
-                                name="displayName" 
+                                name="customerDisplayName" 
                                 className="w-full ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                         </div>

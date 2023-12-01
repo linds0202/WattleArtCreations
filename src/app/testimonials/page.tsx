@@ -77,10 +77,11 @@ const Testimonials = () => {
                         
                         <p>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
 
-                        {openTestimonial && 
+                        {openTestimonial && portrait &&
                             <CustomerTestimonial 
                                 setOpenTestimonial={setOpenTestimonial} 
                                 displayName={authUser?.displayName}
+                                category={portrait.mode}
                                 portraitId={portraitId}
                                 artistId={artistId}
                                 customerId={authUser?.uid}

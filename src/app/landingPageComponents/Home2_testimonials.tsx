@@ -1,33 +1,21 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
+import { useCategoriesContext } from "../context/CategoriesContext"
+import { TestimonialType } from "../context/CategoriesContext"
 
 const Home2_testimonials = () => {
-
+    const { categories } = useCategoriesContext()
     const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
-    const testimonials = [
-        {
-            index: 0,
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a faucibus nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-            author: 'Joe',
-            imgSrc:'/images/animeImgs/anime5.png'
-        },
-        {
-            index: 1,
-            body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet venenatis ipsum, vitae hendrerit purus. Sed consequat tortor eu eleifend pulvinar. Curabitur et scelerisque mauris.',
-            author: 'Alex',
-            imgSrc:'/images/animeImgs/anime6.png'
-        },
-        {
-            index: 2,
-            body: 'Vivamus rhoncus pellentesque mi, vel rutrum libero dapibus a. Morbi maximus purus quis urna lacinia, sed faucibus lacus suscipit. Phasellus imperdiet nibh dui, non ultricies diam mattis id. ',
-            author: 'Christie',
-            imgSrc:'/images/animeImgs/anime7.png'
-        },
-    ]
+    const testimonials: Array<TestimonialType> = categories.home.testimonials
+    const featuredTestimonials = testimonials.filter(test => test.featuredHome)
 
+    console.log('featuredTestimonials.length: ', featuredTestimonials)
+    
+    
     const handleNext = () => {
-        if(currentTestimonial < testimonials.length - 1) {
+        console.log('currentTestimonial: ', currentTestimonial)
+        if(currentTestimonial < featuredTestimonials.length - 1) {
             setCurrentTestimonial(currentTestimonial + 1)
         } else {
             setCurrentTestimonial(0)
@@ -35,35 +23,38 @@ const Home2_testimonials = () => {
     }
 
     const handlePrev = () => {
+        console.log('currentTestimonial: ', currentTestimonial)
         if(currentTestimonial === 0) {
-            setCurrentTestimonial(testimonials.length - 1)
+            setCurrentTestimonial(featuredTestimonials.length - 1)
         } else {
             setCurrentTestimonial(currentTestimonial - 1)
         }  
     }
-    
+
     return (
         <div className="relative w-full h-[125vh] mt-10 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#282828] from-20% via-[#282828] via-35% to-black to-60% pt-28">
             <img src="/images/drips/personal_underHang.png" className="absolute -top-10 left-0"/>
        
             <object type="image/svg+xml" data="images/past_commissions.svg" className="w-2/3 mx-auto mt-10"></object>
         
-            <div className="w-10/12 mx-auto mt-20 flex justify-around items-center">
+            <div className="w-full mt-20 flex justify-around items-center">
                 <div 
-                    className="w-1/6 object-cover hover:scale-110 cursor-pointer"
+                    className="w-1/6 object-cover hover:scale-110 cursor-pointer flex justify-end"
                     onClick={handlePrev}
                 >
                     <img src="/images/testimonials/next_left.png"/>
                 </div>
 
-               
-                <img src={testimonials[currentTestimonial].imgSrc} className="w-[350px] h-[400px] object-cover rounded-xl"/>
+               <div className="w-2/3 flex justify-between items-center">
+                <img src={featuredTestimonials[currentTestimonial]?.imgUrl} className="w-[350px] h-[400px] object-cover rounded-xl"/>
 
 
-                <div className="w-7/12 p-8">
-                    <p className="text-3xl font-thin"><span className="font-serif font-bold mr-8">&ldquo;</span>{testimonials[currentTestimonial].body}<span className="text-right font-serif font-bold ml-8">&ldquo;</span></p>                
-                    <p className="text-right text-4xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{testimonials[currentTestimonial].author}</p>
+                <div className="w-8/12 p-4">
+                    <p className="text-2xl font-thin"><span className="font-serif font-bold mr-8">&ldquo;</span>{featuredTestimonials[currentTestimonial]?.text}<span className="text-right font-serif font-bold ml-8">&rdquo;</span></p>                
+                    <p className="text-right text-4xl font-semibold"><span className="font-serif font-bold mr-4">-</span>{featuredTestimonials[currentTestimonial]?.customerDisplayName}</p>
                 </div>
+               </div>
+                
 
                 <div 
                     className="w-1/6 object-cover hover:scale-110 cursor-pointer"
@@ -163,7 +154,7 @@ const Home2_testimonials = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[175px] h-[175px] object-cover rounded-xl"
-                        src='images/photoImgs/photo4.jpg' 
+                        src={`${categories.home.splatters[2]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -204,7 +195,7 @@ const Home2_testimonials = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
-                        src='images/defaultImgs/anime.png' 
+                        src={`${categories.home.splatters[3]}`}
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,

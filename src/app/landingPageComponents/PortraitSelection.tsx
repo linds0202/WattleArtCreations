@@ -1,4 +1,3 @@
-
 import Link from "next/link"
 import { useRouter } from 'next/navigation';
 import { useAuth } from "../firebase/auth";
@@ -22,37 +21,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Home2_testimonial_group from "./Home2_testimonial_group";
-import { TestimonialType } from './Home2_testimonial'
+import { TestimonialType } from "../context/CategoriesContext";
+import { useCategoriesContext } from "../context/CategoriesContext";
 
-interface OptionsType {
-    Photorealistic: {
-        title: string,
-        tagline: string,
-        imgs: Array<string>,
-        splashImg: string,
-        bgImg: string,
-        desc: string,
-        testimonials: Array<TestimonialType>,
-    },
-    Anime: {
-        title: string,
-        tagline: string,
-        imgs: Array<string>,
-        splashImg: string,
-        bgImg: string,
-        desc: string,
-        testimonials: Array<TestimonialType>,
-    },
-    NSFW: {
-        title: string,
-        tagline: string,
-        imgs: Array<string>,
-        splashImg: string,
-        bgImg: string,
-        desc: string,
-        testimonials: Array<TestimonialType>,
-    },
-}
 
 // Configure FirebaseUI.
 const uiConfig = {
@@ -107,191 +78,35 @@ const splatterVariant = {
 // splashArt/PRBackground_V2.png
 
 const PortraitSelection = ({ mode, setMode }: ModeProps) => {
+    const { categories } = useCategoriesContext()
+
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
     
-    const options: OptionsType = {
-        Photorealistic: {
-            title: mode,
-            tagline: "Dissolve the Boundaries of Reality – Experience Unparalleled Artistry in Digital Photorealism",
-            imgs: ["/images/photoImgs/photo7.jpg", "/images/photoImgs/photo2.png", "/images/photoImgs/photo3.png", "/images/photoImgs/photo4.jpg", "/images/photoImgs/photo5.jpg"],
-            splashImg: '/images/splashArt/PR.png',
-            bgImg: '/images/splashArt/PRBackground_V2.png',
-            desc: "Embrace the power of precise strokes and discerning shadows, as our gifted artists capture your essence or your original characters in striking photorealistic detail. Here, the precision of digital technology marries the finesse of traditional artistry, resulting in a compelling photorealistic portrait that narrates your story or the tale of your created characters, and blurs the line between art and reality.",
-            testimonials: [
-                {
-                    author: 'Bob', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo1.png'    
-                }, 
-                {
-                    author: 'Jodie', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo2.png'   
-                }, 
-                {
-                    author: 'Alex', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/photoImgs/photo3.png'   
-                },
-                {
-                    author: 'Steve', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo4.jpg'    
-                }, 
-                {
-                    author: 'Jen', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo5.jpg'   
-                }, 
-                {
-                    author: 'Bill', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/photoImgs/photo6.jpg'   
-                },
-                {
-                    author: 'Peter', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo7.jpg'    
-                }, 
-                {
-                    author: 'Jacob', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/photoImgs/photo8.png'   
-                }, 
-                {
-                    author: 'Allie', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/photoImgs/photo9.jpg'   
-                }],
-        },
-        Anime: {
-            title: mode,
-            tagline: "Immerse Yourself in an Artistic Adventure with Custom Anime Portraits",
-            imgs: ["./images/animeImgs/anime1.png", "./images/animeImgs/anime2.jpg", "./images/animeImgs/anime3.png", "./images/animeImgs/anime4.png", "./images/animeImgs/anime5.png"],
-            splashImg: '/images/splashArt/Anime.png',
-            bgImg: '/images/splashArt/PRBackground_V2.png',
-            desc: "Take a step into the vibrant world of anime with our custom digital portraits. Rendered with passion and a flair for capturing the unique aesthetics of anime, we bring your characters—real or original—to life in breathtaking detail. Each stroke is a celebration of your imagination, intricately designed to resonate with the spirit of your narrative.",
-            testimonials: [
-                {
-                    author: 'Bob', 
-                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
-                    imgSrc: '/images/animeImgs/anime2.jpg'
-                }, 
-                {
-                    author: 'Jodie', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/animeImgs/anime6.png'
-                }, 
-                {
-                    author: 'Alex', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/animeImgs/anime8.png'
-                },
-                {
-                    author: 'Bob', 
-                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
-                    imgSrc: '/images/animeImgs/anime2.jpg'
-                }, 
-                {
-                    author: 'Jodie', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/animeImgs/anime6.png'
-                }, 
-                {
-                    author: 'Alex', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/animeImgs/anime8.png'
-                },
-                {
-                    author: 'Bob', 
-                    body: 'Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. Cras nec nunc ac augue vulputate porttitor nec ut neque. Nunc semper hendrerit erat, ac gravida erat feugiat eget. Curabitur at ligula at lacus faucibus aliquam. Vestibulum erat diam, cursus sed ornare vel, vulputate et arcu. ',
-                    imgSrc: '/images/animeImgs/anime2.jpg'
-                }, 
-                {
-                    author: 'Jodie', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                    imgSrc: '/images/animeImgs/anime6.png'
-                }, 
-                {
-                    author: 'Alex', 
-                    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    imgSrc: '/images/animeImgs/anime8.png'
-                }],
-        },
-        NSFW: {
-            title: mode,
-            tagline: "Unveil the Unspoken with Tasteful and Alluring NSFW Portraits",
-            imgs: ["./images/heroImgs/heroImg2.png", "./images/heroImgs/heroImg3.png", "./images/heroImgs/heroImg4.png", "./images/heroImgs/heroImg5.png", "./images/heroImgs/heroImg6.JPG"],
-            splashImg: '/images/splashArt/NSFW.png',
-            bgImg: '/images/splashArt/PRBackground_V2.png',
-            desc: "Indulge in the provocative yet tasteful world of NSFW portraits, where your desires are embraced with artistry and confidentiality. Our experienced artists are skilled at transforming your boldest visions into captivating digital art. Whether it's a daring depiction of a real individual or an original character, every piece is an exploration of sensuality and passion, handled with the utmost respect and professionalism.",
-            testimonials: [{
-                author: 'Bob', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg7.png'    
-            }, 
-            {
-                author: 'Jodie', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg2.png'   
-            }, 
-            {
-                author: 'Alex', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                imgSrc: '/images/heroImgs/heroImg11.png'   
-            },
-            {
-                author: 'Bob', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg7.png'    
-            }, 
-            {
-                author: 'Jodie', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg2.png'   
-            }, 
-            {
-                author: 'Alex', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                imgSrc: '/images/heroImgs/heroImg11.png'   
-            },
-            {
-                author: 'Bob', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit  pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg7.png'    
-            }, 
-            {
-                author: 'Jodie', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.',
-                imgSrc: '/images/heroImgs/heroImg2.png'   
-            }, 
-            {
-                author: 'Alex', 
-                body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec pharetra sodales erat.Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                imgSrc: '/images/heroImgs/heroImg11.png'   
-            }],
-        }
-    }
-    const imgSrc = options[`${mode}` as keyof OptionsType].splashImg
-    const bgImgSrc = options[`${mode}` as keyof OptionsType].bgImg
+    const catInfo = categories[mode]
+
+    const testimonials: Array<TestimonialType> = categories.home.testimonials
+    const featuredTestimonials = testimonials.filter(test => test.featured && test.category === catInfo.type)
+   
+    const imgSrc = catInfo.pics.selectionHero
+    const bgImgSrc = catInfo.pics.selectionBG
 
     const [openLogin, setOpenLogin] = useState(false)
     const [openConfirm, setOpenConfirm] = useState(false)
 
     useEffect(() => {
-        window.scrollTo(0, 0)        
+        window.scrollTo(0, 0)  
     }, [])
 
 
     // Listen to changes for loading, authUser, and mode and redirect if needed
     useEffect(() => {
 
-        if (!isLoading && mode === 'NSFW' && !authUser ) {
+        if (!isLoading && mode === 'cat3' && !authUser ) {
             setOpenLogin(true)
         }
         
-        if (!authUser?.oldEnough && mode === 'NSFW') {
+        if (!authUser?.oldEnough && mode === 'cat3') {
             setOpenConfirm(true)
         }
 
@@ -310,7 +125,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     }
 
     const handleXClose = () => {
-        if (mode === 'NSFW') {
+        if (mode === 'cat3') {
             router.push('/')
         }
         setOpenLogin(false)
@@ -319,7 +134,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const handleConfirm = () => {
         updateUserById(authUser?.uid)
         setOpenConfirm(false)
-        setMode('NSFW')
+        setMode('cat3')
     }
 
     const handleCancel = () => {
@@ -331,6 +146,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
         setOpenLogin(false)
         setMode('Home')
     }
+    //options[`${mode}` as keyof OptionsType].tagline
   
     return (
         <div className="bg-black">
@@ -419,21 +235,23 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     >
                         <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#43b4e4]/50 text-white py-8 px-10 ">
                             <h2 className='font-bold text-4xl mb-8 text-left'>
-                                Create a <span className="text-[#43b4e4]">{options[`${mode}` as keyof OptionsType].title}</span> Portrait
+                                Create a <span className="text-[#43b4e4]">{catInfo.type}</span> Portrait
                             </h2>
-                            <p className="text-2xl font-light mb-[5%]">{options[`${mode}` as keyof OptionsType].tagline}</p>
+                            <p className="text-2xl font-light mb-[5%]">{catInfo.copy.selectionHeroBlurb}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                                className="text-black text-xl mb-4 w-[50%] rounded-md px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
+                                className="text-black mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
+                                onClick={() => setMode(mode)} 
                                 whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                                 whileTap={{ scale: 1.05 }}
                             >
-                                {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin'
+                                {authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin'
                                 ? <Link href={{
                                         pathname: '/portraits',
                                         query: {selection: mode, direct: 'true'},
                                         }} 
-                                    className="text-2xl no-underline text-center"
+                                    className={`${(authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin')
+                                    ? 'text-2xl font-bold' : 'text-sm'} no-underline text-center`}
                                 >
                                     Start Customizing
                                 </Link>
@@ -458,26 +276,28 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                             infiniteLoop 
                             className="portrait-carousel-root portrait-carousel rounded-xl shadow-[0_0_40px_-5px_rgba(255,255,255,0.8)]"
                         >
-                            {options[`${mode}` as keyof OptionsType].imgs.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
+                            {catInfo.pics.selectionCarousel.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
                         </Carousel>
                     </motion.div>
                     
                     <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                        <p className="font-bold text-5xl mb-8">{options[`${mode}` as keyof OptionsType].title} Portrait</p>
-                        <p className="font-light text-2xl mb-8">{options[`${mode}` as keyof OptionsType].desc}</p>
+                        <p className="font-bold text-5xl mb-8">{catInfo.type} Portrait</p>
+                        <p className="font-light text-2xl mb-8">{catInfo.copy.selectionCarouselBlurb}</p>
                         <motion.button 
                             disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                            className="text-black text-xl mb-4 w-[50%] rounded-xl px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" onClick={() => setMode(mode)} 
+                            className="text-black mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
+                            onClick={() => setMode(mode)} 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
                         >
 
-                            {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin' 
+                            {authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin' 
                             ? <Link href={{
                                     pathname: '/portraits',
                                     query: {selection: mode, direct: 'true'},
                                     }} 
-                                className="text-2xl no-underline text-center"
+                                    className={`${(authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin')
+                                    ? 'text-2xl font-bold' : 'text-sm'} no-underline text-center`}
                             >
                                 Start Customizing
                             </Link>
@@ -493,7 +313,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
 
 
-            <div className='relative pt-[100px] mb-[100px] bg-black flex justify-center'>
+            <div className='relative pt-[100px] mb-[70px] bg-black flex justify-center'>
                 <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] -top-[7%] -left-[1px] right-0 z-20"></object>
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-5"></object>
                 
@@ -505,15 +325,10 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     whileInView='show'
                     viewport={{ once: true }}
                 >
-                    <Home2_testimonial_group testGroup={options[`${mode}` as keyof OptionsType].testimonials}/>
+                    <Home2_testimonial_group testGroup={featuredTestimonials}/>
                 
                 </motion.div>
             </div>
-
-
-
-
-
 
             <div className="relative w-[100%] h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center ">
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-full h-[110vh] -z-9"></object>
@@ -521,17 +336,18 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-xl mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4]  transition duration-200 ease-in-out z-10" onClick={() => setMode(mode)} 
+                    className="text-black mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
+                    onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}
                 >
-                    {authUser?.roles !== 'Artist' || authUser?.roles !== 'Admin'
+                    {authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin'
                         ? <Link 
                             href={{
                                 pathname: '/portraits',
                                 query: {selection: mode, direct: 'true'},
                             }} 
-                            className="text-2xl no-underline text-center"
+                            className={`${(authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin') ? 'text-2xl font-bold' : 'text-sm'} no-underline text-center`}
                         >
                             Start Customizing
                         </Link>

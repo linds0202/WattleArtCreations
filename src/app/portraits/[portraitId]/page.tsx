@@ -261,8 +261,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 }
               
@@ -275,9 +273,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         <h3 className='text-2xl font-bold m-0'>Final Images</h3>
                       </div>
 
-                      <div className='w-full h-[260px] flex justify-around mb-4'>
+                      <div className='relative w-full h-[260px] flex justify-around mb-4'>
                         {portrait && portrait?.finalImages?.length > 0 
-                          && <img 
+                          ? <img 
                             alt='thumbnail for final images'
                             onContextMenu={(e)=> e.preventDefault()}
                             className='w-[256px] h-[256px] object-contain cursor-pointer'
@@ -288,7 +286,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                               final: true
                             })}
                           />
-                          }
+                          : <div className='w-11/12 mx-auto flex flex-col justify-end items-center'>
+                              <object type="image/svg+xml" data="../../images/newClock.svg" className="absolute -top-[3%] left-[13%] w-[75%] h-[75%]"/>
+                              <p className='text-2xl text-[#43b4e4] font-semibold'>Check Back Soon</p>
+                              <p className='text-md text-center text-[#282828] font-semibold'>Your artist is hard at work. You will find finished images for review in this space.</p>
+                            </div>
+                        }
                       </div>
                     </div>
                   }

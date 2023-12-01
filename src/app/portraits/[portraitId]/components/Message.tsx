@@ -26,7 +26,7 @@ const Message = ( {message}: Message) => {
 
     return (
         <div
-            className={`chat-bubble ${message.uid === authUser?.uid ? "right" : ""}`}>
+            className={`chat-bubble ${message.uid === authUser?.uid ? "right" : message.uid === 'aBcDeFgHiJkLmNoPqRsTuVwxYzAb' ? "admin" : ""}`}>
             <div className="chat-bubble__right">
                 <p className="user-name">{message.name}</p>
                 {message.text !== '' && <p className="user-message">{message.text}</p>}

@@ -3,10 +3,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { scrollIntoTheView } from './Home1'
+import { useCategoriesContext } from '../context/CategoriesContext'
 
 
 const Home2_hiw = () => {
-
+    const { categories } = useCategoriesContext()
+    
     const words = 'How It Works';
     const letters = words.split('');
 
@@ -16,9 +18,9 @@ const Home2_hiw = () => {
     };
 
 
-
   return (
     <div className='relative w-full mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
+        
         <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
         <div className='z-10'>
 
@@ -44,7 +46,7 @@ const Home2_hiw = () => {
                 
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
-                        src='images/animeImgs/anime8.png' 
+                        src={`${categories.home.splatters[0]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -75,7 +77,7 @@ const Home2_hiw = () => {
                     />
                     <motion.img 
                         className="absolute top-0 left-0 w-[200px] h-[200px] object-cover rounded-xl"
-                        src='images/photoImgs/photo5.jpg' 
+                        src={`${categories.home.splatters[1]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,

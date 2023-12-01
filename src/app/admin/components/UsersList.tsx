@@ -30,8 +30,6 @@ export default function UsersList() {
       getUsersList()
   }, [])
 
-  console.log('users: ', allUsers)
-
   const handleGetArtists = () => {
     const filtered = allUsers.filter(user => user.roles === 'Artist')
     setFilteredUsers(filtered)
@@ -59,7 +57,7 @@ export default function UsersList() {
 
   return (
     <div className="w-full">
-      <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>All Users</h1>
+      <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Users</h1>
       <div className='w-full mx-auto flex justify-between mb-6 px-10'>
         <motion.button 
           className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 

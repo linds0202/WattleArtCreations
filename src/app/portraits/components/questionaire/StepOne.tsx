@@ -95,12 +95,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             values.numPets = 0
         } 
 
-        let totalPrice = prices[selection][values.bodyStyle] 
+        let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * 30) 
                         + values.numPets * 25
-                        + (modelPrice ? prices[selection]['model'] : 0)
-                        + (characterSheetPrice ? prices[selection]['character'] : 0)
-                        + (weaponsPrice ? prices[selection]['weapons'] : 0)
+                        + (modelPrice ? prices['model'] : 0)
+                        + (characterSheetPrice ? prices['character'] : 0)
+                        + (weaponsPrice ? prices['weapons'] : 0)
         
         const newChar = {}
 
@@ -201,9 +201,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
 
-        if (chars[i].extras.includes('model')) setModelPrice(prices[selection]['model'])
-        if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices[selection]['character'])
-        if (chars[i].extras.includes('weapons')) setWeaponsPrice(prices[selection]['weapons'])
+        if (chars[i].extras.includes('model')) setModelPrice(prices['model'])
+        if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices['character'])
+        if (chars[i].extras.includes('weapons')) setWeaponsPrice(prices['weapons'])
         
         setOpenCharMod(true)
     }
@@ -252,7 +252,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             if (prev > 0) {
                 return 0
             } else {
-                return prices[selection].model
+                return prices.model
             }
         })
     }
@@ -262,7 +262,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             if (prev > 0) {
                 return 0
             } else {
-                return prices[selection].character
+                return prices.character
             }
         })
     }
@@ -272,7 +272,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             if (prev > 0) {
                 return 0
             } else {
-                return prices[selection].weapons
+                return prices.weapons
             }
         })
     }
@@ -629,7 +629,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="w-full">
                                     <div className="flex justify-between items-center">
                                         <p className="">BodyStyle: </p>
-                                        <p>${!prices[selection][values.bodyStyle] ? (0).toFixed(2) : prices[selection][values.bodyStyle].toFixed(2)}</p>
+                                        <p>${!prices[values.bodyStyle] ? (0).toFixed(2) : prices[values.bodyStyle].toFixed(2)}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Variants: </p>
@@ -641,15 +641,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">3D model: </p>
-                                        <p>${values.extras.includes('model') ? prices[selection].model.toFixed(2) : (0).toFixed(2)}</p>
+                                        <p>${values.extras.includes('model') ? prices.model.toFixed(2) : (0).toFixed(2)}</p>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <p className="">Character Sheet: </p>
-                                        <p>${values.extras.includes('character') ? prices[selection].character.toFixed(2) : (0).toFixed(2)}</p>
+                                        <p>${values.extras.includes('character') ? prices.character.toFixed(2) : (0).toFixed(2)}</p>
                                     </div>
                                     <div className="flex justify-between items-center pb-4 border-b-2 border-[#282828]">
                                         <p className="">Weapons Sheet: </p>
-                                        <p>${values.extras.includes('weapons') ? prices[selection].weapons.toFixed(2) : (0).toFixed(2)}</p>
+                                        <p>${values.extras.includes('weapons') ? prices.weapons.toFixed(2) : (0).toFixed(2)}</p>
                                     </div>
                                 </div>
                                 
@@ -658,7 +658,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     <p className={`w-3/4 flex justify-between items-center ${!values.charDiscount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-xl" : "font-semibold"}`}>
                                         <span className="w-full text-right">
                                             $ {(0 + 
-                                                (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                                (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                                 + ((values.numCharVariations - 1) * 30) 
                                                 + (values.pets ? values.numPets * 25 : 0)
                                                 + modelPrice
@@ -672,7 +672,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <> 
                                     <div className="w-full flex justify-between items-center">
                                         <p className="text-red-600 text-sm">Additional Character Discount (10%)</p>
-                                        <p>-${((0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                        <p>-${((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                         + ((values.numCharVariations - 1) * 30) 
                                         + (values.pets ? values.numPets * 25 : 0)
                                         + modelPrice
@@ -681,7 +681,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     </div>
                                     <div className="self-end w-9/12 flex justify-between items-center">
                                         <p className="w-1/4 text-xl font-bold">Total: </p>
-                                        <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{((0 + (!prices[selection][values.bodyStyle] ? 0 : prices[selection][values.bodyStyle])
+                                        <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                         + ((values.numCharVariations - 1) * 30) 
                                         + (values.pets ? values.numPets * 25 : 0)
                                         + modelPrice

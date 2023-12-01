@@ -21,6 +21,7 @@ import { Timestamp } from 'firebase/firestore';
 import { Artist } from '@/app/components/Portrait';
 import LoginDialog from '@/app/components/LoginDialog';
 import ConfirmCancel from './questionaire/ConfirmCancel';
+import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
 export interface UploadedImgs {
     imageUrls: Array<string>,
@@ -88,32 +89,32 @@ interface PortraitProps {
 }
 
 
-const prices: any = {
-    Photorealistic: {
-        Headshot: 100,
-        Half: 130,
-        Full: 150,
-        model: 150,
-        character: 120,
-        weapons: 125
-    },
-    Anime: {
-        Headshot: 120,
-        Half: 140,
-        Full: 200,
-        model: 150,
-        character: 120,
-        weapons: 125
-    },
-    NSFW: {
-        Headshot: 150,
-        Half: 200,
-        Full: 225,
-        model: 150,
-        character: 120,
-        weapons: 125
-    }
-}
+// const prices: any = {
+//     Photorealistic: {
+//         Headshot: 100,
+//         Half: 130,
+//         Full: 150,
+//         model: 150,
+//         character: 120,
+//         weapons: 125
+//     },
+//     Anime: {
+//         Headshot: 120,
+//         Half: 140,
+//         Full: 200,
+//         model: 150,
+//         character: 120,
+//         weapons: 125
+//     },
+//     NSFW: {
+//         Headshot: 150,
+//         Half: 200,
+//         Full: 225,
+//         model: 150,
+//         character: 120,
+//         weapons: 125
+//     }
+// }
 
 const DEFAULT_FORM_STATE = {
     fileName: "No file selected",
@@ -121,15 +122,17 @@ const DEFAULT_FORM_STATE = {
 };
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
+    const { categories, changeCategories } = useCategoriesContext()
 
-    if (selection === undefined || !selection) selection = 'Photorealistic'
+    const choice = (selection === undefined || !selection) ? 'cat1' : selection
+    if (selection === undefined || !selection) selection = categories['cat1'].type
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
 
     const [customizerLogin, setCustomizerLogin] = useState(false);
 
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
-        mode: `${selection}`, 
+        mode: `${categories[choice].type}`, 
         characters: [],
         portraitTitle: '',
         requiredQs: ['', ''],
@@ -189,7 +192,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     // Redirect if finished loading and there's an existing user (user is logged in)
     useEffect(() => {
-        if(selection === 'NSFW') {
+        if(selection === 'cat3') {
             if (authUser) {
                 setCustomizerLogin(false)
                 if (authUser?.oldEnough){
@@ -329,7 +332,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen text-white pb-10 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-90%'>
             <div className="h-[130px] w-full flex flex-col justify-center items-center">
-                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#43b4e4] font-bold'>{selection}</span> Portrait Customizer</h2>
+                <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#43b4e4] font-bold'>{categories[choice].type}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>
             {/* Display the portrait wizard */}
@@ -345,7 +348,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 
                                 {/* Create Characters */}
                                 <StepOne 
-                                    prices={prices}
+                                    prices={categories[choice].prices}
                                     portraitData={portraitData} 
                                     chars={chars}
                                     setChars={setChars} 

@@ -1,4 +1,3 @@
-
 import { useRef, useState, useEffect } from "react";
 import { motion} from "framer-motion";
 import { useDimensions } from "./use-dimensions";

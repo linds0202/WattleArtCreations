@@ -17,7 +17,6 @@ export default function User( {user}: UserProps ) {
     const [openDetails, setOpenDetails] = useState(false)
 
     const handleViewDetails = () => {
-        console.log('clicked view details')
         setOpenDetails(true)
     }
 
@@ -25,15 +24,12 @@ export default function User( {user}: UserProps ) {
         if (e.target.value === user.roles) alert('already that')
         else if (e.target.value === 'select one') return
         else {
-            console.log('incoming value: ', e.target.value)
-            console.log('previous value: ', currentRole)
             await updateUser(user.uid, e.target.value)
             setCurrentRole(e.target.value)
             setOpenRole(false)
         }
     }
 
-    console.log('current role: ', currentRole)
 
     return (
     <>

@@ -6,7 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../firebase/auth';
 import PortraitList from './components/PortraitList';
 import UsersList from './components/UsersList';
+import TestimonialsList from './components/TestimonialsList';
 import ConsultList from './components/ConsultList';
+import EditPanel from './components/EditPanel';
 import { MenuContainer } from './menu/MenuContainer';
 import { ViewContext } from './AdminContext';
 
@@ -20,7 +22,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  const [view, setView] = useState<string>('portraits')
+  const [view, setView] = useState<string>('Portraits')
   const value = { view, setView } 
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -29,8 +31,6 @@ export default function Dashboard({ params: { userId }}: Params) {
         router.push('/')
     }
   }, [authUser, isLoading]);
-
-  console.log(view)
 
   return ((!authUser) ? 
     <p>Loading ...</p>
@@ -44,9 +44,13 @@ export default function Dashboard({ params: { userId }}: Params) {
       </div>
         {view === 'Portraits' ?
           <PortraitList user={authUser} />
+        : view === 'All Users' || view === 'Artists' ?
+          <UsersList />
+        : view === 'Testimonials' || view === 'Testimonials' ?
+          <TestimonialsList />
         : view === 'Consultations' ?
           <ConsultList />
-        : <UsersList />
+        : <EditPanel user={authUser}/>
         }
     </div>
   </div>

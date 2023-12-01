@@ -4,11 +4,11 @@ import {
     useTransform,
     useAnimate
 } from "framer-motion";
+import { useCategoriesContext } from '../context/CategoriesContext'
 
-// bg-[url('/images/gallery/splat1.png')]
 
 const Home2_gallery = () => {
-
+    const { categories } = useCategoriesContext()
     return (
         <div className="relative w-[100h%] h-[100vh]">
             <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-full h-[110vh] -z-9"/>
@@ -42,7 +42,7 @@ const Home2_gallery = () => {
                     />
                     <motion.img 
                         className="absolute top-0 left-0 w-[200px] h-[200px] object-cover rounded-xl"
-                        src='images/animeImgs/anime5.png' 
+                        src={`${categories.home.gallery[0]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -82,7 +82,7 @@ const Home2_gallery = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
-                        src='images/animeImgs/anime10.png' 
+                        src={`${categories.home.gallery[1]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -122,7 +122,7 @@ const Home2_gallery = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
-                        src='images/heroImgs/heroImg3.png' 
+                        src={`${categories.home.gallery[2]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -162,7 +162,7 @@ const Home2_gallery = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[200px] h-[200px] object-cover rounded-xl"
-                        src='images/heroImgs/heroImg8.png' 
+                        src={`${categories.home.gallery[3]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -202,7 +202,7 @@ const Home2_gallery = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[150px] h-[150px] object-cover rounded-xl"
-                        src='images/heroImgs/heroImg16.jpg' 
+                        src={`${categories.home.gallery[4]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,
@@ -242,7 +242,7 @@ const Home2_gallery = () => {
                     /> */}
                     <motion.img 
                         className="absolute top-0 left-0 w-[200px] h-[200px] object-cover rounded-xl"
-                        src='images/heroImgs/heroImg19.png' 
+                        src={`${categories.home.gallery[5]}`} 
                         initial={{ opacity: 0 }}
                         whileHover={{ 
                             opacity: 1,

@@ -5,6 +5,7 @@ import Home2_cta from "./Home2_cta"
 import Home2_gallery from "./Home2_gallery"
 import Footer from "../components/Footer"
 
+
 export interface ModeProps {
     mode: string,
     setMode: Function
@@ -23,7 +24,6 @@ export const scrollIntoTheView = (id: string) => {
 
 
 export default function Home ({ setMode, mode }: ModeProps) {
-
     return (
         <div className="bg-black text-white">
             <Home2_hero />

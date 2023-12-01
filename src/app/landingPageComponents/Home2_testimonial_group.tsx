@@ -1,4 +1,4 @@
-import { TestimonialType } from './Home2_testimonial'
+import { TestimonialType } from '../context/CategoriesContext'
 import Home2_testimonial from './Home2_testimonial'
 import { useState } from 'react'
 
@@ -35,16 +35,16 @@ const Home2_testimonial_group = ({testGroup}: TestimonialGroupProps) => {
     }
     
     return (
-        <div className='w-11/12 flex items-center'>
+        <div className='w-12/12 flex items-center'>
             <div 
-                className="w-1/6 object-cover hover:scale-110 cursor-pointer"
+                className="w-1/6 object-cover hover:scale-110 cursor-pointer flex justify-end"
                 onClick={showPrevGroup}
             >
                 <img src="/images/testimonials/next_left.png"/>
             </div>
-            <Home2_testimonial test={testGroup[allIndexes[0]]} />
-            <Home2_testimonial test={testGroup[allIndexes[1]]} />
-            <Home2_testimonial test={testGroup[allIndexes[2]]} />
+                <Home2_testimonial test={testGroup[allIndexes[0]]} />
+                <Home2_testimonial test={testGroup[allIndexes[1]]} />
+                <Home2_testimonial test={testGroup[allIndexes[2]]} />
             <div 
                 className="w-1/6 object-cover hover:scale-110 cursor-pointer"
                 onClick={showNextGroup}

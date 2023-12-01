@@ -21,6 +21,7 @@ import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Bag from '../../../public/images/bag.png'
 import LoginDialog from './LoginDialog';
 import { Timestamp } from 'firebase/firestore';
+import { useCategoriesContext } from '../context/CategoriesContext';
 
 
 // Configure FirebaseUI.
@@ -42,7 +43,7 @@ import { Timestamp } from 'firebase/firestore';
 }; */
 
 export default function NavBar() {
-  
+  const { categories, changeCategories } = useCategoriesContext()
   const { authUser, setAuthUser, isLoading, signOut } = useAuth()
 
 
@@ -97,7 +98,7 @@ export default function NavBar() {
       if (clickedNSFW) {
         if (authUser?.oldEnough){
           setClickedNSFW(false)
-          router.push('/?selection=NSFW') 
+          router.push('/?selection=cat3') 
         } else {
           setOpenConfirm(true)
         }
@@ -116,7 +117,7 @@ export default function NavBar() {
       setOpenConfirm(true)
     } else {
       setClickedNSFW(false)
-      router.push('/?selection=NSFW')
+      router.push('/?selection=cat3')
     }
     // setClickedNSFW(false)
   }
@@ -128,7 +129,7 @@ export default function NavBar() {
     setClickedNSFW(false)
     setOpenConfirm(false)
     
-    router.push('/?selection=NSFW')
+    router.push('/?selection=cat3')
   }
 
   const handleCancel = () => {
@@ -141,121 +142,129 @@ export default function NavBar() {
     router.push('/')
   }
 
+  const handleHome = () => {
+    router.push('/')
+  }
+
 
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
     <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-[100]'>
-      <div className='w-4/12 flex justify-start'>
-        <Link 
+      <div onClick={handleHome} className='w-1/4 cursor-pointer flex justify-start items-center'>
+        {/* <Link 
           href={{
             pathname: '/',
             query: {selection: 'Home'},
             }} 
           className='flex justify-between items-center no-underline'
-        >
+        > */}
+        {/* <div onClick={handleHome} className='cursor-pointer flex justify-between items-center'> */}
           <div className='relative w-[64px] h-[64px] object-cover'>
-            <Image 
-              src={Logo} 
-              alt="small Wattle Art Creations logo" 
-              fill
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-              priority={true}  
-            />
-          </div>
-          <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
-        </Link>
+              <Image 
+                src={Logo} 
+                alt="small Wattle Art Creations logo" 
+                fill
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                priority={true}  
+              />
+            </div>
+            <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
+          {/* </div> */}
+        {/* </Link> */}
       </div>
 
+      <div className='w-1/2 mx-auto flex justify-between'>
+        {/* (currentUrl === '/' || currentUrl === '/portraits' || currentUrl === '/dashboard') && */}
+        {/* Links for Personal Route if not artist*/}
+        {( authUser?.roles !== 'Artist') && 
+        <div className={`${!authUser || authUser?.roles === 'Customer' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-around items-center`}>
+          <Link href={{
+                  pathname: '/',
+                  query: {selection: 'cat1'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-cyan-600"
+          >
+              {categories.cat1.type}
+          </Link>
+          <Link href={{
+                  pathname: '/',
+                  query: {selection: 'cat2'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              {categories.cat2.type}
+          </Link>
+          <button 
+            onClick={handleOldEnough}
+            className="text-xl no-underline text-center hover:text-violet-600"
+          >
+            {categories.cat3.type}
+          </button>
+        </div> }
 
-      {/* (currentUrl === '/' || currentUrl === '/portraits' || currentUrl === '/dashboard') && */}
-      {/* Links for Personal Route if not artist*/}
-      {( authUser?.roles !== 'Artist' && authUser?.roles !== 'Admin') && 
-      <div className='w-4/12 flex justify-around items-center'>
-        <Link href={{
-                pathname: '/',
-                query: {selection: 'Photorealistic'},
-                }} 
-            className="text-xl no-underline text-center hover:text-cyan-600"
-        >
-            Photorealistic
-        </Link>
-        <Link href={{
-                pathname: '/',
-                query: {selection: 'Anime'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Anime
-        </Link>
-        <button 
-          onClick={handleOldEnough}
-          className="text-xl no-underline text-center hover:text-violet-600"
-        >
-          NSFW
-        </button>
-      </div> }
-
-     
-      {(authUser?.roles === 'Artist' || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue'))) && 
-        <div className='flex justify-between items-center'>
-          <div className='pr-4'>
-            <Link href='/portraitQueue' className='text-white text-xl no-underline'>Portrait Queue</Link>
+        {/* || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue')) */}
+        {(authUser && authUser?.roles !== 'Customer') && 
+          <div className={`${authUser?.roles === 'Artist' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-between items-center`}>
+            <div className='pr-4'>
+              <Link href='/portraitQueue' className='text-white text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
+            </div>
+            <div className='pr-4'>
+              <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-xl no-underline hover:text-orange-600'>Dashboard</Link>
+            </div>
+            <div className=''>
+              <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
+            </div>
           </div>
-          <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-xl no-underline'>Dashboard</Link>
-          </div>
-          <div className='pr-4'>
-            <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-xl no-underline'>My Portfolio</Link>
-          </div>
-        </div>
-      }
+        }
 
 
-      {/* Links for Corporate Route */}
-      {currentUrl === '/corporate' && 
-      <div className='w-4/12 flex justify-around items-center'>
-        <Link href={{
-                pathname: '/corporate',
-                query: {selection: 'Digital'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Digital
-        </Link>
-        <Link href={{
-                pathname: '/corporate',
-                query: {selection: 'Identity'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Identity
-        </Link>
-        <Link href={{
-                pathname: '/corporate',
-                query: {selection: 'Marketing'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Marketing
-        </Link> 
-        <Link href={{
-                pathname: '/corporate',
-                query: {selection: 'Print'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Print
-        </Link>
-        <Link href={{
-                pathname: '/corporate',
-                query: {selection: 'VideoGame'},
-                }} 
-            className="text-xl no-underline text-center hover:text-orange-600"
-        >
-            Video Games
-        </Link>
-      </div> }
+        {/* Links for Corporate Route */}
+        {currentUrl === '/corporate' && 
+        <div className='w-4/12 flex justify-around items-center'>
+          <Link href={{
+                  pathname: '/corporate',
+                  query: {selection: 'Digital'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              Digital
+          </Link>
+          <Link href={{
+                  pathname: '/corporate',
+                  query: {selection: 'Identity'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              Identity
+          </Link>
+          <Link href={{
+                  pathname: '/corporate',
+                  query: {selection: 'Marketing'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              Marketing
+          </Link> 
+          <Link href={{
+                  pathname: '/corporate',
+                  query: {selection: 'Print'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              Print
+          </Link>
+          <Link href={{
+                  pathname: '/corporate',
+                  query: {selection: 'VideoGame'},
+                  }} 
+              className="text-xl no-underline text-center hover:text-orange-600"
+          >
+              Video Games
+          </Link>
+        </div> }
+      </div>
+      
 
       <div className='w-4/12 flex justify-end items-center '>
         {authUser?.roles === 'Customer' && 
@@ -329,7 +338,7 @@ export default function NavBar() {
 
 
       <LoginDialog
-        selection={clickedNSFW ? 'NSFW' : 'Photorealistic'}
+        selection={clickedNSFW ? 'cat3' : 'Photorealistic'}
         customizer={false}
         login={login}
         setLogin={setLogin}

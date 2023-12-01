@@ -123,11 +123,16 @@ table {
   align-items: flex-start;
   margin-bottom: 20px
 }
+.chat-bubble.admin {
+  background-color: #43b4e4;
+}
+
 .chat-bubble.right {
   margin-left: auto;
   border-radius: 20px 20px 0 20px;
   background-color: #fff;
 }
+
 .chat-bubble__left {
   width: 35px;
   height: 35px;

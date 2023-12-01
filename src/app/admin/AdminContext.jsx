@@ -2,6 +2,6 @@ import { createContext } from 'react'
 
 
 export const ViewContext = createContext({
-    view: 'portraits',
+    view: 'Portraits',
     setView: (value) => value
   })

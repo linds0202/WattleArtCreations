@@ -68,7 +68,7 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
             
             <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
     
-            {selection === 'NSFW' 
+            {selection === 'cat3' 
                 ? <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
                 :
                 <p className='pb-4 text-center mt-4'>In order to fully customize your portrait, please Login or Create an Account</p>

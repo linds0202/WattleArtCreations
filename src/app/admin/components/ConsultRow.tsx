@@ -13,12 +13,10 @@ export default function ConsultRow({ consult }: ConsultRowProps) {
 
     const handleViewConsult = () => {
         setOpenModal(true)
-        console.log('clicked view orders')
     }
 
     const handleClose = () => {
         setOpenModal(false)
-        console.log('closed')
     }
 
     return (

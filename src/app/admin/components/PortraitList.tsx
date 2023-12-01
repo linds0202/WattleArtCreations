@@ -50,7 +50,6 @@ export default function PortraitList({ user }: PortraitListProps) {
 
     const handleGetUser = async () => {
       const currentUser: UserData | null = await getUserById(user.uid)
-      console.log('current user: ', currentUser )
       if(currentUser) setCurrentAdmin(currentUser)
     }
 
@@ -84,7 +83,7 @@ export default function PortraitList({ user }: PortraitListProps) {
 
   return (
         <div className="w-full flex flex-col items-center">
-          <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Portrait List</h1>
+          <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Portraits</h1>
           <div className='w-10/12 mx-auto flex justify-between mb-6 px-10'>
               <motion.button className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} onClick={handleGetPending} whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}>Pending Commissions</motion.button>
 
