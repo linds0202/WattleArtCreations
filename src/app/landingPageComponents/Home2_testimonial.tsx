@@ -5,6 +5,7 @@ interface TestimonialProps {
 }
 
 const Home2_testimonial = ({ test }: TestimonialProps) => {
+    console.log('test: ', test)
     return (
         <div className="w-1/3 h-full flex justify-center items-center bg-black" >
             <div 
