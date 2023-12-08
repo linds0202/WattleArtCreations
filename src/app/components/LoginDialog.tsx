@@ -1,5 +1,5 @@
 import '../globals.css'
-import 'firebaseui/dist/firebaseui.css'
+import '../firebaseui-styling.global.css'; 
 import { useAuth } from '@/app/firebase/auth';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/app/firebase/firebase';
@@ -22,7 +22,11 @@ const uiConfig = {
     ],
     callbacks: {
         // Avoid redirects after sign-in.
-        signInSuccessWithAuthResult: () => false,
+        signInSuccessWithAuthResult: () => {
+            console.log('calling this')
+            const resolved = false
+            return resolved
+        }
     },
 };
 
@@ -47,6 +51,7 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
         setLogin(false)
         router.push('/')
     }
+    //, position: 'relative'
     
     return (
         <Dialog 
@@ -54,7 +59,7 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
             open={login} 
             fullWidth={true}
             maxWidth='xs'
-            PaperProps={{ sx: { p: 4, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px"} }}
         >
             <div className='relative w-[128px] h-[128px] object-cover'>
                 <Image 
@@ -75,10 +80,14 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
                 :
                 <p className='pb-4 text-center mt-4'>In order to fully customize your portrait, please Login or Create an Account</p>
             }
-            <div className='border-2 border-green-600'>
-                
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-            </div>
+
+            
+            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+            
+
+            {/* {app && (
+              <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+            )} */}
 
             <Button 
                 onClick={handleRedirect}

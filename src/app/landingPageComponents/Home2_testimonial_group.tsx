@@ -9,8 +9,6 @@ export interface TestimonialGroupProps {
 const Home2_testimonial_group = ({testGroup}: TestimonialGroupProps) => {
     
     const [allIndexes, setAllIndexes] = useState<Array<number>>([0, 1, 2]) 
-    
-    console.log('test group: ', testGroup)
 
     const showNextGroup = () => {
         const newIndexes = allIndexes.map(i => i + 3)

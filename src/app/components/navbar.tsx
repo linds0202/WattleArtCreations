@@ -23,10 +23,9 @@ import LoginDialog from './LoginDialog';
 import { Timestamp } from 'firebase/firestore';
 import { useCategoriesContext } from '../context/CategoriesContext';
 
-
 // Configure FirebaseUI.
-/* const uiConfig = {
-  signInFlow: 'popup', // popup signin flow rather than redirect flow
+const uiConfig = {
+  signInFlow: 'popup',
   signInOptions: [
     {
       provider: EmailAuthProvider.PROVIDER_ID,
@@ -34,22 +33,22 @@ import { useCategoriesContext } from '../context/CategoriesContext';
     },
     GoogleAuthProvider.PROVIDER_ID,
   ],
-  callbacks: {
-    // Avoid redirects after sign-in.
-    signInSuccessWithAuthResult: () => {
-      return false
-    }
-  },
-}; */
+  signInSuccessUrl: '/',
+};
 
 export default function NavBar() {
   const { categories, changeCategories } = useCategoriesContext()
   const { authUser, setAuthUser, isLoading, signOut } = useAuth()
 
+  const [currentRoute, setCurrentRoute] = useState<string>('/')
 
+  
   const currentUrl = usePathname()
   const baseUrl = currentUrl.split('/')[1]
   const router = useRouter()
+
+  console.log('currentUrl: ', currentUrl)
+  console.log('currentBaseUrl: ', baseUrl)
   
   const [login, setLogin] = useState(false)
   const [openConfirm, setOpenConfirm] = useState(false)
@@ -337,12 +336,18 @@ export default function NavBar() {
       }
 
 
-      <LoginDialog
-        selection={clickedNSFW ? 'cat3' : 'Photorealistic'}
-        customizer={false}
-        login={login}
-        setLogin={setLogin}
-      />
+      {/* {currentUrl === '/' ?
+        <Dialog onClose={() => setLogin(false)} open={login}>
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+        </Dialog>
+      : */}
+        <LoginDialog
+          selection={clickedNSFW ? 'cat3' : 'Photorealistic'}
+          customizer={false}
+          login={login}
+          setLogin={setLogin}
+        />
+      {/* } */}
       {/* <Dialog 
         onClose={handleClose} 
         open={login} 
