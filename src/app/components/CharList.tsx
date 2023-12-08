@@ -19,7 +19,7 @@ const CharList = ({ portrait }: CharListProps) => {
             <p className='text-md font-semibold text-center'>Character {i + 1}</p>
             <div className='flex justify-between'>
               <p className='font-semibold'>Variations: <span className='font-light'>{char.numCharVariations}</span></p>
-              <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p>
+              {/* <p className='font-semibold'>Pets: <span className='font-light'>{char.numPets}</span></p> */}
             </div>
             
             <p className='text-md font-semibold'>Extras: <span className='text-sm font-light'>{char.extras.map(extra => {
