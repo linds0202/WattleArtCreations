@@ -93,14 +93,6 @@ const Portfolio = () => {
     const [page, setPage] = useState(1)
     const [openTestimonial, setOpenTestimnonial] = useState(false)
 
-
-    // useEffect(() => {
-    //     if (!isLoading && !authUser) {
-    //         router.push('/')
-    //     }
-    // }, [authUser, isLoading]);
-
-
     useEffect(() => {
     
         const handleGetUser = async () => {
@@ -244,31 +236,34 @@ const Portfolio = () => {
         <div className='relative min-h-[100vh] bg-black'>
             <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-1"/>
             <div className='relative pb-36'>
-                <div className='px-4 pt-8 flex justify-around'>
-                    <div className='w-[48%]'>
-                        <div className='w-full h-[80vh] flex flex-wrap justify-around items-center'>
+                <div className='px-8 pt-8 flex justify-around'>
+                    {/* <div className='w-[48%]'> */}
+                        <div className='w-[50vw] h-[80vh] flex flex-col items-center'>
+                           
+                            <div className='w-[100%] h-[50vh] flex justify-around items-center border-red-600'>
+                                <div 
+                                    className={`w-[60%] h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(1)}   
+                                >
+                                    <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                </div>
+                                <div className='w-[35%] h-[100%] flex flex-col justify-between items-center'>
+                                    <div 
+                                        className={`w-full h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(2)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
+                                    <div 
+                                        className={`w-full h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(3)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
+                                </div>
+                            </div>
                             
-                            <div 
-                                className={`w-[500px] h-[450px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                onClick={() => handleEditImg(1)}   
-                            >
-                                <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                            </div>
-                            <div className='w-[300px] h-[450px] flex flex-col justify-between items-center'>
-                                <div 
-                                    className={`w-full h-[215px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(2)}
-                                >
-                                    <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                </div>
-                                <div 
-                                    className={`w-full h-[215px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(3)}
-                                >
-                                    <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                </div>
-                            </div>
-                            <div className='w-[99%] h-[200px] mt-4 flex justify-between items-center'>
+                            <div className='w-[98%] h-[30vh] mt-4 flex justify-between items-center'>
                                 <div 
                                     className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                     onClick={() => handleEditImg(4)}
@@ -319,10 +314,19 @@ const Portfolio = () => {
                             </div>
                         </div>} */}
                         
-                    </div>
+                    {/* </div> */}
 
                     {userData && <div className='w-[48%] flex flex-col justify-center items-center'>
-                        <div className='w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
+                        <div className='relative w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
+                            {authUser?.uid === artistId && !isEdit && 
+                            <button 
+                                onClick={handleClick}
+                                className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#43b4e4]"
+                            >
+                                <EditIcon sx={{ fontSize: 36, color: '#282828', ":hover": { color: "#43b4e4"} }}/>
+                            </button>
+                            }
+
                             <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
                             <div className='flex justify-around items-center py-2'>
                                 <p className='ml-2'><span className='font-semibold'>{userData?.totalCompletedCommissions}</span> completed {userData?.totalCompletedCommissions === 1 ? 'commission' : 'commissions'}</p>
@@ -361,6 +365,7 @@ const Portfolio = () => {
                                     </div>
                                 </div>
                             ))}
+
                             {openTestimonial && <FullReview openTestimonial={openTestimonial} setOpenTestimnonial={setOpenTestimnonial} testimonial={testimonials[testimonialIndex]}/>}
                             <div className='flex justify-center py-4'>
                                 <button type='button' onClick={handlePrevious} disabled={disablePrevious}  className={`${!disablePrevious ? 'text-[#2DD42B]' : 'text-[#E9E9E9]' }`}>
@@ -376,14 +381,7 @@ const Portfolio = () => {
                     </div>}
                 </div>
                 
-                {authUser?.uid === artistId && !isEdit && 
-                        <button 
-                            onClick={handleClick}
-                            className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#ffffff] hover:border-[#43b4e4]"
-                        >
-                            <EditIcon sx={{ fontSize: 36, color: '#ffffff', ":hover": { color: "#43b4e4"} }}/>
-                        </button>
-                }
+                
                 
 
                 {isEdit && userData && links !== undefined && <ArtistForm 

@@ -46,9 +46,6 @@ export default function NavBar() {
   const currentUrl = usePathname()
   const baseUrl = currentUrl.split('/')[1]
   const router = useRouter()
-
-  console.log('currentUrl: ', currentUrl)
-  console.log('currentBaseUrl: ', baseUrl)
   
   const [login, setLogin] = useState(false)
   const [openConfirm, setOpenConfirm] = useState(false)

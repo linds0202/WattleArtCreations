@@ -362,12 +362,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                             className="tester absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
                         /> */}
                         {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
-                        <div className="w-3/4 h-full text-center flex flex-col justify-center border border-red-600">
+                        <div className="w-3/4 h-full text-center flex flex-col justify-center">
                             <h4 className='text-[#43b4e4] text-2xl font-bold m-0'>Add Animal</h4>
                             <object 
                                 type="image/svg+xml" 
                                 data={`images/customizer/addAnimal.svg`} 
-                                className="w-[100%] h-[50%] object-cover object-top cursor-pointer border border-red-600 z-0"
+                                className="w-[100%] h-[50%] object-cover object-top cursor-pointer"
                             />
                         </div>
                     </div>
