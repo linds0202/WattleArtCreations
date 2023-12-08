@@ -25,6 +25,7 @@ import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
 
 
+
 export async function getCategories(id) {
   const docRef = doc(db, "categories", id);
   const docSnap = await getDoc(docRef);
@@ -795,6 +796,7 @@ export async function updateAllFeatureTestimonials(testimonials){
 }
 
 export async function updateFeatureTestimonial(testimonial){
+
   await updateDoc(doc(db, 'testimonials', testimonial.uid), { ...testimonial })
 }
 

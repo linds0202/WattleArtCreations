@@ -21,20 +21,23 @@ export default function Testimonial( {testimonial, categories, changeCategories}
     const handleViewDetails = () => {
         setOpenDetails(true)
     }
+    
 
     const onChangeCheckBox = async (e: { target: { checked: boolean; value: React.SetStateAction<string>; }; }) => {
-
         setIsCheckedFeatured(() => e.target.checked)
         testimonial.featured = e.target.checked
+
     
         await updateFeatureTestimonial(testimonial)
 
         const updatedTestimonials: Array<TestimonialType> = categories.home.testimonials
-        const newTestimonials = updatedTestimonials.filter(newTest => newTest.uid !== testimonial.uid)
-        
+
+
+        const removedTestimonial = updatedTestimonials.filter(newTest => newTest.uid !== testimonial.uid)
+    
         const newHomeObj = {
             ...categories.home,
-            testimonials: [...newTestimonials, testimonial]
+            testimonials: [...removedTestimonial, testimonial]
         }
 
     
