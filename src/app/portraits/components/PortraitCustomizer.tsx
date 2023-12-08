@@ -73,7 +73,8 @@ export interface PortraitData  {
     revisionLevel: string,
     additionalRevisionRequest: boolean,
     purchaseRevisionLink: string,
-    revisionNotes: Array<CustomerRevision>
+    revisionNotes: Array<CustomerRevision>,
+    portraitCompletionDate: Timestamp | null
   }
 
 interface PortraitProps {
@@ -158,7 +159,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         revisionLevel: "",
         additionalRevisionRequest: false,
         purchaseRevisionLink: '',
-        revisionNotes: []
+        revisionNotes: [],
+        portraitCompletionDate: null
     })
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
@@ -239,7 +241,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 //update portrait with bucket info
                 const updatedImages = await getImageUrls(editPortrait.id, bucket, uploads)
                 newImages = [...updatedImages]
-                /* console.log('newImages is: ', newImages) */
             }
 
             let editedPortraitsData = portraits.map((portrait, i) => {

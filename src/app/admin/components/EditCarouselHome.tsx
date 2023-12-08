@@ -81,7 +81,8 @@ export const EditCarouselHome = ({ categories, changeCategories, cat }: EditSpla
     
     return (
         <div className='w-full bg-[#e9e9e9] my-8 p-4 rounded-lg'>
-            <p className='text-xl font-semibold mb-4'>Edit {categories[cat].type} Home Carousel</p>
+            <p className='text-xl font-semibold mb-4'>Edit {categories[cat].type} Home Carousel <span className='text-[#616161]'>(Image size: w-[450px] h-[500px])</span></p>
+            
 
             <div className='flex flex-wrap'>
                 {existingUrls} 

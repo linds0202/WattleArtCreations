@@ -5,6 +5,7 @@ import { getAllUsers, getAllCustomers } from "@/app/firebase/firestore"
 import User from "./User";
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 import { getAllUserInfo } from "@/app/firebase/firestore";
+import SearchUsers from "./SearchUsers";
 
 
 export default function UsersList() {
@@ -56,11 +57,11 @@ export default function UsersList() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-20">
       <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Users</h1>
-      <div className='w-full mx-auto flex justify-between mb-6 px-10'>
+      <div className='w-full flex justify-between mb-6 px-10'>
         <motion.button 
-          className={button === 'B1' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
+          className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B1' ? 'bg-[#43b4e4] text-white' : ''}`}
           onClick={handleGetArtists} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
@@ -68,7 +69,7 @@ export default function UsersList() {
         </motion.button>
 
         <motion.button 
-          className={button === 'B2' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
+          className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B2' ? 'bg-[#43b4e4] text-white' : ''}`} 
           onClick={handleGetCustomers} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
@@ -76,7 +77,7 @@ export default function UsersList() {
         </motion.button>
 
         <motion.button 
-          className={button === 'B3' ? 'border-2 border-black rounded-lg p-2 w-3/12 bg-black text-white' : 'border-2 border-black rounded-lg p-2 w-3/12'} 
+          className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B3' ? 'bg-[#43b4e4] text-white' : ''}`}
           onClick={handleGetAdmins} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
@@ -84,23 +85,31 @@ export default function UsersList() {
         </motion.button>
 
         <motion.button 
-          className='border-2 border-black rounded-lg p-2 w-3/12' 
+          className='w-1/4 mx-4 p-2 border-2 border-black rounded-lg' 
           onClick={handleClearFilters} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
           Clear Filters
         </motion.button>
       </div>
+
+      <div className="w-full px-14 mb-4">
+        <SearchUsers
+          setFilteredUsers={setFilteredUsers} 
+          allUsers={allUsers}  
+        />
+      </div>
       
-      <div className='flex flex-col items-center w-full'>
+      <div className=' w-full flex flex-col items-center'>
         <table>
             <thead>
               <tr>
                 <th>Id</th>
                 <th>Display Name</th>
+                <th>Artist Name</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>View Details</th>
+                <th className="w-2/12">View Details</th>
               </tr>
             </thead>
             <tbody>

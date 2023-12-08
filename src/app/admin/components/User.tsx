@@ -34,9 +34,10 @@ export default function User( {user}: UserProps ) {
     return (
     <>
         <tr className="h-[75px]">
-            <td className="pl-2">{user.uid }</td>
-            <td className="pl-2">{user.displayName}</td>
-            <td className="pl-2">{user.email}</td>
+            <td className="w-1/6 px-2">{user.uid }</td>
+            <td className="pl-4">{user.displayName ? user.displayName : 'N/A'}</td>
+            <td className="pl-4">{user.roles === 'Artist' ? user.artistName : ''}</td>
+            <td className="pl-4">{user.email}</td>
             <td className="w-2/12 relative">
                 <div className="flex justify-between px-4">
                     {!openRole && 
@@ -54,9 +55,9 @@ export default function User( {user}: UserProps ) {
                     </button>
                 </div>
             </td>
-            <td className="pl-[2%]">
+            <td className="h-[75px] flex justify-center items-center">
                 <motion.button 
-                    className='border-2 border-black rounded-lg py-2 w-9/12 mx-auto h-8/12' 
+                    className='border-2 border-black rounded-lg py-2 w-9/12 mx-auto' 
                     onClick={handleViewDetails} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
                     >

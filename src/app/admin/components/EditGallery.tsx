@@ -68,32 +68,50 @@ export const EditGallery = ({ categories, changeCategories }: EditProps) => {
                 <Form className='w-10/12 mx-auto flex flex-col'>
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[0]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery1" name="gallery1" placeholder="New Gallery Image 1 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[200px] h-[200px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery1" name="gallery1" placeholder="New Gallery Image 1 URL" />
+                        </div>
                     </div>
                     
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[1]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery2" name="gallery2" placeholder="New Gallery Image 2 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[150px] h-[150px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery2" name="gallery2" placeholder="New Gallery Image 2 URL" />
+                        </div>
                     </div>
                     
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[2]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery3" name="gallery3" placeholder="New Gallery Image 3 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[150px] h-[150px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery3" name="gallery3" placeholder="New Gallery Image 3 URL" />
+                        </div>
                     </div>                    
 
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[3]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery4" name="gallery4" placeholder="New Gallery Image 4 URL" />   
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[200px] h-[200px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery4" name="gallery4" placeholder="New Gallery Image 4 URL" />
+                        </div>   
                     </div>        
 
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[4]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery5" name="gallery5" placeholder="New Gallery Image 5 URL" />   
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[150px] h-[150px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery5" name="gallery5" placeholder="New Gallery Image 5 URL" /> 
+                        </div>  
                     </div>      
 
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.gallery[5]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery6" name="gallery6" placeholder="New Gallery Image 6 URL" />   
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[200px] h-[200px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="gallery6" name="gallery6" placeholder="New Gallery Image 6 URL" />
+                        </div>   
                     </div>      
                     
                     <button 

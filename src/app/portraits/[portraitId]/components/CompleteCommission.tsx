@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { useRouter } from 'next/navigation';
 import { PortraitData } from '../../components/PortraitCustomizer';
 import { updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 
 interface CompleteCommissionProps {
     role: string,
@@ -17,7 +18,11 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
     const router = useRouter();
 
     const handleComplete = () => {
-        const  newPortrait = {...portrait, status: 'Completed'}
+        const  newPortrait = {
+                ...portrait, 
+                status: 'Completed',
+                portraitCompletionDate: Timestamp.now()
+            }
         
         if (portrait.artist.length) updateArtistOnCompletion(portrait?.artist[0]?.id, portrait?.price)
 

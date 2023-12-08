@@ -176,6 +176,7 @@ export async function getUserById(userId) {
     artistName: docSnap.data().artistName, 
     bio: docSnap.data().bio,
     links: docSnap.data().links,
+    artistImgs: docSnap.data().artistImgs,
     website: docSnap.data().website,
     country: docSnap.data().country,
     activeCommissions: docSnap.data().activeCommissions,
@@ -206,6 +207,7 @@ export function addUser(user) {
     artistName: "", 
     bio: "",
     links: [],
+    artistImgs: [],
     website: "",
     country: "",
     activeCommissions: 0,
@@ -418,12 +420,24 @@ export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets
 //returns an array of all portraits
 export async function getAllPortraits() {
   const allPortraits = []
-    const querySnapshot = await getDocs(collection(db, "portraits"));
-    querySnapshot.forEach((doc) => {
-      allPortraits.push({...doc.data(), uid: doc.id})
-    });
-    return allPortraits
+  const q = query(collection(db, "portraits"), where("paymentComplete", "==", true), orderBy("creationDate"), limit(50))
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    allPortraits.push({...doc.data(), uid: doc.id})
+  })
+  return allPortraits
 } 
+
+//returns an array of all portraits
+export async function getAllUndorderedPortraits() {
+  const allPortraits = []
+  const q = query(collection(db, "portraits"), where("paymentComplete", "==", false), orderBy("creationDate"), limit(50))
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    allPortraits.push({...doc.data(), uid: doc.id})
+  });
+  return allPortraits
+}
 
 //Get one Portrait from uid
 export async function getPortrait(uid) {
@@ -457,6 +471,7 @@ export async function getPortrait(uid) {
     additionalRevisionRequest: docSnap.data().additionalRevisionRequest,
     purchaseRevisionLink: docSnap.data().purchaseRevisionLink,
     revisionNotes: docSnap.data().revisionNotes, 
+    portraitCompletionDate: docSnap.data().portraitCompletionDate,
     id: uid
   }
 
@@ -477,13 +492,8 @@ export async function updateOrCreatePortrait(portraitId, {userId}) {
 
 //Submit an image for review 
 export async function updatePortraitWithImage(portraitId, {userId, imageBucket}) {
-  console.log('portraitId: ', portraitId)
-  console.log('userId', userId)
-  console.log('imageBucket, ', imageBucket)
   
   const imageUrl = await getDownloadURL(imageBucket)
-
-  console.log(imageUrl)
 
   updateDoc(doc(db, 'portraits', portraitId), 
     { 
@@ -642,7 +652,6 @@ export async function getMyPortrait(setPortrait, portraitId) {
   //const q = query(collection(db, "portraits"), where("portraitId", "==", portraitId))
   
   const unsubscribe = onSnapshot(doc(db, "portraits", portraitId), (doc) => {
-    console.log("Current data: ", doc.data());
     setPortrait(doc.data())
   });
 
@@ -700,26 +709,40 @@ export async function getChats(setMessages, portraitId) {
 
 //Add a new Testimonial
 export async function addTestimonial( data) {
-  
+
   if (data.artistId !== '') {
     updateArtistRating(data.artistId, data.stars)
   }
-  
 
   let imgUrl
-
+  let portrait
+  let completionDate
   
   if (data.includeImg) {
     if (data.portraitId) {
-      const portrait = await getPortrait(data.portraitId)
-      imgUrl = portrait.finalImages[imgUrl.finalImages.length - 1].imageUrl
+      portrait = await getPortrait(data.portraitId)
+      imgUrl = portrait.finalImages[portrait.finalImages.length - 1].imageUrl
     } else {
       imgUrl = data.imgUrl
     }
+  } else {
+    imgUrl = ""
   }
-
-
   
+  if (data.portraitCompletionDate) {
+    if (data.portraitId) {
+      if (portrait) {
+        completionDate = {...portrait.portraitCompletionDate}
+      } else {
+        portrait = await getPortrait(data.portraitId)
+        completionDate = portrait.portraitCompletionDate
+      }
+    } else {
+      completionDate = data.completionDate
+    }
+  } else {
+    portraitCompletionDate = ""
+  }
 
   const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
     portraitId: data.portraitId,
@@ -732,7 +755,8 @@ export async function addTestimonial( data) {
     includeImg: data.includeImg,
     imgUrl: imgUrl,
     featured: data.featured,
-    featuredHome: data.featuredHome
+    featuredHome: data.featuredHome,
+    portraitCompletionDate: completionDate
   })
   return testimonialRef.id
 }
@@ -748,19 +772,6 @@ export async function getTestimonial(portraitId) {
   return testimonial[0]
 }
 
-
-// export async function getFeaturedTestimonials(category) {
-//   const testimonials = []
-
-//   const documentSnapshots = await getDocs(query(collection(db, "testimonials"), where("category", "==", category), where("featuredHome", "==", true), orderBy("stars", "desc"), limit(9)))
-
-//   documentSnapshots.forEach((doc) => {
-//     testimonials.push({...doc.data(), uid: doc.id})
-//   });
-//   // const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1]
-
-//   return testimonials
-// }
 
 export async function getAllTestimonials() {
   const testimonials = []
@@ -778,7 +789,6 @@ export async function getAllTestimonials() {
 
 export async function updateAllFeatureTestimonials(testimonials){
   for (const testimonial in testimonials) {
-    console.log('updating indivudal testimonials: ', testimonials[testimonial])
     await updateDoc(doc(db, 'testimonials', testimonials[testimonial].uid), { ...testimonials[testimonial] })
   }
   
@@ -787,24 +797,6 @@ export async function updateAllFeatureTestimonials(testimonials){
 export async function updateFeatureTestimonial(testimonial){
   await updateDoc(doc(db, 'testimonials', testimonial.uid), { ...testimonial })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export async function getArtistsTestimonials( artistId) {
@@ -816,6 +808,7 @@ export async function getArtistsTestimonials( artistId) {
       testimonials.push({...doc.data(), uid: doc.id})
     });
     const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1]
+
 
     return { testimonials, lastVisible }
 }
@@ -844,4 +837,66 @@ export async function getPreviousTestimonials(artistId, last) {
   const lastVisible = next.docs[next.docs.length-1]
   
   return { testimonials, lastVisible }
+}
+
+
+
+
+
+//Add Artist's portfolio img
+export async function getImgUrl(imageBucket) {
+  const imgUrl = await getDownloadURL(imageBucket)
+
+  return imgUrl
+}
+
+
+
+//Updates Artist's portfolio img
+export async function updateArtistPortfolioImg( user, num, newUrl) {
+
+  let newArtistImgs
+
+  if (num === 1) {
+    newArtistImgs = {
+        ...user.artistImgs,
+        imgUrl1: newUrl
+    }
+  } else if (num === 2) {
+      newArtistImgs = {
+          ...user.artistImgs, 
+          imgUrl2: newUrl,
+      }
+  } else if (num === 3) {
+      newArtistImgs = {
+          ...user.artistImgs,
+          imgUrl3: newUrl,
+      }
+  } else if (num === 4) {
+      newArtistImgs = {
+          ...user.artistImgs,
+          imgUrl4: newUrl,
+      }
+  } else if (num === 5) {
+      newArtistImgs = {
+          ...user.artistImgs,
+          imgUrl5: newUrl,
+      }
+  } else {
+      newArtistImgs = {
+          ...user.artistImgs,
+          imgUrl6: newUrl,
+      }
+  }
+
+  const updatedUser = {
+      ...user,
+      artistImgs: newArtistImgs
+  }
+
+  await updateDoc(doc(db, 'users', user.uid), { 
+    ...updatedUser,
+  }, { merge: true }); 
+
+  return updatedUser
 }

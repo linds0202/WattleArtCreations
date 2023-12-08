@@ -26,16 +26,17 @@ export default function Testimonial( {testimonial, categories, changeCategories}
 
         setIsCheckedFeatured(() => e.target.checked)
         testimonial.featured = e.target.checked
-
+    
         await updateFeatureTestimonial(testimonial)
 
         const updatedTestimonials: Array<TestimonialType> = categories.home.testimonials
         const newTestimonials = updatedTestimonials.filter(newTest => newTest.uid !== testimonial.uid)
-       
+        
         const newHomeObj = {
             ...categories.home,
             testimonials: [...newTestimonials, testimonial]
         }
+
     
         const newCategories = {
             ...categories,
@@ -46,7 +47,7 @@ export default function Testimonial( {testimonial, categories, changeCategories}
     }
 
     const onChangeFeaturedHomeCheckBox = async (e: { target: { checked: boolean; value: React.SetStateAction<string>; }; }) => {
-        
+
         setIsCheckedFeaturedHome(() => e.target.checked)
         testimonial.featuredHome = e.target.checked
 
@@ -59,6 +60,8 @@ export default function Testimonial( {testimonial, categories, changeCategories}
             ...categories.home,
             testimonials: [...newTestimonials, testimonial]
         }
+
+
     
         const newCategories = {
             ...categories,
@@ -73,14 +76,14 @@ export default function Testimonial( {testimonial, categories, changeCategories}
     <>
         <tr className="h-[75px]">
             <td className="pl-2">{testimonial.category }</td>
-            <td className="pl-2">{testimonial.stars}</td>
+            <td className="text-center">{testimonial.stars}</td>
             <td className="pl-2"><img src={testimonial.imgUrl} className="w-[64px] h-[64px] object-cover"/></td>
-            <td className="pl-2">{testimonial.text.slice(0, 30)}</td>
-            <td className="w-2/12">
+            <td className="pl-2">{testimonial.text.slice(0, 70)}...</td>
+            <td className="w-1/12 text-center">
                 <label htmlFor='featured'>
                     <input
                         type="checkbox" 
-                        value="featured"
+                        // value="featured"
                         name="featured" 
                         onChange={onChangeCheckBox}
                         id="featured"
@@ -88,11 +91,11 @@ export default function Testimonial( {testimonial, categories, changeCategories}
                     />
                 </label>
             </td>
-            <td className="w-2/12">
+            <td className="w-1/12 text-center">
                 <label htmlFor='featuredHome'>
                     <input
                         type="checkbox" 
-                        value="featuredHome"
+                        // value="featuredHome"
                         name="featuredHome" 
                         onChange={onChangeFeaturedHomeCheckBox}
                         id="featuredHome"
@@ -100,11 +103,11 @@ export default function Testimonial( {testimonial, categories, changeCategories}
                     />
                 </label>
             </td>
-            <td className="pl-[2%]">
+            <td className="w-1/6">
                 <motion.button 
-                    className='border-2 border-black rounded-lg py-2 w-9/12 mx-auto h-8/12' 
+                    className='block mx-auto border-2 border-black py-2 px-4 rounded-lg ' 
                     onClick={handleViewDetails} 
-                    whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
+                    whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.02 }}
                     >
                     View Details
                 </motion.button>

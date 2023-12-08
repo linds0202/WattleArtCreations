@@ -12,7 +12,7 @@ interface FullReviewProps {
 
 const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullReviewProps ) => {
     
-    
+    console.log('testimonial in full review: ', testimonial)
     return (
         <Dialog 
             onClose={() => setOpenTestimnonial(false)} 
@@ -29,13 +29,13 @@ const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullRev
                 style={{height:'80vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
             >
                 {testimonial.includeImg && <img src={testimonial.imgUrl} className='max-h-[80%] w-auto' alt='thumbnail of final image in customer review'/>}
-                <div className='p-8 flex flex-col items-center'>
+                <div className='w-full p-8 flex flex-col items-center'>
                     <div className='flex items-center mb-4'>
                         <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="large" />
                         <span className='ml-2'>({testimonial.stars})</span>
                     </div>
-                    <p>{testimonial.text}</p>
-                    <p className='self-end'>- {testimonial.customerDisplayName}</p>
+                    <p className='text-xl'>{testimonial.text}</p>
+                    <p className='text-2xl font-bold self-end'>- {testimonial.customerDisplayName}</p>
                 </div>
             </DialogContent>
                     

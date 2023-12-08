@@ -182,7 +182,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         }
 
         {/* If payment complete - link to individual portrait page */}
-        {user?.roles === 'Customer' && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"><p className='text-center'>Portrait Page</p></Link>}
+        {(user?.roles === 'Customer' || user?.roles === 'Admin') && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"><p className='text-center'>Portrait Page</p></Link>}
         
         {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
           <div>
@@ -203,7 +203,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') && portrait.status === 'In Progress' && portrait.artistAssigned &&
+        {user?.roles === 'Artist' && portrait.status === 'In Progress' && portrait.artistAssigned &&
         <Link 
           href={`/portraits/${portrait.id}`} 
           className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"

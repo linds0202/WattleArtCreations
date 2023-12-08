@@ -1,3 +1,5 @@
+import '../globals.css'
+import 'firebaseui/dist/firebaseui.css'
 import { useAuth } from '@/app/firebase/auth';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/app/firebase/firebase';
@@ -52,9 +54,9 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
             open={login} 
             fullWidth={true}
             maxWidth='xs'
-            PaperProps={{ sx: { p: 6, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "#282828", color: "white", display: 'flex', flexDirection: "column", justifyContent: "space-between", alignItems: "center", border: "4px solid white", borderRadius: "10px", position: 'relative'} }}
         >
-            <div className='relative w-[128px] h-[128px] object-cover my-4'>
+            <div className='relative w-[128px] h-[128px] object-cover'>
                 <Image 
                     className=''
                     src={LogoColor} 
@@ -66,15 +68,17 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
             </div>
 
             
-            <h3 className='text-2xl font-bold pb-0 mb-4'>Please Login to Continue</h3>
+            <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
     
             {selection === 'cat3' 
                 ? <p className='pb-4 text-center mt-4'>In order to customize a NSFW portrait, you must Login or Create an Account</p>
                 :
                 <p className='pb-4 text-center mt-4'>In order to fully customize your portrait, please Login or Create an Account</p>
             }
-            
-            <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+            <div className='border-2 border-green-600'>
+                
+                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
+            </div>
 
             <Button 
                 onClick={handleRedirect}

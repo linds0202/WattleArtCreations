@@ -84,7 +84,6 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const router = useRouter();
     
     const catInfo = categories[mode]
-    console.log('catInfo.type: ', catInfo.type)
 
     const testimonials: Array<TestimonialType> = categories.home.testimonials
     const featuredTestimonials = testimonials.filter(test => test.featured && test.category === catInfo.type)

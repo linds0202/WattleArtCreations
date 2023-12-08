@@ -20,6 +20,8 @@ import Questions from './components/Questions';
 import Footer from '@/app/components/Footer';
 import { Timestamp } from 'firebase/firestore';
 import { getMyPortrait } from '../../firebase/firestore';
+import { useCategoriesContext } from '@/app/context/CategoriesContext';
+
 
 
 interface EnlargeProps {
@@ -52,6 +54,7 @@ type Params = {
 
 export default function PortraitDetails({ params: { portraitId }}: Params) {
   const { authUser, isLoading } = useAuth();
+  const { categories } = useCategoriesContext()
   const router = useRouter();
 
   const [portrait, setPortrait] = useState<PortraitData>()
@@ -70,8 +73,16 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [testimonial, setTestimonial] = useState<Testimonial | null>(null)
   const [revisionNote, setRevisionNote] = useState<RevisionNote>({text:'', date: Timestamp.now()})
 
-  const [openQuestions, setOpenQuestions] = useState(false)
-  
+  const [openQuestions, setOpenQuestions] = useState(false)  
+
+  const pastOption = localStorage.getItem('bgOption')
+  const [selectedOption, setSelectedOption] = useState((pastOption !== null && JSON.parse(pastOption).length) ? JSON.parse(pastOption) : null)
+
+  const handleOptionChange = (event: any) => {
+    const value = event.target.value;
+    localStorage.setItem('bgOption', JSON.stringify(value))
+    setSelectedOption(value);
+  }
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -163,8 +174,28 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   return (
   <div className='relative min-h-[100vh]'>
     <img className="w-full absolute -top-[16px] left-0" src="../../images/drips/wizard3.png" alt='background black paint drip'/>
-    <div className='bg-white text-black min-h-screen pt-3 pb-36'>
+
+    <div className={`${selectedOption} text-black min-h-screen pt-3 pb-36`}>
       <div className='relative'>
+        
+        <div className='absolute top-4 left-4 flex justify-around items-center'>
+          <h3>Select Background:</h3>
+          <div className='w-[80px] flex justify-around'>
+            {categories.customizer.bgOptions.map((option: string, i: number) => (
+              <div key={i} className='flex justify-center items-center'>
+                <input
+                  type="radio"
+                  id={option}
+                  name="backgroundSelection"
+                  value={option}
+                  checked={selectedOption === option}
+                  onChange={handleOptionChange}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
         <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
         
         <button 
@@ -200,7 +231,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           <div className='w-[100%] flex'>
       
             {/* Action Center */}
-            <div className='w-6/12 border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
+            <div className='w-6/12 bg-white border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
               <div>
                 {authUser?.roles === 'Customer' 
                   ? <>{portrait && <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />}</>
@@ -216,7 +247,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               <div className='w-full px-4'>
               
                 {portrait?.status === 'Completed' && 
-                  <div className='flex flex-col items-center'>
+                  <div className='bg-white flex flex-col items-center'>
                     <div className='w-full flex flex-col items-center'>
                       <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
                       <button 
@@ -228,7 +259,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <p className='text-md text-center mb-4'>You can also download each version from this commission by clicking the thumbnails below</p>
                     </div>
 
-                    <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
+                    <div className='w-full h-[88px] bg-white border-2 border-[#bababa] rounded-xl mb-4 flex justify-around items-center'>
                       {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
                         <img 
@@ -287,7 +318,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                             })}
                           />
                           : <div className='w-11/12 mx-auto flex flex-col justify-end items-center'>
-                              <object type="image/svg+xml" data="../../images/newClock.svg" className="absolute -top-[3%] left-[13%] w-[75%] h-[75%]"/>
+                              <object type="image/svg+xml" data="../../images/newClock.svg" className="absolute -top-[3%] left-[13%] w-[75%] h-[75%] "/>
                               <p className='text-2xl text-[#43b4e4] font-semibold'>Check Back Soon</p>
                               <p className='text-md text-center text-[#282828] font-semibold'>Your artist is hard at work. You will find finished images for review in this space.</p>
                             </div>
@@ -299,7 +330,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   {portrait?.status !== 'Completed' &&
                   <div className='w-full'>
 
-                    <div className='w-full h-[88px] flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
+                    <div className='w-full h-[88px] bg-white flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
                       {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
                         <img 

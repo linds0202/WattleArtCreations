@@ -6,6 +6,7 @@ import Testimonial from "./Testimonial";
 import { TestimonialType } from "@/app/context/CategoriesContext";
 import { getAllTestimonials } from "@/app/firebase/firestore";
 import AddTestimonial from "./AddTestimonial";
+import SearchTestimonials from "./SearchTestimonials";
 
 
 export default function TestimonialsList() {
@@ -49,6 +50,22 @@ export default function TestimonialsList() {
     setFilteredTestimonials(filtered)
 
     setButton('B3')
+  }
+
+  const handleGetFeatured = () => {
+    const filtered = allTestimonials.filter(test => test.featured)
+    console.log('featured: ', filtered)
+    setFilteredTestimonials(filtered)
+
+    setButton('B4')
+  }
+
+  const handleGetFeaturedHome = () => {
+    const filtered = allTestimonials.filter(test => test.featuredHome)
+    console.log('featuredHome: ', filtered)
+    setFilteredTestimonials(filtered)
+
+    setButton('B5')
   }
 
   const handleClearFilters = () => {
@@ -108,6 +125,30 @@ export default function TestimonialsList() {
           </motion.button>
 
       </div>
+
+      <div className="w-11/12 mx-auto mb-4 flex justify-between">
+        <div className='w-1/2 self-start flex'>
+          <motion.button 
+            className={`w-1/3 border-2 border-black p-2 rounded-lg ${button === 'B4' ? 'bg-[#43b4e4] text-white' : ''}`} 
+            onClick={handleGetFeatured} 
+            whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.03 }}
+          >
+            Featured
+          </motion.button>
+        
+          <motion.button 
+            className={`w-1/3 ml-8 border-2 border-black p-2 rounded-lg ${button === 'B5' ? 'bg-[#43b4e4] text-white' : ''}`} 
+            onClick={handleGetFeaturedHome} 
+            whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.03 }}
+          >
+            Featured Home
+          </motion.button>
+        </div>
+        <SearchTestimonials
+          setFilteredTestimonials={setFilteredTestimonials} 
+          allTestimonials={allTestimonials}  
+        />
+      </div>
       
       <div className='flex flex-col items-center w-full'>
         <table>
@@ -119,6 +160,7 @@ export default function TestimonialsList() {
                 <th>Text</th>
                 <th>Featured</th>
                 <th>Featured Home</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>

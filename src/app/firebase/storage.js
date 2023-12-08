@@ -16,6 +16,16 @@ export async function uploadImage(image, portraitId) {
   return bucket;
 }
 
+// Uploads image and returns the storage bucket
+export async function uploadArtistPortfolioImage(image, artistId, num) {
+  
+  const bucket = `${BUCKET_URL}/${artistId}/${num}.jpg`;
+ 
+  const checking = await uploadBytes(ref(storage, bucket), image);
+
+  return bucket;
+}
+
 // Uploads MULTIPLE images and returns the storage bucket
 export async function uploadImages(uploads, portraitId) {
   const uploadedImgs = []
@@ -35,8 +45,9 @@ export async function uploadImages(uploads, portraitId) {
 }
 
 // Replaces existing image in storage and returns the storage bucket
-export function replaceImage(image, bucket) {
-  uploadBytes(ref(storage, bucket), image);
+export async function replaceImage(image, bucket) {
+  const checking = await uploadBytes(ref(storage, bucket), image);
+  return bucket
 }
 
 // Deletes existing image in storage

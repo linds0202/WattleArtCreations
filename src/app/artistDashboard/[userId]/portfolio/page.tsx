@@ -6,15 +6,30 @@ import { getUserById, getArtistsTestimonials, getNextTestimonials, getPreviousTe
 import { useAuth } from '@/app/firebase/auth';
 import { useRouter, usePathname } from 'next/navigation';
 import ArtistForm from './components/ArtistForm';
+import ArtistImgUpload from './components/ArtistImgUpload';
 import { SocialIcon } from 'react-social-icons';
 import EditIcon from '@mui/icons-material/Edit';
-import Image from 'next/image';
 import Rating from '@mui/material/Rating';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FullReview from './components/FullReview';
 import Footer from '@/app/components/Footer';
 import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
+
+interface ArtistImgs {
+    imgUrl1: string,
+    imgBucket1: string,
+    imgUrl2: string,
+    imgBucket2: string,
+    imgUrl3: string,
+    imgBucket3: string,
+    imgUrl4: string,
+    imgBucket4: string,
+    imgUrl5: string,
+    imgBucket5: string,
+    imgUrl6: string,
+    imgBucket6: string,
+}
 
 export interface UserData {
     uid: string,
@@ -24,6 +39,7 @@ export interface UserData {
     artistName: string,
     bio: string,
     links: string[],
+    artistImgs: ArtistImgs,
     website: string,
     country: string,
     activeCommissions: number,
@@ -62,7 +78,12 @@ const Portfolio = () => {
 
     const [userData, setUserData] = useState<UserData | null>(null)
     const [isEdit, setIsEdit] = useState(false)
+    const [openEditImg, setOpenEditImg] = useState(false)
+    const [updateImg, setUpdateImg] = useState('')
+    const [imgSizeMsg, setImgSizeMsg] = useState<string>('')
+    const [index, setIndex] = useState<number>(0)
     const [links, setLinks] = useState<Array<string> | []>(userData ? userData.links : [])
+    const [testimonialIndex, setTestimonialIndex] = useState<number>(0)
 
     //For pagination of testimonials
     const [testimonials, setTestimonials] = useState<Array<TestimonialData>>([]);
@@ -73,11 +94,11 @@ const Portfolio = () => {
     const [openTestimonial, setOpenTestimnonial] = useState(false)
 
 
-    useEffect(() => {
-        if (!isLoading && !authUser) {
-            router.push('/')
-        }
-    }, [authUser, isLoading]);
+    // useEffect(() => {
+    //     if (!isLoading && !authUser) {
+    //         router.push('/')
+    //     }
+    // }, [authUser, isLoading]);
 
 
     useEffect(() => {
@@ -97,7 +118,6 @@ const Portfolio = () => {
     useEffect(() => {
         const fetchData = async () => {
             const firstTestimonials = await getArtistsTestimonials(artistId)
-            
             if (firstTestimonials.testimonials.length < 5) {
                 setDisableNext(true)
             }
@@ -114,7 +134,6 @@ const Portfolio = () => {
     const handleNext = () => {
         const fetchNextData = async () => {
             const nextTestimonials = await getNextTestimonials(artistId, last)
-        
             if (nextTestimonials.testimonials.length < 5) {
                 setDisableNext(true)
             } else {
@@ -127,13 +146,14 @@ const Portfolio = () => {
         }
 
         fetchNextData();
+        window.scrollTo(0, 0) 
     }
     
 
     const handlePrevious = () => {
         const fetchPreviousData = async () => {
             const previousTestimonials = await getPreviousTestimonials(artistId, last)
-        
+       
             if (page - 1 === 1) {
                 setDisablePrevious(true)
             } else {
@@ -145,9 +165,11 @@ const Portfolio = () => {
             setDisableNext(false)
         }
         fetchPreviousData()
+        window.scrollTo(0, 0) 
     }
 
     const handleOpenTestimonial = (i: number) => {
+        setTestimonialIndex(i)
         setOpenTestimnonial(true)
     }
 
@@ -155,38 +177,118 @@ const Portfolio = () => {
         setIsEdit(true)
     }
 
+    const handleEditImg = (num: number) => {
+        if (!authUser || authUser?.uid !== artistId) return
+
+        setIndex(num)
+        switch(num) {
+            case 1:
+                if(userData?.artistImgs?.imgUrl1) {
+                    setUpdateImg(userData.artistImgs.imgBucket1) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-500px h-450px')
+              break;
+            case 2:
+                if(userData?.artistImgs?.imgUrl2) {
+                    setUpdateImg(userData.artistImgs.imgBucket2) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-300px h-215px')
+                break;
+            case 3:
+                if(userData?.artistImgs?.imgUrl3) {
+                    setUpdateImg(userData.artistImgs.imgBucket3) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-300px h-215px')
+                break;
+            case 4:
+                if(userData?.artistImgs?.imgUrl4) {
+                    setUpdateImg(userData.artistImgs.imgBucket4) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-265px h-215px')
+                break;
+            case 5:
+                if(userData?.artistImgs?.imgUrl5) {
+                    setUpdateImg(userData.artistImgs.imgBucket5) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-265px h-215px')
+                break;
+            case 6:
+                if(userData?.artistImgs?.imgUrl6) {
+                    setUpdateImg(userData.artistImgs.imgBucket6) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-265px h-215px')
+                break;
+            default:
+                break
+        }
+        
+        setOpenEditImg(true)
+    }
+
+
     return ((isLoading) ?
         <></>
         :
         <div className='relative min-h-[100vh] bg-black'>
             <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-1"/>
             <div className='relative pb-36'>
-                <div className='flex justify-around'>
+                <div className='px-4 pt-8 flex justify-around'>
                     <div className='w-[48%]'>
-                        <div className='w-full h-[80vh] flex flex-wrap justify-around items-center mt-4'>
-                            <div className='w-[56%] h-[60%] border-2 border-black relative'>
-                                <Image src={'/images/heroImgs/heroImg1.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
+                        <div className='w-full h-[80vh] flex flex-wrap justify-around items-center'>
+                            
+                            <div 
+                                className={`w-[500px] h-[450px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                onClick={() => handleEditImg(1)}   
+                            >
+                                <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                             </div>
-                            <div className='w-[36%] h-[60%] flex flex-col justify-between items-center'>
-                                <div className='w-full h-[48%] border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg2.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
+                            <div className='w-[300px] h-[450px] flex flex-col justify-between items-center'>
+                                <div 
+                                    className={`w-full h-[215px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(2)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                 </div>
-                                <div className='w-full h-[48%] border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg11.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
-                                </div>
-                            </div>
-                            <div className='w-[96%] h-[35%] flex justify-between items-center'>
-                                <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg4.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
-                                </div>
-                                <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg5.png'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
-                                </div>
-                                <div className='w-[30%] h-full border-2 border-black relative'>
-                                    <Image src={'/images/heroImgs/heroImg20.jpg'} alt='Default Avatar' fill style={{objectFit:"cover", objectPosition: "top"}} /> 
+                                <div 
+                                    className={`w-full h-[215px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(3)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                 </div>
                             </div>
-                        </div>
+                            <div className='w-[99%] h-[200px] mt-4 flex justify-between items-center'>
+                                <div 
+                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(4)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl4.length ? userData?.artistImgs.imgUrl4 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl4.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                </div>
+                                <div 
+                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(5)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl5.length ? userData?.artistImgs.imgUrl5 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl5.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                </div>
+                                <div 
+                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(6)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl6.length ? userData?.artistImgs.imgUrl6 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl6.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                </div>
+                            </div>
+                        </div>                        
                         
                         {/* {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
                             <p>Follow me: </p>
@@ -219,7 +321,7 @@ const Portfolio = () => {
                         
                     </div>
 
-                    {userData && <div className='w-[49%] flex flex-col justify-center items-center'>
+                    {userData && <div className='w-[48%] flex flex-col justify-center items-center'>
                         <div className='w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
                             <h1 className='text-4xl font-bold mt-8'>{userData?.artistName}</h1>
                             <div className='flex justify-around items-center py-2'>
@@ -257,10 +359,9 @@ const Portfolio = () => {
                                         </p>
                                         <p className='self-end'>- {testimonial.customerDisplayName}</p>
                                     </div>
-                                    <FullReview openTestimonial={openTestimonial} setOpenTestimnonial={setOpenTestimnonial} testimonial={testimonial}/>
                                 </div>
                             ))}
-                            
+                            {openTestimonial && <FullReview openTestimonial={openTestimonial} setOpenTestimnonial={setOpenTestimnonial} testimonial={testimonials[testimonialIndex]}/>}
                             <div className='flex justify-center py-4'>
                                 <button type='button' onClick={handlePrevious} disabled={disablePrevious}  className={`${!disablePrevious ? 'text-[#2DD42B]' : 'text-[#E9E9E9]' }`}>
                                     <ArrowBackIosIcon fontSize="large"/>
@@ -293,6 +394,17 @@ const Portfolio = () => {
                     setLinks={setLinks}
                 />}
 
+                {openEditImg && userData && 
+                    <ArtistImgUpload
+                    userData={userData}
+                    setUserData={setUserData} 
+                    edit={updateImg}
+                    imgSizeMsg={imgSizeMsg}
+                    index={index}
+                    showDialog={openEditImg}
+                    onCloseDialog={() => setOpenEditImg(false)}>
+                </ArtistImgUpload>
+                }
             </div>
             
             <Footer />

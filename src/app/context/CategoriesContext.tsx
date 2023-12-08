@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { createContext, useContext } from "react";
 
 interface Category {
@@ -8,7 +9,7 @@ interface Category {
     testimonials: Array<TestimonialType>
 }
 
-interface CategoryPrice {
+export interface CategoryPrice {
     Headshot: number,
     Half: number,
     Full: number,
@@ -17,7 +18,13 @@ interface CategoryPrice {
     weaponComplex: number,
     model: number,
     character: number,
-    weapons: number
+    weapons: number,
+    wings: number,
+    bgSimple: number,
+    bgComplex: number,
+    charVariations: number,
+    armourComplex: number,
+    complexity: Array<number>,
 }
 
 interface CategoryPics {
@@ -40,7 +47,8 @@ interface Customizer {
         Half: string,
         Full: string,
         noImg: string
-    }
+    },
+    bgOptions: Array<string>
 }
 
 interface Home {
@@ -63,6 +71,7 @@ export interface TestimonialType {
     imgUrl: string,
     featured: boolean,
     featuredHome: boolean,
+    portraitCompletionDate: Timestamp
     uid: string
 }
 
@@ -119,7 +128,13 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 weaponComplex: 50,
                 model: 150,
                 character: 120,
-                weapons: 125
+                weapons: 125,
+                wings: 30,
+                bgSimple: 15,
+                bgComplex: 25,
+                charVariations: 20,
+                armourComplex: 15,
+                complexity: [17, 20, 23, 26, 29]
             },
             pics: {
                 homeCarousel: [],
@@ -145,7 +160,13 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 weaponComplex: 50,
                 model: 150,
                 character: 120,
-                weapons: 125
+                weapons: 125,
+                wings: 35,
+                bgSimple: 35,
+                bgComplex: 45,
+                charVariations: 25,
+                armourComplex: 20,
+                complexity: [20, 23, 26, 29, 32]
             },
             pics: {
                 homeCarousel: [],
@@ -171,7 +192,13 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 weaponComplex: 50,
                 model: 150,
                 character: 120,
-                weapons: 125
+                weapons: 125,
+                wings: 30,
+                bgSimple: 30,
+                bgComplex: 50,
+                charVariations: 50,
+                armourComplex: 25,
+                complexity: [30, 33, 36, 39, 42]
             },
             pics: {
                 homeImg: "",
@@ -187,7 +214,8 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 Half: "",
                 Full: "",
                 noImg: ""
-            }
+            },
+            bgOptions: []
         },
         home: {
             gallery: [],

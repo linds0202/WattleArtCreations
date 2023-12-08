@@ -2,6 +2,7 @@ import { Formik, Form, Field} from 'formik';
 import { addTestimonial } from '@/app/firebase/firestore';
 import Rating from '@mui/material/Rating';
 import { useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
 interface CustomerTestimonialProps {
     setOpenTestimonial: Function,
@@ -10,6 +11,7 @@ interface CustomerTestimonialProps {
     portraitId: string | null,
     artistId: string | null,
     customerId: string,
+    completionDate: Timestamp,
     setReviewed: Function
 }
 
@@ -20,7 +22,7 @@ interface CustomerFormValues {
     includeImg: boolean
 }
 
-const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portraitId, artistId, customerId, setReviewed }: CustomerTestimonialProps) => {
+const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portraitId, artistId, customerId, completionDate, setReviewed }: CustomerTestimonialProps) => {
     
     const [rating, setRating] = useState<number | null>(2)
 
@@ -39,7 +41,18 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                 onSubmit={(values, helpers) => {
                     helpers.setSubmitting(true)
                 
-                    addTestimonial({...values, stars: rating, category: category, portraitId: portraitId, artistId: artistId, customerId: customerId, includeImg: values.includeImg, featured: false, featuredHome: false})
+                    addTestimonial({
+                        ...values, 
+                        stars: rating, 
+                        category: category, 
+                        portraitId: portraitId, 
+                        artistId: artistId, 
+                        customerId: customerId, 
+                        includeImg: values.includeImg, 
+                        featured: false, 
+                        featuredHome: false,
+                        portraitCompletionDate: completionDate
+                    })
                     
                     setReviewed(true)
                     helpers.setSubmitting(false)

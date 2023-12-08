@@ -6,8 +6,6 @@ import {
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Rating from '@mui/material/Rating';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 import { addTestimonial } from '@/app/firebase/firestore';
 
@@ -34,7 +32,7 @@ const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial }: AddTestim
     
 
     const initialValues: MyFormValues = { 
-        newCategory: '',
+        newCategory: 'cat1',
         newStars: 1,
         newIncludeImg: false,
         newImgUrl: '',
@@ -70,15 +68,16 @@ const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial }: AddTestim
                         alert('You must enter an image Url or deselect "Include image in review"')
                         return
                     }
+                
                     const newCategory = categories[values.newCategory].type
-                    
+
                     const newTestimonial = {
                         category: newCategory,
-                        stars: values.newStars,
+                        stars: Number(values.newStars),
                         includeImg: values.newIncludeImg,
                         imgUrl: values.newImgUrl,
                         artistId: values.newArtistId,
-                        customerDisplayName: values.newCustomerName,
+                        customerDisplayName: values.newCustomerName === '' ? 'Anonymous' : values.newCustomerName,
                         customerId: values.newCustomerId,
                         featured: values.newFeatured,
                         featuredHome: values.newFeaturedHome,
@@ -163,6 +162,7 @@ const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial }: AddTestim
                                     id="newTestimonialText" 
                                     name="newTestimonialText" 
                                     placeholder={'Testimonial Text ...'} 
+                                    required
                                 />
                             </div>
                             <div className='mt-4 flex flex-col'>

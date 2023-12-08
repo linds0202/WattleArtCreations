@@ -59,22 +59,34 @@ export const EditSplatters = ({ categories, changeCategories }: EditProps) => {
                 <Form className='w-10/12 mx-auto flex flex-col'>
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.splatters[0]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatter1" name="splatter1" placeholder="New Splatter 1 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[150px] h-[150px]</p>
+                            <Field className='w-full border border-[#282828] p-2 rounded-lg' id="splatter1" name="splatter1" placeholder="New Splatter 1 URL" />
+                        </div>
                     </div>
                     
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.splatters[1]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatte2" name="splatter2" placeholder="New Splatter 2 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[200px] h-[200px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatte2" name="splatter2" placeholder="New Splatter 2 URL" />
+                        </div>
                     </div>
                     
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.splatters[2]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatter3" name="splatter3" placeholder="New Splatter 3 URL" />
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[175px] h-[175px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatter3" name="splatter3" placeholder="New Splatter 3 URL" />
+                        </div>
                     </div>                    
 
                     <div className='w-full mt-4 flex justify-around items-center'>
                         <img src={`${categories.home.splatters[3]}`} className='w-[100px] h-[100px] object-cover' />
-                        <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatter4" name="splatter4" placeholder="New Splatter 4 URL" />   
+                        <div className='w-3/4'>
+                            <p className='text-[#555555]'>Image size: w-[150px] h-[150px]</p>
+                            <Field className='w-3/4 border border-[#282828] p-2 rounded-lg' id="splatter4" name="splatter4" placeholder="New Splatter 4 URL" /> 
+                        </div>  
                     </div>        
                     
                     <button 

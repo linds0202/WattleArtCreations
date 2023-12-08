@@ -26,8 +26,6 @@ export default function Dashboard({ params: { userId }}: Params) {
   const router = useRouter();
   const searchParams = useSearchParams()
   const complete: string | null = searchParams.get('complete')
-  
-  console.log('complete: ', complete)
  
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -44,9 +42,8 @@ export default function Dashboard({ params: { userId }}: Params) {
 
   useEffect(() => {
     setPageLoading(true)
-    console.log('complete === "true": ', complete === 'true')
     if (complete === 'true') {
-      console.log('setting session to []')
+      
       sessionStorage.setItem('Cart', JSON.stringify([]))
     }
 

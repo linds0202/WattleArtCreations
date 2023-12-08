@@ -94,7 +94,7 @@ export const EditCarouselSelection = ({ categories, changeCategories, cat }: Edi
     
     return (
         <div className='w-full bg-[#e9e9e9] my-8 p-4 rounded-lg'>
-            <p className='text-xl font-semibold mb-4'>Edit {categories[cat].type} Selection Carousel</p>
+            <p className='text-xl font-semibold mb-4'>Edit {categories[cat].type} Selection Carousel <span className='text-[#616161]'>(Image size: w-[500px] h-[550px])</span></p>
 
             <div className='flex flex-wrap'>
                 {existingUrls} 

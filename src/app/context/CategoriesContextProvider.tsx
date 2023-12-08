@@ -28,7 +28,13 @@ const CategoryContextProvider = ({ children }: IProps) => {
             weaponComplex: 50,
             model: 150,
             character: 120,
-            weapons: 125
+            weapons: 125,
+            wings: 30,
+            bgSimple: 15,
+            bgComplex: 25,
+            charVariations: 20,
+            armourComplex: 15,
+            complexity: [17, 20, 23, 26, 29]
         },
         pics: {
             homeCarousel: [],
@@ -53,7 +59,13 @@ const CategoryContextProvider = ({ children }: IProps) => {
             weaponComplex: 50,
             model: 150,
             character: 120,
-            weapons: 125
+            weapons: 125,
+            wings: 35,
+            bgSimple: 35,
+            bgComplex: 45,
+            charVariations: 25,
+            armourComplex: 20,
+            complexity: [20, 23, 26, 29, 32],
         },
         pics: {
             homeCarousel: [],
@@ -78,7 +90,13 @@ const CategoryContextProvider = ({ children }: IProps) => {
             weaponComplex: 50,
             model: 150,
             character: 120,
-            weapons: 125
+            weapons: 125,
+            wings: 30,
+            bgSimple: 30,
+            bgComplex: 50,
+            charVariations: 50,
+            armourComplex: 25,
+            complexity: [30, 33, 36, 39, 42],
         },
         pics: {
             homeCarousel: "",
@@ -93,7 +111,8 @@ const CategoryContextProvider = ({ children }: IProps) => {
             Half: "",
             Full: "",
             noImg: ""
-        }
+        },
+        bgOptions: []
     },
     home: {
         gallery: [],

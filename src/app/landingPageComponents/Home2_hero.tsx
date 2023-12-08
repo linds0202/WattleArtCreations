@@ -13,13 +13,13 @@ export const scrollIntoTheView = (id: string) => {
         inline: "nearest",
     });
 };
-// bg-gradient-to-r from-[#03568c] to-[#43b4e4]
+// bg-gradient-to-b from-black from-80% via-[#282828] via-85% to-black to-90%
 
 const Home2_hero = () => {
     const { categories } = useCategoriesContext()
 
     return (
-        <div className="relative w-[100%] h-[120vh] bg-gradient-to-b from-black from-80% via-[#282828] via-85% to-black to-90% flex justify-center pt-24"> 
+        <div className="relative w-[100%] h-[120vh] bg-black flex justify-center pt-24"> 
             
             {/* <object type="image/svg+xml" data="images/white_dots.svg" className="absolute -top-[15%] left-0 w-[100%] h-auto"/>
             <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[20%] left-0 w-[100%] h-auto"/>

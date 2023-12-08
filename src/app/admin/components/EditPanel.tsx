@@ -8,6 +8,7 @@ import { EditSplatters } from "./EditSplatters";
 import { EditGallery } from "./EditGallery";
 import { EditHomeCarousels } from "./EditHomeCarousels";
 import { EditSelectionCarousels } from "./EditSelectionCarousels";
+import { EditPricing } from './EditPricing';
 
 interface EditPanelProps {
   user: UserData
@@ -21,7 +22,6 @@ export default function EditPanel({ user }: EditPanelProps) {
     const handleEdit = (name: string) => {
         setChoice(name)
     }
-
 
     return (
         <div className="w-full flex flex-col items-center">
@@ -67,6 +67,13 @@ export default function EditPanel({ user }: EditPanelProps) {
                 >
                     Selection Pages
                 </button>
+
+                <button
+                    className={`border px-4 py-2 ${choice === 'pricing' ? 'border-[#43b4e4] bg-[#43b4e4] text-white font-semibold' : 'border-[#282828]'}`} 
+                    onClick={() => handleEdit('pricing')}
+                >
+                    Pricing
+                </button>
             </div>
             
 
@@ -83,12 +90,12 @@ export default function EditPanel({ user }: EditPanelProps) {
                     <EditHomeCarousels categories={categories} changeCategories={changeCategories}/>
                     : choice === 'selectionCarousel' ?
                     <EditSelectionCarousels categories={categories} changeCategories={changeCategories}/>
+                    : choice === 'pricing' ?
+                    <EditPricing categories={categories} changeCategories={changeCategories}/>
                     : <p>No selection</p>
                 }
                 
             </div>
-            
-
         </div>
     )
 }

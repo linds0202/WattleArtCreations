@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../firebase/auth';
 import PortraitList from './components/PortraitList';
+import UnorderedPortraitList from './components/UnorderedPortraitsList';
 import UsersList from './components/UsersList';
 import TestimonialsList from './components/TestimonialsList';
 import ConsultList from './components/ConsultList';
@@ -44,6 +45,8 @@ export default function Dashboard({ params: { userId }}: Params) {
       </div>
         {view === 'Portraits' ?
           <PortraitList user={authUser} />
+        : view === 'Unordered Portraits' ?
+          <UnorderedPortraitList user={authUser}/>
         : view === 'All Users' || view === 'Artists' ?
           <UsersList />
         : view === 'Testimonials' || view === 'Testimonials' ?

@@ -58,19 +58,27 @@ export const EditHero = ({ categories, changeCategories }: EditProps) => {
                 }}
             >
                 <Form className='w-full flex flex-col items-center'>
-                    <div className='w-full my-4 flex justify-between'>
-                        <div className='w-1/4 mr-4 flex flex-col'>
+                    <div className='w-full flex justify-between'>
+                        <div className='w-5/12 mr-4 flex flex-col'>
                             <label htmlFor="newTitle" className='text-xl mb-2'>Title</label>
                             <Field className='border border-[#282828] p-2 rounded-lg' id="newTitle" name="newTitle" placeholder={`${categories.home.title}`} />
                         </div>
 
-                        <div className='w-1/4 mr-4 flex flex-col'>
-                            <label htmlFor="newTagline" className='text-xl mb-2'>Tagline</label>
-                            <Field className='border border-[#282828] p-2 rounded-lg' id="newTagline" name="newTagline" placeholder={`${categories.home.tagline}`} />
+                        <div className='w-5/12 mr-4 flex flex-col'>
+                            <label htmlFor="newTagline" className='text-xl'>Tagline</label>
+                            <Field 
+                                as="textarea"
+                                rows="6"
+                                cols="60"  
+                                className="text-md w-full text-black mt-2 border border-[#282828] p-2 rounded-lg" 
+                                id="newTagline" 
+                                name="newTagline" 
+                                placeholder={`${categories.home.tagline}`} 
+                            />
                         </div>
          
                         <button 
-                            className='self-end w-1/5 bg-black text-white font-semibold py-2 px-4 rounded-xl cursor-pointer hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out' 
+                            className='self-center w-1/6 bg-black text-white font-semibold py-2 px-4 rounded-xl cursor-pointer hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out' 
                             type="submit"
                         >
                             Update Copy

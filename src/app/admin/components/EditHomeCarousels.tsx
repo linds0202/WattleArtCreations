@@ -24,7 +24,7 @@ export const EditHomeCarousels = ({ categories, changeCategories }: EditProps) =
             <EditCarouselHome categories={categories} changeCategories={changeCategories} cat={'cat2'}/>
             
             <div className='w-full bg-[#e9e9e9] my-8 p-4 rounded-lg'>
-                <p className='text-xl font-semibold'>Edit {categories.cat3.type} Background Image</p>
+                <p className='text-xl font-semibold'>Edit {categories.cat3.type} Background Image <span className='text-[#616161]'>(Image size: w-[1506px] h-[598px])</span></p>
                 <p className='text-sm text-gray-400 mb-4'>(Image should be optimized for web, transparent background, include title, copy & image - button renders from HTML)</p>
                 <div className='w-1/3 bg-black p-4'>
                     <img src={categories.cat3.pics.homeCarousel} className='w-[350px] h-[150px] object-contain'/>
