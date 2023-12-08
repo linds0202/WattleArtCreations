@@ -24,8 +24,6 @@ export interface MyCharValues {
     weapon: string,
     armourComplex: boolean,
     wings: boolean,
-    pets: boolean,
-    numPets: number,
     extras: string[],
     total: number,
     charDiscount: boolean
@@ -37,13 +35,14 @@ interface MyCharProps {
     chars: MyCharValues[],
     setChars: Function,
     setCharVariations: Function,
-    setPet: Function,
+    setAnimal: Function,
+    setBg: Function,
     setCharSheet: Function, 
     setWeaponSheet: Function,
 }
 
 
-const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setPet, setCharSheet, setWeaponSheet }: MyCharProps) => {
+const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setAnimal, setBg, setCharSheet, setWeaponSheet }: MyCharProps) => {
     
     // const selection = portraitData.mode
     const [openCharMod, setOpenCharMod] = useState(false);
@@ -66,12 +65,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         weapon: 'none',
         armourComplex: false,
         wings: false,
-        pets: false,
-        numPets: 0,
         extras: [],
         total: 0,
         charDiscount: false
     })
+
+    const [initialAnimalValues, setInitialAnimalValues] = useState({pet: 'none'})
+    const [initialBgValues, setInitialBgValues] = useState({pet: 'none'})
 
     const [message, setMessage] = useState('')
     const [isHovering, setIsHovering] = useState(false);
@@ -89,8 +89,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     useEffect(() => {
         chars.forEach((char) => {
             if (char.numCharVariations > 1) setCharVariations(true)
-
-            if(char.pets) setPet(true)
         
             if(char.extras.includes('character')) setCharSheet(true)
         
@@ -102,13 +100,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const handleCharSubmit = (values: MyCharValues) => {
 
         setCharVariations(false)
-        setPet(false)
+        // setPet(false)
         setCharSheet(false)
         setWeaponSheet(false)
         
-        if(!values.pets) {
-            values.numPets = 0
-        } 
+        // if(!values.pets) {
+        //     values.numPets = 0
+        // } 
 
         let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * prices['charVariations']) 
@@ -212,8 +210,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             weapon: 'none',
             armourComplex: false,
             wings: false,
-            pets: false,
-            numPets: 0,
             extras: [],
             total: 0,
             charDiscount: false
@@ -278,7 +274,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         }
     }
 
-    const handleAddAnimal = () => {
+    const handleAddAnimal = (values: any) => {
+        console.log('pet is: ', values.pet)
+        switch (values.pet) {
+            case 'none':
+                setAnimal(false)
+        }
         setOpenAddAnimal(false)
     }
 
@@ -442,7 +443,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         </div>
                         <div>
                             <p># of Character variations: {char.numCharVariations}</p>
-                            <p># of Pets: {char.numPets}</p>
+                            {/* <p># of Pets: {char.numPets}</p> */}
                         </div>
                         <p>Extras: {char.extras.length === 0 ? "None" : char.extras?.join(', ')}</p>
                     </div>
@@ -470,7 +471,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             </div>
 
             <Formik
-                initialValues={initialCharValues}
+                initialValues={initialAnimalValues}
                 onSubmit={handleAddAnimal}
                 >
                 {({ handleChange, values }) => (
@@ -480,6 +481,26 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         data={`images/customizer/addAnimal.svg`} 
                         className="w-[700px] h-[200px] object-cover object-top"
                     />
+
+                    <div className="w-1/3 flex justify-between">
+                        <label className='text-lg'>
+                            <Field type="radio" name="pet" value="none" required className='mr-2'/>
+                            None
+                        </label>
+                        <label className='text-lg'>
+                            <Field type="radio" name="pet" value="petSmall" required className='mr-2'/>
+                            Small
+                        </label>
+                        <label className='text-lg ml-4'>
+                            <Field type="radio" name="pet" value="petLarge" required className='mr-2'/>
+                            Large
+                        </label>
+                        <label className='text-lg ml-4'>
+                            <Field type="radio" name="pet" value="petMonster" required className='mr-2'/>
+                            Monster / Dragon
+                        </label>
+                    </div>
+    
                     <button 
                         type="submit" 
                         className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
@@ -510,7 +531,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             </div>
 
             <Formik
-                initialValues={initialCharValues}
+                initialValues={initialBgValues}
                 onSubmit={handleAddBackground}
                 >
                 {({ handleChange, values }) => (
@@ -983,7 +1004,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                                     + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                                     + (values.armourComplex ? prices.armourComplex : 0)
                                                     + (values.wings ? prices.wings : 0)
-                                                    + (values.pets ? values.numPets * prices.pets : 0)
+                                                    // + (values.pets ? values.numPets * prices.pets : 0)
                                                     + (values.extras.includes('model') ? prices.model : 0)
                                                     + (values.extras.includes('character') ? prices.character : 0)
                                                     + (values.extras.includes('weapons') ? prices.weapons : 0)).toFixed(2)}

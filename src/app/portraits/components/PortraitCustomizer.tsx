@@ -165,7 +165,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
     const [charVariations, setCharVariations] = useState(false)
-    const [pet, setPet] = useState(false)
+    const [animal, setAnimal] = useState(false)
+    const [bg, setBg] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
 
@@ -354,7 +355,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     chars={chars}
                                     setChars={setChars} 
                                     setCharVariations={setCharVariations}
-                                    setPet={setPet}
+                                    setAnimal={setAnimal}
+                                    setBg={setBg}
                                     setCharSheet={setCharSheet}
                                     setWeaponSheet={setWeaponSheet} 
                                 />
@@ -493,7 +495,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 <StepTwo 
                                     selection={selection}
                                     charVariations={charVariations}
-                                    pet={pet}
+                                    pet={animal}
                                     charSheet={charSheet}
                                     weaponSheet={weaponSheet} 
                                 />

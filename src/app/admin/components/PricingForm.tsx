@@ -27,7 +27,9 @@ interface MyFormValues {
     character: string,
     model: string,
     weapons: string,
-    pet: string,
+    petSmall: string,
+    petLarge: string,
+    petMonster: string,
     bgSimple: string,
     bgComplex: string,
 }
@@ -50,7 +52,9 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
         character: categories[cat].prices.character,
         model: categories[cat].prices.model,
         weapons: categories[cat].prices.weapons,
-        pet: categories[cat].prices.pet,
+        petSmall: categories[cat].prices.petSmall,
+        petLarge: categories[cat].prices.petLarge,
+        petMonster: categories[cat].prices.petMonster,
         bgSimple: categories[cat].prices.bgSimple,
         bgComplex: categories[cat].prices.bgComplex,
     }
@@ -76,7 +80,9 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                         && values.character === '' 
                         && values.model === '' 
                         && values.weapons === '' 
-                        && values.pet === '' 
+                        && values.petSmall === ''
+                        && values.petLarge === ''
+                        && values.petMonster === '' 
                         && values.bgSimple === '' 
                         && values.bgComplex === ''
                     ) {
@@ -101,7 +107,9 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                             weapons: values.weapons !== '' ? Number(values.weapons) : categories[cat].prices.weapons,
                             armourComplex: values.armourComplex !== '' ? Number(values.armourComplex) : categories[cat].prices.armourComplex,
                             wings: values.wings !== '' ? Number(values.wings) : categories[cat].prices.wings,
-                            pet: values.pet !== '' ? Number(values.pet) : categories[cat].prices.pet,
+                            petSmall: values.petSmall !== '' ? Number(values.petSmall) : categories[cat].prices.petSmall,
+                            petLarge: values.petLarge !== '' ? Number(values.petLarge) : categories[cat].prices.petLarge,
+                            petMonster: values.petMonster !== '' ? Number(values.petMonster) : categories[cat].prices.petMonster,
                             bgSimple: values.bgSimple !== '' ? Number(values.bgSimple) : categories[cat].prices.bgSimple,
                             bgComplex: values.bgComplex !== '' ? Number(values.bgComplex) : categories[cat].prices.bgComplex,
                         }
@@ -210,16 +218,36 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
 
                             <div className='w-1/3 px-8 py-4 border border-[#282828] rounded-lg'>
                                 <p className='text-xl font-semibold'>Pets & Background</p>
-                                
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="pet" className='mb-1'>Pet</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="pet" 
-                                        name="pet" 
-                                        placeholder={`${categories[cat].prices.pet}`} 
-                                    />
+                                <div className='w-full flex justify-between'>
+                                    <div className='w-1/4 flex flex-col'>
+                                        <label htmlFor="petSmall" className='text-sm mb-1'>Small Pet</label>
+                                        <Field 
+                                            className='border border-[#282828] p-2 rounded-lg' 
+                                            id="petSmall" 
+                                            name="petSmall" 
+                                            placeholder={`${categories[cat].prices.petSmall}`} 
+                                        />
+                                    </div>
+                                    <div className='w-1/4 flex flex-col'>
+                                        <label htmlFor="petLarge" className='text-sm mb-1'>Large Pet</label>
+                                        <Field 
+                                            className='border border-[#282828] p-2 rounded-lg' 
+                                            id="petLarge" 
+                                            name="petLarge" 
+                                            placeholder={`${categories[cat].prices.petLarge}`} 
+                                        />
+                                    </div>
+                                    <div className='w-1/4 flex flex-col'>
+                                        <label htmlFor="petMonster" className='text-sm mb-1'>Monster/Dragon</label>
+                                        <Field 
+                                            className='border border-[#282828] p-2 rounded-lg' 
+                                            id="petMonster" 
+                                            name="petMonster" 
+                                            placeholder={`${categories[cat].prices.petMonster}`} 
+                                        />
+                                    </div>
                                 </div>
+                                
 
                                 <div className='w-full flex flex-col'>
                                     <label htmlFor="bgSimple" className='mb-1'>Simple Background</label>
