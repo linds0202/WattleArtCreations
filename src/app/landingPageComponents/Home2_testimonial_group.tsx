@@ -42,9 +42,9 @@ const Home2_testimonial_group = ({testGroup}: TestimonialGroupProps) => {
             >
                 <img src="/images/testimonials/next_left.png"/>
             </div>
-                <Home2_testimonial test={testGroup[allIndexes[0]]} />
-                <Home2_testimonial test={testGroup[allIndexes[1]]} />
-                <Home2_testimonial test={testGroup[allIndexes[2]]} />
+                {testGroup.length > 0 && <Home2_testimonial test={testGroup[allIndexes[0]]} />}
+                {testGroup.length > 1 && <Home2_testimonial test={testGroup[allIndexes[1]]} />}
+                {testGroup.length > 2 && <Home2_testimonial test={testGroup[allIndexes[2]]} />}
             <div 
                 className="w-1/6 object-cover hover:scale-110 cursor-pointer"
                 onClick={showNextGroup}

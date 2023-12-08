@@ -24,8 +24,7 @@ const uiConfig = {
         // Avoid redirects after sign-in.
         signInSuccessWithAuthResult: () => {
             console.log('calling this')
-            const resolved = false
-            return resolved
+            return false
         }
     },
 };
