@@ -23,6 +23,8 @@ export interface MyCharValues {
     complexity: number,
     weapon: string,
     armourComplex: boolean,
+    pets: boolean,
+    numPets: number,
     wings: boolean,
     extras: string[],
     total: number,
@@ -53,6 +55,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     // const [weaponsPrice, setWeaponsPrice] = useState<number>(0)
     // const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
     // const [modelPrice, setModelPrice] = useState<number>(0)
+    const [pet, setPet] = useState(false)
     const [discount, setDiscount] = useState<boolean>(false)
     let highPrices = chars.map(char => char.total)
     const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
@@ -63,6 +66,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         numCharVariations: 1,
         complexity: 1,
         weapon: 'none',
+        pets: false,
+        numPets: 0,
         armourComplex: false,
         wings: false,
         extras: [],
@@ -100,13 +105,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     const handleCharSubmit = (values: MyCharValues) => {
 
         setCharVariations(false)
-        // setPet(false)
+        setPet(false)
         setCharSheet(false)
         setWeaponSheet(false)
         
-        // if(!values.pets) {
-        //     values.numPets = 0
-        // } 
+        if(!values.pets) {
+            values.numPets = 0
+        } 
 
         let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * prices['charVariations']) 
@@ -207,6 +212,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             bodyStyle: '',
             numCharVariations: 1,
             complexity: 1,
+            pets: false,
+            numPets: 0,
             weapon: 'none',
             armourComplex: false,
             wings: false,

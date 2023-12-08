@@ -33,7 +33,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
   const [openClaimForm, setOpenClaimForm] = useState(false)
 
   const [charVariations, setCharVariations] = useState(false)
-  const [pet, setPet] = useState(false)
+  // const [pet, setPet] = useState(false)
   const [charSheet, setCharSheet] = useState(false)
   const [weaponSheet, setWeaponSheet] = useState(false)
 
@@ -41,7 +41,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     portrait.characters.forEach((char: MyCharValues) => {
         if (char.numCharVariations > 1) setCharVariations(true)
 
-        if(char.pets) setPet(true)
+        // if(char.pets) setPet(true)
     
         if(char.extras.includes('character')) setCharSheet(true)
     
@@ -289,7 +289,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <DisplayedOptionalQuestions 
                   portrait={portrait} 
                   charVariations={charVariations}
-                  pet={pet}
+                  // pet={pet}
                   charSheet={charSheet}
                   weaponSheet={weaponSheet} 
                 />
