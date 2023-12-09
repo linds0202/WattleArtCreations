@@ -37,6 +37,7 @@ interface MyCharProps {
     chars: MyCharValues[],
     setChars: Function,
     setCharVariations: Function,
+    setPet: Function,
     setAnimal: Function,
     setBg: Function,
     setCharSheet: Function, 
@@ -44,7 +45,7 @@ interface MyCharProps {
 }
 
 
-const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setAnimal, setBg, setCharSheet, setWeaponSheet }: MyCharProps) => {
+const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setPet, setAnimal, setBg, setCharSheet, setWeaponSheet }: MyCharProps) => {
     
     // const selection = portraitData.mode
     const [openCharMod, setOpenCharMod] = useState(false);
@@ -55,7 +56,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     // const [weaponsPrice, setWeaponsPrice] = useState<number>(0)
     // const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
     // const [modelPrice, setModelPrice] = useState<number>(0)
-    const [pet, setPet] = useState(false)
+    // const [pet, setPet] = useState(false)
     const [discount, setDiscount] = useState<boolean>(false)
     let highPrices = chars.map(char => char.total)
     const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
