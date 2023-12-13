@@ -48,7 +48,13 @@ interface Customizer {
         Headshot: string,
         Half: string,
         Full: string,
-        noImg: string
+        noImg: string,
+        petSmall: string,
+        petLarge: string,
+        petMonster: string,
+        cat1DefaultImg: string,
+        cat2DefaultImg: string,
+        cat3DefaultImg: string
     },
     bgOptions: Array<string>
 }
@@ -220,7 +226,13 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 Headshot: "",
                 Half: "",
                 Full: "",
-                noImg: ""
+                noImg: "",
+                petSmall: "",
+                petLarge: "",
+                petMonster: "",
+                cat1DefaultImg: "",
+                cat2DefaultImg: "",
+                cat3DefaultImg: ""
             },
             bgOptions: []
         },

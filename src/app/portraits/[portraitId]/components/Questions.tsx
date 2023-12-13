@@ -34,7 +34,7 @@ interface QuestionsProps {
 const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, canEditQs, role }: QuestionsProps) => {
 
     const [charVariations, setCharVariations] = useState(false)
-    const [pet, setPet] = useState(false)
+    const [animals, setAnimals] = useState(false)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
 
@@ -47,14 +47,14 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
     useEffect(() => {
         portrait?.characters.forEach((char: MyCharValues) => {
             if (char.numCharVariations > 1) setCharVariations(true)
-
-            if(char.pets) setPet(true)
         
             if(char.extras.includes('character')) setCharSheet(true)
         
             if(char.extras.includes('weapons')) setWeaponSheet(true)
 
         })
+
+        if (portrait.animals.length > 0) setAnimals(true)
     }, [])
 
     const updateQuestions = async (values: PortraitData) => {
@@ -282,9 +282,8 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                                 <h3 className='text-xl font-bold mt-4'>Let us know more. . .</h3>
                                 <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
                                 <StepTwo 
-                                    selection={portrait.mode}
                                     charVariations={charVariations}
-                                    pet={pet}
+                                    animals={animals}
                                     charSheet={charSheet}
                                     weaponSheet={weaponSheet} 
                                 />
@@ -318,7 +317,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 <DisplayedOptionalQuestions 
                     portrait={portrait} 
                     charVariations={charVariations}
-                    pet={pet}
+                    animals={animals}
                     charSheet={charSheet}
                     weaponSheet={weaponSheet} 
                 />

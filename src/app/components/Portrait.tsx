@@ -13,6 +13,7 @@ import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
 import ClaimForm from './ClaimForm'
 import { UserData } from '../artistDashboard/[userId]/portfolio/page'
 import ImgSet from './ImgSet'
+import { useCategoriesContext } from '../context/CategoriesContext'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -25,6 +26,7 @@ export interface Artist {
 }
 
 export default function Portrait({ portrait, user}: PortraitProps) {
+  const { categories } = useCategoriesContext()
   const router = useRouter()
 
   const [openArtistDetails, setOpenArtistDetails] = useState(false)
@@ -33,21 +35,23 @@ export default function Portrait({ portrait, user}: PortraitProps) {
   const [openClaimForm, setOpenClaimForm] = useState(false)
 
   const [charVariations, setCharVariations] = useState(false)
-  const [pet, setPet] = useState(false)
+  const [animals, setAnimals] = useState(false)
   const [charSheet, setCharSheet] = useState(false)
   const [weaponSheet, setWeaponSheet] = useState(false)
 
   useEffect(() => {
     portrait.characters.forEach((char: MyCharValues) => {
         if (char.numCharVariations > 1) setCharVariations(true)
-
-        if(char.pets) setPet(true)
     
         if(char.extras.includes('character')) setCharSheet(true)
     
         if(char.extras.includes('weapons')) setWeaponSheet(true)
 
     })
+
+    if (portrait.animals.length > 0) setAnimals(true)
+
+
   }, [])
 
   const handleClaim = async () => {
@@ -102,17 +106,16 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       }
     }
   }
- 
 
   return (
     <div className='bg-white border-2 rounded-xl border-black w-11/12 p-8 m-4 text-black flex justify-between items-center z-30'>
       <div className='relative w-[175px] h-[175px] object-cover object-top rounded-xl'>
         <Image
-            src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === 'Photorealistic' 
-              ? '/images/defaultImgs/photo.png' 
-              : portrait.mode === 'Anime' 
-              ? '/images/defaultImgs/anime.png' 
-              : '/images/defaultImgs/nsfw.png'}`}
+            src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === categories.cat1.type 
+              ? categories.customizer.defaults.cat1DefaultImg 
+              : portrait.mode === categories.cat2.type
+              ? categories.customizer.defaults.cat2DefaultImg 
+              : categories.customizer.defaults.cat3DefaultImg }`}
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             alt="Default Image"
@@ -129,9 +132,9 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         
         <div className='mt-4 flex'>
           <div className='w-[50%] pl-2'>
-            {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold'>Created on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.creationDate.toDate()).toLocaleDateString("en-US")}</span></p>}
+            {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold'>Created on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.creationDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
-            {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold'>Ordered on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>}
+            {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold'>Ordered on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
 
             {user?.roles === 'Artist' && <p className='mb-2 font-semibold'>Customer:<span className='ml-2 text-[#2DD42B] text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
@@ -175,7 +178,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         {/* If not ordered - click to add to cart */}
         {user?.roles === 'Customer' && !portrait.paymentComplete && 
           <div>
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]'>Add to Cart</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode === categories.cat1.type ? 'cat1' : portrait.mode === categories.cat2.type ? 'cat2' : 'cat3'}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]'>Add to Cart</p></Link>
 
             <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#43b4e4] hover:border-[#43b4e4]'>Continue Customizing</p></Link>
           </div>
@@ -289,7 +292,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <DisplayedOptionalQuestions 
                   portrait={portrait} 
                   charVariations={charVariations}
-                  pet={pet}
+                  animals={animals}
                   charSheet={charSheet}
                   weaponSheet={weaponSheet} 
                 />

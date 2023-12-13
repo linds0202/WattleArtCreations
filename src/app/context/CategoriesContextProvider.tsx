@@ -114,7 +114,13 @@ const CategoryContextProvider = ({ children }: IProps) => {
             Headshot: "",
             Half: "",
             Full: "",
-            noImg: ""
+            noImg: "",
+            petSmall: "",
+            petLarge: "",
+            petMonster: "",
+            cat1DefaultImg: "",
+            cat2DefaultImg: "",
+            cat3DefaultImg: ""
         },
         bgOptions: []
     },

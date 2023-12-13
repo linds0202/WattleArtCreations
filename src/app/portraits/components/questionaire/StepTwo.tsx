@@ -1,87 +1,18 @@
 import { Field } from 'formik';
 import Accordion from './Accordion';
-import { useState, useEffect } from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import Dialog from '@mui/material/Dialog';
-import Button from '@mui/material/Button';
-import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '@/app/firebase/firebase';
-import { useAuth } from '@/app/firebase/auth';
-import { useRouter } from 'next/navigation';
 
-// Configure FirebaseUI., 
-// const uiConfig = {
-//     signInFlow: 'popup', 
-//     signInOptions: [
-//       EmailAuthProvider.PROVIDER_ID,
-//       GoogleAuthProvider.PROVIDER_ID,
-//     ],
-//     callbacks: {
-//         // Avoid redirects after sign-in.
-//         signInSuccessWithAuthResult: () => false,
-//     },
-// };
 
 interface MyQuestionProps { 
-    selection: string | null,
     charVariations: Boolean,
-    pet: Boolean,
+    animals: Boolean,
     charSheet: Boolean, 
     weaponSheet: Boolean,
 }
 
-const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : MyQuestionProps) => {
-    
-    const { authUser, isLoading } = useAuth();
-    const router = useRouter();
+const StepTwo = ({ charVariations, animals, charSheet, weaponSheet } : MyQuestionProps) => {
 
-    //const [stepLogin, setStepLogin] = useState(false);
-    
-    // useEffect(() => {
-    //     if (selection !== 'NSFW') {
-    //         if (!authUser) {
-    //             setStepLogin(true)
-    //         } else {
-    //             setStepLogin(false)
-    //             //router.refresh()
-    //         }
-    //     }
-        
-    // }, [authUser])
-
-    // const handleRedirect = () => {
-    //     setStepLogin(false)
-    //     router.push('/')
-    // }
-
-    // const handleClose = (event: object, reason: string) => {
-    //     if (reason && reason == "backdropClick") {
-    //         return
-    //     }
-    // }
-    
     return (
         <>
-            {/* Prompt for login */}
-            {/* <Dialog onClose={handleClose} open={stepLogin}>
-                <div className='text-white text-center fixed top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 w-[300px]  rounded-lg bg-[#282828] flex flex-col justify-around items-center px-4 py-4'>
-                    <h3 className='text-2xl font-bold pb-0'>Please Login to Continue</h3>
-                    <p>step 2</p>
-                    <p className='pb-4'>In order to fully customize your portrait, please Login or Create an Account</p>
-                    <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth}/>
-                    <Button 
-                        onClick={handleRedirect}
-                        className='pt-4'
-                    >
-                        <div className='text-white border-2 border-white px-4 py-2 rounded-lg flex flex-col'>
-                            <p className='text-md' >Return to Homepage</p>
-                            <p className='text-xs text-[#DCDCDC]'>(You will lose any progress on your customization)</p>
-                        </div>
-                            
-                    </Button>
-                    
-                </div>
-            </Dialog>         */}
             {/* Character Qs */}
             <Accordion title="Character" required={false} active={true}>
                 <label className='text-sm leading-3'>
@@ -147,8 +78,8 @@ const StepTwo = ({ selection, charVariations, pet, charSheet, weaponSheet } : My
             </Accordion>
 
             {/* Pets Qs */}
-            <Accordion title="Pets" required={false} active={pet}>
-                {pet ? 
+            <Accordion title="Pets" required={false} active={animals}>
+                {animals ? 
                     <>
                         <label className='text-sm leading-3'>
                             For your pet/familiar, please describe their appearance, including any unique features or accessories.

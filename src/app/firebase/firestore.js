@@ -349,6 +349,8 @@ export async function addPortrait( data) {
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,
+    animals: data.animals,
+    bg: data.bg,
     portraitTitle: data.portraitTitle,
     requiredQs: data.requiredQs,
     questions: data.questions, 
@@ -412,9 +414,9 @@ export async function addSelectedArtist( portraitId, artistId, displayName) {
 /* 
  Adds character to Portrait in Firestore with given character information:
 */
-export function addChar( portraitId, bodyStyle, numCharVariations, pets, numPets, extras) {
+export function addChar( portraitId, bodyStyle, numCharVariations, extras) {
   updateDoc(doc(db, 'portraits', portraitId), { 
-    characters: arrayUnion({bodyStyle, numCharVariations, pets, numPets, extras })
+    characters: arrayUnion({bodyStyle, numCharVariations, extras })
   });
 }
 
@@ -448,6 +450,8 @@ export async function getPortrait(uid) {
   const newPortrait = {
     mode: docSnap.data().mode,
     characters: docSnap.data().characters,
+    animals: docSnap.data().animals,
+    bg: docSnap.data().bg,
     portraitTitle: docSnap.data().portraitTitle,
     requiredQs: docSnap.data().requiredQs,
     questions: docSnap.data().questions, 

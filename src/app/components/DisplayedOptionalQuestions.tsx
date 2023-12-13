@@ -4,12 +4,12 @@ import Accordion from "../portraits/components/questionaire/Accordion"
 interface DisplayedOptionalQuestionsProps {
   portrait: PortraitData,
   charVariations: boolean,
-  pet: boolean,
+  animals: boolean,
   charSheet: boolean,
   weaponSheet: boolean
 }
 
-const DisplayedOptionalQuestions = ({portrait, charVariations, pet, charSheet, weaponSheet}: DisplayedOptionalQuestionsProps) => {
+const DisplayedOptionalQuestions = ({portrait, charVariations, animals, charSheet, weaponSheet}: DisplayedOptionalQuestionsProps) => {
   
   return (
     <div>
@@ -35,15 +35,15 @@ const DisplayedOptionalQuestions = ({portrait, charVariations, pet, charSheet, w
                 <p className='text-sm leading-3'>What variations would you like between each version (e.g., different outfits, expressions, poses, or color schemes)?</p>
                 <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[1].q1}</p>
             </>
-            : <p className='text-sm font-semibold'>No Pets were added to this portrait.</p>
+            : <p className='text-sm font-semibold'>No Animals were added to this portrait.</p>
             }
         </div> 
       </Accordion>
 
       {/* Pet qs */}
-      <Accordion title="Pet / Familiar:" required={false} active={pet}>
+      <Accordion title="Pet / Familiar:" required={false} active={animals}>
         <div>
-            {pet ?
+            {animals ?
             <>
                 <p className='text-sm leading-3'>For your pet/familiar, please describe their appearance, including any unique features or accessories.</p>
                 <p className='border-2 border-[#E5E5E5] rounded-lg px-4 py-2 mt-2 text-sm font-semibold'>{portrait.questions[2].q1}</p>

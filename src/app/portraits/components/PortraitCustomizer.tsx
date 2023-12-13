@@ -45,10 +45,22 @@ export interface Upload {
     text: string
 }
 
+export interface MyAnimalValues {
+    type: string,
+    price: number
+}
+
+export interface MyBgValues {
+    type: string,
+    price: number
+}
+
 
 export interface PortraitData  {
     mode: string, 
     characters: Array<MyCharValues>,
+    animals: Array<MyAnimalValues>,
+    bg: MyBgValues,
     portraitTitle: string,
     requiredQs: [string, string],
     questions: [{q1: string, q2: string, q3: string, q4: string}, {q1: string}, {q1: string, q2: string}, {q1: string, q2: string}, {q1: string, q2: string}], 
@@ -90,42 +102,17 @@ interface PortraitProps {
 }
 
 
-// const prices: any = {
-//     Photorealistic: {
-//         Headshot: 100,
-//         Half: 130,
-//         Full: 150,
-//         model: 150,
-//         character: 120,
-//         weapons: 125
-//     },
-//     Anime: {
-//         Headshot: 120,
-//         Half: 140,
-//         Full: 200,
-//         model: 150,
-//         character: 120,
-//         weapons: 125
-//     },
-//     NSFW: {
-//         Headshot: 150,
-//         Half: 200,
-//         Full: 225,
-//         model: 150,
-//         character: 120,
-//         weapons: 125
-//     }
-// }
-
 const DEFAULT_FORM_STATE = {
     fileName: "No file selected",
     file: null,
 };
 
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
-    const { categories, changeCategories } = useCategoriesContext()
+    const { categories } = useCategoriesContext()
 
+    console.log('selection in customizer: ', selection)
     const choice = (selection === undefined || !selection) ? 'cat1' : selection
+    console.log('choice: ', choice)
     if (selection === undefined || !selection) selection = categories['cat1'].type
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -135,6 +122,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const [portraitData, setPortraitData] = useState<PortraitData>(editPortrait ? editPortrait : {
         mode: `${categories[choice].type}`, 
         characters: [],
+        animals: [],
+        bg: {type: 'None', price: 0},
         portraitTitle: '',
         requiredQs: ['', ''],
         questions: [{q1: '', q2: '', q3: '', q4: ''}, {q1: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}],
@@ -165,9 +154,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
     const [charVariations, setCharVariations] = useState(false)
-    const [pet, setPet] =useState(false)
-    const [animal, setAnimal] = useState(false)
-    const [bg, setBg] = useState(false)
+    const [animals, setAnimals] = useState<Array<MyAnimalValues>>(portraitData?.animals)
+    const [bg, setBg] = useState<MyBgValues>(portraitData?.bg)
     const [charSheet, setCharSheet] = useState(false)
     const [weaponSheet, setWeaponSheet] = useState(false)
 
@@ -185,12 +173,20 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if (!editPortrait) {
             const charData = window.localStorage.getItem('charList')
             if (charData !== null && JSON.parse(charData).length !== 0) setChars(JSON.parse(charData))
+
+            const animalData = window.localStorage.getItem('animalList')
+            if (animalData !== null && JSON.parse(animalData).length !== 0) setChars(JSON.parse(animalData))
+
+            const bgData = window.localStorage.getItem('bgList')
+            if (bgData !== null && JSON.parse(bgData).length !== 0) setChars(JSON.parse(bgData))
         } 
     }, [])
 
     useEffect(() => {
         if(!customizerLogin) {
             window.localStorage.setItem('charList', JSON.stringify([]))
+            window.localStorage.setItem('animalList', JSON.stringify([]))
+            window.localStorage.setItem('bgList', JSON.stringify([]))
         }
     }, [customizerLogin])
 
@@ -204,9 +200,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 } else {
                     setCustomizerLogin(true)
                     window.localStorage.setItem('charList', JSON.stringify(chars))
+                    window.localStorage.setItem('animalList', JSON.stringify(animals))
+                    window.localStorage.setItem('bgList', JSON.stringify(bg))
                 }                
             } else {
                 window.localStorage.setItem('charList', JSON.stringify(chars))
+                window.localStorage.setItem('animalList', JSON.stringify(animals))
+                window.localStorage.setItem('bgList', JSON.stringify(bg))
                 setCustomizerLogin(true)
             }
         } else {
@@ -214,26 +214,28 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 if (!authUser) {
                     setPortraitData({...portraitData, characters: chars})
                     window.localStorage.setItem('charList', JSON.stringify(chars))
+                    window.localStorage.setItem('animalList', JSON.stringify(animals))
+                    window.localStorage.setItem('bgList', JSON.stringify(bg))
                     setCustomizerLogin(true)
                 } else {
-                    setPortraitData({...portraitData, characters: chars})
+                    setPortraitData({...portraitData, characters: chars, animals: animals, bg: bg})
                     setCustomizerLogin(false)
                 }
             }
         }
-    }, [authUser, chars])
+    }, [authUser, chars, animals, bg])
 
 
-    const handleLogin = () => {
-        console.log('clicked login')
-        setCustomizerLogin(true)
-    }
+    // const handleLogin = () => {
+    //     console.log('clicked login')
+    //     setCustomizerLogin(true)
+    // }
 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
-        const price = chars.reduce((sum, char) => sum += char?.total, 0)
+        const price = chars.reduce((sum, char) => sum += char?.total, 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
     
-        const newPortrait = {...portraitFormData, characters: chars, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
+        const newPortrait = {...portraitFormData, characters: chars, animals: animals, bg:bg, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
         
         if (editPortrait) {
             let newImages: UploadedImgs[]
@@ -282,6 +284,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
         }
         window.localStorage.setItem('charList', JSON.stringify([]))
+        window.localStorage.setItem('animalList', JSON.stringify([]))
+        window.localStorage.setItem('bgList', JSON.stringify([]))
         setEditPortrait(null)
         setOpenWizard(false)
     }  
@@ -356,8 +360,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     chars={chars}
                                     setChars={setChars} 
                                     setCharVariations={setCharVariations}
-                                    setPet={setPet}
-                                    setAnimal={setAnimal}
+                                    animals={animals}
+                                    setAnimals={setAnimals}
+                                    bg={bg}
                                     setBg={setBg}
                                     setCharSheet={setCharSheet}
                                     setWeaponSheet={setWeaponSheet} 
@@ -454,15 +459,15 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
                                     {editPortrait && portraitData?.images.length !== 0 &&
                                     <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 bg-[#e8e8e8] rounded-xl p-4'>
-                                        <p className='text-black'>Previously uploaded images:</p>
+                                        <p className='text-black mr-2'>Previously uploaded images:</p>
                                         {portraitData.images.map((imgGroup, i) =>
-                                        <div key={i} className='bg-white rounded-lg mx-4 p-2 flex '>
+                                        <div key={i} className='bg-white rounded-lg mr-4 mb-2 p-2 flex '>
                                             {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain' alt='thumbnail of customer uploaded images'/>)}
 
                                             <button 
                                                 type="button" 
                                                 onClick={() => handleDeleteImgGroup(i)} 
-                                                className='ml-4 hover:text-red-600 '
+                                                className='ml-4 text-black hover:text-red-600 '
                                                 title='Remove from order? Unordered portraits can be found on your dashboard'
                                             >
                                                 <DeleteForeverIcon />
@@ -495,9 +500,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 </div>
                                 
                                 <StepTwo 
-                                    selection={selection}
                                     charVariations={charVariations}
-                                    pet={animal}
+                                    animals={animals.length > 0}
                                     charSheet={charSheet}
                                     weaponSheet={weaponSheet} 
                                 />

@@ -53,14 +53,22 @@ export default function NavBar() {
   const [cartLength, setCartLength] = useState<Number | null>(null)
 
   useEffect(() => {
+    const cartData = sessionStorage.getItem('Cart')
+    if (cartData !== null && JSON.parse(cartData).length !== 0) {
+      setCartLength(JSON.parse(cartData).length)
+    }
+    else {
+      setCartLength(null)
+    }
+
+    
     function printCart() {
       const cartData = sessionStorage.getItem('Cart')
+      
       if (cartData !== null && JSON.parse(cartData).length !== 0) {
-        // console.log('session storage from inside navbar: ' + JSON.parse(cartData))
         setCartLength(JSON.parse(cartData).length)
       }
       else {
-        // console.log('cart is empty')
         setCartLength(null)
       }
     }
@@ -71,21 +79,20 @@ export default function NavBar() {
       window.removeEventListener('storage', printCart)
     }
   }, [])
-  
 
-  const handleClose = ({event, reason}: {event: any, reason: any}) => {
+  // const handleClose = ({event, reason}: {event: any, reason: any}) => {
   
-    if (reason && reason == "backdropClick") {
-      return;
-    }
-    setClickedNSFW(false)
-    setLogin(false) 
-  }
+  //   if (reason && reason == "backdropClick") {
+  //     return;
+  //   }
+  //   setClickedNSFW(false)
+  //   setLogin(false) 
+  // }
 
-  const handleXClose = () => {
-    setClickedNSFW(false)
-    setLogin(false)
-  }
+  // const handleXClose = () => {
+  //   setClickedNSFW(false)
+  //   setLogin(false)
+  // }
 
   // Redirect if finished loading and there's an existing user (user is logged in)
   useEffect(() => {
@@ -133,10 +140,10 @@ export default function NavBar() {
       router.push('/')
   }
 
-  const handleRedirect = () => {
-    setLogin(false)
-    router.push('/')
-  }
+  // const handleRedirect = () => {
+  //   setLogin(false)
+  //   router.push('/')
+  // }
 
   const handleHome = () => {
     router.push('/')

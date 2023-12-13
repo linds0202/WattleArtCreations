@@ -4,7 +4,7 @@ import '../../globals.css'
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
-import { getPortrait, updatePortrait, getTestimonial } from '../../firebase/firestore';
+import { updatePortrait, getTestimonial } from '../../firebase/firestore';
 import ChatBox from './components/ChatBox';
 import UploadImg from './components/UploadImageDialogueBox';
 import CompleteCommission from './components/CompleteCommission';
@@ -75,8 +75,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
   const [openQuestions, setOpenQuestions] = useState(false)  
 
-  const pastOption = localStorage.getItem('bgOption')
-  const [selectedOption, setSelectedOption] = useState((pastOption !== null && JSON.parse(pastOption).length) ? JSON.parse(pastOption) : null)
+  const [selectedOption, setSelectedOption] = useState<string | null>(null)
 
   const handleOptionChange = (event: any) => {
     const value = event.target.value;
@@ -97,6 +96,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         
         return () => unsubscribe()
     }
+
+    const bgItem = localStorage.getItem('bgOption')
+    if (bgItem !== null && JSON.parse(bgItem).length) {
+      setSelectedOption(JSON.parse(bgItem))
+    } else {
+      localStorage.setItem('bgOption', JSON.stringify('bg-gradient-to-b from-[#ffffff] to-black'))
+      setSelectedOption('bg-gradient-to-b from-[#ffffff] to-black')
+    }
+
     getPortrait()
   }, [])
 

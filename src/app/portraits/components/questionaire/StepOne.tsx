@@ -10,7 +10,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import InfoIcon from '@mui/icons-material/Info';
-import { PortraitData } from "../PortraitCustomizer";
+import { MyAnimalValues, MyBgValues, PortraitData } from "../PortraitCustomizer";
+import { useCategoriesContext } from "@/app/context/CategoriesContext";
 import { motion } from "framer-motion";
 import './styles.css'
 import PawSvg from "./PawSvg";
@@ -23,8 +24,6 @@ export interface MyCharValues {
     complexity: number,
     weapon: string,
     armourComplex: boolean,
-    pets: boolean,
-    numPets: number,
     wings: boolean,
     extras: string[],
     total: number,
@@ -37,26 +36,23 @@ interface MyCharProps {
     chars: MyCharValues[],
     setChars: Function,
     setCharVariations: Function,
-    setPet: Function,
-    setAnimal: Function,
+    animals: MyAnimalValues[],
+    setAnimals: Function,
+    bg: MyBgValues,
     setBg: Function,
     setCharSheet: Function, 
     setWeaponSheet: Function,
 }
 
 
-const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, setPet, setAnimal, setBg, setCharSheet, setWeaponSheet }: MyCharProps) => {
-    
-    // const selection = portraitData.mode
+const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, animals, setAnimals, bg, setBg, setCharSheet, setWeaponSheet }: MyCharProps) => {
+    const { categories } = useCategoriesContext()
+
     const [openCharMod, setOpenCharMod] = useState(false);
     const [openAddAnimal, setOpenAddAnimal] = useState(false)
     const [openAddBackground, setOpenAddBackground] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [editCharIndex, setEditCharIndex] = useState<number>(0)
-    // const [weaponsPrice, setWeaponsPrice] = useState<number>(0)
-    // const [characterSheetPrice, setCharacterSheetPrice] = useState<number>(0)
-    // const [modelPrice, setModelPrice] = useState<number>(0)
-    // const [pet, setPet] = useState(false)
     const [discount, setDiscount] = useState<boolean>(false)
     let highPrices = chars.map(char => char.total)
     const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
@@ -67,8 +63,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         numCharVariations: 1,
         complexity: 1,
         weapon: 'none',
-        pets: false,
-        numPets: 0,
         armourComplex: false,
         wings: false,
         extras: [],
@@ -76,8 +70,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         charDiscount: false
     })
 
-    const [initialAnimalValues, setInitialAnimalValues] = useState({pet: 'none'})
-    const [initialBgValues, setInitialBgValues] = useState({pet: 'none'})
+    const [initialAnimalValues, setInitialAnimalValues] = useState({animal: 'petSmall'})
+    const [initialBgValues, setInitialBgValues] = useState({})
 
     const [message, setMessage] = useState('')
     const [isHovering, setIsHovering] = useState(false);
@@ -101,18 +95,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             if(char.extras.includes('weapons')) setWeaponSheet(true)
 
         })
-    }, [chars])
+    }, [chars, animals])
 
     const handleCharSubmit = (values: MyCharValues) => {
 
         setCharVariations(false)
-        setPet(false)
         setCharSheet(false)
         setWeaponSheet(false)
-        
-        if(!values.pets) {
-            values.numPets = 0
-        } 
 
         let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * prices['charVariations']) 
@@ -123,17 +112,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         + (values.extras.includes('model') ? prices.model : 0)
                         + (values.extras.includes('character') ? prices.character : 0)
                         + (values.extras.includes('weapons') ? prices.weapons : 0)
-        console.log('totalPrice: ', totalPrice)
-
-
-        // let totalPrice = prices[values.bodyStyle] 
-        //                 + ((values.numCharVariations - 1) * prices['charVariations']) 
-        //                 + values.numPets * prices['pets']
-        //                 + (modelPrice ? prices['model'] : 0)
-        //                 + (characterSheetPrice ? prices['character'] : 0)
-        //                 + (weaponsPrice ? prices['weapons'] : 0)
-        
-        const newChar = {}
 
         if (isEdit) {
             if (chars.length > 1) {
@@ -202,9 +180,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             }
         }
         setIsEdit(false)
-        // setModelPrice(0)
-        // setCharacterSheetPrice(0)
-        // setWeaponsPrice(0)
         setOpenCharMod(false)
     }
 
@@ -213,8 +188,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             bodyStyle: '',
             numCharVariations: 1,
             complexity: 1,
-            pets: false,
-            numPets: 0,
             weapon: 'none',
             armourComplex: false,
             wings: false,
@@ -222,10 +195,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             total: 0,
             charDiscount: false
         })
-
-        // setModelPrice(0)
-        // setCharacterSheetPrice(0)
-        // setWeaponsPrice(0)
 
         setOpenCharMod(true)
     }
@@ -235,10 +204,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
         setIsEdit(true)
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
-
-        // if (chars[i].extras.includes('model')) setModelPrice(prices['model'])
-        // if (chars[i].extras.includes('character')) setCharacterSheetPrice(prices['character'])
-        // if (chars[i].extras.includes('weapons')) setWeaponsPrice(prices['weapons'])
         
         setOpenCharMod(true)
     }
@@ -283,49 +248,50 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
     }
 
     const handleAddAnimal = (values: any) => {
-        console.log('pet is: ', values.pet)
-        switch (values.pet) {
-            case 'none':
-                setAnimal(false)
+        let newAnimal
+        switch (values.animal) {
+            case 'petSmall':
+                newAnimal = {
+                    type: 'Small Pet',
+                    price: Number(prices.petSmall)
+                }
+                setAnimals([...animals, newAnimal])
+                break
+            case 'petLarge':
+                newAnimal = {
+                    type: 'Large Pet',
+                    price: Number(prices.petLarge)
+                }
+                setAnimals([...animals, newAnimal])
+                break
+            case 'petMonster':
+                newAnimal = {
+                    type: 'Monster / Dragon',
+                    price: Number(prices.petMonster)
+                }
+                setAnimals([...animals, newAnimal])
+                break
         }
         setOpenAddAnimal(false)
     }
 
+    const handleDeleteAnimal = (index: number) => {
+        let deleteAnimalArr = animals.filter((animal, i) => i !== index)
+        setAnimals(deleteAnimalArr)
+    }
+
+    const handleBgSelection = (type: string) => {
+        setBg({type: type, price: prices[type]})
+    }
 
     const handleAddBackground = () => {
         setOpenAddBackground(false)
     }
 
-    // const calcModelPrice = () => {
-    //     setModelPrice(prev => {
-    //         if (prev > 0) {
-    //             return 0
-    //         } else {
-    //             return prices.model
-    //         }
-    //     })
-    // }
-
-    // const calcCharacterSheetPrice = () => {
-    //     setCharacterSheetPrice(prev => {
-    //         if (prev > 0) {
-    //             return 0
-    //         } else {
-    //             return prices.character
-    //         }
-    //     })
-    // }
-
-    // const calcWeaponPrice = () => {
-    //     setWeaponsPrice(prev => {
-    //         if (prev > 0) {
-    //             return 0
-    //         } else {
-    //             return prices.weapons
-    //         }
-    //     })
-    // }
-
+    const handleDeleteBg = () => {
+        setBg({type: 'None', price: 0})
+        setOpenAddBackground(false)
+    }
 
     return (
     <>   
@@ -428,7 +394,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                     <div className={`w-[110px] h-[110px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
                         <p className="text-white text-2xl font-bold">
                             ${!char.charDiscount 
-                            ? <span>{char.total.toFixed(2)}</span> 
+                            ? <span>{Number(char.total).toFixed(2)}</span> 
                             : 
                             <span>{(char.total * .9).toFixed(2)}</span>
                             }                        
@@ -451,12 +417,33 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                         </div>
                         <div>
                             <p># of Character variations: {char.numCharVariations}</p>
-                            {/* <p># of Pets: {char.numPets}</p> */}
                         </div>
                         <p>Extras: {char.extras.length === 0 ? "None" : char.extras?.join(', ')}</p>
                     </div>
                 </div>
             ))}
+
+            {animals?.map((animal, i) => (
+                <div 
+                    key={i}
+                    className='w-[48%] h-auto mt-8 p-4 flex justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
+                >
+                    <p>{animal.type}</p>
+                    <p>${animal.price.toFixed(2)}</p>
+                    <button type="button" onClick={() => handleDeleteAnimal(i)} className='ml-4 text-black hover:text-red-600'>
+                        <DeleteForeverIcon />
+                    </button>
+                </div>
+            ))}
+
+            {bg.type !== 'None' && <div className='w-[48%] h-auto mt-8 p-4 flex justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'>
+                <p>Background: {bg.type}</p>
+                <p>${bg.price.toFixed(2)}</p>
+                <button type="button" onClick={handleDeleteBg} className='ml-4 text-black hover:text-red-600'>
+                    <DeleteForeverIcon />
+                </button>
+            </div>}
+
         </div>
 
 
@@ -465,17 +452,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
             onClose={() => setOpenAddAnimal(false)} 
             open={openAddAnimal} 
             fullWidth={true}
-            maxWidth='xl'
+            maxWidth='lg'
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenAddAnimal(false)} className='absolute top-2 right-2 text-white'>
+                <IconButton onClick={() => setOpenAddAnimal(false)} className='absolute top-0 -right-6 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
 
             <div className="flex justify-center items-center">
-                <p className='text-2xl text-center font-bold mt-0'>Make your selections to add animals to your portrait</p>
+                
             </div>
 
             <Formik
@@ -483,38 +470,50 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 onSubmit={handleAddAnimal}
                 >
                 {({ handleChange, values }) => (
-                <Form className="w-full flex flex-col justify-between items-center">
-                    <object 
-                        type="image/svg+xml" 
-                        data={`images/customizer/addAnimal.svg`} 
-                        className="w-[700px] h-[200px] object-cover object-top"
-                    />
+                <Form className="w-full flex justify-around items-center">
+                    <div className="w-[400px] h-[400px] border border-[#282828] rounded-xl flex justify-center items-center">
+                        {values.animal === 'petSmall' && <object 
+                            type="image/svg+xml" 
+                            data={categories.customizer.defaults.petSmall} 
+                            className='w-[225px] h-[225px] object-cover object-top'
+                        />}
+                        {values.animal === 'petLarge' && <object 
+                            type="image/svg+xml" 
+                            data={categories.customizer.defaults.petLarge} 
+                            className='w-[275px] h-[275px] object-cover object-top'
+                        />}
+                        {values.animal === 'petMonster' && <object 
+                            type="image/svg+xml" 
+                            data={categories.customizer.defaults.petMonster} 
+                            className='w-[400px] h-[400px] object-cover object-top'
+                        />}
+                    </div>
+                    
 
-                    <div className="w-1/3 flex justify-between">
-                        <label className='text-lg'>
-                            <Field type="radio" name="pet" value="none" required className='mr-2'/>
-                            None
+                    <div className="w-1/2 self-stretch flex flex-col justify-between">
+                        <p className='text-2xl text-center font-bold mt-0 mb-4'>Make a selection to add an animal to your portrait</p>
+                        <label className='text-lg mb-4'>
+                            <Field type="radio" name="animal" value="petSmall" required className='mr-2'/>
+                            <span className="text-xl font-bold">Small</span> - Nunc sit amet velit ut eros sodales congue. Curabitur sit amet auctor elit. Nunc eleifend eu magna vel maximus. Sed quis lacinia nisi. Maecenas luctus diam quis sem elementum, et fringilla tortor suscipit. 
+                        </label>
+                        <label className='text-lg mb-4'>
+                            <Field type="radio" name="animal" value="petLarge" required className='mr-2'/>
+                            <span className="text-xl font-bold">Large</span> - Etiam ut luctus mauris, nec eleifend diam. Vivamus dictum ex vel tortor sodales fringilla. Integer eget neque tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.
                         </label>
                         <label className='text-lg'>
-                            <Field type="radio" name="pet" value="petSmall" required className='mr-2'/>
-                            Small
+                            <Field type="radio" name="animal" value="petMonster" required className='mr-2'/>
+                            <span className="text-xl font-bold">Monster / Dragon</span> - Proin viverra mi a augue eleifend convallis. Curabitur condimentum tincidunt cursus. Proin vel dictum nunc. Pellentesque iaculis sodales lorem, ac efficitur quam cursus non. 
                         </label>
-                        <label className='text-lg ml-4'>
-                            <Field type="radio" name="pet" value="petLarge" required className='mr-2'/>
-                            Large
-                        </label>
-                        <label className='text-lg ml-4'>
-                            <Field type="radio" name="pet" value="petMonster" required className='mr-2'/>
-                            Monster / Dragon
-                        </label>
+
+                        <button 
+                            type="submit" 
+                            className='w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                        >
+                            Add Animal
+                        </button> 
                     </div>
     
-                    <button 
-                        type="submit" 
-                        className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
-                    >
-                        Add Animal
-                    </button> 
+                    
                 </Form>
                 )}
             </Formik>
@@ -544,17 +543,34 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                 >
                 {({ handleChange, values }) => (
                 <Form className="w-full flex flex-col justify-between items-center">
-                    {/* <object 
-                        type="image/svg+xml" 
-                        data={`images/customizer/addAnimal.svg`} 
-                        className="w-[700px] h-[200px] object-cover object-top"
-                    /> */}
-                    <button 
-                        type="submit" 
-                        className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
-                    >
-                        Add Background
-                    </button> 
+                    <div className="w-[400px] h-[300px] border-2 border-black flex">
+                        <img 
+                            src="" 
+                            onClick={() => handleBgSelection('bgSimple')} 
+                            className={`w-[200px] h-[300px] border-2 ${bg.type === 'None' ? 'hover:border-red-600' : bg.type === 'bgSimple' ? 'border-red-600' : ''} `}
+                        />
+                        <img 
+                            src="" 
+                            onClick={() => handleBgSelection('bgComplex')} 
+                            className={`w-[200px] h-[300px] border-2 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
+                        />
+                    </div>
+                    <div>
+                        <button 
+                            type="button" 
+                            className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            onClick={handleDeleteBg}
+                        >
+                            No Background
+                        </button> 
+                        <button 
+                            type="submit" 
+                            className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                        >
+                            Add Background
+                        </button> 
+                    </div>
+                    
                 </Form>
                 )}
             </Formik>
@@ -956,49 +972,43 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                 <div className="w-full flex flex-col">
                                     <h2 className="w-full mb-8 text-3xl text-center text-[#43b4e4] font-bold">Options Pricing</h2>
                                     
-                                    <div className="w-full mb-4">
-                                        <div className="flex justify-between items-center">
+                                    <div className="w-full mb-4 pb-4 border-b-2 border-[#282828]">
+                                        {values.bodyStyle !== '' && <div className="flex justify-between items-center">
                                             <p className="">BodyStyle</p>
                                             <p>${!prices[values.bodyStyle] ? (0).toFixed(2) : prices[values.bodyStyle].toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.numCharVariations > 1 && <div className="flex justify-between items-center">
                                             <p className="">Variants</p>
                                             <p>${((values.numCharVariations - 1) * prices.charVariations).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.complexity !== 1 && <div className="flex justify-between items-center">
                                             <p className="">Complexity</p>
                                             <p>${(prices.complexity[values.complexity - 1]).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.weapon !== 'none' && <div className="flex justify-between items-center">
                                             <p className="">{values.weapon === 'simple' ? 'Simple' : values.weapon === 'complex' ? 'Complex' : ''} Weapon</p>
                                             <p>${values.weapon === 'simple' ? prices.weaponSimple.toFixed(2) : values.weapon === 'complex' ? prices.weaponComplex.toFixed(2) : (0).toFixed(2)}</p>                                        
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.armourComplex && <div className="flex justify-between items-center">
                                             <p className="">Armour</p>
                                             <p>${values.armourComplex ? prices.armourComplex.toFixed(2) : (0).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.wings && <div className="flex justify-between items-center">
                                             <p className="">Wings</p>
                                             <p>${values.wings ? prices.wings.toFixed(2) : (0).toFixed(2)}</p>
-                                        </div>
-
-
-                                        {/* <div className="flex justify-between items-center">
-                                            <p className="">Pets: </p>
-                                            <p>${!values.pets ? (0).toFixed(2) : (values.numPets * prices.pets).toFixed(2)}</p>
-                                        </div> */}
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.extras.includes("model") && <div className="flex justify-between items-center">
                                             <p className="">3D model</p>
                                             <p>${values.extras.includes('model') ? prices.model.toFixed(2) : (0).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center">
+                                        </div>}
+                                        {values.extras.includes("character") && <div className="flex justify-between items-center">
                                             <p className="">Character Sheet</p>
                                             <p>${values.extras.includes('character') ? prices.character.toFixed(2) : (0).toFixed(2)}</p>
-                                        </div>
-                                        <div className="flex justify-between items-center pb-4 border-b-2 border-[#282828]">
+                                        </div>}
+                                        {values.extras.includes("weapons") &&  <div className="flex justify-between items-center">
                                             <p className="">Weapons Sheet</p>
                                             <p>${values.extras.includes('weapons') ? prices.weapons.toFixed(2) : (0).toFixed(2)}</p>
-                                        </div>
+                                        </div>}
                                     </div>
                                     
                                     <div className="self-end w-full flex justify-between items-center">
@@ -1012,7 +1022,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                                     + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                                     + (values.armourComplex ? prices.armourComplex : 0)
                                                     + (values.wings ? prices.wings : 0)
-                                                    // + (values.pets ? values.numPets * prices.pets : 0)
                                                     + (values.extras.includes('model') ? prices.model : 0)
                                                     + (values.extras.includes('character') ? prices.character : 0)
                                                     + (values.extras.includes('weapons') ? prices.weapons : 0)).toFixed(2)}
@@ -1056,16 +1065,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, set
                                     Complete Character
                                 </button> 
                             </div>  
-
-
-                        </div> 
-
-                        {/* <div className="w-10/12 flex justify-center items-center">
-                            <button type="submit" className='text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '>
-                                Complete Character
-                            </button>
-                        </div> */}
-                        
+                        </div>                         
                     </Form>
                     )}
                 </Formik>

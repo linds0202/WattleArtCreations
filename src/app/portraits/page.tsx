@@ -7,10 +7,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../firebase/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useCategoriesContext } from '../context/CategoriesContext';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Button, Dialog } from '@mui/material';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
-import { auth, app } from '@/app/firebase/firebase';
+import { auth, app, storage } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
 import { PortraitData } from './components/PortraitCustomizer';
 import { getPortrait } from '../firebase/firestore';
@@ -34,6 +35,7 @@ const uiConfig = {
 };
 
 export default function Portraits() {
+  const { categories } = useCategoriesContext()
 
   const searchParams = useSearchParams()
   const selection: string | null = searchParams.get('selection')
@@ -43,9 +45,11 @@ export default function Portraits() {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
+  console.log('direct is: ', direct)
+
   const [login, setLogin] = useState(false);
 
-  const [portraits, setPortraits] = useState<Array<PortraitData>>(sessionStorage?.getItem("Cart") && sessionStorage?.getItem("Cart")?.length ? JSON.parse((sessionStorage.getItem("Cart")!)) : [])
+  const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [openWizard, setOpenWizard] = useState(false)
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
@@ -57,6 +61,13 @@ export default function Portraits() {
     NSFW: '/images/defaultImgs/nsfw.png',
   }
 
+  // useEffect(() => {
+  //   const cart = sessionStorage?.getItem("Cart")
+  //   if (cart !== null && cart.length !== 0) {
+  //     setPortraits(JSON.parse((cart)))
+  //   }
+  // }, [])
+
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
         setLogin(true)
@@ -65,30 +76,33 @@ export default function Portraits() {
     }
   }, [authUser, isLoading]);
 
-  //update cart context on portrait addition
   useEffect(() => {
-    console.log(JSON.parse(sessionStorage.getItem('Cart')!))
-    console.log('portraits: ', portraits)
-    // if (sessionStorage.getItem('Cart') !== null) {
-    //   const removePurchasedPortraits = JSON.parse(sessionStorage.getItem('Cart')!).filter((p: PortraitData) => !p.paymentComplete)
-    //   console.log('removedPurchsed Portrrait: ', removePurchasedPortraits)
-    // }
-    
-    
-    sessionStorage.setItem('Cart', JSON.stringify(portraits))
-    window.dispatchEvent(new Event("storage"))
-  }, [portraits])
+    const cart = sessionStorage?.getItem("Cart")
+    let currentPortraits: Array<PortraitData>
+    if (cart !== null && cart.length !== 0) {
+      currentPortraits = JSON.parse((cart))
+      setPortraits(JSON.parse((cart)))
+    } else {
+      currentPortraits = []
+      setPortraits([])
+    }
 
-  useEffect(() => {
     if (portraitId && continueEdit) {
+      console.log('continue edit')
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
-        
-        
+
         if (addedPortrait) {
-          setEditIndex(portraits.length)
-          setPortraits(prev => [...prev, addedPortrait])
-          setEditPortrait(addedPortrait)
+          const portraitIds = currentPortraits.map(portrait => portrait.id)
+          if(!portraitIds.includes(portraitId)){
+            setEditIndex(currentPortraits.length)
+            setPortraits([...currentPortraits, addedPortrait])
+            setEditPortrait(addedPortrait)
+          } else {
+            const newIndex = portraitIds.indexOf(portraitId)
+            setEditIndex(newIndex)
+            setEditPortrait(currentPortraits[newIndex])
+          }
         } 
         
         setOpenWizard(true)
@@ -97,16 +111,26 @@ export default function Portraits() {
       handleGetPortrait()
       
     } else if (portraitId && !continueEdit) {
+      console.log('not continue edit')
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
-
-        if (addedPortrait) setPortraits(prev => [...prev, addedPortrait])
+        if (addedPortrait) {
+          console.log('current portraits in here: ', currentPortraits)
+          const portraitIds = currentPortraits.map(portrait => portrait.id)
+          console.log('portraitids: ', portraitIds)
+          console.log('id is: ', portraitId)
+          console.log('didnot find it: ', !portraitIds.includes(portraitId))
+          if(!portraitIds.includes(portraitId)){
+            console.log('didnot find it so adding it')
+            setPortraits([...currentPortraits, addedPortrait])
+          } 
+        } 
       }
       
       handleGetPortrait()
     } 
     else {
-      if ((portraits.length === 0 && direct === 'true')) {
+      if ((currentPortraits.length === 0 || direct === 'true')) {
         setOpenWizard(true)
       } else {
         setOpenWizard(false)
@@ -114,57 +138,131 @@ export default function Portraits() {
     }
   }, [])
 
+  //update cart context on portrait addition
   useEffect(() => {
     window.scrollTo(0, 0)
+
+    console.log('updating seesion storage')
+    sessionStorage.setItem('Cart', JSON.stringify(portraits))
+    window.dispatchEvent(new Event("storage"))
   }, [portraits])
 
+
+
+  const getCharIcons = (i: number) => {
+    const urls = portraits[i].characters.map(char => '/images/customizer/character.png')
+    
+    if (urls.length > 0) {
+      return (
+      <div className='mt-[6px] flex border border-green-600'>
+        {urls.slice(0, 2).map((url, i) => <img className="w-[36px] h-[48px] object-cover" key={i} src={url} alt='character icon'/>)} 
+        {urls.length > 2 && <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 2} more</p>}
+      </div>
+      )
+    } else {
+      return <p>Something went wrong</p>
+    }
+  }
+
+  const getAnimalIcons = (i: number) => {
+    const urls = portraits[i].animals.map(animal => {
+      switch (animal.type) {
+        case 'Small Pet':
+          return categories.customizer.defaults.petSmall
+        case 'Large Pet':
+          return categories.customizer.defaults.petLarge
+        case 'Monster / Dragon':
+          return categories.customizer.defaults.petMonster
+      }
+    })
+    
+    if (urls.length > 0) {
+      return (
+        <div className='mt-[6px] flex justify-start border border-green-600'>
+            {urls.slice(0, 3).map((url, i) => 
+            <div 
+              key={i}
+              className='w-[48px] h-[48px] relative'
+            >
+              <object 
+                  type="image/svg+xml" 
+                  data={url} 
+                  className="absolute top-0 left-0 w-[100%] h-[100%]"
+              /> 
+            </div>)}
+            {urls.length > 3 && <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 3} more</p>}
+        </div>
+      )
+    } else {
+      return <p className='text-sm text-red-600'>None</p>
+    }
+  }
+
+  const getUploadedImgs = (i: number) => {
+    let urls: Array<string> = []
+    portraits[i].images.forEach(imgSet => imgSet.imageUrls.forEach((url, i) => urls.push(url)))
+    
+    if (urls.length > 0) {
+      return (
+      <div className='mt-[6px] flex border border-green-600'>
+        {urls.slice(0, 5).map((url, i) => <img className="w-[48px] h-[48px] mr-4" key={i} src={url} alt='thumbnail of customer uploaded image'/>)} 
+        <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 5} more</p>
+      </div>
+      )
+    } else {
+      return <p className='text-sm text-red-600'>(No images uploaded)</p>
+    }
+  }
+
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-11/12 bg-white rounded-lg mb-4 p-4 flex justify-between items-center relative' key={i}>
+    <div className='w-11/12 bg-white rounded-lg mb-4 p-4 flex justify-between items-center relative border border-red-600' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
-        className='absolute top-2 right-2 ml-4 hover:text-red-600 '
+        className='absolute top-2 right-2 hover:text-red-600 cursor-pointer'
         title='Remove from order? Unordered portraits can be found on your dashboard'
       >
           <DeleteForeverIcon />
       </button>
 
-      <div className='w-[150px] h-[150px] object-cover object-top rounded-xl overflow-hidden'>
+      <div className='w-[125px] h-[125px] object-cover object-top rounded-xl border border-blue-600'>
         <img 
           src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
           alt={`default image for ${portrait?.mode} portrait`} 
-          className='w-[100%] h-[100%] rounded-xl'
+          className='w-[100%] h-[100%] object-cover object-top rounded-xl'
         />
       </div>
 
-      <div className='w-1/2 flex flex-wrap'>
-        <div className='w-full flex justify-center'>
+      <div className='w-3/4 ml-4 flex flex-col border border-purple-600'>
+        <div className='w-full mb-4 flex justify-center'>
           <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
           <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#43b4e4] ml-4'>
             <EditIcon />
           </button>
         </div>
 
-        <div className=''>
-          <p className='text-black text-lg'>Characters:</p>
-          <div className='mt-[6px] flex justify-start'>  
-            {portrait?.characters.map((char, i) => <img key={i} className='w-[32px] h-[32px] mr-2' src='/images/customizer/character.png' alt='small human icon'/>)}
+        <div className='flex'>
+          <div className='w-2/12'>
+            <p className='text-black text-lg border-b border-[#8d8d8d]'>Characters</p>
+            <div className='mt-[6px] flex justify-start'>  
+              {getCharIcons(i)}
+            </div>
           </div>
-        </div>
 
-
-        <div className='w-6/12 ml-16'>
-          <p className='text-black text-lg'>Uploaded Images:</p>
-          <div className='flex mt-2'>
-            {portrait?.images.length
-              ? portrait.images.map((imgSet, i) => 
-                <div key={i} className='flex justify-around items-center border-2 border-[#282828] rounded-lg p-2 mr-2'>
-                  {imgSet.imageUrls.map((url, i) => <img className="w-[32px] h-[32px] mx-2" key={i} src={url} alt='thumbnail of customer uploaded image'/>)}
-                </div>)
-              : <p className='text-sm text-red-600'>(No images uploaded)</p>}
+          <div className='w-3/12 ml-10'>
+            <p className='text-black text-lg border-b border-[#8d8d8d]'>Animals</p>
+            <div className='mt-[6px] flex justify-start'>  
+              {getAnimalIcons(i)}
+            </div>
           </div>
-        </div>
 
+          <div className='w-7/12 ml-10 '>
+            <p className='text-black text-lg border-b border-[#8d8d8d]'>Uploaded Images</p>
+            <div className='mt-[6px] flex justify-start'> 
+              {getUploadedImgs(i)}
+            </div>
+          </div>
+        </div> 
       </div>
       
       
@@ -216,7 +314,7 @@ export default function Portraits() {
   return (isLoading ?
     <></>
     : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-0% via-[#282828] via-40% to-black to-60%'>
-  
+
       <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-8'>
         {!openWizard && <h1 className='font-serif text-white text-6xl mt-16 mb-4 font-bold'>My Cart</h1>}
 

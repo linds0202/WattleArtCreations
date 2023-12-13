@@ -6,19 +6,7 @@ const RequiredQuestions = () => {
     
     return (
         <div>
-            {/* <h2 className='text-2xl text-center font-bold'>Required Questions</h2> */}
             <div>
-                {/* <div className='p-3 flex justify-start items-center'>
-                    <label className='text-[#4DFF90text-lg font-bold text-gray-light mr-2'>
-                        Name your portrait:
-                    </label>
-                    <Field 
-                        name="portraitTitle" 
-                        className="w-8/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        required
-                    />
-                </div> */}
-                
                 <Accordion title="Character Basics" required={true} active={true}>
                     <label className='text-sm leading-3'>
                     Please provide a description of the character, including their name, age, gender, and any significant features. Additionally, please include their body type, hair color and style, eye color, and skin tone as is applicable.
