@@ -61,13 +61,6 @@ export default function Portraits() {
     NSFW: '/images/defaultImgs/nsfw.png',
   }
 
-  // useEffect(() => {
-  //   const cart = sessionStorage?.getItem("Cart")
-  //   if (cart !== null && cart.length !== 0) {
-  //     setPortraits(JSON.parse((cart)))
-  //   }
-  // }, [])
-
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
         setLogin(true)
@@ -88,7 +81,7 @@ export default function Portraits() {
     }
 
     if (portraitId && continueEdit) {
-      console.log('continue edit')
+     
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
 
@@ -111,17 +104,15 @@ export default function Portraits() {
       handleGetPortrait()
       
     } else if (portraitId && !continueEdit) {
-      console.log('not continue edit')
+      
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
         if (addedPortrait) {
-          console.log('current portraits in here: ', currentPortraits)
+         
           const portraitIds = currentPortraits.map(portrait => portrait.id)
-          console.log('portraitids: ', portraitIds)
-          console.log('id is: ', portraitId)
-          console.log('didnot find it: ', !portraitIds.includes(portraitId))
+        
           if(!portraitIds.includes(portraitId)){
-            console.log('didnot find it so adding it')
+            
             setPortraits([...currentPortraits, addedPortrait])
           } 
         } 
@@ -142,7 +133,6 @@ export default function Portraits() {
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    console.log('updating seesion storage')
     sessionStorage.setItem('Cart', JSON.stringify(portraits))
     window.dispatchEvent(new Event("storage"))
   }, [portraits])

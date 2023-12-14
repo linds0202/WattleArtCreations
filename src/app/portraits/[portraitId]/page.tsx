@@ -183,7 +183,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   <div className='relative min-h-[100vh]'>
     <img className="w-full absolute -top-[16px] left-0" src="../../images/drips/wizard3.png" alt='background black paint drip'/>
 
-    <div className={`${selectedOption} text-black min-h-screen pt-3 pb-36`}>
+    <div 
+      className='text-black min-h-screen pt-3 pb-36'
+      style={{ backgroundImage: selectedOption !== null ? selectedOption : 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(8,8,8,1) 100%)' }}  
+    >
       <div className='relative'>
         
         <div className='absolute top-4 left-4 flex justify-around items-center'>

@@ -110,9 +110,7 @@ const DEFAULT_FORM_STATE = {
 const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editIndex, portraits, setPortraits, setOpenWizard, totalPrice, setTotalPrice }: PortraitProps) => {
     const { categories } = useCategoriesContext()
 
-    console.log('selection in customizer: ', selection)
     const choice = (selection === undefined || !selection) ? 'cat1' : selection
-    console.log('choice: ', choice)
     if (selection === undefined || !selection) selection = categories['cat1'].type
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
