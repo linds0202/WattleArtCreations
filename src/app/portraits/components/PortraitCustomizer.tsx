@@ -173,10 +173,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             if (charData !== null && JSON.parse(charData).length !== 0) setChars(JSON.parse(charData))
 
             const animalData = window.localStorage.getItem('animalList')
-            if (animalData !== null && JSON.parse(animalData).length !== 0) setChars(JSON.parse(animalData))
+            if (animalData !== null && JSON.parse(animalData).length !== 0) setAnimals(JSON.parse(animalData))
 
             const bgData = window.localStorage.getItem('bgList')
-            if (bgData !== null && JSON.parse(bgData).length !== 0) setChars(JSON.parse(bgData))
+            if (bgData !== null && JSON.parse(bgData).length !== 0) setBg(JSON.parse(bgData))
         } 
     }, [])
 
@@ -184,7 +184,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         if(!customizerLogin) {
             window.localStorage.setItem('charList', JSON.stringify([]))
             window.localStorage.setItem('animalList', JSON.stringify([]))
-            window.localStorage.setItem('bgList', JSON.stringify([]))
+            window.localStorage.setItem('bgList', JSON.stringify({type: 'None', price: 0}))
         }
     }, [customizerLogin])
 
@@ -192,15 +192,16 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     useEffect(() => {
         if(selection === 'cat3') {
             if (authUser) {
-                setCustomizerLogin(false)
+                setCustomizerLogin(false) 
                 if (authUser?.oldEnough){
                     return
                 } else {
-                    setCustomizerLogin(true)
                     window.localStorage.setItem('charList', JSON.stringify(chars))
                     window.localStorage.setItem('animalList', JSON.stringify(animals))
                     window.localStorage.setItem('bgList', JSON.stringify(bg))
-                }                
+                    setCustomizerLogin(true)
+                }
+                               
             } else {
                 window.localStorage.setItem('charList', JSON.stringify(chars))
                 window.localStorage.setItem('animalList', JSON.stringify(animals))
@@ -211,9 +212,11 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             if (chars.length !== 0) {
                 if (!authUser) {
                     setPortraitData({...portraitData, characters: chars})
+
                     window.localStorage.setItem('charList', JSON.stringify(chars))
                     window.localStorage.setItem('animalList', JSON.stringify(animals))
                     window.localStorage.setItem('bgList', JSON.stringify(bg))
+                
                     setCustomizerLogin(true)
                 } else {
                     setPortraitData({...portraitData, characters: chars, animals: animals, bg: bg})
@@ -349,7 +352,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 {({ values }) => (
                     <Form className='w-full '>
                         <div className='flex flex-between'>
-                            <div className='w-6/12 flex flex-col items-center border-b border-white'>
+                        {/* border-b border-white */}
+                            <div className='w-7/12 flex flex-col items-center'> 
                                 
                                 {/* Create Characters */}
                                 <StepOne 
@@ -408,7 +412,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             </div>
                         
 
-                            <div className='w-6/12 px-8'>
+                            <div className='w-5/12 px-8'>
                                 <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
                                 <div className='p-3 flex justify-start items-center'>
                                     <label className='text-[#43b4e4] text-xl font-bold text-gray-light mr-2'>
@@ -437,7 +441,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
                                     <div className='ml-2 flex flex-wrap'>
                                         {uploads.length !== 0 && uploads.map((imgGroup, i) => 
-                                            <div key={i} className='border-2 border-[#E9E9E9] rounded-lg mr-4 my-2 p-2 flex '>
+                                            <div key={i} className='border-2 border-[#E9E9E9] rounded-lg mr-4 my-2 p-2 flex flex-wrap gap-1'>
                                                 {imgGroup.files.map((img, i) => <p key={i} className='mx-4'>{img.name}</p>)}
                                                 
                                                 <button type="button" onClick={() => handleEditImgGroup(i)} className='hover:text-[#43b4e4] ml-4'>

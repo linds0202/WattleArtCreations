@@ -45,8 +45,6 @@ export default function Portraits() {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  console.log('direct is: ', direct)
-
   const [login, setLogin] = useState(false);
 
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
@@ -144,9 +142,9 @@ export default function Portraits() {
     
     if (urls.length > 0) {
       return (
-      <div className='mt-[6px] flex border border-green-600'>
-        {urls.slice(0, 2).map((url, i) => <img className="w-[36px] h-[48px] object-cover" key={i} src={url} alt='character icon'/>)} 
-        {urls.length > 2 && <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 2} more</p>}
+      <div className='mt-[6px] flex'>
+        {urls.slice(0, 2).map((url, i) => <img className="w-[28px] h-[40px] object-cover" key={i} src={url} alt='character icon'/>)} 
+        {urls.length > 2 && <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 2} more</p>}
       </div>
       )
     } else {
@@ -161,14 +159,14 @@ export default function Portraits() {
           return categories.customizer.defaults.petSmall
         case 'Large Pet':
           return categories.customizer.defaults.petLarge
-        case 'Monster / Dragon':
+        case 'Monster/Dragon':
           return categories.customizer.defaults.petMonster
       }
     })
     
     if (urls.length > 0) {
       return (
-        <div className='mt-[6px] flex justify-start border border-green-600'>
+        <div className='mt-[6px] flex justify-start'>
             {urls.slice(0, 3).map((url, i) => 
             <div 
               key={i}
@@ -180,7 +178,7 @@ export default function Portraits() {
                   className="absolute top-0 left-0 w-[100%] h-[100%]"
               /> 
             </div>)}
-            {urls.length > 3 && <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 3} more</p>}
+            {urls.length > 3 && <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 3} more</p>}
         </div>
       )
     } else {
@@ -194,9 +192,9 @@ export default function Portraits() {
     
     if (urls.length > 0) {
       return (
-      <div className='mt-[6px] flex border border-green-600'>
-        {urls.slice(0, 5).map((url, i) => <img className="w-[48px] h-[48px] mr-4" key={i} src={url} alt='thumbnail of customer uploaded image'/>)} 
-        <p className='text-sm text-center text-[#8d8d8d] border border-red-600'> +{urls.length - 5} more</p>
+      <div className='mt-[6px] flex'>
+        {urls.slice(0, 5).map((url, i) => <img className="w-[48px] h-[48px] object-cover object-top mr-4" key={i} src={url} alt='thumbnail of customer uploaded image'/>)} 
+        <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 5} more</p>
       </div>
       )
     } else {
@@ -205,7 +203,7 @@ export default function Portraits() {
   }
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-11/12 bg-white rounded-lg mb-4 p-4 flex justify-between items-center relative border border-red-600' key={i}>
+    <div className='w-full bg-white rounded-lg mb-4 p-4 flex flex-col items-center relative' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
@@ -215,49 +213,60 @@ export default function Portraits() {
           <DeleteForeverIcon />
       </button>
 
-      <div className='w-[125px] h-[125px] object-cover object-top rounded-xl border border-blue-600'>
-        <img 
-          src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
-          alt={`default image for ${portrait?.mode} portrait`} 
-          className='w-[100%] h-[100%] object-cover object-top rounded-xl'
-        />
+      <div className='w-full mb-2 flex justify-center'>
+        <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
+        <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#43b4e4] ml-4'>
+          <EditIcon />
+        </button>
       </div>
 
-      <div className='w-3/4 ml-4 flex flex-col border border-purple-600'>
-        <div className='w-full mb-4 flex justify-center'>
-          <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
-          <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#43b4e4] ml-4'>
-            <EditIcon />
-          </button>
+      
+
+      <div className='w-full flex justify-between items-center'>
+        <div className='w-[125px] h-[125px] object-cover object-top rounded-xl'>
+          <img 
+            src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
+            alt={`default image for ${portrait?.mode} portrait`} 
+            className='w-[100%] h-[100%] object-cover object-top rounded-xl'
+          />
         </div>
 
-        <div className='flex'>
-          <div className='w-2/12'>
-            <p className='text-black text-lg border-b border-[#8d8d8d]'>Characters</p>
-            <div className='mt-[6px] flex justify-start'>  
-              {getCharIcons(i)}
-            </div>
-          </div>
 
-          <div className='w-3/12 ml-10'>
-            <p className='text-black text-lg border-b border-[#8d8d8d]'>Animals</p>
-            <div className='mt-[6px] flex justify-start'>  
-              {getAnimalIcons(i)}
+        <div className='w-3/4 flex flex-col'>
+          <div className='w-full ml-4 flex'>
+            <div className='w-2/12 items-start flex flex-col'>
+              <p className='text-black text-lg border-b border-[#8d8d8d]'>Characters</p>
+              <div className='mt-[6px] flex justify-start'>  
+                {getCharIcons(i)}
+              </div>
             </div>
-          </div>
 
-          <div className='w-7/12 ml-10 '>
-            <p className='text-black text-lg border-b border-[#8d8d8d]'>Uploaded Images</p>
-            <div className='mt-[6px] flex justify-start'> 
-              {getUploadedImgs(i)}
+            <div className='w-3/12 ml-10'>
+              <p className='text-black text-lg border-b border-[#8d8d8d]'>Animals</p>
+              <div className='mt-[6px] flex justify-start'>  
+                {getAnimalIcons(i)}
+              </div>
             </div>
-          </div>
-        </div> 
-      </div>
-      
-      
-      <div className=''>
-        <p className='text-black mt-2 text-xl font-semibold'>Price:  ${portrait?.price}</p>
+
+            <div className='w-7/12 ml-10 '>
+              <p className='text-black text-lg border-b border-[#8d8d8d] mr-4'>Uploaded Images</p>
+              <div className='mt-[6px] flex justify-start'> 
+                {getUploadedImgs(i)}
+              </div>
+            </div>
+
+            
+          </div> 
+        
+          <p className='ml-4 mt-[6px] text-black text-lg'><span className=' border-b border-[#8d8d8d]'>Background -</span> {portrait.bg.type === 'bgSimple' ? 'Simple' : portrait.bg.type === 'bgComplex' ? 'Complex' : 'None'}</p> 
+        
+        </div>
+        
+        <div className=''>
+          <p className='text-black mt-2 text-xl font-semibold'>Price:  ${portrait?.price}</p>
+        </div>
+        
+
       </div>
     </div>
   ))

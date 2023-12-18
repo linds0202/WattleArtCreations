@@ -57,7 +57,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     let highPrices = chars.map(char => char.total)
     const [highPrice, setHighPrice] = useState<number>(highPrices.length === 0 ? 0 : highPrices.length === 1 ? highPrices[0] : Math.max(...highPrices))
     const [highestPriceIndex, setHighestPriceIndex] = useState<number>(highPrices.length === 0 ? 0 : highPrices.indexOf(highPrice))
-    
+
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
         numCharVariations: 1,
@@ -266,7 +266,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 break
             case 'petMonster':
                 newAnimal = {
-                    type: 'Monster / Dragon',
+                    type: 'Monster/Dragon',
                     price: Number(prices.petMonster)
                 }
                 setAnimals([...animals, newAnimal])
@@ -295,16 +295,40 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
     return (
     <>   
-        <div className='self-start w-full bg-[#E5E5E5] rounded-xl px-4 py-4 flex flex-wrap justify-between items-center'>
-            <h2 className="w-full text-4xl text-center mb-4 font-bold text-black">Character List</h2>
+        <div className='relative self-start w-full bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
+            <div className="w-2/3 self-end flex justify-between items-center">
+                <h2 className="w-2/3 text-3xl text-left font-bold text-black">Portrait Details</h2>
+                {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl">
+                    Total: ${(chars.reduce((sum, char) => sum += char.total, 0) + animals.reduce((sum, animal) => sum += animal.price, 0) + bg.price).toFixed(2)}
+                </p>}
+            </div>
+            
+            {/* buttons to add details */}
             {!openCharMod && 
-                <div className='w-[48%] h-auto mt-8 self-stretch flex flex-col justify-between items-center'>
+                <div className={`w-full h-auto mt-4 flex ${chars.length === 0 ? 'justify-center' : 'justify-between'} items-center gap-x-2`}>
+                    {chars.length === 0 &&
+                    <div className='w-[48%] h-[75px] py-2 px-4 bg-[#282828] rounded-xl mr-8 text-center flex justify-center items-center'>
+                        <div>
+                            <p className="text-4xl font-bold text-[#43b4e4]">Start Here!</p>
+                            <p className="text-white">Add a character to your portrait</p>
+                        </div>
+                        <motion.object 
+                            type="image/svg+xml" 
+                            data={`images/arrow-right.svg`} 
+                            className="w-[64px] h-[64px] object-cover ml-8"
+                            initial={{ scale: 1 }}
+                            animate={{ scale: 1.05 }}
+                            transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
+                        >
+                        </motion.object>
+                    </div>
+                    }
 
                     <div 
-                        className={`w-full h-[100px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={handleAddCharacter}
                     >
-                        <div className="absolute -top-[50%] -left-[50px] w-[200px]">
+                        <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <CharacterSvg />
                         </div>
                             {/* <object 
@@ -314,21 +338,20 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             /> */}
                             {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
                         <div className="w-3/4 flex flex-col">
-                            <h4 className='text-[#43b4e4] text-2xl text-center font-bold m-0'>Add Character</h4>
+                            <h4 className='text-[#43b4e4] text-xl text-center font-bold m-0'>Add Character</h4>
                             {chars?.length !== 0 && 
                             <div className="flex flex-col">
                                 <p className='text-red-600 text-sm text-center font-semibold'> Additional Characters 10% off*</p>
-                                <p className='text-[#929191] text-sm text-center'>*discount applied to lowest value characters</p>
                             </div>}
                         </div>
                     </div>
         
                     { chars.length !==0 &&
                     <div 
-                        className={`w-full h-[100px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddAnimal(true)}
                     >
-                        <div className="absolute -top-[50%] -left-[50px] w-[200px]">
+                        <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <PawSvg />
                         </div>
                         {/* <object 
@@ -338,7 +361,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         /> */}
                         {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
                         <div className="w-3/4 h-full text-center flex flex-col justify-center">
-                            <h4 className='text-[#43b4e4] text-2xl font-bold m-0'>Add Animal</h4>
+                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
                             <object 
                                 type="image/svg+xml" 
                                 data={`images/customizer/addAnimal.svg`} 
@@ -350,10 +373,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     
                     { chars.length !==0 &&
                     <div 
-                        className={`w-full h-[100px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddBackground(true)}
                     >
-                        <div className="absolute -top-[50%] -left-[50px] w-[200px]">
+                        <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <BackgroundSvg />
                         </div>
                         {/* <object 
@@ -363,87 +386,154 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         /> */}
                         {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
                         <div className="w-3/4 text-center flex flex-col justify-center">
-                            <h4 className='text-[#43b4e4] text-2xl font-bold m-0'>Add Background</h4>
+                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Background</h4>
                         </div>
                     </div>
                     }
-
                 </div>
             }
 
-            {chars.length === 0 && !openCharMod &&
-                <div className='relative w-[48%] h-auto mt-8 rounded-xl flex flex-col justify-center'>
-                    <p className="text-4xl font-bold text-[#43b4e4]">Start Here!</p>
-                    <p className="text-black">Add a character to your portrait</p>
-                    <motion.img 
-                        src="/images/customizer/arrow-left.png" 
-                        alt="arrow pointing to add character button"
-                        className="top-8 -left-[30%] absolute w-[128px] h-[128px] object-cover"
-                        initial={{ rotate: 30, scale: 1 }}
-                        animate={{ scale: 1.1 }}
-                        transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
-                    >
-                    </motion.img>
-                </div>
-            }
+            <div className="w-full flex gap-x-4">
+                <div className="w-1/2 h-auto flex flex-col gap-y-2">
+                    {chars.length !== 0 && <p className="text-[#282828] font-semibold text-xl text-center mt-2 pb-2 border-b border-[#282828]">Characters</p>}
+                    {/* Character Cards */}
+                    {chars?.map((char, i) => (
+                        <div key={i} 
+                            className='w-full h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
+                        >
+                            <div className={`w-[100px] h-[100px] absolute bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
+                                <p className="text-white text-xl font-bold">
+                                    ${!char.charDiscount 
+                                    ? <span>{Number(char.total).toFixed(2)}</span> 
+                                    : 
+                                    <span>{(char.total * .9).toFixed(2)}</span>
+                                    }                        
+                                </p>
+                                {char.charDiscount && <p className="text-white text-xs line-through">${char.total.toFixed(2)}</p>}
+                            </div>
 
-            {chars?.map((char, i) => (
-                <div key={i} 
-                    className='w-[48%] h-auto mt-8 pt-8 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
-                >
-                    <div className={`w-[110px] h-[110px] absolute -top-[15px] -left-[10px] rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
-                        <p className="text-white text-2xl font-bold">
-                            ${!char.charDiscount 
-                            ? <span>{Number(char.total).toFixed(2)}</span> 
-                            : 
-                            <span>{(char.total * .9).toFixed(2)}</span>
-                            }                        
-                        </p>
-                        {char.charDiscount && <p className="text-white text-xs line-through">${char.total.toFixed(2)}</p>}
-                    </div>
-
-                    <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
-                        <DeleteForeverIcon />
-                    </button>
-
-                    <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-auto rounded-xl my-4`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
-                    
-                    <div className="w-full bg-[#282828] text-white rounded-b-lg p-4">
-                        <div className="w-full flex justify-center">
-                            <p className="text-center text-xl">{char.bodyStyle}</p>
-                            <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#43b4e4]'>
-                                <EditIcon />
+                            <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
+                                <DeleteForeverIcon />
                             </button>
+
+                            <div className="w-full my-4 flex items-center">
+
+                                <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-4 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
+
+                                <div className="mx-2 flex flex-wrap">
+                                    <div className="w-[100%] h-1/2 flex flex-wrap items-start">
+                                        <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
+                                        {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[80%]"></object>)}
+                                    </div>
+                                    <div className="w-full h-1/2 mt-2 flex justify-between">
+                                        <div className="w-1/4 h-full mr-4 flex flex-col justify-between items-center">
+                                            <p className="text-[#282828] text-center text-sm">Weapon</p>
+                                            {char.weapon === 'simple' &&
+                                                <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
+                                            }
+                                            {char.weapon === 'complex' && 
+                                                <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
+                                            }        
+                                        </div>
+
+                                        <div className="w-1/4 h-full mr-4 flex flex-col items-center">
+                                            <p className="text-[#282828] text-center text-sm">Wings</p>
+                                            {char.wings && <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />}
+                                        </div>
+
+                                        <div className="w-1/4 h-full mr-4 flex flex-col justify-between items-center">
+                                            <p className="text-[#282828] text-center text-sm">Armour</p>
+                                            {char.armourComplex && <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full bg-[#282828] text-white rounded-b-lg px-4 py-8 flex flex-col justify-between">
+                                <div className="w-full flex justify-center">
+                                    <p className="text-center text-xl">{char.bodyStyle}</p>
+                                    <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#43b4e4]'>
+                                        <EditIcon />
+                                    </button>
+                                </div>
+                                <p className="mt-2">Extras:</p>
+                                <p>{char.extras.length === 0 ? "None" : char.extras?.map(extra => {
+                                    if (extra === 'model') {
+                                        return "3D Model"
+                                    } else if (extra === "character") {
+                                        return "Character Sheet"
+                                    } else {
+                                        return "Weapons Sheet"
+                                    }
+                                }).join(',  ')}</p>
+                            </div>
                         </div>
-                        <div>
-                            <p># of Character variations: {char.numCharVariations}</p>
-                        </div>
-                        <p>Extras: {char.extras.length === 0 ? "None" : char.extras?.join(', ')}</p>
+                    ))}
+                </div>
+                
+
+                {chars.length !== 0 && <div className="w-1/2 flex flex-col">
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        <p className="w-full text-[#282828] font-semibold text-xl text-center mt-2 pb-2 border-b border-[#282828]">Animals</p>
+                        {/* Animal & bg cards */}
+                        {animals?.map((animal, i) => (
+                            <div 
+                                key={i}
+                                className='relative w-[30%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
+                            >
+                                <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
+                                    {animal.type === 'Small Pet' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petSmall} 
+                                        className='w-[95px] h-[95px] object-cover object-top'
+                                    />}
+                                    {animal.type === 'Large Pet' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petLarge} 
+                                        className='w-[85px] h-[85px] object-cover object-top'
+                                    />}
+                                    {animal.type === 'Monster/Dragon' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petMonster} 
+                                        className='w-[100px] h-[100px] object-cover object-top'
+                                    />}
+                                </div>
+                                <p className="w-full text-center font-semibold">{animal.type}</p>
+                                <p className="w-full text-center">${animal.price.toFixed(2)}</p>
+                                <button 
+                                    type="button" 
+                                    onClick={() => handleDeleteAnimal(i)} 
+                                    className='absolute top-0 right-0 text-black hover:text-red-600'
+                                >
+                                    <DeleteForeverIcon />
+                                </button>
+                            </div>
+                        ))}
+                        {animals.length === 0 && <p className="text-center text-red-600 font-semibold">No Animals Added</p>}
                     </div>
-                </div>
-            ))}
-
-            {animals?.map((animal, i) => (
-                <div 
-                    key={i}
-                    className='w-[48%] h-auto mt-8 p-4 flex justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
-                >
-                    <p>{animal.type}</p>
-                    <p>${animal.price.toFixed(2)}</p>
-                    <button type="button" onClick={() => handleDeleteAnimal(i)} className='ml-4 text-black hover:text-red-600'>
-                        <DeleteForeverIcon />
-                    </button>
-                </div>
-            ))}
-
-            {bg.type !== 'None' && <div className='w-[48%] h-auto mt-8 p-4 flex justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'>
-                <p>Background: {bg.type}</p>
-                <p>${bg.price.toFixed(2)}</p>
-                <button type="button" onClick={handleDeleteBg} className='ml-4 text-black hover:text-red-600'>
-                    <DeleteForeverIcon />
-                </button>
-            </div>}
-
+                    
+                    <div className="mt-10 flex flex-col">
+                        <p className="text-[#282828] font-semibold text-xl text-center my-2 pb-2 border-b border-[#282828]">Background</p>
+                        {bg.type !== 'None' 
+                            ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-top bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl">
+                                <p className="w-1/2 text-xl text-center font-semibold mr-8 ">{bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>
+                                <p>${bg.price.toFixed(2)}</p>
+                                <button 
+                                    type="button" 
+                                    onClick={handleDeleteBg} 
+                                    className='absolute top-0 right-0 text-black hover:text-red-600'
+                                >
+                                    <DeleteForeverIcon />
+                                </button>
+                            </div>
+                            : <p className="text-center text-red-600 font-semibold">No Background Added</p>
+                            }
+                    </div>
+                    
+                </div>}
+                
+            </div>
+            
+            { chars.length !==0 && <p className='absolute bottom-2 right-4 w-full text-[#929191] text-sm text-right'>*discount applied to lowest value characters</p>}
         </div>
 
 
@@ -456,7 +546,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenAddAnimal(false)} className='absolute top-0 -right-6 text-white'>
+                <IconButton onClick={() => setOpenAddAnimal(false)} className='absolute top-0 right-0 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
@@ -491,7 +581,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     
 
                     <div className="w-1/2 self-stretch flex flex-col justify-between">
-                        <p className='text-2xl text-center font-bold mt-0 mb-4'>Make a selection to add an animal to your portrait</p>
+                        <p className='text-3xl text-center font-bold mt-0 mb-4'>Add an animal to your portrait</p>
                         <label className='text-lg mb-4'>
                             <Field type="radio" name="animal" value="petSmall" required className='mr-2'/>
                             <span className="text-xl font-bold">Small</span> - Nunc sit amet velit ut eros sodales congue. Curabitur sit amet auctor elit. Nunc eleifend eu magna vel maximus. Sed quis lacinia nisi. Maecenas luctus diam quis sem elementum, et fringilla tortor suscipit. 
@@ -512,8 +602,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             Add Animal
                         </button> 
                     </div>
-    
-                    
+  
                 </Form>
                 )}
             </Formik>
@@ -524,7 +613,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             onClose={() => setOpenAddBackground(false)} 
             open={openAddBackground} 
             fullWidth={true}
-            maxWidth='xl'
+            maxWidth='lg'
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
@@ -534,7 +623,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             </div>
 
             <div className="flex justify-center items-center">
-                <p className='text-2xl text-center font-bold mt-0'>Make your selections to add a background to your portrait</p>
+                <p className='text-3xl text-center font-bold mt-0'>Add a background to your portrait</p>
             </div>
 
             <Formik
@@ -543,29 +632,35 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 >
                 {({ handleChange, values }) => (
                 <Form className="w-full flex flex-col justify-between items-center">
-                    <div className="w-[400px] h-[300px] border-2 border-black flex">
-                        <img 
-                            src="" 
+                    <div className="w-[675px] h-[450px] bg-[url('/images/customizer/bg.jpg')] bg-top bg-cover my-4 flex">
+                        <div 
+                            // src="" 
                             onClick={() => handleBgSelection('bgSimple')} 
-                            className={`w-[200px] h-[300px] border-2 ${bg.type === 'None' ? 'hover:border-red-600' : bg.type === 'bgSimple' ? 'border-red-600' : ''} `}
-                        />
-                        <img 
-                            src="" 
+                            className={`w-[337px] h-[450px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
+                        ></div>
+                        <div 
+                            // src="" 
                             onClick={() => handleBgSelection('bgComplex')} 
-                            className={`w-[200px] h-[300px] border-2 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
-                        />
+                            className={`w-[338px] h-[450px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
+                        ></div>
                     </div>
-                    <div>
+                    <div className="w-7/12 flex justify-center">
+                        {bg.type === 'bgSimple' && <p className="w-full text-xl font-bold text-center">Simple Background - ${bg.price}</p>}
+                        {bg.type === 'bgComplex' && <p className="w-full text-xl font-bold text-center">Complex Background - ${bg.price}</p>}
+                        {bg.type === 'None' && <p className="w-full mx-auto text-xl font-semibold text-center">Click the image above to select background style</p>}
+                    </div>
+                    <div className="w-7/12 flex">
                         <button 
                             type="button" 
-                            className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='w-1/2 mx-4 mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-white cursor-pointer hover:bg-black hover:text-white hover:scale-105 transition duration-200 ease-in-out'
                             onClick={handleDeleteBg}
                         >
                             No Background
                         </button> 
                         <button 
                             type="submit" 
-                            className='w-1/4 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                            className={`w-1/2 mx-4 mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black ${bg.type === 'None' ? 'bg-transparent' : 'bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'}`}
+                            disabled={bg.type === 'None'}
                         >
                             Add Background
                         </button> 
@@ -578,8 +673,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-
-
         {/* Character Selections Modal*/}
         <Dialog 
             onClose={() => setOpenCharMod(false)} 
@@ -588,16 +681,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             maxWidth='xl'
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
-            <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-2 right-2 text-white'>
+            <div className='absolute top-0 right-0 w-1/12 mb-4 flex justify-center items-center'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 right-0 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
-            </div>
-
-            <div className="flex justify-center items-center">
-                <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
-                <p className='text-2xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
-                <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
 
             <div className="w-full">
@@ -606,11 +693,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form className="w-full flex flex-col justify-between items-center">
+                    <Form className="w-full flex justify-between items-center">
+                        
                         {/* radio buttons */}
-                        <div className="relative w-full mt-4 flex justify-between">
+                        {/* <div className="relative w-full flex justify-between "> */}
                             
-                            {values.bodyStyle === "" &&
+                            {/* {values.bodyStyle === "" &&
                                 <div className='absolute -top-[25%] left-0 w-1/6 h-auto mt-8 rounded-xl flex flex-col justify-center'>
                                     <p className="text-3xl font-bold text-[#43b4e4]">Start Here!</p>
                                     <p className="font-bold">Choose a body style to start customizing</p>
@@ -624,13 +712,26 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     >
                                     </motion.img>
                                 </div>
-                            }
+                            } */}
 
 
                             <div className="w-1/5 py-4">
                                 <div className='w-full flex justify-between items-end mb-4'>
                                     <div className="relative">
-                                        <p className='text-lg mr-4 mb-2 font-semibold'>Body style:</p>                                        
+                                        {values.bodyStyle === "" 
+                                        ? <motion.p 
+                                            initial={{ 
+                                                opacity: 0.5,
+                                            }}
+                                            animate={{ opacity: 1}}
+                                            transition={{ type: "spring", duration: .75, repeat: Infinity, repeatType: "reverse" }}
+                                            className='text-[#28C328] text-xl mr-4 mb-2 font-semibold'
+                                        >
+                                            Body style:
+                                        </motion.p>                                        
+                                        : <p className='text-lg mr-4 mb-2 font-semibold'>Body style:</p>                                        
+                                        }
+                                        
                                         <label className='text-lg'>
                                             <Field type="radio" name="bodyStyle" value="Headshot" required className='mr-2'/>
                                             Headshot
@@ -650,7 +751,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'body' && (
-                                                <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[75px] left-[42%] m-0 ml-8 z-40">
+                                                <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[100px] left-[42%] m-0 ml-8 z-40">
                                                     <img src="./images/body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
                                                 </div>
                                             )}
@@ -670,6 +771,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             size="small"
                                             inputProps={{
                                             min: 1,
+                                            max: 6,
                                             style: {
                                                 textAlign: "center",
                                                 color: "black",
@@ -802,43 +904,45 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <div className='w-full flex flex-col justify-between mb-4'>
                                     <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p>
                                     <div className="w-full flex">
-                                        <div className='relative w-1/2 flex justify-between items-center mb-2'>
-                                            <label>
-                                                <Field type="checkbox" name="armourComplex" className='mr-2'/>
-                                                <span className='text-lg ml-2'>Add Armour</span>
-                                            </label>
-                                            <div
-                                                className="absolute -top-4 right-0 m-0 p-0"
-                                                onMouseOver={() => handleMouseOver('armour')}
-                                                onMouseOut={handleMouseOut}
-                                            >
-                                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                                {isHovering && message === 'armour' && (
-                                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                        <h2 className="text-white text-md text-left">Need Copy<span className="text-[#43b4e4] font-bold">Add Armour</span></h2>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-
                                         <div className='relative w-1/2 flex justify-between items-end mb-2'>
                                             <label>
                                                 <Field type="checkbox" name="wings" className='mr-2'/>
                                                 <span className='text-lg ml-2'>Add Wings</span>
                                             </label>
                                             <div
-                                                className="absolute -top-4 right-0 m-0 p-0"
+                                                className="absolute -top-2 right-4 m-0 p-0"
                                                 onMouseOver={() => handleMouseOver('wings')}
                                                 onMouseOut={handleMouseOut}
                                             >
                                                 <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                                 {isHovering && message === 'wings' && (
                                                     <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                        <h2 className="text-white text-md text-left">Need Copy<span className="text-[#43b4e4] font-bold">Add Wings</span></h2>
+                                                        <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold"> Add Wings</span></h2>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
+                                        
+                                        <div className='relative w-1/2 flex justify-between items-center mb-2'>
+                                            <label>
+                                                <Field type="checkbox" name="armourComplex" className='mr-2'/>
+                                                <span className='text-lg ml-2'>Add Armour</span>
+                                            </label>
+                                            <div
+                                                className="absolute -top-2 right-2 m-0 p-0"
+                                                onMouseOver={() => handleMouseOver('armour')}
+                                                onMouseOut={handleMouseOut}
+                                            >
+                                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                                {isHovering && message === 'armour' && (
+                                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                                        <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold">Add Armour</span></h2>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        
                                     </div>
                                     
                                 </div>              
@@ -907,10 +1011,79 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="w-1/2 flex flex-col">
-                            
-                                {values.bodyStyle !== "" 
-                                ?<div className="w-[100%] flex">
+                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between">
+                                
+                                <div className="mb-2 flex justify-center items-center">
+                                    <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
+                                    <p className='text-2xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
+                                    <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
+                                </div>
+
+                                <div className="w-full h-1/2 flex justify-between">
+                                    <div className={`${values.bodyStyle === "" ? "border border-[#282828]" : ""} w-[270px] h-[100%] object-cover object-top rounded-xl`}>
+                                        {values.bodyStyle !== "" &&
+                                        <motion.object 
+                                            type="image/svg+xml" 
+                                            data={`images/customizer/${values.bodyStyle}.svg`} 
+                                            className="w-[100%] h-[100%]"
+                                            initial={{ 
+                                                scale: 0,
+                                                rotate: 0 
+                                            }}
+                                            animate={{ scale: 1, rotate: 360}}
+                                            transition={{ type: "spring", duration: .5 }}
+                                        />}                              
+                                    </div>
+                                    
+                                    <div className="self-stretch w-[57%] flex flex-col border border-transparent">
+                                        
+                                        {values.bodyStyle !== '' && <div className="w-[100%] h-1/3 flex flex-col">
+                                            <p className="ml-4 font-semibold">Character Variations</p>
+                                            <div className="w-full h-[70%] flex flex-wrap items-start">
+                                                {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[100%]"></object>)}
+                                            </div>
+                                        </div>}
+
+                                        <div className="w-[100%] h-2/3 border mt-2 flex justify-between">
+                                            
+                                            <div className="w-1/3 h-full">
+                                                {values.weapon !== 'none' && <div className="w-full flex flex-col justify-center items-center">
+                                                    <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>
+                                                    <div className="w-[128px] h-[64px] flex justify-center items-center">
+                                                        {values.weapon === 'simple' && 
+                                                            <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
+                                                        }
+                                                        {values.weapon === 'complex' && 
+                                                            <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
+                                                        } 
+                                                    </div>
+                                                </div>}
+                                            
+                                                {values.wings && <div className="w-full flex flex-col justify-center items-center">
+                                                    <p className="font-semibold">Wings</p>
+                                                    <div className="w-[128px] h-[64px] flex justify-center items-center">
+                                                        <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
+                                                    </div>
+                                                </div>}
+                                            </div>
+
+                                            <div className="w-7/12 h-full">
+                                                {values.armourComplex && <div className="w-full h-full flex flex-col items-center ">
+                                                    <p className="font-semibold">Armour</p>
+                                                    <div className="w-[70%] h-[80%] flex justify-center items-center">
+                                                        <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
+                                                    </div>
+                                                </div>}
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                
+                                {/* {values.bodyStyle !== "" 
+                                ?<div className="w-[100%] flex border border-green-600">
                                     <motion.object 
                                         type="image/svg+xml" 
                                         data={`images/customizer/${values.bodyStyle}.svg`} 
@@ -922,25 +1095,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         animate={{ scale: 1, rotate: 360}}
                                         transition={{ type: "spring", duration: .5 }}
                                     />
-                                    {/* <motion.img 
-                                        src={`images/customizer/${values.bodyStyle}.png`} 
-                                        className="w-[225px] h-[250px] object-cover object-top rounded-xl"
-                                        initial={{ 
-                                            scale: 0,
-                                            rotate: 0
-                                        }}
-                                        animate={{ scale: 1, rotate: 360}}
-                                        transition={{ type: "spring", duration: .5 }}
-                                    /> */}
                                     <div className="h-[175px] ml-8 mt-4 flex flex-wrap items-start">
                                         {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data="images/createCharacter.svg" className="w-[100px] h-[100px]"></object>)}
                                     </div>
                                 </div>
                                 : <div className="w-[180px] h-[205px] border-2 border-[#282828] rounded-xl">                                 
-                                </div>}
+                                </div>} */}
+
                                 
 
                                 <div className="h-[200px] mt-4 flex items-start">
+
                                     {values.extras.includes("model") && 
                                      <motion.div 
                                         className="w-[175px] h-[190px] pb-2 mr-12 bg-white rounded-lg"
@@ -1065,7 +1230,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     Complete Character
                                 </button> 
                             </div>  
-                        </div>                         
+                        {/* </div>                          */}
                     </Form>
                     )}
                 </Formik>
