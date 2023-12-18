@@ -497,7 +497,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         className='w-[100px] h-[100px] object-cover object-top'
                                     />}
                                 </div>
-                                <p className="w-full text-center font-semibold">{animal.type}</p>
+                                <p className="w-full text-center font-semibold text-sm">{animal.type}</p>
                                 <p className="w-full text-center">${animal.price.toFixed(2)}</p>
                                 <button 
                                     type="button" 
@@ -910,7 +910,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 <span className='text-lg ml-2'>Add Wings</span>
                                             </label>
                                             <div
-                                                className="absolute -top-2 right-4 m-0 p-0"
+                                                className="absolute -top-4 right-0 m-0 p-0"
                                                 onMouseOver={() => handleMouseOver('wings')}
                                                 onMouseOut={handleMouseOut}
                                             >
@@ -929,7 +929,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 <span className='text-lg ml-2'>Add Armour</span>
                                             </label>
                                             <div
-                                                className="absolute -top-2 right-2 m-0 p-0"
+                                                className="absolute -top-4 right-0 m-0 p-0"
                                                 onMouseOver={() => handleMouseOver('armour')}
                                                 onMouseOut={handleMouseOut}
                                             >
