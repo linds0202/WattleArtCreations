@@ -632,16 +632,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 >
                 {({ handleChange, values }) => (
                 <Form className="w-full flex flex-col justify-between items-center">
-                    <div className="w-[675px] h-[450px] bg-[url('/images/customizer/bg.jpg')] bg-top bg-cover my-4 flex">
+                    <div className="w-[675px] h-[400px] bg-[url('/images/customizer/bg.jpg')] bg-top bg-cover my-4 flex">
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgSimple')} 
-                            className={`w-[337px] h-[450px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
+                            className={`w-[337px] h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
                         ></div>
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgComplex')} 
-                            className={`w-[338px] h-[450px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
+                            className={`w-[338px] h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
                         ></div>
                     </div>
                     <div className="w-7/12 flex justify-center">
