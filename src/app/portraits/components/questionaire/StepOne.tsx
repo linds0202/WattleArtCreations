@@ -721,7 +721,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             } */}
 
 
-                            <div className="w-1/5 py-4">
+                            <div className="w-1/5">
                                 <div className='w-full flex justify-between items-end mb-4'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
