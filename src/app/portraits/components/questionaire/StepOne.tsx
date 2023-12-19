@@ -1039,7 +1039,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="self-stretch w-[57%] flex flex-col border border-transparent">
+                                    <div className="w-[57%] h-full flex flex-col border border-transparent">
                                         
                                         {values.bodyStyle !== '' && <div className="w-[100%] h-1/3 flex flex-col">
                                             <p className="ml-4 font-semibold">Character Variations</p>
@@ -1048,7 +1048,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
                                         </div>}
 
-                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between border border-red-600">
+                                        <div className="w-[100%] h-7/12 mt-2 flex justify-between border border-red-600">
                                             
                                             <div className="w-1/3 h-full border border-blue-600">
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
@@ -1065,8 +1065,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
-                                                    {values.wings && <div className="w-[128px] h-[64px] flex justify-center items-center">
-                                                        <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
+                                                    {values.wings && <div className="w-[114px] h-[54px] flex justify-center items-center">
+                                                        <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
                                                     </div>}
                                                 </div>
                                             </div>
