@@ -876,7 +876,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div> 
 
                                 {/* Add Weapon */}
-                                <div className='w-full flex justify-between items-end mb-4'>
+                                <div className='w-full flex justify-between items-end mb-3'>
                                     <div className="relative">
                                         <p className='text-lg mr-4 mb-2 font-semibold'>Weapon:</p>                                        
                                         <label className='text-lg'>
@@ -907,7 +907,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
 
                                 {/* Additional Character attributes */}
-                                <div className='w-full flex flex-col justify-between mb-4'>
+                                <div className='w-full flex flex-col justify-between mb-3'>
                                     <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p>
                                     <div className="w-full flex">
                                         <div className='relative w-1/2 flex justify-between items-end mb-2'>
