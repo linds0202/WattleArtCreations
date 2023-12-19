@@ -1048,10 +1048,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
                                         </div>}
 
-                                        <div className="w-[100%] h-2/3 border mt-2 flex justify-between">
+                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between border border-red-600">
                                             
-                                            <div className="w-1/3 h-full">
-                                                <div className="w-full flex flex-col justify-center items-center">
+                                            <div className="w-1/3 h-full border border-blue-600">
+                                                <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
                                                     {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
                                                     {values.weapon !== 'none' && <div className="w-[114px] h-[54px] flex justify-center items-center">
                                                         {values.weapon === 'simple' && 
@@ -1063,7 +1063,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     </div>}
                                                 </div>
                                             
-                                                <div className="w-full flex flex-col justify-center items-center">
+                                                <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
                                                     {values.wings && <div className="w-[128px] h-[64px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
@@ -1072,7 +1072,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
 
                                             <div className="w-7/12 h-full">
-                                                <div className="w-full h-full flex flex-col items-center ">
+                                                <div className="w-full h-full flex flex-col items-center border border-purple-600">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
                                                     {values.armourComplex && <div className="w-[50%] h-[60%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
