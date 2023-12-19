@@ -688,7 +688,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-0 right-0 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 right-0 text-white'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 -right-8 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
@@ -1024,7 +1024,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
 
                                 <div className="w-full h-1/2 flex justify-between">
-                                    <div className={`${values.bodyStyle === "" ? "border border-[#282828]" : ""} w-[270px] h-[100%] object-cover object-top rounded-xl`}>
+                                    <div className={`${values.bodyStyle === "" ? "border border-[#282828]" : ""} w-[250px] h-[100%] object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
                                         <motion.object 
                                             type="image/svg+xml" 
