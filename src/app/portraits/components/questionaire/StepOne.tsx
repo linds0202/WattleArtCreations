@@ -1053,7 +1053,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <div className="w-1/3 h-full border border-blue-600">
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
                                                     {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
-                                                    {values.weapon !== 'none' && <div className="w-[114px] h-[54px] flex justify-center items-center">
+                                                    {values.weapon !== 'none' && <div className="w-[100px] h-[50px] flex justify-center items-center">
                                                         {values.weapon === 'simple' && 
                                                             <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
                                                         }
@@ -1065,7 +1065,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
-                                                    {values.wings && <div className="w-[114px] h-[70px] flex justify-center items-center">
+                                                    {values.wings && <div className="w-[110px] h-[70px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
                                                     </div>}
                                                 </div>
