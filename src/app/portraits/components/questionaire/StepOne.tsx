@@ -757,7 +757,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'body' && (
-                                                <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute -top-[100px] left-[42%] m-0 ml-8 z-40">
+                                                <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute top-0 left-[42%] m-0 ml-8 z-40">
                                                     <img src="./images/body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
                                                 </div>
                                             )}
@@ -984,7 +984,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'characterSheet' && (
-                                                <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
+                                                <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
                                                     <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
                                                 </div>
                                             )}
@@ -1002,7 +1002,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     >
                                         <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                         {isHovering && message === 'weaponSheet' && (
-                                            <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
+                                            <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
                                                 <h2 className="text-white text-md text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
                                             </div>
                                         )}
@@ -1015,7 +1015,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between border border-black">
+                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between">
                                 
                                 <div className="mb-2 flex justify-center items-center">
                                     <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
@@ -1039,7 +1039,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="w-[57%] h-full flex flex-col border border-purple-600">
+                                    <div className="w-[57%] h-full flex flex-col">
                                         
                                         <div className="w-[100%] h-1/3 flex flex-col">
                                             {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
@@ -1048,9 +1048,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>}
                                         </div>
 
-                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between border border-red-600">
+                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between">
                                             
-                                            <div className="w-1/3 h-full border border-blue-600">
+                                            <div className="w-1/3 h-full">
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
                                                     {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
                                                     {values.weapon !== 'none' && <div className="w-[114px] h-[50px] flex justify-center items-center">
@@ -1063,7 +1063,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     </div>}
                                                 </div>
                                             
-                                                <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
+                                                <div className="w-full h-[50%] flex flex-col justify-center items-center ">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
                                                     {values.wings && <div className="w-[114px] h-[75px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
@@ -1072,7 +1072,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
 
                                             <div className="w-7/12 h-full">
-                                                <div className="w-full h-full flex flex-col items-center border border-purple-600">
+                                                <div className="w-full h-full flex flex-col items-center">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
                                                     {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
