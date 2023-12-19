@@ -1023,7 +1023,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
                                 </div>
 
-                                <div className="w-full h-1/2 flex justify-between">
+                                <div className="w-full h-1/2 flex justify-between items-stretch">
                                     <div className={`${values.bodyStyle === "" ? "border border-[#282828]" : ""} w-[250px] h-[100%] object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
                                         <motion.object 
@@ -1074,7 +1074,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <div className="w-7/12 h-full">
                                                 <div className="w-full h-full flex flex-col items-center border border-purple-600">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
-                                                    {values.armourComplex && <div className="w-[50%] h-[60%] flex justify-center items-center">
+                                                    {values.armourComplex && <div className="w-[45%] h-[55%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
                                                     </div>}
                                                 </div>
