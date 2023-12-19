@@ -1065,7 +1065,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
-                                                    {values.wings && <div className="w-[114px] h-[54px] flex justify-center items-center">
+                                                    {values.wings && <div className="w-[114px] h-[70px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
                                                     </div>}
                                                 </div>
