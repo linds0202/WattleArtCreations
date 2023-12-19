@@ -693,13 +693,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </IconButton>
             </div>
 
-            <div className="w-full">
+            <div className="w-full h-full">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form className="w-full flex justify-between items-center">
+                    <Form className="w-full h-full flex justify-between items-center">
                         
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
@@ -1015,7 +1015,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between">
+                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between border border-black">
                                 
                                 <div className="mb-2 flex justify-center items-center">
                                     <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
@@ -1039,16 +1039,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="w-[57%] h-full flex flex-col border border-transparent">
+                                    <div className="w-[57%] h-full flex flex-col border border-purple-600">
                                         
-                                        {values.bodyStyle !== '' && <div className="w-[100%] h-1/3 flex flex-col">
-                                            <p className="ml-4 font-semibold">Character Variations</p>
-                                            <div className="w-full h-[65%] flex flex-wrap items-start">
+                                        <div className="w-[100%] h-1/3 flex flex-col">
+                                            {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
+                                            {values.bodyStyle !== '' && <div className="w-full h-[65%] flex flex-wrap items-start">
                                                 {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[90%]"></object>)}
-                                            </div>
-                                        </div>}
+                                            </div>}
+                                        </div>
 
-                                        <div className="w-[100%] h-7/12 mt-2 flex justify-between border border-red-600">
+                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between border border-red-600">
                                             
                                             <div className="w-1/3 h-full border border-blue-600">
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
@@ -1065,7 +1065,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             
                                                 <div className="w-full h-[50%] flex flex-col justify-center items-center border border-green-600">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
-                                                    {values.wings && <div className="w-[114px] h-[70px] flex justify-center items-center">
+                                                    {values.wings && <div className="w-[114px] h-[75px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
                                                     </div>}
                                                 </div>
@@ -1074,7 +1074,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <div className="w-7/12 h-full">
                                                 <div className="w-full h-full flex flex-col items-center border border-purple-600">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
-                                                    {values.armourComplex && <div className="w-[45%] h-[55%] flex justify-center items-center">
+                                                    {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
                                                     </div>}
                                                 </div>
