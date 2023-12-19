@@ -1051,7 +1051,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         <div className="w-[100%] h-2/3 mt-2 flex justify-between">
                                             
                                             <div className="w-1/3 h-full">
-                                                <div className="w-full h-[50%] flex flex-col justify-center items-center border border-yellow-600">
+                                                <div className="w-full h-[50%] flex flex-col justify-center items-center">
                                                     {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
                                                     {values.weapon !== 'none' && <div className="w-[114px] h-[50px] flex justify-center items-center">
                                                         {values.weapon === 'simple' && 
