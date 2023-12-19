@@ -946,9 +946,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     </div>
                                                 )}
                                             </div>
-                                        </div>
-
-                                        
+                                        </div>    
                                     </div>
                                     
                                 </div>              
