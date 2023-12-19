@@ -1051,33 +1051,33 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         <div className="w-[100%] h-2/3 border mt-2 flex justify-between">
                                             
                                             <div className="w-1/3 h-full">
-                                                {values.weapon !== 'none' && <div className="w-full flex flex-col justify-center items-center">
-                                                    <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>
-                                                    <div className="w-[128px] h-[64px] flex justify-center items-center">
+                                                <div className="w-full flex flex-col justify-center items-center">
+                                                    {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
+                                                    {values.weapon !== 'none' && <div className="w-[128px] h-[64px] flex justify-center items-center">
                                                         {values.weapon === 'simple' && 
                                                             <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
                                                         }
                                                         {values.weapon === 'complex' && 
                                                             <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
                                                         } 
-                                                    </div>
-                                                </div>}
+                                                    </div>}
+                                                </div>
                                             
-                                                {values.wings && <div className="w-full flex flex-col justify-center items-center">
-                                                    <p className="font-semibold">Wings</p>
-                                                    <div className="w-[128px] h-[64px] flex justify-center items-center">
+                                                <div className="w-full flex flex-col justify-center items-center">
+                                                    {values.wings && <p className="font-semibold">Wings</p>}
+                                                    {values.wings && <div className="w-[128px] h-[64px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
-                                                    </div>
-                                                </div>}
+                                                    </div>}
+                                                </div>
                                             </div>
 
                                             <div className="w-7/12 h-full">
-                                                {values.armourComplex && <div className="w-full h-full flex flex-col items-center ">
-                                                    <p className="font-semibold">Armour</p>
-                                                    <div className="w-[60%] h-[70%] flex justify-center items-center">
+                                                <div className="w-full h-full flex flex-col items-center ">
+                                                    {values.armourComplex && <p className="font-semibold">Armour</p>}
+                                                    {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
-                                                    </div>
-                                                </div>}
+                                                    </div>}
+                                                </div>
                                             </div>
 
                                         </div>
