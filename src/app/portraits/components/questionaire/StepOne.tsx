@@ -688,7 +688,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-0 right-0 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 -right-8 text-white'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 -right-10 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
@@ -1074,7 +1074,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <div className="w-7/12 h-full">
                                                 {values.armourComplex && <div className="w-full h-full flex flex-col items-center ">
                                                     <p className="font-semibold">Armour</p>
-                                                    <div className="w-[70%] h-[80%] flex justify-center items-center">
+                                                    <div className="w-[60%] h-[70%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
                                                     </div>
                                                 </div>}
