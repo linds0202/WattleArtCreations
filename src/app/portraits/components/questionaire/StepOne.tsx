@@ -1044,7 +1044,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         {values.bodyStyle !== '' && <div className="w-[100%] h-1/3 flex flex-col">
                                             <p className="ml-4 font-semibold">Character Variations</p>
                                             <div className="w-full h-[65%] flex flex-wrap items-start">
-                                                {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[95%]"></object>)}
+                                                {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[90%]"></object>)}
                                             </div>
                                         </div>}
 
@@ -1074,7 +1074,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <div className="w-7/12 h-full">
                                                 <div className="w-full h-full flex flex-col items-center ">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
-                                                    {values.armourComplex && <div className="w-[0%] h-[0%] flex justify-center items-center">
+                                                    {values.armourComplex && <div className="w-[50%] h-[60%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
                                                     </div>}
                                                 </div>
