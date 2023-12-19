@@ -432,7 +432,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
                                             : char.weapon === 'complex' ? 
                                                 <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
-                                            : <p className="text-sm text-red-600 mt-4">None</p> 
+                                            : <p className="text-sm text-red-600 mt-6">None</p> 
                                             }        
                                         </div>
 
@@ -440,7 +440,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p className="text-[#282828] text-center text-sm">Wings</p>
                                             {char.wings ? 
                                                 <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
-                                            : <p className="text-sm text-red-600 mt-4">None</p> 
+                                            : <p className="text-sm text-red-600 mt-6">None</p> 
                                             }
                                         </div>
 
@@ -448,7 +448,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p className="text-[#282828] text-center text-sm">Armour</p>
                                             {char.armourComplex ? 
                                                 <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />
-                                            : <p className="text-sm text-red-600 mt-4">None</p> 
+                                            : <p className="text-sm text-red-600 mt-6">None</p> 
                                             }
                                         </div>
                                     </div>
