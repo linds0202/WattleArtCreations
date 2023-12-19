@@ -416,34 +416,40 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <DeleteForeverIcon />
                             </button>
 
-                            <div className="w-full my-4 flex items-center">
+                            <div className="w-full h-[100%] my-4 flex items-center">
 
-                                <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px]' : 'w-[128px] h-[128px]'} object-cover mx-4 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
+                                <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px] mx-12' : 'w-[128px] h-[128px] mx-4 '} object-cover my-8 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
 
-                                <div className="mx-2 flex flex-wrap">
-                                    <div className="w-[100%] h-1/2 flex flex-wrap items-start">
+                                <div className="h-full mx-2 flex flex-wrap">
+                                    <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
                                         <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
-                                        {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[80%]"></object>)}
+                                        {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[70%]"></object>)}
                                     </div>
-                                    <div className="w-full h-1/2 mt-2 flex justify-between">
-                                        <div className="w-1/4 h-full mr-4 flex flex-col justify-between items-center">
+                                    <div className="w-full h-1/2 flex justify-between items-stretch">
+                                        <div className="w-1/4 h-[100%] mr-4 flex flex-col items-center">
                                             <p className="text-[#282828] text-center text-sm">Weapon</p>
-                                            {char.weapon === 'simple' &&
+                                            {char.weapon === 'simple' ?
                                                 <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
-                                            }
-                                            {char.weapon === 'complex' && 
+                                            : char.weapon === 'complex' ? 
                                                 <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
+                                            : <p className="text-sm text-red-600 mt-4">None</p> 
                                             }        
                                         </div>
 
                                         <div className="w-1/4 h-full mr-4 flex flex-col items-center">
                                             <p className="text-[#282828] text-center text-sm">Wings</p>
-                                            {char.wings && <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />}
+                                            {char.wings ? 
+                                                <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
+                                            : <p className="text-sm text-red-600 mt-4">None</p> 
+                                            }
                                         </div>
 
-                                        <div className="w-1/4 h-full mr-4 flex flex-col justify-between items-center">
+                                        <div className="w-1/4 h-full mr-4 flex flex-col items-center">
                                             <p className="text-[#282828] text-center text-sm">Armour</p>
-                                            {char.armourComplex && <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />}
+                                            {char.armourComplex ? 
+                                                <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />
+                                            : <p className="text-sm text-red-600 mt-4">None</p> 
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +462,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     </button>
                                 </div>
                                 <p className="mt-2">Extras:</p>
-                                <p>{char.extras.length === 0 ? "None" : char.extras?.map(extra => {
+                                <p className="w-3/4">{char.extras.length === 0 ? "None" : char.extras?.map(extra => {
                                     if (extra === 'model') {
                                         return "3D Model"
                                     } else if (extra === "character") {
