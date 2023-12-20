@@ -119,7 +119,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >   
             <div className='absolute top-2 right-2 w-1/12 mb-4'>
-                <IconButton onClick={() => setOpenQuestions(false)} className='absolute top-2 right-2 text-white'>
+                <IconButton onClick={() => setOpenQuestions(false)} className='absolute top-2 -right-4 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>  
