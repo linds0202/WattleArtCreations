@@ -71,7 +71,7 @@ const DisplayedOptionalQuestions = ({portrait, charVariations, animals, charShee
       </Accordion>
 
       {/* Weapon Sheet qs */}
-      <Accordion title="Character Sheet:" required={false} active={weaponSheet}>
+      <Accordion title="Weapons Sheet:" required={false} active={weaponSheet}>
         <div>
             {weaponSheet ?
             <>

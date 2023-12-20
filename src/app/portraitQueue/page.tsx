@@ -75,9 +75,6 @@ export default function Dashboard() {
       setFiltered(available)
   }, [portraits])
 
-  console.log('portraits: ', portraits)
-  console.log('filtered in portrait queue: ', filtered)
-
  
   return ((loadingPortraits || isLoading) ? 
     <p></p>

@@ -21,6 +21,7 @@ import { Upload } from '../../components/PortraitCustomizer';
 import UploadImages from './CustomerUploads';
 import { uploadImages } from '@/app/firebase/storage';
 import { getImageUrls } from '@/app/firebase/firestore';
+import AnimalList from '@/app/components/AnimalList';
 
 interface QuestionsProps {
     portrait: PortraitData,
@@ -128,7 +129,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                 <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
 
-            {canEditQs && role !== 'Customer' && <p className='text-sm text-[#9e9e9e] text-center mb-8'>Customer can still edit the following info</p>}
+            {canEditQs && role !== 'Customer' && <p className='text-sm text-[#9e9e9e] text-center mb-8'>Customer can still edit image uploads and question answers</p>}
 
             
             <div className='flex justify-between items-center mb-4'>
@@ -138,8 +139,21 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             
             </div>
 
-            {/* display character details */}
-            <CharList portrait={portrait} />
+            <div className='w-full flex justify-between'>
+                {/* display character details */}
+                <CharList portrait={portrait} />
+                
+                <div className='w-1/2 flex flex-col'>
+                    
+                    <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
+                        <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>                       
+                    </div>
+
+                    <AnimalList portrait={portrait} />
+                </div>
+                
+            </div>
+            
 
             {/* display images customer uploaded during creation */}
             <div className='bg-[#e8e8e8] rounded-lg p-4 my-4'>

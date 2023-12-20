@@ -78,7 +78,7 @@ const StepTwo = ({ charVariations, animals, charSheet, weaponSheet } : MyQuestio
             </Accordion>
 
             {/* Pets Qs */}
-            <Accordion title="Pets" required={false} active={animals}>
+            <Accordion title="Animals" required={false} active={animals}>
                 {animals ? 
                     <>
                         <label className='text-sm leading-3'>
@@ -102,7 +102,7 @@ const StepTwo = ({ charVariations, animals, charSheet, weaponSheet } : MyQuestio
                             className="text-sm w-full text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"  
                         />
                     </> 
-                    : <p className='text-sm font-semibold'>No pets have been added to this portrait</p>}
+                    : <p className='text-sm font-semibold'>No animals have been added to this portrait</p>}
             </Accordion>
             
             {/* Character Sheets Qs */}

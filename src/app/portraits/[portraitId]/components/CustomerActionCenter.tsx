@@ -250,7 +250,6 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
       // Displays Questions
     const handleOpenQuestions = () => {
-        console.log('setting open questions to true in customeraction center')
         setOpenQuestions(true)
     }
 

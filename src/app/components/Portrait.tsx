@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image'
 import CharList from './CharList'
+import AnimalList from './AnimalList'
 import { MyCharValues } from '../portraits/components/questionaire/StepOne'
 import DisplayedOptionalQuestions from './DisplayedOptionalQuestions'
 import DisplayedRequiredQuestions from './DisplayedRequiredQuestions'
@@ -247,8 +248,22 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                       <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
                       <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price}</span></p>
                     </div>
+                    <div className='w-full flex justify-between'>
+                      {/* display character details */}
+                      <CharList portrait={portrait} />
+                      
+                      <div className='w-1/2 flex flex-col'>
+                          
+                          <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
+                              <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>                       
+                          </div>
+
+                          <AnimalList portrait={portrait} />
+                      </div>
+                        
+                    </div>
                     
-                    <CharList portrait={portrait}/>
+                    {/* <CharList portrait={portrait}/> */}
       
                   </div>
                 </div>

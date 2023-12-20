@@ -12,12 +12,6 @@ export type FaqProps = {
 export default function Accordion(props: FaqProps){
     const [expanded, setExpanded] = useState(props.required)
 
-    // if (props.title === 'Step One - Artist Selection') {
-    //     console.log('props.required: ', props.required)
-    //     console.log('expanded: ', expanded)
-    // }
-    
-    //${expanded ? "" : "font-normal"}
     return (
         <div className="flex flex-col p-3 border-b text-gray-light" title={`${props.active ? "" : "Add this feature to a character to customize"}`}>
             <div className="flex flex-row items-center">
