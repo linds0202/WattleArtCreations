@@ -50,7 +50,7 @@ const LoginDialog = ({ selection, customizer, login, setLogin }: LoginDialogProp
         setLogin(false)
         router.push('/')
     }
-    //, position: 'relative'
+
     
     return (
         <Dialog 

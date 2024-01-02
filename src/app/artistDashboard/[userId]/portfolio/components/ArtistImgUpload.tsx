@@ -62,6 +62,7 @@ export default function ArtistImgUpload(props: any) {
     const handleSubmit = async () => {
         setIsSubmitting(true);
 
+        console.log('index is: ', props.index)
         try {
             if (isEdit) {
                 // Check whether image was changed - fileName will be not null
@@ -113,11 +114,17 @@ export default function ArtistImgUpload(props: any) {
                         imgUrl5: url, 
                         imgBucket5: bucket
                     }
-                } else {
+                } else if (props.index === 6) {
                     newArtistImgs = {
                         ...props.userData.artistImgs,
                         imgUrl6: url, 
                         imgBucket6: bucket
+                    }
+                } else if (props.index === 7){
+                    newArtistImgs = {
+                        ...props.userData.artistImgs,
+                        imgUrl7: url, 
+                        imgBucket7: bucket
                     }
                 } 
                

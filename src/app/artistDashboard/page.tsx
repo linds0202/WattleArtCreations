@@ -25,9 +25,12 @@ const ArtistDashboard = () => {
         handleGetArtists()
     }, [])
 
+    console.log(artistData[0]?.artistImgs.imgUrl7)
+    console.log(artistData[0]?.artistImgs.imgUrl7)
+
     const artistList = artistData.map((artist, i) => (
         <div key={i} className='w-[30%] h-[100%] bg-black border border-[#ffffff]/50 rounded-xl pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
-            <img className='w-[90%] h-[60%] object-cover mx-auto rounded-t-xl' src='./images/animeImgs/anime10.png' alt='artist image'/>
+            <img className='w-[90%] h-[60%] object-cover onject-top mx-auto rounded-t-xl' src={artist.artistImgs.imgUrl7} alt='artist image'/>
             <div className='w-[100%] h-[40%] bg-[#282828] rounded-b-xl text-white p-4 flex flex-col justify-between'>
                 <Link prefetch={false} href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>

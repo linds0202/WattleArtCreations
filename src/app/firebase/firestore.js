@@ -888,10 +888,15 @@ export async function updateArtistPortfolioImg( user, num, newUrl) {
           ...user.artistImgs,
           imgUrl5: newUrl,
       }
-  } else {
+  } else if (num === 6) {
+    newArtistImgs = {
+        ...user.artistImgs,
+        imgUrl6: newUrl,
+    }
+  } else if (num === 7){
       newArtistImgs = {
           ...user.artistImgs,
-          imgUrl6: newUrl,
+          imgUrl7: newUrl,
       }
   }
 

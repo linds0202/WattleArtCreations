@@ -29,6 +29,8 @@ interface ArtistImgs {
     imgBucket5: string,
     imgUrl6: string,
     imgBucket6: string,
+    imgUrl7: string,
+    imgBucket7: string,
 }
 
 export interface UserData {
@@ -215,8 +217,18 @@ const Portfolio = () => {
                 setImgSizeMsg('w-265px h-215px')
                 break;
             case 6:
+                console.log('in 6: ', userData?.artistImgs.imgBucket6)
                 if(userData?.artistImgs?.imgUrl6) {
                     setUpdateImg(userData.artistImgs.imgBucket6) 
+                } else {
+                    setUpdateImg('')
+                }
+                setImgSizeMsg('w-265px h-215px')
+                break;
+            case 7:
+                console.log('in 7: ', userData?.artistImgs.imgBucket7)
+                if(userData?.artistImgs?.imgUrl7) {
+                    setUpdateImg(userData.artistImgs.imgBucket7) 
                 } else {
                     setUpdateImg('')
                 }
@@ -276,13 +288,32 @@ const Portfolio = () => {
                                 >
                                     <img src={userData?.artistImgs.imgUrl5.length ? userData?.artistImgs.imgUrl5 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl5.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                 </div>
+
                                 <div 
                                     className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                     onClick={() => handleEditImg(6)}
                                 >
-                                    <img src={userData?.artistImgs.imgUrl6.length ? userData?.artistImgs.imgUrl6 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl6.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    <img src={userData?.artistImgs.imgUrl6.length ? userData?.artistImgs.imgUrl6 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl6.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                 </div>
                             </div>
+
+
+
+                            {authUser && authUser?.uid === artistId &&
+                                <div className='w-full mt-8 bg-white p-2 rounded-xl flex'>
+                                    <div 
+                                        className={`w-[40%] h-[300px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-black cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(7)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl7.length ? userData?.artistImgs.imgUrl7 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl7.length ? 'w-[100%] h-[100%] object-contain': 'w-[100%] h-[100%] bg-black/50'}`} />
+                                    </div>
+                                    <div className='ml-4 pb-10 flex flex-col justify-between'>
+                                        <p className='text-black text-2xl text-center'>Upload Images</p>
+                                        <p className='text-black text-lg'>The above image collage is displayed on your individual artist details page.</p>
+                                        <p className='text-black text-lg'>The image to the left is displayed on your artist card cover image on the All Artist page.</p>
+                                    </div>
+                                </div>}
+
                         </div>                        
                         
                         {/* {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
