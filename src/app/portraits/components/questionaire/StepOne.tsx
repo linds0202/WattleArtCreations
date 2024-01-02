@@ -475,9 +475,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <DeleteForeverIcon />
                             </button>
 
-                            <div className="w-full h-[100%] my-4 flex items-center border border-red-600">
+                            <div className="w-full h-[100%] my-4 flex items-center">
 
-                                <div className='w-[150px] h-[100%] object-cover object-top rounded-xl border border-blue-600'>
+                                <div className='w-[150px] h-[100%] object-cover object-top rounded-xl'>
                                     <object 
                                         type="image/svg+xml" 
                                         data={`images/customizer/${char.bodyStyle}.svg`} 
@@ -485,7 +485,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     />                             
                                 </div>
 
-                                <div className="w-[60%] h-full mx-2 flex flex-wrap border border-orange-600">
+                                <div className="w-[60%] h-full mx-2 flex flex-wrap">
                                     <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
                                         <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
                                         {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[70%]"></object>)}
