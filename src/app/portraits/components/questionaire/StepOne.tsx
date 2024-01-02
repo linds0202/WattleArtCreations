@@ -393,13 +393,72 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </div>
             }
 
-            <div className="w-full flex gap-x-4">
-                <div className="w-1/2 h-auto flex flex-col gap-y-2">
-                    {chars.length !== 0 && <p className="text-[#282828] font-semibold text-xl text-center mt-2 pb-2 border-b border-[#282828]">Characters</p>}
+            <div className="w-full flex flex-wrap gap-x-4">
+                {chars.length !== 0 && <div className="w-full flex flex-col"> 
+                    <div className="mt-4 flex flex-col">
+                        <p className="text-[#282828] font-semibold text-xl text-center my-2 pb-2 border-b border-[#282828]">Background</p>
+                        {bg.type !== 'None' 
+                            ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-top bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl">
+                                <p className="w-1/2 text-xl text-center font-semibold mr-8 ">{bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>
+                                <p>${bg.price.toFixed(2)}</p>
+                                <button 
+                                    type="button" 
+                                    onClick={handleDeleteBg} 
+                                    className='absolute top-0 right-0 text-black hover:text-red-600'
+                                >
+                                    <DeleteForeverIcon />
+                                </button>
+                            </div>
+                            : <p className="text-center text-red-600 font-semibold">No Background Added</p>
+                            }
+                    </div>                    
+                    
+                    <div className="flex flex-wrap gap-2 justify-center">
+                        <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Animals</p>
+                        {/* Animal & bg cards */}
+                        {animals?.map((animal, i) => (
+                            <div 
+                                key={i}
+                                className='relative w-[23%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
+                            >
+                                <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
+                                    {animal.type === 'Small Pet' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petSmall} 
+                                        className='w-[95px] h-[95px] object-cover object-top'
+                                    />}
+                                    {animal.type === 'Large Pet' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petLarge} 
+                                        className='w-[85px] h-[85px] object-cover object-top'
+                                    />}
+                                    {animal.type === 'Monster/Dragon' && <object 
+                                        type="image/svg+xml" 
+                                        data={categories.customizer.defaults.petMonster} 
+                                        className='w-[100px] h-[100px] object-cover object-top'
+                                    />}
+                                </div>
+                                <p className="w-full text-center font-semibold text-sm">{animal.type}</p>
+                                <p className="w-full text-center">${animal.price.toFixed(2)}</p>
+                                <button 
+                                    type="button" 
+                                    onClick={() => handleDeleteAnimal(i)} 
+                                    className='absolute top-0 right-0 text-black hover:text-red-600'
+                                >
+                                    <DeleteForeverIcon />
+                                </button>
+                            </div>
+                        ))}
+                        {animals.length === 0 && <p className="text-center text-red-600 font-semibold">No Animals Added</p>}
+                    </div>   
+                </div>}
+
+                <div className="w-full h-auto flex flex-wrap justify-between gap-y-2">
+                    {chars.length !== 0 && <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Characters</p>}
                     {/* Character Cards */}
                     {chars?.map((char, i) => (
                         <div key={i} 
-                            className='w-full h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
+                            className='w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                         >
                             <div className={`w-[100px] h-[100px] absolute bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
                                 <p className="text-white text-xl font-bold">
@@ -416,9 +475,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <DeleteForeverIcon />
                             </button>
 
-                            <div className="w-full h-[100%] my-4 flex items-center">
+                            <div className="w-full h-[100%] my-4 flex items-center border border-red-600">
 
-                                <div className={`w-[250px] h-[100%] object-cover object-top rounded-xl`}>
+                                <div className='w-[150px] h-[100%] object-cover object-top rounded-xl border border-blue-600'>
                                     <object 
                                         type="image/svg+xml" 
                                         data={`images/customizer/${char.bodyStyle}.svg`} 
@@ -426,10 +485,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     />                             
                                 </div>
 
-
-                                {/* <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px] mx-12' : 'w-[128px] h-[128px] mx-4 '} object-cover my-8 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.svg`} alt='thumbnail for body style of portrait selection'/> */}
-
-                                <div className="h-full mx-2 flex flex-wrap">
+                                <div className="w-[60%] h-full mx-2 flex flex-wrap border border-orange-600">
                                     <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
                                         <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
                                         {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[70%]"></object>)}
@@ -486,65 +542,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </div>
                 
 
-                {chars.length !== 0 && <div className="w-1/2 flex flex-col">
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        <p className="w-full text-[#282828] font-semibold text-xl text-center mt-2 pb-2 border-b border-[#282828]">Animals</p>
-                        {/* Animal & bg cards */}
-                        {animals?.map((animal, i) => (
-                            <div 
-                                key={i}
-                                className='relative w-[30%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
-                            >
-                                <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
-                                    {animal.type === 'Small Pet' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petSmall} 
-                                        className='w-[95px] h-[95px] object-cover object-top'
-                                    />}
-                                    {animal.type === 'Large Pet' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petLarge} 
-                                        className='w-[85px] h-[85px] object-cover object-top'
-                                    />}
-                                    {animal.type === 'Monster/Dragon' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petMonster} 
-                                        className='w-[100px] h-[100px] object-cover object-top'
-                                    />}
-                                </div>
-                                <p className="w-full text-center font-semibold text-sm">{animal.type}</p>
-                                <p className="w-full text-center">${animal.price.toFixed(2)}</p>
-                                <button 
-                                    type="button" 
-                                    onClick={() => handleDeleteAnimal(i)} 
-                                    className='absolute top-0 right-0 text-black hover:text-red-600'
-                                >
-                                    <DeleteForeverIcon />
-                                </button>
-                            </div>
-                        ))}
-                        {animals.length === 0 && <p className="text-center text-red-600 font-semibold">No Animals Added</p>}
-                    </div>
-                    
-                    <div className="mt-10 flex flex-col">
-                        <p className="text-[#282828] font-semibold text-xl text-center my-2 pb-2 border-b border-[#282828]">Background</p>
-                        {bg.type !== 'None' 
-                            ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-top bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl">
-                                <p className="w-1/2 text-xl text-center font-semibold mr-8 ">{bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>
-                                <p>${bg.price.toFixed(2)}</p>
-                                <button 
-                                    type="button" 
-                                    onClick={handleDeleteBg} 
-                                    className='absolute top-0 right-0 text-black hover:text-red-600'
-                                >
-                                    <DeleteForeverIcon />
-                                </button>
-                            </div>
-                            : <p className="text-center text-red-600 font-semibold">No Background Added</p>
-                            }
-                    </div>
-                    
-                </div>}
+                
                 
             </div>
             

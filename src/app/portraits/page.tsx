@@ -58,7 +58,7 @@ export default function Portraits() {
     Anime: '/images/defaultImgs/anime.png',
     NSFW: '/images/defaultImgs/nsfw.png',
   }
-
+  
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
         setLogin(true)
@@ -72,6 +72,7 @@ export default function Portraits() {
     let currentPortraits: Array<PortraitData>
     if (cart !== null && cart.length !== 0) {
       currentPortraits = JSON.parse((cart))
+      
       setPortraits(JSON.parse((cart)))
     } else {
       currentPortraits = []
@@ -79,13 +80,15 @@ export default function Portraits() {
     }
 
     if (portraitId && continueEdit) {
-     
+      
       const handleGetPortrait = async () => {
         const addedPortrait: PortraitData | null = await getPortrait(portraitId)
 
         if (addedPortrait) {
           const portraitIds = currentPortraits.map(portrait => portrait.id)
           if(!portraitIds.includes(portraitId)){
+            const newPortraitList = [...currentPortraits, addedPortrait]
+            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price, 0))
             setEditIndex(currentPortraits.length)
             setPortraits([...currentPortraits, addedPortrait])
             setEditPortrait(addedPortrait)
@@ -110,8 +113,9 @@ export default function Portraits() {
           const portraitIds = currentPortraits.map(portrait => portrait.id)
         
           if(!portraitIds.includes(portraitId)){
-            
+            const newPortraitList = [...currentPortraits, addedPortrait]
             setPortraits([...currentPortraits, addedPortrait])
+            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price, 0))
           } 
         } 
       }
@@ -126,6 +130,7 @@ export default function Portraits() {
       }
     }
   }, [])
+
 
   //update cart context on portrait addition
   useEffect(() => {
@@ -225,10 +230,16 @@ export default function Portraits() {
       <div className='w-full flex justify-between items-center'>
         <div className='w-[125px] h-[125px] object-cover object-top rounded-xl'>
           <img 
-            src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
+            src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === categories.cat1.type 
+              ? categories.customizer.defaults.cat1DefaultImg 
+              : portrait.mode === categories.cat2.type
+              ? categories.customizer.defaults.cat2DefaultImg 
+              : categories.customizer.defaults.cat3DefaultImg }`}
+            //src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
             alt={`default image for ${portrait?.mode} portrait`} 
             className='w-[100%] h-[100%] object-cover object-top rounded-xl'
           />
+          
         </div>
 
 
@@ -263,7 +274,7 @@ export default function Portraits() {
         </div>
         
         <div className=''>
-          <p className='text-black mt-2 text-xl font-semibold'>Price:  ${portrait?.price}</p>
+          <p className='text-black text-xl font-semibold mb-4'>${portrait?.price}</p>
         </div>
         
 

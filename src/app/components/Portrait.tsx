@@ -120,7 +120,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
             fill
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             alt="Default Image"
-            className='self-start object-cover rounded-xl'
+            className='self-start object-top object-cover rounded-xl'
         />
       </div>
 
@@ -181,7 +181,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           <div>
             <Link href={`/portraits?selection=${portrait.mode === categories.cat1.type ? 'cat1' : portrait.mode === categories.cat2.type ? 'cat2' : 'cat3'}&portrait_id=${portrait.id}`} className="w-full"><p className='mb-4 text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]'>Add to Cart</p></Link>
 
-            <Link href={`/portraits?selection=${portrait.mode}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#43b4e4] hover:border-[#43b4e4]'>Continue Customizing</p></Link>
+            <Link href={`/portraits?selection=${portrait.mode === categories.cat1.type ? 'cat1' : portrait.mode === categories.cat2.type ? 'cat2' : 'cat3'}&portrait_id=${portrait.id}&edit=true`} className="w-full"><p className='text-lg text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-[#43b4e4] hover:border-[#43b4e4]'>Continue Customizing</p></Link>
           </div>
         }
 
