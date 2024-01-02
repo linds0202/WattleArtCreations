@@ -435,9 +435,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     >
                                         Add Images
                                     </button>
-                                    {/* {uploads.length === 0 && */}
+                                    
                                     <p className='text-[#43b4e4] text-xs font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
-                                    {/* } */}
+                                    
 
                                     <div className='ml-2 flex flex-wrap'>
                                         {uploads.length !== 0 && uploads.map((imgGroup, i) => 
@@ -470,7 +470,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                                 type="button" 
                                                 onClick={() => handleDeleteImgGroup(i)} 
                                                 className='ml-4 text-black hover:text-red-600 '
-                                                title='Remove from order? Unordered portraits can be found on your dashboard'
+                                                title='Remove uploads? Clicking this will remove this set of uploaded images'
                                             >
                                                 <DeleteForeverIcon />
                                             </button>
@@ -489,12 +489,28 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                 />}
                                 
                                 <RequiredQuestions />
+
+                                {chars.length !== 0 && 
+                                    <div className='w-full mt-8'>
+                                        <div className='text-center'>
+                                            <h3 className='text-xl font-bold'>Let us know more. . .</h3>
+                                            <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
+                                        </div>
+                                        
+                                        <StepTwo 
+                                            charVariations={charVariations}
+                                            animals={animals.length > 0}
+                                            charSheet={charSheet}
+                                            weaponSheet={weaponSheet} 
+                                        />
+                                    </div>
+                                }
                             </div>    
                         </div>
 
 
 
-                        {chars.length !== 0 && 
+                        {/* {chars.length !== 0 && 
                             <div className='w-10/12 mx-auto mt-8'>
                                 <div className='text-center'>
                                     <h3 className='text-xl font-bold'>Let us know more. . .</h3>
@@ -508,7 +524,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     weaponSheet={weaponSheet} 
                                 />
                             </div>
-                        }
+                        } */}
                         
                         <div className='mt-8 w-full flex justify-around items-center'>
                             {customizerLogin && 

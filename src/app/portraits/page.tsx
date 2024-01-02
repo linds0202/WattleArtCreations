@@ -144,7 +144,7 @@ export default function Portraits() {
       return (
       <div className='mt-[6px] flex'>
         {urls.slice(0, 2).map((url, i) => <img className="w-[28px] h-[40px] object-cover" key={i} src={url} alt='character icon'/>)} 
-        {urls.length > 2 && <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 2} more</p>}
+        {urls.length > 2 && <p className='w-1/6 text-sm text-center text-[#8d8d8d]'> +{urls.length - 2} more</p>}
       </div>
       )
     } else {
@@ -178,7 +178,7 @@ export default function Portraits() {
                   className="absolute top-0 left-0 w-[100%] h-[100%]"
               /> 
             </div>)}
-            {urls.length > 3 && <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 3} more</p>}
+            {urls.length > 3 && <p className='w-1/6 text-sm text-center text-[#8d8d8d]'> +{urls.length - 3} more</p>}
         </div>
       )
     } else {
@@ -194,7 +194,7 @@ export default function Portraits() {
       return (
       <div className='mt-[6px] flex'>
         {urls.slice(0, 5).map((url, i) => <img className="w-[48px] h-[48px] object-cover object-top mr-4" key={i} src={url} alt='thumbnail of customer uploaded image'/>)} 
-        <p className='text-sm text-center text-[#8d8d8d]'> +{urls.length - 5} more</p>
+        {urls.length > 5 && <p className='w-1/12 text-sm text-center text-[#8d8d8d]'> +{urls.length - 5} more</p>}
       </div>
       )
     } else {
@@ -303,12 +303,10 @@ export default function Portraits() {
   }
 
   const handleDelete = (i: number) => {
-    // alert('Portraits removed from your cart are not deleted. They can be found on your dashboard to be ordered at a later time')
     let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
     setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price, 0))
     setPortraits(deletePortraitArr)
   }
-  // bg-gradient-to-b from-black from-50% to-[#282828] to-80%
 
   return (isLoading ?
     <></>

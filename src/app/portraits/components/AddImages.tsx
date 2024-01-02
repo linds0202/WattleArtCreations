@@ -96,7 +96,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
           {files.length === 0 
             ? <p>No Files Uploaded</p>
             : files?.map((file, i) => (
-              <div key={i} className='w-5/12 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
+              <div key={i} className='w-1/3 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
                   <p className='w-10/12 h-[25px] overflow-hidden'>{file.name}</p>
                   <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
                       <DeleteForeverIcon />
