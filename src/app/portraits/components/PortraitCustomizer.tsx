@@ -415,7 +415,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             <div className='w-5/12 px-8'>
                                 <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
                                 <div className='p-3 flex justify-start items-center'>
-                                    <label className='text-[#43b4e4] text-xl font-bold text-gray-light mr-2'>
+                                    <label className='text-[#43b4e4] text-md font-bold text-gray-light mr-2'>
                                         Name your portrait:
                                     </label>
                                     <Field 
@@ -436,7 +436,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         Add Images
                                     </button>
                                     {/* {uploads.length === 0 && */}
-                                    <p className='text-[#43b4e4] text-sm font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    <p className='text-[#43b4e4] text-xs font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
                                     {/* } */}
 
                                     <div className='ml-2 flex flex-wrap'>
