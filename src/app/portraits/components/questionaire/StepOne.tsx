@@ -418,7 +418,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                             <div className="w-full h-[100%] my-4 flex items-center">
 
-                                <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px] mx-12' : 'w-[128px] h-[128px] mx-4 '} object-cover my-8 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.png`} alt='thumbnail for body style of portrait selection'/>
+                                <div className={`w-[250px] h-[100%] object-cover object-top rounded-xl`}>
+                                    <object 
+                                        type="image/svg+xml" 
+                                        data={`images/customizer/${char.bodyStyle}.svg`} 
+                                        className="w-[100%] h-[100%]"
+                                    />                             
+                                </div>
+
+
+                                {/* <img className={` ${char.bodyStyle === 'Full' ? 'w-[64px] h-[128px] mx-12' : 'w-[128px] h-[128px] mx-4 '} object-cover my-8 rounded-xl`} src={`./images/customizer/${char.bodyStyle}.svg`} alt='thumbnail for body style of portrait selection'/> */}
 
                                 <div className="h-full mx-2 flex flex-wrap">
                                     <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
