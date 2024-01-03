@@ -1051,7 +1051,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         <div className="w-[100%] h-1/3 flex flex-col">
                                             {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
                                             {values.bodyStyle !== '' && <div className="w-full h-[65%] flex flex-wrap items-start">
-                                                {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[90%]"></object>)}
+                                                {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i}.svg`} className="w-1/6 h-[90%]"></object>)}
                                             </div>}
                                         </div>
 
