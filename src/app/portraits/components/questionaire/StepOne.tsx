@@ -51,6 +51,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     const [openCharMod, setOpenCharMod] = useState(false);
     const [openAddAnimal, setOpenAddAnimal] = useState(false)
     const [openAddBackground, setOpenAddBackground] = useState(false)
+    const [openAddExtras, setOpenAddExtras] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [editCharIndex, setEditCharIndex] = useState<number>(0)
     const [discount, setDiscount] = useState<boolean>(false)
@@ -72,6 +73,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
     const [initialAnimalValues, setInitialAnimalValues] = useState({animal: 'petSmall'})
     const [initialBgValues, setInitialBgValues] = useState({})
+    const [initialExtrasValues, setInitialExtrasValues] = useState(isEdit ? {extras: portraitData.characters[editCharIndex].extras} : [])
+    const [extras, setExtras] = useState(isEdit ? portraitData.characters[editCharIndex].extras : [])
 
     const [message, setMessage] = useState('')
     const [isHovering, setIsHovering] = useState(false);
@@ -98,7 +101,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     }, [chars, animals])
 
     const handleCharSubmit = (values: MyCharValues) => {
-
         setCharVariations(false)
         setCharSheet(false)
         setWeaponSheet(false)
@@ -109,9 +111,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                         + (values.armourComplex ? prices.armourComplex : 0)
                         + (values.wings ? prices.wings : 0)
-                        + (values.extras.includes('model') ? prices.model : 0)
-                        + (values.extras.includes('character') ? prices.character : 0)
-                        + (values.extras.includes('weapons') ? prices.weapons : 0)
+                        + (extras.includes('model') ? prices.model : 0)
+                        + (extras.includes('character') ? prices.character : 0)
+                        + (extras.includes('weapons') ? prices.weapons : 0)
 
         if (isEdit) {
             if (chars.length > 1) {
@@ -121,7 +123,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         if (i === editCharIndex ) {
                             setHighPrice(totalPrice)
                             setHighestPriceIndex(i)
-                            return {...char, total: totalPrice, charDiscount: false}
+                            return {...char, extras: extras, total: totalPrice, charDiscount: false}
                         } else {
                             return {...char, charDiscount: true}
                         }
@@ -134,7 +136,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     }
                     let updateCharArr = chars.map((char, i) => {
                         if (i === editCharIndex) {
-                            return {...values, total: totalPrice}
+                            return {...values, extras: extras, total: totalPrice}
                         } else {
                             return char
                         }
@@ -145,7 +147,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 //if there's only 1 char - update the price
                 let updateCharArr = chars.map((char, i) => {
                     if (i === editCharIndex) {
-                        return {...values, total: totalPrice}
+                        return {...values, extras: extras, total: totalPrice}
                     } else {
                         return char
                     }
@@ -168,15 +170,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     }
                 })
                 if (updatedDiscount.every(char => char.charDiscount)) {
-                    setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: false}])
+                    setChars([...updatedDiscount, {...values, extras: extras, total: totalPrice, charDiscount: false}])
                 } else {
-                    setChars([...updatedDiscount, {...values, total: totalPrice, charDiscount: true}])
+                    setChars([...updatedDiscount, {...values, extras: extras, total: totalPrice, charDiscount: true}])
                 }
             } else {
                 setDiscount(false)
                 setHighPrice(totalPrice)
                 setHighestPriceIndex(0)
-                setChars([...chars, {...values, total: totalPrice}])
+                setChars([...chars, {...values, extras: extras, total: totalPrice}])
             }
         }
         setIsEdit(false)
@@ -196,6 +198,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             charDiscount: false
         })
 
+        setExtras([])
+        setInitialExtrasValues({extras: []})
+
         setOpenCharMod(true)
     }
 
@@ -204,7 +209,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
         setIsEdit(true)
         setEditCharIndex(i)
         setInitialCharValues(chars[i])
-        
+        setInitialExtrasValues({extras: chars[i].extras})
+        setExtras(chars[i].extras)
         setOpenCharMod(true)
     }
 
@@ -246,6 +252,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             setChars(deleteCharArr)
         }
     }
+
+    const handleAddExtras = (values: any) => {
+        setExtras(values.extras)
+        setInitialExtrasValues({...initialExtrasValues, extras: values.extras})
+        setOpenAddExtras(false)
+    }
+
+    console.log('extras is now: ', extras)
+    console.log("initialExtrasValues is: ", initialExtrasValues)
 
     const handleAddAnimal = (values: any) => {
         let newAnimal
@@ -337,7 +352,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 className="absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
                             /> */}
                             {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
-                        <div className="w-3/4 flex flex-col">
+                        <div className="w-full flex flex-col">
                             <h4 className='text-[#43b4e4] text-xl text-center font-bold m-0'>Add Character</h4>
                             {chars?.length !== 0 && 
                             <div className="flex flex-col">
@@ -345,31 +360,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             </div>}
                         </div>
                     </div>
-        
-                    { chars.length !==0 &&
-                    <div 
-                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
-                        onClick={() => setOpenAddAnimal(true)}
-                    >
-                        <div className="absolute -top-[50%] -left-[35px] w-[150px]">
-                            <PawSvg />
-                        </div>
-                        {/* <object 
-                            type="image/svg+xml" 
-                            data={`images/customizer/Paw_Light.svg`} 
-                            className="tester absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
-                        /> */}
-                        {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
-                        <div className="w-3/4 h-full text-center flex flex-col justify-center">
-                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
-                            <object 
-                                type="image/svg+xml" 
-                                data={`images/customizer/addAnimal.svg`} 
-                                className="w-[100%] h-[50%] object-cover object-top cursor-pointer"
-                            />
-                        </div>
-                    </div>
-                    }
                     
                     { chars.length !==0 &&
                     <div 
@@ -385,8 +375,33 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             className="absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
                         /> */}
                         {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
-                        <div className="w-3/4 text-center flex flex-col justify-center">
+                        <div className="w-full text-center flex flex-col justify-center">
                             <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Background</h4>
+                        </div>
+                    </div>
+                    }
+
+                    { chars.length !==0 &&
+                    <div 
+                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        onClick={() => setOpenAddAnimal(true)}
+                    >
+                        <div className="absolute -top-[50%] -left-[35px] w-[150px]">
+                            <PawSvg />
+                        </div>
+                        {/* <object 
+                            type="image/svg+xml" 
+                            data={`images/customizer/Paw_Light.svg`} 
+                            className="tester absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
+                        /> */}
+                        {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
+                        <div className="w-full h-full text-center flex flex-col justify-center">
+                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
+                            <object 
+                                type="image/svg+xml" 
+                                data={`images/customizer/addAnimal.svg`} 
+                                className="w-[100%] h-[50%] object-cover object-top cursor-pointer"
+                            />
                         </div>
                     </div>
                     }
@@ -430,7 +445,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     {animal.type === 'Large Pet' && <object 
                                         type="image/svg+xml" 
                                         data={categories.customizer.defaults.petLarge} 
-                                        className='w-[85px] h-[85px] object-cover object-top'
+                                        className='w-[95px] h-[95px] object-cover object-top'
                                     />}
                                     {animal.type === 'Monster/Dragon' && <object 
                                         type="image/svg+xml" 
@@ -539,11 +554,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             </div>
                         </div>
                     ))}
-                </div>
-                
-
-                
-                
+                </div>   
             </div>
             
             { chars.length !==0 && <p className='absolute bottom-2 right-4 w-full text-[#929191] text-sm text-right'>*discount applied to lowest value characters</p>}
@@ -583,7 +594,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         {values.animal === 'petLarge' && <object 
                             type="image/svg+xml" 
                             data={categories.customizer.defaults.petLarge} 
-                            className='w-[275px] h-[275px] object-cover object-top'
+                            className='w-[300px] h-[300px] object-cover object-top'
                         />}
                         {values.animal === 'petMonster' && <object 
                             type="image/svg+xml" 
@@ -686,6 +697,140 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
+
+        {/* Add Extras */}
+        <Dialog 
+            onClose={() => setOpenAddExtras(false)} 
+            open={openAddExtras} 
+            fullWidth={true}
+            maxWidth='lg'
+            PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
+        >   
+            <div className='absolute top-2 right-2 w-1/12 mb-4 flex justify-center items-center'>
+                <IconButton onClick={() => setOpenAddExtras(false)} className='absolute top-0 right-0 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
+            <Formik
+                initialValues={initialExtrasValues}
+                onSubmit={handleAddExtras}
+                >
+                {({ handleChange, values }) => (
+                <Form className="w-full flex flex-col justify-around items-center">
+                    
+                    <p className='w-full text-3xl text-center font-bold mt-0 mb-4'>
+                        Add Extra Features to your portrait
+                    </p>
+                    <div className="w-full flex justify-around items-center">
+                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                            
+                            <motion.div 
+                                className="w-[60%] h-[45%] mt-8 bg-white rounded-lg"
+                                initial={{ 
+                                    scale: 0
+                                }}
+                                animate={{ scale: 1 }}
+                                transition={{ type: "spring", duration: .5 }}    
+                            >
+                                <object type="image/svg+xml" data="images/customizer/3d.svg" className="w-full h-[70%] rounded-lg pt-4"></object>
+                                <p className="mt-4 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r pb-[10px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
+                            </motion.div>
+                            
+                            <div className="w-full h-1/3 pt-2 text-center border border-red-600">
+                                <label className="w-full"> 
+                                    <Field type="checkbox" name="extras" value="model" className='mr-2'/>
+                                    <span className='text-lg ml-2'>3D Model</span>
+                                </label>
+                                <p className="mt-2 text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</p>
+                            </div>
+                            
+                            {/* <div
+                                className="absolute -top-[30%] left-[39%] m-0 p-0"
+                                onMouseOver={() => handleMouseOver('model')}
+                                onMouseOut={handleMouseOut}
+                            >
+                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                {isHovering && message === 'model' && (
+                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                        <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</h2>
+                                    </div>
+                                )}
+                            </div> */}
+                        </div>
+                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center border border-yellow-600'>
+                            
+                            <object 
+                                type="image/svg+xml" 
+                                data="images/customizer/character_sheet.svg" 
+                                className="w-[65%] h-[90%] relative -top-[50px] rounded-lg"
+                            />    
+                            <div className="w-full h-1/3 -mt-2 text-center border border-red-600">
+                                <label className="w-full">            
+                                    <Field type="checkbox" name="extras" value="character" className='mr-2'/>
+                                    <span className='text-lg ml-2'>Character Sheet</span>
+                                </label>
+                                <p className="mt-2 text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
+                            </div>
+                            
+                            {/* <div
+                                    className="absolute -top-[30%] left-[55%] m-0 p-0"
+                                    onMouseOver={() => handleMouseOver('characterSheet')}
+                                    onMouseOut={handleMouseOut}
+                                >
+                                    <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                    {isHovering && message === 'characterSheet' && (
+                                        <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
+                                            <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
+                                        </div>
+                                    )}
+                                </div> */}
+                        </div>
+                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                            
+                            <object 
+                                type="image/svg+xml" 
+                                data="images/customizer/weapons_sheet.svg" 
+                                className="w-[65%] h-[90%] relative -top-[45px] rounded-lg"
+                            />  
+                            <div className="w-full h-1/3 text-center border border-red-600">
+                                <label className="w-full">   
+                                    <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
+                                    <span className='text-lg ml-2'>Weapons Sheet</span>
+                                </label>
+                                <p className="mt-2 text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</p>
+                            </div>
+                       
+                            {/* <div
+                                className="absolute -top-[30%] left-[55%] m-0 p-0"
+                                onMouseOver={() => handleMouseOver('weaponSheet')}
+                                onMouseOut={handleMouseOut}
+                            >
+                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                {isHovering && message === 'weaponSheet' && (
+                                    <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
+                                        <h2 className="text-white text-md text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
+                                    </div>
+                                )}
+                            </div> */}
+                        </div>
+                    </div>
+
+                        
+
+                        <button 
+                            type="submit" 
+                            className='w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                        >
+                            Add Extras
+                        </button> 
+  
+                </Form>
+                )}
+            </Formik>
+        </Dialog>
+
+
+
         {/* Character Selections Modal*/}
         <Dialog 
             onClose={() => setOpenCharMod(false)} 
@@ -700,7 +845,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </IconButton>
             </div>
 
-            <div className="w-full h-full">
+            <div className="w-full h-[90vh]">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
@@ -710,25 +855,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
-                            
-                            {/* {values.bodyStyle === "" &&
-                                <div className='absolute -top-[25%] left-0 w-1/6 h-auto mt-8 rounded-xl flex flex-col justify-center'>
-                                    <p className="text-3xl font-bold text-[#43b4e4]">Start Here!</p>
-                                    <p className="font-bold">Choose a body style to start customizing</p>
-                                    <motion.img 
-                                        src="/images/customizer/arrow-left.png" 
-                                        alt="arrow pointing to add character button"
-                                        className="absolute top-2 left-[55%] w-[128px] h-[128px] object-cover"
-                                        initial={{ rotate: -25, scale: 1 }}
-                                        animate={{ scale: 1.1 }}
-                                        transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
-                                    >
-                                    </motion.img>
-                                </div>
-                            } */}
-
-
-                            <div className="w-1/5">
+                            <div className="w-1/5 h-[80%] flex flex-col justify-between">
                                 <div className='w-full flex justify-between items-end mb-4'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
@@ -914,53 +1041,62 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
 
                                 {/* Additional Character attributes */}
-                                <div className='w-full flex flex-col justify-between mb-3'>
-                                    <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p>
-                                    <div className="w-full flex">
-                                        <div className='relative w-1/2 flex justify-between items-end mb-2'>
-                                            <label>
-                                                <Field type="checkbox" name="wings" className='mr-2'/>
-                                                <span className='text-lg ml-2'>Add Wings</span>
-                                            </label>
-                                            <div
-                                                className="absolute -top-4 right-0 m-0 p-0"
-                                                onMouseOver={() => handleMouseOver('wings')}
-                                                onMouseOut={handleMouseOut}
-                                            >
-                                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                                {isHovering && message === 'wings' && (
-                                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                        <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold"> Add Wings</span></h2>
-                                                    </div>
-                                                )}
+                                {/* <div className='w-full flex flex-col justify-between mb-3'> */}
+                                    {/* <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p> */}
+                                    {/* <div className="w-full flex"> */}
+                                <div className='relative w-full mb-2'>
+                                    <label>
+                                        <Field type="checkbox" name="wings" className='mr-2'/>
+                                        <span className='text-lg font-semibold ml-2'>Add Wings</span>
+                                    </label>
+                                    <div
+                                        className="absolute -top-2 left-[40%] m-0 p-0"
+                                        onMouseOver={() => handleMouseOver('wings')}
+                                        onMouseOut={handleMouseOut}
+                                    >
+                                        <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                        {isHovering && message === 'wings' && (
+                                            <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                                <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold"> Add Wings</span></h2>
                                             </div>
-                                        </div>
-                                        
-                                        <div className='relative w-1/2 flex justify-between items-center mb-2'>
-                                            <label>
-                                                <Field type="checkbox" name="armourComplex" className='mr-2'/>
-                                                <span className='text-lg ml-2'>Add Armour</span>
-                                            </label>
-                                            <div
-                                                className="absolute -top-4 right-0 m-0 p-0"
-                                                onMouseOver={() => handleMouseOver('armour')}
-                                                onMouseOut={handleMouseOut}
-                                            >
-                                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                                {isHovering && message === 'armour' && (
-                                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                                        <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold">Add Armour</span></h2>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>    
+                                        )}
                                     </div>
+                                </div>
+                                
+                                <div className='relative w-full mb-2'>
+                                    <label>
+                                        <Field type="checkbox" name="armourComplex" className='mr-2'/>
+                                        <span className='text-lg font-semibold ml-2'>Add Armour</span>
+                                    </label>
+                                    <div
+                                        className="absolute -top-2 left-[45%] m-0 p-0"
+                                        onMouseOver={() => handleMouseOver('armour')}
+                                        onMouseOut={handleMouseOut}
+                                    >
+                                        <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
+                                        {isHovering && message === 'armour' && (
+                                            <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                                <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold">Add Armour</span></h2>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>    
+                                    {/* </div> */}
                                     
-                                </div>              
+                                {/* </div>      */}
+
+                                <div>
+                                    <div 
+                                        onClick={() => setOpenAddExtras(true)}
+                                        className='w-4/5 mx-auto mt-8 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
+                                    >
+                                        Add Extras
+                                    </div>
+                                </div>         
 
 
                                 {/* Extras */}
-                                <p className='text-lg mr-4 mb-0 font-semibold'>Extras:</p>
+                                {/* <p className='text-lg mr-4 mb-0 font-semibold'>Extras:</p>
                                 <div className='relative ml-4 mt-2 w-full flex justify-between items-end mb-2'>
                                     <label>
                                         <Field type="checkbox" name="extras" value="model" className='mr-2'/>
@@ -1014,7 +1150,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
                                         )}
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -1031,7 +1167,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
 
                                 <div className="w-full h-1/2 flex justify-between items-stretch">
-                                    <div className={`${values.bodyStyle === "" ? "border border-[#282828]" : ""} w-[250px] h-[100%] object-cover object-top rounded-xl`}>
+                                    <div className={`w-[250px] h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto ml-4 object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
                                         <motion.object 
                                             type="image/svg+xml" 
@@ -1079,7 +1215,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>
 
                                             <div className="w-7/12 h-full">
-                                                <div className="w-full h-full flex flex-col items-center">
+                                                <div className="w-full h-full flex flex-col justify-center items-center">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
                                                     {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/armour.svg`} className="w-[100%] h-[100%]" />
@@ -1115,11 +1251,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                                 
 
-                                <div className="h-[175px] mt-4 flex items-start">
+                                <div className="h-[175px] ml-6 mt-4 flex items-start">
 
-                                    {values.extras.includes("model") && 
+                                    {extras.includes("model") && 
                                      <motion.div 
-                                        className="w-[150px] h-[165px] pb-2 mr-12 bg-white rounded-lg"
+                                        className="w-[150px] h-[165px] pb-2 mr-20 bg-white rounded-lg"
                                         initial={{ 
                                             scale: 0
                                         }}
@@ -1130,11 +1266,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         <p className="mt-8 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                                     </motion.div>}
 
-                                    {values.extras.includes("character") && 
-                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[50px] w-[175px] h-[225px] rounded-lg"></object>
+                                    {extras.includes("character") && 
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[50px] w-[175px] h-[225px] rounded-lg mr-20"></object>
                                     }
 
-                                    {values.extras.includes("weapons") && 
+                                    {extras.includes("weapons") && 
                                         <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative -top-[57px] w-[175px] h-[225px] rounded-lg"></object>    
                                     }
                                 </div>
@@ -1173,17 +1309,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p className="">Wings</p>
                                             <p>${values.wings ? prices.wings.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
-                                        {values.extras.includes("model") && <div className="flex justify-between items-center">
+                                        {extras.includes("model") && <div className="flex justify-between items-center">
                                             <p className="">3D model</p>
-                                            <p>${values.extras.includes('model') ? prices.model.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('model') ? prices.model.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
-                                        {values.extras.includes("character") && <div className="flex justify-between items-center">
+                                        {extras.includes("character") && <div className="flex justify-between items-center">
                                             <p className="">Character Sheet</p>
-                                            <p>${values.extras.includes('character') ? prices.character.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('character') ? prices.character.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
-                                        {values.extras.includes("weapons") &&  <div className="flex justify-between items-center">
+                                        {extras.includes("weapons") &&  <div className="flex justify-between items-center">
                                             <p className="">Weapons Sheet</p>
-                                            <p>${values.extras.includes('weapons') ? prices.weapons.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('weapons') ? prices.weapons.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
                                     </div>
                                     
@@ -1198,9 +1334,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                                     + (values.armourComplex ? prices.armourComplex : 0)
                                                     + (values.wings ? prices.wings : 0)
-                                                    + (values.extras.includes('model') ? prices.model : 0)
-                                                    + (values.extras.includes('character') ? prices.character : 0)
-                                                    + (values.extras.includes('weapons') ? prices.weapons : 0)).toFixed(2)}
+                                                    + (extras.includes('model') ? prices.model : 0)
+                                                    + (extras.includes('character') ? prices.character : 0)
+                                                    + (extras.includes('weapons') ? prices.weapons : 0)).toFixed(2)}
                                             </span>
                                         </p>
                                     </div> 
@@ -1215,9 +1351,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                             + (values.armourComplex ? prices.armourComplex : 0)
                                             + (values.wings ? prices.wings : 0)
-                                            + (values.extras.includes('model') ? prices.model : 0)
-                                            + (values.extras.includes('character') ? prices.character : 0)
-                                            + (values.extras.includes('weapons') ? prices.weapons : 0)) * .1).toFixed(2)}</p>
+                                            + (extras.includes('model') ? prices.model : 0)
+                                            + (extras.includes('character') ? prices.character : 0)
+                                            + (extras.includes('weapons') ? prices.weapons : 0)) * .1).toFixed(2)}</p>
                                         </div>
                                         <div className="self-end w-9/12 flex justify-between items-center">
                                             <p className="w-1/4 text-xl font-bold">Total: </p>
@@ -1227,9 +1363,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                             + (values.armourComplex ? prices.armourComplex : 0)
                                             + (values.wings ? prices.wings : 0)
-                                            + (values.extras.includes('model') ? prices.model : 0)
-                                            + (values.extras.includes('character') ? prices.character : 0)
-                                            + (values.extras.includes('weapons') ? prices.weapons : 0)) * .9).toFixed(2)}
+                                            + (extras.includes('model') ? prices.model : 0)
+                                            + (extras.includes('character') ? prices.character : 0)
+                                            + (extras.includes('weapons') ? prices.weapons : 0)) * .9).toFixed(2)}
                                             </span></p>
                                         </div>         
                                     </>}

@@ -217,7 +217,6 @@ const Portfolio = () => {
                 setImgSizeMsg('w-265px h-215px')
                 break;
             case 6:
-                console.log('in 6: ', userData?.artistImgs.imgBucket6)
                 if(userData?.artistImgs?.imgUrl6) {
                     setUpdateImg(userData.artistImgs.imgBucket6) 
                 } else {
@@ -226,13 +225,12 @@ const Portfolio = () => {
                 setImgSizeMsg('w-265px h-215px')
                 break;
             case 7:
-                console.log('in 7: ', userData?.artistImgs.imgBucket7)
                 if(userData?.artistImgs?.imgUrl7) {
                     setUpdateImg(userData.artistImgs.imgBucket7) 
                 } else {
                     setUpdateImg('')
                 }
-                setImgSizeMsg('w-265px h-215px')
+                setImgSizeMsg('w-600px h-420px')
                 break;
             default:
                 break
@@ -305,7 +303,7 @@ const Portfolio = () => {
                                         className={`w-[40%] h-[300px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-black cursor-pointer' : ''}`}
                                         onClick={() => handleEditImg(7)}
                                     >
-                                        <img src={userData?.artistImgs.imgUrl7.length ? userData?.artistImgs.imgUrl7 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl7.length ? 'w-[100%] h-[100%] object-contain': 'w-[100%] h-[100%] bg-black/50'}`} />
+                                        <img src={userData?.artistImgs.imgUrl7.length ? userData?.artistImgs.imgUrl7 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl7.length ? 'w-[100%] h-[100%] object-cover': 'w-[100%] h-[100%] bg-black/50'}`} />
                                     </div>
                                     <div className='ml-4 pb-10 flex flex-col justify-between'>
                                         <p className='text-black text-2xl text-center'>Upload Images</p>

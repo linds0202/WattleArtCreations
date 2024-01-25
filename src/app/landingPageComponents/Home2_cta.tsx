@@ -5,35 +5,12 @@ import { ModeProps } from "./Home1";
 import { useCategoriesContext } from '../context/CategoriesContext'
 import Link from "next/link";
 
+
 const Home1_cta = ({ setMode, mode }: ModeProps) => {
     const { categories } = useCategoriesContext()
-    // const type1 = [
-    //         '/images/photoImgs/photo1.png',
-    //         '/images/photoImgs/photo2.png',
-    //         '/images/photoImgs/photo3.png',
-    //         '/images/photoImgs/photo4.jpg',
-    //         '/images/photoImgs/photo5.jpg',
-    //         '/images/photoImgs/photo6.jpg',
-    //         '/images/photoImgs/photo7.jpg',
-    //         '/images/photoImgs/photo8.png',
-    //         '/images/photoImgs/photo9.jpg',
-    //     ]
-    // const type2 =  [
-    //         '/images/animeImgs/anime1.png',
-    //         '/images/animeImgs/anime2.jpg',
-    //         '/images/animeImgs/anime3.png',
-    //         '/images/animeImgs/anime4.png',
-    //         '/images/animeImgs/anime5.png',
-    //         '/images/animeImgs/anime6.png',
-    //         '/images/animeImgs/anime7.png',
-    //         '/images/animeImgs/anime8.png',
-    //         '/images/animeImgs/anime9.png',
-    //         '/images/animeImgs/anime10.png',
-    //     ]
 
     return (
         <div id='cta' className="relative h-full pt-8 mb-60 bg-black">
-            {/* <img src="/images/cta/cta3.png" className="absolute -top-3 left-0 z-10"/> */}
             <object type="image/svg+xml" data="images/cta/cta_1.svg" className="absolute top-0 left-0 w-[75%] z-10"></object> 
 
             <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 -left-[10%] w-[120%] h-[110vh]"></object>  
@@ -41,14 +18,14 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
             <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-[73%] -left-[10%] w-[110%] h-[110vh]"></object>          
            
             <div className="flex flex-col">
-                <div className="mt-[15%] w-7/12 self-center ml-[30%] z-10">
-                    <p className="font-serif text-8xl font-bold mb-8">Choose Your Style</p>
-                    <p className="w-11/12 mt-8 text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat nulla, laoreet vitae sollicitudin eget, condimentum id magna. Aenean rhoncus viverra massa, eu placerat ex rutrum nec. Etiam lobortis nisl vel justo porttitor sollicitudin. Ut et ligula at sapien efficitur consequat. Suspendisse ullamcorper malesuada quam, non fermentum metus fermentum accumsan. </p>
+                <div className="mt-[15%] w-11/12 lg:w-7/12 self-end lg:self-center lg:ml-[30%] z-10">
+                    <p className="w-7/12 md:w-1/2 lg:w-full mx-auto font-serif text-5xl text-right lg:text-left lg:text-8xl font-bold mb-8">Choose Your Style</p>
+                    <p className="w-11/12 md:w-2/3 lg:w-11/12 md:ml[15%] lg:ml-0 mt-8 md:mt-20 lg:mt-8 text-xl text-center lg:text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat nulla, laoreet vitae sollicitudin eget, condimentum id magna. Aenean rhoncus viverra massa, eu placerat ex rutrum nec. Etiam lobortis nisl vel justo porttitor sollicitudin. Ut et ligula at sapien efficitur consequat. Suspendisse ullamcorper malesuada quam, non fermentum metus fermentum accumsan. </p>
                 </div>
 
-                <div className="relative w-10/12 mt-32 self-end flex justify-around items-center">
+                <div className="relative w-11/12 mx-auto mt-8 lg:w-10/12 lg:mt-32 lg:self-end flex flex-col lg:flex-row justify-around items-center">
 
-                    <div className="w-[450px] h-[500px] object-cover rounded-xl z-5">
+                    <div className="w-[100%] h-[60%] md:max-w-[500px] md:max-h-[600px] lg:w-[450px] lg:h-[500px] object-cover rounded-xl z-5">
                         
                         <Carousel
                             showArrows={true} 
@@ -77,50 +54,37 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                         </Carousel>
                     </div>
 
-                    <div className="w-1/2 z-50">
+                    <div className="w-11/12 lg:w-1/2 lg:pl-4 xl:pl-0 z-50">
                         <p className="font-serif mt-4 text-4xl font-bold">{categories.cat1.type}</p>
-                        <p className="w-10/12 text-xl font-light mt-8">{categories.cat1.copy.homeBlurb}</p>
-                        {/* <div
-                            className='w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
-                            onClick={() => setMode(`cat1`)}
-                        >
-                            Customize
-                        </div> */}
+                        <p className="w-full xl:w-10/12 text-xl font-light mt-4 lg:mt-8">{categories.cat1.copy.homeBlurb}</p>
                         <Link href={{
                             pathname: '/',
                             query: {selection: 'cat1'},
                             }} 
-                            className='block w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl no-underline cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
-                            // className="text-xl no-underline text-center hover:text-cyan-600"
+                            className='block w-full lg:w-full xl:w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl no-underline cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                         >
                             Customize
                         </Link>
                     </div>
                 </div>
 
-                <div className="relative w-10/12 mt-32 ml-20 self-start flex justify-around items-center">
+                <div className="relative w-11/12 mx-auto mt-20 lg:w-10/12 lg:mt-32 lg:ml-20 lg:self-start flex flex-col-reverse lg:flex-row justify-around items-center">
                  
-                    <div className="w-1/2">
-                        <p className="font-serif text-4xl font-bold">{categories.cat2.type}</p>
-                        <p className="text-xl font-light mt-8">{categories.cat2.copy.homeBlurb}</p>
-                        {/* <div
-                            className='w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
-                            onClick={() => setMode(`cat2`)}
-                        >
-                            Customize
-                        </div> */}
+                    <div className="w-11/12 lg:w-1/2 lg:pr-4">
+                        <p className="font-serif mt-4 text-4xl font-bold">{categories.cat2.type}</p>
+                        <p className="text-xl font-light mt-4 lg:mt-8">{categories.cat2.copy.homeBlurb}</p>
                         <Link href={{
                             pathname: '/',
                             query: {selection: 'cat2'},
                             }} 
-                            className='block w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl no-underline cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='block w-full lg:w-full xl:w-1/3 mt-8 py-2 px-4 font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl no-underline cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             // className="text-xl no-underline text-center hover:text-cyan-600"
                         >
                             Customize
                         </Link>
                     </div>
                     
-                    <div className="w-[450px] max-h-[500px] rounded-xl">
+                    <div className="w-[100%] h-[60%] md:max-w-[500px] md:max-h-[600px] lg:w-[450px] lg:h-[500px] rounded-xl">
                         <Carousel
                             showArrows={true} 
                             showThumbs={false} 
@@ -150,9 +114,16 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                  
                 </div>
 
-                <div className="relative w-10/12 mt-32 mr-20 self-end flex justify-around items-center">
-                    <div className="w-full">
-                        <img src={`${categories.cat3.pics.homeCarousel}`} className=""  />
+                <div className="relative w-11/12 mx-auto mt-20 lg:w-10/12 lg:mt-32 lg:mr-20 lg:self-end flex flex-col lg:flex-row justify-around items-center">
+                    {/* <div className="w-full"> */}
+                        <picture>
+                            <source srcSet={`${categories.cat3.pics.homeCarousel}`}
+                                    media="(min-width: 1024px)"/>
+                            <source srcSet={`${categories.cat3.pics.homeCarouselMedium}`}
+                                    media="(min-width: 768px)"/>
+                            <img src={`${categories.cat3.pics.homeCarouselMobile}`} alt="" />
+                        </picture>
+                        {/* <img src={`${categories.cat3.pics.homeCarousel}`} className=""  /> */}
                         {/* <div
                             className='absolute bottom-[23%] left-[43.5%] w-1/6 mt-8 py-2 px-4 rounded-xl text-black text-center text-2xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             onClick={() => setMode(`cat3`)}
@@ -163,12 +134,12 @@ const Home1_cta = ({ setMode, mode }: ModeProps) => {
                             pathname: '/',
                             query: {selection: 'cat3'},
                             }} 
-                            className='absolute bottom-[23%] left-[43.5%] w-1/6 mt-8 py-2 px-4 rounded-xl text-black text-center text-2xl font-bold no-underline bg-gradient-to-r from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            className='lg:absolute lg:bottom-[23%] lg:left-[43.5%] w-full lg:w-1/6 mt-8 py-2 px-4 rounded-xl text-black text-center text-2xl font-bold no-underline bg-gradient-to-r from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                             // className="text-xl no-underline text-center hover:text-cyan-600"
                         >
                             Customize
                         </Link>
-                    </div>
+                    {/* </div> */}
                 </div>
 
             </div>        
