@@ -11,15 +11,15 @@ export default function Footer(){
     const currentUrl = usePathname()
     // footer add into classes on line 16
     return (
-        <div className={`relative w-[100%] h-[50vh] pt-[5%] bg-gradient-to-b from-black from-55% via-[#282828] via-60% to-black to-65% overflow-clip `}>
+        <div className={`relative w-[100%] h-[60vh] md:h-[50vh] lg:h-[60vh] xl:h-[50vh] pt-[5%] pb-12 bg-gradient-to-b from-black from-65% md:from-45% lg:from-20% xl:from-55% via-[#282828]  via-70% md:via-50% lg:via-25% xl:via-60% to-black to-75% md:to-55% lg:to-30% xl:to-65% overflow-clip`}>
         
-            <object type="image/svg+xml" data="/images/footer_drips_dark.svg" className="absolute bottom-[10%] left-[15%] w-[70%] h-auto -z-1"></object>
-            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute bottom-0 left-0 w-[100%] h-auto -z-1"></object>
+            <object type="image/svg+xml" data="/images/footer_drips_dark.svg" className="absolute bottom-[5%] md:bottom-[20%] lg:bottom-[40%] left-[20%] xl:bottom-[10%] xl:left-[15%] w-[60%] xl:w-[70%] h-[60%] md:h-[100%] object-contain -z-1"/>
+            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute -bottom-[40%] md:bottom-0 lg:bottom-[25%] xl:-bottom-2 left-0 w-[100%] h-[125%] md:h-[100%] object-contain -z-1"/>
 
             {/* {(currentUrl === '/' || currentUrl === '/corporate')  */}
             <div className='w-full z-30'>
                 
-                <div className='w-1/2 mx-auto flex justify-between z-40'>
+                <div className='w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto flex flex-col md:flex-row md:justify-between items-center z-40'>
                     <Link 
                         href={{
                             pathname: '/',
@@ -27,16 +27,9 @@ export default function Footer(){
                             }} 
                         className='flex justify-between items-center no-underline z-50'
                     >
-                        <div className='w-10/12 flex items-center'>
+                        <div className='w-11/12 mx-auto xl:w-10/12 flex items-center'>
                             <div className='w-[128px] h-auto'>
                                 <img src={'/images/Logo_Circle.png'} alt={'logo'} />
-                                {/* <Image 
-                                    src={Logo} 
-                                    alt="small Wattle Art Creations logo"
-                                    fill
-                                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                                    priority={true}  
-                                /> */}
                             </div>
                             <div className='flex flex-col'>
                                 <p className='font-semibold text-2xl mb-0 text-white no-underline'>Wattle Art Creations</p>
@@ -46,13 +39,13 @@ export default function Footer(){
                         </div>
                     </Link>
 
-                    <div className='text-white w-1/4 flex flex-col justify-center z-40'>
+                    <div className='text-white w-1/2 md:w-1/4 my-4 md:my-0 text-center md:text-left flex flex-col justify-center z-40'>
                         <p className='text-xl font-bold mb-[4px] hover:underline hover:cursor-pointer z-50'>Contact</p>
                         <p className='text-lg font-semibold mb-[4px]  hover:underline hover:cursor-pointer z-50'>Terms of Service</p>
                         <p className='text-lg font-semibold hover:underline hover:cursor-pointer z-50'>FAQ</p>
                     </div>
                     
-                    <div className='text-white w-1/4 flex flex-col justify-center z-50'>
+                    <div className='text-white w-1/2 md:w-1/4 text-center md:text-left flex flex-col justify-center z-50'>
                         <p className='mb-0 text-xl'>Follow us:</p>
                         <div className='flex mt-2'>
                             <SocialIcon url="https://www.instagram.com/wattleartcreations/" target="_blank" fgColor={'#FFFFFF'} style={{width: '50px', height: '50px', marginRight: 15}} className='hover:scale-125 transition ease-in-out duration-300'/>

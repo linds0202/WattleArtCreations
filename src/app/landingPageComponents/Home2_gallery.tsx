@@ -11,7 +11,7 @@ const Home2_gallery = () => {
     const { categories } = useCategoriesContext()
     return (
         <div className="relative w-[100%] h-[150vh] md:h-[70vh] lg:h-[50vh] xl:h-[100vh]">
-            <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 -left-[25%] lg:left-0 w-[400%] md:w-[150%] lg:w-full h-[200vh] md:h-[200%] lg:h-full xl:h-[110vh] object-cover -z-9"/>
+            <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 md:-top-[15%] lg:top-0 -left-[25%] lg:left-0 w-[350%] md:w-[250%] lg:w-full h-[200vh] md:h-[200%] lg:h-full xl:h-[110vh] object-cover -z-9"/>
             <div className="mb-10 text-white text-center">
                 <p
                     className="font-serif text-8xl font-bold mb-4"

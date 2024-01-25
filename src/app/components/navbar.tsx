@@ -163,7 +163,7 @@ export default function NavBar() {
           className='flex justify-between items-center no-underline'
         > */}
         {/* <div onClick={handleHome} className='cursor-pointer flex justify-between items-center'> */}
-          <div className='relative w-[64px] h-[64px] object-cover'>
+          <div className='relative w-[48px] h-[48px] lg:w-[64px] lg:h-[64px] object-cover'>
               <Image 
                 src={Logo} 
                 alt="small Wattle Art Creations logo" 
@@ -172,7 +172,7 @@ export default function NavBar() {
                 priority={true}  
               />
             </div>
-            <p className='text-white text-2xl m-0'>Wattle Art Creations</p>
+            <p className='text-white text-lg xl:text-2xl m-0'>Wattle Art Creations</p>
           {/* </div> */}
         {/* </Link> */}
       </div>
@@ -186,7 +186,7 @@ export default function NavBar() {
                   pathname: '/',
                   query: {selection: 'cat1'},
                   }} 
-              className="text-xl no-underline text-center hover:text-cyan-600"
+              className="text-lg lg:text-xl no-underline text-center hover:text-cyan-600"
           >
               {categories.cat1.type}
           </Link>
@@ -194,13 +194,13 @@ export default function NavBar() {
                   pathname: '/',
                   query: {selection: 'cat2'},
                   }} 
-              className="text-xl no-underline text-center hover:text-orange-600"
+              className="text-lg lg:text-xl no-underline text-center hover:text-orange-600"
           >
               {categories.cat2.type}
           </Link>
           <button 
             onClick={handleOldEnough}
-            className="text-xl no-underline text-center hover:text-violet-600"
+            className="text-lg lg:text-xl no-underline text-center hover:text-violet-600"
           >
             {categories.cat3.type}
           </button>
@@ -210,13 +210,13 @@ export default function NavBar() {
         {(authUser && authUser?.roles !== 'Customer') && 
           <div className={`${authUser?.roles === 'Artist' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-between items-center`}>
             <div className='pr-4'>
-              <Link href='/portraitQueue' className='text-white text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
+              <Link href='/portraitQueue' className='text-white text-lg lg:text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
             </div>
             <div className='pr-4'>
-              <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-xl no-underline hover:text-orange-600'>Dashboard</Link>
+              <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-lg lg:text-xl no-underline hover:text-orange-600'>Dashboard</Link>
             </div>
             <div className=''>
-              <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
+              <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-lg lg:text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
             </div>
           </div>
         }
@@ -271,31 +271,40 @@ export default function NavBar() {
 
       <div className='w-4/12 flex justify-end items-center '>
         {authUser?.roles === 'Customer' && 
-        <p className='text-white pr-4'>{authUser?.displayName}</p>}
+        <p className='text-xs lg:text-base text-white pr-4'>{authUser?.displayName}</p>}
         
         {authUser?.roles === 'Artist' && 
-        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-sm lg:text-base text-white no-underline pr-4'>{authUser?.displayName}</Link>}
         
-        <Link href={`/artistDashboard/`} className='text-white no-underline pr-4'>Artists</Link>
+        <Link href={`/artistDashboard/`} className='text-xs lg:text-base text-white no-underline pr-4'>Artists</Link>
         
-        {!authUser && <button
-              onClick={() => setLogin(true)}>
-                Login / Register
+        {!authUser && 
+        <button
+          onClick={() => setLogin(true)}
+          className='text-xs lg:text-base'
+        >
+            Login / Register
         </button>}
 
 
          
         <>
           {authUser?.roles === 'Admin' && <div className='pr-4'>
-            <Link href={'/admin'} className='text-white no-underline'>Admin Dashboards</Link>
+            <Link href={'/admin'} className='text-xs lg:text-base selection:text-white no-underline'>Admin Dashboards</Link>
           </div>}
           {(authUser?.roles === 'Customer' || authUser?.roles === 'admin') && <div className='pr-4'>
-            <Link href={`/dashboard/${authUser.uid}`} className='text-white no-underline'>Dashboard</Link>
+            <Link href={`/dashboard/${authUser.uid}`} className='text-xs lg:text-base text-white no-underline'>Dashboard</Link>
           </div>}
     
-          {authUser && <button onClick={signOut}>Logout</button>}
+          {authUser && 
+          <button 
+            onClick={signOut}
+            className='text-xs lg:text-base'
+          >
+            Logout
+          </button>}
           
-          <div className='pl-4'>
+          <div className='pl-2 lg:pl-4'>
             <Link 
               // href={'/portraits'} 
               href={{
@@ -305,7 +314,7 @@ export default function NavBar() {
               className='text-white no-underline'
               title='Select cancel portrait to return to cart. Progress will be lost'
             >
-              <div className='relative w-[32px] h-[32px] object-cover'>  
+              <div className='relative w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] object-cover'>  
                 <Image 
                   className=''
                   src={Bag} 
@@ -315,7 +324,7 @@ export default function NavBar() {
                   priority={true}  
                 />
                 {cartLength && 
-                  <div className='rounded-full w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
+                  <div className='rounded-full w-3 lg:w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
                     <p>{`${cartLength}`}</p>
                   </div>
                 }
