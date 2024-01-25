@@ -28,12 +28,12 @@ const Home2_testimonials = () => {
     }
 
     return (
-        <div className="relative w-full h-[125vh] lg:h-[80vh] xl:h-[125vh] mt-10 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#282828] from-20% via-[#282828] via-35% to-black to-60% pt-28">
-            <img src="/images/drips/personal_underHang.png" className="absolute -top-10 left-0"/>
+        <div className="relative w-full h-[125vh] md:h-[70vh] lg:h-[80vh] xl:h-[125vh] mt-10 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#282828] from-20% via-[#282828] via-35% to-black to-60% pt-28">
+            <img src="/images/drips/personal_underHang.png" className="absolute -top-12 lg:-top-10 left-0"/>
        
-            <object type="image/svg+xml" data="images/past_commissions.svg" className="w-10/12 lg:w-2/3 mx-auto -mt-8 md:mt-10"></object>
+            <object type="image/svg+xml" data="images/past_commissions.svg" className="w-10/12 lg:w-2/3 mx-auto -mt-8 md:mt-0 lg:mt-10 xl:mt-16"></object>
         
-            <div className="w-11/12 mx-auto mt-10 lg:mt-20 flex justify-around items-start md:items-center">
+            <div className="w-11/12 mx-auto mt-10 lg:mt-20 xl:mt-24 flex justify-around items-start md:items-center">
                 <div 
                     className="w-1/12 mt-[300px] md:mt-0 object-cover hover:scale-110 cursor-pointer flex justify-end"
                     onClick={handlePrev}
@@ -60,7 +60,7 @@ const Home2_testimonials = () => {
                 </div>
             </div>
 
-            <div className="absolute bottom-[10%] right-[50%] md:bottom-[5%] md:right-[60%] lg:bottom-0 lg:right-[20%]">
+            <div className="absolute bottom-[10%] right-[50%] md:bottom-0 md:right-[30%] lg:bottom-0 lg:right-[20%]">
                 <motion.div
                     className="relative w-[150px] h-[150px] md:w-[175px] md:h-[175px] rounded-xl z-[20]"
                     whileHover={{
@@ -92,7 +92,7 @@ const Home2_testimonials = () => {
                 </motion.div>
             </div>
         
-            <div className="absolute bottom-[5%] right-[20%] md:bottom-[15%] md:right-[20%] lg:bottom-[15%] lg:right-[5%]">
+            <div className="absolute bottom-[5%] right-[20%] md:-bottom-[5%] md:right-[10%] lg:bottom-[15%] lg:right-[5%] z-10">
                 <motion.div
                     className="relative w-[75px] h-[75px] md:w-[150px] md:h-[150px] rounded-xl"
                     whileHover={{

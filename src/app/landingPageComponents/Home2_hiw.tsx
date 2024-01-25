@@ -19,13 +19,13 @@ const Home2_hiw = () => {
 
 
   return (
-    <div className='relative w-full lg:mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
+    <div className='relative w-full h-full lg:mt-32 pb-10 flex flex-col items-center text-white bg-gradient-to-b from-black from-40% to-[#282828] to-90%'>
         
-        <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 left-0 w-[100%] h-[100%]"/>
+        <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-[25%] -left-[35%] md:-top-[10%] md:-left-[40%] lg:top-0 lg:left-0 w-[500%] h-[175vh] md:w-[160%] md:h-[125%] lg:w-[100%] lg:h-[100%] object-cover md:object-none"/>
         
         <div className='w-full z-10'>
 
-            <div className="absolute -top-36 right-[70%] md:-top-[17%] md:right-[65%] lg:-top-[40%] lg:right-[60%] xl:top-0 xl:right-[10%]">
+            <div className="absolute -top-36 right-[70%] md:-top-[30%] md:right-[65%] lg:-top-[40%] lg:right-[60%] xl:-top-[10%] xl:right-[15%]">
                 <motion.div
                     className="relative w-[75px] h-[75px] md:w-[150px] md:h-[150px] rounded-xl"
                     whileHover={{
@@ -57,7 +57,7 @@ const Home2_hiw = () => {
                 </motion.div>
             </div>
         
-            <div className="absolute -top-28 right-[15%] md:-top-[15%] md:right-[15%] lg:-top-[30%] lg:right-[20%] xl:top-[10%] xl:right-[3%]">
+            <div className="absolute -top-28 right-[15%] md:-top-[25%] md:right-[15%] lg:-top-[30%] lg:right-[20%] xl:top-[5%] xl:right-[3%]">
                 <motion.div
                     className="relative w-[125px] h-[125px] md:w-[200px] md:h-[200px] rounded-xl"
                     whileHover={{
@@ -170,7 +170,7 @@ const Home2_hiw = () => {
             </div>
             
             <div 
-                    className='w-10/12 md:w-3/4 lg:w-1/2 mx-auto mt-10 md:mt-8 py-2 px-4 rounded-xl text-white text-center text-4xl md:shadow-[0_0_40px_-5px_rgba(255,255,255,0.6)] bg-[#03568c] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                    className='w-10/12 md:w-3/4 lg:w-1/2 mx-auto mt-6 md:mt-8 py-2 px-4 rounded-xl text-white text-center text-4xl md:shadow-[0_0_40px_-5px_rgba(255,255,255,0.6)] bg-[#03568c] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                     onClick={() => scrollIntoTheView('cta')}
                 >
                     Start Customizing
