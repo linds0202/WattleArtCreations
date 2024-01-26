@@ -19,7 +19,7 @@ const Home2_hero = () => {
     const { categories } = useCategoriesContext()
 
     return (
-        <div className="relative w-[100%] h-[90vh] md:h-[120vh] lg:h-[100vh] bg-black flex justify-center pt-24"> 
+        <div className="relative w-[100%] h-[90vh] md:h-[120vh] lg:h-[100vh] bg-black flex justify-center pt-24 mb-36 md:mb-00"> 
             
             {/* <object type="image/svg+xml" data="images/white_dots.svg" className="absolute -top-[15%] left-0 w-[100%] h-auto"/>
             <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[20%] left-0 w-[100%] h-auto"/>
@@ -34,7 +34,7 @@ const Home2_hero = () => {
                 </h1>
                 <p className="text-2xl text-center mt-4">{categories.home.tagline}</p>
                 <div 
-                    className='w-10/12 md:w-3/4 xl:w-1/2 mx-auto mt-10 md:mt-8 py-2 px-4 rounded-xl text-white text-center text-4xl xl:shadow-[0_0_40px_-5px_rgba(255,255,255,0.6)] bg-[#03568c] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                    className='w-10/12 md:w-3/4 xl:w-1/2 mx-auto mt-10 md:mt-8 py-2 px-4 rounded-xl text-white text-center text-2xl md:text-4xl xl:shadow-[0_0_40px_-5px_rgba(255,255,255,0.6)] bg-[#03568c] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
                     onClick={() => scrollIntoTheView('cta')}
                 >
                     Start Customizing

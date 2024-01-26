@@ -11,15 +11,16 @@ export default function Footer(){
     const currentUrl = usePathname()
     // footer add into classes on line 16
     return (
-        <div className={`relative w-[100%] h-[60vh] md:h-[50vh] lg:h-[60vh] xl:h-[50vh] pt-[5%] pb-12 bg-gradient-to-b from-black from-65% md:from-45% lg:from-20% xl:from-55% via-[#282828]  via-70% md:via-50% lg:via-25% xl:via-60% to-black to-75% md:to-55% lg:to-30% xl:to-65% overflow-clip`}>
+        <div className={`relative w-[100%] h-[70vh] md:h-[50vh] lg:h-[60vh] xl:h-[50vh] pt-[5%] pb-12 bg-gradient-to-b from-black from-65% md:from-45% lg:from-20% xl:from-55% via-[#282828]  via-70% md:via-50% lg:via-25% xl:via-60% to-black to-75% md:to-55% lg:to-30% xl:to-65% overflow-clip`}>
         
-            <object type="image/svg+xml" data="/images/footer_drips_dark.svg" className="absolute bottom-[5%] md:bottom-[20%] lg:bottom-[40%] left-[20%] xl:bottom-[10%] xl:left-[15%] w-[60%] xl:w-[70%] h-[60%] md:h-[100%] object-contain -z-1"/>
-            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute -bottom-[40%] md:bottom-0 lg:bottom-[25%] xl:-bottom-2 left-0 w-[100%] h-[125%] md:h-[100%] object-contain -z-1"/>
+            <object type="image/svg+xml" data="/images/footer_drips_dark.svg" className="absolute bottom-[10%] lg:bottom-[40%] xl:bottom-[10%] left-[20%] xl:left-[15%] w-[60%] xl:w-[70%] h-[35%] md:h-[100%] object-contain -z-1"/>
+
+            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute bottom-0 lg:bottom-[25%] xl:-bottom-2 left-0 w-[100%] h-[30%] object-contain object-bottom -z-1"/>
 
             {/* {(currentUrl === '/' || currentUrl === '/corporate')  */}
             <div className='w-full z-30'>
                 
-                <div className='w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto flex flex-col md:flex-row md:justify-between items-center z-40'>
+                <div className='w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto mb-4 flex flex-col md:flex-row md:justify-between items-center z-40'>
                     <Link 
                         href={{
                             pathname: '/',
@@ -85,7 +86,7 @@ export default function Footer(){
                     </div>
                 </div>
             </div>
-
+            {/* <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute bottom-0 lg:bottom-[25%] xl:-bottom-2 md:left-0 w-[100%] h-[25%] object-fill md:object-contain object-bottom -z-1 border border-yellow-600"/> */}
              
         </div>
     )

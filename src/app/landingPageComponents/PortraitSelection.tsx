@@ -54,27 +54,27 @@ const container = {
     }
 }
 
-const testimonialVariant = {
-    hidden: {
-        opacity: 0,
-        y: 200
-    },
-    show: {
-        opacity: 1,
-        y: 0
-    }
-}
+// const testimonialVariant = {
+//     hidden: {
+//         opacity: 0,
+//         y: 200
+//     },
+//     show: {
+//         opacity: 1,
+//         y: 0
+//     }
+// }
 
-const splatterVariant = {
-    hidden: {
-        opacity: 0,
-        scale: 0
-    },
-    show: {
-        opacity: 1,
-        scale: 1
-    }
-}
+// const splatterVariant = {
+//     hidden: {
+//         opacity: 0,
+//         scale: 0
+//     },
+//     show: {
+//         opacity: 1,
+//         scale: 1
+//     }
+// }
 // splashArt/PRBackground_V2.png
 
 const PortraitSelection = ({ mode, setMode }: ModeProps) => {
@@ -210,7 +210,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
             </div>
             }
 
-            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
+            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
                 <motion.object 
                     type="image/svg+xml" 
                     data="images/down-arrow.svg" 
