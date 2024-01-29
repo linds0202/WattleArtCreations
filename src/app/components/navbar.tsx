@@ -1,40 +1,40 @@
 'use client'
 
-
 import '../globals.css'
 import Link from 'next/link';
 import Image from 'next/image';
 import CircularProgress from '@mui/material/CircularProgress';
-import Dialog from '@mui/material/Dialog';
-import Button from '@mui/material/Button';
+// import Dialog from '@mui/material/Dialog';
+// import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+// import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { useAuth } from '../firebase/auth'
 import { auth } from '../firebase/firebase';
 import { updateUserById } from '../firebase/firestore';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Logo from '../../../public/images/Logo_Circle.png'
-import LogoColor from '../../../public/images/Logo_Full_ups.png'
+// import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Bag from '../../../public/images/bag.png'
 import LoginDialog from './LoginDialog';
-import { Timestamp } from 'firebase/firestore';
+// import { Timestamp } from 'firebase/firestore';
 import { useCategoriesContext } from '../context/CategoriesContext';
 
 // Configure FirebaseUI.
-const uiConfig = {
-  signInFlow: 'popup',
-  signInOptions: [
-    {
-      provider: EmailAuthProvider.PROVIDER_ID,
-      requireDisplayName: false
-    },
-    GoogleAuthProvider.PROVIDER_ID,
-  ],
-  signInSuccessUrl: '/',
-};
+// const uiConfig = {
+//   signInFlow: 'popup',
+//   signInOptions: [
+//     {
+//       provider: EmailAuthProvider.PROVIDER_ID,
+//       requireDisplayName: false
+//     },
+//     GoogleAuthProvider.PROVIDER_ID,
+//   ],
+//   signInSuccessUrl: '/',
+// };
+
 
 export default function NavBar() {
   const { categories, changeCategories } = useCategoriesContext()
@@ -342,10 +342,10 @@ export default function NavBar() {
       {/* Mobile Nav */}
       <div className='flex justify-between items-center md:hidden'>          
         {authUser?.roles === 'Customer' && 
-        <p className='text-xs lg:text-base text-white pr-4'>{authUser?.displayName}</p>}
+        <p className='text-sm text-white pr-4'>{authUser?.displayName}</p>}
         
         {authUser?.roles === 'Artist' && 
-        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-sm lg:text-base text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-sm text-white no-underline pr-4'>{authUser?.displayName}</Link>}
         
         {isOpen && 
         <div className='absolute top-0 right-0 w-[100vw] h-auto bg-white py-8'>
