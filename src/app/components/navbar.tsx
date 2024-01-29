@@ -40,11 +40,13 @@ export default function NavBar() {
   const { categories, changeCategories } = useCategoriesContext()
   const { authUser, setAuthUser, isLoading, signOut } = useAuth()
 
-  const [currentRoute, setCurrentRoute] = useState<string>('/')
+  const [isOpen, setIsOpen] = useState(false)
+
+  // const [currentRoute, setCurrentRoute] = useState<string>('/')
 
   
   const currentUrl = usePathname()
-  const baseUrl = currentUrl.split('/')[1]
+  // const baseUrl = currentUrl.split('/')[1]
   const router = useRouter()
   
   const [login, setLogin] = useState(false)
@@ -109,6 +111,11 @@ export default function NavBar() {
     }
   }, [authUser, login])
 
+  //Handles the opening and closing of our nav
+  const handleOpenNav = () => {
+    setIsOpen(!isOpen);
+  };
+
   const handleOldEnough = (e: React.MouseEvent<HTMLElement> ) => {
     e.preventDefault()
     
@@ -153,8 +160,8 @@ export default function NavBar() {
   return ((isLoading ) ? 
     <CircularProgress color="inherit" sx={{ marginLeft: '50%', marginTop: '25%', height: '100vh' }}/>
     :
-    <div className='w-full flex justify-between items-center bg-[#282828] px-8 text-white sticky top-0 z-[100]'>
-      <div onClick={handleHome} className='w-1/4 cursor-pointer flex justify-start items-center'>
+    <div className='w-full flex justify-between items-center bg-[#282828] px-4 md:px-8 text-white sticky top-0 z-[100]'>
+      <div onClick={handleHome} className='w-1/2 md:w-1/4 cursor-pointer flex justify-start items-center'>
         {/* <Link 
           href={{
             pathname: '/',
@@ -163,7 +170,7 @@ export default function NavBar() {
           className='flex justify-between items-center no-underline'
         > */}
         {/* <div onClick={handleHome} className='cursor-pointer flex justify-between items-center'> */}
-          <div className='relative w-[48px] h-[48px] lg:w-[64px] lg:h-[64px] object-cover'>
+          <div className='relative w-[24px] h-[24px] md:w-[48px] md:h-[48px] lg:w-[64px] lg:h-[64px] object-cover'>
               <Image 
                 src={Logo} 
                 alt="small Wattle Art Creations logo" 
@@ -172,13 +179,12 @@ export default function NavBar() {
                 priority={true}  
               />
             </div>
-            <p className='text-white text-lg xl:text-2xl m-0'>Wattle Art Creations</p>
+            <p className='text-white text-base md:text-lg xl:text-2xl m-0'>Wattle Art Creations</p>
           {/* </div> */}
         {/* </Link> */}
       </div>
 
-      <div className='w-1/2 mx-auto flex justify-between'>
-        {/* (currentUrl === '/' || currentUrl === '/portraits' || currentUrl === '/dashboard') && */}
+      <div className='hidden md:w-1/2 mx-auto md:flex md:justify-between'>
         {/* Links for Personal Route if not artist*/}
         {( authUser?.roles !== 'Artist') && 
         <div className={`${!authUser || authUser?.roles === 'Customer' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-around items-center`}>
@@ -206,7 +212,6 @@ export default function NavBar() {
           </button>
         </div> }
 
-        {/* || (authUser?.roles === 'admin' && (baseUrl === 'artistDashboard' || baseUrl === 'portraitQueue')) */}
         {(authUser && authUser?.roles !== 'Customer') && 
           <div className={`${authUser?.roles === 'Artist' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-between items-center`}>
             <div className='pr-4'>
@@ -269,7 +274,7 @@ export default function NavBar() {
       </div>
       
 
-      <div className='w-4/12 flex justify-end items-center '>
+      <div className='hidden md:w-4/12 md:flex md:justify-end md:items-center '>
         {authUser?.roles === 'Customer' && 
         <p className='text-xs lg:text-base text-white pr-4'>{authUser?.displayName}</p>}
         
@@ -332,8 +337,144 @@ export default function NavBar() {
             </Link>
           </div>
         </> 
-      
       </div>
+      
+      {/* Mobile Nav */}
+      <div className='flex justify-between items-center md:hidden'>          
+        {authUser?.roles === 'Customer' && 
+        <p className='text-xs lg:text-base text-white pr-4'>{authUser?.displayName}</p>}
+        
+        {authUser?.roles === 'Artist' && 
+        <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-sm lg:text-base text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+        
+        {isOpen && 
+        <div className='absolute top-0 right-0 w-[100vw] h-auto bg-white py-8'>
+          {/* Links for Personal Route if not artist*/}
+          {( authUser?.roles !== 'Artist') && 
+          <div className={`${!authUser || authUser?.roles === 'Customer' ? 'w-full' : ''} text-[#282828]  flex flex-col justify-around items-center gap-y-2`}>
+            <Link href={{
+                    pathname: '/',
+                    query: {selection: 'cat1'},
+                    }} 
+                className="text-xl no-underline text-center hover:text-cyan-600"
+            >
+                {categories.cat1.type}
+            </Link>
+            <Link href={{
+                    pathname: '/',
+                    query: {selection: 'cat2'},
+                    }} 
+                className="text-xl no-underline text-center hover:text-orange-600"
+            >
+                {categories.cat2.type}
+            </Link>
+            <button 
+              onClick={handleOldEnough}
+              className="text-xl no-underline text-center hover:text-violet-600"
+            >
+              {categories.cat3.type}
+            </button>
+          </div> }
+
+          {/* Links for artists */}
+          {(authUser && authUser?.roles !== 'Customer') && 
+            <div className={`${authUser?.roles === 'Artist' ? 'w-full' : ''} text-[#282828] flex justify-between items-center gap-y-2`}>
+              <div className=''>
+                <Link href='/portraitQueue' className='text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
+              </div>
+              <div className=''>
+                <Link href={`/artistDashboard/${authUser?.uid}`} className='text-xl no-underline hover:text-orange-600'>Dashboard</Link>
+              </div>
+              <div className=''>
+                <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
+              </div>
+            </div>
+          }
+          <div className='w-full text-center mt-2'>
+            <Link href={`/artistDashboard/`} className='w-full text-center text-xl text-[#282828] no-underline'>Artists</Link>
+          </div>
+
+          {authUser?.roles === 'Admin' && 
+          <div className='w-full text-center  mt-2'>
+            <Link href={'/admin'} className='text-[#282828] text-xl no-underline hover:text-yellow-600'>Admin Dashboards</Link>
+          </div>}
+          {(authUser?.roles === 'Customer' || authUser?.roles === 'admin') && 
+          <div className='w-full text-center mt-2'>
+            <Link href={`/dashboard/${authUser.uid}`} className='text-[#282828] text-xl no-underline hover:text-green-600'>Dashboard</Link>
+          </div>}
+
+          {!authUser && 
+          <button
+            onClick={() => setLogin(true)}
+            className='w-full mt-2 text-center text-[#282828] text-xl hover:text-teal-600'
+          >
+              Login / Register
+          </button>}
+    
+          {authUser && 
+          <button 
+            onClick={signOut}
+            className='w-full mt-2 text-center text-[#282828] text-xl hover:text-red-600'
+          >
+            Logout
+          </button>}
+        </div>} 
+        
+        
+   
+
+        {!isOpen && <button onClick={handleOpenNav} 
+          className="flex flex-col justify-center items-center gap-y-1"
+        >
+          <span 
+          className={`bg-white block h-0.5 w-6 rounded-sm`} 
+          ></span>
+          <span 
+          className={`bg-white block h-0.5 w-6 rounded-sm my-0.5`}
+          ></span>
+          <span 
+          className={`bg-white block h-0.5 w-6 rounded-sm`}
+          ></span>
+        </button>}
+
+        {isOpen &&
+        <button onClick={handleOpenNav} 
+          className="absolute top-2 right-2 flex justify-center items-center z-10"
+        >
+            <CloseIcon className='text-black hover:text-red-600'/>
+        </button>
+        } 
+            
+
+
+        <div className='pl-4'>
+          <Link 
+            href={{
+                pathname: '/portraits',
+                query: {direct: 'false'},
+            }} 
+            className={`${isOpen ? 'text-white' : 'text-[#282828]'} no-underline`}
+            title='Select cancel portrait to return to cart. Progress will be lost'
+          >
+            <div className='relative w-[24px] h-[24px] lg:w-[32px] lg:h-[32px] object-cover'>  
+              <Image 
+                className=''
+                src={Bag} 
+                alt="shopping cart icon" 
+                fill
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                priority={true}  
+              />
+              {cartLength && 
+                <div className='rounded-full w-3 lg:w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
+                  <p>{`${cartLength}`}</p>
+                </div>
+              }
+            </div>
+          </Link>
+        </div>
+      </div>
+      
       
       {openConfirm && authUser && !authUser.oldEnough &&
         <div className="fixed w-[40%] h-[40vh] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl p-8 bg-white text-black border-2 border-[#282828] z-[100]">
