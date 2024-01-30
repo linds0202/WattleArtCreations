@@ -21,6 +21,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import LogoColor from '../../../public/images/Logo_Full_ups.png'
 import Home2_testimonial_group from "./Home2_testimonial_group";
+import Home2_testimonial from "./Home2_testimonial";
 import { TestimonialType } from "../context/CategoriesContext";
 import { useCategoriesContext } from "../context/CategoriesContext";
 
@@ -94,6 +95,8 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const [openLogin, setOpenLogin] = useState(false)
     const [openConfirm, setOpenConfirm] = useState(false)
 
+    const [currentTestimonial, setCurrentTestimonial] = useState(0)
+
     useEffect(() => {
         window.scrollTo(0, 0)  
     }, [])
@@ -145,6 +148,22 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
     const handleRedirect = () => {
         setOpenLogin(false)
         setMode('Home')
+    }
+
+    const handleNext = () => {
+        if(currentTestimonial < featuredTestimonials.length - 1) {
+            setCurrentTestimonial(currentTestimonial + 1)
+        } else {
+            setCurrentTestimonial(0)
+        }  
+    }
+
+    const handlePrev = () => {
+        if(currentTestimonial === 0) {
+            setCurrentTestimonial(featuredTestimonials.length - 1)
+        } else {
+            setCurrentTestimonial(currentTestimonial - 1)
+        }  
     }
     //options[`${mode}` as keyof OptionsType].tagline
   
@@ -209,12 +228,12 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </div>
             </div>
             }
-
-            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
+{/* , backgroundSize: 'contain' */}
+            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
                 <motion.object 
                     type="image/svg+xml" 
                     data="images/down-arrow.svg" 
-                    className="absolute top-[70vh] left-[46%] w-[8%] h-[8%]"
+                    className="absolute top-[65vh] lg:top-[45vh] xl:top-[70vh] left-[43%] md:left-[46%] w-[64px] h-[64px] md:w-[128px] md:h-[128px] bg-white p-4 rounded-full"
                     initial={ { y: -10 }}
                     animate={{ y: 0}}
                     transition={{ duration: .75, repeat: Infinity, repeatType: 'reverse', ease: "linear" }}
@@ -222,7 +241,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 />
                 
                 <motion.div 
-                    className="w-[90%] sticky top-[12.5%] h-[80vh] rounded-2xl" 
+                    className="w-[90%] sticky top-[15%] lg:top-[12.5%] h-[25%] lg:h-[50vh] xl:h-[80vh] rounded-2xl" 
                     style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}} //rgba(255, 255, 255, .15)
                 >
                     <div 
@@ -231,16 +250,16 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                             backgroundRepeat: 'no-repeat', 
                             backgroundSize: 'cover'
                         }} 
-                        className="w-full h-full flex items-center pl-[5%]"
+                        className="w-full h-full md:h-full flex justify-end lg:justify-start lg:items-center lg:pl-[5%]"
                     >
-                        <div className="w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#43b4e4]/50 text-white py-8 px-10 ">
-                            <h2 className='font-bold text-4xl mb-8 text-left'>
+                        <div className="w-full lg:w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#43b4e4]/50 text-white py-8 px-10">
+                            <h2 className='font-bold text-5xl md:text-6xl lg:text-4xl mb-8 text-center md:text-left'>
                                 Create a <span className="text-[#43b4e4]">{catInfo.type}</span> Portrait
                             </h2>
-                            <p className="text-2xl font-light mb-[5%]">{catInfo.copy.selectionHeroBlurb}</p>
+                            <p className="text-2xl font-light text-left mb-8 md:mb-[5%]">{catInfo.copy.selectionHeroBlurb}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                                className="text-black mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
+                                className="text-black mb-4 w-full md:w-[50%] md:mx-0 rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
                                 onClick={() => setMode(mode)} 
                                 whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                                 whileTap={{ scale: 1.05 }}
@@ -263,11 +282,11 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </motion.div>
             </div>
 
-            <div className="relative w-full h-[110vh] flex justify-around items-center mt-[50px] mb-[50px] pt-[100px] pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
-                <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 -left-[3%] w-[105%] h-[100%]"/>
+            <div className="relative w-full h-[110vh] lg:h-[80vh] xl:h-[110vh] flex flex-row justify-around items-center mt-[50px] mb-[50px] xl:pt-[100px] xl:pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
+                <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 lg:-left-[10%] xl:-left-[3%] w-[300%] lg:w-[120%] xl:w-[105%] h-[100%] lg:h-[90%] xl:h-[100%] object-cover"/>
                 
-                <div className="absolute top-0 left-0 w-[90%] h-[100%] flex justify-around items-center z-50">
-                    <motion.div className="w-[500px] h-[550px] ml-20 object-cover rounded-xl" >
+                <div className="absolute top-0 left-0 w-full xl:w-[90%] h-[100%] flex flex-col lg:flex-row justify-around items-center z-50">
+                    <motion.div className="w-[400px] h-[450px] lg:w-[375px] lg:h-[400px] xl:w-[500px] xl:h-[550px] lg:ml-20 object-cover rounded-xl" >
                         <Carousel 
                             showArrows={true} 
                             showThumbs={false} 
@@ -276,16 +295,22 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                             infiniteLoop 
                             className="portrait-carousel-root portrait-carousel rounded-xl shadow-[0_0_40px_-5px_rgba(255,255,255,0.8)]"
                         >
-                            {catInfo.pics.selectionCarousel.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[500px] h-[550px] object-cover object-top rounded-xl" />))}
+                            {catInfo.pics.selectionCarousel.map((img:string, i:number) => (<img key={i} src={`${img}`} alt="caro-img" className="w-[400px] h-[450px] lg:w-[375px] lg:h-[400px] xl:w-[500px] xl:h-[550px] object-cover object-top rounded-xl" />))}
                         </Carousel>
                     </motion.div>
                     
-                    <motion.div className="w-[35%] mr-20" initial={{x: 500, opacity: 0}} whileInView={{x: 0, opacity: 1}} transition={{type:'spring', duration: 1, delay:.5}} viewport={{once: true}}>
-                        <p className="font-bold text-5xl mb-8">{catInfo.type} Portrait</p>
-                        <p className="font-light text-2xl mb-8">{catInfo.copy.selectionCarouselBlurb}</p>
+                    <motion.div 
+                        className="w-[90%] lg:w-[40%] xl:w-[35%] lg:mr-4 xl:mr-20 mt-8 lg:mt-0" 
+                        initial={{x: 250, opacity: 0}} 
+                        whileInView={{x: 0, opacity: 1}} 
+                        transition={{type:'spring', duration: 1, delay:.5}} 
+                        viewport={{once: true}}
+                    >
+                        <p className="font-bold text-3xl lg:text-4xl xl:text-5xl mb-4 lg:mb-8">{catInfo.type} Portrait</p>
+                        <p className="font-light text-xl xl:text-2xl mb-4 lg:mb-8">{catInfo.copy.selectionCarouselBlurb}</p>
                         <motion.button 
                             disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                            className="text-black mb-4 w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
+                            className="text-black mb-4 w-full xl:w-[50%] rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
                             onClick={() => setMode(mode)} 
                             whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                             whileTap={{ scale: 1.05 }}
@@ -306,20 +331,18 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         </motion.button>  
                     </motion.div>
                 </div>
-                
+                <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] top-[100%] -left-[1px] z-20"></object>
             </div>
 
 
 
 
-
-            <div className='relative pt-[100px] mb-[70px] bg-black flex justify-center'>
-                <object type="image/svg+xml" data="images/drips/personal_top_full2.svg" className="absolute w-[101%] -top-[7%] -left-[1px] right-0 z-20"></object>
-                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-5"></object>
+            <div className='relative md:pt-[100px] mb-[70px] bg-black flex justify-center'>
+                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] md:-top-[10%] left-0 w-[300%] lg:w-[200%] xl:w-full h-[120%] -z-5"/>
                 
-                
+                {/* triple testimonial group */}
                 <motion.div 
-                    className='flex justify-around py-20 w-full relative z-30' 
+                    className='hidden md:flex justify-around py-20 w-full relative z-30' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
@@ -328,15 +351,45 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                     <Home2_testimonial_group testGroup={featuredTestimonials}/>
                 
                 </motion.div>
+                
+                {/* single testimonial */}
+                <motion.div 
+                    className='w-full  md:hidden flex justify-around md:py-20 relative z-30' 
+                    variants={container} 
+                    initial='hidden'
+                    whileInView='show'
+                    viewport={{ once: true }}
+                >
+                    <div className="w-11/12 mx-auto mt-24 md:mt-10 lg:mt-20 xl:mt-24 flex justify-around items-start md:items-center">
+                        <div 
+                            className="w-1/12 mt-[300px] md:mt-0 object-cover hover:scale-110 cursor-pointer flex justify-end"
+                            onClick={handlePrev}
+                        >
+                            <img src="/images/testimonials/next_left.png"/>
+                        </div>
+                        
+                        <Home2_testimonial test={featuredTestimonials[currentTestimonial]} />
+                        
+                        <div 
+                            className="w-1/12 mt-[300px] md:mt-0 object-cover hover:scale-110 cursor-pointer"
+                            onClick={handleNext}
+                        >
+                            <img src="/images/testimonials/next_right.png"/>
+                        </div>
+                    </div>
+                
+                </motion.div>
             </div>
 
-            <div className="relative w-[100%] h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center ">
-                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 left-0 w-full h-[110vh] -z-9"></object>
-                <object type="image/svg+xml" data="images/splat.svg" className="absolute -top-[10%] left-0 w-full h-auto -z-8"/>
+            <div className="relative w-[100%] h-[80vh] lg:h-[70vh] xl:h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center">
+                <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 -left-[20%] md:left-0 w-[350%] lg:w-[200%] xl:w-full h-[110vh] -z-9"/>
+                <object type="image/svg+xml" data="images/splat.svg" className="hidden md:block absolute -top-[10%] left-0 w-full h-auto -z-8"/>
+
+                <object type="image/svg+xml" data="images/splat2.svg" className="md:hidden absolute top-[20%] -left-[10%] w-[120%] h-auto -z-8"/>
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-black mt-[20%] mb-4 w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
+                    className="text-black mt-[20%] md:mt-0 mb-4 w-3/4 md:w-1/2 lg:w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
                     onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}

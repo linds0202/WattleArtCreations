@@ -15,7 +15,7 @@ export default function Footer(){
         
             <object type="image/svg+xml" data="/images/footer_drips_dark.svg" className="absolute bottom-[10%] lg:bottom-[40%] xl:bottom-[10%] left-[20%] xl:left-[15%] w-[60%] xl:w-[70%] h-[35%] md:h-[100%] object-contain -z-1"/>
 
-            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute bottom-0 lg:bottom-[25%] xl:-bottom-2 left-0 w-[100%] h-[30%] object-contain object-bottom -z-1"/>
+            <object type="image/svg+xml" data="/images/footer_mt2.svg" className="absolute bottom-0 lg:bottom-[25%] xl:-bottom-2 left-0 w-[100%] h-[30%] md:h-[100%] object-contain object-bottom -z-1"/>
 
             {/* {(currentUrl === '/' || currentUrl === '/corporate')  */}
             <div className='w-full z-30'>
