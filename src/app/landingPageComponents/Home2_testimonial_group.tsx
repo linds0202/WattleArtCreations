@@ -35,7 +35,7 @@ const Home2_testimonial_group = ({testGroup}: TestimonialGroupProps) => {
     }
     
     return (
-        <div className='w-full h-[80vh] lg:h-[50vh] xl:h-[80vh] flex items-center border border-red-600'>
+        <div className='w-full h-[80vh] lg:h-[50vh] xl:h-[80vh] flex items-center'>
             <div 
                 className="w-1/6 object-cover hover:scale-110 cursor-pointer flex justify-end"
                 onClick={showPrevGroup}

@@ -310,7 +310,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
     return (
     <>   
-        <div className='relative self-start w-full bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
+        <div className='w-full relative self-start w-full bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
             <div className="w-2/3 self-end flex justify-between items-center">
                 <h2 className="w-2/3 text-3xl text-left font-bold text-black">Portrait Details</h2>
                 {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl">
@@ -716,12 +716,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 onSubmit={handleAddExtras}
                 >
                 {({ handleChange, values }) => (
-                <Form className="w-full flex flex-col justify-around items-center">
+                <Form className="w-full h-full flex flex-col justify-around items-center">
                     
                     <p className='w-full text-3xl text-center font-bold mt-0 mb-4'>
                         Add Extra Features to your portrait
                     </p>
-                    <div className="w-full flex justify-around items-center">
+                    <div className="w-full h-full flex justify-around items-center">
                         <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <motion.div 
@@ -736,82 +736,44 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <p className="mt-4 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r pb-[10px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                             </motion.div>
                             
-                            <div className="w-full h-1/3 pt-2 text-center border border-red-600">
+                            <div className="w-full h-1/3 pt-2 text-center">
                                 <label className="w-full"> 
                                     <Field type="checkbox" name="extras" value="model" className='mr-2'/>
                                     <span className='text-lg ml-2'>3D Model</span>
                                 </label>
-                                <p className="mt-2 text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</p>
+                                <p className="mt-2 mb-2 text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</p>
                             </div>
-                            
-                            {/* <div
-                                className="absolute -top-[30%] left-[39%] m-0 p-0"
-                                onMouseOver={() => handleMouseOver('model')}
-                                onMouseOut={handleMouseOut}
-                            >
-                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                {isHovering && message === 'model' && (
-                                    <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
-                                        <h2 className="text-white text-md text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</h2>
-                                    </div>
-                                )}
-                            </div> */}
                         </div>
-                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center border border-yellow-600'>
+
+                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/character_sheet.svg" 
-                                className="w-[65%] h-[90%] relative -top-[50px] rounded-lg"
+                                className="w-[65%] h-[65%] relative -top-[45px] rounded-lg"
                             />    
-                            <div className="w-full h-1/3 -mt-2 text-center border border-red-600">
+                            <div className="w-full h-1/3 -mt-2 text-center">
                                 <label className="w-full">            
                                     <Field type="checkbox" name="extras" value="character" className='mr-2'/>
                                     <span className='text-lg ml-2'>Character Sheet</span>
                                 </label>
-                                <p className="mt-2 text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
+                                <p className="mt-2 mb-2 text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
                             </div>
-                            
-                            {/* <div
-                                    className="absolute -top-[30%] left-[55%] m-0 p-0"
-                                    onMouseOver={() => handleMouseOver('characterSheet')}
-                                    onMouseOut={handleMouseOut}
-                                >
-                                    <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                    {isHovering && message === 'characterSheet' && (
-                                        <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
-                                            <h2 className="text-white text-md text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</h2>
-                                        </div>
-                                    )}
-                                </div> */}
                         </div>
                         <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/weapons_sheet.svg" 
-                                className="w-[65%] h-[90%] relative -top-[45px] rounded-lg"
+                                className="w-[65%] h-[90%] relative -top-[55px] rounded-lg"
                             />  
-                            <div className="w-full h-1/3 text-center border border-red-600">
+                            <div className="w-full h-1/3 text-center">
                                 <label className="w-full">   
                                     <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
                                     <span className='text-lg ml-2'>Weapons Sheet</span>
                                 </label>
-                                <p className="mt-2 text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</p>
+                                <p className="mt-2 mb-2 text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</p>
                             </div>
-                       
-                            {/* <div
-                                className="absolute -top-[30%] left-[55%] m-0 p-0"
-                                onMouseOver={() => handleMouseOver('weaponSheet')}
-                                onMouseOut={handleMouseOut}
-                            >
-                                <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
-                                {isHovering && message === 'weaponSheet' && (
-                                    <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute bottom-0 left-[45%] m-0 ml-4 z-40">
-                                        <h2 className="text-white text-md text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</h2>
-                                    </div>
-                                )}
-                            </div> */}
                         </div>
                     </div>
 
@@ -856,7 +818,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
                             <div className="w-1/5 h-[80%] flex flex-col justify-between">
-                                <div className='w-full flex justify-between items-end mb-4'>
+                                <div className='w-full flex justify-between items-end'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
                                         ? <motion.p 
@@ -899,7 +861,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     </div>
                                 </div>
 
-                                <div className='w-full flex justify-between items-end mb-2'>
+                                <div className='w-full flex justify-between items-end'>
                                     <div className='w-full relative flex justify-between items-center'>
                                         <p className='text-lg mr-4 my-4 font-semibold'>Character Variations:</p>
 
@@ -974,7 +936,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>  */}
 
                                 {/* Complexity Slider */}
-                                <div className="relative mb-4 border border-transparent">
+                                {/* <div className="relative mb-4 border border-transparent">
                                     <label>
                                         <span className='text-lg font-semibold'>Complexity </span>
                                     </label>
@@ -1007,10 +969,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         )}
                                     </div>
                                     
-                                </div> 
+                                </div>  */}
 
                                 {/* Add Weapon */}
-                                <div className='w-full flex justify-between items-end mb-3'>
+                                <div className='w-full flex justify-between items-end'>
                                     <div className="relative">
                                         <p className='text-lg mr-4 mb-2 font-semibold'>Weapon:</p>                                        
                                         <label className='text-lg'>
@@ -1044,7 +1006,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 {/* <div className='w-full flex flex-col justify-between mb-3'> */}
                                     {/* <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p> */}
                                     {/* <div className="w-full flex"> */}
-                                <div className='relative w-full mb-2'>
+                                <div className='relative w-full'>
                                     <label>
                                         <Field type="checkbox" name="wings" className='mr-2'/>
                                         <span className='text-lg font-semibold ml-2'>Add Wings</span>
@@ -1063,7 +1025,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     </div>
                                 </div>
                                 
-                                <div className='relative w-full mb-2'>
+                                <div className='relative w-full'>
                                     <label>
                                         <Field type="checkbox" name="armourComplex" className='mr-2'/>
                                         <span className='text-lg font-semibold ml-2'>Add Armour</span>
@@ -1088,7 +1050,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <div>
                                     <div 
                                         onClick={() => setOpenAddExtras(true)}
-                                        className='w-4/5 mx-auto mt-8 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
+                                        className='w-4/5 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
                                     >
                                         Add Extras
                                     </div>
