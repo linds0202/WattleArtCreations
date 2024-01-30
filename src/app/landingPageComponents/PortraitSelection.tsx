@@ -228,8 +228,8 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </div>
             </div>
             }
-{/* , backgroundSize: 'contain' */}
-            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] relative flex justify-center pb-[2%]">
+
+            <div style={{backgroundImage: `url(${bgImgSrc})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}} className="h-[200vh] lg:h-[150vh] xl:h-[200vh] mb-20 md:mb-0 relative flex justify-center pb-[2%]">
                 <motion.object 
                     type="image/svg+xml" 
                     data="images/down-arrow.svg" 
@@ -241,7 +241,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 />
                 
                 <motion.div 
-                    className="w-[90%] sticky top-[15%] lg:top-[12.5%] h-[25%] lg:h-[50vh] xl:h-[80vh] rounded-2xl" 
+                    className="w-[90%] sticky top-[15%] lg:top-[12.5%] h-[30%] lg:h-[43vh] xl:h-[80vh] rounded-2xl" 
                     style={{ opacity, y, backgroundColor: 'rgba(0, 0, 0, .7)'}} //rgba(255, 255, 255, .15)
                 >
                     <div 
@@ -253,13 +253,13 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                         className="w-full h-full md:h-full flex justify-end lg:justify-start lg:items-center lg:pl-[5%]"
                     >
                         <div className="w-full lg:w-[50%] flex flex-col justify-center bg-[#282828] rounded-2xl shadow-md  shadow-[#43b4e4]/50 text-white py-8 px-10">
-                            <h2 className='font-bold text-5xl md:text-6xl lg:text-4xl mb-8 text-center md:text-left'>
+                            <h2 className='font-bold text-4xl md:text-6xl lg:text-4xl mb-4 md:mb-8 text-center md:text-left'>
                                 Create a <span className="text-[#43b4e4]">{catInfo.type}</span> Portrait
                             </h2>
-                            <p className="text-2xl font-light text-left mb-8 md:mb-[5%]">{catInfo.copy.selectionHeroBlurb}</p>
+                            <p className="text-2xl font-light text-left mb-4 md:mb-[5%]">{catInfo.copy.selectionHeroBlurb}</p>
                             <motion.button 
                                 disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                                className="text-black mb-4 w-full md:w-[50%] md:mx-0 rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
+                                className="text-black mb-4 w-full md:w-[50%] lg:w-full xl:w-[50%] md:mx-0 rounded-md px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out" 
                                 onClick={() => setMode(mode)} 
                                 whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                                 whileTap={{ scale: 1.05 }}
@@ -282,7 +282,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 </motion.div>
             </div>
 
-            <div className="relative w-full h-[110vh] lg:h-[80vh] xl:h-[110vh] flex flex-row justify-around items-center mt-[50px] mb-[50px] xl:pt-[100px] xl:pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
+            <div className="relative w-full h-[140vh] md:h-[110vh] lg:h-[80vh] xl:h-[110vh] flex flex-row justify-around items-center mt-[50px] mb-[50px] xl:pt-[100px] xl:pb-[50px] text-white bg-gradient-to-b from-black from-10% to-[#282828] to-95% z-10" >
                 <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-0 lg:-left-[10%] xl:-left-[3%] w-[300%] lg:w-[120%] xl:w-[105%] h-[100%] lg:h-[90%] xl:h-[100%] object-cover"/>
                 
                 <div className="absolute top-0 left-0 w-full xl:w-[90%] h-[100%] flex flex-col lg:flex-row justify-around items-center z-50">
@@ -342,7 +342,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 
                 {/* triple testimonial group */}
                 <motion.div 
-                    className='hidden md:flex justify-around py-20 w-full relative z-30' 
+                    className='hidden lg:flex justify-around py-20 w-full relative z-30' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
@@ -354,7 +354,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 
                 {/* single testimonial */}
                 <motion.div 
-                    className='w-full  md:hidden flex justify-around md:py-20 relative z-30' 
+                    className='w-full lg:hidden flex justify-around md:py-20 relative z-30' 
                     variants={container} 
                     initial='hidden'
                     whileInView='show'
@@ -383,13 +383,13 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
 
             <div className="relative w-[100%] h-[80vh] lg:h-[70vh] xl:h-[80vh] mb-[15%] bg-black flex flex-col justify-center items-center">
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute top-0 -left-[20%] md:left-0 w-[350%] lg:w-[200%] xl:w-full h-[110vh] -z-9"/>
-                <object type="image/svg+xml" data="images/splat.svg" className="hidden md:block absolute -top-[10%] left-0 w-full h-auto -z-8"/>
+                <object type="image/svg+xml" data="images/splat.svg" className="hidden md:block absolute top-[10%] lg:-top-[10%] left-0 w-full h-auto -z-8"/>
 
                 <object type="image/svg+xml" data="images/splat2.svg" className="md:hidden absolute top-[20%] -left-[10%] w-[120%] h-auto -z-8"/>
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-black mt-[20%] md:mt-0 mb-4 w-3/4 md:w-1/2 lg:w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
+                    className="text-black mt-[20%] md:mt-0 lg:-mt-[20%] xl:mt-[20%] mb-4 w-3/4 md:w-1/2 lg:w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
                     onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}
