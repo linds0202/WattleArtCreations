@@ -716,13 +716,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 onSubmit={handleAddExtras}
                 >
                 {({ handleChange, values }) => (
-                <Form className="w-full h-full flex flex-col justify-around items-center">
+                <Form className="w-full h-full pb-24 lg:pb-0 flex flex-col justify-around items-center">
                     
                     <p className='w-full text-3xl text-center font-bold mt-0 mb-4'>
                         Add Extra Features to your portrait
                     </p>
-                    <div className="w-full h-full flex justify-around items-center">
-                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                    <div className="w-full h-full flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-around items-center">
+                        <div className='self-stretch w-full lg:w-1/3 lg:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <motion.div 
                                 className="w-[60%] h-[45%] mt-8 bg-white rounded-lg"
@@ -745,7 +745,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             </div>
                         </div>
 
-                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                        <div className='self-stretch w-full lg:w-1/3 lg:selection:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
@@ -760,7 +760,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <p className="mt-2 mb-2 text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
                             </div>
                         </div>
-                        <div className='self-stretch w-1/3 mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+
+                        <div className='self-stretch w-full lg:w-1/3 lg:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
@@ -802,22 +803,22 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-0 right-0 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 -right-10 text-white'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 right-0 lg:-right-10 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
 
-            <div className="w-full h-[90vh]">
+            <div className="w-full lg:h-[90vh] py-10">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form className="w-full h-full flex justify-between items-center">
+                    <Form className="w-full h-full flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-between items-center border border-red-600">
                         
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
-                            <div className="w-1/5 h-[80%] flex flex-col justify-between">
+                            <div className="lg:order-first w-full lg:w-1/5 h-[100%] lg:h-[80%] flex flex-col justify-between border border-blue-600">
                                 <div className='w-full flex justify-between items-end'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
@@ -1050,7 +1051,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <div>
                                     <div 
                                         onClick={() => setOpenAddExtras(true)}
-                                        className='w-4/5 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
+                                        className='w-full lg:w-4/5 mt-4 lg:mt-0 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
                                     >
                                         Add Extras
                                     </div>
@@ -1120,16 +1121,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="self-stretch w-1/2 ml-4 flex flex-col justify-between">
+                            <div className="order-first lg:order-none lg:self-stretch w-full lg:w-1/2 lg:ml-4 flex flex-col justify-between border border-green-600">
                                 
                                 <div className="mb-2 flex justify-center items-center">
-                                    <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
-                                    <p className='text-2xl text-center font-bold mt-0'>Make your selections to add a character to your portrait</p>
-                                    <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
+                                    <img className="hidden lg:block mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
+                                    <p className='text-xl lg:text-2xl text-center font-bold mb-4 lg:mb-0 mt-0'>Make your selections to add a character to your portrait</p>
+                                    <img className="hidden lg:block ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
                                 </div>
 
-                                <div className="w-full h-1/2 flex justify-between items-stretch">
-                                    <div className={`w-[250px] h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto ml-4 object-cover object-top rounded-xl`}>
+                                <div className="w-full h-[40vh] lg:h-1/2 flex flex-wrap lg:flex-nowrap justify-between items-stretch border border-purple-600">
+                                    <div className={`w-[150px] lg:w-[250px] h-[40%] lg:h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto mx-auto lg:mr-0 lg:ml-4 object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
                                         <motion.object 
                                             type="image/svg+xml" 
@@ -1144,21 +1145,21 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="w-[57%] h-full flex flex-col">
+                                    <div className="w-full lg:w-[57%] lg:h-full mt-4 lg:mt-0 flex flex-col border border-red-600">
                                         
-                                        <div className="w-[100%] h-1/3 flex flex-col">
+                                        <div className="w-[100%] lg:h-1/3 flex flex-col">
                                             {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
                                             {values.bodyStyle !== '' && <div className="w-full h-[65%] flex flex-wrap items-start">
                                                 {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i}.svg`} className="w-1/6 h-[90%]"></object>)}
                                             </div>}
                                         </div>
 
-                                        <div className="w-[100%] h-2/3 mt-2 flex justify-between">
+                                        <div className="w-[100%] lg:h-2/3 mt-2 flex justify-between border border-teal-600">
                                             
-                                            <div className="w-1/3 h-full">
-                                                <div className="w-full h-[50%] flex flex-col justify-center items-center">
-                                                    {values.weapon !== 'none' && <p className="font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
-                                                    {values.weapon !== 'none' && <div className="w-[114px] h-[50px] flex justify-center items-center">
+                                            <div className="w-2/3 lg:w-1/3 flex">
+                                                <div className="w-1/2 lg:w-full lg:h-[50%] flex flex-col justify-center items-center border border-blue-600">
+                                                    {values.weapon !== 'none' && <p className="text-sm lg:text-base text-center lg:text-left font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
+                                                    {values.weapon !== 'none' && <div className="w-[65px] lg:w-[114px] h-[50px] flex justify-center items-center">
                                                         {values.weapon === 'simple' && 
                                                             <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
                                                         }
@@ -1168,7 +1169,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     </div>}
                                                 </div>
                                             
-                                                <div className="w-full h-[50%] flex flex-col justify-center items-center ">
+                                                <div className="w-1/2 lg:w-full lg:h-[50%] flex flex-col justify-center items-center ">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
                                                     {values.wings && <div className="w-[114px] h-[75px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
@@ -1176,7 +1177,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 </div>
                                             </div>
 
-                                            <div className="w-7/12 h-full">
+                                            <div className="w-1/3 lg:w-7/12 h-full">
                                                 <div className="w-full h-full flex flex-col justify-center items-center">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
                                                     {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
@@ -1213,11 +1214,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                                 
 
-                                <div className="h-[175px] ml-6 mt-4 flex items-start">
+                                <div className="h-[15vh] lg:h-[175px] lg:ml-6 lg:mt-4 flex items-start border border-gray-950">
 
                                     {extras.includes("model") && 
                                      <motion.div 
-                                        className="w-[150px] h-[165px] pb-2 mr-20 bg-white rounded-lg"
+                                        className="w-[27%] h-[80%] lg:w-[150px] lg:h-[165px] mt-[5%] lg:mt-0 pb-2 mr-4 lg:mr-20 bg-white rounded-lg"
                                         initial={{ 
                                             scale: 0
                                         }}
@@ -1225,15 +1226,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         transition={{ type: "spring", duration: .5 }}    
                                     >
                                         <object type="image/svg+xml" data="images/customizer/3d.svg" className="w-full h-[60%] rounded-lg pt-4"></object>
-                                        <p className="mt-8 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
+                                        <p className="mt-4 lg:mt-8 text-sm lg:text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                                     </motion.div>}
 
                                     {extras.includes("character") && 
-                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative -top-[50px] w-[175px] h-[225px] rounded-lg mr-20"></object>
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative top-0 lg:-top-[50px] w-[30%] lg:w-[175px] lg:h-[225px] rounded-lg mr-4 lg:mr-20 border border-red-600"></object>
                                     }
 
                                     {extras.includes("weapons") && 
-                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative -top-[57px] w-[175px] h-[225px] rounded-lg"></object>    
+                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative top-0 lg:-top-[57px] w-[30%] lg:w-[175px] lg:h-[225px] rounded-lg border border-red-600"></object>    
                                     }
                                 </div>
                             </div>
@@ -1242,7 +1243,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="self-start w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col border-b-8 border-[#282828]">
+                            <div className="self-start w-full lg:w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col border-b-8 border-[#282828]">
                                 <div className="w-full flex flex-col">
                                     <h2 className="w-full mb-8 text-3xl text-center text-[#43b4e4] font-bold">Options Pricing</h2>
                                     
