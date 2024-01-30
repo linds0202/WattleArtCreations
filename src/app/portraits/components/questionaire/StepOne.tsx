@@ -310,28 +310,38 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
     return (
     <>   
-        <div className='w-full relative self-start w-full bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
-            <div className="w-2/3 self-end flex justify-between items-center">
-                <h2 className="w-2/3 text-3xl text-left font-bold text-black">Portrait Details</h2>
-                {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl">
+        <div className='w-full relative self-start bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
+            <div className="w-full lg:w-2/3 self-end flex flex-col lg:flex-row justify-between items-center">
+                <h2 className="w-full lg:w-2/3 text-2xl lg:text-3xl text-center lg:text-left font-bold text-black">Portrait Details</h2>
+                {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl text-center lg:text-left">
                     Total: ${(chars.reduce((sum, char) => sum += char.total, 0) + animals.reduce((sum, animal) => sum += animal.price, 0) + bg.price).toFixed(2)}
                 </p>}
             </div>
             
             {/* buttons to add details */}
             {!openCharMod && 
-                <div className={`w-full h-auto mt-4 flex ${chars.length === 0 ? 'justify-center' : 'justify-between'} items-center gap-x-2`}>
+                <div className={`w-full h-auto mt-4 flex flex-col lg:flex-row ${chars.length === 0 ? 'justify-center' : 'justify-between'} items-center gap-x-2`}>
                     {chars.length === 0 &&
-                    <div className='w-[48%] h-[75px] py-2 px-4 bg-[#282828] rounded-xl mr-8 text-center flex justify-center items-center'>
+                    <div className='w-full lg:w-[48%] h-[75px] mb-4 lg:mb-0 py-2 px-4 bg-[#282828] rounded-xl lg:mr-8 text-center flex justify-center items-center'>
                         <div>
-                            <p className="text-4xl font-bold text-[#43b4e4]">Start Here!</p>
+                            <p className="text-2xl lg:text-4xl font-bold text-[#43b4e4]">Start Here!</p>
                             <p className="text-white">Add a character to your portrait</p>
                         </div>
                         <motion.object 
                             type="image/svg+xml" 
                             data={`images/arrow-right.svg`} 
-                            className="w-[64px] h-[64px] object-cover ml-8"
+                            className="hidden lg:block w-[64px] h-[64px] object-cover ml-8"
                             initial={{ scale: 1 }}
+                            animate={{ scale: 1.05 }}
+                            transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
+                        >
+                        </motion.object>
+
+                        <motion.object 
+                            type="image/svg+xml" 
+                            data={`images/arrow-right.svg`} 
+                            className=" lg:hidden w-[48px] h-[48px] object-cover ml-8"
+                            initial={{ scale: 1, rotate: 90 }}
                             animate={{ scale: 1.05 }}
                             transition={{ ease: "linear", duration: .75, repeat: Infinity, repeatType: "reverse" }}
                         >
@@ -340,18 +350,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     }
 
                     <div 
-                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={handleAddCharacter}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <CharacterSvg />
                         </div>
-                            {/* <object 
-                                type="image/svg+xml" 
-                                data={`images/customizer/Person_LightUp.svg`} 
-                                className="absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
-                            /> */}
-                            {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
+                          
                         <div className="w-full flex flex-col">
                             <h4 className='text-[#43b4e4] text-xl text-center font-bold m-0'>Add Character</h4>
                             {chars?.length !== 0 && 
@@ -363,18 +368,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     
                     { chars.length !==0 &&
                     <div 
-                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddBackground(true)}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <BackgroundSvg />
                         </div>
-                        {/* <object 
-                            type="image/svg+xml" 
-                            data={`images/customizer/Painting_Icon_LightUp.svg`} 
-                            className="absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
-                        /> */}
-                        {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
+                
                         <div className="w-full text-center flex flex-col justify-center">
                             <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Background</h4>
                         </div>
@@ -383,18 +383,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                     { chars.length !==0 &&
                     <div 
-                        className={`w-1/3 h-[75px] p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddAnimal(true)}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <PawSvg />
                         </div>
-                        {/* <object 
-                            type="image/svg+xml" 
-                            data={`images/customizer/Paw_Light.svg`} 
-                            className="tester absolute -top-[50%] -left-[50px] w-[200px] h-[200px] cursor-pointer"
-                        /> */}
-                        {/* <AddCircleOutlineIcon sx={{ fontSize: 80, color: '#43b4e4' }}/> */}
+
                         <div className="w-full h-full text-center flex flex-col justify-center">
                             <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
                             <object 
@@ -473,7 +468,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     {/* Character Cards */}
                     {chars?.map((char, i) => (
                         <div key={i} 
-                            className='w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
+                            className='w-full lg:w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                         >
                             <div className={`w-[100px] h-[100px] absolute bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
                                 <p className="text-white text-xl font-bold">

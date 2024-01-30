@@ -339,10 +339,12 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen text-white pb-10 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-90%'>
-            <div className="h-[130px] w-full flex flex-col justify-center items-center">
+            <div className="my-8 lg:my-0 lg:h-[130px] w-full flex flex-col justify-center items-center">
                 <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#43b4e4] font-bold'>{categories[choice].type}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>
+
+
             {/* Display the portrait wizard */}
             <div className="w-full px-4">
                 <Formik
@@ -351,9 +353,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 >
                 {({ values }) => (
                     <Form className='w-full '>
-                        <div className='flex flex-between'>
-                        {/* border-b border-white */}
-                            <div className='w-7/12 flex flex-col items-center'> 
+                        <div className='flex flex-col lg:flex-row flex-between border border-red-600'>
+                        
+                            <div className='w-full lg:w-7/12 flex flex-col items-center'> 
                                 
                                 {/* Create Characters */}
                                 <StepOne 
@@ -372,7 +374,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
 
                                 {/* Submit Button */}
-                                <div className='w-11/12 h-full my-8 flex justify-around items-center'>
+                                <div className='w-11/12 h-full my-8 hidden lg:flex justify-around items-center'>
                                     <div
                                         onClick={handleReturn}
                                         className='border border-white rounded-xl py-2 px-4 cursor-pointer flex flex-col justify-center items-center hover:text-red-600 hover:border-red-600'
@@ -401,26 +403,18 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     setOpenWizard={setOpenWizard}
                                 />}
 
-                                {/* {!authUser && chars.length !== 0 && 
-                                    <>
-                                        <Button onClick={handleLogin} className='w-6/12 text-black border-2 border-black rounded-lg p-2 text-center mt-4'>
-                                            Login/Create Account to Continue
-                                        </Button>
-                                        <p>(You must be logined in to create a portrait)</p>
-                                    </>
-                                } */}
                             </div>
                         
 
-                            <div className='w-5/12 px-8'>
+                            <div className='w-full lg:w-5/12 px-4 lg:px-8 mt-8 lg:mt-0'>
                                 <h2 className='text-2xl text-center font-bold'>Required Questions</h2>
-                                <div className='p-3 flex justify-start items-center'>
+                                <div className='p-2 lg:p-3 flex flex-wrap lg:flex-nowrap justify-start items-center'>
                                     <label className='text-[#43b4e4] text-md font-bold text-gray-light mr-2'>
                                         Name your portrait:
                                     </label>
                                     <Field 
                                         name="portraitTitle" 
-                                        className="w-8/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                        className="w-full lg:w-8/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg mt-2 lg:mt-0"
                                         required
                                     />
                                 </div>
@@ -436,7 +430,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                         Add Images
                                     </button>
                                     
-                                    <p className='text-[#43b4e4] text-xs font-bold ml-4'>Upload reference/inspiration images to help guide your artist</p>
+                                    <p className='text-[#43b4e4] text-xs font-bold ml-4 mt-2 lg:mt-0'>Upload reference/inspiration images to help guide your artist</p>
                                     
 
                                     <div className='ml-2 flex flex-wrap'>
@@ -508,23 +502,31 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                             </div>    
                         </div>
 
+                        {/* Submit Button */}
+                        <div className='lg:hidden w-full h-full my-8 flex flex-col justify-around items-center'>
+                            
 
+                            {authUser && <button 
+                                type="submit" 
+                                className={`w-full rounded-xl text-center ${chars.length !== 0 
+                                    ? 'text-black text-center text-2xl py-2 px-4 font-semibold bg-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
+                                    : 'text-[#494949] p-4  border-2 border-[#494949] bg-[#E9E9E9] bg-opacity-50'}`}
+                                disabled={chars.length === 0}
+                                title='Complete required fields'
+                            >
+                                Add Portrait to Cart
+                            </button>}
 
-                        {/* {chars.length !== 0 && 
-                            <div className='w-10/12 mx-auto mt-8'>
-                                <div className='text-center'>
-                                    <h3 className='text-xl font-bold'>Let us know more. . .</h3>
-                                    <p>Answering the <span className='font-semibold'>optional</span> questions below helps your artist understand your vision.</p>
-                                </div>
-                                
-                                <StepTwo 
-                                    charVariations={charVariations}
-                                    animals={animals.length > 0}
-                                    charSheet={charSheet}
-                                    weaponSheet={weaponSheet} 
-                                />
+                            <div
+                                onClick={handleReturn}
+                                className='mt-4 border border-white rounded-xl py-2 px-4 cursor-pointer flex flex-col justify-center items-center hover:text-red-600 hover:border-red-600'
+                            >
+                                <p>Cancel Portrait Creation</p>
+                                <p className='text-sm text-white/75'>(Return to cart, progress will be lost)</p>
+
                             </div>
-                        } */}
+                        
+                        </div>
                         
                         <div className='mt-8 w-full flex justify-around items-center'>
                             {customizerLogin && 
