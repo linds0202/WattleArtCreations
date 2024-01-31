@@ -311,9 +311,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     return (
     <>   
         <div className='w-full relative self-start bg-[#E5E5E5] rounded-xl px-4 pt-4 pb-12 flex flex-col justify-between items-center'>
-            <div className="w-full lg:w-2/3 self-end flex flex-col lg:flex-row justify-between items-center">
-                <h2 className="w-full lg:w-2/3 text-2xl lg:text-3xl text-center lg:text-left font-bold text-black">Portrait Details</h2>
-                {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl text-center lg:text-left">
+            <div className="w-full xl:w-2/3 self-end flex flex-col xl:flex-row justify-between items-center">
+                <h2 className="w-full xl:w-2/3 text-2xl xl:text-3xl text-center xl:text-left font-bold text-black">Portrait Details</h2>
+                {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl text-center xl:text-left">
                     Total: ${(chars.reduce((sum, char) => sum += char.total, 0) + animals.reduce((sum, animal) => sum += animal.price, 0) + bg.price).toFixed(2)}
                 </p>}
             </div>
@@ -322,10 +322,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             {!openCharMod && 
                 <div className={`w-full h-auto mt-4 flex flex-col lg:flex-row ${chars.length === 0 ? 'justify-center' : 'justify-between'} items-center gap-x-2`}>
                     {chars.length === 0 &&
-                    <div className='w-full lg:w-[48%] h-[75px] mb-4 lg:mb-0 py-2 px-4 bg-[#282828] rounded-xl lg:mr-8 text-center flex justify-center items-center'>
+                    <div className='w-full md:w-3/4 lg:w-[48%] h-[75px] mb-4 lg:mb-0 py-2 px-4 bg-[#282828] rounded-xl xl:mr-8 text-center flex justify-center items-center'>
                         <div>
-                            <p className="text-2xl lg:text-4xl font-bold text-[#43b4e4]">Start Here!</p>
-                            <p className="text-white">Add a character to your portrait</p>
+                            <p className="text-2xl xl:text-4xl font-bold text-[#43b4e4]">Start Here!</p>
+                            <p className="text-white text-sm md:text-base">Add a character to your portrait</p>
                         </div>
                         <motion.object 
                             type="image/svg+xml" 
@@ -350,7 +350,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     }
 
                     <div 
-                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full md:w-3/4 lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={handleAddCharacter}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
@@ -361,21 +361,21 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             <h4 className='text-[#43b4e4] text-xl text-center font-bold m-0'>Add Character</h4>
                             {chars?.length !== 0 && 
                             <div className="flex flex-col">
-                                <p className='text-red-600 text-sm text-center font-semibold'> Additional Characters 10% off*</p>
+                                <p className='text-red-600 text-xs md:text-sm lg:text-xs xl:text-sm text-center font-semibold'> Additional Characters 10% off*</p>
                             </div>}
                         </div>
                     </div>
                     
                     { chars.length !==0 &&
                     <div 
-                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full md:w-3/4 lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddBackground(true)}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
                             <BackgroundSvg />
                         </div>
                 
-                        <div className="w-full text-center flex flex-col justify-center">
+                        <div className="w-full text-center pl-4 flex flex-col justify-center">
                             <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Background</h4>
                         </div>
                     </div>
@@ -383,7 +383,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                     { chars.length !==0 &&
                     <div 
-                        className={`w-full lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
+                        className={`w-full md:w-3/4 lg:w-1/3 h-[75px] mt-4 lg:mt-0 p-2 rounded-xl bg-white cursor-pointer relative flex justify-end items-center`}
                         onClick={() => setOpenAddAnimal(true)}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
@@ -429,7 +429,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         {animals?.map((animal, i) => (
                             <div 
                                 key={i}
-                                className='relative w-[23%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
+                                className='relative w-[45%] lg:w-[23%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
                             >
                                 <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
                                     {animal.type === 'Small Pet' && <object 
@@ -468,10 +468,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     {/* Character Cards */}
                     {chars?.map((char, i) => (
                         <div key={i} 
-                            className='w-full lg:w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
+                            className='w-full md:w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
                         >
-                            <div className={`w-[100px] h-[100px] absolute bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
-                                <p className="text-white text-xl font-bold">
+                            <div className={`w-[80px] h-[80px] md:w-[100px] md:h-[100px] absolute bottom-8 md:bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
+                                <p className="text-white text-base md:text-xl font-bold">
                                     ${!char.charDiscount 
                                     ? <span>{Number(char.total).toFixed(2)}</span> 
                                     : 
@@ -570,53 +570,49 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </IconButton>
             </div>
 
-            <div className="flex justify-center items-center">
-                
-            </div>
-
             <Formik
                 initialValues={initialAnimalValues}
                 onSubmit={handleAddAnimal}
                 >
                 {({ handleChange, values }) => (
-                <Form className="w-full flex justify-around items-center">
-                    <div className="w-[400px] h-[400px] border border-[#282828] rounded-xl flex justify-center items-center">
+                <Form className="w-full flex flex-col lg:flex-row justify-around items-center">
+                    <div className="w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] border border-[#282828] rounded-xl flex justify-center items-center">
                         {values.animal === 'petSmall' && <object 
                             type="image/svg+xml" 
                             data={categories.customizer.defaults.petSmall} 
-                            className='w-[225px] h-[225px] object-cover object-top'
+                            className='w-[175px] h-[175px] lg:w-[225px] lg:h-[225px] object-cover object-top'
                         />}
                         {values.animal === 'petLarge' && <object 
                             type="image/svg+xml" 
                             data={categories.customizer.defaults.petLarge} 
-                            className='w-[300px] h-[300px] object-cover object-top'
+                            className='w-[250px] h-[250px] lg:w-[300px] lg:h-[300px] object-cover object-top'
                         />}
                         {values.animal === 'petMonster' && <object 
                             type="image/svg+xml" 
                             data={categories.customizer.defaults.petMonster} 
-                            className='w-[400px] h-[400px] object-cover object-top'
+                            className='w-[275px] h-[275px] lg:w-[400px] lg:h-[400px] object-cover object-top'
                         />}
                     </div>
                     
 
-                    <div className="w-1/2 self-stretch flex flex-col justify-between">
-                        <p className='text-3xl text-center font-bold mt-0 mb-4'>Add an animal to your portrait</p>
-                        <label className='text-lg mb-4'>
+                    <div className="w-full lg:w-1/2 lg:self-stretch flex flex-col justify-between">
+                        <p className='text-2xl lg:text-3xl text-center font-bold mt-4 lg:mt-0 mb-4'>Add an animal to your portrait</p>
+                        <label className='text-base lg:text-lg mb-4'>
                             <Field type="radio" name="animal" value="petSmall" required className='mr-2'/>
                             <span className="text-xl font-bold">Small</span> - Nunc sit amet velit ut eros sodales congue. Curabitur sit amet auctor elit. Nunc eleifend eu magna vel maximus. Sed quis lacinia nisi. Maecenas luctus diam quis sem elementum, et fringilla tortor suscipit. 
                         </label>
-                        <label className='text-lg mb-4'>
+                        <label className='text-base lg:text-lg mb-4'>
                             <Field type="radio" name="animal" value="petLarge" required className='mr-2'/>
                             <span className="text-xl font-bold">Large</span> - Etiam ut luctus mauris, nec eleifend diam. Vivamus dictum ex vel tortor sodales fringilla. Integer eget neque tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.
                         </label>
-                        <label className='text-lg'>
+                        <label className='text-base lg:text-lg'>
                             <Field type="radio" name="animal" value="petMonster" required className='mr-2'/>
                             <span className="text-xl font-bold">Monster / Dragon</span> - Proin viverra mi a augue eleifend convallis. Curabitur condimentum tincidunt cursus. Proin vel dictum nunc. Pellentesque iaculis sodales lorem, ac efficitur quam cursus non. 
                         </label>
 
                         <button 
                             type="submit" 
-                            className='w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                            className='w-10/12 lg:w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
                         >
                             Add Animal
                         </button> 
@@ -642,7 +638,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             </div>
 
             <div className="flex justify-center items-center">
-                <p className='text-3xl text-center font-bold mt-0'>Add a background to your portrait</p>
+                <p className='text-xl lg:text-3xl text-center font-bold mt-4 md:mt-0'>Add a background to your portrait</p>
             </div>
 
             <Formik
@@ -651,37 +647,38 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 >
                 {({ handleChange, values }) => (
                 <Form className="w-full flex flex-col justify-between items-center">
-                    <div className="w-[675px] h-[400px] bg-[url('/images/customizer/bg.jpg')] bg-top bg-cover my-4 flex">
+                    <div className="w-[300px] h-[50vh] md:w-[675px] md:h-[400px] bg-[url('/images/customizer/bg.jpg')] bg-top bg-cover my-4 flex">
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgSimple')} 
-                            className={`w-[337px] h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
+                            className={`w-[148px] h-[50vh] md:w-[337px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
                         ></div>
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgComplex')} 
-                            className={`w-[338px] h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
+                            className={`w-[148px] h-[50vh] md:w-[338px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
                         ></div>
                     </div>
-                    <div className="w-7/12 flex justify-center">
+                    <div className="w-full md:w-7/12 flex justify-center">
                         {bg.type === 'bgSimple' && <p className="w-full text-xl font-bold text-center">Simple Background - ${bg.price}</p>}
                         {bg.type === 'bgComplex' && <p className="w-full text-xl font-bold text-center">Complex Background - ${bg.price}</p>}
-                        {bg.type === 'None' && <p className="w-full mx-auto text-xl font-semibold text-center">Click the image above to select background style</p>}
+                        {bg.type === 'None' && <p className="w-full mx-auto text-base md:text-xl font-semibold text-center">Click the image above to select background style</p>}
                     </div>
-                    <div className="w-7/12 flex">
-                        <button 
-                            type="button" 
-                            className='w-1/2 mx-4 mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-white cursor-pointer hover:bg-black hover:text-white hover:scale-105 transition duration-200 ease-in-out'
-                            onClick={handleDeleteBg}
-                        >
-                            No Background
-                        </button> 
+                    <div className="w-full md:w-7/12 flex flex-col md:flex-row">
+                        
                         <button 
                             type="submit" 
-                            className={`w-1/2 mx-4 mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black ${bg.type === 'None' ? 'bg-transparent' : 'bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'}`}
+                            className={`w-full md:w-1/2 md:mx-4 mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black ${bg.type === 'None' ? 'bg-transparent' : 'bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'}`}
                             disabled={bg.type === 'None'}
                         >
                             Add Background
+                        </button> 
+                        <button 
+                            type="button" 
+                            className='w-full md:w-1/2 md:mx-4 mt-4 md:mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-white cursor-pointer hover:bg-black hover:text-white hover:scale-105 transition duration-200 ease-in-out'
+                            onClick={handleDeleteBg}
+                        >
+                            No Background
                         </button> 
                     </div>
                     
@@ -711,16 +708,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 onSubmit={handleAddExtras}
                 >
                 {({ handleChange, values }) => (
-                <Form className="w-full h-full pb-24 lg:pb-0 flex flex-col justify-around items-center">
+                <Form className="w-full h-full lg:mb-96 xl:mb-0 pb-24 xl:pb-0 flex flex-col justify-around items-center">
                     
                     <p className='w-full text-3xl text-center font-bold mt-0 mb-4'>
                         Add Extra Features to your portrait
                     </p>
-                    <div className="w-full h-full flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-around items-center">
-                        <div className='self-stretch w-full lg:w-1/3 lg:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                    <div className="w-full h-full flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-around items-center">
+                        
+                        <div className='self-stretch w-full md:w-1/3 md:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <motion.div 
-                                className="w-[60%] h-[45%] mt-8 bg-white rounded-lg"
+                                className="w-[60%] h-[45%] md:w-[80%] md:h-[35%] xl:w-[60%] xl:h-[45%] mt-8 md:mt-0 xl:mt-8 bg-white rounded-lg border border-red-600"
                                 initial={{ 
                                     scale: 0
                                 }}
@@ -731,44 +729,44 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <p className="mt-4 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r pb-[10px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                             </motion.div>
                             
-                            <div className="w-full h-1/3 pt-2 text-center">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 pt-2 md:pt-4 xl:pt-2 text-center border border-blue-600">
                                 <label className="w-full"> 
                                     <Field type="checkbox" name="extras" value="model" className='mr-2'/>
-                                    <span className='text-lg ml-2'>3D Model</span>
+                                    <span className='text-lg md:text-base xl:text-lg ml-2'>3D Model</span>
                                 </label>
-                                <p className="mt-2 mb-2 text-left">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</p>
+                                <p className="mt-2 mb-2 text-left md:text-sm xl:text-base">Once you have approved of your final portrait, we&apos;ll design and ship you a custom <span className="text-[#43b4e4] font-bold">3d-model</span> based off the image design!</p>
                             </div>
                         </div>
 
-                        <div className='self-stretch w-full lg:w-1/3 lg:selection:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                        <div className='self-stretch w-full md:w-1/3 md:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/character_sheet.svg" 
-                                className="w-[65%] h-[65%] relative -top-[45px] rounded-lg"
+                                className="w-[65%] h-[65%]  md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[65%] relative -top-[45px] md:-top-8 xl:-top-[45px] rounded-lg border border-red-600"
                             />    
-                            <div className="w-full h-1/3 -mt-2 text-center">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center border border-blue-600">
                                 <label className="w-full">            
                                     <Field type="checkbox" name="extras" value="character" className='mr-2'/>
-                                    <span className='text-lg ml-2'>Character Sheet</span>
+                                    <span className='text-lg md:text-base xl:text-lg  ml-2'>Character Sheet</span>
                                 </label>
-                                <p className="mt-2 mb-2 text-left">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
+                                <p className="mt-2 mb-2 text-left md:text-sm xl:text-base">If you&apos;re planning on using this character for a <span className="text-[#43b4e4] font-bold">DnD campaign</span>, we can create a personalized character sheet to make all your friends jealous.</p>
                             </div>
                         </div>
 
-                        <div className='self-stretch w-full lg:w-1/3 lg:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
+                        <div className='self-stretch w-full md:w-1/3 md:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/weapons_sheet.svg" 
-                                className="w-[65%] h-[90%] relative -top-[55px] rounded-lg"
+                                className="w-[65%] h-[90%] md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[90%] relative -top-[55px] md:-top-8 xl:-top-[55px] rounded-lg border border-red-600"
                             />  
-                            <div className="w-full h-1/3 text-center">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center border border-blue-600">
                                 <label className="w-full">   
                                     <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
-                                    <span className='text-lg ml-2'>Weapons Sheet</span>
+                                    <span className='text-lg md:text-base xl:text-lg ml-2'>Weapons Sheet</span>
                                 </label>
-                                <p className="mt-2 mb-2 text-left">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</p>
+                                <p className="mt-2 mb-2 text-left md:text-sm xl:text-base">Have a <span className="text-[#43b4e4] font-bold">special weapon</span> that deserves it&apos;s own attention? Add this option and we will design a separate weapon sheet that will display it from multiple perspectives, showcasing it in all it&apos;s glory.</p>
                             </div>
                         </div>
                     </div>
@@ -777,7 +775,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                         <button 
                             type="submit" 
-                            className='w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                            className='w-full xl:w-1/2 mx-auto mt-4 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
                         >
                             Add Extras
                         </button> 
@@ -798,22 +796,22 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             PaperProps={{ sx: { p: 4, backgroundColor: "#E9E9E9"} }}
         >   
             <div className='absolute top-0 right-0 w-1/12 mb-4 flex justify-center items-center'>
-                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 right-0 lg:-right-10 text-white'>
+                <IconButton onClick={() => setOpenCharMod(false)} className='absolute top-0 right-0 xl:-right-10 text-white'>
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
 
-            <div className="w-full lg:h-[90vh] py-10">
+            <div className="w-full lg:mb-96 xl:h-[90vh] py-10">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form className="w-full h-full flex flex-col gap-y-4 lg:gap-y-0 lg:flex-row justify-between items-center border border-red-600">
+                    <Form className="w-full h-full flex flex-col gap-y-4 xl:gap-y-0 xl:flex-row justify-between items-center border border-red-600">
                         
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
-                            <div className="lg:order-first w-full lg:w-1/5 h-[100%] lg:h-[80%] flex flex-col justify-between border border-blue-600">
+                            <div className="xl:order-first w-full xl:w-1/5 h-[100%] xl:h-[80%] mt-4 md:mt-0 flex flex-col justify-between border border-blue-600">
                                 <div className='w-full flex justify-between items-end'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
@@ -849,8 +847,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'body' && (
-                                                <div className="w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute top-0 left-[42%] m-0 ml-8 z-40">
-                                                    <img src="./images/body_type.png"  className="max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
+                                                <div className="w-[275px] md:w-[300px] bg-[#282828] border-4 border-[#282828] rounded-lg p-2 absolute top-0 -left-[150px] md:left-[42%] m-0 ml-8 z-40">
+                                                    <img src="./images/body_type.png"  className="max-w-[255px] md:max-w-[280px] h-auto object-contain mx-auto border-4 border-white rounded-lg" alt='thumbnail for selected body type'/>
                                                 </div>
                                             )}
                                         </div>
@@ -858,8 +856,8 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
 
                                 <div className='w-full flex justify-between items-end'>
-                                    <div className='w-full relative flex justify-between items-center'>
-                                        <p className='text-lg mr-4 my-4 font-semibold'>Character Variations:</p>
+                                    <div className='w-full mt-4 xl:mt-0 relative flex justify-between md:justify-start xl:justify-between items-center'>
+                                        <p className='text-sm md:text-lg mr-4 md:mr-12 xl:mr-4 my-4 font-semibold'>Character Variations:</p>
 
                                         <TextField
                                             type="number"
@@ -881,13 +879,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             }}
                                         />
                                         <div
-                                            className="absolute top-0 left-[58%] m-0 p-0"
+                                            className="absolute top-0 left-[58%] md:left-[27%] lg:left-[20%] xl:left-[58%] m-0 p-0"
                                             onMouseOver={() => handleMouseOver('variations')}
                                             onMouseOut={handleMouseOut}
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'variations' && (
-                                                <div className="w-[300px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[70%] m-0 ml-4 z-40">
+                                                <div className="w-[250px] md:w-[300px] bg-[#282828] rounded-lg p-4 absolute top-0 md:-top-[25%] -left-[160px] md:left-[70%] m-0 ml-4 z-40">
                                                     <h2 className="text-white text-md text-left">How many versions of this character are you looking for? For additional <span className="text-[#43b4e4] font-bold">different</span> characters please click &quot;Complete Character&quot; then use the “add character” button.</h2>
                                                 </div>
                                             )}
@@ -968,18 +966,18 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>  */}
 
                                 {/* Add Weapon */}
-                                <div className='w-full flex justify-between items-end'>
+                                <div className='w-full mt-4 xl:mt-0 flex justify-between items-end'>
                                     <div className="relative">
                                         <p className='text-lg mr-4 mb-2 font-semibold'>Weapon:</p>                                        
-                                        <label className='text-lg'>
+                                        <label className='text-sm md:text-lg'>
                                             <Field type="radio" name="weapon" value="none" required className='mr-2'/>
                                             None
                                         </label>
-                                        <label className='text-lg ml-4'>
+                                        <label className='text-sm md:text-lg ml-4'>
                                             <Field type="radio" name="weapon" value="simple" required className='mr-2'/>
                                             Simple
                                         </label>
-                                        <label className='text-lg ml-4'>
+                                        <label className='text-sm md:text-lg ml-4'>
                                             <Field type="radio" name="weapon" value="complex" required className='mr-2'/>
                                             Complex
                                         </label>
@@ -990,7 +988,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         >
                                             <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                             {isHovering && message === 'weapon' && (
-                                                <div className="w-[350px] bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[45%] m-0 ml-4 z-40">
+                                                <div className="w-[275px] md:w-[350px] bg-[#282828] rounded-lg p-4 absolute top-0 md:-top-[25%] -left-[100px] [md:left-[45%] m-0 ml-4 z-40">
                                                     <h2 className="text-white text-md text-left">Copy needed for<span className="text-[#43b4e4] font-bold">Weapon</span></h2>
                                                 </div>
                                             )}
@@ -1002,38 +1000,38 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 {/* <div className='w-full flex flex-col justify-between mb-3'> */}
                                     {/* <p className='text-lg my-4 font-semibold'>Additional Character Attributes:</p> */}
                                     {/* <div className="w-full flex"> */}
-                                <div className='relative w-full'>
+                                <div className='relative w-full md:w-[45%] xl:w-full mt-4 xl:mt-0'>
                                     <label>
                                         <Field type="checkbox" name="wings" className='mr-2'/>
                                         <span className='text-lg font-semibold ml-2'>Add Wings</span>
                                     </label>
                                     <div
-                                        className="absolute -top-2 left-[40%] m-0 p-0"
+                                        className="absolute -top-2 left-[50%] md:left-[45%] m-0 p-0"
                                         onMouseOver={() => handleMouseOver('wings')}
                                         onMouseOut={handleMouseOut}
                                     >
                                         <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                         {isHovering && message === 'wings' && (
-                                            <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                            <div className="w-[275px]  bg-[#282828] rounded-lg p-4 absolute top-0 md:-top-[25%] -left-[150px] md:left-[35%] m-0 ml-4 z-40">
                                                 <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold"> Add Wings</span></h2>
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 
-                                <div className='relative w-full'>
+                                <div className='relative w-full md:w-[45%] xl:w-full mt-4 xl:mt-0'>
                                     <label>
                                         <Field type="checkbox" name="armourComplex" className='mr-2'/>
                                         <span className='text-lg font-semibold ml-2'>Add Armour</span>
                                     </label>
                                     <div
-                                        className="absolute -top-2 left-[45%] m-0 p-0"
+                                        className="absolute -top-2 left-[55%] md:left-[45%] xl:left-[45%] m-0 p-0"
                                         onMouseOver={() => handleMouseOver('armour')}
                                         onMouseOut={handleMouseOut}
                                     >
                                         <InfoIcon className="text-sm hover:text-[#43b4e4]"/>
                                         {isHovering && message === 'armour' && (
-                                            <div className="w-[300px]  bg-[#282828] rounded-lg p-4 absolute -top-[25%] left-[35%] m-0 ml-4 z-40">
+                                            <div className="w-[275px] bg-[#282828] rounded-lg p-4 absolute top-0 md:-top-[25%] -left-[170px] md:left-[35%] m-0 ml-4 z-40">
                                                 <h2 className="text-white text-md text-left">Need Copy <span className="text-[#43b4e4] font-bold">Add Armour</span></h2>
                                             </div>
                                         )}
@@ -1046,7 +1044,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <div>
                                     <div 
                                         onClick={() => setOpenAddExtras(true)}
-                                        className='w-full lg:w-4/5 mt-4 lg:mt-0 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
+                                        className='w-full md:w-4/5 md:mx-auto xl:mx-0 mt-4 xl:mt-0 font-semibold text-xl text-center text-[#43b4e4] bg-white rounded-lg py-2 px-4 border-2 border-[#43b4e4] p-[4px] cursor-pointer hover:scale-105 transition duration-200 ease-in-out hover:text-white hover:bg-[#43b4e4]'
                                     >
                                         Add Extras
                                     </div>
@@ -1116,16 +1114,17 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="order-first lg:order-none lg:self-stretch w-full lg:w-1/2 lg:ml-4 flex flex-col justify-between border border-green-600">
+                            <div className="order-first xl:order-none xl:self-stretch w-full xl:w-1/2 xl:ml-4 flex flex-col justify-between border border-green-600">
                                 
                                 <div className="mb-2 flex justify-center items-center">
-                                    <img className="hidden lg:block mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
-                                    <p className='text-xl lg:text-2xl text-center font-bold mb-4 lg:mb-0 mt-0'>Make your selections to add a character to your portrait</p>
-                                    <img className="hidden lg:block ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
+                                    <img className="hidden md:block mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
+                                    <p className='text-xl md:text-2xl text-center font-bold mb-4 xl:mb-0 mt-0'>Make your selections to add a character to your portrait</p>
+                                    <img className="hidden md:block ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
                                 </div>
 
-                                <div className="w-full h-[40vh] lg:h-1/2 flex flex-wrap lg:flex-nowrap justify-between items-stretch border border-purple-600">
-                                    <div className={`w-[150px] lg:w-[250px] h-[40%] lg:h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto mx-auto lg:mr-0 lg:ml-4 object-cover object-top rounded-xl`}>
+                                <div className="w-full h-[50vh] md:h-[20vh] xl:h-1/2 flex flex-wrap md:flex-nowrap justify-between items-stretch border border-purple-600">
+                                    
+                                    <div className={`w-[150px] md:w-[40%] xl:w-[250px] h-[40%] md:h-[90%] xl:h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto mx-auto md:mx-4 xl:mr-0 xl:ml-4 object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
                                         <motion.object 
                                             type="image/svg+xml" 
@@ -1140,21 +1139,21 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="w-full lg:w-[57%] lg:h-full mt-4 lg:mt-0 flex flex-col border border-red-600">
+                                    <div className="w-full xl:w-[57%] md:h-full mt-4 md:mt-0 flex flex-col border border-red-600">
                                         
-                                        <div className="w-[100%] lg:h-1/3 flex flex-col">
+                                        <div className="w-[100%] md:h-1/3 flex flex-col">
                                             {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
                                             {values.bodyStyle !== '' && <div className="w-full h-[65%] flex flex-wrap items-start">
                                                 {[...Array(values.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i}.svg`} className="w-1/6 h-[90%]"></object>)}
                                             </div>}
                                         </div>
 
-                                        <div className="w-[100%] lg:h-2/3 mt-2 flex justify-between border border-teal-600">
+                                        <div className="w-[100%] md:h-2/3 xl:h-2/3 mt-2 md:mt-6 xl:mt-2 flex justify-between border border-teal-600">
                                             
-                                            <div className="w-2/3 lg:w-1/3 flex">
-                                                <div className="w-1/2 lg:w-full lg:h-[50%] flex flex-col justify-center items-center border border-blue-600">
-                                                    {values.weapon !== 'none' && <p className="text-sm lg:text-base text-center lg:text-left font-semibold">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
-                                                    {values.weapon !== 'none' && <div className="w-[65px] lg:w-[114px] h-[50px] flex justify-center items-center">
+                                            <div className="w-2/3 md:h-full xl:w-1/3 flex">
+                                                <div className="w-1/2 xl:w-full md:h-full xl:h-[50%] flex flex-col justify-center md:justify-between xl:justify-center items-center border border-blue-600">
+                                                    {values.weapon !== 'none' && <p className="text-sm md:text-base text-center xl:text-left font-semibold md:pt-1 xl:pt-0">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
+                                                    {values.weapon !== 'none' && <div className="w-[65px] md:w-[95px] xl:w-[114px] h-[50px] flex justify-center items-center md:mb-4 xl:mb-0">
                                                         {values.weapon === 'simple' && 
                                                             <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
                                                         }
@@ -1164,7 +1163,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     </div>}
                                                 </div>
                                             
-                                                <div className="w-1/2 lg:w-full lg:h-[50%] flex flex-col justify-center items-center ">
+                                                <div className="w-1/2 xl:w-full xl:h-[50%] flex flex-col justify-center items-center ">
                                                     {values.wings && <p className="font-semibold">Wings</p>}
                                                     {values.wings && <div className="w-[114px] h-[75px] flex justify-center items-center">
                                                         <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[90%]" />
@@ -1172,7 +1171,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 </div>
                                             </div>
 
-                                            <div className="w-1/3 lg:w-7/12 h-full">
+                                            <div className="w-1/3 xl:w-7/12 h-full">
                                                 <div className="w-full h-full flex flex-col justify-center items-center">
                                                     {values.armourComplex && <p className="font-semibold">Armour</p>}
                                                     {values.armourComplex && <div className="w-[60%] h-[70%] flex justify-center items-center">
@@ -1209,11 +1208,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                                 
 
-                                <div className="h-[15vh] lg:h-[175px] lg:ml-6 lg:mt-4 flex items-start border border-gray-950">
+                                <div className="h-[15vh] xl:h-[175px] xl:ml-6 xl:mt-4 flex items-start border border-gray-950">
 
                                     {extras.includes("model") && 
                                      <motion.div 
-                                        className="w-[27%] h-[80%] lg:w-[150px] lg:h-[165px] mt-[5%] lg:mt-0 pb-2 mr-4 lg:mr-20 bg-white rounded-lg"
+                                        className="w-[27%] h-[80%] md:w-[20%] md:h-[100%] xl:w-[150px] xl:h-[165px] mt-[5%] md:mt-0 pb-2 mr-4 md:mr-16 xl:mr-20 bg-white rounded-lg"
                                         initial={{ 
                                             scale: 0
                                         }}
@@ -1221,15 +1220,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         transition={{ type: "spring", duration: .5 }}    
                                     >
                                         <object type="image/svg+xml" data="images/customizer/3d.svg" className="w-full h-[60%] rounded-lg pt-4"></object>
-                                        <p className="mt-4 lg:mt-8 text-sm lg:text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
+                                        <p className="mt-2 xl:mt-8 text-xs xl:text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                                     </motion.div>}
 
                                     {extras.includes("character") && 
-                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative top-0 lg:-top-[50px] w-[30%] lg:w-[175px] lg:h-[225px] rounded-lg mr-4 lg:mr-20 border border-red-600"></object>
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative top-0 md:-top-[20%] xl:-top-[50px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg mr-4 md:mr-16 xl:mr-20 border border-red-600"></object>
                                     }
 
                                     {extras.includes("weapons") && 
-                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative top-0 lg:-top-[57px] w-[30%] lg:w-[175px] lg:h-[225px] rounded-lg border border-red-600"></object>    
+                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative top-0 md:-top-[22%] xl:-top-[57px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg border border-red-600"></object>    
                                     }
                                 </div>
                             </div>
@@ -1238,11 +1237,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="self-start w-full lg:w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col border-b-8 border-[#282828]">
+                            <div className="self-start w-full xl:w-1/4 bg-[#ffffff] rounded-xl p-4 flex flex-col border-b-8 border-[#282828] md:mb-16">
                                 <div className="w-full flex flex-col">
                                     <h2 className="w-full mb-8 text-3xl text-center text-[#43b4e4] font-bold">Options Pricing</h2>
                                     
-                                    <div className="w-full mb-4 pb-4 border-b-2 border-[#282828]">
+                                    <div className="w-full mb-4 md:px-12 xl:px-0 pb-4 border-b-2 border-[#282828]">
                                         {values.bodyStyle !== '' && <div className="flex justify-between items-center">
                                             <p className="">BodyStyle</p>
                                             <p>${!prices[values.bodyStyle] ? (0).toFixed(2) : prices[values.bodyStyle].toFixed(2)}</p>
@@ -1281,9 +1280,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         </div>}
                                     </div>
                                     
-                                    <div className="self-end w-full flex justify-between items-center">
-                                        <p className={`w-full ${!discount ? "font-bold text-xl" : "font-semibold"}`}>{!values.charDiscount ? 'Total: ' : 'Sub total: '}</p>
-                                        <p className={`w-3/4 flex justify-between items-center ${!values.charDiscount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-xl" : "font-semibold"}`}>
+                                    <div className="self-end w-full md:px-12 xl:px-0 flex justify-between items-center">
+                                        <p className={`md:w-full ${!discount ? "font-bold text-lg md:text-xl" : "font-semibold"}`}>{!values.charDiscount ? 'Total: ' : 'Sub total: '}</p>
+                                        <p className={`w-3/4 flex justify-between items-center ${!values.charDiscount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-lg md:text-xl" : "font-semibold"}`}>
                                             <span className="w-full text-right">
                                                 $ {(0 + 
                                                     (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
@@ -1313,9 +1312,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             + (extras.includes('character') ? prices.character : 0)
                                             + (extras.includes('weapons') ? prices.weapons : 0)) * .1).toFixed(2)}</p>
                                         </div>
-                                        <div className="self-end w-9/12 flex justify-between items-center">
+                                        <div className="self-end w-9/12 px-12 xl:px-0 flex justify-between items-center">
                                             <p className="w-1/4 text-xl font-bold">Total: </p>
-                                            <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
+                                            <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 md:px-0 xl:px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                             + ((values.numCharVariations - 1) * prices.charVariations) 
                                             + (prices.complexity[values.complexity - 1])
                                             + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
@@ -1330,7 +1329,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
                                 <button 
                                     type="submit" 
-                                    className='w-4/5 mx-auto mt-8 text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                                    className='w-full md:w-4/5 mx-auto mt-8 md:mb-8 xl:mb-0 text-lg md:text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
                                 >
                                     Complete Character
                                 </button> 
