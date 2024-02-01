@@ -31,6 +31,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
     .onCreate(async (snap, context) => {
     
     const payment = snap.data();
+    console.log('payment: ', payment)
 
     if (payment.status === 'succeeded') {
         const portraitIds = payment.metadata.portraitIds.split(',')

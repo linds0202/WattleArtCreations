@@ -82,7 +82,7 @@ export async function getCheckoutUrl (items, userId) {
 
   // success?session_id={CHECKOUT_SESSION_ID}
 
-
+  console.log('docref: ', docRef)
   return new Promise((resolve, reject) => {
       const unsubscribe = onSnapshot(docRef, (snap) => {
       const { error, url } = snap.data() 

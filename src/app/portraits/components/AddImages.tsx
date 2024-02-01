@@ -67,7 +67,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
       open={openUpload} 
       fullWidth={true}
       maxWidth='md'
-      PaperProps={{ sx: { p: 6, backgroundColor: "white", position: 'relative'} }}
+      PaperProps={{ sx: { p: 4, backgroundColor: "white", position: 'relative'} }}
     >
       <div className='absolute top-2 right-2 w-1/12 mb-4'>
         <IconButton onClick={() => setOpenUpload(false)} className='text-white'>
@@ -75,13 +75,13 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
         </IconButton>
       </div>
 
-      <div className="flex justify-center items-center mb-4">
-          <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
-          <p className='text-4xl text-center font-bold mt-0'>Image Upload</p>
-          <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='cblack accent paint splash'/>
+      <div className="w-full flex justify-center items-center mb-4">
+          <img className="mr-4 w-[10%] md:w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
+          <p className='text-xl md:text-4xl text-center font-bold mt-0'>Image Upload</p>
+          <img className="ml-4 w-[10%] md:w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='cblack accent paint splash'/>
       </div>
       
-      <div className='w-10/12 flex justify-between items-center'>
+      <div className='w-full md:w-10/12 flex flex-col md:flex-row justify-between items-center'>
         <div className="flex justify-center items-center">
           <Button component="label" 
               variant="outlined"
@@ -92,11 +92,11 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
           </Button>
         </div>
         
-        <div className='w-8/12 flex flex-wrap justify-start items-center'>  
+        <div className='w-full md:w-8/12 flex flex-wrap justify-start items-center'>  
           {files.length === 0 
-            ? <p>No Files Uploaded</p>
+            ? <p className='w-full text-center md:text-left mt-2 md:mt-0'>No Files Uploaded</p>
             : files?.map((file, i) => (
-              <div key={i} className='w-1/3 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
+              <div key={i} className='w-full md:w-1/3 flex justify-between items-center border-2 border-[#e5e5e5] rounded-lg m-2 p-2'>
                   <p className='w-10/12 h-[25px] overflow-hidden'>{file.name}</p>
                   <button type="button" onClick={() => handleDeleteImg(i)} className='ml-2'>
                       <DeleteForeverIcon />
@@ -107,7 +107,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
         </div>
       </div>
       
-      <div className='w-full mt-4 flex flex-col'>
+      <div className='w-full mt-8 md:mt-4 flex flex-col'>
         <label className='text-sm leading-3'>
             Add info about your images
         </label>
@@ -121,7 +121,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
             className="text-black mt-2 border-2 border-[#E5E5E5] rounded-lg py-2 px-4"
         />
       </div>
-      <div className='mt-4 flex'>
+      <div className='mt-4 flex justify-between'>
         <button
           type='button'
           onClick={() => setOpenUpload(false)}
@@ -133,7 +133,7 @@ const AddImages = ({ uploads, setUploads, openUpload, setOpenUpload, editImgGrou
         <button
           type='button'
           onClick={handleSave}
-          className={`ml-4 border-2 rounded-xl py-2 px-4 ${files.length !== 0  ? 'border-[#282828] hover:bg-[#43b4e4] hover:text-white' : 'border-[#bababa] text-[#bababa]'}`}
+          className={`ml-4 border-2 rounded-xl py-2 px-6 md:px-4 ${files.length !== 0  ? 'border-[#282828] hover:bg-[#43b4e4] hover:text-white' : 'border-[#bababa] text-[#bababa]'}`}
           disabled={ files.length === 0 }
         >
           Save

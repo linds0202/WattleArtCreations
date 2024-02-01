@@ -261,6 +261,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             })
 
             let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
+            console.log('updatedTotalPrice')
 
             updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             
@@ -276,6 +277,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             //update portrait with bucket info
             const updatedImages = await getImageUrls(id, bucket, uploads)
             setTotalPrice(totalPrice + price)
+            console.log('setting new total price: ', totalPrice + price)
             
             const updatedPortrait = {...newPortrait, id: id, images: [...updatedImages] }
                
@@ -457,8 +459,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                                     <div className='w-[100%] flex flex-wrap items-center mt-4 border-2 bg-[#e8e8e8] rounded-xl p-4'>
                                         <p className='text-black mr-2'>Previously uploaded images:</p>
                                         {portraitData.images.map((imgGroup, i) =>
-                                        <div key={i} className='bg-white rounded-lg mr-4 mb-2 p-2 flex '>
-                                            {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-4 w-[32px] h-[32px] object-contain' alt='thumbnail of customer uploaded images'/>)}
+                                        <div key={i} className='bg-white rounded-lg md:mr-4 mb-2 p-2 flex'>
+                                            {imgGroup.imageUrls.map((src, i) => <img src={src} key={i} className='mx-2 md:mx-4 w-[24px] h-[24px] md:w-[32px] md:h-[32px] object-contain' alt='thumbnail of customer uploaded images'/>)}
 
                                             <button 
                                                 type="button" 

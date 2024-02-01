@@ -259,9 +259,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
         setOpenAddExtras(false)
     }
 
-    console.log('extras is now: ', extras)
-    console.log("initialExtrasValues is: ", initialExtrasValues)
-
     const handleAddAnimal = (values: any) => {
         let newAnimal
         switch (values.animal) {
@@ -801,7 +798,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </IconButton>
             </div>
 
-            <div className="w-full lg:mb-96 xl:h-[90vh] py-10">
+            <div className="w-full lg:mb-96 xl:mb-0 xl:h-[90vh] py-10">
                 <Formik
                     initialValues={initialCharValues}
                     onSubmit={handleCharSubmit}
@@ -1243,7 +1240,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     
                                     <div className="w-full mb-4 md:px-12 xl:px-0 pb-4 border-b-2 border-[#282828]">
                                         {values.bodyStyle !== '' && <div className="flex justify-between items-center">
-                                            <p className="">BodyStyle</p>
+                                            <p className="">Body Style: {values.bodyStyle.charAt(0).toUpperCase() + values.bodyStyle.slice(1)}</p>
                                             <p>${!prices[values.bodyStyle] ? (0).toFixed(2) : prices[values.bodyStyle].toFixed(2)}</p>
                                         </div>}
                                         {values.numCharVariations > 1 && <div className="flex justify-between items-center">
