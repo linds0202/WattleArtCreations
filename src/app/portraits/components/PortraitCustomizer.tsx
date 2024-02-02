@@ -261,7 +261,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             })
 
             let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
-            console.log('updatedTotalPrice')
 
             updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             
@@ -277,7 +276,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             //update portrait with bucket info
             const updatedImages = await getImageUrls(id, bucket, uploads)
             setTotalPrice(totalPrice + price)
-            console.log('setting new total price: ', totalPrice + price)
             
             const updatedPortrait = {...newPortrait, id: id, images: [...updatedImages] }
                

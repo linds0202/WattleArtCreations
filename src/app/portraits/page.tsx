@@ -73,7 +73,10 @@ export default function Portraits() {
     if (cart !== null && cart.length !== 0) {
       currentPortraits = JSON.parse((cart))
       
+      const newPrice = currentPortraits.reduce((sum, p) => sum += p.price, 0)
+      
       setPortraits(JSON.parse((cart)))
+      setTotalPrice(newPrice)
     } else {
       currentPortraits = []
       setPortraits([])
@@ -191,7 +194,6 @@ export default function Portraits() {
     }
   }
 
-  console.log('total price on cart page: ', totalPrice)
 
   const getUploadedImgs = (i: number) => {
     let urls: Array<string> = []
@@ -210,7 +212,7 @@ export default function Portraits() {
   }
 
   const portraitList = portraits?.map((portrait, i) => (
-    <div className='w-full bg-white rounded-lg mb-4 p-2 md:p-4 flex flex-col items-center relative border-2 border-green-600' key={i}>
+    <div className='w-full bg-white rounded-lg mb-4 p-2 lg:p-4 flex flex-col items-center relative z-20 border-2 border-green-600' key={i}>
       <button 
         type="button" 
         onClick={() => handleDelete(i)} 
@@ -220,8 +222,8 @@ export default function Portraits() {
           <DeleteForeverIcon />
       </button>
 
-      <div className='w-full md:w-3/4 mb-2 flex justify-between md:justify-center items-center border-2 border-blue-600'>
-        <div className='md:hidden w-[96px] h-[96px] object-cover object-top rounded-xl'>
+      <div className='w-full lg:w-3/4 mb-2 flex justify-between lg:justify-center items-center border-2 border-blue-600'>
+        <div className='lg:hidden w-[96px] h-[96px] object-cover object-top rounded-xl'>
           <img 
             src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === categories.cat1.type 
               ? categories.customizer.defaults.cat1DefaultImg 
@@ -234,7 +236,7 @@ export default function Portraits() {
           />
           
         </div>
-        <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='block md:inline text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
+        <p className='text-2xl font-semibold text-black text-center mb-2'>{portrait?.portraitTitle} <span className='block lg:inline text-lg text-[#43b4e4] font-semibold'>({portrait?.mode})</span></p>
         <button type="button" onClick={() => handleEdit(i)} className='hover:text-[#43b4e4] ml-4'>
           <EditIcon />
         </button>
@@ -242,8 +244,8 @@ export default function Portraits() {
 
       
 
-      <div className='w-full flex flex-col md:flex-row justify-between items-center border-2 border-yellow-600'>
-        <div className='hidden md:block w-[125px] h-[125px] object-cover object-top rounded-xl'>
+      <div className='w-full flex flex-col lg:flex-row justify-between items-center border-2 border-yellow-600'>
+        <div className='hidden lg:block w-[125px] h-[125px] object-cover object-top rounded-xl'>
           <img 
             src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === categories.cat1.type 
               ? categories.customizer.defaults.cat1DefaultImg 
@@ -258,23 +260,23 @@ export default function Portraits() {
         </div>
 
 
-        <div className='w-full md:w-3/4 flex flex-col'>
-          <div className='w-full md:ml-4 flex flex-wrap md:flex-nowrap border border-teal-600'>
-            <div className='w-5/12 md:w-2/12 items-start flex flex-col'>
+        <div className='w-full lg:w-3/4 flex flex-col'>
+          <div className='w-full lg:ml-4 flex flex-wrap lg:flex-nowrap border border-teal-600'>
+            <div className='w-5/12 lg:w-2/12 items-start flex flex-col'>
               <p className='text-black text-lg border-b border-[#8d8d8d]'>Characters</p>
               <div className='mt-[6px] flex justify-start'>  
                 {getCharIcons(i)}
               </div>
             </div>
 
-            <div className='w-1/2 md:w-3/12 md:ml-10'>
+            <div className='w-1/2 lg:w-3/12 lg:ml-10'>
               <p className='text-black text-lg border-b border-[#8d8d8d]'>Animals</p>
               <div className='mt-[6px] flex justify-start'>  
                 {getAnimalIcons(i)}
               </div>
             </div>
 
-            <div className='w-full md:w-7/12 md:ml-10 mt-2 md:mt-0'>
+            <div className='w-full lg:w-7/12 lg:ml-10 mt-2 lg:mt-0'>
               <p className='text-black text-lg border-b border-[#8d8d8d] mr-4'>Uploaded Images</p>
               <div className='mt-[6px] flex justify-start'> 
                 {getUploadedImgs(i)}
@@ -283,13 +285,13 @@ export default function Portraits() {
           </div> 
         
           <div className='flex justify-between items-center mt-4 md:mt-0'>
-            <p className='w-7/12 md:w-auto md:ml-4 md:mt-[6px] text-black text-lg border border-pink-600'><span className='border-b border-[#8d8d8d]'>Background -</span> {portrait.bg.type === 'bgSimple' ? 'Simple' : portrait.bg.type === 'bgComplex' ? 'Complex' : 'None'} </p>
+            <p className='w-7/12 lg:w-auto lg:ml-4 lg:mt-[6px] text-black text-lg border border-pink-600'><span className='border-b border-[#8d8d8d]'>Background -</span> {portrait.bg.type === 'bgSimple' ? 'Simple' : portrait.bg.type === 'bgComplex' ? 'Complex' : 'None'} </p>
             
-            <p className='md:hidden w-3/12 text-black text-right text-2xl font-semibold border border-pink-600'>${portrait?.price}</p>
+            <p className='lg:hidden w-3/12 text-black text-right text-2xl font-semibold border border-pink-600'>${portrait?.price}</p>
           </div>   
         </div>
         
-        <div className='hidden md:block'>
+        <div className='hidden lg:block'>
           <p className='text-black text-xl font-semibold mb-4'>${portrait?.price}</p>
         </div>
       </div>
@@ -301,20 +303,20 @@ export default function Portraits() {
     <div className='w-full flex flex-col justify-between mt-4' key={i}>
       
       <div className="flex justify-between items-center">
-        <p className='text-lg font-semibold'>{portrait?.portraitTitle.slice(0,20)} <span className='text-sm'>({portrait.mode})</span></p>
+        <p className='text-lg md:text-base xl:text-lg font-semibold'>{portrait?.portraitTitle.slice(0,20)} <span className='text-sm md:text-xs xl:text-sm'>({portrait.mode})</span></p>
         <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.toFixed(2)}</p>
       </div>
       
       {/* border-t border-[#282828]/50 */}
-      <div className="w-full md:3/4 mb-4 md:px-12 xl:px-0 py-2 bg-white/50 rounded-xl">
+      <div className="w-full xl:w-3/4 mb-4 py-2 bg-white/50 rounded-xl">
         {/* num chars  */}
-        <p className='font-semibold ml-4'>Characters ({portrait.characters.length})</p>
-        <div className="w-7/12 ml-8">
+        <p className='text-base md:text-sm lg:text-base font-semibold ml-4 md:ml-2 xl:ml-4'>Characters ({portrait.characters.length})</p>
+        <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
             {portrait.characters.map((char, i) => 
             (
               <div key={i} className='flex justify-between'>
-                <p className="">Char {i + 1}:</p>
-                <p>${char.total}</p>
+                <p className="text-base md:text-sm lg:text-base">Char {i + 1}:</p>
+                <p className="text-base md:text-sm lg:text-base">${char.total}</p>
               </div>
             ))}
         </div>
@@ -322,13 +324,13 @@ export default function Portraits() {
         {/* Animals */}
         {portrait.animals.length !== 0 && 
         <>
-          <p className='font-semibold ml-4'>Animals ({portrait.animals.length})</p>
-          <div className="w-7/12 ml-8">
+          <p className='font-semibold ml-4 md:ml-2 xl:ml-4'>Animals ({portrait.animals.length})</p>
+          <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
               {portrait.animals.map((animal, i) => 
               (
                 <div key={i} className='flex justify-between'>
-                  <p className="">{animal.type}:</p>
-                  <p>${animal.price}</p>
+                  <p className="text-base md:text-sm lg:text-base">{animal.type}:</p>
+                  <p className="text-base md:text-sm lg:text-base">${animal.price}</p>
                 </div>
               ))}
           </div>
@@ -337,12 +339,12 @@ export default function Portraits() {
         {/* Background */}
         {portrait.bg.type !== 'None' && 
         <>
-          <p className='font-semibold ml-4'>Background</p>
-          <div className="w-7/12 ml-8">
+          <p className='font-semibold ml-4 md:ml-2 xl:ml-4'>Background</p>
+          <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
             <div className='flex justify-between'>
-              {portrait.bg.type === 'bgSimple' && <p>Simple Background</p>}
-              {portrait.bg.type === 'bgComplex' && <p>Complex Background</p>}
-              <p>${portrait.bg.price}</p>
+              {portrait.bg.type === 'bgSimple' && <p className="text-base md:text-sm lg:text-base">Simple Background</p>}
+              {portrait.bg.type === 'bgComplex' && <p className="text-base md:text-sm lg:text-base">Complex Background</p>}
+              <p className="text-base md:text-sm lg:text-base">${portrait.bg.price}</p>
             </div>
           </div>
         </>}
@@ -359,7 +361,7 @@ export default function Portraits() {
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="z-50 w-full md:w-auto text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+      className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout
@@ -388,9 +390,9 @@ export default function Portraits() {
         {!openWizard && <h1 className='font-serif text-white text-6xl mt-16 mb-4 font-bold'>My Cart</h1>}
 
         {/* Display the cart */}
-        <div className='w-full flex justify-between items-center md:items-stretch px-2 md:px-8 border border-red-600'> 
+        <div className='w-full flex justify-between items-center md:items-stretch px-2 md:px-0 xl:px-8 border border-red-600'> 
           {!openWizard && 
-          <div className='w-full flex flex-col md:flex-row'>
+          <div className='w-full md:pl-2 xl:pl-0 flex flex-col md:flex-row md:justify-between border border-yellow-600'>
             <div className='w-full md:w-8/12 flex flex-col justify-start items-center'>
               {portraits.length === 0 
                 ? <div className='flex flex-col justify-start items-center border border-white/25 rounded-xl p-8 text-white shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/50'>
@@ -417,7 +419,7 @@ export default function Portraits() {
                   </div> 
                 : <>
                     {portraitList}
-                    <button onClick={() => setOpenWizard(true)} className='hidden rounded-xl md:w-1/4 h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>
+                    <button onClick={() => setOpenWizard(true)} className='hidden md:block rounded-xl md:w-2/3 xl:w-1/4 h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>
                       <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
                         <p className='text-xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] text-transparent bg-clip-text'>Create Another Portrait</p>
                       </div>
@@ -448,7 +450,7 @@ export default function Portraits() {
 
               {/* Wizard closed show calculate price button */}
               { (portraits.length !== 0 && authUser) && 
-                  <div>
+                  <div className='w-full md:w-11/12 xl:w-3/4 mx-auto'>
                     <button onClick={() => setOpenWizard(true)} className='md:hidden rounded-xl w-full h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>
                       <div className="flex flex-col justify-between h-full bg-black rounded-lg p-4">
                         <p className='text-xl font-bold bg-gradient-to-r from-[#338cb2] to-[#43b4e4] text-transparent bg-clip-text'>Create Another Portrait</p>
@@ -498,7 +500,7 @@ export default function Portraits() {
 
         
       </div>
-      <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-1 left-0 w-full"/>
+      <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-1 left-0 w-full z-0"/>
       <Footer />
     </div>
   )

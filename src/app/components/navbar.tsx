@@ -329,8 +329,8 @@ export default function NavBar() {
                   priority={true}  
                 />
                 {cartLength && 
-                  <div className='rounded-full w-3 lg:w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
-                    <p>{`${cartLength}`}</p>
+                  <div className='rounded-full w-5 lg:w-6 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
+                    <p className='text-sm text-white'>{`${cartLength}`}</p>
                   </div>
                 }
               </div>
@@ -466,8 +466,8 @@ export default function NavBar() {
                 priority={true}  
               />
               {cartLength && 
-                <div className='rounded-full w-3 lg:w-5 -right-2 -top-2 bg-red-600 z-10 absolute flex justify-center items-center'>
-                  <p>{`${cartLength}`}</p>
+                <div className='rounded-full w-4 absolute -right-1 top-0 bg-red-600 z-10 flex justify-center items-center'>
+                  <p className='text-xs text-white'>{`${cartLength}`}</p>
                 </div>
               }
             </div>
