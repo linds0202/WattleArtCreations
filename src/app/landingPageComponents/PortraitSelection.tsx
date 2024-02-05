@@ -389,7 +389,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 
                 <motion.button 
                     disabled={authUser?.roles === 'Artist' || authUser?.roles === 'Admin'}
-                    className="text-black mt-[20%] md:mt-0 lg:-mt-[20%] xl:mt-[20%] mb-4 w-3/4 md:w-1/2 lg:w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
+                    className="text-black mt-[35%] md:mt-0 lg:-mt-[20%] xl:mt-[20%] mb-4 w-3/4 md:w-1/2 lg:w-[30%] rounded-xl px-4 py-2 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] z-10 hover:scale-105 transition duration-200 ease-in-out" 
                     onClick={() => setMode(mode)} 
                     whileHover={{ scale: 1.1, transition: {duration: 0.1} }} 
                     whileTap={{ scale: 1.05 }}

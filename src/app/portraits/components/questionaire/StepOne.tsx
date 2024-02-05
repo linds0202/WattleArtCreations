@@ -384,15 +384,16 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         onClick={() => setOpenAddAnimal(true)}
                     >
                         <div className="absolute -top-[50%] -left-[35px] w-[150px]">
-                            <PawSvg />
+                            <PawSvg/>
                         </div>
 
-                        <div className="w-full h-full text-center flex flex-col justify-center">
-                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
+                        <div onClick={() => setOpenAddAnimal(true)} className="w-full h-full text-center bg-transparent flex flex-col justify-center">
+                            <h4 onClick={() => setOpenAddAnimal(true)} className='text-[#43b4e4] text-xl font-bold m-0'>Add Animal</h4>
                             <object 
                                 type="image/svg+xml" 
                                 data={`images/customizer/addAnimal.svg`} 
-                                className="w-[100%] h-[50%] object-cover object-top cursor-pointer"
+                                className="w-[50%] h-[50%] mx-auto object-cover object-top cursor-pointer"
+                                onClick={() => setOpenAddAnimal(true)}
                             />
                         </div>
                     </div>
@@ -400,153 +401,184 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </div>
             }
 
-            <div className="w-full flex flex-wrap gap-x-4">
-                {chars.length !== 0 && <div className="w-full flex flex-col"> 
-                    <div className="mt-4 flex flex-col">
-                        <p className="text-[#282828] font-semibold text-xl text-center my-2 pb-2 border-b border-[#282828]">Background</p>
-                        {bg.type !== 'None' 
-                            ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-top bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl">
-                                <p className="w-1/2 text-xl text-center font-semibold mr-8 ">{bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>
-                                <p>${bg.price.toFixed(2)}</p>
-                                <button 
-                                    type="button" 
-                                    onClick={handleDeleteBg} 
-                                    className='absolute top-0 right-0 text-black hover:text-red-600'
-                                >
-                                    <DeleteForeverIcon />
-                                </button>
-                            </div>
-                            : <p className="text-center text-red-600 font-semibold">No Background Added</p>
-                            }
-                    </div>                    
-                    
-                    <div className="flex flex-wrap gap-2 justify-center">
-                        <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Animals</p>
-                        {/* Animal & bg cards */}
-                        {animals?.map((animal, i) => (
-                            <div 
-                                key={i}
-                                className='relative w-[45%] lg:w-[23%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
-                            >
-                                <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
-                                    {animal.type === 'Small Pet' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petSmall} 
-                                        className='w-[95px] h-[95px] object-cover object-top'
-                                    />}
-                                    {animal.type === 'Large Pet' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petLarge} 
-                                        className='w-[95px] h-[95px] object-cover object-top'
-                                    />}
-                                    {animal.type === 'Monster/Dragon' && <object 
-                                        type="image/svg+xml" 
-                                        data={categories.customizer.defaults.petMonster} 
-                                        className='w-[100px] h-[100px] object-cover object-top'
-                                    />}
-                                </div>
-                                <p className="w-full text-center font-semibold text-sm">{animal.type}</p>
-                                <p className="w-full text-center">${animal.price.toFixed(2)}</p>
-                                <button 
-                                    type="button" 
-                                    onClick={() => handleDeleteAnimal(i)} 
-                                    className='absolute top-0 right-0 text-black hover:text-red-600'
-                                >
-                                    <DeleteForeverIcon />
-                                </button>
-                            </div>
-                        ))}
-                        {animals.length === 0 && <p className="text-center text-red-600 font-semibold">No Animals Added</p>}
-                    </div>   
+            <div style={{ 
+                    backgroundImage: bg.type !== 'None' ? "url('/images/customizer/bg_button.svg')" : 'none',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover'
+                }}  
+                className="w-full relative mt-4 rounded-xl border border-blue-600"
+            >
+                {bg.type !==  'None' && 
+                <div className="absolute top-2 right-0 text-black flex justify-end items-center">
+                    <p className="xl:text-xl text-right font-semibold mr-4">{bg.type === 'bgSimple' ? 'Simple' : 'Complex'} Background</p>
+                    <p className="mr-2">${bg.price.toFixed(2)}</p>
+                    <button 
+                        type="button" 
+                        onClick={handleDeleteBg} 
+                        className='text-black hover:text-red-600'
+                    >
+                        <DeleteForeverIcon />
+                    </button>
                 </div>}
 
-                <div className="w-full h-auto flex flex-wrap justify-between gap-y-2">
-                    {chars.length !== 0 && <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Characters</p>}
-                    {/* Character Cards */}
-                    {chars?.map((char, i) => (
-                        <div key={i} 
-                            className='w-full md:w-[47%] h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
-                        >
-                            <div className={`w-[80px] h-[80px] md:w-[100px] md:h-[100px] absolute bottom-8 md:bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
-                                <p className="text-white text-base md:text-xl font-bold">
-                                    ${!char.charDiscount 
-                                    ? <span>{Number(char.total).toFixed(2)}</span> 
-                                    : 
-                                    <span>{(char.total * .9).toFixed(2)}</span>
-                                    }                        
-                                </p>
-                                {char.charDiscount && <p className="text-white text-xs line-through">${char.total.toFixed(2)}</p>}
-                            </div>
 
-                            <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
-                                <DeleteForeverIcon />
-                            </button>
+                <div className="bg-white/25 mt-12 xl:mt-0 w-full pb-8  rounded-xl flex flex-wrap gap-x-4 border border-red-600">
+                    {chars.length !== 0 && <div className="w-full flex flex-col"> 
+                        
+                        {/* bg display */}
+                        {bg.type === 'None' && 
+                        <div className="flex flex-col">
+                            
+                            <p className="text-[#282828] font-semibold text-xl text-center my-2 pb-2 border-b border-[#282828]">Background</p>
+                            <p className="text-center text-red-600 font-semibold">No Background Added</p>
 
-                            <div className="w-full h-[100%] my-4 flex items-center">
 
-                                <div className='w-[150px] h-[100%] object-cover object-top rounded-xl'>
-                                    <object 
-                                        type="image/svg+xml" 
-                                        data={`images/customizer/${char.bodyStyle}.svg`} 
-                                        className="w-[100%] h-[100%]"
-                                    />                             
-                                </div>
-
-                                <div className="w-[60%] h-full mx-2 flex flex-wrap">
-                                    <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
-                                        <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
-                                        {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[70%]"></object>)}
-                                    </div>
-                                    <div className="w-full h-1/2 flex justify-between items-stretch">
-                                        <div className="w-1/4 h-[100%] mr-4 flex flex-col items-center">
-                                            <p className="text-[#282828] text-center text-sm">Weapon</p>
-                                            {char.weapon === 'simple' ?
-                                                <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
-                                            : char.weapon === 'complex' ? 
-                                                <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
-                                            : <p className="text-sm text-red-600 mt-6">None</p> 
-                                            }        
-                                        </div>
-
-                                        <div className="w-1/4 h-full mr-4 flex flex-col items-center">
-                                            <p className="text-[#282828] text-center text-sm">Wings</p>
-                                            {char.wings ? 
-                                                <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
-                                            : <p className="text-sm text-red-600 mt-6">None</p> 
-                                            }
-                                        </div>
-
-                                        <div className="w-1/4 h-full mr-4 flex flex-col items-center">
-                                            <p className="text-[#282828] text-center text-sm">Armour</p>
-                                            {char.armourComplex ? 
-                                                <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />
-                                            : <p className="text-sm text-red-600 mt-6">None</p> 
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full bg-[#282828] text-white rounded-b-lg px-4 py-8 flex flex-col justify-between">
-                                <div className="w-full flex justify-center">
-                                    <p className="text-center text-xl">{char.bodyStyle}</p>
-                                    <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#43b4e4]'>
-                                        <EditIcon />
+                            {/* {bg.type !== 'None' 
+                                ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-top bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl">
+                                    <p className="w-1/2 text-xl text-center font-semibold mr-8 ">{bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>
+                                    <p>${bg.price.toFixed(2)}</p>
+                                    <button 
+                                        type="button" 
+                                        onClick={handleDeleteBg} 
+                                        className='absolute top-0 right-0 text-black hover:text-red-600'
+                                    >
+                                        <DeleteForeverIcon />
                                     </button>
                                 </div>
-                                <p className="mt-2">Extras:</p>
-                                <p className="w-3/4">{char.extras.length === 0 ? "None" : char.extras?.map(extra => {
-                                    if (extra === 'model') {
-                                        return "3D Model"
-                                    } else if (extra === "character") {
-                                        return "Character Sheet"
-                                    } else {
-                                        return "Weapons Sheet"
-                                    }
-                                }).join(',  ')}</p>
+                                : <p className="text-center text-red-600 font-semibold">No Background Added</p>
+                                } */}
+                        </div>}                   
+                        
+                        <div className="flex flex-wrap gap-2 justify-center">
+                            <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Animals</p>
+                            {/* Animal cards */}
+                            {animals?.map((animal, i) => (
+                                <div 
+                                    key={i}
+                                    className='relative w-[45%] lg:w-[23%] h-auto p-2 flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white text-black'
+                                >
+                                    <div className="w-[100px] h-[100px] mx-auto flex justify-center items-center">
+                                        {animal.type === 'Small Pet' && <object 
+                                            type="image/svg+xml" 
+                                            data={categories.customizer.defaults.petSmall} 
+                                            className='w-[95px] h-[95px] object-cover object-top'
+                                        />}
+                                        {animal.type === 'Large Pet' && <object 
+                                            type="image/svg+xml" 
+                                            data={categories.customizer.defaults.petLarge} 
+                                            className='w-[95px] h-[95px] object-cover object-top'
+                                        />}
+                                        {animal.type === 'Monster/Dragon' && <object 
+                                            type="image/svg+xml" 
+                                            data={categories.customizer.defaults.petMonster} 
+                                            className='w-[100px] h-[100px] object-cover object-top'
+                                        />}
+                                    </div>
+                                    <p className="w-full text-center font-semibold text-sm">{animal.type}</p>
+                                    <p className="w-full text-center">${animal.price.toFixed(2)}</p>
+                                    <button 
+                                        type="button" 
+                                        onClick={() => handleDeleteAnimal(i)} 
+                                        className='absolute top-0 right-0 text-black hover:text-red-600'
+                                    >
+                                        <DeleteForeverIcon />
+                                    </button>
+                                </div>
+                            ))}
+                            {animals.length === 0 && <p className="text-center text-red-600 font-semibold">No Animals Added</p>}
+                        </div>   
+                    </div>}
+
+                    <div className="w-full h-auto flex flex-wrap justify-between gap-y-2">
+                        {chars.length !== 0 && <p className="w-full text-[#282828] font-semibold text-xl text-center mt-4 pb-2 border-b border-[#282828]">Characters</p>}
+                        
+                        
+                        {/* Character Cards */}
+                        {chars?.map((char, i) => (
+                            <div key={i} 
+                                className='w-11/12 md:w-[47%] mx-auto h-auto flex flex-col justify-between items-start border-2 border-[#282828] rounded-xl bg-white relative'
+                            >
+                                <div className={`w-[80px] h-[80px] md:w-[100px] md:h-[100px] absolute bottom-8 md:bottom-6 right-2 rounded-full ${char.charDiscount ? 'bg-red-600' : 'bg-[#43b4e4]'} flex flex-col justify-center items-center`}>
+                                    <p className="text-white text-base md:text-xl font-bold">
+                                        ${!char.charDiscount 
+                                        ? <span>{Number(char.total).toFixed(2)}</span> 
+                                        : 
+                                        <span>{(char.total * .9).toFixed(2)}</span>
+                                        }                        
+                                    </p>
+                                    {char.charDiscount && <p className="text-white text-xs line-through">${char.total.toFixed(2)}</p>}
+                                </div>
+
+                                <button type="button" onClick={() => handleDeleteChar(i)} className='absolute top-[5px] right-[5px] ml-4 text-black hover:text-red-600'>
+                                    <DeleteForeverIcon />
+                                </button>
+
+                                <div className="w-full h-[100%] my-4 flex items-center">
+
+                                    <div className='w-[150px] h-[100%] object-cover object-top rounded-xl'>
+                                        <object 
+                                            type="image/svg+xml" 
+                                            data={`images/customizer/${char.bodyStyle}.svg`} 
+                                            className="w-[100%] h-[100%]"
+                                        />                             
+                                    </div>
+
+                                    <div className="w-[60%] h-full mx-2 flex flex-wrap">
+                                        <div className="w-[100%] h-1/2 pb-2 flex flex-wrap items-start">
+                                            <p className="text-[#282828] text-sm w-[100%]">Character Variations</p>
+                                            {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`images/var${i%2}.svg`} className="w-1/6 h-[70%]"></object>)}
+                                        </div>
+                                        <div className="w-full h-1/2 flex justify-between items-stretch">
+                                            <div className="w-1/4 h-[100%] mr-4 flex flex-col items-center">
+                                                <p className="text-[#282828] text-center text-sm">Weapon</p>
+                                                {char.weapon === 'simple' ?
+                                                    <object type="image/svg+xml" data={`images/simpleWeapon.svg`} className="w-[100%] h-[100%]" />
+                                                : char.weapon === 'complex' ? 
+                                                    <object type="image/svg+xml" data={`images/complexWeapon.svg`} className="w-[100%] h-[100%]" />
+                                                : <p className="text-sm text-red-600 mt-6">None</p> 
+                                                }        
+                                            </div>
+
+                                            <div className="w-1/4 h-full mr-4 flex flex-col items-center">
+                                                <p className="text-[#282828] text-center text-sm">Wings</p>
+                                                {char.wings ? 
+                                                    <object type="image/svg+xml" data={`images/wings.svg`} className="w-[100%] h-[100%]" />
+                                                : <p className="text-sm text-red-600 mt-6">None</p> 
+                                                }
+                                            </div>
+
+                                            <div className="w-1/4 h-full mr-4 flex flex-col items-center">
+                                                <p className="text-[#282828] text-center text-sm">Armour</p>
+                                                {char.armourComplex ? 
+                                                    <object type="image/svg+xml" data={`images/armour.svg`} className="w-[80%] h-[80%]" />
+                                                : <p className="text-sm text-red-600 mt-6">None</p> 
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="w-full bg-[#282828] text-white rounded-b-lg px-4 py-8 flex flex-col justify-between">
+                                    <div className="w-full flex justify-center">
+                                        <p className="text-center text-xl">{char.bodyStyle}</p>
+                                        <button type="button" onClick={() => handleEditChar(i)} className='ml-4 text-white hover:text-[#43b4e4]'>
+                                            <EditIcon />
+                                        </button>
+                                    </div>
+                                    <p className="mt-2">Extras:</p>
+                                    <p className="w-3/4">{char.extras.length === 0 ? "None" : char.extras?.map(extra => {
+                                        if (extra === 'model') {
+                                            return "3D Model"
+                                        } else if (extra === "character") {
+                                            return "Character Sheet"
+                                        } else {
+                                            return "Weapons Sheet"
+                                        }
+                                    }).join(',  ')}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>   
+                        ))}
+                    </div>   
+                </div>
             </div>
             
             { chars.length !==0 && <p className='absolute bottom-2 right-4 w-full text-[#929191] text-sm text-right'>*discount applied to lowest value characters</p>}
@@ -661,7 +693,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         {bg.type === 'bgComplex' && <p className="w-full text-xl font-bold text-center">Complex Background - ${bg.price}</p>}
                         {bg.type === 'None' && <p className="w-full mx-auto text-base md:text-xl font-semibold text-center">Click the image above to select background style</p>}
                     </div>
-                    <div className="w-full md:w-7/12 flex flex-col md:flex-row">
+                    <div className="w-full lg:w-7/12 flex flex-col md:flex-row">
                         
                         <button 
                             type="submit" 
@@ -1326,7 +1358,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 </div>
                                 <button 
                                     type="submit" 
-                                    className='w-full md:w-4/5 mx-auto mt-8 md:mb-8 xl:mb-0 text-lg md:text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                                    className='w-full md:w-4/5 lg:w-1/2 xl:w-4/5 mx-auto mt-8 md:mb-8 xl:mb-0 text-lg md:text-xl text-black rounded-lg py-2 px-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
                                 >
                                     Complete Character
                                 </button> 

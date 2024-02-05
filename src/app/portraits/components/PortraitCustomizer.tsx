@@ -353,7 +353,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 >
                 {({ values }) => (
                     <Form className='w-full '>
-                        <div className='flex flex-col xl:flex-row flex-between border border-red-600'>
+                        <div className='w-full flex flex-col xl:flex-row flex-between border border-red-600'>
                         
                             <div className='w-full xl:w-7/12 flex flex-col items-center'> 
                                 
