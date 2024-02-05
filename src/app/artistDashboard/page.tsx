@@ -26,9 +26,9 @@ const ArtistDashboard = () => {
     }, [])
 
     const artistList = artistData.map((artist, i) => (
-        <div key={i} className='w-11/12 md:w-5/12 lg:w-[30%] h-[65vh] bg-black border border-[#ffffff]/50 rounded-xl md:pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
-            <img className='w-[100%] md:w-[90%] h-[60%] object-contain md:object-cover object-top mx-auto rounded-t-xl' src={artist.artistImgs.imgUrl7} alt='artist image'/>
-            <div className='w-[100%] h-[40%] bg-[#282828] rounded-b-xl text-white p-4 flex flex-col justify-between'>
+        <div key={i} className='w-11/12 md:w-5/12 lg:w-[30%] h-[70vh] xl:h-[65vh] bg-black border border-[#ffffff]/50 rounded-xl md:pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
+            <img className='w-[100%] md:w-[90%] h-[50%] xl:h-[60%] object-contain md:object-cover object-top mx-auto rounded-t-xl' src={artist.artistImgs.imgUrl7} alt='artist image'/>
+            <div className='w-[100%] h-[50%] xl:h-[40%] bg-[#282828] rounded-b-xl text-white p-4 flex flex-col justify-between'>
                 <Link prefetch={false} href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
                     <div className='w-6/12 mx-auto mt-2 flex justify-around items-center'>
@@ -43,7 +43,7 @@ const ArtistDashboard = () => {
                         <p className='ml-2 text-sm'>&#x2022; <span className='ml-2 font-semibold'>{artist.totalReviews}</span> reviews</p>
                     </div>
                     <p className='ml-4 text-sm text-center'><span className='font-semibold'>{artist.totalCompletedCommissions}</span> completed commissions</p>
-                    <p className='mt-2 overflow-hidden'>{artist.bio.split(/\s+/).slice(0, 20).join(" ")}...</p>
+                    <p className='mt-2 overflow-hidden text-sm md:text-base'>{artist.bio.split(/\s+/).slice(0, 20).join(" ")}...</p>
                 </Link>
                 {/* <div className='flex justify-center items-center mt-2'>
                     {artist.links.map((link, i) => 

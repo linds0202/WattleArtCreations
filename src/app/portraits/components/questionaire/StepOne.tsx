@@ -422,7 +422,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </div>}
 
 
-                <div className="bg-white/25 mt-12 xl:mt-0 w-full pb-8  rounded-xl flex flex-wrap gap-x-4 border border-red-600">
+                {chars.length !== 0 &&  <div className="bg-white/25 mt-12 xl:mt-0 w-full pb-8  rounded-xl flex flex-wrap gap-x-4 border border-red-600">
                     {chars.length !== 0 && <div className="w-full flex flex-col"> 
                         
                         {/* bg display */}
@@ -578,7 +578,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             </div>
                         ))}
                     </div>   
-                </div>
+                </div>}
             </div>
             
             { chars.length !==0 && <p className='absolute bottom-2 right-4 w-full text-[#929191] text-sm text-right'>*discount applied to lowest value characters</p>}

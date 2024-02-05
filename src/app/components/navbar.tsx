@@ -346,9 +346,17 @@ export default function NavBar() {
         
         {authUser?.roles === 'Artist' && 
         <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-sm text-white no-underline pr-4'>{authUser?.displayName}</Link>}
+
+        {isOpen &&
+        <button onClick={handleOpenNav} 
+          className="absolute top-2 right-2 flex justify-center items-center z-50"
+        >
+            <CloseIcon className='text-black hover:text-red-600'/>
+        </button>
+        } 
         
         {isOpen && 
-        <div className='absolute top-0 right-0 w-[100vw] h-auto bg-white py-8'>
+        <div className='absolute top-0 right-0 w-[100vw] h-auto bg-white py-8 z-40'>
           {/* Links for Personal Route if not artist*/}
           {( authUser?.roles !== 'Artist') && 
           <div className={`${!authUser || authUser?.roles === 'Customer' ? 'w-full' : ''} text-[#282828]  flex flex-col justify-around items-center gap-y-2`}>
@@ -437,13 +445,13 @@ export default function NavBar() {
           ></span>
         </button>}
 
-        {isOpen &&
+        {/* {isOpen &&
         <button onClick={handleOpenNav} 
-          className="absolute top-2 right-2 flex justify-center items-center z-10"
+          className="absolute top-2 right-2 flex justify-center items-center"
         >
             <CloseIcon className='text-black hover:text-red-600'/>
         </button>
-        } 
+        }  */}
             
 
 

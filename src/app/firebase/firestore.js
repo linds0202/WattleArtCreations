@@ -136,7 +136,7 @@ export async function getAllCustomers() {
 
 export async function getAllArtists() {
   const allArtists = []  
-  const q = query(collection(db, "users"), where("roles", "==", 'Artist'));
+  const q = query(collection(db, "users"), where("roles", "==", 'Artist'), orderBy("starRating", "desc"), orderBy("totalCompletedCommissions", "desc"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
