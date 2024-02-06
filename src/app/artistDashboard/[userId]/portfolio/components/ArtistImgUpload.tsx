@@ -62,7 +62,6 @@ export default function ArtistImgUpload(props: any) {
     const handleSubmit = async () => {
         setIsSubmitting(true);
 
-        console.log('index is: ', props.index)
         try {
             if (isEdit) {
                 // Check whether image was changed - fileName will be not null
@@ -150,7 +149,7 @@ export default function ArtistImgUpload(props: any) {
             open={props.showDialog}
             fullWidth={true}
             maxWidth='sm'
-            PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
+            PaperProps={{ sx: { p: 4, backgroundColor: "white"} }}
         >   
             <button type='button' onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-8 text-white'>
                 <CloseIcon className='text-black hover:text-red-600 absolute'/>
@@ -164,7 +163,7 @@ export default function ArtistImgUpload(props: any) {
         
                 <DialogContent >
                     <p className='text-xl text-center font-semibold mb-8'>Image size: <span className='text-[#43b4e4]'>{props.imgSizeMsg}</span></p>
-                    <div className='flex justify-center items-center'>
+                    <div className='flex flex-col md:flex-row justify-center items-center'>
                         <Button 
                             variant="outlined" 
                             component="label" 

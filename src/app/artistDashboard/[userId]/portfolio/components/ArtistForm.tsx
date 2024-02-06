@@ -63,7 +63,6 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
             maxWidth='lg'
             PaperProps={{ sx: { maxHeight: '90vh', p: 4, backgroundColor: "white"} }}
         >
-        {/* <div className='fixed inset-x-0 top-24 w-11/12 md:w-8/12 mx-auto border-2 border-black rounded-xl bg-white'> */}
             <p className='text-center text-3xl font-bold mt-4'>Artist Details</p>
 
 
@@ -162,7 +161,6 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
                     
                 </Form>
             </Formik>
-        {/* </div> */}
         </Dialog>
     )
 }
