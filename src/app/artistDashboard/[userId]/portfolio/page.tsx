@@ -246,26 +246,26 @@ const Portfolio = () => {
         <div className='relative min-h-[100vh] bg-black'>
             <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-1"/>
             <div className='relative pb-36'>
-                <div className='px-8 pt-8 flex justify-around'>
+                <div className='px-8 pt-8 flex flex-col xl:flex-row justify-around'>
                     {/* <div className='w-[48%]'> */}
-                        <div className='w-[50vw] h-[80vh] flex flex-col items-center'>
+                        <div className='w-full xl:w-[50vw] md:h-[50vh] xl:h-[80vh] flex flex-col items-center border border-yellow-600'>
                            
-                            <div className='w-[100%] h-[50vh] flex justify-around items-center border-red-600'>
+                            <div className='w-[100%] h-[70%] md:h-[60%] xl:h-[50vh] flex flex-wrap md:flex-nowrap justify-around items-center border border-red-600'>
                                 <div 
-                                    className={`w-[60%] h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                    className={`w-full md:w-[50%] xl:w-[60%] h-[60%] md:h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                     onClick={() => handleEditImg(1)}   
                                 >
                                     <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                 </div>
-                                <div className='w-[35%] h-[100%] flex flex-col justify-between items-center'>
+                                <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] flex flex-row xl:flex-col justify-between items-center border border-pink-600'>
                                     <div 
-                                        className={`w-full h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                         onClick={() => handleEditImg(2)}
                                     >
                                         <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                     </div>
                                     <div 
-                                        className={`w-full h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                         onClick={() => handleEditImg(3)}
                                     >
                                         <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
@@ -273,7 +273,7 @@ const Portfolio = () => {
                                 </div>
                             </div>
                             
-                            <div className='w-[98%] h-[30vh] mt-4 flex justify-between items-center'>
+                            <div className='w-[98%] h-[35%] xl:h-[30vh] mt-4 flex justify-between items-center border border-blue-600'>
                                 <div 
                                     className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                     onClick={() => handleEditImg(4)}
@@ -345,8 +345,8 @@ const Portfolio = () => {
                         
                     {/* </div> */}
 
-                    {userData && <div className='w-[48%] flex flex-col justify-center items-center'>
-                        <div className='relative w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
+                    {userData && <div className='w-full xl:w-[48%] mt-8 xl:mt-0 flex flex-col items-center'>
+                        <div className='relative w-11/12 md:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
                             {authUser?.uid === artistId && !isEdit && 
                             <button 
                                 onClick={handleClick}
@@ -369,14 +369,14 @@ const Portfolio = () => {
                         </div>
 
 
-                        <div className='w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center mt-4'>
+                        <div className='w-11/12 md:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center mt-4'>
                             <h3 className='text-black text-2xl font-bold text-center'>Reviews</h3>
                             {testimonials?.map((testimonial, i) => (
-                                <div key={i} className='w-10/12 mx-auto flex justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
-                                    <div className='w-[30%]'>
-                                        <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain' alt='thumbnail for user testimonial'/>
+                                <div key={i} className='w-10/12 mx-auto flex flex-col md:flex-row justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
+                                    <div className='w-full md:w-[30%]'>
+                                        <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto md:mx-0' alt='thumbnail for user testimonial'/>
                                     </div>
-                                    <div className='w-[70%] mx-auto flex flex-col justify-between items-center py-4'>
+                                    <div className='w-full md:w-[70%] mx-auto flex flex-col justify-between items-center py-4'>
                                         <div className='flex items-center'>
                                             <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="small" />
                                             <span className='ml-2'>({testimonial.stars})</span>
