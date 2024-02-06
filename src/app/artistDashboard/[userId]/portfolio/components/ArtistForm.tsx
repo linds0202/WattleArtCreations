@@ -89,23 +89,23 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
                 }}
             >
                 <Form className='w-full h-auto flex flex-col md:px-20 py-8'>
-                    <div className='w-full flex flex-col md:flex-row justify-between items-center'>
-                        <div className='w-full md:w-6/12'>
-                            <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
+                    <div className='w-full flex flex-col md:flex-row justify-between items-center border border-red-600'>
+                        <div className='w-full md:w-6/12 border border-blue-600'>
+                            <label className='text-base md:text-sm lg:text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                                 Name:
                             </label>
                             <Field 
                                 name="artistName" 
-                                className="w-full md:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                className="w-full md:w-8/12 lg:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                             </div>
                         <div className='w-full md:w-6/12'>
-                            <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
+                            <label className='text-base md:text-sm lg:text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                                 Country:
                             </label>
                             <Field 
                                 name="country" 
-                                className="w-full md:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                className="w-full md:w-8/12 lg:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                         </div>
                     </div>
@@ -124,12 +124,12 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
                     </div>
                     
                     <div className='w-full flex flex-col justify-center items-center'>
-                        <div className='w-full flex justify-between md:justify-center items-center mt-4'>
+                        <div className='w-full flex justify-around lg:justify-center items-center mt-4'>
                             <Button onClick={handleAddLink} className='w-1/3 md:w-2/12 ml-2 md:ml-0 flex flex-col items-center'>
                                 <AddCircleOutlineIcon sx={{ fontSize: 40 }}/>
                                 <h4 className='text-sm md:text-base m-0'>Add Link</h4>
                             </Button>
-                            <p className='w-2/3 md:w-5/12'>Add/Edit links to your Social media profiles.</p>
+                            <p className='w-2/3 lg:w-5/12'>Add/Edit links to your Social media profiles.</p>
                         </div>
                         <div className='w-full flex flex-wrap justify-start items-center'>  
                             {links?.length === 0 
@@ -151,7 +151,7 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
                             </label>
                             <Field 
                                 name="website" 
-                                className="w-full md:w-9/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                className="w-full lg:w-9/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                         </div>
                     </div>
