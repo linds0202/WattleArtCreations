@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Formik, Form, Field} from 'formik';
 import { UserData } from '../page';
 import { updateUserData } from '@/app/firebase/firestore';
+import Dialog from '@mui/material/Dialog';
 import UpdateInfoButton from './UpdateInfoButton';
 import CancelUpdateButton from './CancelUpdate';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -22,13 +23,14 @@ interface ArtistFormValues {
 interface artistFormProps {
     setUserData: Function,
     userData: UserData,
+    isEdit: boolean,
     setIsEdit: Function,
     links: string[] | [],
     setLinks: Function
 }
 
 
-const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artistFormProps) => {
+const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks }: artistFormProps) => {
 
     const [openLinksMod, setOpenLinksMod] = useState(false);
     const [editLink, setEditLink] = useState(false)
@@ -54,7 +56,14 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
     
 
     return (
-        <div className='fixed inset-x-0 top-24 w-8/12 mx-auto border-2 border-black rounded-xl bg-white'>
+        <Dialog 
+            onClose={() => setIsEdit(false)} 
+            open={isEdit} 
+            fullWidth={true}
+            maxWidth='lg'
+            PaperProps={{ sx: { maxHeight: '90vh', p: 4, backgroundColor: "white"} }}
+        >
+        {/* <div className='fixed inset-x-0 top-24 w-11/12 md:w-8/12 mx-auto border-2 border-black rounded-xl bg-white'> */}
             <p className='text-center text-3xl font-bold mt-4'>Artist Details</p>
 
 
@@ -70,7 +79,6 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                 onSubmit={async (values, helpers) => {
                     helpers.setSubmitting(true)
                     const updatedUser = await updateUserData({...userData, ...values, links: links.length !== 0 ? links : []})
-                    console.log('out here updatedUser is: ', updatedUser)
                     
                     helpers.setSubmitting(false)
                     setUserData({...userData, ...values})
@@ -80,25 +88,25 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                     setIsEdit(false)
                 }}
             >
-                <Form className='flex flex-col px-20 py-8'>
-                    <div className='w-full flex justify-between items-center'>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
-                            Name:
-                        </label>
-                        <Field 
-                            name="artistName" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        />
-                        </div>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
-                            Country:
-                        </label>
-                        <Field 
-                            name="country" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        />
+                <Form className='w-full h-auto flex flex-col md:px-20 py-8'>
+                    <div className='w-full flex flex-col md:flex-row justify-between items-center'>
+                        <div className='w-full md:w-6/12'>
+                            <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
+                                Name:
+                            </label>
+                            <Field 
+                                name="artistName" 
+                                className="w-full md:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                            />
+                            </div>
+                        <div className='w-full md:w-6/12'>
+                            <label className='text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
+                                Country:
+                            </label>
+                            <Field 
+                                name="country" 
+                                className="w-full md:w-9/12 md:ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                            />
                         </div>
                     </div>
                     <div className='w-full mt-4'>
@@ -116,12 +124,12 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                     </div>
                     
                     <div className='w-full flex flex-col justify-center items-center'>
-                        <div className='w-full flex justify-center items-center mt-4'>
-                            <Button onClick={handleAddLink} className='w-2/12 flex flex-col items-center'>
+                        <div className='w-full flex justify-between md:justify-center items-center mt-4'>
+                            <Button onClick={handleAddLink} className='w-1/3 md:w-2/12 ml-2 md:ml-0 flex flex-col items-center'>
                                 <AddCircleOutlineIcon sx={{ fontSize: 40 }}/>
-                                <h4 className='m-0'>Add Link</h4>
+                                <h4 className='text-sm md:text-base m-0'>Add Link</h4>
                             </Button>
-                            <p className='w-5/12'>Add/Edit links to your Social media profiles.</p>
+                            <p className='w-2/3 md:w-5/12'>Add/Edit links to your Social media profiles.</p>
                         </div>
                         <div className='w-full flex flex-wrap justify-start items-center'>  
                             {links?.length === 0 
@@ -143,18 +151,19 @@ const ArtistForm = ({ setUserData, userData, setIsEdit, links, setLinks }: artis
                             </label>
                             <Field 
                                 name="website" 
-                                className="w-9/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                                className="w-full md:w-9/12 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
                             />
                         </div>
                     </div>
-                    <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
+                    <div className='w-full md:w-6/12 mx-auto flex justify-around items-center mt-4'>
                         <CancelUpdateButton setIsEdit={setIsEdit} />
                         <UpdateInfoButton editLink={editLink} />
                     </div>
                     
                 </Form>
             </Formik>
-        </div>
+        {/* </div> */}
+        </Dialog>
     )
 }
 

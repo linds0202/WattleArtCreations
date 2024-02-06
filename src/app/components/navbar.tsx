@@ -386,7 +386,7 @@ export default function NavBar() {
 
           {/* Links for artists */}
           {(authUser && authUser?.roles !== 'Customer') && 
-            <div className={`${authUser?.roles === 'Artist' ? 'w-full' : ''} text-[#282828] flex justify-between items-center gap-y-2`}>
+            <div className={`${authUser?.roles === 'Artist' ? 'w-full' : ''} text-[#282828] flex flex-col justify-between items-center gap-y-2`}>
               <div className=''>
                 <Link href='/portraitQueue' className='text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
               </div>

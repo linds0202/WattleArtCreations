@@ -11,8 +11,6 @@ interface FullReviewProps {
 }
 
 const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullReviewProps ) => {
-    
-    console.log('testimonial in full review: ', testimonial)
     return (
         <Dialog 
             onClose={() => setOpenTestimnonial(false)} 
@@ -25,21 +23,21 @@ const FullReview = ({openTestimonial, setOpenTestimnonial, testimonial}: FullRev
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
             
-            <DialogContent
-                style={{height:'80vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+            <div className='h-[70vh] md:h-[80vh] flex flex-col lg:flex-row justify-bewteen items-center'
+                // style={{height:'80vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
             >
                 {testimonial.includeImg && <img src={testimonial.imgUrl} className='max-h-[80%] w-auto' alt='thumbnail of final image in customer review'/>}
-                <div className='w-full p-8 flex flex-col items-center'>
-                    <div className='flex items-center mb-4'>
+                <div className='w-full md:p-8 flex flex-col items-center'>
+                    <div className='mt-4 md:mt-0 flex items-center mb-4'>
                         <Rating name="read-only" value={testimonial.stars} readOnly precision={0.5} size="large" />
                         <span className='ml-2'>({testimonial.stars})</span>
                     </div>
                     <p className='text-xl'>{testimonial.text}</p>
-                    <p className='text-2xl font-bold self-end'>- {testimonial.customerDisplayName}</p>
+                    <p className='text-2xl font-bold self-end mb-12 md:mb-0'>- {testimonial.customerDisplayName}</p>
                 </div>
-            </DialogContent>
+            </div>
                     
-                </Dialog>
+        </Dialog>
     )
 }
 

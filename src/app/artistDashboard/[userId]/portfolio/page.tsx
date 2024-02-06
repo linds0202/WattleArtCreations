@@ -248,56 +248,57 @@ const Portfolio = () => {
             <div className='relative pb-36'>
                 <div className='px-8 pt-8 flex flex-col xl:flex-row justify-around'>
                     {/* <div className='w-[48%]'> */}
-                        <div className='w-full xl:w-[50vw] md:h-[50vh] xl:h-[80vh] flex flex-col items-center border border-yellow-600'>
-                           
-                            <div className='w-[100%] h-[70%] md:h-[60%] xl:h-[50vh] flex flex-wrap md:flex-nowrap justify-around items-center border border-red-600'>
-                                <div 
-                                    className={`w-full md:w-[50%] xl:w-[60%] h-[60%] md:h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(1)}   
-                                >
-                                    <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                </div>
-                                <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] flex flex-row xl:flex-col justify-between items-center border border-pink-600'>
-                                    <div 
-                                        className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                        onClick={() => handleEditImg(2)}
-                                    >
-                                        <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                    </div>
-                                    <div 
-                                        className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                        onClick={() => handleEditImg(3)}
-                                    >
-                                        <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                    </div>
-                                </div>
-                            </div>
+                        <div className='w-full xl:w-[50vw]'>  
+                            <div className='w-full xl:w-[50vw] md:h-[50vh] xl:h-[80vh] flex flex-col items-center border border-yellow-600'>
                             
-                            <div className='w-[98%] h-[35%] xl:h-[30vh] mt-4 flex justify-between items-center border border-blue-600'>
-                                <div 
-                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(4)}
-                                >
-                                    <img src={userData?.artistImgs.imgUrl4.length ? userData?.artistImgs.imgUrl4 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl4.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                <div className='w-[100%] h-[70%] md:h-[60%] xl:h-[50vh] flex flex-wrap md:flex-nowrap justify-around items-center border border-red-600'>
+                                    <div 
+                                        className={`w-full md:w-[50%] xl:w-[60%] h-[60%] md:h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(1)}   
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
+                                    <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] flex flex-row xl:flex-col justify-between items-center border border-pink-600'>
+                                        <div 
+                                            className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                            onClick={() => handleEditImg(2)}
+                                        >
+                                            <img src={userData?.artistImgs.imgUrl2.length ? userData?.artistImgs.imgUrl2 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl2.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                        </div>
+                                        <div 
+                                            className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                            onClick={() => handleEditImg(3)}
+                                        >
+                                            <img src={userData?.artistImgs.imgUrl3.length ? userData?.artistImgs.imgUrl3 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl3.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                        </div>
+                                    </div>
                                 </div>
-                                <div 
-                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(5)}
-                                >
-                                    <img src={userData?.artistImgs.imgUrl5.length ? userData?.artistImgs.imgUrl5 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl5.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                
+                                <div className='w-[98%] h-[35%] xl:h-[28vh] mt-4 flex justify-between items-center border border-blue-600'>
+                                    <div 
+                                        className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(4)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl4.length ? userData?.artistImgs.imgUrl4 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl4.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
+                                    <div 
+                                        className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(5)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl5.length ? userData?.artistImgs.imgUrl5 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl5.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
+
+                                    <div 
+                                        className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
+                                        onClick={() => handleEditImg(6)}
+                                    >
+                                        <img src={userData?.artistImgs.imgUrl6.length ? userData?.artistImgs.imgUrl6 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl6.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
+                                    </div>
                                 </div>
 
-                                <div 
-                                    className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
-                                    onClick={() => handleEditImg(6)}
-                                >
-                                    <img src={userData?.artistImgs.imgUrl6.length ? userData?.artistImgs.imgUrl6 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl6.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
-                                </div>
-                            </div>
 
 
-
-                            {authUser && authUser?.uid === artistId &&
+                                {/* {authUser && authUser?.uid === artistId &&
                                 <div className='w-full mt-8 bg-white p-2 rounded-xl flex'>
                                     <div 
                                         className={`w-[40%] h-[300px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-black cursor-pointer' : ''}`}
@@ -310,9 +311,26 @@ const Portfolio = () => {
                                         <p className='text-black text-lg'>The above image collage is displayed on your individual artist details page.</p>
                                         <p className='text-black text-lg'>The image to the left is displayed on your artist card cover image on the All Artist page.</p>
                                     </div>
-                                </div>}
+                                </div>} */}
 
-                        </div>                        
+                            </div>
+
+                        {authUser && authUser?.uid === artistId &&
+                            <div className='w-full mt-8 bg-white p-2 rounded-xl flex flex-col md:flex-row'>
+                                <div 
+                                    className={`w-full md:w-[40%] h-[300px] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-black cursor-pointer' : ''}`}
+                                    onClick={() => handleEditImg(7)}
+                                >
+                                    <img src={userData?.artistImgs.imgUrl7.length ? userData?.artistImgs.imgUrl7 : ''} alt='No artist img uploaded' className={`${userData?.artistImgs.imgUrl7.length ? 'w-[100%] h-[100%] object-cover': 'w-[100%] h-[100%] bg-black/50'}`} />
+                                </div>
+                                <div className='ml-4 pb-10 flex flex-col justify-between'>
+                                    <p className='text-black text-2xl text-center my-4 md:mt-0'>Click an image to upload/edit images</p>
+                                    <p className='text-black text-lg'>The above image collage is displayed on your individual artist details page.</p>
+                                    <p className='hidden md:block text-black text-lg'>The image to the left is displayed on your artist card cover image on the All Artist page.</p>
+                                    <p className='mt-8 md:hidden text-black text-lg'>The single image above is displayed on your artist card cover image on the All Artist page.</p>
+                                </div>
+                            </div>}
+                        </div>                     
                         
                         {/* {userData &&  <div className='w-10/12 mx-auto my-8 flex justify-center items-center'>
                             <p>Follow me: </p>
@@ -346,11 +364,11 @@ const Portfolio = () => {
                     {/* </div> */}
 
                     {userData && <div className='w-full xl:w-[48%] mt-8 xl:mt-0 flex flex-col items-center'>
-                        <div className='relative w-11/12 md:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
+                        <div className='relative w-full lg:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center items-center'>
                             {authUser?.uid === artistId && !isEdit && 
                             <button 
                                 onClick={handleClick}
-                                className="absolute top-4 right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#43b4e4]"
+                                className="absolute top-4 right-4 md:right-8 border-2 rounded-full p-2 border-[#282828] hover:border-[#43b4e4]"
                             >
                                 <EditIcon sx={{ fontSize: 36, color: '#282828', ":hover": { color: "#43b4e4"} }}/>
                             </button>
@@ -369,10 +387,10 @@ const Portfolio = () => {
                         </div>
 
 
-                        <div className='w-11/12 md:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center mt-4'>
+                        <div className='w-full lg:w-10/12 bg-white rounded-xl p-4 flex flex-col justify-center mt-4'>
                             <h3 className='text-black text-2xl font-bold text-center'>Reviews</h3>
                             {testimonials?.map((testimonial, i) => (
-                                <div key={i} className='w-10/12 mx-auto flex flex-col md:flex-row justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
+                                <div key={i} className='w-full lg:w-10/12 mx-auto flex flex-col md:flex-row justify-center items-center border-b-2 border-[#E5E5E5] py-4'>
                                     <div className='w-full md:w-[30%]'>
                                         <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto md:mx-0' alt='thumbnail for user testimonial'/>
                                     </div>
@@ -415,7 +433,8 @@ const Portfolio = () => {
 
                 {isEdit && userData && links !== undefined && <ArtistForm 
                     setUserData={setUserData} 
-                    userData={userData} 
+                    userData={userData}
+                    isEdit={isEdit} 
                     setIsEdit={setIsEdit}
                     links={links}
                     setLinks={setLinks}
