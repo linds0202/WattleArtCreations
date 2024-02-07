@@ -126,7 +126,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-7"/>
     {/* <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-3"/> */}
     
-    <div className='w-full text-black pt-3 pb-36 min-h-[100vh] border border-red-600'>
+    <div className='w-full text-black pt-3 pb-36 min-h-[100vh]'>
     
       {currentUser && <Profile user={currentUser} badge={badge}/>}
       

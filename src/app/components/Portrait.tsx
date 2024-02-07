@@ -125,44 +125,44 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       </div>
 
 
-      <div className='w-[60%] bg-[#e8e8e8] rounded-lg p-2 lg:p-4 mx-2 lg:mx-0 mt-4 md:mt-0 flex flex-col'>
+      <div className='w-[50%] md:w-[60%] bg-[#e8e8e8] rounded-lg p-2 lg:p-4 mx-2 lg:mx-0 mt-4 md:mt-0 flex flex-col'>
         <div className='bg-white rounded-lg p-2 flex flex-col md:flex-row justify-between xl:justify-start md:items-center'>
-          <h4 className='w-full md:w-[60%] lg:w-[50%] lg:text-lg xl:text-2xl font-bold'>{portrait.portraitTitle.slice(0, 25)}<span className='hidden md:block text-xs lg:text-sm xl:text-base font-light text-black ml-2'>({portrait.mode})</span></h4>
+          <h4 className='w-full md:w-[60%] lg:w-[50%] lg:text-lg xl:text-2xl font-bold'>{portrait.portraitTitle.slice(0, 25)}<span className='hidden md:inline-block text-xs lg:text-sm xl:text-base font-light text-black ml-2'>({portrait.mode})</span></h4>
           <p className='md:hidden text-xs lg:text-sm xl:text-base font-light text-black my-2'>({portrait.mode})</p>
           <h4 className='text-sm lg:text-base xl:text-lg font-semibold'>Status: <span className='text-sm lg:text-base xl:text-xl font-bold text-[#43b4e4] ml-2'>{showStatus()}</span></h4>
         </div>
         
-        <div className='mt-4 flex'>
-          <div className='md:w-[50%] pl-2'>
-            {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold'>Created on: <span className='ml-2 text-[#2DD42B] lg:text-xl'>{new Date(portrait.creationDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
+        <div className='mt-4 flex flex-col md:flex-row'>
+          <div className='w-full md:w-[50%] pl-2'>
+            {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold text-sm md:text-xl'>Created on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.creationDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
-            {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold'>Ordered on: <span className='ml-2 text-[#2DD42B] text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
+            {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold text-sm md:text-xl'>Ordered on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
 
-            {user?.roles === 'Artist' && <p className='mb-2 font-semibold'>Customer:<span className='ml-2 text-[#2DD42B] text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
+            {user?.roles === 'Artist' && <p className='mb-2 font-semibold text-sm md:text-xl'>Customer:<span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
             
             {(portrait?.status !== 'Unpaid' && portrait.paymentComplete) && 
-              <p className='font-semibold'>
+              <p className='text-sm font-semibold'>
                 {portrait.status === 'Unassigned' ? 'Pending Artist(s): ' : 'Artist: '} 
                   {portrait.artist.length  
                     ? portrait.artist.map((artist: Artist, i) => 
                       <Link 
                         key={i} 
                         href={`/artistDashboard/${artist.id}/portfolio`} 
-                        className="text-[#2DD42B] hover:text-[#165f15] text-xl hover:underline ml-4"
+                        className="text-[#2DD42B] hover:text-[#165f15] text-sm md:text-xl hover:underline ml-2 md:ml-4"
                         rel="noopener noreferrer" 
                         target="_blank"
                       >
                           <span>{artist.artistName}</span>
                       </Link>
                     )
-                    : <span className={`ml-4 ${portrait.status === 'Unclaimed' ? 'text-red-600' : ''}`}>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
+                    : <span className={`text-sm md:text-xl ml-2 md:ml-4 ${portrait.status === 'Unclaimed' ? 'text-red-600' : ''}`}>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
               </p>
             }
           </div>
 
-          <div>
-          {user?.roles !== 'Customer' && <p className='font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-xl'>$ {portrait.price}</span></p>}
+          <div className='pl-2 md:pl-0 mt-2 md:mt-0'>
+            {user?.roles !== 'Customer' && <p className='text-sm md:text-xl font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-sm md:text-xl'>$ {portrait.price}</span></p>}
           </div>
           
         </div>

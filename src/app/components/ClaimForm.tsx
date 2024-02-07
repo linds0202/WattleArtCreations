@@ -58,7 +58,7 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
         <div className='flex flex-col justify-center items-center'>
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash' />
-                <p className='text-2xl text-center font-bold mt-0'>Artist&apos;s Note</p>
+                <p className='text-xl md:text-2xl text-center font-bold mt-0'>Artist&apos;s Note</p>
                 <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
             
@@ -74,7 +74,7 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
                 />
             </div>
             
-            <div className='w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
+            <div className='w-full md:w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
                 <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
                 <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>
                     Claim

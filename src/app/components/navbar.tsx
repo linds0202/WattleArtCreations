@@ -170,16 +170,16 @@ export default function NavBar() {
           className='flex justify-between items-center no-underline'
         > */}
         {/* <div onClick={handleHome} className='cursor-pointer flex justify-between items-center'> */}
-          <div className='relative w-[24px] h-[24px] md:w-[48px] md:h-[48px] lg:w-[64px] lg:h-[64px] object-cover'>
-              <Image 
-                src={Logo} 
-                alt="small Wattle Art Creations logo" 
-                fill
-                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                priority={true}  
-              />
-            </div>
-            <p className='text-white text-base md:text-lg xl:text-2xl m-0'>Wattle Art Creations</p>
+        <div className='relative w-[24px] h-[24px] md:w-[48px] md:h-[48px] lg:w-[64px] lg:h-[64px] object-cover'>
+          <Image 
+            src={Logo} 
+            alt="small Wattle Art Creations logo" 
+            fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            priority={true}  
+          />
+        </div>
+        <p className='text-white text-base lg:text-lg xl:text-2xl m-0'>Wattle Art Creations</p>
           {/* </div> */}
         {/* </Link> */}
       </div>
@@ -215,13 +215,13 @@ export default function NavBar() {
         {(authUser && authUser?.roles !== 'Customer') && 
           <div className={`${authUser?.roles === 'Artist' ? 'w-10/12 mx-auto' : 'w-1/2'} flex justify-between items-center`}>
             <div className='pr-4'>
-              <Link href='/portraitQueue' className='text-white text-lg lg:text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
+              <Link href='/portraitQueue' className='text-white text-sm lg:text-xl no-underline hover:text-cyan-600'>Portrait Queue</Link>
             </div>
             <div className='pr-4'>
-              <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-lg lg:text-xl no-underline hover:text-orange-600'>Dashboard</Link>
+              <Link href={`/artistDashboard/${authUser?.uid}`} className='text-white text-sm lg:text-xl no-underline hover:text-orange-600'>Dashboard</Link>
             </div>
             <div className=''>
-              <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-lg lg:text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
+              <Link href={`/artistDashboard/${authUser?.uid}/portfolio`} className='text-white text-sm lg:text-xl no-underline hover:text-violet-600'>My Portfolio</Link>
             </div>
           </div>
         }

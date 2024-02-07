@@ -82,11 +82,21 @@ export default function Dashboard() {
   <div className='relative min-h-[100vh] bg-black'>
     <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-[15%] left-0 w-[100%] h-auto"/>
     <object type="image/svg+xml" data="/images/customizer/portrait_queque.svg" className="absolute top-0 left-0 w-[100%] h-auto"/>
-    {/* <img className="w-full fixed -top-[16px] left-0 -z-10" src="./images/customizer/portrait_queque.png" alt='background black paint drips'/> */}
+
     <div className='text-white min-h-screen pt-12 pb-36'>
       <div className='w-full flex justify-center items-center relative'>
-        <h1 className='text-4xl text-center font-bold my-4'>Available Commissions</h1>
-        {currentUser && <p className='absolute top-2 right-12 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
+        <h1 className='text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center font-bold my-4'>Available Commissions</h1>
+        
+        {currentUser && 
+        <div className='md:hidden absolute -top-[50%] right-4 flex flex-col'>
+          <p className='text-white'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span></p>
+          <p className='text-white'>Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>
+        </div>  
+        }
+        
+        {currentUser && <p className='hidden md:block absolute top-2 right-12 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
+
+        
       </div>
       
       {currentUser?
