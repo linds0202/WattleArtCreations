@@ -24,7 +24,7 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
         {displayName: "", country: ""}
 
     return (
-        <div className='w-8/12 mx-auto my-10 bg-white border-2 border-black rounded-xl relative'>
+        <div className='w-full md:w-8/12 mx-auto my-10 bg-white border-2 border-black rounded-xl relative'>
             <p className='text-center text-3xl font-bold mt-4'>Customer Details</p>
             <div style={{position: 'absolute', top: 2, right: 2, zIndex: 1000, color: 'white'}}>
                 <IconButton onClick={() => setIsEdit(false)} >
@@ -47,29 +47,29 @@ const CustomerProfileForm = ({ setUserData, userData, setIsEdit }: customerFormP
                     setIsEdit(false)
                 }}
             >
-                <Form className='flex flex-col px-20 py-8'>
-                    <div className='w-full flex justify-between items-center'>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
-                            Name:
-                        </label>
-                        <Field 
-                            name="displayName" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        />
+                <Form className='flex flex-col px-2 md:px-8 xl:px-20 py-8'>
+                    <div className='w-full flex flex-col lg:flex-row justify-between items-center'>
+                        <div className='w-full lg:w-6/12'>
+                            <label className='text-sm xl:text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                                Name:
+                            </label>
+                            <Field 
+                                name="displayName" 
+                                className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                            />
                         </div>
-                        <div className='w-6/12'>
-                        <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
-                            Country:
-                        </label>
-                        <Field 
-                            name="country" 
-                            className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                        />
+                        <div className='w-full lg:w-6/12 mt-4 lg:mt-0'>
+                            <label className='text-sm xl:text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                                Country:
+                            </label>
+                            <Field 
+                                name="country" 
+                                className="w-9/12 ml-2 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                            />
                         </div>    
                     </div>
                     
-                    <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
+                    <div className='w-full lg:w-6/12 mx-auto flex justify-around items-center mt-4'>
                         <CancelUpdateButton setIsEdit={setIsEdit} />
                         <UpdateInfoButton editLink={true} />
                     </div>

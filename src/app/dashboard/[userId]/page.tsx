@@ -121,43 +121,45 @@ export default function Dashboard({ params: { userId }}: Params) {
     <></>
   :
   <div className='relative min-h-[120vh] bg-black'>
-    {/* <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../../images/drips/dashboard_top.png" alt='background black paint drips'/>  */}
-    <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-[15%] left-0 w-[100%] h-auto -z-1"/>
-    <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-1"/>
-    <div className=' text-black pt-3 pb-36 min-h-[100vh]'>
+    
+    <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-0 xl:top-[15%] left-0 w-[300%] md:w-[200%] xl:w-[100%] h-[100%] xl:h-auto object-cover -z-1"/>
+    <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-7"/>
+    {/* <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-3"/> */}
+    
+    <div className='w-full text-black pt-3 pb-36 min-h-[100vh] border border-red-600'>
     
       {currentUser && <Profile user={currentUser} badge={badge}/>}
       
       <h2 className='mt-8 text-4xl text-center font-bold text-white'>My Portraits</h2>
       
-      <div className='flex justify-around items-center mt-8'>
+      <div className='mt-8 flex flex-col md:flex-row justify-around items-center gap-y-4'>
         <button 
           onClick={() => handleFilter('Unordered')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
+          className='w-10/12 md:w-auto bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Unordered
         </button>
         <button 
           onClick={() => handleFilter('Unassigned')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
+          className='w-10/12 md:w-auto bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Select Artist
         </button>
         <button 
           onClick={() => handleFilter('In Progress')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
+          className='w-10/12 md:w-auto bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           In Progress
         </button>
         <button 
           onClick={() => handleFilter('Completed')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
+          className='w-10/12 md:w-auto bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Completed
         </button>
         <button 
           onClick={() => handleFilter('Clear')} 
-          className='bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
+          className='w-10/12 md:w-auto bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4] z-30'
         >
           Clear Filters
         </button>

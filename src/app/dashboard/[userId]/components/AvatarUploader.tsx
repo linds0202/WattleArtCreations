@@ -58,7 +58,8 @@ export default function AvatarUploader(props: any) {
 
     const closeDialog = () => {
         setIsSubmitting(false);
-        props.onCloseDialog();
+        // props.onCloseDialog();
+        props.setOpenUpload(false)
     }
 
     // Store Avatar information to Storage and Firestore
@@ -96,55 +97,41 @@ export default function AvatarUploader(props: any) {
     };
 
     return (
-        <Dialog 
-            onClose={closeDialog}
-            open={props.showDialog}
-            fullWidth={true}
-            maxWidth='md'
-            PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
-        >   
-            <button type='button' onClick={() => props.onCloseDialog(false)} className='!absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600 absolute'/>
-            </button>
-
-            <div>
-                
-
-                <div className="flex justify-center items-center mb-4">
-                    <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
-                    <p className='text-4xl text-center font-bold mt-0'>{isEdit ? "Edit" : "Add"} Avatar</p>
-                    <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
-                </div>
+    <div className='w-11/12 md:w-8/12 mx-auto my-10 p-8 bg-white border-2 border-black rounded-xl relative'>
         
-                <DialogContent >
-                    <div className='flex justify-center items-center'>
-                    <Button 
-                        variant="outlined" 
-                        component="label" 
-                        className='text-black border-2 rounded-xl border-[#282828] hover:text-[#0075FF]'
-                    >
-                        Upload Avatar
-                        <input type="file" hidden onInput={(event) => {setFileData(event)}} className='text-lg' />
-                    </Button>
-                    <p className='text-xl ml-8'>{formFields.fileName}</p>
-                    </div>
-                </DialogContent>
-                <DialogActions>
-                    {isSubmitting ? 
-                    <Button variant="contained" disabled={true}>
-                        Submitting...
-                    </Button> :
-                    <Button 
-                        variant="contained" 
-                        onClick={handleSubmit} 
-                        disabled={isDisabled()}
-                        className='text-[#0075FF] hover:text-white'
-                    >
-                        Submit
-                    </Button>}
-                </DialogActions>
-            </div>
-        </Dialog>
+        <div style={{position: 'absolute', top: 2, right: 2, zIndex: 1000, color: 'white'}}>
+            <IconButton onClick={() => props.setOpenUpload(false)} >
+                <CloseIcon className='text-black hover:text-red-600'/>
+            </IconButton>
+        </div>
+
+        <div className='flex flex-col md:flex-row justify-center items-center'>
+            <Button 
+                variant="outlined" 
+                component="label" 
+                className='text-black border-2 rounded-xl border-[#282828] hover:text-[#0075FF]'
+            >
+                Upload Avatar
+                <input type="file" hidden onInput={(event) => {setFileData(event)}} className='text-lg' />
+            </Button>
+            <p className='text-xl mt-4 md:mt-0 md:ml-8'>{formFields.fileName}</p>
+        </div>
+
+        <div className='w-full flex justify-end'>
+            {isSubmitting ? 
+            <Button variant="contained" disabled={true} className='w-1/3 mt-4'>
+                Submitting...
+            </Button> :
+            <Button 
+                variant="contained" 
+                onClick={handleSubmit} 
+                disabled={isDisabled()}
+                className='text-[#0075FF] hover:text-white w-1/3 mt-4'
+            >
+                Submit
+            </Button>}
+        </div>
+    </div>
     )
 }
 

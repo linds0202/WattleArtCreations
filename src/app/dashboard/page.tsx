@@ -8,7 +8,9 @@ export default function Dashboard() {
   return (isLoading ? 
     <></>
     :
-    <div>Dashboard</div>
+    <div>
+      Dashboard
+    </div>
   )
 }
 

@@ -88,8 +88,8 @@ const ArtistForm = ({ setUserData, userData, isEdit, setIsEdit, links, setLinks 
                 }}
             >
                 <Form className='w-full h-auto flex flex-col md:px-20 py-8'>
-                    <div className='w-full flex flex-col md:flex-row justify-between items-center border border-red-600'>
-                        <div className='w-full md:w-6/12 border border-blue-600'>
+                    <div className='w-full flex flex-col md:flex-row justify-between items-center'>
+                        <div className='w-full md:w-6/12'>
                             <label className='text-base md:text-sm lg:text-base text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                                 Name:
                             </label>

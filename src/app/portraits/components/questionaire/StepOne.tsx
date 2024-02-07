@@ -406,7 +406,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover'
                 }}  
-                className="w-full relative mt-4 rounded-xl border border-blue-600"
+                className="w-full relative mt-4 rounded-xl"
             >
                 {bg.type !==  'None' && 
                 <div className="absolute top-2 right-0 text-black flex justify-end items-center">
@@ -422,7 +422,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                 </div>}
 
 
-                {chars.length !== 0 &&  <div className="bg-white/25 mt-12 xl:mt-0 w-full pb-8  rounded-xl flex flex-wrap gap-x-4 border border-red-600">
+                {chars.length !== 0 &&  <div className="bg-white/25 mt-12 xl:mt-0 w-full pb-8  rounded-xl flex flex-wrap gap-x-4">
                     {chars.length !== 0 && <div className="w-full flex flex-col"> 
                         
                         {/* bg display */}
@@ -680,12 +680,12 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgSimple')} 
-                            className={`w-[148px] h-[50vh] md:w-[337px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
+                            className={`w-[150px] h-[50vh] md:w-[337px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-blue-600' : bg.type === 'bgSimple' ? 'border-blue-600' : ''} `}
                         ></div>
                         <div 
                             // src="" 
                             onClick={() => handleBgSelection('bgComplex')} 
-                            className={`w-[148px] h-[50vh] md:w-[338px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
+                            className={`w-[150px] h-[50vh] md:w-[338px] md:h-[400px] border-4 ${bg.type === 'None' ? 'hover:border-green-600' : bg.type === 'bgComplex' ? 'border-green-600' : ''} `}
                         ></div>
                     </div>
                     <div className="w-full md:w-7/12 flex justify-center">
@@ -747,7 +747,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         <div className='self-stretch w-full md:w-1/3 md:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                             
                             <motion.div 
-                                className="w-[60%] h-[45%] md:w-[80%] md:h-[35%] xl:w-[60%] xl:h-[45%] mt-8 md:mt-0 xl:mt-8 bg-white rounded-lg border border-red-600"
+                                className="w-[60%] h-[45%] md:w-[80%] md:h-[35%] xl:w-[60%] xl:h-[45%] mt-8 md:mt-0 xl:mt-8 bg-white rounded-lg"
                                 initial={{ 
                                     scale: 0
                                 }}
@@ -758,7 +758,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                 <p className="mt-4 text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r pb-[10px] from-[#338cb2] to-[#43b4e4]">3D Model</p>
                             </motion.div>
                             
-                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 pt-2 md:pt-4 xl:pt-2 text-center border border-blue-600">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 pt-2 md:pt-4 xl:pt-2 text-center">
                                 <label className="w-full"> 
                                     <Field type="checkbox" name="extras" value="model" className='mr-2'/>
                                     <span className='text-lg md:text-base xl:text-lg ml-2'>3D Model</span>
@@ -772,9 +772,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/character_sheet.svg" 
-                                className="w-[65%] h-[65%]  md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[65%] relative -top-[45px] md:-top-8 xl:-top-[45px] rounded-lg border border-red-600"
+                                className="w-[65%] h-[65%]  md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[65%] relative -top-[45px] md:-top-8 xl:-top-[45px] rounded-lg"
                             />    
-                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center border border-blue-600">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center">
                                 <label className="w-full">            
                                     <Field type="checkbox" name="extras" value="character" className='mr-2'/>
                                     <span className='text-lg md:text-base xl:text-lg  ml-2'>Character Sheet</span>
@@ -788,9 +788,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             <object 
                                 type="image/svg+xml" 
                                 data="images/customizer/weapons_sheet.svg" 
-                                className="w-[65%] h-[90%] md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[90%] relative -top-[55px] md:-top-8 xl:-top-[55px] rounded-lg border border-red-600"
+                                className="w-[65%] h-[90%] md:w-[80%] md:h-[40%] xl:w-[65%] xl:h-[90%] relative -top-[55px] md:-top-8 xl:-top-[55px] rounded-lg"
                             />  
-                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center border border-blue-600">
+                            <div className="w-full h-1/3 md:h-[60%] xl:h-1/3 md:pt-4 xl:pt-0 text-center">
                                 <label className="w-full">   
                                     <Field type="checkbox" name="extras" value="weapons" className='mr-2'/>
                                     <span className='text-lg md:text-base xl:text-lg ml-2'>Weapons Sheet</span>
@@ -836,11 +836,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                     onSubmit={handleCharSubmit}
                     >
                     {({ handleChange, values }) => (
-                    <Form className="w-full h-full flex flex-col gap-y-4 xl:gap-y-0 xl:flex-row justify-between items-center border border-red-600">
+                    <Form className="w-full h-full flex flex-col gap-y-4 xl:gap-y-0 xl:flex-row justify-between items-center">
                         
                         {/* radio buttons */}
                         {/* <div className="relative w-full flex justify-between "> */}
-                            <div className="xl:order-first w-full xl:w-1/5 h-[100%] xl:h-[80%] mt-4 md:mt-0 flex flex-col justify-between border border-blue-600">
+                            <div className="xl:order-first w-full xl:w-1/5 h-[100%] xl:h-[80%] mt-4 md:mt-0 flex flex-col justify-between">
                                 <div className='w-full flex justify-between items-end'>
                                     <div className="relative">
                                         {values.bodyStyle === "" 
@@ -1143,7 +1143,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
 
 
-                            <div className="order-first xl:order-none xl:self-stretch w-full xl:w-1/2 xl:ml-4 flex flex-col justify-between border border-green-600">
+                            <div className="order-first xl:order-none xl:self-stretch w-full xl:w-1/2 xl:ml-4 flex flex-col justify-between">
                                 
                                 <div className="mb-2 flex justify-center items-center">
                                     <img className="hidden md:block mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black accent paint splash'/>
@@ -1151,7 +1151,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     <img className="hidden md:block ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black accent paint splash'/>
                                 </div>
 
-                                <div className="w-full h-[50vh] md:h-[20vh] xl:h-1/2 flex flex-wrap md:flex-nowrap justify-between items-stretch border border-purple-600">
+                                <div className="w-full h-[50vh] md:h-[20vh] xl:h-1/2 flex flex-wrap md:flex-nowrap justify-between items-stretch">
                                     
                                     <div className={`w-[150px] md:w-[40%] xl:w-[250px] h-[40%] md:h-[90%] xl:h-[70%] ${values.bodyStyle === "" ? "border border-[#282828]" : ""} my-auto mx-auto md:mx-4 xl:mr-0 xl:ml-4 object-cover object-top rounded-xl`}>
                                         {values.bodyStyle !== "" &&
@@ -1168,7 +1168,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         />}                              
                                     </div>
                                     
-                                    <div className="w-full xl:w-[57%] md:h-full mt-4 md:mt-0 flex flex-col border border-red-600">
+                                    <div className="w-full xl:w-[57%] md:h-full mt-4 md:mt-0 flex flex-col">
                                         
                                         <div className="w-[100%] md:h-1/3 flex flex-col">
                                             {values.bodyStyle !== '' && <p className="ml-4 font-semibold">Character Variations</p>}
@@ -1177,10 +1177,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             </div>}
                                         </div>
 
-                                        <div className="w-[100%] md:h-2/3 xl:h-2/3 mt-2 md:mt-6 xl:mt-2 flex justify-between border border-teal-600">
+                                        <div className="w-[100%] md:h-2/3 xl:h-2/3 mt-2 md:mt-6 xl:mt-2 flex justify-between">
                                             
                                             <div className="w-2/3 md:h-full xl:w-1/3 flex">
-                                                <div className="w-1/2 xl:w-full md:h-full xl:h-[50%] flex flex-col justify-center md:justify-between xl:justify-center items-center border border-blue-600">
+                                                <div className="w-1/2 xl:w-full md:h-full xl:h-[50%] flex flex-col justify-center md:justify-between xl:justify-center items-center">
                                                     {values.weapon !== 'none' && <p className="text-sm md:text-base text-center xl:text-left font-semibold md:pt-1 xl:pt-0">{values.weapon !== 'none' ? values.weapon[0].toUpperCase() + values.weapon.slice(1) : 'No'} Weapon</p>}
                                                     {values.weapon !== 'none' && <div className="w-[65px] md:w-[95px] xl:w-[114px] h-[50px] flex justify-center items-center md:mb-4 xl:mb-0">
                                                         {values.weapon === 'simple' && 
@@ -1253,11 +1253,11 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                     </motion.div>}
 
                                     {extras.includes("character") && 
-                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative top-0 md:-top-[20%] xl:-top-[50px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg mr-4 md:mr-16 xl:mr-20 border border-red-600"></object>
+                                        <object type="image/svg+xml" data="images/customizer/character_sheet.svg" className="relative top-0 md:-top-[20%] xl:-top-[50px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg mr-4 md:mr-16 xl:mr-20"></object>
                                     }
 
                                     {extras.includes("weapons") && 
-                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative top-0 md:-top-[22%] xl:-top-[57px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg border border-red-600"></object>    
+                                        <object type="image/svg+xml" data="images/customizer/weapons_sheet.svg" className="relative top-0 md:-top-[22%] xl:-top-[57px] w-[30%] md:w-[25%] md:h-[125%] xl:w-[175px] xl:h-[225px] rounded-lg"></object>    
                                     }
                                 </div>
                             </div>

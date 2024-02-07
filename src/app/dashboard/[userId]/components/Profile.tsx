@@ -86,8 +86,8 @@ const Profile = ({user, badge}: ProfileProps) => {
     // className='absolute bottom-0 right-0 text-[#282828]'
 
     return (
-        <div className='relative px-14 py-4'>
-            <div className='flex justify-between items-center'>
+        <div className='w-full px-4 md:px-14 py-4'>
+            <div className='mt-12 md:mt-20 lg:mt-0 flex flex-col lg:flex-row justify-between items-center'>
                 <div className='text-white flex justify-between items-center'>
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl p-4 flex justify-center items-center relative'>
                         <Image 
@@ -107,35 +107,27 @@ const Profile = ({user, badge}: ProfileProps) => {
                         
                     </div>
 
-                    <AvatarUploader
-                        setChangeAvatar={setChangeAvatar}
-                        setUserData={setUserData} 
-                        edit={updateUser}
-                        showDialog={openUpload}
-                        onCloseDialog={() => setOpenUpload(false)}>
-                    </AvatarUploader>
-
                     {userData && 
-                        <div className='w-[60%] flex flex-col justify-center items-start ml-16'>
+                        <div className='w-[60%] flex flex-col justify-center items-start ml-16 z-20'>
                             <div className='flex items-center'>
                                 <h1 className='text-4xl font-bold'>{userData?.displayName}</h1>
                                 {!isEdit && 
                                     <button 
                                         onClick={handleClick}
-                                        className="ml-4"
+                                        className="ml-4 z-20"
                                     >
                                         <EditIcon sx={{ fontSize: 24, color: '#FFFFFF', ":hover": { color: "#0075FF"} }}/>
                                     </button>
                                 }
                             </div>
                             
-                            <p className='w-8/12 mt-4'>Welcome to your dashboard</p>                    
+                            <p className='w-9/12 lg:w-8/12 mt-4'>Welcome to your dashboard</p>                    
                         </div>
                     }
 
                 </div>
                 
-                <div className='w-[40%] bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
+                <div className='w-full lg:w-[40%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
                     <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
                         <p className='text-center'>-{discount?.discount}%</p>
                     </div>
@@ -157,7 +149,14 @@ const Profile = ({user, badge}: ProfileProps) => {
                 </div>
             </div>
             
-            
+            {openUpload && <AvatarUploader
+                setChangeAvatar={setChangeAvatar}
+                setUserData={setUserData} 
+                edit={updateUser}
+                showDialog={openUpload}
+                setOpenUpload={setOpenUpload}
+                >
+            </AvatarUploader>}
             
 
             {isEdit && <CustomerProfileForm
