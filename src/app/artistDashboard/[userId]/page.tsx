@@ -89,34 +89,34 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
   :
   <div className='relative min-h-[100vh] bg-black'>
     <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-[15%] left-0 w-[100%] h-auto -z-1"/>
-    <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute top-0 -left-1 w-[101%] h-auto -z-1"/>
-    {/* <img className="w-[101%] absolute -top-[16px] left-0 -z-10" src="../images/customizer/customizer.png" alt='background black paint drips'/> */}
-    <div className='text-black min-h-screen pt-3 relative pb-36'>
+    <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-1 -left-1 w-[101%] h-auto -z-1"/>
+    
+    <div className='text-black min-h-screen pt-6 md:pt-3 relative pb-36'>
         <h1 className='text-4xl text-white text-center font-bold my-8'>Artist Dashboard</h1>
-        {currentUser && <p className='absolute top-4 right-14 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
+        {currentUser && <p className='absolute top-8 md:top-4 lg:top-0 xl:top-4 right-36 md:right-72 lg:right-4 xl:right-14 text-white text-xl'>Active: <span className='text-[#2DD42B] font-bold'>{currentUser?.activeCommissions}</span> / Max: <span className='text-red-600 font-bold'>{currentUser?.maxCommissions}</span></p>}
         
-        <div className='w-10/12 mx-auto flex justify-around items-center'>
+        <div className='w-10/12 md:w-11/12 lg:w-10/12 mx-auto flex flex-col md:flex-row justify-around items-center'>
           <button 
             onClick={() => handleFilter('Bid')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
+            className='w-full md:[20%] xl:w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Bid
           </button>
           <button 
             onClick={() => handleFilter('In Progress')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
+            className='w-full md:[20%] xl:w-[14%] mt-4 md:mt-0 bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             In Progress
           </button>
           <button 
             onClick={() => handleFilter('Completed')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
+            className='w-full md:[20%] xl:w-[14%] mt-4 md:mt-0 bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Completed
           </button>
           <button 
             onClick={() => handleFilter('Clear')} 
-            className='w-[14%] bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
+            className='w-full md:[20%] xl:w-[14%] mt-4 md:mt-0 bg-white border-2 border-[#282828] rounded-xl py-2 px-4 text-xl hover:text-white hover:bg-[#43b4e4]'
           >
             Clear
           </button>

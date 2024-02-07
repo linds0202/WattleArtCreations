@@ -249,16 +249,16 @@ const Portfolio = () => {
                 <div className='px-8 pt-8 flex flex-col xl:flex-row justify-around'>
                     {/* <div className='w-[48%]'> */}
                         <div className='w-full xl:w-[50vw]'>  
-                            <div className='w-full xl:w-[50vw] md:h-[50vh] xl:h-[80vh] flex flex-col items-center border border-yellow-600'>
+                            <div className='w-full xl:w-[50vw] md:h-[50vh] xl:h-[80vh] flex flex-col items-center'>
                             
-                                <div className='w-[100%] h-[70%] md:h-[60%] xl:h-[50vh] flex flex-wrap md:flex-nowrap justify-around items-center border border-red-600'>
+                                <div className='w-[100%] h-[70%] md:h-[60%] xl:h-[50vh] flex flex-wrap md:flex-nowrap justify-around items-center'>
                                     <div 
                                         className={`w-full md:w-[50%] xl:w-[60%] h-[60%] md:h-[100%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                         onClick={() => handleEditImg(1)}   
                                     >
                                         <img src={userData?.artistImgs.imgUrl1.length ? userData?.artistImgs.imgUrl1 : ''} alt='Default Avatar' className={`${userData?.artistImgs.imgUrl1.length ? 'w-[100%] h-[100%] object-contain': 'bg-white/50'}`} /> 
                                     </div>
-                                    <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] flex flex-row xl:flex-col justify-between items-center border border-pink-600'>
+                                    <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] mt-4 md:mt-0 flex flex-row xl:flex-col justify-between items-center'>
                                         <div 
                                             className={`w-full h-[100%] xl:h-[45%] p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                             onClick={() => handleEditImg(2)}
@@ -274,7 +274,7 @@ const Portfolio = () => {
                                     </div>
                                 </div>
                                 
-                                <div className='w-[98%] h-[35%] xl:h-[28vh] mt-4 flex justify-between items-center border border-blue-600'>
+                                <div className='w-[98%] h-[35%] xl:h-[28vh] mt-4 flex justify-between items-center'>
                                     <div 
                                         className={`w-[30%] h-full p-2 ${authUser && authUser?.uid === artistId && !openEditImg ? 'border-2 border-white cursor-pointer' : ''}`}
                                         onClick={() => handleEditImg(4)}
