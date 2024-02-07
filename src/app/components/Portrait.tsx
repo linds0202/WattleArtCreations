@@ -232,7 +232,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               open={openArtistDetails} 
               fullWidth={true}
               maxWidth='md'
-              PaperProps={{ sx: { px: 6, py: 4, backgroundColor: "white"} }}
+              PaperProps={{ sx: { px: 4, py: 4, backgroundColor: "white"} }}
           >   
               <div className='absolute top-2 right-2 w-1/12 mb-4'>
                 <IconButton onClick={() => setOpenArtistDetails(false)} className='absolute top-2 right-2 text-white'>
@@ -241,31 +241,31 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               </div>
               
               <div className="flex flex-col justify-center items-center">
-                <h2 className='text-3xl font-bold mt-2'>{portrait.portraitTitle} Portrait Details</h2>
+                <h2 className='text-xl md:text-3xl font-bold mt-2'>{portrait.portraitTitle} Portrait Details</h2>
                 <span className='text-md text-[#959595] mb-4'>({portrait.mode})</span>
+                
                 <div className='w-full mb-4 flex justify-start items-center'>
-                  <div className='w-full ml-4'>
+                  <div className='w-full lg:ml-4'>
                     <div className='flex justify-between items-center mb-8'>
                       <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
                       <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price}</span></p>
                     </div>
-                    <div className='w-full flex justify-between'>
+                    
+                    <div className='w-full flex flex-col lg:flex-row justify-between'>
                       {/* display character details */}
                       <CharList portrait={portrait} />
                       
-                      <div className='w-1/2 flex flex-col'>
+                      <div className='w-full lg:w-1/2 flex flex-col'>
                           
                           <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
-                              <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>                       
+                              <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex'} Background</p>                       
                           </div>
 
                           <AnimalList portrait={portrait} />
                       </div>
                         
                     </div>
-                    
-                    {/* <CharList portrait={portrait}/> */}
-      
+     
                   </div>
                 </div>
 
@@ -313,11 +313,11 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   weaponSheet={weaponSheet} 
                 />
               </div>
-              <div className='w-6/12 mx-auto flex justify-between items-center mt-4 py-4'>
-                <button type='button' onClick={() => setOpenArtistDetails(false)} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#282828]'>Close</button>
+              <div className='w-full md:w-6/12 mx-auto flex justify-between items-center mt-4 py-4'>
+                <button type='button' onClick={() => setOpenArtistDetails(false)} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/3 md:w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#282828]'>Close</button>
 
                 {(portrait.artist.filter((artist: Artist) => artist.id === user?.uid).length < 1 && user?.roles === 'Artist' && user.activeCommissions < user.maxCommissions) && 
-                  <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#43b4e4]'>Claim</button>
+                  <button onClick={handleClaim} className='text-xl border-black border-2 rounded-lg px-4 py-2 w-1/3 md:w-1/4 mx-auto mt-4 hover:text-white hover:bg-[#43b4e4]'>Claim</button>
                 }
               </div>
                 

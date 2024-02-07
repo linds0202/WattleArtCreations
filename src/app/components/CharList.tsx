@@ -8,16 +8,16 @@ interface CharListProps {
 const CharList = ({ portrait }: CharListProps) => {
     
     const charList = portrait.characters.map((char: MyCharValues, i) => (
-        <div key={i} className='w-full h-[175px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex flex-col mb-2'>
-          <div className='w-full flex justify-between items-center'>
+        <div key={i} className='w-full md:w-[48%] lg:w-full lg:h-[175px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex flex-col mb-2'>
+          <div className='w-full flex flex-col md:flex-row justify-between items-center'>
             <img 
               alt='default character style thumbnail'
               className={` ${char.bodyStyle === 'Full' ? 'w-[48px] h-[96px]' : 'w-[96px] h-[96px]'} object-cover rounded-xl`} 
-              src={`../../images/customizer/${char.bodyStyle}.png`} 
+              src={`../../images/customizer/${char.bodyStyle}.svg`} 
             />
 
             <div className='w-full h-full ml-2 flex flex-col'>
-              <p className='text-md font-semibold text-center'>Character {i + 1} - ({char.bodyStyle === 'Headshot' ? char.bodyStyle : `${char.bodyStyle} Body`})</p>
+              <p className='mt-2 md:mt-0 text-md font-semibold text-center'>Character {i + 1} - ({char.bodyStyle === 'Headshot' ? char.bodyStyle : `${char.bodyStyle} Body`})</p>
         
               <div className="w-[100%] h-1/3 flex flex-wrap items-start">
                 {[...Array(char.numCharVariations)].map((n, i) => <object key={i} type="image/svg+xml" data={`../../../images/var${i%2}.svg`} className="w-1/6 h-[100%]"></object>)}
@@ -66,7 +66,7 @@ const CharList = ({ portrait }: CharListProps) => {
     ))
     
     return (
-        <div className='w-5/12 flex flex-col items-center'>
+        <div className='w-full lg:w-5/12 flex flex-col items-center'>
             {charList}
         </div>
     )
