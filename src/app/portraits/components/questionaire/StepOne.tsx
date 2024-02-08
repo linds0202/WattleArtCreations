@@ -1237,7 +1237,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
                                 
 
-                                <div className="h-[15vh] xl:h-[175px] xl:ml-6 xl:mt-4 flex items-start border border-gray-950">
+                                <div className="h-[15vh] xl:h-[175px] xl:ml-6 xl:mt-4 flex items-start">
 
                                     {extras.includes("model") && 
                                      <motion.div 
