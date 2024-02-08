@@ -244,7 +244,7 @@ const Portfolio = () => {
         <></>
         :
         <div className='relative min-h-[100vh] bg-black'>
-            <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-1"/>
+            <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[5%] left-0 w-[100%] h-auto -z-10"/>
             <div className='relative pb-36'>
                 <div className='px-8 pt-8 flex flex-col xl:flex-row justify-around'>
                     {/* <div className='w-[48%]'> */}

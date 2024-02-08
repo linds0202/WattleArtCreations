@@ -358,7 +358,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                             <h4 className='text-[#43b4e4] text-xl text-center font-bold m-0'>Add Character</h4>
                             {chars?.length !== 0 && 
                             <div className="flex flex-col">
-                                <p className='text-red-600 text-xs md:text-sm lg:text-xs xl:text-sm text-center font-semibold'> Additional Characters 10% off*</p>
+                                <p className='text-red-600 text-xs md:text-sm lg:text-xs xl:ml-6 text-center font-semibold'> Additional Characters 10% off*</p>
                             </div>}
                         </div>
                     </div>
@@ -373,7 +373,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         </div>
                 
                         <div className="w-full text-center pl-4 flex flex-col justify-center">
-                            <h4 className='text-[#43b4e4] text-xl font-bold m-0'>Add Background</h4>
+                            <h4 className='text-[#43b4e4] text-xl font-bold m-0 xl:ml-2'>Add Background</h4>
                         </div>
                     </div>
                     }

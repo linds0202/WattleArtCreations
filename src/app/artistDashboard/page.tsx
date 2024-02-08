@@ -26,8 +26,10 @@ const ArtistDashboard = () => {
     }, [])
 
     const artistList = artistData.map((artist, i) => (
-        <div key={i} className='w-11/12 md:w-5/12 lg:w-[30%] h-[70vh] xl:h-[65vh] bg-black border border-[#ffffff]/50 rounded-xl md:pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
+        <div key={i} className='w-11/12 md:w-5/12 lg:w-[30%] h-[70vh] lg:h-[35vh] xl:h-[65vh] bg-black border border-[#ffffff]/50 rounded-xl md:pt-4 z-10 hover:shadow-[0_0_40px_-5px_rgba(255,255,255,0.5)] hover:border-[#ffffff]/75'>
+
             <img className='w-[100%] md:w-[90%] h-[50%] xl:h-[60%] object-contain md:object-cover object-top mx-auto rounded-t-xl' src={artist.artistImgs.imgUrl7} alt='artist image'/>
+            
             <div className='w-[100%] h-[50%] xl:h-[40%] bg-[#282828] rounded-b-xl text-white p-4 flex flex-col justify-between'>
                 <Link prefetch={false} href={`/artistDashboard/${artist?.uid}/portfolio`} className=''>
                     <p className='text-center text-2xl font-semibold'>{artist.artistName}</p>
@@ -79,11 +81,11 @@ const ArtistDashboard = () => {
         :   
         (
             <div className='relative min-h-[100vh] bg-black'>
-                <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[3%] left-0 w-[100%] h-auto -z-1"/>
-                <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-[16px] -left-1 w-[101%] h-auto -z-1"/>
-                <div className='pt-10 pb-36'>
-                    <h1 className='text-6xl text-white font-bold p-4 text-center'>Our Artists</h1>
-                    <p className='text-center text-white mb-8'>Something here about the artists</p>
+                <object type="image/svg+xml" data="/images/colored_dots_final.svg" className="absolute top-[3%] left-0 w-[300%] md:w-[250%] lg:w-[200%] xl:w-[100%] h-auto object-cover z-0"/>
+                <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-[16px] -left-1 w-[101%] h-auto"/>
+                <div className='pt-10 pb-36 flex flex-col'>
+                    <h1 className='text-6xl text-white font-bold p-4 text-center z-10'>Our Artists</h1>
+                    <p className='text-center text-white mb-8 z-10'>Something here about the artists</p>
                     <div className='flex flex-wrap justify-around items-center my-4 md:gap-x-4 gap-y-4'>
                         {artistList}
                     </div>
