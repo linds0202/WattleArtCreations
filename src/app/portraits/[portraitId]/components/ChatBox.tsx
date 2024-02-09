@@ -35,7 +35,7 @@ const ChatBox = ({ portraitId }: ChatBoxProps) => {
 
    
     return (
-      <main className="w-full relative">
+      <div className="w-full relative">
         <div className="messages-wrapper scrollbar-hide" id="chatBox">
           {messages?.map((message) => (
             <Message key={message.id}  message={message} />
@@ -47,7 +47,7 @@ const ChatBox = ({ portraitId }: ChatBoxProps) => {
           <SendMessage portraitId={portraitId} />
         </div>
         
-      </main>
+      </div>
     );
   };
   export default ChatBox;

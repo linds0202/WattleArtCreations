@@ -125,7 +125,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             </div>  
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
-                <p className='text-4xl text-center font-bold mt-0'>Portrait Details</p>
+                <p className='text-2xl lg:text-4xl text-center font-bold mt-0'>Portrait Details</p>
                 <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
 
@@ -133,17 +133,17 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
 
             
             <div className='flex justify-between items-center mb-4'>
-                <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-md text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
+                <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-sm lg:text-base text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
 
                 <p className='text-md'>Purchase Date: <span className='font-semibold text-[#43b4e4]'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span> </p>           
             
             </div>
-
-            <div className='w-full flex justify-between'>
+            {/* w-full flex justify-between  */}
+            <div className='w-full flex flex-col lg:flex-row justify-between'>
                 {/* display character details */}
                 <CharList portrait={portrait} />
                 
-                <div className='w-1/2 flex flex-col'>
+                <div className='w-full lg:w-1/2 flex flex-col'>
                     
                     <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
                         <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex Background'}</p>                       
@@ -304,7 +304,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                             </div>                            
                         </div>
 
-                        <div className='w-8/12 mx-auto flex justify-between items-center'>
+                        <div className='w-full md:w-8/12 mx-auto flex justify-between items-center'>
 
                             <button 
                                 type="button" 
@@ -335,7 +335,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
                     charSheet={charSheet}
                     weaponSheet={weaponSheet} 
                 />
-                <div className='w-3/12 mx-auto'>
+                <div className='w-full md:w-1/2 lg:w-3/12 mx-auto'>
                     <button 
                         type="button" 
                         onClick={handleClose}

@@ -124,7 +124,6 @@ export default function Dashboard({ params: { userId }}: Params) {
     
     <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-0 xl:top-[15%] left-0 w-[300%] md:w-[200%] xl:w-[100%] h-[100%] xl:h-auto object-cover -z-1"/>
     <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-7"/>
-    {/* <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-3"/> */}
     
     <div className='w-full text-black pt-3 pb-36 min-h-[100vh]'>
     

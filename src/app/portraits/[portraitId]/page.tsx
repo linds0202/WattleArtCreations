@@ -189,9 +189,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     >
       <div className='relative'>
         
-        <div className='absolute top-4 left-4 flex justify-around items-center'>
-          <h3>Select Background:</h3>
-          <div className='w-[80px] flex justify-around'>
+        <div className='absolute top-2 left-2 md:top-4 md:left-4 flex justify-around items-center'>
+          <p className='text-sm lg:text-xl '>Select Background:</p>
+          <div className='w-[70px] lg:w-[80px] flex justify-around'>
             {categories.customizer.bgOptions.map((option: string, i: number) => (
               <div key={i} className='flex justify-center items-center'>
                 <input
@@ -207,10 +207,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           </div>
         </div>
 
-        <h1 className='text-4xl text-center font-bold pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
+        <h1 className='w-full md:w-auto text-lg lg:text-xl xl:text-4xl text-center font-bold pt-12 md:pt-4 mb-2'>{portrait?.portraitTitle} <span className='text-sm md:text-base lg:text-2xl text-[#bababa]'>({portrait?.mode})</span></h1>
         
         <button 
-            className='absolute top-2 right-7 w-1/7 text-xl border-2 border-black bg-white hover:text-white hover:bg-[#43b4e4] rounded-lg p-2' onClick={handleOpenQuestions}
+            className='absolute top-0 right-2 md:top-2 md:right-7 md:w-1/7 text-sm md:text-base lg:text-xl border-2 border-black bg-white hover:text-white hover:bg-[#43b4e4] rounded-lg p-2' onClick={handleOpenQuestions}
         >
             View Portrait Details
         </button>
@@ -229,20 +229,36 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       
 
       
-      <div className='mx-4 flex justify-between'>
+      <div className='mx-4 flex flex-col lg:flex-row lg:flex-wrap justify-between'>
+        {/* Header */}
+        <div className='w-[100%] flex flex-col md:flex-row justify-between items-center'>
+          <p className='text-center md:text-left text-xl lg:text-2xl font-semibold pb-2'>Action Center <span className='text-[#43b4e4] text-sm block md:inline-block'>(Below are tasks that need your attention)</span></p> 
         
+          {!portrait?.artistAssigned 
+            ? <p className='font-semibold lg:text-xl pb-2'>Artist: 
+              <span className='font-normal text-red-600 ml-2'>No artist assigned yet</span>
+            </p>
+            :
+            <p className='text-xl pb-2'>Artist: 
+              <Link 
+                href={`/artistDashboard/${portrait?.artist[0].id}/portfolio`} 
+                rel="noopener noreferrer" 
+                target="_blank"
+                className="text-[#2DD42B] hover:text-[#165f15] hover:underline ml-2"
+              >
+                <span>{portrait?.artist[0].artistName}</span>
+              </Link>
+            </p>
+            }
+        </div>
+
         {/* Lefthand section */}
-        <div className='w-8/12 flex flex-col justify-start'>
+        <div className='w-full lg:w-8/12 flex flex-col justify-start'>
           
-          <div className='w-[100%] flex justify-between items-center'>
-            <p className='w-6/12 text-left text-2xl font-semibold pb-2'>Action Center <span className='text-[#43b4e4] text-sm'>(Below are tasks that need your attention)</span></p>
-            
-          </div>
-          
-          <div className='w-[100%] flex'>
+          <div className='w-[100%] flex flex-col md:flex-row'>
       
             {/* Action Center */}
-            <div className='w-6/12 bg-white border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
+            <div className='w-full md:w-6/12 bg-white border-t-2 border-r-2 border-[#bababa] rounded-xl flex flex-col'>
               <div>
                 {authUser?.roles === 'Customer' 
                   ? <>{portrait && <CustomerActionCenter portrait={portrait} setPortrait={setPortrait} setOpenRevision={setOpenRevision}  />}</>
@@ -254,7 +270,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             </div>
 
             {/* Image Upload Section */}
-            <div  className='w-6/12 h-[80vh] px-4 flex flex-col justify-between items-center'>
+            <div  className='w-full md:w-6/12 h-[80vh] px-4 mt-8 md:mt-0 flex flex-col justify-between items-center'>
               <div className='w-full px-4'>
               
                 {portrait?.status === 'Completed' && 
@@ -329,7 +345,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                             })}
                           />
                           : <div className='w-11/12 mx-auto flex flex-col justify-end items-center'>
-                              <object type="image/svg+xml" data="../../images/newClock.svg" className="absolute -top-[3%] left-[13%] w-[75%] h-[75%] "/>
+                              <object type="image/svg+xml" data="../../images/newClock.svg" className="absolute -top-[3%] left-[20%] xl:left-[13%] w-[60%] h-[60%] xl:w-[75%] xl:h-[75%] "/>
                               <p className='text-2xl text-[#43b4e4] font-semibold'>Check Back Soon</p>
                               <p className='text-md text-center text-[#282828] font-semibold'>Your artist is hard at work. You will find finished images for review in this space.</p>
                             </div>
@@ -440,30 +456,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         </div>
         
         {/* Righthand section */}
-        <div className='w-4/12'>
-          <div className='w-full px-4 flex justify-end'>
-            {/* <p className='text-xl pb-2'>Customer: <span className='text-[#2DD42B] ml-2' >{portrait?.customer}</span></p> */}
-
-
-            {!portrait?.artistAssigned && <p className='text-xl pb-2'>Artist: 
-              <span className='text-red-600 ml-2'>No artist assigned yet</span>
-            </p>}
-
-            {portrait?.artistAssigned && <p className='text-xl pb-2'>Artist: 
-              <Link 
-                href={`/artistDashboard/${portrait?.artist[0].id}/portfolio`} 
-                rel="noopener noreferrer" 
-                target="_blank"
-                className="text-[#2DD42B] hover:text-[#165f15] hover:underline ml-2"
-              >
-                <span>{portrait?.artist[0].artistName}</span>
-              </Link>
-            </p>}
-          
-          </div> 
-          
-          <ChatBox portraitId={portraitId}/>
-        
+        <div className='w-full lg:w-4/12 mt-8 lg:mt-0'>
+          <ChatBox portraitId={portraitId}/> 
         </div>
       </div>
     </div>

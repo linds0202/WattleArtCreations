@@ -343,10 +343,10 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     }
 
 
-                    {loadingTime && <div className='w-1/2 mx-auto'>
+                    {loadingTime && <div className='w-3/4 xl:w-1/2 mx-auto'>
                         <button 
                             type="button"
-                            className='w-full text-xl border-2 border-black bg-white hover:text-white hover:bg-[#43b4e4] rounded-lg p-2 mt-4 mb-2' onClick={handleOpenQuestions}
+                            className='w-full text-lg xl:text-xl border-2 border-black bg-white hover:text-white hover:bg-[#43b4e4] rounded-lg p-2 mt-4 mb-2' onClick={handleOpenQuestions}
                         >
                             {canEditQs && portrait?.status !== 'Completed' ? "Edit Answers" : "View Questions"}
                         </button>
@@ -398,7 +398,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
                         <p>You have <span className="text-xl font-semibold text-[#43b4e4]">{portrait?.revisions}</span> free revisions remaining</p>
                         <button 
-                          className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
+                          className='w-3/4 xl:w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                           onClick={() => setOpenRevision(true)}
                         >
                             {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}

@@ -8,7 +8,7 @@ interface CharListProps {
 const CharList = ({ portrait }: CharListProps) => {
     
     const charList = portrait.characters.map((char: MyCharValues, i) => (
-        <div key={i} className='w-full md:w-[48%] lg:w-full lg:h-[175px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex flex-col mb-2'>
+        <div key={i} className='w-full md:w-[48%] lg:w-full h-[315px] md:h-[175px] lg:h-[200px] border-2 border-[#282828] rounded-xl px-4 py-2 text-sm flex flex-col justify-between mb-2'>
           <div className='w-full flex flex-col md:flex-row justify-between items-center'>
             <img 
               alt='default character style thumbnail'
@@ -66,7 +66,7 @@ const CharList = ({ portrait }: CharListProps) => {
     ))
     
     return (
-        <div className='w-full lg:w-5/12 flex flex-col items-center'>
+        <div className='w-full lg:w-5/12 flex flex-col md:flex-row lg:flex-col md:justify-between lg:justify-start items-center'>
             {charList}
         </div>
     )

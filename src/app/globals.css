@@ -166,13 +166,14 @@ table {
 /* send message */
 .send-message-container {
   position: absolute;
-  bottom: -45px;
+  bottom: -70px;
   width: 100%;
   padding: 20px 20px;
   background-color: #282828;
   display: flex;
   align-items: center;
   border-radius: 0 0 20px 20px;
+  border-bottom: 4px solid black;
 }
 
 .send-mesg {
