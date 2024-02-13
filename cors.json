@@ -1,7 +1,10 @@
-[
-    {
-        "origin": ["*"],
+{
+    "cors": [
+      {
+        "origin": ["https://your-example-website.appspot.com"],
         "method": ["GET"],
+        "responseHeader": ["Content-Type"],
         "maxAgeSeconds": 3600
-    }
-]
+      }
+    ]
+  }
