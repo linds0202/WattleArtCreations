@@ -1,6 +1,7 @@
 import { Formik, Form, Field} from 'formik';
 import { addTestimonial } from '@/app/firebase/firestore';
 import Rating from '@mui/material/Rating';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
 
@@ -63,6 +64,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                 <Form className='flex flex-col px-8'>
                     <div className='w-full'>
                         <Rating
+                            emptyIcon={<StarOutlineIcon style={{ color: 'white', opacity: 0.65  }} fontSize="inherit" />}
                             size="large"
                             name="stars"
                             value={rating}
@@ -70,8 +72,8 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                                 setRating(newValue)
                         }}
                         />
-                        <div>
-                            <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                        <div className='mb-4'>
+                            <label className='text-xl leading-3 font-semibold text-[#43b4e4]'>
                                 Review:
                             </label>
                             <Field 
@@ -84,13 +86,13 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                             />
                         </div>  
 
-                        <label>
-                            <Field type="checkbox" name="includeImg"/>
-                            <span className='ml-2 font-semibold'>Include Image: Do you want to include your final image in your review?</span>
+                        <label >
+                            <Field type="checkbox" name="includeImg" size="large"/>
+                            <span className='text-xl ml-2 font-semibold text-[#43b4e4]'>Include Image:<span className='text-white font-light'> Do you want to include your final image in your review?</span></span>
                         </label> 
 
-                        <div className='w-full flex items-center'>
-                            <label className='text-base text-gray-light leading-3 font-semibold text-[#0075FF]'>
+                        <div className='w-full mt-4 flex items-center'>
+                            <label className='text-xl text-gray-light leading-3 font-semibold text-[#43b4e4]'>
                                 Name:
                             </label>
                             <Field 
@@ -102,7 +104,12 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                     </div>
                     
                     <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
-                        <button type='submit' className='py-2 px-4 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#282828]'>Submit Testimonial</button>
+                        <button 
+                            type='submit' 
+                            className='w-full xl:w-2/3 mx-auto mt-4 text-xl text-white rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                        >
+                            Submit Testimonial
+                        </button>
                     </div>
                     
                 </Form>
