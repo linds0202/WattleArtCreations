@@ -11,7 +11,7 @@ const nextConfig = {
       },
     ],
     // unoptimized: true
-  },
+  }
 }
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({

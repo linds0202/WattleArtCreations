@@ -81,18 +81,19 @@ export async function getDownloadURLs(bucket) {
 }
 
 export async function downloadImage(url) {
+  console.log("in download image url is: ", url)
   
-  var filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0];
-  var xhr = new XMLHttpRequest();
-  xhr.responseType = 'blob';
+  const filename = url.substring(url.lastIndexOf("/") + 1).split("?")[0]
+  const xhr = new XMLHttpRequest()
+  xhr.responseType = 'blob'
   xhr.onload = function() {
-    var a = document.createElement('a');
-    a.href = window.URL.createObjectURL(xhr.response);
-    a.download = "finalImage.jpg"; // Name the file anything you'd like.
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
+    let a = document.createElement('a')
+    a.href = window.URL.createObjectURL(xhr.response)
+    a.download = "finalImage.jpg" // Name the file anything you'd like.
+    a.style.display = 'none'
+    document.body.appendChild(a)
+    a.click()
   };
-  xhr.open('GET', url);
-  xhr.send();
+  xhr.open('GET', url)
+  xhr.send()
 }
