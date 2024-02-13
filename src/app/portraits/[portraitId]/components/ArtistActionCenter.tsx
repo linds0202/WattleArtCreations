@@ -81,7 +81,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                     latest={portrait?.revisionNotes.length - 1 === i && portrait?.revisionNotes.length === portrait?.finalImages.length}
                     index={i}
                 />
-                : <ActionCenterAccordion title={'Awaiting Customer Response'} open={true} attention={true} >
+                : <ActionCenterAccordion title={'Awaiting Customer Response'} open={portrait.status === 'Completed' ? false : true} attention={portrait.status === 'Completed' ? false : true} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                         <Submission portrait={portrait}/>
                     </div>
@@ -129,7 +129,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                         latest={portrait?.revisionNotes.length - 1 === i && portrait?.revisionNotes.length === portrait?.finalImages.length}
                         index={i}
                 />
-                : <ActionCenterAccordion title={'Awaiting Customer Response'} open={true} attention={true} >
+                : <ActionCenterAccordion title={'Awaiting Customer Response'} open={portrait.status === 'Completed' ? false : true} attention={portrait.status === 'Completed' ? false : true} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                         <Submission portrait={portrait}/>
                     </div>
@@ -153,7 +153,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
 
     return (
         <div className="w-[100%] mb-8">
-            <ActionCenterAccordion title="Portrait Details" open={canEditQs} attention={canEditQs} >
+            <ActionCenterAccordion title="Portrait Details" open={canEditQs && portrait.status !== 'Completed'} attention={canEditQs && portrait.status !== 'Completed'} >
                 
                 {/* See Questions */}
                 <div className='w-full bg-[#e8e8e8] rounded-lg p-4 mt-2'>

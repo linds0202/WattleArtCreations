@@ -208,7 +208,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
-        {user?.roles === 'Artist' && portrait.status === 'In Progress' && portrait.artistAssigned &&
+        {user?.roles === 'Artist' && (portrait.status === 'In Progress' || portrait.status === 'Completed') && portrait.artistAssigned &&
         <Link 
           href={`/portraits/${portrait.id}`} 
           className="text-xl text-center border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"
