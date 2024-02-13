@@ -36,7 +36,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
 
     return (
         <div>
-            <h3 className='text-2xl text-center font-semibold'>Rate & Review your experience</h3>
+            <h3 className='text-2xl text-center font-semibold mb-4 md:mb-0'>Rate & Review your experience</h3>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, helpers) => {
@@ -61,7 +61,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                     setOpenTestimonial(false)
                 }}
             >
-                <Form className='flex flex-col px-8'>
+                <Form className='flex flex-col md:px-8'>
                     <div className='w-full'>
                         <Rating
                             emptyIcon={<StarOutlineIcon style={{ color: 'white', opacity: 0.65  }} fontSize="inherit" />}
@@ -103,7 +103,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                         
                     </div>
                     
-                    <div className='w-6/12 mx-auto flex justify-around items-center mt-4'>
+                    <div className='w-full md:w-6/12 mx-auto flex justify-around items-center mt-4'>
                         <button 
                             type='submit' 
                             className='w-full xl:w-2/3 mx-auto mt-4 text-xl text-white rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
