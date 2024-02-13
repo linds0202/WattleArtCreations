@@ -67,19 +67,19 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
             </div>
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black accent paint splash'/>
-                <p className='text-4xl text-center font-bold mt-0'>Your Artist List</p>
+                <p className='text-xl md:text-4xl text-center font-bold mt-0'>Your Artist List</p>
                 <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black accent paint splash'/>
             </div>
-            {/* <h2 className='text-4xl font-bold'>Your Artist List</h2> */}
+
             <div className='w-full flex justify-between items-center'>
                 <button 
                     type="button" 
                     onClick={handlePrevious}
-                    className={`w-2/12 flex flex-col items-center ${artistIndex === 0 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#43b4e4]'}`}
+                    className={`w-1/12 md:w-2/12 flex flex-col items-center ${artistIndex === 0 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#43b4e4]'}`}
                     disabled={artistIndex === 0}
                 >
                     <ArrowBackIosIcon fontSize="large"/>
-                    <p>Previous Artist</p>
+                    <p className='text-xs md:text-base mx-2 md:mr-0 text-left'>Previous Artist</p>
                 </button>
 
                 <ArtistDetails 
@@ -94,11 +94,11 @@ const ArtistList = ({ openArtistList, setOpenArtistList, artists, artistIndex, s
                 <button 
                     type="button" 
                     onClick={handleNext}
-                    className={`w-2/12 flex flex-col items-center ${artistIndex === allArtists.length - 1 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#43b4e4]'}`}
+                    className={`w-1/12 md:w-2/12 flex flex-col items-center ${artistIndex === allArtists.length - 1 ? 'text-[#E5E5E5]' : 'text-[#282828] hover:text-[#43b4e4]'}`}
                     disabled={artistIndex === allArtists.length - 1 }
                 >
                     <ArrowForwardIosIcon fontSize="large"/>
-                    <p>Next Artist</p>
+                    <p className='text-xs md:text-base ml-2'>Next Artist</p>
                 </button>
 
             </div>           

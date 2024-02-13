@@ -46,12 +46,12 @@ const Submission = ({ portrait }: SubmissionProps) => {
             {canApprove ?
                 <div>
                     
-                    <div className='mt-2 flex items-center'>
+                    <div className='mt-2 flex flex-col xl:flex-row items-center'>
                         <div>
                             <p className='font-semibold mr-4'>Remaining review time: </p>
                         </div>
                         {loadingTime ? 
-                            <div className='w-6/12 px-4 py-2 flex justify-around border-2 border-[#282828] rounded-lg bg-white'>
+                            <div className='xl:w-6/12 px-4 py-2 mt-2 xl:mt-0 flex justify-around border-2 border-[#282828] rounded-lg bg-white'>
                                 <div >
                                     <span className="text-xl font-semibold">{days}</span>
                                     <span className="font-light ml-2">Days</span>
@@ -72,9 +72,7 @@ const Submission = ({ portrait }: SubmissionProps) => {
                         
                     </div>
                     
-                    <p className='mt-4 mb-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</span></p>
-                    
-                    
+                    <p className='mt-4 mb-4 font-semibold'>Submission date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.finalImages[portrait?.finalImages.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</span></p>   
                 </div>
             :
             <div>

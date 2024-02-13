@@ -50,14 +50,14 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
             
             <div className='flex flex-col justify-center items-center'>
                 <div className="flex justify-center items-center mb-4">
-                    <img className="mr-4 w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint splash accent'/>
-                    <p className='text-2xl text-center font-bold mt-0'>Request Revision</p>
-                    <img className="ml-4 w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black paint splash accent'/>
+                    <img className="mr-4 w-[10%] md:w-[15%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint splash accent'/>
+                    <p className='text-xl md:text-2xl text-center font-bold mt-0'>Request Revision</p>
+                    <img className="ml-4 w-[10%] md:w-[15%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black paint splash accent'/>
                 </div>
                 
-                <div className='w-full flex'>
+                <div className='w-full flex flex-col lg:flex-row'>
                     
-                    <div className='w-[55%]'>
+                    <div className='w-full lg:w-[55%]'>
                         <p className='mb-4'>We understand that creating the perfect custom art piece is a collaborative process, and sometimes, you may require a few adjustments to ensure your vision is accurately represented. At Wattle Art Creations, we prioritize your satisfaction and want you to be thrilled with the final artwork. Our standard commission process includes <span className='text-[#2DD42B] text-xl font-bold'>2</span> free revisions on the final submitted piece.
                         <Link 
                             href='/revisions' 
@@ -90,8 +90,8 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
                         }
                     </div>
 
-                    <div className='w-[45%] ml-8 flex flex-col justify-between'>
-                    <label className=''>
+                    <div className='w-full lg:w-[45%] lg:ml-8 flex flex-col justify-between'>
+                    <label className='mt-8 lg:mt-0'>
                         Add a description of your revision {remainingRevisions === 0 ? '- your artist will use this to make customized quote' : ''}
                     </label>
                     <textarea
@@ -107,16 +107,16 @@ const RequestRevision = ({ openRevision, setOpenRevision, setRequestRevision, re
                 
 
             
-            <div className='w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
-                <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
-                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
+            <div className='w-full lg:w-8/12 mx-auto mt-8 mb-4 flex flex-col md:flex-row justify-around items-center'>
+                <button onClick={handleCancel} className='w-full md:w-5/12 text-lg lg:text-xl mt-4 md:mt-0 text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
+                <button onClick={handleRequest} className='w-full md:w-5/12 order-first md:order-last text-lg lg:text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
                     {remainingRevisions === 0 ? 'Request an Additional Revision' : 'Request Revision'}
                 </button>
             </div>
 
             {remainingRevisions > 0
-             ? <p className='absolute bottom-2 left-2 text-[#8f8f8f] text-sm'>*This cannot be undone</p>
-             : <p className=' text-[#8f8f8f] text-sm mt-8'>Please note that additional revisions may impact the completion timeline of your artwork. Also note that this payment is reserved alongside the original payment, and will only be released to the artist when you have made the final confirmation that you are happy and satisfied with the piece!</p>
+             ? <p className='text-[#8f8f8f] text-sm'>* This cannot be undone</p>
+             : <p className=' text-[#8f8f8f] text-sm mt-8'>* Please note that additional revisions may impact the completion timeline of your artwork. Also note that this payment is reserved alongside the original payment, and will only be released to the artist when you have made the final confirmation that you are happy and satisfied with the piece!</p>
 
             }
             </div>

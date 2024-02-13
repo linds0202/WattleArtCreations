@@ -179,8 +179,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setOpenQuestions(true)
   }
 
-  return (
-  <div className='relative min-h-[100vh]'>
+  return (isLoading ?
+  <></>
+  :<div className='relative min-h-[100vh]'>
     <img className="w-full absolute -top-[16px] left-0" src="../../images/drips/wizard3.png" alt='background black paint drip'/>
 
     <div 
@@ -270,15 +271,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             </div>
 
             {/* Image Upload Section */}
-            <div  className='w-full md:w-6/12 h-[80vh] px-4 mt-8 md:mt-0 flex flex-col justify-between items-center'>
-              <div className='w-full px-4'>
+            <div  className='w-full md:w-6/12 min-h-[80vh] md:px-4 mt-8 md:mt-0 flex flex-col justify-between items-center'>
+              <div className='w-full md:px-4'>
               
                 {portrait?.status === 'Completed' && 
-                  <div className='bg-white flex flex-col items-center'>
+                  <div className='bg-white rounded-xl p-2 flex flex-col items-center'>
                     <div className='w-full flex flex-col items-center'>
                       <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
                       <button 
-                        className='w-1/2 mx-auto my-4 text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#43b4e4]'  
+                        className='xl:w-1/2 mx-auto my-4 text-lg xl:text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#43b4e4]'  
                         onClick={handleDownloadFinal}
                       >
                         Download Final Image
@@ -286,14 +287,14 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <p className='text-md text-center mb-4'>You can also download each version from this commission by clicking the thumbnails below</p>
                     </div>
 
-                    <div className='w-full h-[88px] bg-white border-2 border-[#bababa] rounded-xl mb-4 flex justify-around items-center'>
+                    <div className='w-full xl:h-[88px] bg-white border-2 border-[#bababa] rounded-xl mb-4 py-2 flex flex-wrap xl:flex-nowrap justify-around items-center gap-y-2 xl:gap-y-0'>
                       {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
                         <img 
                           alt='final image thumbnail'
                           onContextMenu={(e)=> e.preventDefault()}
                           key={i}        
-                          className='w-[64px] h-[64px] object-contain cursor-pointer' 
+                          className='w-[40%] xl:w-[64px] xl:h-[64px] object-contain cursor-pointer' 
                           src={img.imageUrl} 
                           onClick={() => handleDownloadImage(i)}
                         /> 
@@ -303,15 +304,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
 
 
-                    <div className='my-8 flex flex-wrap justify-between items-center'>
+                    <div className='w-full my-8 flex flex-col justify-between items-center'>
                       <p className='text-xl font-semibold w-[100%]'>Customer&apos;s Testimonial:</p>
-                      <div className='mt-4 border-2 border-[#282828] rounded-xl p-4 flex items-center'>
-                        <div className='w-[40%]'>
+                      <div className='w-full mt-4 border-2 border-[#282828] rounded-xl p-4 flex flex-col xl:flex-row justify-between items-center'>
+                        <div className='w-full xl:w-[40%]'>
                           {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto ' alt='customer finished image in testimonial'/>}
                         </div>
-                        <div className='w-[55%]'>
+                        <div className='xl:w-[55%] mt-4 xl:mt-0'>
                           <div className='flex items-center'>
-                              <Rating name="read-only" value={testimonial?.stars} readOnly precision={0.5} size="small" />
+                              <Rating name="read-only" value={testimonial?.stars ? testimonial?.stars : 0} readOnly precision={0.5} size="small" />
                               <span className='ml-2'>({testimonial?.stars})</span>
                           </div>
                           <p>&quot;{testimonial?.text}&quot;</p>

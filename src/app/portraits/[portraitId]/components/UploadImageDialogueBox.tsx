@@ -83,13 +83,12 @@ export default function UploadImg(props: any) {
             </div>
             
             {/* isEdit &&  */}
-            <div className='my-4 flex items-center'>
-                {/* {(!formFields.fileName) && <Avatar alt="portrait image" src={formFields.imageUrl} sx={{ marginRight: '1em' }}/> } */}
-                
+            <div className='my-4 flex justify-center xl:justify-start items-center'>
+                  
                 <Button 
                     variant="outlined"
                     component="label" 
-                    className='text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4]'
+                    className='xl:text-xl text-black px-4 py-2 border-2 border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4]'
                 >
                     Upload Image
                     <input type="file" hidden onInput={(event) => {setFileData(event)}} />

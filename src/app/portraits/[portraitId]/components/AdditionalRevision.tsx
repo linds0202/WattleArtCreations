@@ -56,48 +56,54 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
             open={openAdditionalRevision} 
             fullWidth={true}
             maxWidth='md'
-            PaperProps={{ sx: { px: 2, py: 4, backgroundColor: "white", minHeight: '80vh',
+            PaperProps={{ sx: { px: 2, py: 4, backgroundColor: "white", minHeight: '60vh',
             maxHeight: '80vh', justifyContent: 'space-between', alignItems: 'center', position: 'relative'} }}
         >
             <IconButton onClick={() => setOpenAdditionalRevision(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
-            <h2 className='text-4xl font-bold'>Additional Revision Request</h2>
+            <h2 className='text-2xl md:text-4xl font-bold'>Additional Revision Request</h2>
             <div className='w-10/12 text-center'>
-                <p className='text-xl mb-2'>Your customer has requested an additional revision beyond the included 2.</p>
-                <p>Pleasde discuss via chat what this request will include. Once agreement has been reached. Select the level of revision below</p>
+                <p className='text-xl font-semibold mb-2'>Your customer has requested an additional revision beyond the included 2.</p>
+                <p>Please discuss via chat what this request will include. Once agreement has been reached. Select the level of revision below</p>
             </div>
             
-            <div>
-                <input
-                    type="radio" 
-                    name="additionalRevisionLevel" 
-                    value="Simple" 
-                    id="simple" 
-                    onChange={handleChange}
-                    checked={level === "Simple"}
-                />
-                <label htmlFor="simple" className='ml-2 mr-8 text-xl' >$50 - Simple</label>
+            <div className='flex flex-col md:flex-row my-4'>
+                <div className='flex'>
+                    <input
+                        type="radio" 
+                        name="additionalRevisionLevel" 
+                        value="Simple" 
+                        id="simple" 
+                        onChange={handleChange}
+                        checked={level === "Simple"}
+                    />
+                    <label htmlFor="simple" className='ml-2 mr-8 text-xl' >$50 - Simple</label>
+                </div>
 
-                <input 
-                    type="radio" 
-                    name="additionalRevisionLevel" 
-                    value="Intermediate" 
-                    id="intermediate" 
-                    onChange={handleChange}
-                    checked={level === 'Intermediate'}
-                />
-                <label htmlFor="intermediate" className='ml-2 mr-8 text-xl' >$100 - Intermediate</label>
+                <div className='flex'>
+                    <input 
+                        type="radio" 
+                        name="additionalRevisionLevel" 
+                        value="Intermediate" 
+                        id="intermediate" 
+                        onChange={handleChange}
+                        checked={level === 'Intermediate'}
+                    />
+                    <label htmlFor="intermediate" className='ml-2 mr-8 text-xl' >$100 - Intermediate</label>
+                </div>
 
-                <input 
-                    type="radio" 
-                    name="additionalRevisionLevel" 
-                    value="Complex" 
-                    id="complex" 
-                    onChange={handleChange}
-                    checked={level === "Complex"}
-                />
-                <label htmlFor="complex" className='ml-2 text-xl' >$150 - Complex</label>
+                <div className='flex'>
+                    <input 
+                        type="radio" 
+                        name="additionalRevisionLevel" 
+                        value="Complex" 
+                        id="complex" 
+                        onChange={handleChange}
+                        checked={level === "Complex"}
+                    />
+                    <label htmlFor="complex" className='ml-2 text-xl' >$150 - Complex</label>
+                </div>
             </div>
 
             <button 

@@ -21,17 +21,15 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
     const handleSelect = () => {
         setOpenSelect(true)
     }
-
-    
     
     return (
-        <div className='w-8/12 mt-2 p-4 flex flex-col items-center'>
-            <div className='w-full h-full flex items-center'>
-                <div className='w-[35%]'>
-                    <img src='../../../images/photoImgs/photo4.jpg' className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
+        <div className='w-9/12 md:w-8/12 mt-2 md:p-4 flex flex-col items-center border border-blue-600'>
+            <div className='w-full h-full flex flex-col lg:flex-row items-center border border-red-600'>
+                <div className='lg:w-[35%]'>
+                    <img src={artist.artistImgs.imgUrl7} className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
                 </div>
                 
-                <div className='w-[65%] px-8 flex flex-col justify-between items-start'>
+                <div className='lg:w-[65%] md:px-8 mt-8 lg:mt-0 flex flex-col justify-between items-start border border-greren-600'>
                     <div>
                         <h2 className='text-3xl font-bold text-left'>
                             <Link 
@@ -45,7 +43,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                                 </span> 
                             </Link>
                         </h2>
-                        <div className='flex items-center'>
+                        <div className='flex flex-row items-center'>
                             <Rating 
                                 name="read-only" 
                                 value={+`${artist.starRating ? artist.starRating : 0}`} 
@@ -59,7 +57,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                                     href={`/artistDashboard/${artist.uid}/portfolio`} 
                                     rel="noopener noreferrer" 
                                     target="_blank"
-                                    className="text-[#2DD42B] hover:text-[#165f15]"
+                                    className="text-xs md:text-base text-[#2DD42B] hover:text-[#165f15]"
                                 >
                                     <span className='ml-2 font-semibold'>
                                         {`${artist.totalReviews >= 0 ? artist.totalReviews : 0}`} reviews
@@ -75,7 +73,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                     
                     <p className='mt-4'>
                         {artist.bio.split(/\s+/).slice(0, 25).join(" ")} . . .
-                        <p><Link 
+                        <span><Link 
                                 href={`/artistDashboard/${artist.uid}/portfolio`} 
                                 rel="noopener noreferrer" 
                                 target="_blank"
@@ -83,7 +81,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                             >
                             (see full portfolio)
                             </Link>
-                        </p>
+                        </span>
                     </p>
                     <div className='w-full bg-[#e8e8e8] rounded-lg p-4 mt-4'>
                         <p className='text-sm font-semibold'>Note from artist:</p>
@@ -105,18 +103,18 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                     name={artist.artistName} 
                 />
             }
-            <div className='w-8/12 mt-4 flex justify-around'>
+            <div className='w-full lg:w-8/12 mt-4 flex flex-col md:flex-row justify-around'>
                 <button 
                     type="button" 
                     onClick={handleClose}
-                    className='w-5/12 px-4 py-2 border-2 border-black rounded-xl hover:text-white hover:bg-[#282828] '
+                    className='w-full md:w-5/12 px-4 py-2 border-2 border-black rounded-xl hover:text-white hover:bg-[#282828] '
                 >
                     Choose Later
                 </button>
 
                 <button 
                     onClick={handleSelect}
-                    className='w-5/12 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#43b4e4]'
+                    className='w-full md:w-5/12 mt-4 md:mt-0 border-2 border-[#282828] rounded-xl py-2 px-4 hover:bg-[#43b4e4]'
                 >
                     Select Artist
                 </button>

@@ -59,9 +59,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
             <div>
                 {(portrait.finalImages.length - 1 !== i || !portrait?.revised) &&  
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col xl:flex-row justify-between items-center">
                         <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='images associated with this submission by artist'/>
-                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                        <div className="w-full bg-white py-2 px-4 rounded-lg mt-4 xl:mt-0 xl:ml-4 self-stretch flex flex-col justify-center">
                             <p>Artist submitted image on:</p>
                             <p className="font-semibold">{new Date(submission.date.seconds * 1000).toLocaleString()}</p>
                         </div>
@@ -90,9 +90,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                             }
                             {portrait?.revised && 
                                 <div>
-                                    <div className="flex justify-between items-center mb-4">
+                                    <div className="flex flex-col xl:flex-row justify-between items-center mb-4">
                                         <img src={submission.imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='image associated with this artist submission'/>
-                                        <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
+                                        <p className="mt-4 xl:mt-0 xl:ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                     </div>
                             
                                     <Submission portrait={portrait} />
@@ -107,7 +107,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
                             <p>You have <span className="text-xl font-semibold text-[#43b4e4]">{portrait?.revisions}</span> free revisions remaining</p>
                             <button 
-                            className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
+                            className='xl:w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                             onClick={() => setOpenRevision(true)}
                             >
                                 {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}
@@ -137,9 +137,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                 {/* Post artist Final Free submission */}
                 {((i !== portrait?.finalImages.length - 1 || portrait?.additionalRevisionRequest) || portrait?.status === 'Completed') && <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col xl:flex-row justify-between items-center">
                         <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnail'/>
-                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                        <div className="w-full bg-white py-2 px-4 rounded-lg mt-4 xl:mt-0 xl:ml-4 self-stretch flex flex-col justify-center">
                             <p>Artist submitted image on:</p>
                             <p className="font-semibold">{new Date(portrait?.finalImages[i].date.seconds * 1000).toLocaleString()}</p>
                         </div>
@@ -161,9 +161,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 <div>
                     <ActionCenterAccordion title={`${portrait?.revised ? 'Review Artist Submission' : 'Awaiting Artist Submission'}`} open={portrait?.revised} attention={portrait?.revised} >
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                            <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-col xl:flex-row justify-between items-center mb-4">
                                 <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
-                                <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span className="font-semibold">Request an Additional Revision</span></p>
+                                <p className="mt-4 xl:mt-0 xl:ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span className="font-semibold">Request an Additional Revision</span></p>
                             </div>
                     
                             <Submission portrait={portrait} />
@@ -178,7 +178,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
                             <p>You have <span className="text-xl font-semibold text-[#43b4e4]">{portrait?.revisions}</span> free revisions remaining</p>
                             <button 
-                                className='w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
+                                className='xl:w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                                 onClick={() => setOpenRevision(true)}
                             >
                                 {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}
@@ -380,9 +380,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                         }
                         {portrait?.revised && 
                             <div>
-                                <div className="flex justify-between items-center mb-4">
+                                <div className="flex flex-col xl:flex-row justify-between items-center mb-4">
                                     <img src={portrait?.finalImages[0].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnails'/>
-                                    <p className="ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
+                                    <p className="mt-4 xl:mt-0 xl:ml-4">Your artist has submited an image for your review. You have <span className="text-[#43b4e4] font-semibold text-xl">7</span> days* to <span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span> or <span>Request a Revision</span></p>
                                 </div>
                         
                                 <Submission portrait={portrait} />
@@ -398,7 +398,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col justify-around items-center">
                         <p>You have <span className="text-xl font-semibold text-[#43b4e4]">{portrait?.revisions}</span> free revisions remaining</p>
                         <button 
-                          className='w-3/4 xl:w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
+                          className='xl:w-5/12 mt-4 border-2 border-[#282828] bg-white hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                           onClick={() => setOpenRevision(true)}
                         >
                             {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}

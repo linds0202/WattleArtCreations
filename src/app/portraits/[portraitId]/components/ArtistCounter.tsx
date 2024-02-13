@@ -50,11 +50,11 @@ const ArtistCounter = ({ portrait, first }: ArtistCounterProps) => {
     return (
         <div className='mt-4 mb-2'>
             {canApprove ?
-                <div className='flex items-center'>
+                <div className='flex flex-col xl:flex-row items-center'>
                     <p className='font-semibold'>Time since customer request:</p>
 
                     {loadingTime ? 
-                        <div className='ml-4 px-4 py-2 flex justify-around border-2 border-[#282828] bg-white rounded-lg'>
+                        <div className='mt-4 xl:mt-0 xl:ml-4 px-4 py-2 flex justify-around border-2 border-[#282828] bg-white rounded-lg'>
                             <div >
                                 <span className="text-xl font-semibold">{days}</span>
                                 <span className="font-light ml-2">Days</span>

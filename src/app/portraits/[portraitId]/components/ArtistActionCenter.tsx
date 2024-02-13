@@ -62,9 +62,9 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             {i < 2 &&
             <div>
                 <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex justify-between items-center">
+                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col xl:flex-row justify-between items-center">
                         <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='thumbnail associated with this artist submission'/>
-                        <div className="w-full bg-white py-2 px-4 rounded-lg ml-4 self-stretch flex flex-col justify-center">
+                        <div className="w-full bg-white py-2 px-4 rounded-lg xl:ml-4 mt-4 xl:mt-0 self-stretch flex flex-col justify-center">
                             <p>You submitted an image on:</p>
                             <p className="font-semibold">{new Date(image.date.seconds * 1000).toLocaleString()}</p>
                         </div>
@@ -92,13 +92,13 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                 {(portrait?.finalImages.length === portrait?.revisionNotes.length && portrait?.revisionNotes.length - 1 === i) && 
                 <ActionCenterAccordion title={`${portrait?.finalImages.length === portrait?.revisionNotes.length ? 'Submit Image' : 'Artist Submission'}`} open={portrait?.finalImages.length === portrait?.revisionNotes.length} attention={portrait?.finalImages.length === portrait?.revisionNotes.length} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <p className="font-semibold ">Your customer requested a revision on: </p>
-                        <p className='text-md'>{new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</p>
+                        <p className="text-sm xl:text-base font-semibold ">Your customer requested a revision on: </p>
+                        <p className='text-center xl:text-left'>{new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.revisionNotes[portrait?.revisionNotes.length - 1]?.date.seconds * 1000).toLocaleTimeString()}</p>
                 
                         {(portrait?.finalImages.length === portrait?.revisionNotes.length) && 
-                        <div className="flex items-center mt-4">
+                        <div className="flex flex-col xl:flex-row items-center mt-4">
                             <p className="font-semibold">Next Step: </p>
-                            <p className="ml-4">Upload your revised image</p>
+                            <p className="xl:ml-4">Upload your revised image</p>
                         </div>
                         }
 
