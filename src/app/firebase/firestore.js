@@ -82,7 +82,59 @@ export async function getCheckoutUrl (items, userId) {
 
   // success?session_id={CHECKOUT_SESSION_ID}
 
-  console.log('docref: ', docRef)
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() 
+      if (error) {
+          unsubscribe();
+          reject(new Error(`An error occurred: ${error.message}`));
+      }
+      if (url) {
+          unsubscribe();
+          resolve(url);
+      }
+      });
+  });
+};
+
+export async function getExtrasCheckoutUrl (items, portraitId, userId) {
+
+  if (!userId) throw new Error("User is not authenticated");
+
+  // const portraitIds = items.map(portrait => portrait.id).join(',')
+  
+  const checkoutSessionRef = collection(
+      db,
+      "users",
+      userId,
+      "checkout_sessions"
+  );
+
+  const docRef = await addDoc(checkoutSessionRef, {
+      line_items: items.map((item) => {
+          return {
+              price_data: {
+                  currency: "USD",
+                  product_data: {
+                      name: item.type,
+                  },
+                  unit_amount: item.price * 100,
+              },
+              quantity: 1
+          }
+      }),
+      payment_method_types: ["card"],
+      mode: 'payment',
+      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitId}?complete=true`,
+      cancel_url: 'https://wattle-art-creations.vercel.app/',
+      metadata: {
+        'portraitId': portraitId,
+        'userId': userId
+      },
+  });
+
+  // success?session_id={CHECKOUT_SESSION_ID}
+
   return new Promise((resolve, reject) => {
       const unsubscribe = onSnapshot(docRef, (snap) => {
       const { error, url } = snap.data() 
@@ -344,8 +396,26 @@ export async function getAllConsults() {
 }
 
 //Create new Portrait
-export async function addPortrait( data) {
-  
+export async function addPortrait(data) {
+  // const characterSheets = []
+  // const weaponsSheets = []
+
+  // data.characters.forEach(char => {
+  //   if (char.extras.length !== 0) {
+  //     char.extras.forEach(extra => {
+  //       console.log("Extra: ", extra)
+  //       if (extra === 'character') {
+  //         characterSheets.push("")
+  //       } else if (extra === 'weapons') {
+  //         weaponsSheets.push("")
+  //       }
+  //     })
+  //   }
+  // })
+
+  // console.log("character sheets: ", characterSheets)
+  // console.log("weaponsheets: ", weaponsSheets)
+
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,
@@ -374,7 +444,10 @@ export async function addPortrait( data) {
     revisionLevel: "",
     additionalRevisionRequest: data.additionalRevisionRequest,
     purchaseRevisionLink: data.purchaseRevisionLink,
-    revisionNotes: []
+    revisionNotes: [],
+    sheetUploads: []
+    // characterSheets: data.characterSheets,
+    // weaponsSheets: data.weaponsSheets
   })
   return portraitRef.id
 }
@@ -477,6 +550,9 @@ export async function getPortrait(uid) {
     purchaseRevisionLink: docSnap.data().purchaseRevisionLink,
     revisionNotes: docSnap.data().revisionNotes, 
     portraitCompletionDate: docSnap.data().portraitCompletionDate,
+    // characterSheets: docSnap.data().characterSheets,
+    // weaponsSheets: docSnap.data().weaponsSheets,
+    sheetUploads: docSnap.data().sheetUploads,
     id: uid
   }
 
@@ -507,6 +583,31 @@ export async function updatePortraitWithImage(portraitId, {userId, imageBucket})
       additionalRevision: false,
       additionalRevisionRequest: false,
       purchaseRevisionLink: ''
+    })
+}
+
+//Submit an image for review 
+export async function updatePortraitWithSheet(portraitId, {index, portrait, imageBucket}) {
+  let imageUrl 
+  if (imageBucket !== '') {
+    imageUrl = await getDownloadURL(imageBucket)
+  } else {
+    imageUrl = ""
+  }
+
+  const newObj = {
+    ...portrait.sheetUploads[index],
+    src: imageUrl,
+  } 
+
+  const newArr = portrait.sheetUploads.map((sheet, i) => {
+    if (i === index) return newObj
+    else return sheet
+  })
+
+  updateDoc(doc(db, 'portraits', portraitId), 
+    { 
+      sheetUploads: newArr, 
     })
 }
 

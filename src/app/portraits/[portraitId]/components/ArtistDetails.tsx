@@ -23,8 +23,8 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
     }
     
     return (
-        <div className='w-9/12 md:w-8/12 mt-2 md:p-4 flex flex-col items-center border border-blue-600'>
-            <div className='w-full h-full flex flex-col lg:flex-row items-center border border-red-600'>
+        <div className='w-9/12 md:w-8/12 mt-2 md:p-4 flex flex-col items-center'>
+            <div className='w-full h-full flex flex-col lg:flex-row items-center'>
                 <div className='lg:w-[35%]'>
                     <img src={artist.artistImgs.imgUrl7} className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
                 </div>

@@ -55,6 +55,13 @@ export interface MyBgValues {
     price: number
 }
 
+export interface SheetUploadsData {
+    src: string,
+    index: number,
+    charNum: number,
+    type: string
+}
+
 
 export interface PortraitData  {
     mode: string, 
@@ -86,7 +93,10 @@ export interface PortraitData  {
     additionalRevisionRequest: boolean,
     purchaseRevisionLink: string,
     revisionNotes: Array<CustomerRevision>,
-    portraitCompletionDate: Timestamp | null
+    portraitCompletionDate: Timestamp | null,
+    sheetUploads: Array<SheetUploadsData>
+    // characterSheets: Array<string>,
+    // weaponsSheets: Array<string>
   }
 
 interface PortraitProps {
@@ -147,7 +157,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         additionalRevisionRequest: false,
         purchaseRevisionLink: '',
         revisionNotes: [],
-        portraitCompletionDate: null
+        portraitCompletionDate: null,
+        sheetUploads: []
+        // characterSheets: [],
+        // weaponsSheets: []
     })
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
@@ -235,8 +248,37 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += char?.total, 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
+
+        const sheetUploadArray: Array<SheetUploadsData> = []
+        let index = 0
+        chars.forEach((char, i) => {
+            if (char.extras.length !== 0) {
+              char.extras.forEach(extra => {
+                if (extra !== 'model') {
+                    sheetUploadArray.push({
+                        src: "",
+                        index: index,
+                        charNum: i + 1,
+                        type: extra
+                    })
+                    index++
+                }  
+              })
+            }
+        })
     
-        const newPortrait = {...portraitFormData, characters: chars, animals: animals, bg:bg, price: price, customerId: authUser?.uid, customer: authUser?.displayName }
+        const newPortrait = {
+            ...portraitFormData, 
+            characters: chars, 
+            animals: animals, 
+            bg:bg, 
+            price: price, 
+            customerId: authUser?.uid, 
+            customer: authUser?.displayName,
+            sheetUploads: sheetUploadArray
+            // characterSheets: characterSheetsData,
+            // weaponsSheets: weaponsSheetsData
+        }
         
         if (editPortrait) {
             let newImages: UploadedImgs[]

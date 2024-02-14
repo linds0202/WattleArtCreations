@@ -7,6 +7,7 @@ import { useAuth } from '../../firebase/auth';
 import { updatePortrait, getTestimonial } from '../../firebase/firestore';
 import ChatBox from './components/ChatBox';
 import UploadImg from './components/UploadImageDialogueBox';
+import UploadSheet from './components/UploadSheet';
 import CompleteCommission from './components/CompleteCommission';
 import { PortraitData } from '../components/PortraitCustomizer';
 import Link from 'next/link';
@@ -16,13 +17,17 @@ import { downloadImage } from '@/app/firebase/storage';
 import CustomerActionCenter from './components/CustomerActionCenter';
 import ArtistActionCenter from './components/ArtistActionCenter';
 import Rating from '@mui/material/Rating';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Questions from './components/Questions';
 import Footer from '@/app/components/Footer';
 import { Timestamp } from 'firebase/firestore';
-import { getMyPortrait } from '../../firebase/firestore';
+import { getMyPortrait, getPortrait, updatePortraitWithSheet, getExtrasCheckoutUrl } from '../../firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
-
+interface ExtrasData {
+  type: string,
+  price: number
+}
 
 interface EnlargeProps {
   src: string,
@@ -69,6 +74,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openComplete, setOpenComplete] = useState(false)
   const [openRevison, setOpenRevision] = useState(false)
   const [requestRevision, setRequestRevision] = useState(false)
+  const [openSheet, setOpenSheet] = useState(false)
+  const [index, setIndex] = useState(0)
 
   const [testimonial, setTestimonial] = useState<Testimonial | null>(null)
   const [revisionNote, setRevisionNote] = useState<RevisionNote>({text:'', date: Timestamp.now()})
@@ -76,6 +83,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openQuestions, setOpenQuestions] = useState(false)  
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [extras, setExtras] = useState<Array<ExtrasData>>([])
 
   const handleOptionChange = (event: any) => {
     const value = event.target.value;
@@ -149,6 +157,77 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       setRequestRevision(false)
     }
   }, [requestRevision])
+
+
+  const extrasList = portrait?.sheetUploads.map((extra, i) => 
+    <div key={i} className='w-full flex flex-col border border-blue-600'>
+      {extra.src === "" 
+      ? <p
+        key={extra.index}
+        onClick={() => handleClickExtra(extra.index)}
+      >
+        Char {extra.charNum} - {extra.type === 'character' ? 'Character' : 'Weapons'} Sheet
+      </p>
+      :<div key={extra.index} className='cursor-pointer flex items-center'>
+        {authUser?.roles === 'Customer' &&
+        <img 
+          src={extra.src} 
+          onContextMenu={(e)=> e.preventDefault()}
+          alt="sheet upload thumbnail" 
+          className='w-[64px] h-[64px] object-top object-contain mr-4'
+          onClick={() => {
+            if (portrait.status !== 'Completed') {
+              handleEnlarge({
+                src: extra.src, 
+                date: Timestamp.now(), 
+                final: true
+              })
+            } else {
+              handleDownloadSheet(extra.index)
+            }
+          }}
+        />}
+        {authUser?.roles === 'Artist' &&
+        <img 
+          src={extra.src} 
+          onContextMenu={(e)=> e.preventDefault()}
+          alt="sheet upload thumbnail" 
+          className='w-[64px] h-[64px] object-top object-contain mr-4'
+        />}
+        <p>Char {extra.charNum} - {extra.type === 'character' ? 'Character' : 'Weapons'} Sheet</p>
+        {authUser?.roles !== 'Customer' && <button 
+          type="button" 
+          onClick={() => handleDeleteSheet(extra.index)} 
+          className='ml-4 hover:text-red-600 '
+          title='Remove upload?'
+        >
+          <DeleteForeverIcon />
+        </button>}
+      </div>
+      }
+    </div>
+    )
+  
+  
+  const handleClickExtra = (clickedIndex: number) => {
+    if (authUser.roles !== 'Customer') {
+      setIndex(clickedIndex)
+      setOpenSheet(true)
+    }
+  }
+
+  const handleDeleteSheet = async (clickedIndex:number) => {
+    const portraitWithSheets = await updatePortraitWithSheet(portrait?.id, {index: clickedIndex, portrait: portrait, imageBucket: ""})
+                    
+    const updatedPortrait = await getPortrait(portrait?.id)
+    if (updatedPortrait) setPortrait(updatedPortrait)
+  }
+
+  const handleDownloadSheet = (clickedIndex:number) => {
+    if (authUser?.roles === 'Customer') {
+      downloadImage(portrait?.sheetUploads[clickedIndex].src)
+    }
+  }
   
   const handleUpload = async () => {    
     setAction(true)
@@ -172,7 +251,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
   }
 
-  const handleEnlarge = ({src, date, final}: EnlargeProps) => {
+  const handleEnlarge = ({src, date=Timestamp.now(), final}: EnlargeProps) => {
     setImgEnlarge({src: src, date: date, final: final})
     setOpenImage(true)
   }
@@ -180,6 +259,22 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const handleOpenQuestions = () => {
     setOpenQuestions(true)
   }
+
+  const checkout = async () => {
+    const checkoutUrl = await getExtrasCheckoutUrl(extras, portrait?.id, authUser.uid)
+    router.push(checkoutUrl)
+  }
+
+  const checkoutButton = (
+    <button
+      onClick={checkout}
+      className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+    >
+      <div className="flex gap-2 items-center align-middle justify-center">
+        Checkout
+      </div>
+    </button>
+  );
 
   return (isLoading ?
   <></>
@@ -272,9 +367,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
             </div>
 
-            {/* Image Upload Section */}
+            {/* Ceneter Section */}
             <div  className='w-full md:w-6/12 min-h-[80vh] md:px-4 mt-8 md:mt-0 flex flex-col justify-between items-center'>
-              <div className='w-full md:px-4'>
+              {/* Image Upload Section */}
+              <div className='w-full md:px-4 border border-red-600'>
               
                 {portrait?.status === 'Completed' && 
                 <div className='bg-white rounded-xl p-2 flex flex-col items-center'>
@@ -337,7 +433,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   {portrait?.status !== 'Completed' &&
                     <div>
                       <div className='flex justify-center items-center mb-4'>
-                        <h3 className='text-2xl font-bold m-0'>Final Images</h3>
+                        <h3 className='text-2xl text-[#43b4e4] font-bold m-0'>Final Images</h3>
                       </div>
 
                       <div className='relative w-full h-[260px] flex justify-around mb-4'>
@@ -389,10 +485,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
                     <div className='w-full flex justify-center items-center'>
                       {authUser?.roles === 'Artist' && portrait && !portrait?.revised && portrait?.revisions >= 0 && 
-                        <button 
-                          className={`border-2 border-[#282828] rounded-lg p-2`}   //${!portrait?.additionalRevision ? 'border-[#e8e8e8] text-[#e8e8e8]' : 'border-black'}
+                        <button  
+                          className='text-xl border-2 border-[#282828] rounded-xl mx-auto mt-10 bg-gradient-to-r px-4 py-2 from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'
                           onClick={handleUpload}
-                          // disabled={!portrait?.additionalRevision}
                         >
                           Upload Image
                         </button>
@@ -402,15 +497,17 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <div className='w-full flex justify-around'>
                         
                         <button 
-                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#282828] rounded-lg p-2'  
+                          className='w-5/12 border-2 border-[#282828] bg-[#282828]/50 hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                           onClick={handleReject}
                         >
                             {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}
                         </button>
                         
                         <button 
-                          className='w-5/12 border-2 border-[#282828] hover:text-white hover:bg-[#43b4e4] rounded-lg p-2'  
+                          className={`w-5/12 border-2 border-[#282828] ${!portrait.sheetUploads.every(extra => extra.src !== '') ? 'bg-white/25' : 'bg-[#43b4e4]/75 hover:text-white hover:bg-[#43b4e4]'} rounded-lg p-2`}  
                           onClick={handleAccept}
+                          disabled={!portrait.sheetUploads.every(extra => extra.src !== '')}
+                          title={`${!portrait.sheetUploads.every(extra => extra.src !== '') ? 'Your artist has not completed all the sheets associated with this portrait' : ''}`}
                         >
                           Accept as Final Image
                         </button>
@@ -424,8 +521,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         userId={authUser?.uid}
                         portrait={portrait}
                         setPortrait={setPortrait}
-                      >
-                      </UploadImg>
+                      />
                     </div>
 
                     <p className='text-xl text-center mt-4'>
@@ -438,6 +534,40 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     <EnlargedImage openImage={openImage} setOpenImage={setOpenImage} src={imgEnlarge.src} date={imgEnlarge.date} final={imgEnlarge.final}/>
                   }
                 </div>
+              </div>
+
+              {/* Extras Upload Section */}
+              <div className='w-full h-full mt-8 flex flex-col gap-2 border border-green-600'>
+                <p className='text-[#43b4e4] text-center text-2xl font-semibold'>Character and Weapons Sheets</p>
+                <p>Enhance your portrait with exciting extras. Copy needs to go here about chatting your artist to add something to your portrait. Then payment button with display here</p>
+                
+                {authUser?.roles === 'Customer'
+                ? <div className='flex flex-col justify-between'>
+                    <p className='w-1/3 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '>
+                      Add an Extra
+                    </p>
+                    {portrait?.sheetUploads.length === 0 
+                    ?<div>
+                      <p>No extras have been added to this portrait. Click to add a character sheet, weapons sheet , or 3D model.</p>
+                    </div>
+                    :<div>
+                      <p>Already added to your portrait: <span>({portrait?.status !== 'Completed' ? 'Click an image to enlarge' : 'Click an image to download your finished sheedt'})</span></p>
+                      {extrasList}
+                    </div>
+                    }
+                </div>
+                : <p>Click an option to upload your work</p>
+                }
+                
+
+                <UploadSheet
+                  showDialog={openSheet} 
+                  onCloseDialog={() => setOpenSheet(false)} 
+                  userId={authUser?.uid}
+                  portrait={portrait}
+                  setPortrait={setPortrait}
+                  index={index}
+                />
               </div>
             </div>
           </div>

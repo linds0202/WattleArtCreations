@@ -52,12 +52,6 @@ export default function Portraits() {
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
   const [totalPrice, setTotalPrice] = useState(0)
-
-  // const defaultImgs : any = {
-  //   Photorealistic: '/images/defaultImgs/photo.png',
-  //   Anime: '/images/defaultImgs/anime.png',
-  //   NSFW: '/images/defaultImgs/nsfw.png',
-  // }
   
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {

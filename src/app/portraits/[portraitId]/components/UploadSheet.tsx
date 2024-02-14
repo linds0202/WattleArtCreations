@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button';
 import { useAuth } from '../../../firebase/auth';
 import { uploadImage } from '../../../firebase/storage';
-import { updatePortraitWithImage, getPortrait } from '@/app/firebase/firestore';
+import { updatePortraitWithSheet, getPortrait } from '@/app/firebase/firestore';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -17,7 +17,7 @@ const DEFAULT_FORM_STATE = {
 };
 
 
-export default function UploadImg(props: any) {
+export default function UploadSheet(props: any) {
    
     const [formFields, setFormFields] = useState<{fileName: string, file: File | null}>(DEFAULT_FORM_STATE);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,9 +52,10 @@ export default function UploadImg(props: any) {
         try {
             const bucket = await uploadImage(formFields.file, props.portrait.id)
             
-            const portraitWithImages = await updatePortraitWithImage(props.portrait.id, {userId: props.userId, imageBucket: bucket})
+            const portraitWithSheets = await updatePortraitWithSheet(props.portrait.id, {index: props.index, portrait: props.portrait, imageBucket: bucket})
                     
             const updatedPortrait = await getPortrait(props.portrait.id)
+          
             props.setPortrait(updatedPortrait)
         } catch (error) {
             console.log(error)
@@ -62,7 +63,7 @@ export default function UploadImg(props: any) {
 
 
         // Clear all form data
-        closeDialog();
+        closeDialog()
     };
 
     return (
@@ -81,7 +82,7 @@ export default function UploadImg(props: any) {
             
             <div className="flex justify-center items-center mb-4">
                 <img className="mr-4 w-[25%] justify-self-center" src="../../images/drips/side_splashL.png" alt='black paint accent splash' />
-                <h4 className='text-3xl font-bold text-center'>Add Image</h4>
+                <h4 className='text-3xl font-bold text-center'>Upload Sheet</h4>
                 <img className="ml-4 w-[25%] justify-self-center" src="../../images/drips/side_splashR.png" alt='black paint accent splash'/>
             </div>
             
