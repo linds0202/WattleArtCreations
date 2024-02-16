@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
+import { useRouter } from 'next/navigation';
 import { useAuth } from "@/app/firebase/auth"
+import { getRevisionCheckoutUrl } from "@/app/firebase/firestore"
 import ActionCenterAccordion from "./ActionCenterAccordion"
 import ArtistList from "./ArtistList"
-import { Timestamp } from 'firebase/firestore';
-import Questions from "./Questions";
+import { Timestamp } from 'firebase/firestore'
+import Questions from "./Questions"
 import Submission from "./Submission"
 import Link from "next/link"
 import { ActionCenterProps } from "./ArtistActionCenter"
@@ -11,7 +13,8 @@ import CustomerRevision from "./CustomerRevision"
 
 
 const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCenterProps) => {
-    const { authUser, isLoading } = useAuth();
+    const { authUser, isLoading } = useAuth()
+    const router = useRouter()
 
     const [openArtistList, setOpenArtistList] = useState(false)
     const [artistIndex, setArtistIndex] = useState(0)
@@ -51,6 +54,11 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
     
         return () => clearInterval(interval)
     }, [portrait])
+
+    const checkout = async () => {
+        const checkoutUrl = await getRevisionCheckoutUrl(portrait, authUser.uid)
+        router.push(checkoutUrl)
+    }
 
 
     const customerRevisions = portrait?.finalImages.map((submission, i) =>
@@ -205,15 +213,27 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                             {!portrait?.revised
                             && <div className="w-full">
-                                {portrait?.purchaseRevisionLink !== ''
+                                {/* portrait?.purchaseRevisionLink !== '' */}
+                                {portrait?.additionalRevisionInfo.type !== ''
                                     ? <div className="flex flex-col items-center">
                                         <p className="text-center mb-4">Click the payment link to purchase an additional revision for this portrait</p>
-                                        <div className="p-2">
+                                        <button
+                                            onClick={checkout}
+                                            className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+                                            >
+                                            <div className="flex gap-2 items-center align-middle justify-center">
+                                                Checkout
+                                            </div>
+                                        </button>
+
+
+
+                                        {/* <div className="p-2">
                                             <Link 
                                             href={portrait?.purchaseRevisionLink} 
                                             className="mb-8 py-2 px-4 border-2 border-[#282828] bg-white rounded-xl hover:text-white hover:bg-[#43b4e4]"    
                                         >Purchase Additional Revision</Link>
-                                        </div> 
+                                        </div>  */}
                                     </div>
                                     :  
                                         <div className="w-full bg-white py-2 px-4 rounded-lg self-stretch flex flex-col justify-center">
@@ -310,9 +330,9 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     {canEditQs && portrait?.status !== 'Completed'
                         ? <div>
                             <p className='mt-4 font-semibold'>Time remaining to revise answers:</p>
-
+                        
                             {loadingTime ? 
-                                <div className='w-8/12 mt-2 px-4 py-2 flex justify-around bg-white border-2 border-[#282828] rounded-lg'>
+                                <div className='w-full xl:w-8/12 mt-2 px-4 py-2 flex justify-around bg-white border-2 border-[#282828] rounded-lg'>
                                     <div >
                                         <span className="text-xl font-semibold">{hours}</span>
                                         <span className="font-light ml-2">Hrs</span>

@@ -9,6 +9,7 @@ import ChatBox from './components/ChatBox';
 import UploadImg from './components/UploadImageDialogueBox';
 import UploadSheet from './components/UploadSheet';
 import CompleteCommission from './components/CompleteCommission';
+import CreateCheckout from './components/CreateCheckout';
 import { PortraitData } from '../components/PortraitCustomizer';
 import Link from 'next/link';
 import EnlargedImage from '@/app/components/EnlargedImage';
@@ -24,7 +25,7 @@ import { Timestamp } from 'firebase/firestore';
 import { getMyPortrait, getPortrait, updatePortraitWithSheet, getExtrasCheckoutUrl } from '../../firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
-interface ExtrasData {
+export interface ExtrasData {
   type: string,
   price: number
 }
@@ -60,7 +61,7 @@ type Params = {
 export default function PortraitDetails({ params: { portraitId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const { categories } = useCategoriesContext()
-  const router = useRouter();
+  const router = useRouter()
 
   const [portrait, setPortrait] = useState<PortraitData>()
   const [action, setAction] = useState(false)
@@ -83,7 +84,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openQuestions, setOpenQuestions] = useState(false)  
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [extras, setExtras] = useState<Array<ExtrasData>>([])
+  const [requestExtras, setRequestExtras] = useState(false)
+  const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
 
   const handleOptionChange = (event: any) => {
     const value = event.target.value;
@@ -160,21 +162,28 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
 
   const extrasList = portrait?.sheetUploads.map((extra, i) => 
-    <div key={i} className='w-full flex flex-col border border-blue-600'>
+    <div key={i} className='w-full flex flex-col'>
       {extra.src === "" 
       ? <p
+        className={`px-4 py-1 ${authUser?.roles === 'Artist' && (extra.type === 'character' || extra.type === 'weapons')
+          ? 'cursor-pointer bg-[#f4ffa1] rounded-xl  hover:bg-[#43b4e4]/25' : ''}`}
         key={extra.index}
         onClick={() => handleClickExtra(extra.index)}
       >
-        Char {extra.charNum} - {extra.type === 'character' ? 'Character' : 'Weapons'} Sheet
+        {extra.type.split('_')[0] !== 'complexity' 
+          ? extra.charNum === 'AddOn' 
+            ? `Add on - ${extra.type !== 'model' ? extra.type + ' sheet' : '3D model'}` 
+            : `Char ${extra.charNum} - ${extra.type} Sheet`
+          : `Add on - ${extra.type}`
+        }
       </p>
-      :<div key={extra.index} className='cursor-pointer flex items-center'>
+      :<div key={extra.index} className='flex items-center'>
         {authUser?.roles === 'Customer' &&
         <img 
           src={extra.src} 
           onContextMenu={(e)=> e.preventDefault()}
           alt="sheet upload thumbnail" 
-          className='w-[64px] h-[64px] object-top object-contain mr-4'
+          className='w-[64px] h-[64px] object-top object-contain mr-4 cursor-pointer'
           onClick={() => {
             if (portrait.status !== 'Completed') {
               handleEnlarge({
@@ -198,7 +207,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         {authUser?.roles !== 'Customer' && <button 
           type="button" 
           onClick={() => handleDeleteSheet(extra.index)} 
-          className='ml-4 hover:text-red-600 '
+          className='ml-4 hover:text-red-600'
           title='Remove upload?'
         >
           <DeleteForeverIcon />
@@ -206,7 +215,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       </div>
       }
     </div>
-    )
+  )
   
   
   const handleClickExtra = (clickedIndex: number) => {
@@ -260,8 +269,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     setOpenQuestions(true)
   }
 
+
   const checkout = async () => {
-    const checkoutUrl = await getExtrasCheckoutUrl(extras, portrait?.id, authUser.uid)
+    const checkoutUrl = await getExtrasCheckoutUrl(portrait, authUser.uid)
     router.push(checkoutUrl)
   }
 
@@ -274,7 +284,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         Checkout
       </div>
     </button>
-  );
+  )
 
   return (isLoading ?
   <></>
@@ -504,10 +514,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         </button>
                         
                         <button 
-                          className={`w-5/12 border-2 border-[#282828] ${!portrait.sheetUploads.every(extra => extra.src !== '') ? 'bg-white/25' : 'bg-[#43b4e4]/75 hover:text-white hover:bg-[#43b4e4]'} rounded-lg p-2`}  
+                          className={`w-5/12 border-2 border-[#282828] ${!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '') ? 'bg-white/25' : 'bg-[#43b4e4]/75 hover:text-white hover:bg-[#43b4e4]'} rounded-lg p-2`}  
                           onClick={handleAccept}
-                          disabled={!portrait.sheetUploads.every(extra => extra.src !== '')}
-                          title={`${!portrait.sheetUploads.every(extra => extra.src !== '') ? 'Your artist has not completed all the sheets associated with this portrait' : ''}`}
+                          disabled={!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '')}
+                          title={`${!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '') ? 'Your artist has not completed all the sheets associated with this portrait' : ''}`}
                         >
                           Accept as Final Image
                         </button>
@@ -537,28 +547,74 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               </div>
 
               {/* Extras Upload Section */}
-              <div className='w-full h-full mt-8 flex flex-col gap-2 border border-green-600'>
+              <div className='w-full h-full mt-8 bg-white/75 rounded-xl p-4 flex flex-col gap-2'>
                 <p className='text-[#43b4e4] text-center text-2xl font-semibold'>Character and Weapons Sheets</p>
-                <p>Enhance your portrait with exciting extras. Copy needs to go here about chatting your artist to add something to your portrait. Then payment button with display here</p>
+                
                 
                 {authUser?.roles === 'Customer'
                 ? <div className='flex flex-col justify-between'>
-                    <p className='w-1/3 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '>
-                      Add an Extra
-                    </p>
+                    <p>Enhance your portrait with exciting extras. Copy needs to go here about chatting your artist to add something to your portrait. Then payment button with display here</p>
+                    
+
+
+                    {portrait?.addOns.length !== 0 && 
+                    <div className='mb-4'>
+                      
+                      <div className='w-3/4 mx-auto mt-4 bg-white rounded-xl p-4'>
+                        <p>Your artist has created a payment link for the following added options:</p>
+                        <div className='mt-4 flex flex-col items-end'>
+                          {portrait?.addOns.map((addOn, i) => 
+                            <div key={i} className='w-3/4 flex justify-between'>
+                              <p>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type}</p>
+                              <p>{addOn.price.toFixed(2)}</p>
+                            </div>  
+                          )}
+                          <p className='text-right text-lg font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0)}</p>
+                        </div>
+                        {checkoutButton}
+                      </div>
+                    </div>}            
+                    
                     {portrait?.sheetUploads.length === 0 
                     ?<div>
-                      <p>No extras have been added to this portrait. Click to add a character sheet, weapons sheet , or 3D model.</p>
+                      <p>No extras have been added to this portrait. Talk to your artist to add a character sheet, weapons sheet , or 3D model.</p>
                     </div>
-                    :<div>
-                      <p>Already added to your portrait: <span>({portrait?.status !== 'Completed' ? 'Click an image to enlarge' : 'Click an image to download your finished sheedt'})</span></p>
+                    :<div className='mt-4 bg-white rounded-xl px-4 py-2 flex flex-col gap-y-2'>
+                      <p className='text-sm'><span className='text-lg font-semibold'>Already purchased for this portrait: </span>({portrait?.status !== 'Completed' ? 'Completed sheets will have a thumbnail, click to enlarge' : 'Click an image to download your finished sheedt'})</p>
                       {extrasList}
                     </div>
                     }
                 </div>
-                : <p>Click an option to upload your work</p>
+                :<div className='flex flex-col justify-between'>
+                  <p>Character and Weapons sheets that have been purchased with this portrait are listed below. You must upload each before your customer can release payment for this portait. <span className='font-bold'>If your customer would like to add these options, chat with them, then create a payment link.</span></p>
+                  
+                  {portrait?.addOns.length !== 0 &&
+                    <div className='w-1/2 mt-4 bg-white rounded-xl p-4'>
+                      <p className='font-semibold'>This link includes payment for:</p>
+                      {portrait?.addOns.map((addOn, i) => 
+                        <p key={i} className='ml-4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type} - ${addOn.price}</p>  
+                      )}
+                      <p className='text-right font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0)}</p>
+                    </div>
+                  }
+                  
+                  <p 
+                    className='w-1/2 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                    onClick={() => setOpenCreateCheckout(true)}  
+                  >
+                    {portrait?.addOns.length === 0 ? 'Create Payment Link' : 'Edit Payment Link'}
+                  </p>
+                  {portrait?.sheetUploads.length === 0 
+                    ? <p>No extras have been added to this portrait</p>
+                    :<div className='bg-white rounded-xl p-4 flex flex-col gap-y-2'>
+                      <p className='text-xl text-center font-bold'>Already Purchased For This Portrait</p>
+                      <p>Click an option to upload your work. Click the trash to remove an image and re-upload</p>
+                      {extrasList}
+                    </div>
+                  }
+                </div>
+                    
                 }
-                
 
                 <UploadSheet
                   showDialog={openSheet} 
@@ -590,6 +646,15 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               remainingRevisions={portrait.revisions}
               revisionNote={revisionNote}
               setRevisionNote={setRevisionNote}
+            />
+          }
+
+          {openCreateCheckout && portrait &&
+            <CreateCheckout 
+              openCreateCheckout={openCreateCheckout} 
+              setOpenCreateCheckout={setOpenCreateCheckout} 
+              portrait={portrait}
+              setPortrait={setPortrait}
             />
           }
         </div>

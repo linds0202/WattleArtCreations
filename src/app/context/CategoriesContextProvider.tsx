@@ -122,7 +122,15 @@ const CategoryContextProvider = ({ children }: IProps) => {
             cat2DefaultImg: "",
             cat3DefaultImg: ""
         },
-        bgOptions: []
+        bgOptions: [],
+        pricing: {
+            model: 500,
+            character: 125,
+            weapons: 100,
+            complexity: [0, 15, 30, 45, 100],
+            additionalRevision: [25, 50, 100]
+        }
+        
     },
     home: {
         gallery: [],
@@ -140,7 +148,7 @@ const CategoryContextProvider = ({ children }: IProps) => {
                 cat2: data.cat2,
                 cat3: data.cat3,
                 customizer: data.customizer,
-                home: data.home
+                home: data.home,
             }
             setCategories(newCategoriesObj)
          }

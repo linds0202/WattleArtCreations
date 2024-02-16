@@ -58,10 +58,23 @@ export interface MyBgValues {
 export interface SheetUploadsData {
     src: string,
     index: number,
-    charNum: number,
-    type: string
+    charNum: number | string,
+    type: string,
+    price: number
 }
 
+export interface Extras {
+    type: string,
+    price: number
+}
+
+export interface Payments {
+    paymentComplete: string,
+    purchaseDate: Timestamp,
+    total: number,
+    type: string,
+    invoiceId: string,
+}
 
 export interface PortraitData  {
     mode: string, 
@@ -89,14 +102,17 @@ export interface PortraitData  {
     additionalRevision: boolean,
     images: Array<UploadedImgs>
     finalImages: Array<FinalImages>,
-    revisionLevel: string,
+    additionalRevisionInfo: {
+        price: number,
+        type: string
+    },
     additionalRevisionRequest: boolean,
     purchaseRevisionLink: string,
     revisionNotes: Array<CustomerRevision>,
     portraitCompletionDate: Timestamp | null,
-    sheetUploads: Array<SheetUploadsData>
-    // characterSheets: Array<string>,
-    // weaponsSheets: Array<string>
+    sheetUploads: Array<SheetUploadsData>,
+    addOns: Array<Extras>,
+    additionalPayments: Array<Payments>
   }
 
 interface PortraitProps {
@@ -153,14 +169,14 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         additionalRevision: false,
         images: [],
         finalImages: [],
-        revisionLevel: "",
+        additionalRevisionInfo: {price: 0, type: ""},
         additionalRevisionRequest: false,
         purchaseRevisionLink: '',
         revisionNotes: [],
         portraitCompletionDate: null,
-        sheetUploads: []
-        // characterSheets: [],
-        // weaponsSheets: []
+        sheetUploads: [],
+        addOns: [],
+        additionalPayments: []
     })
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
@@ -259,7 +275,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                         src: "",
                         index: index,
                         charNum: i + 1,
-                        type: extra
+                        type: extra,
+                        price: categories.customizer.pricing[extra]
                     })
                     index++
                 }  
@@ -275,10 +292,9 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             price: price, 
             customerId: authUser?.uid, 
             customer: authUser?.displayName,
-            sheetUploads: sheetUploadArray
-            // characterSheets: characterSheetsData,
-            // weaponsSheets: weaponsSheetsData
+            sheetUploads: sheetUploadArray,
         }
+
         
         if (editPortrait) {
             let newImages: UploadedImgs[]
@@ -381,7 +397,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
     return (
         <div className='relative w-full flex flex-col justify-start items-center min-h-screen text-white pb-10 bg-gradient-to-b from-black from-20% via-[#282828] via-50% to-black to-90%'>
-            <div className="my-8 xl:my-0 xl:h-[130px] w-full lg:w-9/12 xl:w-full flex flex-col justify-center items-center">
+            <div className="my-8 xl:h-[130px] w-full lg:w-9/12 xl:w-full flex flex-col justify-center items-center">
                 <h2 className="w-full text-4xl text-center">Welcome to the <span className='text-[#43b4e4] font-bold'>{categories[choice].type}</span> Portrait Customizer</h2>
                 <p className="w-full text-lg text-center pt-2">Make your selections to customize your portrait</p>
             </div>

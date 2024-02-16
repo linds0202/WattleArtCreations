@@ -21,7 +21,7 @@ import BackgroundSvg from "./BackgroundSvg";
 export interface MyCharValues {
     bodyStyle: string,
     numCharVariations: number,
-    complexity: number,
+    // complexity: number,
     weapon: string,
     armourComplex: boolean,
     wings: boolean,
@@ -62,7 +62,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
         numCharVariations: 1,
-        complexity: 1,
+        // complexity: 1,
         weapon: 'none',
         armourComplex: false,
         wings: false,
@@ -107,13 +107,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
         let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * prices['charVariations']) 
-                        + (prices.complexity[values.complexity - 1])
+                        // + (prices.complexity[values.complexity - 1])
                         + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                         + (values.armourComplex ? prices.armourComplex : 0)
                         + (values.wings ? prices.wings : 0)
-                        + (extras.includes('model') ? prices.model : 0)
-                        + (extras.includes('character') ? prices.character : 0)
-                        + (extras.includes('weapons') ? prices.weapons : 0)
+                        + (extras.includes('model') ? categories.customizer.pricing.model : 0)
+                        + (extras.includes('character') ? categories.customizer.pricing.character : 0)
+                        + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)
 
         if (isEdit) {
             if (chars.length > 1) {
@@ -189,7 +189,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
         setInitialCharValues({
             bodyStyle: '',
             numCharVariations: 1,
-            complexity: 1,
+            // complexity: 1,
             weapon: 'none',
             armourComplex: false,
             wings: false,
@@ -1279,10 +1279,10 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p className="">Variants</p>
                                             <p>${((values.numCharVariations - 1) * prices.charVariations).toFixed(2)}</p>
                                         </div>}
-                                        {values.complexity !== 1 && <div className="flex justify-between items-center">
+                                        {/* {values.complexity !== 1 && <div className="flex justify-between items-center">
                                             <p className="">Complexity</p>
                                             <p>${(prices.complexity[values.complexity - 1]).toFixed(2)}</p>
-                                        </div>}
+                                        </div>} */}
                                         {values.weapon !== 'none' && <div className="flex justify-between items-center">
                                             <p className="">{values.weapon === 'simple' ? 'Simple' : values.weapon === 'complex' ? 'Complex' : ''} Weapon</p>
                                             <p>${values.weapon === 'simple' ? prices.weaponSimple.toFixed(2) : values.weapon === 'complex' ? prices.weaponComplex.toFixed(2) : (0).toFixed(2)}</p>                                        
@@ -1297,15 +1297,15 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                         </div>}
                                         {extras.includes("model") && <div className="flex justify-between items-center">
                                             <p className="">3D model</p>
-                                            <p>${extras.includes('model') ? prices.model.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('model') ? categories.customizer.pricing.model.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
                                         {extras.includes("character") && <div className="flex justify-between items-center">
                                             <p className="">Character Sheet</p>
-                                            <p>${extras.includes('character') ? prices.character.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('character') ? categories.customizer.pricing.character.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
                                         {extras.includes("weapons") &&  <div className="flex justify-between items-center">
                                             <p className="">Weapons Sheet</p>
-                                            <p>${extras.includes('weapons') ? prices.weapons.toFixed(2) : (0).toFixed(2)}</p>
+                                            <p>${extras.includes('weapons') ? categories.customizer.pricing.weapons.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
                                     </div>
                                     
@@ -1316,13 +1316,13 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                 $ {(0 + 
                                                     (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                                     + ((values.numCharVariations - 1) * prices.charVariations) 
-                                                    + (prices.complexity[values.complexity - 1])
+                                                    // + (prices.complexity[values.complexity - 1])
                                                     + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                                     + (values.armourComplex ? prices.armourComplex : 0)
                                                     + (values.wings ? prices.wings : 0)
-                                                    + (extras.includes('model') ? prices.model : 0)
-                                                    + (extras.includes('character') ? prices.character : 0)
-                                                    + (extras.includes('weapons') ? prices.weapons : 0)).toFixed(2)}
+                                                    + (extras.includes('model') ? categories.customizer.pricing.model : 0)
+                                                    + (extras.includes('character') ? categories.customizer.pricing.character : 0)
+                                                    + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)).toFixed(2)}
                                             </span>
                                         </p>
                                     </div> 
@@ -1333,25 +1333,25 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p className="text-red-600 text-sm">Additional Character Discount (10%)</p>
                                             <p>-${((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                             + ((values.numCharVariations - 1) * prices.charVariations) 
-                                            + (prices.complexity[values.complexity - 1])
+                                            // + (prices.complexity[values.complexity - 1])
                                             + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                             + (values.armourComplex ? prices.armourComplex : 0)
                                             + (values.wings ? prices.wings : 0)
-                                            + (extras.includes('model') ? prices.model : 0)
-                                            + (extras.includes('character') ? prices.character : 0)
-                                            + (extras.includes('weapons') ? prices.weapons : 0)) * .1).toFixed(2)}</p>
+                                            + (extras.includes('model') ? categories.customizer.pricing.model : 0)
+                                            + (extras.includes('character') ? categories.customizer.pricing.character : 0)
+                                            + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)) * .1).toFixed(2)}</p>
                                         </div>
                                         <div className="self-end w-9/12 px-12 xl:px-0 flex justify-between items-center">
                                             <p className="w-1/4 text-xl font-bold">Total: </p>
                                             <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 md:px-0 xl:px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{((0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
                                             + ((values.numCharVariations - 1) * prices.charVariations) 
-                                            + (prices.complexity[values.complexity - 1])
+                                            // + (prices.complexity[values.complexity - 1])
                                             + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                                             + (values.armourComplex ? prices.armourComplex : 0)
                                             + (values.wings ? prices.wings : 0)
-                                            + (extras.includes('model') ? prices.model : 0)
-                                            + (extras.includes('character') ? prices.character : 0)
-                                            + (extras.includes('weapons') ? prices.weapons : 0)) * .9).toFixed(2)}
+                                            + (extras.includes('model') ? categories.customizer.pricing.model : 0)
+                                            + (extras.includes('character') ? categories.customizer.pricing.character : 0)
+                                            + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)) * .9).toFixed(2)}
                                             </span></p>
                                         </div>         
                                     </>}

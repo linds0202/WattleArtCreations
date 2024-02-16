@@ -165,9 +165,9 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                                 <p >Your customer still has the ability to edit their answers.</p>
                                 
                                 {loadingTime ? 
-                                <div className="mt-4 flex items-center">
+                                <div className="mt-4 flex flex-col xl:flex-row items-center">
                                     <p className="">Time Remaining: </p>
-                                    <div className='w-6/12 ml-2 mt-2 px-4 py-2 flex justify-around bg-white border-2 border-[#282828] rounded-lg'>
+                                    <div className='w-full xl:w-6/12 ml-2 mt-2 px-4 py-2 flex justify-around bg-white border-2 border-[#282828] rounded-lg'>
                                         <div >
                                             <span className="text-xl font-semibold">{hours}</span>
                                             <span className="font-light ml-2">Hrs</span>
@@ -250,7 +250,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                             {portrait?.additionalRevision 
                                 ? <div>
                                     
-                                    <p className="text-center">Your customer has purchased a{`${portrait?.revisionLevel === 'Intermediate' ? 'n' : ''}`} <span className="text-[#43b4e4] font-semibold">{portrait?.revisionLevel} Addtional Revision</span></p>
+                                    <p className="text-center">Your customer has purchased a{`${portrait?.additionalRevisionInfo.type === 'Intermediate' ? 'n' : ''}`} <span className="text-[#43b4e4] font-semibold">{portrait?.additionalRevisionInfo.type} Addtional Revision</span></p>
                                     <div className="flex mt-4">
                                         <p className="font-semibold mr-4">Next Step: </p>
                                         <p>Upload your revised image</p>
@@ -265,9 +265,9 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                                         onClick={handleAdditionalRevision}
                                         className="my-4 border-2 border-[#282828] bg-white rounded-xl py-2 px-4 hover:text-white hover:bg-[#282828] "
                                         >
-                                            {portrait?.revisionLevel === "" ? "Select Revision Level" : "Change Revision Level"}
+                                            {portrait?.additionalRevisionInfo.type === "" ? "Select Revision Level" : "Change Revision Level"}
                                     </button>
-                                    {portrait?.revisionLevel !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#43b4e4]">{portrait?.revisionLevel}</span></p>}
+                                    {portrait?.additionalRevisionInfo.type !== "" && <p className="text-center">Selected Revision Level: <span className="ml-2 font-semibold text-[#43b4e4]">{portrait?.additionalRevisionInfo.type} - ${portrait?.additionalRevisionInfo.price}</span></p>}
                                 </div>
                                 }
                                 

@@ -14,14 +14,10 @@ export interface CategoryPrice {
     Half: number,
     Full: number,
     charVariations: number,
-    complexity: Array<number>,
     weaponSimple: number,
     weaponComplex: number,
     armourComplex: number,
     wings: number,
-    model: number,
-    character: number,
-    weapons: number,
     petSmall: number,
     petLarge: number,
     petMonster: number,
@@ -56,7 +52,14 @@ interface Customizer {
         cat2DefaultImg: string,
         cat3DefaultImg: string
     },
-    bgOptions: Array<string>
+    bgOptions: Array<string>,
+    pricing: {
+        model: number,
+        character: number,
+        weapons: number,
+        complexity: Array<number>,
+        additionalRevision: Array<number>
+    }
 }
 
 interface Home {
@@ -66,6 +69,7 @@ interface Home {
     title: string,
     tagline: string
 }
+
 
 export interface TestimonialType {
     portraitId: string,
@@ -86,31 +90,6 @@ export interface TestimonialType {
 
 export interface Categories {
     [index:string]: Category | Customizer | Home | any
-    // cat1: {
-    //     type: string,
-    //     copy: CategoryCopy,
-    //     prices: CategoryPrice,
-    //     pics: CategoryPics
-    // },
-    // cat2: {
-    //     type: string,
-    //     copy: CategoryCopy,
-    //     prices: CategoryPrice,
-    //     pics: CategoryPics
-    // },
-    // cat3: {
-    //     type: string,
-    //     copy: CategoryCopy,
-    //     prices: CategoryPrice,
-    //     pics: {
-    //         homeCarousel: string,
-    //         selectionBG: string,
-    //         selectionCarousel: Array<string>,
-    //         selectionHero: string
-    //     }
-    // },
-    // customizer: Customizer,
-    // home: Home
 }
 
 interface ICategoriesContext {
@@ -132,14 +111,10 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 Half: 130,
                 Full: 150,
                 charVariations: 20,
-                complexity: [17, 20, 23, 26, 29],
                 weaponSimple: 35,
                 weaponComplex: 50,
                 armourComplex: 15,
                 wings: 30,
-                model: 150,
-                character: 120,
-                weapons: 125,
                 petSmall: 15,
                 petLarge: 25,
                 petMonster: 50,
@@ -166,14 +141,10 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 Half: 130,
                 Full: 150,
                 charVariations: 25,
-                complexity: [20, 23, 26, 29, 32],
                 weaponSimple: 35,
                 weaponComplex: 50,
                 armourComplex: 20,
-                wings: 35,    
-                model: 150,
-                character: 120,
-                weapons: 125,                            
+                wings: 35,                           
                 petSmall: 15,
                 petLarge: 25,
                 petMonster: 50,
@@ -200,16 +171,12 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 Half: 130,
                 Full: 150,
                 charVariations: 50,
-                complexity: [30, 33, 36, 39, 42],
                 weaponSimple: 35,
                 weaponComplex: 50,
                 armourComplex: 25,
                 wings: 30,
-                model: 150,
-                character: 120,
                 petSmall: 15,
                 petLarge: 25,
-                weapons: 125,
                 bgSimple: 30,
                 bgComplex: 50,
             },
@@ -234,7 +201,14 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 cat2DefaultImg: "",
                 cat3DefaultImg: ""
             },
-            bgOptions: []
+            bgOptions: [],
+            pricing: {
+                model: 500,
+                character: 125,
+                weapons: 100,
+                complexity: [0, 15, 30, 45, 100],
+                additionalRevision: [25, 50, 100]
+            }
         },
         home: {
             gallery: [],

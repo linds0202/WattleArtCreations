@@ -76,7 +76,8 @@ export async function getCheckoutUrl (items, userId) {
       cancel_url: 'https://wattle-art-creations.vercel.app/',
       metadata: {
         'portraitIds': portraitIds,
-        'userId': userId
+        'userId': userId,
+        'type': 'first'
       },
   });
 
@@ -97,12 +98,12 @@ export async function getCheckoutUrl (items, userId) {
   });
 };
 
-export async function getExtrasCheckoutUrl (items, portraitId, userId) {
-
+export async function getExtrasCheckoutUrl (portrait, userId) {
   if (!userId) throw new Error("User is not authenticated");
-
-  // const portraitIds = items.map(portrait => portrait.id).join(',')
   
+  const portraitIds = portrait.id
+  const items = portrait.addOns
+
   const checkoutSessionRef = collection(
       db,
       "users",
@@ -112,11 +113,15 @@ export async function getExtrasCheckoutUrl (items, portraitId, userId) {
 
   const docRef = await addDoc(checkoutSessionRef, {
       line_items: items.map((item) => {
-          return {
+        const newName = (item.type === 'character' || item.type === 'weapons') 
+          ? item.type.charAt(0).toUpperCase() + item.type.slice(1) + ' sheet' 
+          : item.type === 'model' ? '3D model' 
+          : item.type
+        return {
               price_data: {
                   currency: "USD",
                   product_data: {
-                      name: item.type,
+                      name: newName,
                   },
                   unit_amount: item.price * 100,
               },
@@ -125,11 +130,66 @@ export async function getExtrasCheckoutUrl (items, portraitId, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitId}?complete=true`,
+      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true`,
       cancel_url: 'https://wattle-art-creations.vercel.app/',
       metadata: {
-        'portraitId': portraitId,
-        'userId': userId
+        'portraitIds': portraitIds,
+        'userId': userId,
+        'type': 'additional'
+      },
+  });
+
+  // success?session_id={CHECKOUT_SESSION_ID}
+
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() 
+      if (error) {
+          unsubscribe();
+          reject(new Error(`An error occurred: ${error.message}`));
+      }
+      if (url) {
+          unsubscribe();
+          resolve(url);
+      }
+      });
+  });
+};
+
+export async function getRevisionCheckoutUrl (portrait, userId) {
+  if (!userId) throw new Error("User is not authenticated");
+  
+  const portraitIds = portrait.id
+  const items = [portrait.additionalRevisionInfo]
+
+  const checkoutSessionRef = collection(
+      db,
+      "users",
+      userId,
+      "checkout_sessions"
+  );
+
+  const docRef = await addDoc(checkoutSessionRef, {
+      line_items: items.map((item) => {
+        return {
+              price_data: {
+                  currency: "USD",
+                  product_data: {
+                      name: 'Additional Revision - ' + item.type.charAt(0).toUpperCase() + item.type.slice(1),
+                  },
+                  unit_amount: item.price * 100,
+              },
+              quantity: 1
+          }
+      }),
+      payment_method_types: ["card"],
+      mode: 'payment',
+      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true`,
+      cancel_url: 'https://wattle-art-creations.vercel.app/',
+      metadata: {
+        'portraitIds': portraitIds,
+        'userId': userId,
+        'type': 'additionalRevision'
       },
   });
 
@@ -257,7 +317,7 @@ export function addUser(user) {
     email: user.email,
     displayName: user.displayName,
     roles: "Customer",
-    artistName: "", 
+    artistName: user.displayName, 
     bio: "",
     links: [],
     artistImgs: [],
@@ -397,25 +457,7 @@ export async function getAllConsults() {
 
 //Create new Portrait
 export async function addPortrait(data) {
-  // const characterSheets = []
-  // const weaponsSheets = []
-
-  // data.characters.forEach(char => {
-  //   if (char.extras.length !== 0) {
-  //     char.extras.forEach(extra => {
-  //       console.log("Extra: ", extra)
-  //       if (extra === 'character') {
-  //         characterSheets.push("")
-  //       } else if (extra === 'weapons') {
-  //         weaponsSheets.push("")
-  //       }
-  //     })
-  //   }
-  // })
-
-  // console.log("character sheets: ", characterSheets)
-  // console.log("weaponsheets: ", weaponsSheets)
-
+  
   const portraitRef = await addDoc(collection(db, 'portraits'), { 
     mode: data.mode,
     characters: data.characters,
@@ -441,13 +483,13 @@ export async function addPortrait(data) {
     additionalRevision: false,
     images: [],
     finalImages: [],
-    revisionLevel: "",
+    additionalRevisionInfo: {price: 0, type: ""},
     additionalRevisionRequest: data.additionalRevisionRequest,
     purchaseRevisionLink: data.purchaseRevisionLink,
     revisionNotes: [],
-    sheetUploads: []
-    // characterSheets: data.characterSheets,
-    // weaponsSheets: data.weaponsSheets
+    sheetUploads: [],
+    addOns: [],
+    additionalPayments: []
   })
   return portraitRef.id
 }
@@ -467,6 +509,7 @@ export async function updateNewPortraitWithImage(portraitId, imageBucket) {
 
 //add artist to artist list for portrait when claimed
 export async function addArtist( portraitId, artistId, artistName, artistNote) {
+  
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({ id: artistId, artistName: artistName}),
     artistNotes: arrayUnion(artistNote),
@@ -545,14 +588,14 @@ export async function getPortrait(uid) {
     additionalRevision: docSnap.data().additionalRevision,
     images: docSnap.data().images,
     finalImages: docSnap.data().finalImages,
-    revisionLevel: docSnap.data().revisionLevel,
+    additionalRevisionInfo: docSnap.data().revision,
     additionalRevisionRequest: docSnap.data().additionalRevisionRequest,
     purchaseRevisionLink: docSnap.data().purchaseRevisionLink,
     revisionNotes: docSnap.data().revisionNotes, 
     portraitCompletionDate: docSnap.data().portraitCompletionDate,
-    // characterSheets: docSnap.data().characterSheets,
-    // weaponsSheets: docSnap.data().weaponsSheets,
     sheetUploads: docSnap.data().sheetUploads,
+    addOns: docSnap.data().addOns,
+    additionalPayments: docSnap.data().additionalPayments,
     id: uid
   }
 
