@@ -17,8 +17,11 @@ export default function TestimonialsList() {
   
   const [button, setButton] = useState<String>('')
   const [openAddTestimonial, setOpenAddTestimonial] = useState<boolean>(false)
+  const [newAdded, setNewAdded] = useState(false)
   
   useEffect(() => {
+
+    console.log('calling this')
 
     const getTestimonialsList = async () => {
       const testimonialList = await getAllTestimonials();
@@ -29,7 +32,7 @@ export default function TestimonialsList() {
     }
 
     getTestimonialsList()
-}, [])
+  }, [newAdded])
 
   const handleGetCat1 = () => {
     const filtered = allTestimonials.filter(test => test.category === categories.cat1.type)
@@ -77,6 +80,7 @@ export default function TestimonialsList() {
     setOpenAddTestimonial(true)
   }
 
+  console.log('filtered testimonials is: ', filteredTestimonials)
   return (
     <div className="relative w-full mb-20">
       <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Testimonials</h1>
@@ -179,7 +183,16 @@ export default function TestimonialsList() {
             </tbody>
         </table>
       </div>   
-      {openAddTestimonial && <AddTestimonial openAddTestimonial={openAddTestimonial} setOpenAddTestimonial={setOpenAddTestimonial} />}
+      {openAddTestimonial && 
+        <AddTestimonial 
+          openAddTestimonial={openAddTestimonial} 
+          setOpenAddTestimonial={setOpenAddTestimonial} 
+          allTestimonials={allTestimonials}
+          setAllTestimonials={setAllTestimonials}  
+          newAdded={newAdded}
+          setNewAdded={setNewAdded}
+        />
+      }
     </div>
   )
 }

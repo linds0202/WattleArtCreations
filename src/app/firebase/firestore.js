@@ -890,7 +890,7 @@ export async function addTestimonial( data) {
       completionDate = data.completionDate
     }
   } else {
-    portraitCompletionDate = ""
+    completionDate = ""
   }
 
   const testimonialRef = await addDoc(collection(db, 'testimonials'), { 

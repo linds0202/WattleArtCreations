@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { useState } from 'react';
 import { EditProps } from './EditHero';
 import { PricingForm } from "./PricingForm";
+import { GeneralPricingForm } from "./GeneralPricingForm";
 
 export const EditPricing = ({ categories, changeCategories }: EditProps) => {
     const [button, setButton] = useState<string>('cat1')
@@ -39,6 +40,15 @@ export const EditPricing = ({ categories, changeCategories }: EditProps) => {
                 >
                     {categories.cat3.type}
                 </motion.button>
+
+                <motion.button 
+                    className={`w-1/5 mx-4 border-2 border-black p-2 rounded-lg ${button === 'general' ? 'bg-[#43b4e4] text-white' : ''}`}
+                    onClick={() => handleShowCat('general')}
+                    whileHover={{ scale: 1.05, transition: {duration: 0.15} }} 
+                    whileTap={{ scale: 1.03 }}
+                >
+                    General Pricing
+                </motion.button>
             </div>
 
             <div>
@@ -46,7 +56,9 @@ export const EditPricing = ({ categories, changeCategories }: EditProps) => {
                     <PricingForm cat={button} categories={categories} changeCategories={changeCategories}/>
                     : button === 'cat2' ?
                     <PricingForm cat={button} categories={categories} changeCategories={changeCategories}/>
-                    : <PricingForm cat={button} categories={categories} changeCategories={changeCategories}/>
+                    : button === 'cat3' ?
+                    <PricingForm cat={button} categories={categories} changeCategories={changeCategories}/>
+                    : <GeneralPricingForm cat={button} categories={categories} changeCategories={changeCategories}/>
                 }
             </div>
         </div>

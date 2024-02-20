@@ -11,22 +11,16 @@ interface PricingFormProps {
     changeCategories: Function
 }
 
+
 interface MyFormValues {
     Headshot: string,
     Half: string,
     Full: string,
     charVariations: string,
-    complexity2: string,
-    complexity3: string,
-    complexity4: string,
-    complexity5: string,
     weaponSimple: string,
     weaponComplex: string,
     armourComplex: string,
     wings: string,
-    character: string,
-    model: string,
-    weapons: string,
     petSmall: string,
     petLarge: string,
     petMonster: string,
@@ -40,18 +34,11 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
         Headshot: categories[cat].prices.Headshot,
         Half: categories[cat].prices.Half,
         Full: categories[cat].prices.Full,
-        charVariations: categories[cat].prices.charVariations,
-        complexity2: categories[cat].prices.complexity[1],   
-        complexity3: categories[cat].prices.complexity[2],
-        complexity4: categories[cat].prices.complexity[3],
-        complexity5: categories[cat].prices.complexity[4],     
+        charVariations: categories[cat].prices.charVariations,    
         weaponSimple: categories[cat].prices.weaponSimple,
         weaponComplex: categories[cat].prices.weaponComplex,
         wings: categories[cat].prices.wings,
         armourComplex: categories[cat].prices.armourComplex,
-        character: categories[cat].prices.character,
-        model: categories[cat].prices.model,
-        weapons: categories[cat].prices.weapons,
         petSmall: categories[cat].prices.petSmall,
         petLarge: categories[cat].prices.petLarge,
         petMonster: categories[cat].prices.petMonster,
@@ -69,17 +56,10 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                         && values.Half === '' 
                         && values.Full === '' 
                         && values.charVariations === ''
-                        && values.complexity2 === ''
-                        && values.complexity3 === ''
-                        && values.complexity4 === ''
-                        && values.complexity5 === ''
                         && values.weaponSimple === '' 
                         && values.weaponComplex === '' 
                         && values.armourComplex === ''
                         && values.wings === '' 
-                        && values.character === '' 
-                        && values.model === '' 
-                        && values.weapons === '' 
                         && values.petSmall === ''
                         && values.petLarge === ''
                         && values.petMonster === '' 
@@ -88,23 +68,14 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                     ) {
                         actions.setSubmitting(false)
                     } else {
-                        const level2 = values.complexity2 !== '' ? Number(values.complexity2) : categories[cat].prices.complexity[1]
-                        const level3 = values.complexity3 !== '' ? Number(values.complexity3) : categories[cat].prices.complexity[2]
-                        const level4 = values.complexity4 !== '' ? Number(values.complexity4) : categories[cat].prices.complexity[3]
-                        const level5 = values.complexity5 !== '' ? Number(values.complexity5) : categories[cat].prices.complexity[4]
-                        const newComplexity: Array<string> = [0, level2, level3, level4, level5]
 
                         const newCatPricesObj = {
                             Headshot: values.Headshot !== '' ? Number(values.Headshot) : categories[cat].prices.Headshot,
                             Half: values.Half !== '' ? Number(values.Half) : categories[cat].prices.Half,
                             Full: values.Full !== '' ? Number(values.Full) : categories[cat].prices.Full,
                             charVariations: values.charVariations !== '' ? Number(values.charVariations) : categories[cat].prices.charVariations,
-                            complexity: newComplexity,
                             weaponSimple: values.weaponSimple !== '' ? Number(values.weaponSimple) : categories[cat].prices.weaponSimple,
                             weaponComplex: values.weaponComplex !== '' ? Number(values.weaponComplex) : categories[cat].prices.weaponComplex,
-                            model:  values.model !== '' ? Number(values.model) : categories[cat].prices.model,
-                            character: values.character !== '' ? Number(values.character) : categories[cat].prices.Full,
-                            weapons: values.weapons !== '' ? Number(values.weapons) : categories[cat].prices.weapons,
                             armourComplex: values.armourComplex !== '' ? Number(values.armourComplex) : categories[cat].prices.armourComplex,
                             wings: values.wings !== '' ? Number(values.wings) : categories[cat].prices.wings,
                             petSmall: values.petSmall !== '' ? Number(values.petSmall) : categories[cat].prices.petSmall,
@@ -180,43 +151,8 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                                     />
                                 </div>
                             </div>
-                            
-                            <div className='w-1/3 mr-4 px-8 py-4 border border-[#282828] rounded-lg'>
-                                <p className='text-xl font-semibold'>Extras</p>
-                                
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="model" className='mb-1'>3D Model</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="model" 
-                                        name="model" 
-                                        placeholder={`${categories[cat].prices.model}`} 
-                                    />
-                                </div>
-                                
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="character" className='mb-1'>Character Sheet</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="character" 
-                                        name="character" 
-                                        placeholder={`${categories[cat].prices.character}`} 
-                                    />
-                                </div>
 
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="weapons" className='mb-1'>Weapons Sheet</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="weapons" 
-                                        name="weapons" 
-                                        placeholder={`${categories[cat].prices.weapons}`} 
-                                    />
-                                </div>
-                            </div>
-
-
-                            <div className='w-1/3 px-8 py-4 border border-[#282828] rounded-lg'>
+                            <div className='w-2/3 px-8 py-4 border border-[#282828] rounded-lg'>
                                 <p className='text-xl font-semibold'>Pets & Background</p>
                                 <div className='w-full flex justify-between'>
                                     <div className='w-1/4 flex flex-col'>
@@ -248,82 +184,31 @@ export const PricingForm = ({ cat, categories, changeCategories }: PricingFormPr
                                     </div>
                                 </div>
                                 
+                                <div className='w-full mt-4 flex'>
+                                    <div className='flex flex-col'>
+                                        <label htmlFor="bgSimple" className='mb-1'>Simple Background</label>
+                                        <Field 
+                                            className='border border-[#282828] p-2 rounded-lg' 
+                                            id="bgSimple" 
+                                            name="bgSimple" 
+                                            placeholder={`${categories[cat].prices.bgSimple}`} 
+                                        />
+                                    </div>
 
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="bgSimple" className='mb-1'>Simple Background</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="bgSimple" 
-                                        name="bgSimple" 
-                                        placeholder={`${categories[cat].prices.bgSimple}`} 
-                                    />
+                                    <div className='ml-8 flex flex-col'>
+                                        <label htmlFor="bgComplex" className='mb-1'>Complex Background</label>
+                                        <Field 
+                                            className='border border-[#282828] p-2 rounded-lg' 
+                                            id="bgComplex" 
+                                            name="bgComplex" 
+                                            placeholder={`${categories[cat].prices.bgComplex}`} 
+                                        />
+                                    </div>
                                 </div>
-
-                                <div className='w-full flex flex-col'>
-                                    <label htmlFor="bgComplex" className='mb-1'>Complex Background</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="bgComplex" 
-                                        name="bgComplex" 
-                                        placeholder={`${categories[cat].prices.bgComplex}`} 
-                                    />
-                                </div>
+                                
                             </div>
                         </div>
 
-                        <div className='w-full mt-8 px-8 py-4 border border-[#282828] rounded-lg flex flex-col justify-between'>
-                            <p className='w-[100%] text-center text-xl font-semibold'>Complexity</p>
-                            <div className='flex'>
-                                <div className='w-1/5 mr-4 flex flex-col'>
-                                    <label htmlFor="complexity1" className='mb-1'>Level 1</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="complexity1" 
-                                        name="complexity1" 
-                                        placeholder={`${categories[cat].prices.complexity[0]} (cannot be changed)`} 
-                                        disabled
-                                    />
-                                </div>
-                                <div className='w-1/5 mr-4 flex flex-col'>
-                                    <label htmlFor="complexity2" className='mb-1'>Level 2</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="complexity2" 
-                                        name="complexity2" 
-                                        placeholder={`${categories[cat].prices.complexity[1]}`} 
-                                    />
-                                </div>
-                                <div className='w-1/5 mr-4 flex flex-col'>
-                                    <label htmlFor="complexity3" className='mb-1'>Level 3</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="complexity3" 
-                                        name="complexity3" 
-                                        placeholder={`${categories[cat].prices.complexity[2]}`} 
-                                    />
-                                </div>
-                                <div className='w-1/5 mr-4 flex flex-col'>
-                                    <label htmlFor="complexity4" className='mb-1'>Level 4</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="complexity4" 
-                                        name="complexity4" 
-                                        placeholder={`${categories[cat].prices.complexity[3]}`} 
-                                    />
-                                </div>
-                                <div className='w-1/5 mr-4 flex flex-col'>
-                                    <label htmlFor="complexity5" className='mb-1'>Level 5</label>
-                                    <Field 
-                                        className='border border-[#282828] p-2 rounded-lg' 
-                                        id="complexity5" 
-                                        name="complexity5" 
-                                        placeholder={`${categories[cat].prices.complexity[4]}`} 
-                                    />
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
 
                         <div className='w-full mt-8 px-8 py-4 border border-[#282828] rounded-lg flex flex-col justify-between'>
                             <p className='w-[100%] text-center text-xl font-semibold'>Character extras</p>

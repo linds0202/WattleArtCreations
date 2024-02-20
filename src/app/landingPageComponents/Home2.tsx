@@ -28,7 +28,7 @@ export default function Home ({ setMode, mode }: ModeProps) {
         <div className="bg-black text-white">
             <Home2_hero />
             <Home2_hiw />
-            {/* <Home2_testimonials /> */}
+            <Home2_testimonials />
             <Home2_cta setMode={setMode} mode={mode} />
             <Home2_gallery />
             <Footer />

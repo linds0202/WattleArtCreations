@@ -3,15 +3,20 @@ import {
     Form,
     Field,
 } from 'formik'
-import Dialog from '@mui/material/Dialog';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { useCategoriesContext } from '@/app/context/CategoriesContext';
-import { addTestimonial } from '@/app/firebase/firestore';
+import Dialog from '@mui/material/Dialog'
+import IconButton from '@mui/material/IconButton'
+import CloseIcon from '@mui/icons-material/Close'
+import { useCategoriesContext } from '@/app/context/CategoriesContext'
+import { addTestimonial } from '@/app/firebase/firestore'
+import { TestimonialType } from '@/app/context/CategoriesContext'
 
 interface AddTestimonialProps {
     openAddTestimonial: boolean,
-    setOpenAddTestimonial: Function
+    setOpenAddTestimonial: Function,
+    allTestimonials: Array<TestimonialType>,
+    setAllTestimonials: Function,
+    newAdded: boolean,
+    setNewAdded: Function
 }
 
 interface MyFormValues {
@@ -27,7 +32,7 @@ interface MyFormValues {
     newFeatured: boolean
   }
 
-const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial }: AddTestimonialProps) => {
+const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial, allTestimonials, setAllTestimonials, newAdded, setNewAdded }: AddTestimonialProps) => {
     const {categories, changeCategories} = useCategoriesContext()
     
 
@@ -99,8 +104,12 @@ const AddTestimonial = ({ openAddTestimonial, setOpenAddTestimonial }: AddTestim
     
                         changeCategories({...newCategories})
                     }
+
                     addTestimonial(newTestimonial)
 
+                    setAllTestimonials([...allTestimonials, newTestimonial])
+                    
+                    setNewAdded(!newAdded)
                     actions.setSubmitting(false)
                     setOpenAddTestimonial(false)
                 }}

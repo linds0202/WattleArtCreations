@@ -341,7 +341,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 <object type="image/svg+xml" data="images/colored_dots_final.svg" className="absolute -top-[10%] md:-top-[10%] left-0 w-[300%] lg:w-[200%] xl:w-full h-[120%] -z-5"/>
                 
                 {/* triple testimonial group */}
-                {/* <motion.div 
+                <motion.div 
                     className='hidden lg:flex justify-around py-20 w-full relative z-30' 
                     variants={container} 
                     initial='hidden'
@@ -350,7 +350,7 @@ const PortraitSelection = ({ mode, setMode }: ModeProps) => {
                 >
                     <Home2_testimonial_group testGroup={featuredTestimonials}/>
                 
-                </motion.div> */}
+                </motion.div>
                 
                 {/* single testimonial */}
                 <motion.div 

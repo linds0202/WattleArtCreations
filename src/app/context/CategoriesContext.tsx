@@ -94,7 +94,7 @@ export interface Categories {
 
 interface ICategoriesContext {
   categories: Categories;
-  changeCategories: (categories: Categories) => void;
+  changeCategories: (categories: Categories) => void
 }
 
 export const CategoriesContext = createContext<ICategoriesContext>({

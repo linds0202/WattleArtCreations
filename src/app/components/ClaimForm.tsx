@@ -76,7 +76,7 @@ const ClaimForm = ({openClaimForm, setOpenClaimForm, setOpenArtistDetails, user,
             
             <div className='w-full md:w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
                 <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
-                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#0075FF] hover:text-white rounded-xl py-2 px-2'>
+                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
                     Claim
                 </button>
             </div>
