@@ -377,10 +377,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
             </div>
 
-            {/* Ceneter Section */}
+            {/* Center Section */}
             <div  className='w-full md:w-6/12 min-h-[80vh] md:px-4 mt-8 md:mt-0 flex flex-col justify-between items-center'>
               {/* Image Upload Section */}
-              <div className='w-full md:px-4 border border-red-600'>
+              <div className='w-full md:px-4'>
               
                 {portrait?.status === 'Completed' && 
                 <div className='bg-white rounded-xl p-2 flex flex-col items-center'>

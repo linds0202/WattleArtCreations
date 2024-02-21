@@ -1,18 +1,17 @@
 'use client'
 
 import '../../globals.css'
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../../firebase/auth';
-import { getCustomersPortraits, getUserById } from '../../firebase/firestore';
-import { Timestamp } from 'firebase/firestore';
-import Portrait from '../../components/Portrait';
-import Profile from './components/Profile';
-import { PortraitData } from '@/app/portraits/components/PortraitCustomizer';
-import Footer from '@/app/components/Footer';
-import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
-import { getAllCustomersPortraits } from '../../firebase/firestore';
-import Link from 'next/link';
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useAuth } from '../../firebase/auth'
+import { getUserById, updateFailedAddOn, getAllCustomersPortraits } from '../../firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
+import Portrait from '../../components/Portrait'
+import Profile from './components/Profile'
+import { PortraitData } from '@/app/portraits/components/PortraitCustomizer'
+import Footer from '@/app/components/Footer'
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page'
+import Link from 'next/link'
 
 type Params = {
   params: {
@@ -26,6 +25,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const router = useRouter();
   const searchParams = useSearchParams()
   const complete: string | null = searchParams.get('complete')
+  const id: string | null = searchParams.get('id')
  
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -43,8 +43,9 @@ export default function Dashboard({ params: { userId }}: Params) {
   useEffect(() => {
     setPageLoading(true)
     if (complete === 'true') {
-      
       sessionStorage.setItem('Cart', JSON.stringify([]))
+    } else if (complete === 'false') {
+      updateFailedAddOn(id)
     }
 
     let latestUser: UserData | null

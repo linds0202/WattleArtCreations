@@ -9,6 +9,7 @@ import { downloadImage } from '../firebase/storage'
 import Link from 'next/link'
 import { getPortrait } from '../firebase/firestore'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
+import AdditionalOptions from './components/AdditionalOptions'
 import Footer from '../components/Footer'
 
 
@@ -21,6 +22,10 @@ const Testimonials = () => {
     const [portrait, setPortrait] = useState<PortraitData | null>(null)
     const [openTestimonial, setOpenTestimonial] = useState(true)
     const [reviewed, setReviewed] = useState(false)
+
+    const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
+    const [openTip, setOpenTip] = useState(false)
+    
 
     useEffect(() => {
         const handleGetPortrait = async () => {
@@ -83,7 +88,7 @@ const Testimonials = () => {
                     <div className='w-full xl:w-6/12 flex flex-col items-center'>
                         <div className='z-20'>
                             <h2 className='font-bold text-3xl text-[#43b4e4]'>Digital File Delivery:</h2> 
-                            <p className='text-xl mb-4'>Your digital artwork can be downloaded as a high-resolution file. You can always access the download via the individual portrait page on your dashboard. Select &apos;Completed&apos; and then navigate to the portrait page.</p> 
+                            <p className='text-xl mb-4'>Your digital artwork can be downloaded as a high-resolution file. Click below to download your file. You can also always access the download via the individual portrait page on your dashboard. Select &apos;Completed&apos; from the filters at the top of your dashboard and then navigate to the portrait page.</p> 
                             <p className='text-xl mb-4'>If you encounter any issues with your digital file, please contact our support team at [email/contact information].</p> 
                             {portrait?.status === 'Completed' && 
                                 <button   
@@ -94,9 +99,32 @@ const Testimonials = () => {
                                 </button>
                             }
                         </div>
+
+                        <div className='w-full mt-8 z-20'>
+                            <h2 className='font-bold text-3xl text-[#43b4e4]'>Purchase Additional Options:</h2>
+                            <p className='text-xl mb-2'>Want even more amazing customized art?</p>
+                            <p className='text-xl mb-4'>Add a character sheet, weapons sheet or even a customized 3D model!</p>
+                            <div
+                                className='w-full md:w-1/2 lg:w-1/3 mx-auto mt-4 text-xl text-white text-center rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                                onClick={() => setOpenCreateCheckout(true)} 
+                            >
+                                    Purchase Add Ons
+                            </div>
+                            
+                            {openCreateCheckout && portrait &&
+                            <AdditionalOptions
+                                openCreateCheckout={openCreateCheckout}
+                                setOpenCreateCheckout={setOpenCreateCheckout}
+                                portrait={portrait}
+                                setPortrait={setPortrait}
+                            />
+                        } 
+                        </div>
+
+
                         <div className='w-full mt-8 z-20'>
                             <h2 className='font-bold text-3xl text-[#43b4e4]'>Thank Your Artist:</h2>
-                            <p className='text-xl mb-4'>Feel that your artist went above and beyond bringing your vision to life?</p>
+                            <p className='text-xl mb-2'>Feel that your artist went above and beyond bringing your vision to life?</p>
                             <p className='text-xl mb-4'>Leave your artist a tip to show your appreciation.</p>
                             <div
                                 className='w-full md:w-1/2 lg:w-1/3 mx-auto mt-4 text-xl text-white text-center rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 

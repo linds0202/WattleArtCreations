@@ -23,6 +23,7 @@ import {
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
 import { getDownloadURLs } from './storage';
+import { connectStorageEmulator } from 'firebase/storage';
 
 
 
@@ -190,6 +191,63 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
         'portraitIds': portraitIds,
         'userId': userId,
         'type': 'additionalRevision'
+      },
+  });
+
+  // success?session_id={CHECKOUT_SESSION_ID}
+
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() 
+      if (error) {
+          unsubscribe();
+          reject(new Error(`An error occurred: ${error.message}`));
+      }
+      if (url) {
+          unsubscribe();
+          resolve(url);
+      }
+      });
+  });
+};
+
+export async function getAddOnCheckoutUrl (portrait, userId) {
+
+  if (!userId) throw new Error("User is not authenticated") 
+  
+  const items = portrait.addOns
+
+  const checkoutSessionRef = collection(
+      db,
+      "users",
+      userId,
+      "checkout_sessions"
+  );
+
+  const docRef = await addDoc(checkoutSessionRef, {
+      line_items: items.map((item) => {
+        const newName = (item.type === 'character' || item.type === 'weapons') 
+          ? item.type.charAt(0).toUpperCase() + item.type.slice(1) + ' sheet' 
+          : '3D model' 
+        return {
+              price_data: {
+                  currency: "USD",
+                  product_data: {
+                      name: newName,
+                  },
+                  unit_amount: item.price * 100,
+              },
+              quantity: 1
+          }
+      }),
+      payment_method_types: ["card"],
+      mode: 'payment',
+      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
+      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}`,
+      metadata: {
+        'portraitIds': portrait.id,
+        'userId': userId,
+        'type': 'addOn'
       },
   });
 
@@ -485,7 +543,6 @@ export async function addPortrait(data) {
     finalImages: [],
     additionalRevisionInfo: {price: 0, type: ""},
     additionalRevisionRequest: data.additionalRevisionRequest,
-    purchaseRevisionLink: data.purchaseRevisionLink,
     revisionNotes: [],
     sheetUploads: [],
     addOns: [],
@@ -495,8 +552,14 @@ export async function addPortrait(data) {
 }
 
 //edit portrait before purchase
-export function updatePortrait( portraitId, portraitData) {
+export async function updatePortrait( portraitId, portraitData) {
+  console.log("in update portrait")
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
+}
+
+//failure on purchase of addOn
+export async function updateFailedAddOn( portraitId ) {
+  updateDoc(doc(db, 'portraits', portraitId), { addOns: [] });
 }
 
 
@@ -588,9 +651,8 @@ export async function getPortrait(uid) {
     additionalRevision: docSnap.data().additionalRevision,
     images: docSnap.data().images,
     finalImages: docSnap.data().finalImages,
-    additionalRevisionInfo: docSnap.data().revision,
+    additionalRevisionInfo: docSnap.data().additionalRevisionInfo,
     additionalRevisionRequest: docSnap.data().additionalRevisionRequest,
-    purchaseRevisionLink: docSnap.data().purchaseRevisionLink,
     revisionNotes: docSnap.data().revisionNotes, 
     portraitCompletionDate: docSnap.data().portraitCompletionDate,
     sheetUploads: docSnap.data().sheetUploads,

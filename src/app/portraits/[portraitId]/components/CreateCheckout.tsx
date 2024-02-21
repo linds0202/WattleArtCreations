@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useCategoriesContext } from "@/app/context/CategoriesContext"
 import { Formik, Form, Field } from 'formik'
 import IconButton from '@mui/material/IconButton'
@@ -6,10 +6,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Dialog from '@mui/material/Dialog'
 import Slider from '@mui/material/Slider'
 import { PortraitData } from '../../components/PortraitCustomizer'
-import { getExtrasCheckoutUrl, updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore'
-import { Timestamp } from 'firebase/firestore';
-import { ExtrasData } from "../page";
-import Portrait from "@/app/components/Portrait";
+import { updatePortrait } from '@/app/firebase/firestore'
 
 interface CreateCheckoutProps {
     openCreateCheckout: boolean,
@@ -123,7 +120,7 @@ const CreateCheckout = ({ openCreateCheckout, setOpenCreateCheckout, portrait, s
                             </div>    
                         </div>
                         
-                    </div> 
+                    </div>
                     
                     <div className="mt-4 flex justify-between">     
                         <div className="w-1/3">

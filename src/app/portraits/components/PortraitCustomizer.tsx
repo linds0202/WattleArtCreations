@@ -107,7 +107,6 @@ export interface PortraitData  {
         type: string
     },
     additionalRevisionRequest: boolean,
-    purchaseRevisionLink: string,
     revisionNotes: Array<CustomerRevision>,
     portraitCompletionDate: Timestamp | null,
     sheetUploads: Array<SheetUploadsData>,
@@ -171,7 +170,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         finalImages: [],
         additionalRevisionInfo: {price: 0, type: ""},
         additionalRevisionRequest: false,
-        purchaseRevisionLink: '',
         revisionNotes: [],
         portraitCompletionDate: null,
         sheetUploads: [],

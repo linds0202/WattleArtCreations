@@ -31,7 +31,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
     .onCreate(async (snap, context) => {
     
     const payment = snap.data();
-    console.log('payment: ', payment)
+    // console.log('payment: ', payment)
 
     if (payment.status === 'succeeded') {
         const portraitIds = payment.metadata.portraitIds.split(',')
@@ -100,6 +100,40 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     additionalRevisionInfo: {type: "", price: 0},
                     additionalRevisionRequest: true,
                     additionalRevision: true
+                })
+            } else if (payment.metadata.type === 'addOn'){
+                console.log("called addOn")
+                const newPayment = {
+                    "paymentComplete": true, 
+                    "purchaseDate": Timestamp.now(),
+                    "total": payment.amount / 100,
+                    "type": `addOn ${currentPortrait.addOns.map(addOn => addOn.type).join(", ")}`,
+                    "invoiceId" : payment.id
+                }
+
+                const newSheetUploads = []
+                for (const addOn of currentPortrait.addOns) { 
+                    newSheetUploads.push({
+                    src: "",
+                    index: 0,
+                    charNum: "AddOn",
+                    type: addOn.type,
+                    price: addOn.price
+                    })
+                }
+
+                const allSheetUploads = [...currentPortrait.sheetUploads, ...newSheetUploads]
+                
+                const finalSheetUploads = allSheetUploads.map((sheet, i) => ({
+                    ...sheet,
+                    index: i
+                }))
+
+                const answer = await portraitDocRef.update({
+                    additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                    sheetUploads: finalSheetUploads,
+                    addOns: [],
+                    status: "In Progress"
                 })
             }
           }  
