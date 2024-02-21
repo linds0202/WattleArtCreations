@@ -60,7 +60,8 @@ export interface SheetUploadsData {
     index: number,
     charNum: number | string,
     type: string,
-    price: number
+    price: number,
+    released: boolean
 }
 
 export interface Extras {
@@ -74,6 +75,9 @@ export interface Payments {
     total: number,
     type: string,
     invoiceId: string,
+    items: Array<Extras>,
+    artistPay: number,
+    released: boolean
 }
 
 export interface PortraitData  {
@@ -268,19 +272,20 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         chars.forEach((char, i) => {
             if (char.extras.length !== 0) {
               char.extras.forEach(extra => {
-                if (extra !== 'model') {
-                    sheetUploadArray.push({
-                        src: "",
-                        index: index,
-                        charNum: i + 1,
-                        type: extra,
-                        price: categories.customizer.pricing[extra]
-                    })
-                    index++
-                }  
+                sheetUploadArray.push({
+                    src: "",
+                    index: index,
+                    charNum: i + 1,
+                    type: extra,
+                    price: categories.customizer.pricing[extra],
+                    released: false
+                })
+                index++
               })
             }
         })
+
+        console.log("shetUploadArray: ", sheetUploadArray)
     
         const newPortrait = {
             ...portraitFormData, 

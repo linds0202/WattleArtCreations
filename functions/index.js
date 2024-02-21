@@ -42,6 +42,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             const currentPortrait = currentPortraitSnap.data()
             console.log("current portrait: ", currentPortrait)
             
+            
             if (payment.metadata.type === 'first') {
                 const answer = await portraitDocRef.update({
                     "status": 'Unclaimed',
@@ -49,29 +50,44 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     "purchaseDate": Timestamp.now(),
                     "lastUpdatedStatus": Timestamp.now(),
                 })
+                
 
+                // Update User
                 const userId = payment.metadata.userId
-        
-                const userDocRef = admin.firestore().collection("users").doc(userId);
+                const userDocRef = admin.firestore().collection("users").doc(userId)
                 await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+
             } else if (payment.metadata.type === 'additional'){
+                console.log('calling additional')
+                const newSheetUploads = []
+                const purchasedItems = []
+                let artistPay = 0
+                for (const addOn of currentPortrait.addOns) { 
+                    newSheetUploads.push({
+                        src: "",
+                        index: 0,
+                        charNum: "AddOn",
+                        type: addOn.type,
+                        price: addOn.price
+                    })
+                    if (addOn.type !== "model") {
+                        artistPay += addOn.price
+                    }
+                    purchasedItems.push({
+                        type: addOn.type,
+                        price: addOn.price 
+                    })
+                }
+
                 const newPayment = {
                     "paymentComplete": true, 
                     "purchaseDate": Timestamp.now(),
                     "total": payment.amount / 100,
                     "type": "additional",
-                    "invoiceId" : payment.id
-                }
-                
-                const newSheetUploads = []
-                for (const addOn of currentPortrait.addOns) { 
-                    newSheetUploads.push({
-                    src: "",
-                    index: 0,
-                    charNum: "AddOn",
-                    type: addOn.type,
-                    price: addOn.price
-                    })
+                    "invoiceId" : payment.id,
+                    "items": purchasedItems,
+                    "artistPay": artistPay,
+                    "released": false
                 }
 
                 const allSheetUploads = [...currentPortrait.sheetUploads, ...newSheetUploads]
@@ -86,6 +102,8 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     sheetUploads: finalSheetUploads,
                     addOns: []
                 })
+
+                
             } else if (payment.metadata.type === 'additionalRevision'){
 
                 const newPayment = {
@@ -93,7 +111,13 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     "purchaseDate": Timestamp.now(),
                     "total": payment.amount / 100,
                     "type": `additionalRevision ${currentPortrait.additionalRevisionInfo.type}`,
-                    "invoiceId" : payment.id
+                    "invoiceId" : payment.id,
+                    "items": [{
+                        type: "additionalRevision",
+                        price: payment.amount / 100
+                    }],
+                    "artistPay": payment.amount / 100,
+                    "released": false
                 }
                 const answer = await portraitDocRef.update({
                     additionalPayments: [...currentPortrait.additionalPayments, newPayment],
@@ -101,25 +125,40 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     additionalRevisionRequest: true,
                     additionalRevision: true
                 })
+
             } else if (payment.metadata.type === 'addOn'){
-                console.log("called addOn")
+
+                const newSheetUploads = []
+                const purchasedItems = []
+                let artistPay = 0
+                for (const addOn of currentPortrait.addOns) { 
+                    newSheetUploads.push({
+                        src: "",
+                        index: 0,
+                        charNum: "AddOn",
+                        type: addOn.type,
+                        price: addOn.price
+                    })
+
+                    if (addOn.type !== "model") {
+                        artistPay += addOn.price
+                    }
+
+                    purchasedItems.push({
+                        type: addOn.type,
+                        price: addOn.price 
+                    })
+                }
+
                 const newPayment = {
                     "paymentComplete": true, 
                     "purchaseDate": Timestamp.now(),
                     "total": payment.amount / 100,
-                    "type": `addOn ${currentPortrait.addOns.map(addOn => addOn.type).join(", ")}`,
-                    "invoiceId" : payment.id
-                }
-
-                const newSheetUploads = []
-                for (const addOn of currentPortrait.addOns) { 
-                    newSheetUploads.push({
-                    src: "",
-                    index: 0,
-                    charNum: "AddOn",
-                    type: addOn.type,
-                    price: addOn.price
-                    })
+                    "type": "additional",
+                    "invoiceId" : payment.id,
+                    "items": purchasedItems,
+                    "artistPay": artistPay,
+                    "released": false
                 }
 
                 const allSheetUploads = [...currentPortrait.sheetUploads, ...newSheetUploads]

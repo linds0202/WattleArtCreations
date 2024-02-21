@@ -40,9 +40,12 @@ export async function getCategories(id) {
   };
 }
 
+
 export async function setNewCategories(id, newData) {
     updateDoc(doc(db, 'categories', id), {...newData})
 }
+
+
 
 export async function getCheckoutUrl (items, userId) {
 
@@ -136,7 +139,7 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
-        'type': 'additional'
+        'type': 'additional',
       },
   });
 
@@ -211,7 +214,7 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
   });
 };
 
-export async function getAddOnCheckoutUrl (portrait, userId) {
+export async function getAddOnCheckoutUrl(portrait, userId) {
 
   if (!userId) throw new Error("User is not authenticated") 
   
@@ -247,7 +250,7 @@ export async function getAddOnCheckoutUrl (portrait, userId) {
       metadata: {
         'portraitIds': portrait.id,
         'userId': userId,
-        'type': 'addOn'
+        'type': 'addOn',
       },
   });
 
@@ -439,14 +442,30 @@ export function updateCustomerCommissionsTotal(userId) {
 }
 
 //update artist when commission completed
-export async function updateArtistOnCompletion(userId, price) {
+export async function updateArtistOnCompletion(portrait) {
+  const userId = portrait.artist[0].id
+
+  let price = 0
+  if (portrait.portraitCompletionDate === null) {
+    
+    const modelCost = portrait.sheetUploads.filter(sheet => sheet.type === "model" && sheet.charNum !== 'AddOn')
+    let totalModelPrice = 0
+    if (modelCost.length !== 0) {
+      totalModelPrice = modelCost.length * modelCost[0].price
+    } 
+    price = portrait.price - (totalModelPrice)
+  }
+  
+  const additionalPaymentPrice = portrait.additionalPayments.reduce((sum, payment) => !payment.released ? sum += payment.artistPay : sum += 0, 0)
+
+  
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: increment(price),
+      paymentsOwing: increment(price + additionalPaymentPrice),
     }
-  );
+  )
 }
 
 //update artist rating with new testimonial
@@ -553,7 +572,6 @@ export async function addPortrait(data) {
 
 //edit portrait before purchase
 export async function updatePortrait( portraitId, portraitData) {
-  console.log("in update portrait")
   updateDoc(doc(db, 'portraits', portraitId), { ...portraitData });
 }
 

@@ -107,7 +107,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
                                 onChange={handleChange}
                                 checked={level === "Simple"}
                             />
-                            <label htmlFor="simple" className='ml-2 mr-8 text-xl' >$50 - Simple</label>
+                            <label htmlFor="simple" className='ml-2 mr-8 text-xl' >${categories.customizer.pricing.additionalRevision[0]} - Simple</label>
                         </div>
 
                         <div className='flex'>
@@ -119,7 +119,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
                                 onChange={handleChange}
                                 checked={level === 'Intermediate'}
                             />
-                            <label htmlFor="intermediate" className='ml-2 mr-8 text-xl' >$100 - Intermediate</label>
+                            <label htmlFor="intermediate" className='ml-2 mr-8 text-xl' >${categories.customizer.pricing.additionalRevision[1]} - Intermediate</label>
                         </div>
 
                         <div className='flex'>
@@ -131,7 +131,7 @@ const AdditionalRevision = ({ openAdditionalRevision, setOpenAdditionalRevision,
                                 onChange={handleChange}
                                 checked={level === "Complex"}
                             />
-                            <label htmlFor="complex" className='ml-2 text-xl' >$150 - Complex</label>
+                            <label htmlFor="complex" className='ml-2 text-xl' >${categories.customizer.pricing.additionalRevision[2]} - Complex</label>
                         </div>
                     </div>
 

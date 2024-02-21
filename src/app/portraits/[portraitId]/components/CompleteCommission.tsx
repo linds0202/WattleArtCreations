@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { PortraitData } from '../../components/PortraitCustomizer';
 import { updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
+import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
 interface CompleteCommissionProps {
     role: string,
@@ -15,16 +16,28 @@ interface CompleteCommissionProps {
 }
 
 const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, setPortrait }: CompleteCommissionProps) => {
+    const { categories } = useCategoriesContext()
     const router = useRouter();
 
-    const handleComplete = () => {
-        const  newPortrait = {
-                ...portrait, 
-                status: 'Completed',
-                portraitCompletionDate: Timestamp.now()
-            }
+    const handleComplete = async () => {
+        const newAdditionalPayments = portrait.additionalPayments.map(payment => ({
+            ...payment,
+            released: true
+        }))
+
+        console.log("newAdditionalPayments: ", newAdditionalPayments)
         
-        if (portrait.artist.length) updateArtistOnCompletion(portrait?.artist[0]?.id, portrait?.price)
+        const newPortrait = {
+            ...portrait, 
+            status: 'Completed',
+            portraitCompletionDate: Timestamp.now(),
+            additionalPayments: newAdditionalPayments
+        }
+        
+        if (portrait.artist.length) {
+            console.log("calling update artist, portrait.complertionDate: ", portrait.portraitCompletionDate)
+            const updatedArtist = await updateArtistOnCompletion(portrait)
+        }
 
         updatePortrait(newPortrait?.id, newPortrait)
 
