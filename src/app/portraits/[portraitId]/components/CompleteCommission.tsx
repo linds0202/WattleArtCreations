@@ -24,14 +24,13 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             ...payment,
             released: true
         }))
-
-        console.log("newAdditionalPayments: ", newAdditionalPayments)
         
         const newPortrait = {
             ...portrait, 
             status: 'Completed',
             portraitCompletionDate: Timestamp.now(),
-            additionalPayments: newAdditionalPayments
+            additionalPayments: newAdditionalPayments,
+            lastUpdatedStatus: new Date
         }
         
         // if (portrait.artist.length) {

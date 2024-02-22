@@ -657,6 +657,7 @@ export async function addArtist( portraitId, artistId, artistName, artistNote) {
   updateDoc(doc(db, 'portraits', portraitId), { 
     artist: arrayUnion({ id: artistId, artistName: artistName}),
     artistNotes: arrayUnion(artistNote),
+    lastUpdatedStatus: new Date,
     status: 'Unassigned',
   });
 }

@@ -57,6 +57,8 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     "purchaseDate": Timestamp.now(),
                     "lastUpdatedStatus": Timestamp.now(),
                 })
+
+                
                 
 
                 // Update User
