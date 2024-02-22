@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { getPortrait } from '../firebase/firestore'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
 import AdditionalOptions from './components/AdditionalOptions'
+import TipArtist from './components/TipArtist'
 import Footer from '../components/Footer'
 
 
@@ -122,7 +123,7 @@ const Testimonials = () => {
                                 portrait={portrait}
                                 setPortrait={setPortrait}
                             />
-                        } 
+                            } 
                         </div>
 
 
@@ -131,6 +132,12 @@ const Testimonials = () => {
                             <p className='text-xl mb-2'>Feel that your artist went above and beyond bringing your vision to life?</p>
                             <p className='text-xl mb-4'>Leave your artist a tip to show your appreciation.</p>
                             <div
+                                className='w-full md:w-1/2 lg:w-1/3 mx-auto mt-4 text-xl text-white text-center rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                                onClick={() => setOpenTip(true)} 
+                            >
+                                    Tip Your Artist
+                            </div>
+                            {/* <div
                                 className='w-full md:w-1/2 lg:w-1/3 mx-auto mt-4 text-xl text-white text-center rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out' 
                             >
                                 <Link 
@@ -138,7 +145,16 @@ const Testimonials = () => {
                                 >
                                     Tip Your Artist
                                 </Link>
-                            </div>
+                            </div> */}
+
+                            {openTip && portrait &&
+                            <TipArtist
+                                openTip={openTip}
+                                setOpenTip={setOpenTip}
+                                portrait={portrait}
+                                setPortrait={setPortrait}
+                            />
+                            } 
                         </div>
                     </div>
                     

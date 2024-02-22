@@ -271,6 +271,62 @@ export async function getAddOnCheckoutUrl(portrait, userId) {
   });
 };
 
+export async function getTipUrl(tip, portrait, userId) {
+
+  if (!userId) throw new Error("User is not authenticated") 
+  
+  const newItem = { type: "Artist tip", price: tip}
+
+  const items = [newItem]
+
+  const checkoutSessionRef = collection(
+      db,
+      "users",
+      userId,
+      "checkout_sessions"
+  );
+
+  const docRef = await addDoc(checkoutSessionRef, {
+      line_items: items.map((item) => {
+        return {
+              price_data: {
+                  currency: "USD",
+                  product_data: {
+                      name: item.type,
+                  },
+                  unit_amount: item.price * 100,
+              },
+              quantity: 1
+          }
+      }),
+      payment_method_types: ["card"],
+      mode: 'payment',
+      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
+      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}`,
+      metadata: {
+        'portraitIds': portrait.id,
+        'userId': userId,
+        'type': 'tip',
+      },
+  });
+
+  // success?session_id={CHECKOUT_SESSION_ID}
+
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() 
+      if (error) {
+          unsubscribe();
+          reject(new Error(`An error occurred: ${error.message}`));
+      }
+      if (url) {
+          unsubscribe();
+          resolve(url);
+      }
+      });
+  });
+};
+
 export async function getAllUsers() {
   const allUsers = []
     const querySnapshot = await getDocs(collection(db, "users"));

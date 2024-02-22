@@ -188,6 +188,30 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     "activeCommissions": admin.firestore.FieldValue.increment(1),
                     "totalCompletedCommissions": admin.firestore.FieldValue.increment(-1)
                 })
+            } else if (payment.metadata.type === 'tip'){
+
+                const newPayment = {
+                    "paymentComplete": true, 
+                    "purchaseDate": Timestamp.now(),
+                    "total": payment.amount / 100,
+                    "type": "tip",
+                    "invoiceId" : payment.id,
+                    "items": "tip",
+                    "artistPay": payment.amount / 100,
+                    "released": true
+                }
+
+
+                const answer = await portraitDocRef.update({
+                    additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                })
+
+                // Update Artist
+                const artistId = currentPortrait.artist[0].id
+                const artistDocRef = admin.firestore().collection("users").doc(artistId)
+                await artistDocRef.update({
+                    "paymentsOwing": admin.firestore.FieldValue.increment(payment.amount / 100),
+                })
             }
           }  
     }

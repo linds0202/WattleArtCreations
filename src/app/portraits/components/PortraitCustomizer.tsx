@@ -264,10 +264,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     //     console.log('clicked login')
     //     setCustomizerLogin(true)
     // }
-
+    // chars.reduce((sum, char) => sum += char?.total, 0)
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
-        const price = chars.reduce((sum, char) => sum += char?.total, 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
+        const price = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
 
         const sheetUploadArray: Array<SheetUploadsData> = []
         let index = 0

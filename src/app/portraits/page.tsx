@@ -310,7 +310,7 @@ export default function Portraits() {
             (
               <div key={i} className='flex justify-between'>
                 <p className="text-base md:text-sm lg:text-base">Char {i + 1}:</p>
-                <p className="text-base md:text-sm lg:text-base">${char.total}</p>
+                <p className="text-base md:text-sm lg:text-base">${char.charDiscount ? char.total * .9 : char.total}</p>
               </div>
             ))}
         </div>
@@ -380,7 +380,8 @@ export default function Portraits() {
     <></>
     : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-0% via-[#282828] via-40% to-black to-60%'>
 
-      <div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-8'>
+      {authUser?.roles !== 'Artist' 
+      ?<div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-8'>
         {!openWizard && <h1 className='font-serif text-white text-6xl mt-16 mb-4 font-bold'>My Cart</h1>}
 
         {/* Display the cart */}
@@ -494,6 +495,12 @@ export default function Portraits() {
 
         
       </div>
+      :<div className='min-h-screen text-black pb-8 flex flex-col space-y-4 justify-center items-center'> 
+        <p className='font-serif text-white text-4xl mt-16 mb-4 font-bold'>You must be a customer to create a portrait.</p>
+        <p className='text-white text-xl'>Either log out and log in as a customer or return to your dashboard</p>
+      </div>
+      }
+
       <object type="image/svg+xml" data="/images/customizer/customizer.svg" className="absolute -top-1 left-0 w-full z-0"/>
       <Footer />
     </div>

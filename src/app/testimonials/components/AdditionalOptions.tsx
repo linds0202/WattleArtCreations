@@ -67,22 +67,6 @@ const AdditionalOptions = ({ openCreateCheckout, setOpenCreateCheckout, portrait
         setOpenCreateCheckout(false)
     }
 
-    // const checkout = async () => {
-    //     const checkoutUrl = await getAddOnCheckoutUrl(portrait, authUser.uid)
-    //     router.push(checkoutUrl)
-    //   }
-    
-    // const checkoutButton = (
-    //     <button
-    //         onClick={checkout}
-    //         className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
-    //     >
-    //         <div className="flex gap-2 items-center align-middle justify-center">
-    //         Checkout
-    //         </div>
-    //     </button>
-    // );
-
     return (
     <Dialog 
         onClose={() => setOpenCreateCheckout(false)} 

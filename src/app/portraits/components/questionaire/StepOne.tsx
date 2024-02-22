@@ -62,7 +62,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
     const [initialCharValues, setInitialCharValues] = useState<MyCharValues>(isEdit ? portraitData.characters[editCharIndex] : { 
         bodyStyle: '',
         numCharVariations: 1,
-        // complexity: 1,
         weapon: 'none',
         armourComplex: false,
         wings: false,
@@ -89,6 +88,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
         setIsHovering(false);
     };
 
+
     useEffect(() => {
         chars.forEach((char) => {
             if (char.numCharVariations > 1) setCharVariations(true)
@@ -107,7 +107,6 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
 
         let totalPrice = prices[values.bodyStyle] 
                         + ((values.numCharVariations - 1) * prices['charVariations']) 
-                        // + (prices.complexity[values.complexity - 1])
                         + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
                         + (values.armourComplex ? prices.armourComplex : 0)
                         + (values.wings ? prices.wings : 0)
@@ -115,34 +114,124 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                         + (extras.includes('character') ? categories.customizer.pricing.character : 0)
                         + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)
 
+        
+        
         if (isEdit) {
+        
             if (chars.length > 1) {
+
                 setDiscount(true)
-                if (totalPrice > highPrice && editCharIndex !== highestPriceIndex) {
-                    const updatedDiscount = chars.map((char, i) => {
-                        if (i === editCharIndex ) {
-                            setHighPrice(totalPrice)
-                            setHighestPriceIndex(i)
-                            return {...char, extras: extras, total: totalPrice, charDiscount: false}
-                        } else {
-                            return {...char, charDiscount: true}
-                        }
-                    })
-                    setChars(updatedDiscount)
-                } else {
-                    //if new price is less than highest price - update edited price & set new high price info
-                    if (totalPrice > highPrice) {
+                //edited the highest priced item
+                if (editCharIndex === highestPriceIndex) {
+                    if (totalPrice >= highPrice) {
                         setHighPrice(totalPrice)
-                    }
-                    let updateCharArr = chars.map((char, i) => {
-                        if (i === editCharIndex) {
-                            return {...values, extras: extras, total: totalPrice}
+                        const updatedDiscount = chars.map((char, i) => {
+                            if (i === editCharIndex ) {
+                                return {...char, extras: extras, total: totalPrice, charDiscount: false}
+                            } else {
+                                return {...char, charDiscount: true}
+                            }
+                        })
+                        setChars(updatedDiscount)
+                    } else {
+                        const highPricesArr = chars.map((char, i) => i === editCharIndex ? totalPrice : char.total)
+                        
+                        const newHighPrice = Math.max(...highPricesArr)
+                        setHighPrice(newHighPrice) 
+                        const newIndex = highPricesArr.indexOf(newHighPrice)
+                        setHighestPriceIndex(newIndex)
+                        // if edit index is still high price
+                        if (newIndex === editCharIndex) {
+                            const updatedDiscount = chars.map((char, i) => {
+                                if (i === editCharIndex ) {
+                                    return {...char, extras: extras, total: totalPrice, charDiscount: false}
+                                } else {
+                                    return {...char, charDiscount: true}
+                                }
+                            })
+                            setChars(updatedDiscount)
                         } else {
-                            return char
-                        }
-                    })
-                    setChars(updateCharArr)
+                            const updatedDiscount = chars.map((char, i) => {
+                                if (i === editCharIndex ) {
+                                    return {...char, extras: extras, total: totalPrice, charDiscount: true}
+                                } else if (i === newIndex ){
+                                    return {...char, charDiscount: false}
+                                } else {
+                                    return {...char, charDiscount: true}
+                                }
+                            })
+                            setChars(updatedDiscount)
+                        }  
+                    }
+                } else {
+                    // edited not the highest price item
+                    // new high price item & index
+                    if (totalPrice >= highPrice) {
+                        setHighPrice(totalPrice)
+                        setHighestPriceIndex(editCharIndex)
+                        let updatedDiscount = chars.map((char, i) => {
+                            if (i === editCharIndex) {
+                                return {...values, extras: extras, total: totalPrice, charDiscount: false}
+                            } else {
+                                return {...char, charDiscount: true}
+                            }
+                        })
+                        setChars(updatedDiscount)
+                    } else {
+                        // not new high price
+                        let updatedDiscount = chars.map((char, i) => {
+                            if (i === editCharIndex) {
+                                return {...values, extras: extras, total: totalPrice, charDiscount: true}
+                            } else {
+                                return char
+                            }
+                        })
+                        setChars(updatedDiscount)
+                    }
                 }
+                // if (totalPrice >= highPrice) {
+                //     console.log('1')
+                //     setHighPrice(totalPrice)
+                //     setHighestPriceIndex(editCharIndex)
+                //     const updatedDiscount = chars.map((char, i) => {
+                //         if (i === editCharIndex ) {
+                //             // setHighPrice(totalPrice)
+                //             // setHighestPriceIndex(i)
+                //             return {...char, extras: extras, total: totalPrice, charDiscount: false}
+                //         } else {
+                //             return {...char, charDiscount: true}
+                //         }
+                //     })
+                //     setChars(updatedDiscount)
+                // } else {
+                //     console.log('2')
+                //     // if new price is less than highest price - update edited price & set new high price info
+                //     // if (totalPrice > highPrice) {
+                //     //     setHighPrice(totalPrice)
+                //     // }
+                //     const newHighPrices = chars.map(char => char.total)
+                //     //put totalPrice in correct space then find high price
+                //     console.log('newHighprices', newHighPrices)
+                //     const newHighPrice = Math.max(...newHighPrices)
+                //     console.log('newHighPrice: ', newHighPrice) 
+                //     const newIndex = newHighPrices.indexOf(newHighPrice)
+                //     console.log('newIdex: ', newIndex)
+                    
+                //     let updateCharArr = chars.map((char, i) => {
+                //         if (i === editCharIndex) {
+                //             return {...values, extras: extras, total: totalPrice, charDiscount: true}
+                //         } else {
+                //             if (char.total === newHighPrice && i === newIndex) {
+                //                 console.log('5')
+                //                 return {...char, charDiscount: false}
+                //             } else {
+                //                 return char
+                //             }
+                            
+                //         }
+                //     })
+                //     setChars(updateCharArr)
+                // }
             } else {
                 //if there's only 1 char - update the price
                 let updateCharArr = chars.map((char, i) => {
@@ -311,7 +400,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
             <div className="w-full xl:w-2/3 self-end flex flex-col xl:flex-row justify-between items-center">
                 <h2 className="w-full xl:w-2/3 text-2xl xl:text-3xl text-center xl:text-left font-bold text-black">Portrait Details</h2>
                 {!openCharMod && chars.length !== 0 && <p className="text-black text-2xl text-center xl:text-left">
-                    Total: ${(chars.reduce((sum, char) => sum += char.total, 0) + animals.reduce((sum, animal) => sum += animal.price, 0) + bg.price).toFixed(2)}
+                    Total: ${(chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal.price, 0) + bg.price).toFixed(2)}
                 </p>}
             </div>
             
@@ -1308,8 +1397,21 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             <p>${extras.includes('weapons') ? categories.customizer.pricing.weapons.toFixed(2) : (0).toFixed(2)}</p>
                                         </div>}
                                     </div>
+
+                                    <div className="self-end w-9/12 px-12 xl:px-0 flex justify-between items-center">
+                                            <p className="w-1/4 text-xl font-bold">Total: </p>
+                                            <p className="w-3/4 ml-4 border-2 border-[#282828] bg-white py-2 px-4 md:px-0 xl:px-4 rounded-md flex justify-between items-center text-xl"><span>$</span><span>{(0 + (!prices[values.bodyStyle] ? 0 : prices[values.bodyStyle])
+                                            + ((values.numCharVariations - 1) * prices.charVariations) 
+                                            + (values.weapon === 'simple' ? prices.weaponSimple : values.weapon === 'complex' ? prices.weaponComplex :  0)
+                                            + (values.armourComplex ? prices.armourComplex : 0)
+                                            + (values.wings ? prices.wings : 0)
+                                            + (extras.includes('model') ? categories.customizer.pricing.model : 0)
+                                            + (extras.includes('character') ? categories.customizer.pricing.character : 0)
+                                            + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)).toFixed(2)}
+                                            </span></p>
+                                        </div>     
                                     
-                                    <div className="self-end w-full md:px-12 xl:px-0 flex justify-between items-center">
+                                    {/* <div className="self-end w-full md:px-12 xl:px-0 flex justify-between items-center">
                                         <p className={`md:w-full ${!discount ? "font-bold text-lg md:text-xl" : "font-semibold"}`}>{!values.charDiscount ? 'Total: ' : 'Sub total: '}</p>
                                         <p className={`w-3/4 flex justify-between items-center ${!values.charDiscount ? "ml-4 border-2 border-[#282828] bg-white py-2 px-4 rounded-md text-lg md:text-xl" : "font-semibold"}`}>
                                             <span className="w-full text-right">
@@ -1325,9 +1427,9 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                                     + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)).toFixed(2)}
                                             </span>
                                         </p>
-                                    </div> 
+                                    </div>  */}
 
-                                    { values.charDiscount && 
+                                    {/* { values.charDiscount && 
                                     <> 
                                         <div className="w-full flex justify-between items-center">
                                             <p className="text-red-600 text-sm">Additional Character Discount (10%)</p>
@@ -1354,7 +1456,7 @@ const StepOne = ({ prices, portraitData, chars, setChars, setCharVariations, ani
                                             + (extras.includes('weapons') ? categories.customizer.pricing.weapons : 0)) * .9).toFixed(2)}
                                             </span></p>
                                         </div>         
-                                    </>}
+                                    </>} */}
                                 </div>
                                 <button 
                                     type="submit" 
