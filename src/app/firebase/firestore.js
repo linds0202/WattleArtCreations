@@ -565,7 +565,8 @@ export async function addPortrait(data) {
     revisionNotes: [],
     sheetUploads: [],
     addOns: [],
-    additionalPayments: []
+    additionalPayments: [],
+    reviewed: false
   })
   return portraitRef.id
 }
@@ -578,6 +579,12 @@ export async function updatePortrait( portraitId, portraitData) {
 //failure on purchase of addOn
 export async function updateFailedAddOn( portraitId ) {
   updateDoc(doc(db, 'portraits', portraitId), { addOns: [] });
+}
+
+// Update portrait as reviewed
+//failure on purchase of addOn
+export async function updateReviewed( portraitId ) {
+  updateDoc(doc(db, 'portraits', portraitId), { reviewed: true });
 }
 
 
@@ -676,6 +683,7 @@ export async function getPortrait(uid) {
     sheetUploads: docSnap.data().sheetUploads,
     addOns: docSnap.data().addOns,
     additionalPayments: docSnap.data().additionalPayments,
+    reviewed: docSnap.data().reviewed,
     id: uid
   }
 

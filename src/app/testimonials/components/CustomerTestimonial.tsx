@@ -1,5 +1,5 @@
 import { Formik, Form, Field} from 'formik';
-import { addTestimonial } from '@/app/firebase/firestore';
+import { addTestimonial, updateReviewed } from '@/app/firebase/firestore';
 import Rating from '@mui/material/Rating';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { useState } from 'react';
@@ -54,6 +54,8 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                         featuredHome: false,
                         portraitCompletionDate: completionDate
                     })
+
+                    updateReviewed(portraitId)
                     
                     setReviewed(true)
                     helpers.setSubmitting(false)

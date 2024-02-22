@@ -34,10 +34,9 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             additionalPayments: newAdditionalPayments
         }
         
-        if (portrait.artist.length) {
-            console.log("calling update artist, portrait.complertionDate: ", portrait.portraitCompletionDate)
-            const updatedArtist = await updateArtistOnCompletion(portrait)
-        }
+        // if (portrait.artist.length) {
+        const updatedArtist = await updateArtistOnCompletion(portrait)
+        // }
 
         updatePortrait(newPortrait?.id, newPortrait)
 

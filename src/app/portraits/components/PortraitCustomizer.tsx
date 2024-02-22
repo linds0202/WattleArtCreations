@@ -115,7 +115,8 @@ export interface PortraitData  {
     portraitCompletionDate: Timestamp | null,
     sheetUploads: Array<SheetUploadsData>,
     addOns: Array<Extras>,
-    additionalPayments: Array<Payments>
+    additionalPayments: Array<Payments>,
+    reviewed: boolean
   }
 
 interface PortraitProps {
@@ -178,7 +179,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         portraitCompletionDate: null,
         sheetUploads: [],
         addOns: [],
-        additionalPayments: []
+        additionalPayments: [],
+        reviewed: false
     })
 
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)

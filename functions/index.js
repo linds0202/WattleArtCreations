@@ -36,6 +36,13 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
     if (payment.status === 'succeeded') {
         const portraitIds = payment.metadata.portraitIds.split(',')
         
+        if (payment.metadata.type === 'first') {
+            // Update User
+            const userId = payment.metadata.userId
+            const userDocRef = admin.firestore().collection("users").doc(userId)
+            await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+        }
+
         for (let i = 0; i < portraitIds.length; i++) {
             const portraitDocRef = admin.firestore().collection("portraits").doc(portraitIds[i])
             const currentPortraitSnap = await portraitDocRef.get()
@@ -53,12 +60,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 
 
                 // Update User
-                const userId = payment.metadata.userId
-                const userDocRef = admin.firestore().collection("users").doc(userId)
-                await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+                // const userId = payment.metadata.userId
+                // const userDocRef = admin.firestore().collection("users").doc(userId)
+                // await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
 
             } else if (payment.metadata.type === 'additional'){
-                console.log('calling additional')
                 const newSheetUploads = []
                 const purchasedItems = []
                 let artistPay = 0
@@ -173,6 +179,14 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     sheetUploads: finalSheetUploads,
                     addOns: [],
                     status: "In Progress"
+                })
+
+                // Update Artist
+                const artistId = currentPortrait.artist[0].id
+                const artistDocRef = admin.firestore().collection("users").doc(artistId)
+                await artistDocRef.update({
+                    "activeCommissions": admin.firestore.FieldValue.increment(1),
+                    "totalCompletedCommissions": admin.firestore.FieldValue.increment(-1)
                 })
             }
           }  

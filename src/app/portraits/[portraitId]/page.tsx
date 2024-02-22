@@ -168,12 +168,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         className={`px-4 py-1 ${authUser?.roles === 'Artist' && (extra.type === 'character' || extra.type === 'weapons')
           ? 'cursor-pointer bg-[#f4ffa1] rounded-xl  hover:bg-[#43b4e4]/25' : ''}`}
         key={extra.index}
-        onClick={() => handleClickExtra(extra.index)}
+        onClick={() => handleClickExtra(extra.index, extra.type)}
       >
         {extra.type.split('_')[0] !== 'complexity' 
           ? extra.charNum === 'AddOn' 
             ? `Add on - ${extra.type !== 'model' ? extra.type + ' sheet' : '3D model'}` 
-            : `Char ${extra.charNum} - ${extra.type} Sheet`
+            : `Char ${extra.charNum} - ${extra.type === 'model' ? '3D model' : extra.type === 'character'? 'Character sheet' : 'Weapons sheet'}`
           : `Add on - ${extra.type}`
         }
       </p>
@@ -196,6 +196,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             }
           }}
         />}
+
         {authUser?.roles === 'Artist' &&
         <img 
           src={extra.src} 
@@ -203,7 +204,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           alt="sheet upload thumbnail" 
           className='w-[64px] h-[64px] object-top object-contain mr-4'
         />}
+
         <p>Char {extra.charNum} - {extra.type === 'character' ? 'Character' : 'Weapons'} Sheet</p>
+        
         {authUser?.roles !== 'Customer' && <button 
           type="button" 
           onClick={() => handleDeleteSheet(extra.index)} 
@@ -218,8 +221,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   )
   
   
-  const handleClickExtra = (clickedIndex: number) => {
-    if (authUser.roles !== 'Customer') {
+  const handleClickExtra = (clickedIndex: number, type: string) => {
+    if (authUser.roles !== 'Customer' && (type === 'character' || type === 'weapons')) {
       setIndex(clickedIndex)
       setOpenSheet(true)
     }
@@ -604,11 +607,12 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   >
                     {portrait?.addOns.length === 0 ? 'Create Payment Link' : 'Edit Payment Link'}
                   </p>
+                  
                   {portrait?.sheetUploads.length === 0 
                     ? <p>No extras have been added to this portrait</p>
                     :<div className='bg-white rounded-xl p-4 flex flex-col gap-y-2'>
                       <p className='text-xl text-center font-bold'>Already Purchased For This Portrait</p>
-                      <p>Click an option to upload your work. Click the trash to remove an image and re-upload</p>
+                      <p>Your customer cannot release payment to you until all additional sheets are uploaded. Click an <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'> option</span> to upload your work. Click the trash to remove an image and re-upload. 3D models will be handled by admin after portrait completion. Complexity does not require a separate upload.</p>
                       {extrasList}
                     </div>
                   }

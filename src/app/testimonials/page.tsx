@@ -30,10 +30,14 @@ const Testimonials = () => {
     useEffect(() => {
         const handleGetPortrait = async () => {
             const currentPortrait: PortraitData | null = await getPortrait(portraitId)
-            if (currentPortrait) setPortrait(currentPortrait)
+            if (currentPortrait) {
+                setPortrait(currentPortrait)
+                setReviewed(currentPortrait.reviewed)
+            }
         }   
 
         handleGetPortrait()
+        
     }, [portraitId])
     
     const handleDownloadFinal = () => {
@@ -61,7 +65,7 @@ const Testimonials = () => {
                         
                         <p className='text-xl mb-4'>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
 
-                        {openTestimonial && portrait &&
+                        {openTestimonial && !reviewed && portrait &&
                             <CustomerTestimonial 
                                 setOpenTestimonial={setOpenTestimonial} 
                                 displayName={authUser?.displayName}
@@ -76,7 +80,7 @@ const Testimonials = () => {
 
                         {reviewed && 
                             <div>
-                                <p className='text-2xl text-center font-semibold mt-4'>Thanks for the feedback. </p>
+                                <p className='text-2xl text-center font-semibold mt-4'>This portrait has already been reviewed. Thanks for the feedback. </p>
                             </div>
                         }
                         <div className='w-full mt-12'>
