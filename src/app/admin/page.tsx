@@ -7,6 +7,7 @@ import { useAuth } from '../firebase/auth';
 import PortraitList from './components/PortraitList';
 import UnorderedPortraitList from './components/UnorderedPortraitsList';
 import UsersList from './components/UsersList';
+import ModelList from './components/ModelList';
 import TestimonialsList from './components/TestimonialsList';
 import ConsultList from './components/ConsultList';
 import EditPanel from './components/EditPanel';
@@ -49,7 +50,9 @@ export default function Dashboard({ params: { userId }}: Params) {
           <UnorderedPortraitList user={authUser}/>
         : view === 'All Users' || view === 'Artists' ?
           <UsersList />
-        : view === 'Testimonials' || view === 'Testimonials' ?
+        : view === '3D Model Orders' ?
+          <ModelList user={authUser}/>
+        : view === 'Testimonials' ?
           <TestimonialsList />
         : view === 'Consultations' ?
           <ConsultList />

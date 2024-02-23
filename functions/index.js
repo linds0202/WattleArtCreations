@@ -8,6 +8,7 @@ const { Timestamp } = require('firebase-admin/firestore');
 admin.initializeApp(functions.config().firebase);
 
 const usersRef = admin.firestore().collection('users')
+const modelsRef = admin.firestore().collection('models')
 
 // exports.makeUppercase = functions.firestore.document('/messages/{documentId}')
 //     .onCreate((snap, context) => {
@@ -58,8 +59,19 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     "lastUpdatedStatus": Timestamp.now(),
                 })
 
-                
-                
+                // Add to admin model list
+                for (const extra of currentPortrait.sheetUploads) {
+                    if (extra.type === 'model') {
+                        await modelsRef.add({
+                            "portraitId": currentPortrait.id,
+                            "customerId": currentPortrait.customerId,
+                            "price": extra.price,
+                            "portraitComplete": false,
+                            "delivered": false,
+                            "creationDate": Timestamp.now()
+                        }) 
+                    }
+                }
 
                 // Update User
                 // const userId = payment.metadata.userId
@@ -110,6 +122,20 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     sheetUploads: finalSheetUploads,
                     addOns: []
                 })
+
+                // Add to admin model list
+                for (const extra of newSheetUploads) {
+                    if (extra.type === 'model') {
+                        await modelsRef.add({
+                            "portraitId": currentPortrait.id,
+                            "customerId": currentPortrait.customerId,
+                            "price": extra.price,
+                            "portraitComplete": false,
+                            "delivered": false,
+                            "creationDate": Timestamp.now()
+                        }) 
+                    }
+                }
 
                 
             } else if (payment.metadata.type === 'additionalRevision'){
@@ -182,6 +208,20 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     addOns: [],
                     status: "In Progress"
                 })
+
+                // Add to admin model list
+                for (const extra of newSheetUploads) {
+                    if (extra.type === 'model') {
+                        await modelsRef.add({
+                            "portraitId": currentPortrait.id,
+                            "customerId": currentPortrait.customerId,
+                            "price": extra.price,
+                            "portraitComplete": false,
+                            "delivered": false,
+                            "creationDate": Timestamp.now()
+                        }) 
+                    }
+                }
 
                 // Update Artist
                 const artistId = currentPortrait.artist[0].id

@@ -82,6 +82,7 @@ export default function NavBar() {
     }
   }, [])
 
+
   // const handleClose = ({event, reason}: {event: any, reason: any}) => {
   
   //   if (reason && reason == "backdropClick") {

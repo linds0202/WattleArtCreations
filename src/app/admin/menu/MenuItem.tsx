@@ -19,8 +19,8 @@ const variants = {
   }
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF", "ffffff"];
-const text = ['Menu', 'Portraits', 'Unordered Portraits', 'All Users', 'Testimonials', 'Consultations', 'Edit']
+const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF", "ffffff", "#69F07E", "#F0ED69"];
+const text = ['Menu', 'Portraits', 'Unordered Portraits', 'All Users', '3D Model Orders', 'Testimonials', 'Consultations', 'Edit']
 
 export const MenuItem = ({ i }: any) => {
   const style = { border: `2px solid ${colors[i]}` };

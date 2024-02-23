@@ -58,7 +58,8 @@ interface Customizer {
         character: number,
         weapons: number,
         complexity: Array<number>,
-        additionalRevision: Array<number>
+        additionalRevision: Array<number>,
+        commissionPercentage: number
     }
 }
 
@@ -207,7 +208,8 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 character: 125,
                 weapons: 100,
                 complexity: [0, 15, 30, 45, 100],
-                additionalRevision: [25, 50, 100]
+                additionalRevision: [25, 50, 100],
+                commissionPercentage: 0.9
             }
         },
         home: {

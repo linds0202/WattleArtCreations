@@ -952,6 +952,17 @@ export async function getMyPortrait(setPortrait, portraitId) {
   return unsubscribe;
 }
 
+//returns an array of all portraits
+export async function getAllModels() {
+  const allModels = []
+  const q = query(collection(db, "models"), orderBy("creationDate"))
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    allModels.push({...doc.data(), uid: doc.id})
+  })
+  return allModels
+} 
+
 
 
 

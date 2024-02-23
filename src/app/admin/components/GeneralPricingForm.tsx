@@ -22,7 +22,8 @@ interface MyFormValues {
     weapons: string,
     additionalSimple: string,
     additionalIntermediate: string,
-    additionalComplex: string
+    additionalComplex: string,
+    commissionPercentage: string
 }
 
 export const GeneralPricingForm = ({ cat, categories, changeCategories }: PricingFormProps) => {
@@ -38,6 +39,7 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
         additionalSimple: categories.customizer.pricing.additionalRevision[0],   
         additionalIntermediate: categories.customizer.pricing.additionalRevision[1], 
         additionalComplex: categories.customizer.pricing.additionalRevision[2], 
+        commissionPercentage: categories.customizer.pricing.commissionPercentage
     }
     
     return (
@@ -56,6 +58,7 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                         && values.additionalSimple === ''
                         && values.additionalIntermediate === ''
                         && values.additionalComplex === ''
+                        && values.commissionPercentage === ''
                     ) {
                         actions.setSubmitting(false)
                     } else {
@@ -69,13 +72,15 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                         const additionalI = values.additionalIntermediate !== '' ? Number(values.additionalIntermediate) : categories.customizer.pricing.additionalRevision[1]
                         const additionalC = values.additionalComplex !== '' ? Number(values.additionalComplex) : categories.customizer.pricing.additionalRevision[2]
                         const newRevisions: Array<string> = [additionalS, additionalI, additionalC]
+                        const newCommissionPercentage: number = values.commissionPercentage !== '' ? Number(values.commissionPercentage) : categories.customizer.pricing.commissionPercentage
 
                         const newPricing = {
                             complexity: newComplexity,
                             model:  values.model !== '' ? Number(values.model) : categories.customizer.pricing.model,
                             character: values.character !== '' ? Number(values.character) : categories.customizer.pricing.character,
                             weapons: values.weapons !== '' ? Number(values.weapons) : categories.customizer.pricing.weapons,
-                            additionalRevision: newRevisions
+                            additionalRevision: newRevisions,
+                            commissionPercentage: newCommissionPercentage
                         }
 
                         const newGeneralPricingObj = {
@@ -96,11 +101,13 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                 }}
             >
                 <Form className='w-full flex flex-col items-center'>
-                    <div className='w-full my-4 flex flex-col'>
+                    {/* Portraits Pricing */}
+                    <div className='w-full my-4 py-4 border border-[#282828] rounded-lg flex flex-col'>
+                        <p className='text-center text-3xl font-bold'>Portraits</p>
                         <div className='flex justify-between'>
-                            <div className='w-5/12 mt-4 px-8 py-4 border border-[#282828] rounded-lg flex flex-col justify-between items-center'>
+                            <div className='w-5/12 mt-4 px-8 py-4 flex flex-col justify-between'>
                                 <p className='text-xl font-semibold'>Extras</p>
-                                
+                                <p className=''>Pricing for 3D model and added sheets</p>
                                 <div className='w-full mt-4 flex flex-col justify-between'>       
                                     <div className='w-3/4 flex flex-col'>
                                         <label htmlFor="model" className='mb-1'>3D Model</label>
@@ -135,7 +142,7 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                             </div>
 
 
-                            <div className='w-5/12 mt-4 px-8 py-4 border border-[#282828] rounded-lg flex flex-col justify-between items-center'>
+                            <div className='w-5/12 mt-4 px-8 py-4 flex flex-col justify-between'>
                                 <p className='text-xl font-semibold'>Additional Revisions</p>
                                 <p className=''>Pricing for a revision beyond included 2</p>
                                 <div className='w-full mt-4 flex flex-col justify-between'> 
@@ -171,9 +178,9 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                         </div>
                         
 
-                        <div className='w-full mt-8 px-8 py-4 border border-[#282828] rounded-lg flex flex-col justify-between items-center'>
+                        <div className='w-full mt-8 px-8 py-4 flex flex-col justify-between items-center'>
                             <p className='w-[100%] text-center text-xl font-semibold'>Complexity</p>
-                            <p className=''>Level 1 is included with portrait. Enter percentage as decimal point ex: 5% = 0.05</p>
+                            <p className=''>Level 1 is included with portrait. Enter percentage as decimal ex: 5% = 0.05</p>
                             <div className='w-full mt-4 flex justify-between'>
                                 <div className='w-1/6 flex flex-col'>
                                     <label htmlFor="complexity1" className='mb-1'>Level 1</label>
@@ -221,20 +228,37 @@ export const GeneralPricingForm = ({ cat, categories, changeCategories }: Pricin
                                         placeholder={`${categories.customizer.pricing.complexity[4]}`} 
                                     />
                                 </div>
-                            </div>
-                            
-                        </div>
-
-                        
-                        
-         
-                        <button 
-                            className='self-center w-1/5 mt-8 bg-black text-white font-semibold py-2 px-4 rounded-xl cursor-pointer hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out' 
-                            type="submit"
-                        >
-                            Update Prices
-                        </button>
+                            </div>  
+                        </div>  
                     </div>
+
+                    {/* Artist's commission */}
+                    <div className='w-full my-4 py-4 border border-[#282828] rounded-lg flex flex-col'>
+                        <p className='text-center text-3xl font-bold'>Artists</p>
+                        <div className='w-1/2 px-8 flex flex-col justify-between'>
+                            <p className='text-xl font-semibold'>Commission</p>
+                            <p className=''>Percentage artist receives of portrait total minus any 3D models</p>
+                            <div className='w-3/4 mt-4 flex flex-col'>
+                                <label htmlFor="commissionPercentage" className='mb-1'>Commission Percentage <span className='text-sm font-light'>(Enter percentage as a decimal ex: 85% = .85)</span></label>
+                                <Field 
+                                    className='border border-[#282828] p-2 rounded-lg' 
+                                    id="commissionPercentage" 
+                                    name="commissionPercentage" 
+                                    placeholder={`${categories.customizer.pricing.commissionPercentage}`} 
+                                />
+                            </div>
+                        </div>
+                    
+                    </div>
+
+
+
+                    <button 
+                        className='self-center w-1/5 mt-8 bg-black text-white font-semibold py-2 px-4 rounded-xl cursor-pointer hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out' 
+                        type="submit"
+                    >
+                        Update Prices
+                    </button>
                 </Form>
             </Formik>
     )
