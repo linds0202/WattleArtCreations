@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import { useRouter } from 'next/navigation';
 import { PortraitData } from '../../components/PortraitCustomizer';
-import { updateArtistOnCompletion, updatePortrait } from '@/app/firebase/firestore';
+import { updateArtistOnCompletion, updatePortrait, updatePortraitModels } from '@/app/firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
@@ -38,8 +38,12 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         // }
 
         updatePortrait(newPortrait?.id, newPortrait)
-
-        setPortrait(newPortrait)        
+        setPortrait(newPortrait)  
+        
+        // Update 3D model status
+        if (newPortrait.sheetUploads.filter(sheet => sheet.type === 'model').length !== 0) {
+            const newModels = await updatePortraitModels(newPortrait.id)
+        }
         
         router.push(`/testimonials?portraitId=${portrait.id}&artistId=${portrait?.artist[0].id}`)
         setOpenComplete(false)

@@ -68,7 +68,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
-                            "delivered": false,
+                            "ordered": false,
                             "admin": "",
                             "creationDate": Timestamp.now()
                         }) 
@@ -134,7 +134,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
-                            "delivered": false,
+                            "ordered": false,
                             "admin": "",
                             "creationDate": Timestamp.now()
                         }) 
@@ -222,7 +222,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
-                            "delivered": false,
+                            "ordered": false,
                             "admin": "",
                             "creationDate": Timestamp.now()
                         }) 

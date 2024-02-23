@@ -952,17 +952,6 @@ export async function getMyPortrait(setPortrait, portraitId) {
   return unsubscribe;
 }
 
-//returns an array of all portraits
-// export async function getAllModels() {
-//   const allModels = []
-//   const q = query(collection(db, "models"), orderBy("creationDate"))
-//   const querySnapshot = await getDocs(q);
-//   querySnapshot.forEach((doc) => {
-//     allModels.push({...doc.data(), uid: doc.id})
-//   })
-//   return allModels
-// } 
-
 export async function getAllModels(setAllModels, setFilteredModels) {
   
   const q = query(collection(db, "models"))
@@ -994,7 +983,24 @@ export async function updateModel(modelId, value, user, type) {
       admin: user
     })
   }
+}
+
+// Update 3D models once portrait is complete
+export async function updatePortraitModels(portraitId) {
+  const q = query(collection(db, "models"), where("portraitId", "==", portraitId))
+  const models = []
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((doc) => {
+    models.push(doc.id)
+  })
+
+  models.forEach(model => {
+    updateDoc(doc(db, "models", model), {
+      portraitComplete: true
+    })
+  })
   
+  return models
 }
 
 
