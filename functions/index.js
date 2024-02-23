@@ -65,9 +65,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         await modelsRef.add({
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
+                            "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
                             "delivered": false,
+                            "admin": "",
                             "creationDate": Timestamp.now()
                         }) 
                     }
@@ -129,9 +131,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         await modelsRef.add({
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
+                            "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
                             "delivered": false,
+                            "admin": "",
                             "creationDate": Timestamp.now()
                         }) 
                     }
@@ -215,9 +219,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         await modelsRef.add({
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
+                            "customeName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
                             "delivered": false,
+                            "admin": "",
                             "creationDate": Timestamp.now()
                         }) 
                     }

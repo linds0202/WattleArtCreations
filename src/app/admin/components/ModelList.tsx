@@ -11,9 +11,11 @@ import Model from "./Model";
 export interface ModelData {
   portraitId: string,
   customerId: string,
+  customerName: string,
   price: number,
   portraitComplete: boolean,
   delivered: boolean,
+  admin: string,
   creationDate: Timestamp,
   id: string
 }

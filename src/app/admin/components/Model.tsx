@@ -12,9 +12,11 @@ const Model = ({model, user}: ModelProps) => {
       <p>{model.id}</p>
       <p>{model.portraitId}</p>
       <p>{model.customerId}</p>
+      <p>{model.customerName}</p>
       <p>{new Date(model.creationDate.seconds * 1000).toLocaleDateString("en-US")}</p>
       <p>{model.portraitComplete ? 'Complete' : 'Incomplete'}</p>
       <p>{model.delivered ? 'Delievered' : 'Not Delivered'}</p>
+      <p>{model.admin}</p>
     </div>
   )
 }
