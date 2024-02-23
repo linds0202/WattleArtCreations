@@ -988,9 +988,9 @@ export async function updateModel(modelId, value, user, type) {
       portraitComplete: value,
       admin: user
     })
-  } else if (type === 'delivered') {
+  } else if (type === 'ordered') {
     updateDoc(doc(db, 'models', modelId), { 
-      delivered: value,
+      ordered: value,
       admin: user
     })
   }

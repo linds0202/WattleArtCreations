@@ -1,7 +1,6 @@
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page"
 import { ModelData } from "./ModelList"
 import { useState } from "react"
-import EditIcon from '@mui/icons-material/Edit';
 import { updateModel } from "@/app/firebase/firestore";
 
 interface ModelProps {
@@ -12,7 +11,7 @@ interface ModelProps {
 const Model = ({model, user}: ModelProps) => {
 
   const [complete, setComplete] = useState(model.portraitComplete)
-  const [delivered, setDelivered] = useState(model.delivered)
+  const [ordered, setOrdered] = useState(model.ordered)
 
   const handleSelect = async (e: any) => {
     const newComplete = e.target.value === 'Yes' ? true : false
@@ -20,10 +19,10 @@ const Model = ({model, user}: ModelProps) => {
     setComplete(newComplete)
   }
 
-  const handleSelectDelivered = async (e: any) => {
-    const newDelivered = e.target.value === 'Yes' ? true : false
-    await updateModel(model.uid, newDelivered, user?.displayName, "delivered")
-    setDelivered(newDelivered)
+  const handleSelectOrdered = async (e: any) => {
+    const newOrdered = e.target.value === 'Yes' ? true : false
+    await updateModel(model.uid, newOrdered, user?.displayName, "ordered")
+    setOrdered(newOrdered)
   }
 
 
@@ -47,7 +46,7 @@ const Model = ({model, user}: ModelProps) => {
             
             <td className="px-2">
               <div className="w-full flex justify-center items-center">
-                <select value={delivered ? 'Yes' : 'No'} onChange={handleSelectDelivered} className="w-3/4 border-b-2 border-black leading-tight outline-none">
+                <select value={ordered ? 'Yes' : 'No'} onChange={handleSelectOrdered} className="w-3/4 border-b-2 border-black leading-tight outline-none">
                     <option>Yes</option>
                     <option>No</option>
                 </select>

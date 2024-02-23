@@ -15,7 +15,7 @@ export interface ModelData {
   customerName: string,
   price: number,
   portraitComplete: boolean,
-  delivered: boolean,
+  ordered: boolean,
   admin: string,
   creationDate: Timestamp,
   uid: string
@@ -34,11 +34,6 @@ export default function ModelList({ user }: ModelListProps) {
   const [search, setSearch] = useState<string>('')
 
   useEffect(() => {
-    // const handleGetAllModels = async () => {
-    //   const modelsArr = await getAllModels();
-    //   setAllModels(modelsArr)
-    //   setFilteredModels(modelsArr)
-    // }
 
     const getModelsList = async () => {
       const unsubscribe = await getAllModels(setAllModels, setFilteredModels);
@@ -53,7 +48,6 @@ export default function ModelList({ user }: ModelListProps) {
       if(currentUser) setCurrentAdmin(currentUser)
     }
 
-    // handleGetAllModels()
     handleGetUser()
   }, [])
 
@@ -65,14 +59,14 @@ export default function ModelList({ user }: ModelListProps) {
   }
 
   const handleGetPortraitComplete = () => {
-    const filtered = allModels.filter(model => model.portraitComplete && !model.delivered)
+    const filtered = allModels.filter(model => model.portraitComplete && !model.ordered)
     setFilteredModels(filtered)
 
     setButton('B2')
   }
 
-  const handleGetDelievered = () => {
-    const filtered = allModels.filter(model => model.delivered)
+  const handleGetOrdered = () => {
+    const filtered = allModels.filter(model => model.ordered)
     setFilteredModels(filtered)
 
     setButton('B3')
@@ -108,7 +102,7 @@ export default function ModelList({ user }: ModelListProps) {
 
               <motion.button 
                 className={`w-1/5 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B3' ? 'bg-[#43b4e4] text-white' : ''}`}
-                onClick={handleGetDelievered} 
+                onClick={handleGetOrdered} 
                 whileHover={{ scale: 1.05, transition: {duration: 0.15} }} 
                 whileTap={{ scale: 1.03 }}
               >
@@ -142,7 +136,7 @@ export default function ModelList({ user }: ModelListProps) {
                     <th className="px-2">Customer Name</th>
                     <th className="px-2">Ordered On</th>
                     <th className="px-2">Portrait Complete</th>
-                    <th className="px-2">Delivered</th>
+                    <th className="px-2">Ordered</th>
                     <th className="px-2">Admin</th>
                     {/* <th className="w-2/12">View Details</th> */}
                   </tr>
