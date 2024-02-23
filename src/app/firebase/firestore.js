@@ -953,20 +953,49 @@ export async function getMyPortrait(setPortrait, portraitId) {
 }
 
 //returns an array of all portraits
-export async function getAllModels() {
-  const allModels = []
-  const q = query(collection(db, "models"), orderBy("creationDate"))
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    allModels.push({...doc.data(), uid: doc.id})
-  })
-  return allModels
-} 
+// export async function getAllModels() {
+//   const allModels = []
+//   const q = query(collection(db, "models"), orderBy("creationDate"))
+//   const querySnapshot = await getDocs(q);
+//   querySnapshot.forEach((doc) => {
+//     allModels.push({...doc.data(), uid: doc.id})
+//   })
+//   return allModels
+// } 
 
+export async function getAllModels(setAllModels, setFilteredModels) {
+  
+  const q = query(collection(db, "models"))
 
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let models = [];
+    
+    QuerySnapshot.forEach((doc) => {
+      models.push({ ...doc.data(), uid: doc.id });
+    });
+    
+    setAllModels(models);
+    setFilteredModels(models)
+  });
+  return unsubscribe;
+}
 
-
-
+//update model Completion status
+export async function updateModel(modelId, value, user, type) {
+  
+  if (type === 'complete') {
+    updateDoc(doc(db, 'models', modelId), { 
+      portraitComplete: value,
+      admin: user
+    })
+  } else if (type === 'delivered') {
+    updateDoc(doc(db, 'models', modelId), { 
+      delivered: value,
+      admin: user
+    })
+  }
+  
+}
 
 
 //Add chat message
