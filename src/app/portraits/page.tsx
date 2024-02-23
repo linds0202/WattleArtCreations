@@ -319,7 +319,7 @@ export default function Portraits() {
         {portrait.animals.length !== 0 && 
         <>
           <p className='font-semibold ml-4 md:ml-2 xl:ml-4'>Animals ({portrait.animals.length})</p>
-          <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
+          <div className="w-9/12 ml-8 md:ml-4 xl:ml-8">
               {portrait.animals.map((animal, i) => 
               (
                 <div key={i} className='flex justify-between'>
@@ -334,7 +334,7 @@ export default function Portraits() {
         {portrait.bg.type !== 'None' && 
         <>
           <p className='font-semibold ml-4 md:ml-2 xl:ml-4'>Background</p>
-          <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
+          <div className="w-9/12 ml-8 md:ml-4 xl:ml-8">
             <div className='flex justify-between'>
               {portrait.bg.type === 'bgSimple' && <p className="text-base md:text-sm lg:text-base">Simple Background</p>}
               {portrait.bg.type === 'bgComplex' && <p className="text-base md:text-sm lg:text-base">Complex Background</p>}
