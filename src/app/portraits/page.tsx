@@ -305,12 +305,12 @@ export default function Portraits() {
       <div className="w-full xl:w-3/4 mb-4 py-2 bg-white/50 rounded-xl">
         {/* num chars  */}
         <p className='text-base md:text-sm lg:text-base font-semibold ml-4 md:ml-2 xl:ml-4'>Characters ({portrait.characters.length})</p>
-        <div className="w-7/12 ml-8 md:ml-4 xl:ml-8">
+        <div className="w-9/12 ml-8 md:ml-4 xl:ml-8">
             {portrait.characters.map((char, i) => 
             (
               <div key={i} className='flex justify-between'>
-                <p className="text-base md:text-sm lg:text-base">Char {i + 1}:</p>
-                <p className="text-base md:text-sm lg:text-base">${char.charDiscount ? char.total * .9 : char.total}</p>
+                <p className="text-base md:text-sm lg:text-base">Char {i + 1}: <span className='text-red-600 text-xs'>{char.charDiscount ? "(10% multi-character discount)" : ""}</span></p>
+                <p className="text-base md:text-sm lg:text-base"><span className='text-red-600 text-xs line-through mr-2'>{char.charDiscount ? `$${char.total}` : ""}</span>${char.charDiscount ? char.total * .9 : char.total}</p>
               </div>
             ))}
         </div>
