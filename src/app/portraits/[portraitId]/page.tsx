@@ -2,7 +2,7 @@
 
 import '../../globals.css'
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../firebase/auth';
 import { updatePortrait, getTestimonial } from '../../firebase/firestore';
 import ChatBox from './components/ChatBox';
@@ -63,6 +63,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const { categories } = useCategoriesContext()
   const router = useRouter()
 
+  const searchParams = useSearchParams()
+  const complete: string | null = searchParams.get('complete')
+  const type: string | null = searchParams.get('type')
+
   const [portrait, setPortrait] = useState<PortraitData>()
   const [action, setAction] = useState(false)
   
@@ -84,7 +88,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openQuestions, setOpenQuestions] = useState(false)  
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [requestExtras, setRequestExtras] = useState(false)
+  // const [requestExtras, setRequestExtras] = useState(false)
   const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
 
   const handleOptionChange = (event: any) => {
@@ -116,6 +120,14 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
 
     getPortrait()
+
+    if (complete === 'false' && type === 'extras') {
+      alert("Additional purchase of 3D model, character sheet, or weapons sheet was not successful, please try again or speak with your artist")
+    } else if (complete === 'false' && type === 'revision'){
+      alert("Purchase of an additional revision was not successful, please try again or speak with your artist")
+    } else if (complete === 'true' && type === 'addOn'){
+      alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful! ")
+    }
   }, [])
 
   useEffect(() => {

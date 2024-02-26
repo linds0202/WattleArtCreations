@@ -75,11 +75,6 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     }
                 }
 
-                // Update User
-                // const userId = payment.metadata.userId
-                // const userDocRef = admin.firestore().collection("users").doc(userId)
-                // await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
-
             } else if (payment.metadata.type === 'additional'){
                 const newSheetUploads = []
                 const purchasedItems = []
@@ -119,11 +114,31 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     index: i
                 }))
 
-                const answer = await portraitDocRef.update({
-                    additionalPayments: [...currentPortrait.additionalPayments, newPayment],
-                    sheetUploads: finalSheetUploads,
-                    addOns: []
-                })
+
+                if (currentPortrait.status === 'Completed') {
+                    const answer = await portraitDocRef.update({
+                        additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                        sheetUploads: finalSheetUploads,
+                        addOns: [], 
+                        status: 'In Progress',
+                        portraitCompletionDate: null
+                    })
+
+                    // Update artist portrait count to reactivate portrait
+                    const artistId = currentPortrait.artist[0].id
+                    const artistDocRef = admin.firestore().collection("users").doc(artistId)
+                    await artistDocRef.update({
+                        "activeCommissions": admin.firestore.FieldValue.increment(1),
+                        "totalCompletedCommissions": admin.firestore.FieldValue.increment(-1)
+                    })
+                } else {
+                    const answer = await portraitDocRef.update({
+                        additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                        sheetUploads: finalSheetUploads,
+                        addOns: []
+                    })
+                }
+                
 
                 // Add to admin model list
                 for (const extra of newSheetUploads) {

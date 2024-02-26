@@ -135,7 +135,7 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
       payment_method_types: ["card"],
       mode: 'payment',
       success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true`,
-      cancel_url: 'https://wattle-art-creations.vercel.app/',
+      cancel_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=false&type=extras`,
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
@@ -189,7 +189,7 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
       payment_method_types: ["card"],
       mode: 'payment',
       success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true`,
-      cancel_url: 'https://wattle-art-creations.vercel.app/',
+      cancel_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=false&type=revision`,
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
@@ -245,8 +245,8 @@ export async function getAddOnCheckoutUrl(portrait, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
-      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}`,
+      success_url: `https://wattle-art-creations.vercel.app/portraits/${portrait.id}?complete=true&type=addOn`,
+      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}&type=addOn`,
       metadata: {
         'portraitIds': portrait.id,
         'userId': userId,
@@ -301,7 +301,7 @@ export async function getTipUrl(tip, portrait, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
+      success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true&type=tip`,
       cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}`,
       metadata: {
         'portraitIds': portrait.id,

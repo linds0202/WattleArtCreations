@@ -26,6 +26,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const searchParams = useSearchParams()
   const complete: string | null = searchParams.get('complete')
   const id: string | null = searchParams.get('id')
+  const type: string | null = searchParams.get('type')
  
   const [pageLoading, setPageLoading] = useState(true)
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
@@ -44,8 +45,12 @@ export default function Dashboard({ params: { userId }}: Params) {
     setPageLoading(true)
     if (complete === 'true') {
       sessionStorage.setItem('Cart', JSON.stringify([]))
-    } else if (complete === 'false') {
+      if (type === 'tip') {
+        alert('Thanks for tipping your artist!')
+      }
+    } else if (complete === 'false' && type === 'addOn') {
       updateFailedAddOn(id)
+      alert('Purchase of additional 3D model, character sheet, or weapons sheet was NOT successful')
     }
 
     let latestUser: UserData | null
