@@ -102,6 +102,7 @@ export async function getCheckoutUrl (items, userId) {
   });
 };
 
+// Purchase additional 3D model, character sheet, or weapon sheet from portrait page
 export async function getExtrasCheckoutUrl (portrait, userId) {
   if (!userId) throw new Error("User is not authenticated");
   
@@ -160,6 +161,7 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
   });
 };
 
+// Purchase additional revisions
 export async function getRevisionCheckoutUrl (portrait, userId) {
   if (!userId) throw new Error("User is not authenticated");
   
@@ -214,6 +216,8 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
   });
 };
 
+// Purchase additional options after portrait completion from testimonial page
+// https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}&type=addOn
 export async function getAddOnCheckoutUrl(portrait, userId) {
 
   if (!userId) throw new Error("User is not authenticated") 
@@ -246,7 +250,7 @@ export async function getAddOnCheckoutUrl(portrait, userId) {
       payment_method_types: ["card"],
       mode: 'payment',
       success_url: `https://wattle-art-creations.vercel.app/portraits/${portrait.id}?complete=true&type=addOn`,
-      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}&type=addOn`,
+      cancel_url: `https://wattle-art-creations.vercel.app/testimonials?portraitId=${portrait.id}&artistId=${portrait.artist[0].id}&complete=false`,
       metadata: {
         'portraitIds': portrait.id,
         'userId': userId,
@@ -302,7 +306,7 @@ export async function getTipUrl(tip, portrait, userId) {
       payment_method_types: ["card"],
       mode: 'payment',
       success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true&type=tip`,
-      cancel_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}`,
+      cancel_url: `https://wattle-art-creations.vercel.app/testimonials?portraitId=${portrait.id}`,
       metadata: {
         'portraitIds': portrait.id,
         'userId': userId,

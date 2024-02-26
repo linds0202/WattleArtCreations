@@ -88,7 +88,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   const [openQuestions, setOpenQuestions] = useState(false)  
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  // const [requestExtras, setRequestExtras] = useState(false)
   const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
 
   const handleOptionChange = (event: any) => {
@@ -122,11 +121,13 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     getPortrait()
 
     if (complete === 'false' && type === 'extras') {
+      console.log("failed extra")
       alert("Additional purchase of 3D model, character sheet, or weapons sheet was not successful, please try again or speak with your artist")
     } else if (complete === 'false' && type === 'revision'){
+      console.log("failed extra")
       alert("Purchase of an additional revision was not successful, please try again or speak with your artist")
     } else if (complete === 'true' && type === 'addOn'){
-      alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful! ")
+      alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
     }
   }, [])
 

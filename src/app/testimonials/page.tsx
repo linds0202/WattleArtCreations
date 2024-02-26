@@ -19,6 +19,7 @@ const Testimonials = () => {
     const searchParams = useSearchParams()
     const portraitId = searchParams.get('portraitId')
     const artistId = searchParams.get('artistId')
+    const complete = searchParams.get('complete')
     
     const [portrait, setPortrait] = useState<PortraitData | null>(null)
     const [openTestimonial, setOpenTestimonial] = useState(true)
