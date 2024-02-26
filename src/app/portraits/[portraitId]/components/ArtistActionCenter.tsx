@@ -129,13 +129,14 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                         latest={portrait?.revisionNotes.length - 1 === i && portrait?.revisionNotes.length === portrait?.finalImages.length}
                         index={i}
                 />
-                : <ActionCenterAccordion title={'Awaiting Customer Response'} open={portrait.status === 'Completed' ? false : true} attention={portrait.status === 'Completed' ? false : true} >
-                    <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
-                        <Submission portrait={portrait}/>
-                    </div>
-                    
-                </ActionCenterAccordion>
-                }
+                : <div> 
+                    {portrait?.portraitCompletionDate === null && <ActionCenterAccordion title={'Awaiting Customer Response'} open={portrait.status === 'Completed' ? false : true} attention={portrait.status === 'Completed' ? false : true} >
+                        <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
+                            <Submission portrait={portrait}/>
+                        </div>
+                        
+                    </ActionCenterAccordion>}
+                </div>}
             </>
             }
         </div>
@@ -288,14 +289,19 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
             </div>}
 
 
-            <ActionCenterAccordion title={'Portrait Complete - Payment Released'} open={portrait?.status === 'Completed'} attention={portrait?.status === 'Completed'} >
+            <ActionCenterAccordion title={'Portrait Complete - Payment Released'} open={portrait?.status === 'Completed' || (portrait.status === 'In Progress' && portrait?.portraitCompletionDate !== null)} attention={portrait?.status === 'Completed' || (portrait.status === 'In Progress' && portrait?.portraitCompletionDate !== null)} >
                 <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
                     {portrait?.status === "Completed"  
                         ? <div className="bg-white py-2 px-4 rounded-lg">
                             <p>Your customer has approved your last submission</p>
                             <p>This portrait is now complete. The Wattle Arts Admin team will proces your payment shortly</p>
                         </div>
-                        : <p>Portrait not complete yet</p>
+                        : (portrait.status === 'In Progress' && portrait?.portraitCompletionDate !== null)
+                        ? <div>
+                            <p className="text-xl text-center font-semibold">Additional Action Needed</p>
+                            <p className="text-lg">Your customer has ordered additional Character or Weapons sheets. See the <span className="text-[#43b4e4] font-semibold">Character and Weapons Sheets</span> section and upload your finished work.</p>
+                        </div>
+                        :<p>Portrait not complete yet</p>
                     }
                       
                 </div>

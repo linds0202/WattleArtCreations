@@ -173,66 +173,90 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
     }
   }, [requestRevision])
 
-
-  const extrasList = portrait?.sheetUploads.map((extra, i) => 
-    <div key={i} className='w-full flex flex-col'>
-      {extra.src === "" 
-      ? <p
-        className={`px-4 py-1 ${authUser?.roles === 'Artist' && (extra.type === 'character' || extra.type === 'weapons')
-          ? 'cursor-pointer bg-[#f4ffa1] rounded-xl  hover:bg-[#43b4e4]/25' : ''}`}
-        key={extra.index}
-        onClick={() => handleClickExtra(extra.index, extra.type)}
-      >
-        {extra.type.split('_')[0] !== 'complexity' 
-          ? extra.charNum === 'AddOn' 
-            ? `Add on - ${extra.type !== 'model' ? extra.type + ' sheet' : '3D model'}` 
-            : `Char ${extra.charNum} - ${extra.type === 'model' ? '3D model' : extra.type === 'character'? 'Character sheet' : 'Weapons sheet'}`
-          : `Add on - ${extra.type}`
-        }
-      </p>
-      :<div key={extra.index} className='flex items-center'>
-        {authUser?.roles === 'Customer' &&
-        <img 
-          src={extra.src} 
-          onContextMenu={(e)=> e.preventDefault()}
-          alt="sheet upload thumbnail" 
-          className='w-[64px] h-[64px] object-top object-contain mr-4 cursor-pointer'
-          onClick={() => {
-            if (portrait.status !== 'Completed') {
-              handleEnlarge({
-                src: extra.src, 
-                date: Timestamp.now(), 
-                final: true
-              })
-            } else {
-              handleDownloadSheet(extra.index)
-            }
-          }}
-        />}
-
-        {authUser?.roles === 'Artist' &&
-        <img 
-          src={extra.src} 
-          onContextMenu={(e)=> e.preventDefault()}
-          alt="sheet upload thumbnail" 
-          className='w-[64px] h-[64px] object-top object-contain mr-4'
-        />}
-
-        <p>Char {extra.charNum} - {extra.type === 'character' ? 'Character' : 'Weapons'} Sheet</p>
-        
-        {authUser?.roles !== 'Customer' && <button 
-          type="button" 
-          onClick={() => handleDeleteSheet(extra.index)} 
-          className='ml-4 hover:text-red-600'
-          title='Remove upload?'
-        >
-          <DeleteForeverIcon />
-        </button>}
-      </div>
-      }
+  const extrasList = (
+  <div>
+    <div className='mb-4'>
+      <p className='font-semibold'>3D Models <span className='text-xs font-normal'>({authUser?.roles !== 'Customer' ? '3D models will be handled by admin after portrait completion.' : 'will be created once portrait is complete'})</span></p>
+      {portrait?.sheetUploads.map((extra, i) =>
+        <div key={extra.index} className='ml-4'>
+          {extra.type === 'model' && <p className='my-2'>3D Model {extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</p>}
+        </div>
+      )}
     </div>
-  )
+
+    <div className='mb-4'>
+      {authUser?.roles === 'Customer'
+      ? <p className='font-semibold'>Character or Weapons Sheets <span className='text-xs font-normal'>(Sheets in <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>yellow</span> have not been completed by your artist yet. {portrait?.status !== 'Completed' ? 'Completed sheets will have a thumbnail, click to enlarge' : 'Click an thumbnail to download your finished sheet'}. You cannot release payment to your artist until all sheets have been uploaded.)</span></p>
+      : <p className='font-semibold'>Character or Weapons Sheets <span className='text-xs font-normal'>(Your customer cannot release payment to you until all additional sheets are uploaded. Click an <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>option</span> to upload your work. Click the trash to remove an image and re-upload.)</span></p>
+      }
+      {portrait?.sheetUploads.map((extra, i) =>
+        <>          
+        {extra.src === ""
+        ? <div 
+          key={extra.index} 
+          className='ml-4'
+          onClick={() => handleClickExtra(extra.index, extra.type)}
+        >
+          {(extra.type === 'character' || extra.type === 'weapons') && 
+          <p className={`my-2 px-4 py-1 ${authUser?.roles === 'Artist' ? 'cursor-pointer bg-[#f4ffa1] rounded-xl  hover:bg-[#43b4e4]/25' : 'bg-[#f4ffa1] rounded-xl'}`}>{extra.type === 'weapons' ? 'Weapons sheet' : 'Character sheet'} <span>{extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</span></p>}
+
+        </div>
+        : <div key={extra.index} className='ml-4 flex items-center'>
+          {authUser?.roles === 'Customer' &&
+          <img 
+            src={extra.src} 
+            onContextMenu={(e)=> e.preventDefault()}
+            alt="sheet upload thumbnail" 
+            className='w-[64px] h-[64px] object-center object-contain mr-4 cursor-pointer'
+            onClick={() => {
+              if (portrait.status !== 'Completed') {
+                handleEnlarge({
+                  src: extra.src, 
+                  date: Timestamp.now(), 
+                  final: true
+                })
+              } else {
+                handleDownloadSheet(extra.index)
+              }
+            }}
+          />}
   
+          {authUser?.roles === 'Artist' &&
+          <img 
+            src={extra.src} 
+            onContextMenu={(e)=> e.preventDefault()}
+            alt="sheet upload thumbnail" 
+            className='w-[64px] h-[64px] object-top object-contain mr-4'
+          />}
+  
+          <p>{extra.type === 'character' ? 'Character sheet' : 'Weapons sheet '} <span>{extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</span></p>
+          
+          {authUser?.roles !== 'Customer' && <button 
+            type="button" 
+            onClick={() => handleDeleteSheet(extra.index)} 
+            className='ml-4 hover:text-red-600'
+            title='Remove upload?'
+          >
+            <DeleteForeverIcon />
+          </button>}
+        </div>}
+      </>
+    )}
+  </div>
+
+        
+    <div className='mb-4'>
+      <p className='font-semibold'>Complexity <span className='text-xs font-normal'>({authUser?.roles !== 'Customer' ? 'Complexity does not require a separate upload.' : 'artist will adjust complexity of portrait'})</span></p>
+      {portrait?.sheetUploads.map((extra, i) =>
+        <div key={extra.index} className='ml-4'>
+          {extra.type.split('_')[0] === 'complexity' && <p className='my-2'>Complexity Level {extra.type.split('_')[2]} {extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</p>}
+        </div>
+      )}
+    </div>
+      
+  </div>)
+      
+      
   
   const handleClickExtra = (clickedIndex: number, type: string) => {
     if (authUser.roles !== 'Customer' && (type === 'character' || type === 'weapons')) {
@@ -398,11 +422,14 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               {/* Image Upload Section */}
               <div className='w-full md:px-4'>
               
-                {portrait?.status === 'Completed' && 
+                {(portrait?.status === 'Completed' || (portrait?.status === 'In Progress' && portrait?.portraitCompletionDate !== null)) &&
                 <div className='bg-white rounded-xl p-2 flex flex-col items-center'>
                   {authUser?.roles === 'Customer' ?
                   <div className='w-full flex flex-col items-center'>
-                    <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
+                    {(portrait?.status === 'In Progress' && portrait?.portraitCompletionDate !== null) 
+                    ? <p className='text-2xl font-bold text-center text-[#43b4e4] '>You have accepted a final image</p>
+                    : <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
+                    }
                      <button 
                       className='xl:w-1/2 mx-auto my-4 text-lg xl:text-xl font-bold border-2 border-black rounded-lg p-2 hover:text-white hover:bg-[#43b4e4]'  
                       onClick={handleDownloadFinal}
@@ -436,7 +463,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
                   <div className='w-full my-8 flex flex-col justify-between items-center'>
                     <p className='text-xl font-semibold w-[100%]'>Customer&apos;s Testimonial:</p>
-                    <div className='w-full mt-4 border-2 border-[#282828] rounded-xl p-4 flex flex-col xl:flex-row justify-between items-center'>
+                    {portrait?.reviewed
+                    ? <div className='w-full mt-4 border-2 border-[#282828] rounded-xl p-4 flex flex-col xl:flex-row justify-between items-center'>
                       <div className='w-full xl:w-[40%]'>
                         {testimonial?.includeImg && <img src={testimonial.imgUrl} className='w-[128px] h-[128px] object-contain mx-auto ' alt='customer finished image in testimonial'/>}
                       </div>
@@ -449,6 +477,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         <p className='text-right'>- {testimonial?.customerDisplayName}</p>
                       </div>
                     </div>
+                    : <p>No Review yet</p>
+                    }
                   </div>
                 </div>
                 }
@@ -456,7 +486,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
              
                 <div className='w-full'>
                   
-                  {portrait?.status !== 'Completed' &&
+                  {portrait?.status !== 'Completed' && portrait?.portraitCompletionDate === null &&
                     <div>
                       <div className='flex justify-center items-center mb-4'>
                         <h3 className='text-2xl text-[#43b4e4] font-bold m-0'>Final Images</h3>
@@ -486,9 +516,11 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   }
 
                   {portrait?.status !== 'Completed' &&
-                  <div className='w-full'>
+                  <div className='w-full mt-8'>
 
+                    {portrait?.portraitCompletionDate === null &&
                     <div className='w-full h-[88px] bg-white flex justify-around items-center border-2 border-[#bababa] rounded-xl mb-4'>
+                      {/* final image has NOT been accepted */}
                       {portrait && portrait?.finalImages?.length > 0 
                       ? portrait?.finalImages?.map((img, i) => 
                         <img 
@@ -504,8 +536,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           })}
                         /> 
                       )
-                    : <p className='text-xl font-semibold text-[#43b4e4] text-center'>No images to display</p>} 
-                    </div>
+                    : <p className='text-xl font-semibold text-[#43b4e4] text-center'>No images to display</p>}
+
+                    </div>}
 
 
 
@@ -522,12 +555,13 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       {authUser?.roles === 'Customer' && portrait?.revised && portrait?.status !== 'Completed' &&
                       <div className='w-full flex justify-around'>
                         
+                        {portrait?.portraitCompletionDate === null &&
                         <button 
                           className='w-5/12 border-2 border-[#282828] bg-[#282828]/50 hover:text-white hover:bg-[#282828] rounded-lg p-2'  
                           onClick={handleReject}
                         >
                             {portrait?.revisions === 0 ? 'Request Additional Revision' : 'Request Revision'}
-                        </button>
+                        </button>}
                         
                         <button 
                           className={`w-5/12 border-2 border-[#282828] ${!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '') ? 'bg-white/25' : 'bg-[#43b4e4]/75 hover:text-white hover:bg-[#43b4e4]'} rounded-lg p-2`}  
@@ -535,7 +569,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           disabled={!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '')}
                           title={`${!portrait.sheetUploads.filter(extra => extra.type === 'character' || extra.type === 'weapons').every(extra => extra.src !== '') ? 'Your artist has not completed all the sheets associated with this portrait' : ''}`}
                         >
-                          Accept as Final Image
+                          {`${portrait?.portraitCompletionDate === null ? 'Accept as Final Image' : 'Accept uploaded sheets'}`}
                         </button>
 
                       </div>}
@@ -550,9 +584,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       />
                     </div>
 
+                    {portrait?.portraitCompletionDate === null && 
                     <p className='text-xl text-center mt-4'>
                       <span className='text-[#43b4e4] font-semibold'>{portrait?.revisions}</span> {portrait?.revisions === 1 ? 'revision request' : 'revision requests'} remaining
-                    </p> 
+                    </p>} 
                   </div>
                   }
 
@@ -570,8 +605,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                 {authUser?.roles === 'Customer'
                 ? <div className='flex flex-col justify-between'>
                     <p>Enhance your portrait with exciting extras. Copy needs to go here about chatting your artist to add something to your portrait. Then payment button with display here</p>
-                    
-
 
                     {portrait?.addOns.length !== 0 && 
                     <div className='mb-4'>
@@ -596,7 +629,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <p>No extras have been added to this portrait. Talk to your artist to add a character sheet, weapons sheet , or 3D model.</p>
                     </div>
                     :<div className='mt-4 bg-white rounded-xl px-4 py-2 flex flex-col gap-y-2'>
-                      <p className='text-sm'><span className='text-lg font-semibold'>Already purchased for this portrait: </span>({portrait?.status !== 'Completed' ? 'Completed sheets will have a thumbnail, click to enlarge' : 'Click an image to download your finished sheedt'})</p>
+                      <p className='text-xl text-center font-bold'>Already purchased for this portrait: </p>
                       {extrasList}
                     </div>
                     }
@@ -624,8 +657,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   {portrait?.sheetUploads.length === 0 
                     ? <p>No extras have been added to this portrait</p>
                     :<div className='bg-white rounded-xl p-4 flex flex-col gap-y-2'>
-                      <p className='text-xl text-center font-bold'>Already Purchased For This Portrait</p>
-                      <p>Your customer cannot release payment to you until all additional sheets are uploaded. Click an <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'> option</span> to upload your work. Click the trash to remove an image and re-upload. 3D models will be handled by admin after portrait completion. Complexity does not require a separate upload.</p>
+                      <p className='text-xl text-center font-bold'>Already Purchased For This Portrait:</p>
                       {extrasList}
                     </div>
                   }

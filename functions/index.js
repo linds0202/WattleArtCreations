@@ -221,12 +221,23 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     index: i
                 }))
 
-                const answer = await portraitDocRef.update({
-                    additionalPayments: [...currentPortrait.additionalPayments, newPayment],
-                    sheetUploads: finalSheetUploads,
-                    addOns: [],
-                    status: "In Progress"
-                })
+                const notModels = newSheetUploads.filter(sheet => sheet.type !== model)
+
+                if (notModels.length === 0 ) {
+                    const answer = await portraitDocRef.update({
+                        additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                        sheetUploads: finalSheetUploads,
+                        addOns: [],
+                    })
+                } else {
+                    const answer = await portraitDocRef.update({
+                        additionalPayments: [...currentPortrait.additionalPayments, newPayment],
+                        sheetUploads: finalSheetUploads,
+                        addOns: [],
+                        status: "In Progress"
+                    })
+                }
+
 
                 // Add to admin model list
                 for (const extra of newSheetUploads) {

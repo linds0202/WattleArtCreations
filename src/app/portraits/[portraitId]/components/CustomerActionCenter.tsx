@@ -165,7 +165,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 />}
 
                 {/* Artist has uploaded their 3rd + revision & customer has not responded */}
-                {portrait?.revised && i === portrait?.finalImages.length - 1 && portrait?.status !== 'Completed' &&
+                {portrait?.revised && i === portrait?.finalImages.length - 1 && portrait?.status !== 'Completed' && portrait?.portraitCompletionDate === null &&
                 <div>
                     <ActionCenterAccordion title={`${portrait?.revised ? 'Review Artist Submission' : 'Awaiting Artist Submission'}`} open={portrait?.revised} attention={portrait?.revised} >
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
@@ -197,6 +197,20 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 </div>
                 }
 
+                {portrait?.revised && i === portrait?.finalImages.length - 1 && portrait?.status !== 'Completed' && portrait?.portraitCompletionDate !== null &&
+                <div>
+                    <ActionCenterAccordion title={'Artist Submission'} open={false} attention={false} >
+                        <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2 flex flex-col xl:flex-row justify-between items-center">
+                            <img src={portrait?.finalImages[i].imageUrl} className='w-[96px] h-[96px] object-contain rounded-lg' alt='final image thumbnail'/>
+                            <div className="w-full bg-white py-2 px-4 rounded-lg mt-4 xl:mt-0 xl:ml-4 self-stretch flex flex-col justify-center">
+                                <p>Artist submitted image on:</p>
+                                <p className="font-semibold">{new Date(portrait?.finalImages[i].date.seconds * 1000).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    </ActionCenterAccordion>
+                </div>
+                }
+
                 {/* Customer has requested additional revision but not paid */}
                 {i === portrait?.finalImages.length - 1 && portrait?.additionalRevisionRequest && !portrait?.additionalRevision &&
                 <div>
@@ -213,7 +227,6 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                             {!portrait?.revised
                             && <div className="w-full">
-                                {/* portrait?.purchaseRevisionLink !== '' */}
                                 {portrait?.additionalRevisionInfo.type !== ''
                                     ? <div className="flex flex-col items-center">
                                         <p className="text-center mb-4">Click the payment link to purchase an additional revision for this portrait</p>
@@ -225,15 +238,6 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                                 Checkout
                                             </div>
                                         </button>
-
-
-
-                                        {/* <div className="p-2">
-                                            <Link 
-                                            href={portrait?.purchaseRevisionLink} 
-                                            className="mb-8 py-2 px-4 border-2 border-[#282828] bg-white rounded-xl hover:text-white hover:bg-[#43b4e4]"    
-                                        >Purchase Additional Revision</Link>
-                                        </div>  */}
                                     </div>
                                     :  
                                         <div className="w-full bg-white py-2 px-4 rounded-lg self-stretch flex flex-col justify-center">
@@ -444,10 +448,12 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     : <div className="w-full">
                         {portrait?.revisions >= 0 && portrait?.status !== 'Completed' && 
                             <div>
-                                <p className="text-xl text-center font-semibold">Happy with your artist&apos;s latest submission?</p>
-                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
+                                <p className="text-xl text-center font-semibold">{`Happy with your artist's latest ${portrait?.portraitCompletionDate !== null ? 'uploaded Character sheet or Weapons sheet' : 'submission'}?`}</p>
+                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">{portrait?.portraitCompletionDate !== null ? 'Accept uploaded sheets' : 'Accept as Final Image'}</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
                             </div>
                         }
+
+
                         {portrait?.revisions >= 0 && portrait?.status === 'Completed' && 
                             <div className="w-full">
                                 <p className="text-xl text-center font-semibold">Thanks for choosing Wattle Art Creations</p>
