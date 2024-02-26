@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from 'next/navigation';
 import { useAuth } from "@/app/firebase/auth"
-import { getRevisionCheckoutUrl } from "@/app/firebase/firestore"
+import { getRevisionCheckoutUrl, updatePortrait } from "@/app/firebase/firestore"
 import ActionCenterAccordion from "./ActionCenterAccordion"
 import ArtistList from "./ArtistList"
 import { Timestamp } from 'firebase/firestore'
@@ -60,6 +60,23 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
         router.push(checkoutUrl)
     }
 
+    const handleCancelRevision = () => {
+        
+        const newNotes = portrait?.revisionNotes.slice(0, -1)
+        
+        const newPortrait = {
+            ...portrait,
+            additionalRevisionInfo: {
+               price: 0,
+               type: "" 
+            },
+            revisionNotes: newNotes,
+            additionalRevisionRequest: false,
+            revised: true
+        }
+    
+        updatePortrait(portrait.id, newPortrait)
+    }
 
     const customerRevisions = portrait?.finalImages.map((submission, i) =>
         <div key={i}>
@@ -230,18 +247,34 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                 {portrait?.additionalRevisionInfo.type !== ''
                                     ? <div className="flex flex-col items-center">
                                         <p className="text-center mb-4">Click the payment link to purchase an additional revision for this portrait</p>
-                                        <button
-                                            onClick={checkout}
-                                            className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+                                        <div className="w-full flex justify-between">
+                                            <div 
+                                                className="w-full lg:w-5/12 text-lg mt-8 py-2 md:px-4 rounded-xl border border-[#282828] text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+                                                onClick={handleCancelRevision}    
                                             >
-                                            <div className="flex gap-2 items-center align-middle justify-center">
-                                                Checkout
+                                                <p>Cancel Revision Request</p>
                                             </div>
-                                        </button>
+                                            <button
+                                                onClick={checkout}
+                                                className="w-full lg:w-5/12 text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+                                                >
+                                                <div className="flex gap-2 items-center align-middle justify-center">
+                                                    Checkout
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                        
                                     </div>
                                     :  
-                                        <div className="w-full bg-white py-2 px-4 rounded-lg self-stretch flex flex-col justify-center">
+                                    <div className="w-full bg-white py-2 px-4 rounded-lg self-stretch flex flex-col justify-center">
                                         <p>Your artist will post a payment link shortly. Check back later.</p>
+                                        <div 
+                                            className="w-full text-lg mt-8 py-2 md:px-4 rounded-xl border border-[#282828] text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+                                            onClick={handleCancelRevision}    
+                                        >
+                                            <p>Cancel Revision Request</p>
+                                        </div>
                                     </div>
                                 }
                             </div>}
