@@ -13,7 +13,9 @@ interface CustomerTestimonialProps {
     artistId: string | null,
     customerId: string,
     completionDate: Timestamp,
-    setReviewed: Function
+    setReviewed: Function,
+    setTestimonial: Function,
+    source: string
 }
 
 interface CustomerFormValues {
@@ -23,7 +25,7 @@ interface CustomerFormValues {
     includeImg: boolean
 }
 
-const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portraitId, artistId, customerId, completionDate, setReviewed }: CustomerTestimonialProps) => {
+const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portraitId, artistId, customerId, completionDate, setReviewed, setTestimonial, source }: CustomerTestimonialProps) => {
     
     const [rating, setRating] = useState<number | null>(2)
 
@@ -36,13 +38,12 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
 
     return (
         <div>
-            <h3 className='text-2xl text-center font-semibold mb-4 md:mb-0'>Rate & Review your experience</h3>
+            {source === 'final' && <h3 className='text-2xl text-center font-semibold mb-4 md:mb-0'>Rate & Review your experience</h3>}
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values, helpers) => {
+                onSubmit={async (values, helpers) => {
                     helpers.setSubmitting(true)
-                
-                    addTestimonial({
+                    const newTestimonial = {
                         ...values, 
                         stars: rating, 
                         category: category, 
@@ -53,7 +54,10 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                         featured: false, 
                         featuredHome: false,
                         portraitCompletionDate: completionDate
-                    })
+                    }
+
+                    const updatedTestimonial = await addTestimonial(newTestimonial)
+                    setTestimonial(updatedTestimonial)
 
                     updateReviewed(portraitId)
                     
@@ -64,9 +68,9 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                 }}
             >
                 <Form className='flex flex-col md:px-8'>
-                    <div className='w-full'>
+                    <div className={`${source === 'portraitPage' ? 'mt-4' : ''}`}>
                         <Rating
-                            emptyIcon={<StarOutlineIcon style={{ color: 'white', opacity: 0.65  }} fontSize="inherit" />}
+                            emptyIcon={<StarOutlineIcon style={{ color: `${source === 'portraitPage' ? 'black' : 'white'}`, opacity: 0.65  }} fontSize="inherit" />}
                             size="large"
                             name="stars"
                             value={rating}
@@ -90,7 +94,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
 
                         <label >
                             <Field type="checkbox" name="includeImg" size="large"/>
-                            <span className='text-xl ml-2 font-semibold text-[#43b4e4]'>Include Image:<span className='text-white font-light'> Do you want to include your final image in your review?</span></span>
+                            <span className='text-xl ml-2 font-semibold text-[#43b4e4]'>Include Image:<span className={`${source === 'final' ? 'text-white' : 'text-black'} font-light`}> Do you want to include your final image in your review?</span></span>
                         </label> 
 
                         <div className='w-full mt-4 flex items-center'>
@@ -108,7 +112,7 @@ const CustomerTestimonial = ({ setOpenTestimonial, displayName, category, portra
                     <div className='w-full md:w-6/12 mx-auto flex justify-around items-center mt-4'>
                         <button 
                             type='submit' 
-                            className='w-full xl:w-2/3 mx-auto mt-4 text-xl text-white rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out '
+                            className={`w-full ${source === 'final' ? 'xl:w-2/3' : 'w-3/4'} mx-auto mt-4 text-xl text-white rounded-lg py-2 px-4 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out`}
                         >
                             Submit Testimonial
                         </button>

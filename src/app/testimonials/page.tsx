@@ -6,12 +6,12 @@ import { useAuth } from '../firebase/auth'
 import { useSearchParams } from 'next/navigation'
 import CustomerTestimonial from './components/CustomerTestimonial'
 import { downloadImage } from '../firebase/storage'
-import Link from 'next/link'
 import { getPortrait } from '../firebase/firestore'
 import { PortraitData } from '../portraits/components/PortraitCustomizer'
 import AdditionalOptions from './components/AdditionalOptions'
 import TipArtist from './components/TipArtist'
 import Footer from '../components/Footer'
+import { Testimonial } from '../portraits/[portraitId]/page'
 
 
 const Testimonials = () => {
@@ -24,6 +24,7 @@ const Testimonials = () => {
     const [portrait, setPortrait] = useState<PortraitData | null>(null)
     const [openTestimonial, setOpenTestimonial] = useState(true)
     const [reviewed, setReviewed] = useState(false)
+    const [testimonial, setTestimonial] = useState<Testimonial | null>(null)
 
     const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
     const [openTip, setOpenTip] = useState(false)
@@ -77,6 +78,8 @@ const Testimonials = () => {
                                 customerId={authUser?.uid}
                                 completionDate={portrait.lastUpdatedStatus}
                                 setReviewed={setReviewed}
+                                setTestimonial={setTestimonial}
+                                source='final'
                             />
                         } 
 

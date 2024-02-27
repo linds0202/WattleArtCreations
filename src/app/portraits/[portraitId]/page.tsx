@@ -24,6 +24,7 @@ import Footer from '@/app/components/Footer';
 import { Timestamp } from 'firebase/firestore';
 import { getMyPortrait, getPortrait, updatePortraitWithSheet, getExtrasCheckoutUrl } from '../../firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
+import CustomerTestimonial from '@/app/testimonials/components/CustomerTestimonial';
 
 export interface ExtrasData {
   type: string,
@@ -41,7 +42,7 @@ interface RevisionNote {
   date: Timestamp
 }
 
-interface Testimonial {
+export interface Testimonial {
   artistId: string,
   customerDisplayName: string,
   customerId: string,
@@ -89,6 +90,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
+
+  const [openTestimonial, setOpenTestimonial] = useState(false)
+  const [reviewed, setReviewed] = useState(false)
 
   const handleOptionChange = (event: any) => {
     const value = event.target.value;
@@ -477,8 +481,43 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         <p className='text-right'>- {testimonial?.customerDisplayName}</p>
                       </div>
                     </div>
-                    : <p>No Review yet</p>
-                    }
+                    : <div className='w-full p-4 bg-[#43b4e4]/50 rounded-xl'>
+                        <h2 className='text-center font-bold text-2xl mb-2'>Share Your Experience</h2>
+                        
+                        <p className='text-lg mb-4'>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
+
+                        {!openTestimonial && !portrait?.reviewed && portrait &&<div 
+                          className='w-1/2 mx-auto text-xl font-semibold px-4 py-2 cursor-pointer bg-white border border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4]'
+                          onClick={() => setOpenTestimonial(true)}  
+                        >
+                          <p className='text-center'>Leave a Review</p>
+                        </div>}
+
+                        {openTestimonial && !portrait?.reviewed && portrait &&
+                            <CustomerTestimonial 
+                                setOpenTestimonial={setOpenTestimonial} 
+                                displayName={authUser?.displayName}
+                                category={portrait.mode}
+                                portraitId={portraitId}
+                                artistId={portrait?.artist[0].id}
+                                customerId={authUser?.uid}
+                                completionDate={portrait.lastUpdatedStatus}
+                                setReviewed={setReviewed}
+                                setTestimonial={setTestimonial}
+                                source='portraitPage'
+                            />
+                        } 
+
+                        {/* {portrait?.reviewed && 
+                            <div>
+                                <p className='text-2xl text-center font-semibold mt-4'>This portrait has already been reviewed. Thanks for the feedback. </p>
+                            </div>
+                        }
+                        <div className='w-full mt-12'>
+                            <h2 className='font-bold text-3xl text-[#43b4e4]'>Refer a Friend:</h2>
+                            <p className='text-xl mb-4'> Do you know someone who would love a custom digital art piece? Refer them to Wattle Art Creations and share the joy of personalized, unique art. We appreciate your support and are grateful for every referral.</p>
+                        </div> */}
+                    </div>}
                   </div>
                 </div>
                 }

@@ -1088,7 +1088,7 @@ export async function addTestimonial( data) {
     completionDate = ""
   }
 
-  const testimonialRef = await addDoc(collection(db, 'testimonials'), { 
+  const newTestimonial = {
     portraitId: data.portraitId,
     artistId: data.artistId,
     category: data.category,
@@ -1101,8 +1101,10 @@ export async function addTestimonial( data) {
     featured: data.featured,
     featuredHome: data.featuredHome,
     portraitCompletionDate: completionDate
-  })
-  return testimonialRef.id
+  }
+
+  const testimonialRef = await addDoc(collection(db, 'testimonials'), newTestimonial)
+  return newTestimonial
 }
 
 //Get testimonial for one portrait
