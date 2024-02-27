@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '../../firebase/auth'
 import { getUserById, updateFailedAddOn, getAllCustomersPortraits } from '../../firebase/firestore'
-import { Timestamp } from 'firebase/firestore'
 import Portrait from '../../components/Portrait'
 import Profile from './components/Profile'
 import { PortraitData } from '@/app/portraits/components/PortraitCustomizer'
 import Footer from '@/app/components/Footer'
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page'
 import Link from 'next/link'
+import { useCategoriesContext } from '@/app/context/CategoriesContext'
 
 type Params = {
   params: {
@@ -19,9 +19,16 @@ type Params = {
   }
 }
 
+export interface Reward {
+  badge: string,
+  discount: number,
+  level: number
+}
+
 
 export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
+  const { categories } = useCategoriesContext()
   const router = useRouter();
   const searchParams = useSearchParams()
   const complete: string | null = searchParams.get('complete')
@@ -32,7 +39,13 @@ export default function Dashboard({ params: { userId }}: Params) {
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
-  const [badge, setBadge] = useState('../../../../images/badges/one.png')
+  // const [badge, setBadge] = useState('../../../../images/badges/one.png')
+  // const [discount, setDiscount] = useState<number>(0)
+  const [reward, setReward] = useState<Reward>({
+    badge: '../../../../images/badges/zero.png',
+    discount: 0,
+    level: 0
+  })
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -66,7 +79,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       
       if (latestUser) {
         setCurrentUser(latestUser)
-        getBadge(latestUser?.totalCompletedCommissions)
+        getReward(latestUser?.totalCompletedCommissions)
       }
       getPortraits()
     }
@@ -104,36 +117,69 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  const getBadge = (commissions: number) => {
-      if (commissions === 0) {
-        //setDiscount(awards[0])
-        setBadge('../../../../images/badges/one.png')
-      } else if (commissions > 0 && commissions < 3) {
-          //setDiscount(awards[1])
-          setBadge('../../../../images/badges/one.png')
-      } else if (commissions >= 3 && commissions < 7) {
-          //setDiscount(awards[2])
-          setBadge('../../../../images/badges/two.png')
-      } else if (commissions >= 7 && commissions < 10) {
-          //setDiscount(awards[3])
-          setBadge('../../../../images/badges/three.png')
-      } else {
-          //setDiscount(awards[4])
-          setBadge('../../../../images/badges/four.png')
-      }   
+  const getReward = (commissions: number) => {
+    if (commissions === 0) {
+      setReward({
+        badge: '../../../../images/badges/zero.png',
+        discount: 0,
+        level: 0
+      })
+      // setDiscount(0)
+      // setBadge('../../../../images/badges/zero.png')
+    } else if (commissions > 0 && commissions < 3) {
+      setReward({
+        badge: '../../../../images/badges/one.png',
+        discount: categories.customizer.rewardsDiscounts[0],
+        level: 1
+      })
+      // setDiscount(categories.customizer.rewardsDiscounts[0])
+      // setBadge('../../../../images/badges/one.png')
+    } else if (commissions >= 3 && commissions < 5) {
+      setReward({
+        badge: '../../../../images/badges/two.png',
+        discount: categories.customizer.rewardsDiscounts[1],
+        level: 2
+      })
+      // setDiscount(categories.customizer.rewardsDiscounts[1])
+      // setBadge('../../../../images/badges/two.png')
+    } else if (commissions >= 5 && commissions < 7) {
+      setReward({
+        badge: '../../../../images/badges/three.png',
+        discount: categories.customizer.rewardsDiscounts[2],
+        level: 3
+      })
+      // setDiscount(categories.customizer.rewardsDiscounts[2])
+      // setBadge('../../../../images/badges/three.png')
+    } else if (commissions >= 7 && commissions < 10) {
+      setReward({
+        badge: '../../../../images/badges/four.png',
+        discount: categories.customizer.rewardsDiscounts[3],
+        level: 4
+      })
+      // setDiscount(categories.customizer.rewardsDiscounts[3])
+      // setBadge('../../../../images/badges/three.png')
+    } else {
+      setReward({
+        badge: '../../../../images/badges/five.png',
+        discount: categories.customizer.rewardsDiscounts[4],
+        level: 5
+      })
+      // setDiscount(categories.customizer.rewardsDiscounts[4])
+      // setBadge('../../../../images/badges/four.png')
+    }   
   }
 
   return ((!authUser || pageLoading || isLoading) ? 
     <></>
   :
-  <div className='relative min-h-[120vh] bg-black'>
+  <div className='relative w-full min-h-[120vh] bg-black'>
     
     <object type="image/svg+xml" data="/images/white_dots.svg" className="absolute top-0 xl:top-[15%] left-0 w-[300%] md:w-[200%] xl:w-[100%] h-[100%] xl:h-auto object-cover -z-1"/>
     <object type="image/svg+xml" data="/images/drips/dashboard_top.svg" className="absolute top-0 left-0 w-[100%] h-auto -z-7"/>
     
     <div className='w-full text-black pt-3 pb-36 min-h-[100vh]'>
     
-      {currentUser && <Profile user={currentUser} badge={badge}/>}
+      {currentUser && <Profile user={currentUser} reward={reward}/>}
       
       <h2 className='mt-8 text-4xl text-center font-bold text-white'>My Portraits</h2>
       

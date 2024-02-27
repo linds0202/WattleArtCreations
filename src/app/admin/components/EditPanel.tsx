@@ -9,6 +9,7 @@ import { EditGallery } from "./EditGallery";
 import { EditHomeCarousels } from "./EditHomeCarousels";
 import { EditSelectionCarousels } from "./EditSelectionCarousels";
 import { EditPricing } from './EditPricing';
+import { EditRewards } from './EditRewards';
 
 interface EditPanelProps {
   user: UserData
@@ -74,6 +75,13 @@ export default function EditPanel({ user }: EditPanelProps) {
                 >
                     Pricing
                 </button>
+
+                <button
+                    className={`border px-4 py-2 ${choice === 'rewards' ? 'border-[#43b4e4] bg-[#43b4e4] text-white font-semibold' : 'border-[#282828]'}`} 
+                    onClick={() => handleEdit('rewards')}
+                >
+                    Rewards
+                </button>
             </div>
             
 
@@ -92,6 +100,8 @@ export default function EditPanel({ user }: EditPanelProps) {
                     <EditSelectionCarousels categories={categories} changeCategories={changeCategories}/>
                     : choice === 'pricing' ?
                     <EditPricing categories={categories} changeCategories={changeCategories}/>
+                    : choice === 'rewards' ?
+                    <EditRewards categories={categories} changeCategories={changeCategories}/>
                     : <p>No selection</p>
                 }
                 

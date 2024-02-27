@@ -60,7 +60,8 @@ interface Customizer {
         complexity: Array<number>,
         additionalRevision: Array<number>,
         commissionPercentage: number
-    }
+    },
+    rewardsDiscounts: Array<number>
 }
 
 interface Home {
@@ -210,7 +211,8 @@ export const CategoriesContext = createContext<ICategoriesContext>({
                 complexity: [0, 15, 30, 45, 100],
                 additionalRevision: [25, 50, 100],
                 commissionPercentage: 0.9
-            }
+            },
+            rewardsDiscounts: [0.03, 0.05, 0.07, 0.1, 0.12]
         },
         home: {
             gallery: [],

@@ -11,36 +11,37 @@ import Image from 'next/image'
 import AvatarUploader from './AvatarUploader';
 import AwardProgressBar from './AwardProgressBar';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
+import { Reward } from '../page';
 
-const awards = {
-    0: {
-        'next': 1, 
-        'discount' : 0
-    },
-    1: {
-        'next': 3, 
-        'discount' : 5
-    },
-    3: {
-        'next': 7, 
-        'discount' : 10
-    },
-    7: {
-        'next': 10, 
-        'discount' : 15
-    },
-    10: {
-        'num': 10, 
-        'discount' : 20
-    },
-}
+// const awards = {
+//     0: {
+//         'next': 1, 
+//         'discount' : 0
+//     },
+//     1: {
+//         'next': 3, 
+//         'discount' : 5
+//     },
+//     3: {
+//         'next': 7, 
+//         'discount' : 10
+//     },
+//     7: {
+//         'next': 10, 
+//         'discount' : 15
+//     },
+//     10: {
+//         'num': 10, 
+//         'discount' : 20
+//     },
+// }
 
 interface ProfileProps {
     user: UserData | null,
-    badge: string
+    reward: Reward
 }
 
-const Profile = ({user, badge}: ProfileProps) => {
+const Profile = ({user, reward}: ProfileProps) => {
 
     const { authUser, isLoading } = useAuth();
     const router = useRouter();
@@ -50,7 +51,7 @@ const Profile = ({user, badge}: ProfileProps) => {
     const [openUpload, setOpenUpload] = useState(false)
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
-    const [discount, setDiscount] = useState(awards[0])
+    // const [discount, setDiscount] = useState(awards[0])
  
 
     useEffect(() => {
@@ -83,10 +84,9 @@ const Profile = ({user, badge}: ProfileProps) => {
         }
     }
 
-    // className='absolute bottom-0 right-0 text-[#282828]'
 
     return (
-        <div className='w-full px-4 md:px-14 py-4'>
+        <div className='w-full px-4 xl:px-14 py-4'>
             <div className='mt-12 md:mt-20 lg:mt-0 flex flex-col lg:flex-row justify-between items-center'>
                 <div className='text-white flex justify-between items-center'>
                     <div className='w-[150px] h-[150px] bg-[#e5e5e5] border-2 border-[#282828] rounded-xl p-4 flex justify-center items-center relative'>
@@ -127,24 +127,33 @@ const Profile = ({user, badge}: ProfileProps) => {
 
                 </div>
                 
-                <div className='w-full lg:w-[40%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
-                    <div className='absolute top-2 right-2 w-[50px] h-[50px] bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
-                        <p className='text-center'>-{discount?.discount}%</p>
+                {/* Rewards */}
+                <div className='w-full lg:w-[60%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
+                    <div className='absolute top-2 right-4'>
+                        <div className='w-[50px] h-[50px] mx-auto bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
+                            <p className='text-center'>{Math.trunc(reward.discount * 100)}%</p>
+                        </div>
+                        <p className='text-sm font-semibold'>Discount</p>
                     </div>
-                    <div className='flex items-center'>
-                        <img src={badge} className='w-[64px] h-[64px] mr-4' alt='user rewards badge icon'/> 
+                    
+                    <div className='md:px-2 flex flex-col md:flex-row items-center'>
+                        <img src={reward.badge} className='w-[96px] h-[96px] mr-4' alt='user rewards badge icon'/>
                         <div className='w-full'>
-                            <div className='flex items-center mb-2'>
+                            <div className='mb-4 flex items-center'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
                                 <p className='ml-2'>(<span className='text-lg font-bold text-[#43b4e4] mx-[4px]'>{userData?.totalCompletedCommissions}</span>purchased portraits)</p>
                             </div>
-                            <div className='ml-2 w-full'>
-                                <p className='text-sm'>Progress to next discount:</p>
-                                <AwardProgressBar completed={userData ? userData?.totalCompletedCommissions : 0} bgcolor={'#43b4e4'}/>
+                            <div className='md:mx-2 w-full'>
+                                <p className='text-sm'>Progress to next discount level:</p>
+                                <AwardProgressBar 
+                                    completed={userData ? userData?.totalCompletedCommissions : 0} 
+                                    bgcolor={'#43b4e4'}
+                                    reward={reward}    
+                                />
                             </div>
                         </div>      
                     </div>
-                    <p className='text-sm mt-2'>Some explanation of the rewards system?</p>  
+                    <p className='text-sm mt-10'>Some explanation of the rewards program here</p>  
                     
                 </div>
             </div>
