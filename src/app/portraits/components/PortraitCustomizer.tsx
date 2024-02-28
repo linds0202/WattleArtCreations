@@ -61,7 +61,6 @@ export interface SheetUploadsData {
     charNum: number | string,
     type: string,
     price: number,
-    released: boolean
 }
 
 export interface Extras {
@@ -279,7 +278,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
  
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
-        const price = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
+        const price: number = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
 
         let modelCount = 0
         let modelsTotal = 0
@@ -295,7 +294,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                     charNum: i + 1,
                     type: extra,
                     price: char.charDiscount ? categories.customizer.pricing[extra] * .9 : categories.customizer.pricing[extra],
-                    released: false
                 })
                 index++
                 if (extra === 'model') {

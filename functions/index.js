@@ -79,6 +79,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 const newSheetUploads = []
                 const purchasedItems = []
                 let artistPay = 0
+                
                 for (const addOn of currentPortrait.addOns) { 
                     newSheetUploads.push({
                         src: "",
@@ -184,7 +185,13 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 const newSheetUploads = []
                 const purchasedItems = []
                 let artistPay = 0
+                // let models = 0
+                // let newModelPrice = currentPortrait.price.modelPrice
+                // let additionalTotal = 0
+                
                 for (const addOn of currentPortrait.addOns) { 
+                    // additionalTotal += addOn.price
+
                     newSheetUploads.push({
                         src: "",
                         index: 0,
@@ -195,7 +202,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
                     if (addOn.type !== "model") {
                         artistPay += addOn.price
-                    }
+                    } 
+                    // else {
+                    //     models++
+                    //     newModelPrice = addOn.price
+                    // }
 
                     purchasedItems.push({
                         type: addOn.type,
@@ -228,6 +239,13 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         additionalPayments: [...currentPortrait.additionalPayments, newPayment],
                         sheetUploads: finalSheetUploads,
                         addOns: [],
+                        // price: {
+                        //     total: currentPortrait.price.total + additionalTotal,
+                        //     artistPay: artistPay,
+                        //     modelCount: currentPortrait.price.modelCount,
+                        //     modelsTotal: currentPortrait.price.modelCount + models,
+                        //     modelPrice: newModelPrice
+                        // }
                     })
                 } else {
                     const answer = await portraitDocRef.update({
@@ -235,6 +253,14 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         sheetUploads: finalSheetUploads,
                         addOns: [],
                         status: "In Progress"
+                    })
+
+                    // Update Artist to complete newly added sheets
+                    const artistId = currentPortrait.artist[0].id
+                    const artistDocRef = admin.firestore().collection("users").doc(artistId)
+                    await artistDocRef.update({
+                        "activeCommissions": admin.firestore.FieldValue.increment(1),
+                        "totalCompletedCommissions": admin.firestore.FieldValue.increment(-1)
                     })
                 }
 
@@ -255,13 +281,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     }
                 }
 
-                // Update Artist
-                const artistId = currentPortrait.artist[0].id
-                const artistDocRef = admin.firestore().collection("users").doc(artistId)
-                await artistDocRef.update({
-                    "activeCommissions": admin.firestore.FieldValue.increment(1),
-                    "totalCompletedCommissions": admin.firestore.FieldValue.increment(-1)
-                })
+                
             } else if (payment.metadata.type === 'tip'){
 
                 const newPayment = {

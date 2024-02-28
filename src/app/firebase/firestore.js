@@ -502,18 +502,22 @@ export function updateCustomerCommissionsTotal(userId) {
 }
 
 //update artist when commission completed
-export async function updateArtistOnCompletion(portrait) {
+export async function updateArtistOnCompletion(portrait, commissionPercentage) {
   const userId = portrait.artist[0].id
 
+  // let price = 0
+  // if (portrait.portraitCompletionDate === null) {
+    
+  //   const modelCost = portrait.sheetUploads.filter(sheet => sheet.type === "model" && sheet.charNum !== 'AddOn')
+  //   let totalModelPrice = 0
+  //   if (modelCost.length !== 0) {
+  //     totalModelPrice = modelCost.length * modelCost[0].price
+  //   } 
+  //   price = portrait.price - (totalModelPrice)
+  // }
   let price = 0
   if (portrait.portraitCompletionDate === null) {
-    
-    const modelCost = portrait.sheetUploads.filter(sheet => sheet.type === "model" && sheet.charNum !== 'AddOn')
-    let totalModelPrice = 0
-    if (modelCost.length !== 0) {
-      totalModelPrice = modelCost.length * modelCost[0].price
-    } 
-    price = portrait.price - (totalModelPrice)
+    price = portrait.price.total - portrait.price.modelsTotal
   }
   
   const additionalPaymentPrice = portrait.additionalPayments.reduce((sum, payment) => !payment.released ? sum += payment.artistPay : sum += 0, 0)
@@ -523,7 +527,7 @@ export async function updateArtistOnCompletion(portrait) {
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: increment(price + additionalPaymentPrice),
+      paymentsOwing: increment((price + additionalPaymentPrice) * commissionPercentage),
     }
   )
 }
