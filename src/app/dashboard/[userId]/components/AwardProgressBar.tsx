@@ -9,16 +9,14 @@ interface AwardProgressBarProps {
 
 const AwardProgressBar = ({ completed, bgcolor, reward }: AwardProgressBarProps) => {
   const { categories } = useCategoriesContext()
-  const completedPercent = reward.level === 0 ? 1 : (completed / 10) * 100
-  console.log("percent: ", completedPercent)
-
+  const completedPercent = reward.level === 0 ? 'hidden' : `w-[${(completed / 10) * 100}%]`
+  
   return (
     <div className="h-[34px] w-[100%] bg-[#e0e0de] rounded-xl relative">
-      <div className={`w-[${completedPercent}%] h-[100%] bg-[${bgcolor}] ${reward.level !== 5 ? 'rounded-l-xl' : 'rounded-xl'} text-right mt-2`}> 
+      <div className={`${completedPercent} h-[100%] bg-[${bgcolor}] ${reward.level !== 5 ? 'rounded-l-xl' : 'rounded-xl'} text-right mt-2`}> 
 
-        <span className='xl:hidden pr-2 text-xs md:text-sm lg:text-xs text-white font-bold'>{`L${reward.level}`}</span>
-        {/* <span className='sm:hidden md:block xl:hidden pr-2 text-xs md:text-sm lg:text-xs text-white font-bold'>{`Lvl ${reward.level}`}</span> */}
-        <span className='hidden xl:block pr-2 text-white font-bold'>{`Level ${reward.level}`}</span>
+        {reward.level !== 0 && <span className='xl:hidden pr-2 text-xs md:text-sm lg:text-xs text-white font-bold'>{`L${reward.level}`}</span>}
+        {reward.level !== 0 && <span className='hidden xl:block pr-2 text-white font-bold'>{`Level ${reward.level}`}</span>}
       </div>
       <p className="absolute top-[70%] left-[0%] text-xs">|</p>
       <p className="absolute top-[70%] left-[10%] text-xs">|</p>
