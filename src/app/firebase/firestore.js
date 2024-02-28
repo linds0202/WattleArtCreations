@@ -77,7 +77,7 @@ export async function getCheckoutUrl (items, userId) {
       payment_method_types: ["card"],
       mode: 'payment',
       success_url: `https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=true`,
-      cancel_url: 'https://wattle-art-creations.vercel.app/',
+      cancel_url: 'https://wattle-art-creations.vercel.app/portraits?direct=false',
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
@@ -774,7 +774,6 @@ export async function updatePortraitWithImage(portraitId, {userId, imageBucket})
       revised: true,
       additionalRevision: false,
       additionalRevisionRequest: false,
-      purchaseRevisionLink: ''
     })
 }
 
