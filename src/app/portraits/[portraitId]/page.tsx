@@ -481,7 +481,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                         <p className='text-right'>- {testimonial?.customerDisplayName}</p>
                       </div>
                     </div>
-                    : <div className='w-full p-4 bg-[#43b4e4]/50 rounded-xl'>
+                    : <div className='w-full mt-4 p-4 bg-[#43b4e4]/50 rounded-xl'>
                         <h2 className='text-center font-bold text-2xl mb-2'>Share Your Experience</h2>
                         
                         <p className='text-lg mb-4'>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
