@@ -67,7 +67,7 @@ export default function Portraits() {
     if (cart !== null && cart.length !== 0) {
       currentPortraits = JSON.parse((cart))
       
-      const newPrice = currentPortraits.reduce((sum, p) => sum += p.price, 0)
+      const newPrice = currentPortraits.reduce((sum, p) => sum += p.price.total, 0)
       
       setPortraits(JSON.parse((cart)))
       setTotalPrice(newPrice)
@@ -85,7 +85,7 @@ export default function Portraits() {
           const portraitIds = currentPortraits.map(portrait => portrait.id)
           if(!portraitIds.includes(portraitId)){
             const newPortraitList = [...currentPortraits, addedPortrait]
-            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price, 0))
+            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price.total, 0))
             setEditIndex(currentPortraits.length)
             setPortraits([...currentPortraits, addedPortrait])
             setEditPortrait(addedPortrait)
@@ -112,7 +112,7 @@ export default function Portraits() {
           if(!portraitIds.includes(portraitId)){
             const newPortraitList = [...currentPortraits, addedPortrait]
             setPortraits([...currentPortraits, addedPortrait])
-            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price, 0))
+            setTotalPrice(newPortraitList.reduce((sum, portrait) => sum += portrait.price.total, 0))
           } 
         } 
       }
@@ -281,12 +281,12 @@ export default function Portraits() {
           <div className='flex justify-between items-center mt-4 md:mt-0'>
             <p className='w-7/12 lg:w-auto lg:ml-4 lg:mt-[6px] text-black text-lg'><span className='border-b border-[#8d8d8d]'>Background -</span> {portrait.bg.type === 'bgSimple' ? 'Simple' : portrait.bg.type === 'bgComplex' ? 'Complex' : 'None'} </p>
             
-            <p className='lg:hidden w-3/12 text-black text-right text-2xl font-semibold'>${portrait?.price}</p>
+            <p className='lg:hidden w-3/12 text-black text-right text-2xl font-semibold'>${portrait?.price.total}</p>
           </div>   
         </div>
         
         <div className='hidden lg:block'>
-          <p className='text-black text-xl font-semibold mb-4'>${portrait?.price}</p>
+          <p className='text-black text-xl font-semibold mb-4'>${portrait?.price.total}</p>
         </div>
       </div>
     </div>
@@ -298,7 +298,7 @@ export default function Portraits() {
       
       <div className="flex justify-between items-center">
         <p className='text-lg md:text-base xl:text-lg font-semibold'>{portrait?.portraitTitle.slice(0,20)} <span className='text-sm md:text-xs xl:text-sm'>({portrait.mode})</span></p>
-        <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.toFixed(2)}</p>
+        <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.total.toFixed(2)}</p>
       </div>
       
       {/* border-t border-[#282828]/50 */}
@@ -372,7 +372,7 @@ export default function Portraits() {
 
   const handleDelete = (i: number) => {
     let deletePortraitArr = portraits.filter((portrait, index) => index !== i)
-    setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price, 0))
+    setTotalPrice(deletePortraitArr.reduce((sum, portrait) => sum += portrait.price.total, 0))
     setPortraits(deletePortraitArr)
   }
 

@@ -88,7 +88,13 @@ export interface PortraitData  {
     portraitTitle: string,
     requiredQs: [string, string],
     questions: [{q1: string, q2: string, q3: string, q4: string}, {q1: string}, {q1: string, q2: string}, {q1: string, q2: string}, {q1: string, q2: string}], 
-    price: number,
+    price: {
+        total: number,
+        artistPay: number,
+        modelsCount: number,
+        modelPrice: number,
+        modelsTotal: number
+    }
     customer: string,
     customerId: '',
     artist: Array<Artist>,
@@ -155,7 +161,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         portraitTitle: '',
         requiredQs: ['', ''],
         questions: [{q1: '', q2: '', q3: '', q4: ''}, {q1: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}, {q1: '', q2: ''}],
-        price: 0,
+        price: {
+            total: 0,
+            artistPay: 0,
+            modelsCount: 0,
+            modelPrice: 0,
+            modelsTotal: 0
+        },
         customer: '',
         customerId: '',
         artist: [],
@@ -264,10 +276,13 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     //     console.log('clicked login')
     //     setCustomizerLogin(true)
     // }
-    // chars.reduce((sum, char) => sum += char?.total, 0)
+ 
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
         const price = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
+
+        let modelCount = 0
+        let modelsTotal = 0
 
         const sheetUploadArray: Array<SheetUploadsData> = []
         let index = 0
@@ -279,13 +294,26 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                     index: index,
                     charNum: i + 1,
                     type: extra,
-                    price: categories.customizer.pricing[extra],
+                    price: char.charDiscount ? categories.customizer.pricing[extra] * .9 : categories.customizer.pricing[extra],
                     released: false
                 })
                 index++
+                if (extra === 'model') {
+                    modelCount++
+                    char.charDiscount ? modelsTotal += categories.customizer.pricing[extra] * .9 : modelsTotal += categories.customizer.pricing[extra]
+                }
+
               })
             }
         })
+
+        const newPrice = {
+            total: price,
+            artistPay: (price - modelsTotal) * categories.customizer.pricing.commissionPercentage,
+            modelCount: modelCount,
+            modelPrice: categories.customizer.pricing.model,
+            modelsTotal: modelsTotal
+        }
 
         console.log("shetUploadArray: ", sheetUploadArray)
     
@@ -294,7 +322,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             characters: chars, 
             animals: animals, 
             bg:bg, 
-            price: price, 
+            price: newPrice, 
             customerId: authUser?.uid, 
             customer: authUser?.displayName,
             sheetUploads: sheetUploadArray,
@@ -323,7 +351,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 }
             })
 
-            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price, 0)
+            let updatedTotalPrice = editedPortraitsData.reduce((sum, p) => sum += p.price.total, 0)
 
             updatePortrait(newPortrait.id, {...editedPortraitsData[editIndex]})
             

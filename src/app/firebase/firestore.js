@@ -69,7 +69,7 @@ export async function getCheckoutUrl (items, userId) {
                       name: item.portraitTitle,
                       description: item.mode,
                   },
-                  unit_amount: item.price * 100,
+                  unit_amount: item.price.total * 100,
               },
               quantity: 1
           }

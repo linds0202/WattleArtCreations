@@ -169,7 +169,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </div>
 
           <div className='pl-2 md:pl-0 mt-2 md:mt-0'>
-            {user?.roles !== 'Customer' && <p className='text-sm md:text-xl font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-sm md:text-xl'>$ {portrait.price}</span></p>}
+            {user?.roles !== 'Customer' && <p className='text-sm md:text-xl font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-sm md:text-xl'>$ {portrait.price.artistPay}</span></p>}
           </div>
           
         </div>
@@ -255,7 +255,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   <div className='w-full lg:ml-4'>
                     <div className='flex justify-between items-center mb-8'>
                       <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
-                      <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price}</span></p>
+                      <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price.artistPay}</span></p>
                     </div>
                     
                     <div className='w-full flex flex-col lg:flex-row justify-between'>
@@ -264,11 +264,17 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                       
                       <div className='w-full lg:w-1/2 flex flex-col'>
                           
-                          <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
+                        {portrait.bg.type !== "None" 
+                        ? <div className="relative w-full h-[100px] bg-white bg-[url('/images/customizer/bg_button.svg')] bg-bottom bg-cover p-4 text-black flex justify-end items-center border-2 border-[#282828] rounded-xl mb-2">
                               <p className="w-1/2 text-lg text-center font-semibold mr-8 mb-6 ">{portrait.bg.type === 'bgSimple' ? 'Simple' : 'Complex'} Background</p>                       
-                          </div>
+                        </div>
+                        : <p className='text-xl text-center text-red-600 font-semibold mt-4'>No Background</p>
+                        }
 
+                        {portrait.animals.length !== 0 ?
                           <AnimalList portrait={portrait} />
+                        : <p className='text-xl text-center text-red-600 font-semibold mt-8'>No Animals</p>
+                        }
                       </div>
                         
                     </div>
