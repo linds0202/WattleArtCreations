@@ -163,11 +163,11 @@ const AdditionalOptions = ({ openCreateCheckout, setOpenCreateCheckout, portrait
                             )}
                         </div>
                         
-                        
+                        {/* (Math.round((portrait.price.total * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + */}
                         <div className="w-full mt-4 border-t border-[#282828] flex justify-end">
                             <div className="w-3/4 bg-white rounded-xl p-2 border border-[#282828] mt-4 flex justify-between">
                                 <p className="font-semibold">Total: </p>
-                                <p>${((Math.round((portrait.price * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
+                                <p>${( values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
                             </div>
                             
                         </div>
