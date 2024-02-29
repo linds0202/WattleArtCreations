@@ -88,9 +88,22 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         type: addOn.type,
                         price: addOn.price
                     })
+                    
                     if (addOn.type !== "model") {
                         artistPay += addOn.price
+                    } else {
+                        await modelsRef.add({
+                            "portraitId": currentPortrait.id,
+                            "customerId": currentPortrait.customerId,
+                            "customeName": currentPortrait.customer,
+                            "price": extra.price,
+                            "portraitComplete": false,
+                            "ordered": false,
+                            "admin": "",
+                            "creationDate": Timestamp.now()
+                        }) 
                     }
+                    
                     purchasedItems.push({
                         type: addOn.type,
                         price: addOn.price 
@@ -136,26 +149,26 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     const answer = await portraitDocRef.update({
                         additionalPayments: [...currentPortrait.additionalPayments, newPayment],
                         sheetUploads: finalSheetUploads,
-                        addOns: []
+                        addOns: [],
                     })
                 }
                 
 
                 // Add to admin model list
-                for (const extra of newSheetUploads) {
-                    if (extra.type === 'model') {
-                        await modelsRef.add({
-                            "portraitId": currentPortrait.id,
-                            "customerId": currentPortrait.customerId,
-                            "customeName": currentPortrait.customer,
-                            "price": extra.price,
-                            "portraitComplete": false,
-                            "ordered": false,
-                            "admin": "",
-                            "creationDate": Timestamp.now()
-                        }) 
-                    }
-                }
+                // for (const extra of newSheetUploads) {
+                //     if (extra.type === 'model') {
+                //         await modelsRef.add({
+                //             "portraitId": currentPortrait.id,
+                //             "customerId": currentPortrait.customerId,
+                //             "customeName": currentPortrait.customer,
+                //             "price": extra.price,
+                //             "portraitComplete": false,
+                //             "ordered": false,
+                //             "admin": "",
+                //             "creationDate": Timestamp.now()
+                //         }) 
+                //     }
+                // }
 
                 
             } else if (payment.metadata.type === 'additionalRevision'){

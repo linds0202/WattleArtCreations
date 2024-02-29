@@ -124,11 +124,31 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
     getPortrait()
 
-    if (complete === 'false' && type === 'extras') {
+    if (complete === 'false' && type === 'additional') {
       alert("Additional purchase of 3D model, character sheet, or weapons sheet was not successful, please try again or speak with your artist")
     } else if (complete === 'false' && type === 'revision'){
       alert("Purchase of an additional revision was not successful, please try again or speak with your artist")
-    } else if (complete === 'true' && type === 'addOn'){
+    } else if (complete === 'true' && type === 'additional'){
+      alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
+      if (portrait !== undefined) {
+        const newPayments = portrait?.additionalPayments.map(pay => pay)
+        if (newPayments !== undefined) {
+          const recentPayment = newPayments.pop()
+          if (recentPayment !== undefined) {
+            const newPrice = {
+              artistPay: recentPayment.artistPay * categories.customizer.pricing.commissionPercentage,
+              modelsCount: portrait.price.modelsCount += recentPayment.items.filter(item => item.type === 'model').length,
+              modelPrice: portrait.price.modelPrice,
+              modelsTotal: recentPayment.total - recentPayment.artistPay,
+              total: recentPayment.total
+            }
+            console.log("newPrice: ", newPrice)
+          }
+        } 
+      }
+      
+
+    }else if (complete === 'true' && type === 'addOn'){
       alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
     }
   }, [])
@@ -140,7 +160,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         if (customerTestimonial) setTestimonial(customerTestimonial)
       }
     }
-
     getFinalTestimonial()
 
   }, [portrait?.status])

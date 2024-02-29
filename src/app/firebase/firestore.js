@@ -135,8 +135,8 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
       }),
       payment_method_types: ["card"],
       mode: 'payment',
-      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true`,
-      cancel_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=false&type=extras`,
+      success_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=true&type=additional`,
+      cancel_url: `https://wattle-art-creations.vercel.app/portraits/${portraitIds}?complete=false&type=additional`,
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
@@ -217,7 +217,6 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
 };
 
 // Purchase additional options after portrait completion from testimonial page
-// https://wattle-art-creations.vercel.app/dashboard/${userId}?complete=false&id=${portrait.id}&type=addOn
 export async function getAddOnCheckoutUrl(portrait, userId) {
 
   if (!userId) throw new Error("User is not authenticated") 
@@ -950,7 +949,6 @@ export async function getAllCustomersPortraits(setPortraits, setFiltered, userId
 
 // Get single portrait listener
 export async function getMyPortrait(setPortrait, portraitId) {
-  //const q = query(collection(db, "portraits"), where("portraitId", "==", portraitId))
   
   const unsubscribe = onSnapshot(doc(db, "portraits", portraitId), (doc) => {
     setPortrait(doc.data())
