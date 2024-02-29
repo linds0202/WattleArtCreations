@@ -35,8 +35,10 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
     
           const now = Timestamp.fromDate(new Date())      
     
-          const difference = 86400 - (now.seconds - portrait?.purchaseDate.seconds)
-    
+          let difference = 0
+          if (portrait?.purchaseDate !== null) {
+            difference = 86400 - (now.seconds - portrait?.purchaseDate.seconds)
+          }
           const h = Math.floor(
             (difference / 3600)
           )
