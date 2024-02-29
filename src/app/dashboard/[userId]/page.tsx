@@ -39,8 +39,6 @@ export default function Dashboard({ params: { userId }}: Params) {
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
-  // const [badge, setBadge] = useState('../../../../images/badges/one.png')
-  // const [discount, setDiscount] = useState<number>(0)
   const [reward, setReward] = useState<Reward>({
     badge: '../../../../images/badges/zero.png',
     discount: 0,
