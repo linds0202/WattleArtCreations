@@ -135,7 +135,7 @@ const Questions = ({ portrait, setPortrait, openQuestions, setOpenQuestions, can
             <div className='flex justify-between items-center mb-4'>
                 <p className='text-xl font-semibold'><span className='font-normal'>Title:</span> {portrait.portraitTitle} <span className='text-sm lg:text-base text-[#9e9e9e] font-normal'>({portrait.mode})</span></p>
 
-                <p className='text-md'>Purchase Date: <span className='font-semibold text-[#43b4e4]'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span> </p>           
+                {portrait?.purchaseDate !== null && <p className='text-md'>Purchase Date: <span className='font-semibold text-[#43b4e4]'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span> </p>}           
             
             </div>
             {/* w-full flex justify-between  */}

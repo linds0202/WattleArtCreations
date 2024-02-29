@@ -32,9 +32,11 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
           setLoadingTime(true)
     
           const now = Timestamp.fromDate(new Date())      
-    
-          const difference = 86400 - (now.seconds - portrait?.purchaseDate.seconds)
-    
+          let difference = 0
+          if (portrait?.purchaseDate !== null) {
+            difference = 86400 - (now.seconds - portrait?.purchaseDate.seconds)
+          }
+
           const h = Math.floor(
             (difference / 3600)
           )
@@ -390,7 +392,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
                             <p className='mt-4'>You have 24 hours after purchase to answer/change your responses to the questions.</p>
                             
-                            <p className='mt-4 font-semibold'>Purchase date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.purchaseDate.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.purchaseDate.seconds * 1000).toLocaleTimeString()}</span></p>
+                            {portrait?.purchaseDate !== null && <p className='mt-4 font-semibold'>Purchase date: <span className='font-semibold text-md text-[#2DD42B] ml-2'>{new Date(portrait?.purchaseDate.seconds * 1000).toDateString() + ' at ' + new Date(portrait?.purchaseDate.seconds * 1000).toLocaleTimeString()}</span></p>}
                         </div>
                         : <div>
                             {portrait?.status !== 'Completed' && <p className='text-sm mt-2'>Your time to edit your responses has ended. You can still view your answers but will no longer be able to edit them.</p>}
