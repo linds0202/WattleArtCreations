@@ -124,48 +124,36 @@ export default function Dashboard({ params: { userId }}: Params) {
         discount: 0,
         level: 0
       })
-      // setDiscount(0)
-      // setBadge('../../../../images/badges/zero.png')
     } else if (commissions > 0 && commissions < 3) {
       setReward({
         badge: '../../../../images/badges/one.png',
         discount: categories.customizer.rewardsDiscounts[0],
         level: 1
       })
-      // setDiscount(categories.customizer.rewardsDiscounts[0])
-      // setBadge('../../../../images/badges/one.png')
     } else if (commissions >= 3 && commissions < 5) {
       setReward({
         badge: '../../../../images/badges/two.png',
         discount: categories.customizer.rewardsDiscounts[1],
         level: 2
       })
-      // setDiscount(categories.customizer.rewardsDiscounts[1])
-      // setBadge('../../../../images/badges/two.png')
     } else if (commissions >= 5 && commissions < 7) {
       setReward({
         badge: '../../../../images/badges/three.png',
         discount: categories.customizer.rewardsDiscounts[2],
         level: 3
       })
-      // setDiscount(categories.customizer.rewardsDiscounts[2])
-      // setBadge('../../../../images/badges/three.png')
     } else if (commissions >= 7 && commissions < 10) {
       setReward({
         badge: '../../../../images/badges/four.png',
         discount: categories.customizer.rewardsDiscounts[3],
         level: 4
       })
-      // setDiscount(categories.customizer.rewardsDiscounts[3])
-      // setBadge('../../../../images/badges/three.png')
     } else {
       setReward({
         badge: '../../../../images/badges/five.png',
         discount: categories.customizer.rewardsDiscounts[4],
         level: 5
       })
-      // setDiscount(categories.customizer.rewardsDiscounts[4])
-      // setBadge('../../../../images/badges/four.png')
     }   
   }
 

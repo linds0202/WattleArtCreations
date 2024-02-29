@@ -33,10 +33,8 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             lastUpdatedStatus: new Date,
         }
         
-        // if (portrait.artist.length) {
         const updatedArtist = await updateArtistOnCompletion(portrait, categories.customizer.pricing.commissionPercentage)
-        // }
-
+        
         updatePortrait(newPortrait?.id, newPortrait)
         setPortrait(newPortrait)  
         

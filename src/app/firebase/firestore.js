@@ -614,7 +614,7 @@ export async function addPortrait(data) {
     artistNotes: [],
     artistAssigned: false,
     creationDate: new Date,
-    purchaseDate: new Date,
+    purchaseDate: null,
     status: 'Unordered',
     lastUpdatedStatus: new Date,
     paymentComplete: false,

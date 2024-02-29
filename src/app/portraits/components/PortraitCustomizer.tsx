@@ -100,7 +100,7 @@ export interface PortraitData  {
     artistNotes: [],
     artistAssigned: boolean,
     creationDate: Timestamp,
-    purchaseDate: Timestamp,
+    purchaseDate: Timestamp | null,
     status: string,
     lastUpdatedStatus: Timestamp,
     paymentComplete: boolean,
@@ -173,7 +173,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         artistNotes: [],
         artistAssigned: false,
         creationDate: Timestamp.now(),
-        purchaseDate: Timestamp.now(),
+        purchaseDate: null,
         status: 'Unpaid',
         lastUpdatedStatus: Timestamp.now(),
         paymentComplete: false,
@@ -312,8 +312,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             modelPrice: categories.customizer.pricing.model,
             modelsTotal: modelsTotal
         }
-
-        console.log("shetUploadArray: ", sheetUploadArray)
     
         const newPortrait = {
             ...portraitFormData, 
@@ -364,6 +362,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
             //update portrait with bucket info
             const updatedImages = await getImageUrls(id, bucket, uploads)
+            
             setTotalPrice(totalPrice + price)
             
             const updatedPortrait = {...newPortrait, id: id, images: [...updatedImages] }

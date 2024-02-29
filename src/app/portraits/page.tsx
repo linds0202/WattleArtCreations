@@ -224,7 +224,6 @@ export default function Portraits() {
               : portrait.mode === categories.cat2.type
               ? categories.customizer.defaults.cat2DefaultImg 
               : categories.customizer.defaults.cat3DefaultImg }`}
-            //src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
             alt={`default image for ${portrait?.mode} portrait`} 
             className='w-[100%] h-[100%] object-cover object-top rounded-xl'
           />

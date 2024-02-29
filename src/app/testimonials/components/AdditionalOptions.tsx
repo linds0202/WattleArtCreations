@@ -94,7 +94,7 @@ const AdditionalOptions = ({ openCreateCheckout, setOpenCreateCheckout, portrait
                 </div>
                 
                 
-                <div className="w-full h-3/4 my-4 flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-around items-center border border-red-600">
+                <div className="w-full h-3/4 my-4 flex flex-col gap-y-4 md:gap-y-0 md:flex-row justify-around items-center">
                     
                     <div className='self-stretch w-full md:w-1/4 md:mx-4 bg-[#282828] rounded-lg p-4 text-white flex flex-col justify-between items-center'>
                         
@@ -163,11 +163,10 @@ const AdditionalOptions = ({ openCreateCheckout, setOpenCreateCheckout, portrait
                             )}
                         </div>
                         
-                        {/* (Math.round((portrait.price.total * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + */}
                         <div className="w-full mt-4 border-t border-[#282828] flex justify-end">
                             <div className="w-3/4 bg-white rounded-xl p-2 border border-[#282828] mt-4 flex justify-between">
                                 <p className="font-semibold">Total: </p>
-                                <p>${( values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
+                                <p>${(values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
                             </div>
                             
                         </div>
