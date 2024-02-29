@@ -143,7 +143,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           <div className='w-full md:w-[50%] pl-2'>
             {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold text-sm md:text-xl'>Created on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.creationDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
-            {portrait?.status !== 'Unpaid' && <p className='mb-2 font-semibold text-sm md:text-xl'>Ordered on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
+            {portrait?.status !== 'Unpaid' && portrait?.purchaseDate !== null && <p className='mb-2 font-semibold text-sm md:text-xl'>Ordered on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
 
             {user?.roles === 'Artist' && <p className='mb-2 font-semibold text-sm md:text-xl'>Customer:<span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
@@ -254,7 +254,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                 <div className='w-full mb-4 flex justify-start items-center'>
                   <div className='w-full lg:ml-4'>
                     <div className='flex justify-between items-center mb-8'>
-                      <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>
+                      {portrait?.purchaseDate !== null && <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>}
                       <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price.artistPay}</span></p>
                     </div>
                     
