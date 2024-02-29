@@ -147,87 +147,28 @@ const CreateCheckout = ({ openCreateCheckout, setOpenCreateCheckout, portrait, s
                 </div>
 
                 <div className="w-full bg-[#e9e9e9] rounded-xl p-4">
-                    <table className="w-full ">
-                        <thead>
-                            <tr className="text-center p-2">
-                                <th className="w-1/3">Type</th>
-                                <th className="w-1/3">Customer Price</th>
-                                <th className="w-1/3">Artist Commission</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {values.extras.length === 0 && values.complexity - 1 === 0 &&
-                            <tr>
-                                <td className="bg-white">&nbsp;</td>
-                                <td className="bg-white">&nbsp;</td>
-                                <td className="bg-white">&nbsp;</td>
-                            </tr>
-                            }
-                            {values.complexity - 1 !== 0 && <tr className="text-center p-2 bg-white">
-                                <td>Complexity</td>
-                                <td>${(Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100).toFixed(2)}</td>
-                                <td>${(Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1] * categories.customizer.pricing.commissionPercentage) * 100) / 100).toFixed(2)}</td>
-                            </tr>}
-                        
-                            {values.extras.map((extra, i) => 
-                                <tr key={i} className="text-center bg-white">
-                                    <td>{extra === 'model' ? '3D Model' : extra === 'character' ? 'Character Sheet' : 'Weapons Sheet'}</td>
-                                    <td>${categories.customizer.pricing[extra].toFixed(2)}</td>
-                                    {extra !== 'model' && <td>${(categories.customizer.pricing[extra] * categories.customizer.pricing.commissionPercentage).toFixed(2)}</td>}
-                                    {extra === 'model' && <td>$0</td>}
-                                </tr>
-                            )}
 
-                            <tr className="text-center p-2">
-                                <td className="font-semibold">Total: </td>
-                                <td 
-                                    className="bg-white"
-                                >
-                                    ${((Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) 
-                                    + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0))
-                                    .toFixed(2)}
-                                </td>
-                                
-                                <td className="bg-white">
-                                    ${((Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * categories.customizer.pricing.commissionPercentage * 100) / 100) 
-                                    + values.extras.reduce((sum, n) => sum += n !== 'model' ? (categories.customizer.pricing[n] * categories.customizer.pricing.commissionPercentage) : 0, 0))
-                                    .toFixed(2)}
-                                </td>
-                            </tr>
-
-                            {/* {filteredModels.length === 0 ? 
-                                <tr>
-                                <td>No 3D Model orders to display</td>
-                                </tr>
-                            :  filteredModels?.map(model => (
-                                <Model key={model.uid} model={model} user={user} />
-                            )) } */}
-                        </tbody>
-                    </table>
-                    
-                    
-                    {/* <div className="flex justify-between">
+                    <div className="flex justify-between">
                         <p>Complexity</p>
                         <p>${(Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100).toFixed(2)}</p>
-                    </div> */}
+                    </div>
 
                     
-                    {/* {values.extras.map((extra, i) => 
+                    {values.extras.map((extra, i) => 
                         <div key={i} className="mt-4 flex justify-between">
                             <p>{extra === 'model' ? '3D Model' : extra === 'character' ? 'Character Sheet' : 'Weapons Sheet'}</p>
                             <p>${categories.customizer.pricing[extra].toFixed(2)}</p>
-                            {extra !== 'model' && <span>(${categories.customizer.pricing[extra].toFixed(2)})</span>}
                         </div>
-                    )} */}
+                    )}
                     
                     {/* border-t border-[#282828]  */}
-                    {/* <div className="w-full mt-4 flex justify-end">
+                    <div className="w-full mt-4 border-t border-[#282828] flex justify-end">
                         <div className="w-1/3 bg-white rounded-xl p-2 border border-[#282828] mt-4 flex justify-between">
                             <p className="font-semibold">Total: </p>
                             <p>${((Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
                         </div>
                         
-                    </div> */}
+                    </div>
                 </div>
 
             <div className='w-full mx-auto mt-4 flex flex-col md:flex-row justify-around items-center'>

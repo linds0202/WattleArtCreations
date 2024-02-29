@@ -20,10 +20,29 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
     const router = useRouter();
 
     const handleComplete = async () => {
+        // Calc new artist commission from addOns
+        const newArtistPay = portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0)
+
+        // Adjust artist pay to reflect commission percentage
         const newAdditionalPayments = portrait.additionalPayments.map(payment => ({
             ...payment,
+            artistPay: payment.artistPay * categories.customizer.pricing.commissionPercentage,
             released: true
         }))
+
+        // Count new models
+        let modelsTotal = 0
+        let modelsCount = 0
+        for (const payment of portrait.additionalPayments) {
+            if (!payment.released) {
+                for (const item of payment.items) {
+                    if (item.type === 'model') {
+                        modelsCount++
+                        modelsTotal += item.price
+                    }
+                }
+            }
+        }
         
         const newPortrait = {
             ...portrait, 
@@ -31,9 +50,16 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             portraitCompletionDate: Timestamp.now(),
             additionalPayments: newAdditionalPayments,
             lastUpdatedStatus: new Date,
+            price: {
+                modelCount: portrait.price.modelsCount + modelsCount,
+                modelPrice: portrait.price.modelPrice,
+                modelsTotal: portrait.price.modelsTotal + modelsTotal,
+                artistPay: portrait.price.artistPay + newArtistPay,
+                total: portrait.price.total + portrait.additionalPayments.reduce((sum, payment) => sum += payment.total, 0)
+            }
         }
         
-        const updatedArtist = await updateArtistOnCompletion(portrait, categories.customizer.pricing.commissionPercentage)
+        const updatedArtist = await updateArtistOnCompletion(newPortrait)
         
         updatePortrait(newPortrait?.id, newPortrait)
         setPortrait(newPortrait)  

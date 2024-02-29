@@ -130,22 +130,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       alert("Purchase of an additional revision was not successful, please try again or speak with your artist")
     } else if (complete === 'true' && type === 'additional'){
       alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
-      if (portrait !== undefined) {
-        const newPayments = portrait?.additionalPayments.map(pay => pay)
-        if (newPayments !== undefined) {
-          const recentPayment = newPayments.pop()
-          if (recentPayment !== undefined) {
-            const newPrice = {
-              artistPay: recentPayment.artistPay * categories.customizer.pricing.commissionPercentage,
-              modelsCount: portrait.price.modelsCount += recentPayment.items.filter(item => item.type === 'model').length,
-              modelPrice: portrait.price.modelPrice,
-              modelsTotal: recentPayment.total - recentPayment.artistPay,
-              total: recentPayment.total
-            }
-            console.log("newPrice: ", newPrice)
-          }
-        } 
-      }
     }else if (complete === 'true' && type === 'addOn'){
       alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
     }
@@ -707,9 +691,21 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     ? <p>No extras have been added to this portrait</p>
                     :<div className='bg-white rounded-xl p-4 flex flex-col gap-y-2'>
                       <p className='text-xl text-center font-bold'>Already Purchased For This Portrait:</p>
+                      
                       {extrasList}
+
+                      <p className='font-semibold'>Commission</p>
+                      <div className='flex'>
+                        <p className='font-semibold mx-1'>(Base) <span className='text-[#43b4e4]'>${portrait?.price.artistPay}</span></p>
+                        <p className='font-semibold'> + </p>
+                        <p className='font-semibold mx-1'>(AddOns) <span className='text-[#43b4e4] mr-1'>${portrait?.additionalPayments.reduce((sum, payment) => sum += payment.artistPay * categories.customizer.pricing.commissionPercentage, 0).toFixed(2)}</span> </p>
+                        {portrait && <p className='font-semibold'> =<span className='text-[#43b4e4] ml-1'>${(portrait?.price.artistPay + portrait?.additionalPayments.reduce((sum, payment) => sum += payment.artistPay * categories.customizer.pricing.commissionPercentage, 0)).toFixed(2)}</span></p>}
+                      </div>
                     </div>
                   }
+
+                  
+                  
                 </div>
                     
                 }

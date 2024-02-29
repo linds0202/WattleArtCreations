@@ -280,7 +280,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         
         const price: number = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
 
-        let modelCount = 0
+        let modelsCount = 0
         let modelsTotal = 0
 
         const sheetUploadArray: Array<SheetUploadsData> = []
@@ -297,7 +297,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
                 })
                 index++
                 if (extra === 'model') {
-                    modelCount++
+                    modelsCount++
                     char.charDiscount ? modelsTotal += categories.customizer.pricing[extra] * .9 : modelsTotal += categories.customizer.pricing[extra]
                 }
 
@@ -308,7 +308,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         const newPrice = {
             total: price,
             artistPay: (price - modelsTotal) * categories.customizer.pricing.commissionPercentage,
-            modelCount: modelCount,
+            modelsCount: modelsCount,
             modelPrice: categories.customizer.pricing.model,
             modelsTotal: modelsTotal
         }

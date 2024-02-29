@@ -169,7 +169,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </div>
 
           <div className='pl-2 md:pl-0 mt-2 md:mt-0'>
-            {user?.roles !== 'Customer' && <p className='text-sm md:text-xl font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-sm md:text-xl'>$ {portrait.price.artistPay}</span></p>}
+            {user?.roles !== 'Customer' && <p className='text-sm md:text-xl font-semibold'>Commission: <span className='ml-2 text-[#2DD42B] text-sm md:text-xl'>$ {(portrait.price.artistPay + portrait.additionalPayments.reduce((sum, payment) => sum += payment.artistPay * categories.customizer.pricing.commissionPercentage, 0)).toFixed(2)}</span></p>}
           </div>
           
         </div>
