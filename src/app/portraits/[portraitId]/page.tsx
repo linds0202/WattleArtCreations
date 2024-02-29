@@ -146,8 +146,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
           }
         } 
       }
-      
-
     }else if (complete === 'true' && type === 'addOn'){
       alert("Purchase of additional 3D model, character sheet, or weapons sheet was successful!")
     }
