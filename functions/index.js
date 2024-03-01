@@ -194,16 +194,12 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 })
 
             } else if (payment.metadata.type === 'addOn'){
-
+                console.log('in type addOn')
                 const newSheetUploads = []
                 const purchasedItems = []
                 let artistPay = 0
-                // let models = 0
-                // let newModelPrice = currentPortrait.price.modelPrice
-                // let additionalTotal = 0
                 
                 for (const addOn of currentPortrait.addOns) { 
-                    // additionalTotal += addOn.price
 
                     newSheetUploads.push({
                         src: "",
@@ -215,11 +211,18 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
                     if (addOn.type !== "model") {
                         artistPay += addOn.price
-                    } 
-                    // else {
-                    //     models++
-                    //     newModelPrice = addOn.price
-                    // }
+                    } else {
+                        await modelsRef.add({
+                            "portraitId": currentPortrait.id,
+                            "customerId": currentPortrait.customerId,
+                            "customeName": currentPortrait.customer,
+                            "price": addOn.price,
+                            "portraitComplete": false,
+                            "ordered": false,
+                            "admin": "",
+                            "creationDate": Timestamp.now()
+                        }) 
+                    }
 
                     purchasedItems.push({
                         type: addOn.type,
@@ -245,20 +248,13 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     index: i
                 }))
 
-                const notModels = newSheetUploads.filter(sheet => sheet.type !== model)
+                const notModels = newSheetUploads.filter(sheet => sheet.type !== 'model')
 
                 if (notModels.length === 0 ) {
                     const answer = await portraitDocRef.update({
                         additionalPayments: [...currentPortrait.additionalPayments, newPayment],
                         sheetUploads: finalSheetUploads,
                         addOns: [],
-                        // price: {
-                        //     total: currentPortrait.price.total + additionalTotal,
-                        //     artistPay: artistPay,
-                        //     modelCount: currentPortrait.price.modelCount,
-                        //     modelsTotal: currentPortrait.price.modelCount + models,
-                        //     modelPrice: newModelPrice
-                        // }
                     })
                 } else {
                     const answer = await portraitDocRef.update({
@@ -279,20 +275,20 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
 
                 // Add to admin model list
-                for (const extra of newSheetUploads) {
-                    if (extra.type === 'model') {
-                        await modelsRef.add({
-                            "portraitId": currentPortrait.id,
-                            "customerId": currentPortrait.customerId,
-                            "customeName": currentPortrait.customer,
-                            "price": extra.price,
-                            "portraitComplete": false,
-                            "ordered": false,
-                            "admin": "",
-                            "creationDate": Timestamp.now()
-                        }) 
-                    }
-                }
+                // for (const extra of newSheetUploads) {
+                //     if (extra.type === 'model') {
+                //         await modelsRef.add({
+                //             "portraitId": currentPortrait.id,
+                //             "customerId": currentPortrait.customerId,
+                //             "customeName": currentPortrait.customer,
+                //             "price": extra.price,
+                //             "portraitComplete": false,
+                //             "ordered": false,
+                //             "admin": "",
+                //             "creationDate": Timestamp.now()
+                //         }) 
+                //     }
+                // }
 
                 
             } else if (payment.metadata.type === 'tip'){

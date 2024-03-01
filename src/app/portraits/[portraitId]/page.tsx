@@ -586,7 +586,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       {authUser?.roles === 'Artist' && portrait && !portrait?.revised && portrait?.revisions >= 0 && 
                         <button  
                           className='text-xl border-2 border-[#282828] rounded-xl mx-auto mt-10 bg-gradient-to-r px-4 py-2 from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'
+                          title='Additional Revision must be purchased before you can upload'
                           onClick={handleUpload}
+                          disabled={portrait?.revisions === 0 && !portrait.additionalRevision}
                         >
                           Upload Image
                         </button>
@@ -681,7 +683,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     <div className='w-1/2 mt-4 bg-white rounded-xl p-4'>
                       <p className='font-semibold'>This link includes payment for:</p>
                       {portrait?.addOns.map((addOn, i) => 
-                        <p key={i} className='ml-4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type} - ${addOn.price}</p>  
+                        <p key={i} className='ml-4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type} - ${addOn.price.toFixed(2)}</p>  
                       )}
                       <p className='text-right font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0).toFixed(2)}</p>
                     </div>
