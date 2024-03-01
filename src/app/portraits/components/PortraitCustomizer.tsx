@@ -91,7 +91,7 @@ export interface PortraitData  {
         total: number,
         artistPay: number,
         modelsCount: number,
-        modelPrice: number,
+        // modelPrice: number,
         modelsTotal: number
     }
     customer: string,
@@ -164,7 +164,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             total: 0,
             artistPay: 0,
             modelsCount: 0,
-            modelPrice: 0,
+            // modelPrice: 0,
             modelsTotal: 0
         },
         customer: '',
@@ -309,7 +309,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             total: price,
             artistPay: (price - modelsTotal) * categories.customizer.pricing.commissionPercentage,
             modelsCount: modelsCount,
-            modelPrice: categories.customizer.pricing.model,
+            // modelPrice: categories.customizer.pricing.model,
             modelsTotal: modelsTotal
         }
     

@@ -20,13 +20,13 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
     const router = useRouter();
 
     const handleComplete = async () => {
-        // Calc new artist commission from addOns
-        const newArtistPay = portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0)
+        // Calc new artist commission from addOns & round to 2 decimals
+        const newArtistPay = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0) * 100) / 100
 
         // Adjust artist pay to reflect commission percentage
         const newAdditionalPayments = portrait.additionalPayments.map(payment => ({
             ...payment,
-            artistPay: payment.artistPay * categories.customizer.pricing.commissionPercentage,
+            artistPay: Math.round(payment.artistPay * categories.customizer.pricing.commissionPercentage * 100) / 100,
             released: true
         }))
 
@@ -52,10 +52,10 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             lastUpdatedStatus: new Date,
             price: {
                 modelCount: portrait.price.modelsCount + modelsCount,
-                modelPrice: portrait.price.modelPrice,
+                // modelPrice: portrait.price.modelPrice,
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
                 artistPay: portrait.price.artistPay + newArtistPay,
-                total: portrait.price.total + portrait.additionalPayments.reduce((sum, payment) => sum += payment.total, 0)
+                total: portrait.price.total + Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += payment.total, 0) * 100) / 100
             }
         }
         

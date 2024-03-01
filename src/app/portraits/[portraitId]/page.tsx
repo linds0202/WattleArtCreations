@@ -192,7 +192,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
 
     <div className='mb-4'>
       {authUser?.roles === 'Customer'
-      ? <p className='font-semibold'>Character or Weapons Sheets <span className='text-xs font-normal'>(Sheets in <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>yellow</span> have not been completed by your artist yet. {portrait?.status !== 'Completed' ? 'Completed sheets will have a thumbnail, click to enlarge' : 'Click an thumbnail to download your finished sheet'}. You cannot release payment to your artist until all sheets have been uploaded.)</span></p>
+      ? <p className='font-semibold'>Character or Weapons Sheets {portrait?.status === 'Completed' ? <span className='text-xs font-normal'>(<span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>Click on</span> a sheet to download the final version)</span> : <span className='text-xs font-normal'>(Sheets in <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>yellow</span> have not been completed by your artist yet. {portrait?.status !== 'Completed' ? 'Completed sheets will have a thumbnail, click to enlarge' : 'Click an thumbnail to download your finished sheet'}. You cannot release payment to your artist until all sheets have been uploaded.)</span>}</p>
       : <p className='font-semibold'>Character or Weapons Sheets <span className='text-xs font-normal'>(Your customer cannot release payment to you until all additional sheets are uploaded. Click an <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>option</span> to upload your work. Click the trash to remove an image and re-upload.)</span></p>
       }
       {portrait?.sheetUploads.filter(extra => extra.type === 'character' || extra.type === "weapons").length !== 0
@@ -444,7 +444,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     >
                       Download Final Image
                     </button>
-                    <p className='text-md text-center mb-4'>You can also download each version from this commission by clicking the thumbnails below</p>
+                    <p className='text-md text-center mb-4'>You can also download each version from this commission by clicking the thumbnails below. See <span className='px-2 py-1 bg-[#f4ffa1] rounded-lg'>Character & Weapons sheet</span> section below to download final versions if ordered for this portrait.</p>
                   </div>
                   :<div className='w-full my-8 flex flex-col items-center'>
                     <p className='text-2xl font-bold text-center text-[#43b4e4] '>This commission is complete!</p>
@@ -486,31 +486,38 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       </div>
                     </div>
                     : <div className='w-full mt-4 p-4 bg-[#43b4e4]/50 rounded-xl'>
-                        <h2 className='text-center font-bold text-2xl mb-2'>Share Your Experience</h2>
-                        
-                        <p className='text-lg mb-4'>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
+                        {authUser?.roles === 'Customer' 
+                        ? <div>
+                          <h2 className='text-center font-bold text-2xl mb-2'>Share Your Experience</h2>
+                          
+                          <p className='text-lg mb-4'>We&apos;d love to hear about your experience with Wattle Art Creations and see how your custom digital artwork looks on display! Please consider sharing a photo or a testimonial on social media and tagging us at [social media handles], or emailing us your feedback at [email/contact information]. Your testimonials help us grow and continue to provide exceptional art commission services.</p>
 
-                        {!openTestimonial && !portrait?.reviewed && portrait &&<div 
-                          className='w-1/2 mx-auto text-xl font-semibold px-4 py-2 cursor-pointer bg-white border border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4]'
-                          onClick={() => setOpenTestimonial(true)}  
-                        >
-                          <p className='text-center'>Leave a Review</p>
-                        </div>}
+                          {!openTestimonial && !portrait?.reviewed && portrait &&
+                          <div 
+                            className='w-1/2 mx-auto text-xl font-semibold px-4 py-2 cursor-pointer bg-white border border-[#282828] rounded-xl hover:text-white hover:bg-[#43b4e4]'
+                            onClick={() => setOpenTestimonial(true)}  
+                          >
+                            <p className='text-center'>Leave a Review</p>
+                          </div>}
 
-                        {openTestimonial && !portrait?.reviewed && portrait &&
-                            <CustomerTestimonial 
-                                setOpenTestimonial={setOpenTestimonial} 
-                                displayName={authUser?.displayName}
-                                category={portrait.mode}
-                                portraitId={portraitId}
-                                artistId={portrait?.artist[0].id}
-                                customerId={authUser?.uid}
-                                completionDate={portrait.lastUpdatedStatus}
-                                setReviewed={setReviewed}
-                                setTestimonial={setTestimonial}
-                                source='portraitPage'
-                            />
-                        } 
+
+                          {openTestimonial && !portrait?.reviewed && portrait &&
+                              <CustomerTestimonial 
+                                  setOpenTestimonial={setOpenTestimonial} 
+                                  displayName={authUser?.displayName}
+                                  category={portrait.mode}
+                                  portraitId={portraitId}
+                                  artistId={portrait?.artist[0].id}
+                                  customerId={authUser?.uid}
+                                  completionDate={portrait.lastUpdatedStatus}
+                                  setReviewed={setReviewed}
+                                  setTestimonial={setTestimonial}
+                                  source='portraitPage'
+                              />
+                          } 
+                        </div>
+                        : <p>Customers review will appear here when complete</p>
+                        }
                     </div>}
                   </div>
                 </div>
