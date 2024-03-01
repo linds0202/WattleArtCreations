@@ -25,6 +25,7 @@ import { Timestamp } from 'firebase/firestore';
 import { getMyPortrait, getPortrait, updatePortraitWithSheet, getExtrasCheckoutUrl } from '../../firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 import CustomerTestimonial from '@/app/testimonials/components/CustomerTestimonial';
+import { auth } from '@/app/firebase/firebase';
 
 export interface ExtrasData {
   type: string,
@@ -486,7 +487,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       </div>
                     </div>
                     : <div className='w-full mt-4 p-4 bg-[#43b4e4]/50 rounded-xl'>
-                        {authUser?.roles === 'Customer' 
+                        {authUser?.roles === 'Customer' && portrait?.status === "Completed" 
                         ? <div>
                           <h2 className='text-center font-bold text-2xl mb-2'>Share Your Experience</h2>
                           
@@ -516,7 +517,10 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                               />
                           } 
                         </div>
-                        : <p>Customers review will appear here when complete</p>
+                        : <div>
+                            {authUser.roles !== 'Customer' && <p>Customers review will appear here when complete</p>}
+                            {authUser.roles === 'Customer' && <p>You have added additional Character or Weapons sheet, you can leave a review once they are complete</p>}
+                          </div>
                         }
                     </div>}
                   </div>
@@ -585,7 +589,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     <div className='w-full flex justify-center items-center'>
                       {authUser?.roles === 'Artist' && portrait && !portrait?.revised && portrait?.revisions >= 0 && 
                         <button  
-                          className='text-xl border-2 border-[#282828] rounded-xl mx-auto mt-10 bg-gradient-to-r px-4 py-2 from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'
+                          className={`text-xl border-2 border-[#282828] rounded-xl mx-auto mt-10 ${portrait?.revisions === 0 && (portrait.additionalRevisionRequest && !portrait.additionalRevision) ? 'bg-[#282828]/50' : 'bg-gradient-to-r from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'} px-4 py-2 `}
                           title='Additional Revision must be purchased before you can upload'
                           onClick={handleUpload}
                           disabled={portrait?.revisions === 0 && (portrait.additionalRevisionRequest && !portrait.additionalRevision)}

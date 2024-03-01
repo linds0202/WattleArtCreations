@@ -23,6 +23,8 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         // Calc new artist commission from addOns & round to 2 decimals
         const newArtistPay = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0) * 100) / 100
 
+        const newPriceTotal = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.total : 0, 0) * 100) / 100
+
         // Adjust artist pay to reflect commission percentage
         const newAdditionalPayments = portrait.additionalPayments.map(payment => ({
             ...payment,
@@ -55,11 +57,16 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
                 // modelPrice: portrait.price.modelPrice,
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
                 artistPay: portrait.price.artistPay + newArtistPay,
-                total: portrait.price.total + Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += payment.total, 0) * 100) / 100
+                total: portrait.price.total + newPriceTotal
             }
         }
         
-        const updatedArtist = await updateArtistOnCompletion(newPortrait)
+        if (portrait?.portraitCompletionDate === null) {
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, portrait.price.artistPay + newArtistPay)
+        } else {
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, newArtistPay)
+        }
+        
         
         updatePortrait(newPortrait?.id, newPortrait)
         setPortrait(newPortrait)  

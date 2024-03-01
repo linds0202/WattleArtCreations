@@ -501,14 +501,14 @@ export function updateCustomerCommissionsTotal(userId) {
 }
 
 //update artist when commission completed
-export async function updateArtistOnCompletion(portrait) {
+export async function updateArtistOnCompletion(portrait, newArtistPay) {
   const userId = portrait.artist[0].id
   
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: portrait.price.artistPay,
+      paymentsOwing: increment(newArtistPay),
     }
   )
 }
