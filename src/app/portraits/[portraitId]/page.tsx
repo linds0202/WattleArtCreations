@@ -588,7 +588,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           className='text-xl border-2 border-[#282828] rounded-xl mx-auto mt-10 bg-gradient-to-r px-4 py-2 from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 transition duration-200 ease-in-out'
                           title='Additional Revision must be purchased before you can upload'
                           onClick={handleUpload}
-                          disabled={portrait?.revisions === 0 && !portrait.additionalRevision}
+                          disabled={portrait?.revisions === 0 && (portrait.additionalRevision && !portrait.additionalRevision)}
                         >
                           Upload Image
                         </button>

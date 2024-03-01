@@ -96,7 +96,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
                             "customeName": currentPortrait.customer,
-                            "price": extra.price,
+                            "price": addOn.price,
                             "portraitComplete": false,
                             "ordered": false,
                             "admin": "",
