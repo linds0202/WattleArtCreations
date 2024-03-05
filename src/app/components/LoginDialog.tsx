@@ -23,7 +23,6 @@ const uiConfig = {
     callbacks: {
         // Avoid redirects after sign-in.
         signInSuccessWithAuthResult: () => {
-            console.log('calling this')
             return false
         }
     },

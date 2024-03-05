@@ -125,7 +125,7 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
         
         <div className='mt-4 flex flex-col items-center'>
           {filtered.length === 0 ? 
-            <p className='text-2xl font-bold mt-8'>No portraits to display</p>
+            <p className='text-2xl text-white font-bold mt-8'>No portraits to display</p>
           :  filtered?.map(portrait => (
             <Portrait key={portrait.id} portrait={portrait} user={currentUser} />
           )) }

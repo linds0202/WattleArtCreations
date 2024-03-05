@@ -440,7 +440,22 @@ export function addUser(user) {
     artistName: user.displayName, 
     bio: "",
     links: [],
-    artistImgs: [],
+    artistImgs: {
+      imgUrl1: "",
+      imgBucket1: "",
+      imgUrl2: "",
+      imgBucket2: "",
+      imgUrl3: "",
+      imgBucket3: "",
+      imgUrl4: "",
+      imgBucket4: "",
+      imgUrl5: "",
+      imgBucket5: "",
+      imgUrl6: "",
+      imgBucket6: "",
+      imgUrl7: "",
+      imgBucket7: "",
+  },
     website: "",
     country: "",
     activeCommissions: 0,
@@ -1168,9 +1183,6 @@ export async function getPreviousTestimonials(artistId, last) {
   
   return { testimonials, lastVisible }
 }
-
-
-
 
 
 //Add Artist's portfolio img
