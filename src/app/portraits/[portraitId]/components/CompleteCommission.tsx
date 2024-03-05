@@ -28,7 +28,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         // Adjust artist pay to reflect commission percentage
         const newAdditionalPayments = portrait.additionalPayments.map(payment => ({
             ...payment,
-            artistPay: Math.round(payment.artistPay * categories.customizer.pricing.commissionPercentage * 100) / 100,
+            artistPay: !payment.released ? Math.round(payment.artistPay * categories.customizer.pricing.commissionPercentage * 100) / 100 : payment.artistPay,
             released: true
         }))
 
@@ -56,7 +56,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             additionalPayments: newAdditionalPayments,
             lastUpdatedStatus: new Date,
             price: {
-                modelCount: portrait.price.modelsCount + modelsCount,
+                modelsCount: portrait.price.modelsCount + modelsCount,
                 // modelPrice: portrait.price.modelPrice,
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
                 artistPay: portrait.price.artistPay + newArtistPay,
