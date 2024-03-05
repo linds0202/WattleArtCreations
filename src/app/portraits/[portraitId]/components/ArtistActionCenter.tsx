@@ -296,7 +296,7 @@ const ArtistActionCenter = ({ portrait, setPortrait, setOpenRevision }: ActionCe
                     {portrait?.status === "Completed"  
                         ? <div className="bg-white py-2 px-4 rounded-lg">
                             <p>Your customer has approved your last submission</p>
-                            <p>This portrait is now complete. The Wattle Arts Admin team will proces your payment shortly</p>
+                            <p>This portrait is now complete. The Wattle Arts Admin team will process your payment shortly</p>
                         </div>
                         : (portrait.status === 'In Progress' && portrait?.portraitCompletionDate !== null)
                         ? <div>

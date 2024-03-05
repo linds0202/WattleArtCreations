@@ -3,7 +3,7 @@
 import '../globals.css'
 import {useState, useEffect} from 'react'
 import { useAuth } from '../firebase/auth'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import CustomerTestimonial from './components/CustomerTestimonial'
 import { downloadImage } from '../firebase/storage'
 import { getPortrait } from '../firebase/firestore'
@@ -15,7 +15,8 @@ import { Testimonial } from '../portraits/[portraitId]/page'
 
 
 const Testimonials = () => {
-    const { authUser } = useAuth()
+    const { authUser, isLoading } = useAuth()
+    const router = useRouter()
     const searchParams = useSearchParams()
     const portraitId = searchParams.get('portraitId')
     const artistId = searchParams.get('artistId')
@@ -28,6 +29,13 @@ const Testimonials = () => {
 
     const [openCreateCheckout, setOpenCreateCheckout] = useState(false)
     const [openTip, setOpenTip] = useState(false)
+
+    // Listen to changes for loading and authUser, redirect if needed
+    useEffect(() => {
+        if (!isLoading && !authUser) {
+            router.push('/')
+        }
+    }, [authUser, isLoading]);
     
 
     useEffect(() => {
@@ -53,7 +61,8 @@ const Testimonials = () => {
 
             <object type="image/svg+xml" data="images/HIWIcons/b_w_bricks.svg" className="absolute top-[25%] -left-[35%] md:-top-[15%] md:-left-[40%] lg:top-0 xl:top-[10%] lg:left-0 w-[500%] h-[175vh] md:w-[300%] md:h-[125%] lg:w-[100%] lg:h-[60%] object-cover md:object-none"/>
             
-            <div className='pb-36 pt-16 md:pt-24 flex flex-col justify-center items-center'>
+            {portrait?.customerId === authUser.id 
+            ? <div className='pb-36 pt-16 md:pt-24 flex flex-col justify-center items-center'>
                 <div className='w-11/12 md:w-8/12 mx-auto mt-4 text-center'>
                     <h1 className='text-4xl md:text-5xl text-[#43b4e4] font-bold'>Congratulations on Your Custom Artwork!</h1>
                     <p className='text-xl mt-4'>Thank you for choosing Wattle Art Creations for your custom art commission. We&apos;re delighted to know that you&apos;re happy with the final artwork, and we can&apos;t wait for you to showcase and enjoy your digital masterpiece!</p>
@@ -172,6 +181,8 @@ const Testimonials = () => {
                 </div>
                 
             </div>
+            : <p>You are not the custome for this portrait</p>
+            }
             <Footer />
         </div>
         
