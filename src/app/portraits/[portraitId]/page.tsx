@@ -711,8 +711,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                       <div className='flex'>
                         <p className='font-semibold mx-1'>(Base) <span className='text-[#43b4e4]'>${portrait?.price.artistPay}</span></p>
                         <p className='font-semibold'> + </p>
-                        <p className='font-semibold mx-1'>(AddOns) <span className='text-[#43b4e4] mr-1'>${portrait?.additionalPayments.reduce((sum, payment) => sum += payment.artistPay * categories.customizer.pricing.commissionPercentage, 0).toFixed(2)}</span> </p>
-                        {portrait && <p className='font-semibold'> =<span className='text-[#43b4e4] ml-1'>${(portrait?.price.artistPay + portrait?.additionalPayments.reduce((sum, payment) => sum += payment.artistPay * categories.customizer.pricing.commissionPercentage, 0)).toFixed(2)}</span></p>}
+                        <p className='font-semibold mx-1'>(new AddOns) <span className='text-[#43b4e4] mr-1'>${portrait?.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0).toFixed(2)}</span> </p>
+                        {portrait && <p className='font-semibold'> =<span className='text-[#43b4e4] ml-1'>${(portrait?.price.artistPay + portrait?.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0)).toFixed(2)}</span></p>}
                       </div>
                     </div>
                   }
