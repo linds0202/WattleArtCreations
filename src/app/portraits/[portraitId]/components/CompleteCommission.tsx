@@ -46,6 +46,9 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             }
         }
         
+        console.log("old modelsCount: ", portrait.price.modelsCount)
+        console.log("new modelsCount: ", modelsCount)
+
         const newPortrait = {
             ...portrait, 
             status: 'Completed',

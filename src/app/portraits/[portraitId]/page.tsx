@@ -518,8 +518,8 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                           } 
                         </div>
                         : <div>
-                            {authUser.roles !== 'Customer' && <p>Customers review will appear here when complete</p>}
-                            {authUser.roles === 'Customer' && <p>You have added additional Character or Weapons sheet, you can leave a review once they are complete</p>}
+                            {authUser?.roles !== 'Customer' && <p>Customers review will appear here when complete</p>}
+                            {authUser?.roles === 'Customer' && <p>You have added additional Character or Weapons sheet, you can leave a review once they are complete</p>}
                           </div>
                         }
                     </div>}
