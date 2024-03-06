@@ -144,7 +144,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
 
             {user.roles === 'Artist' &&
             <div className="mt-8 bg-[#e9e9e9] rounded-xl p-4">
-                <p className="text-lg text-center font-semibold">Artist's Payouts</p>
+                <p className="text-lg text-center font-semibold">Artist&aposs Payouts</p>
                 <table className="w-full mt-4 bg-white">
                     <thead>
                         <tr>
@@ -161,7 +161,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                                 <td>No Payouts to display</td>
                             </tr>
                         :  user.payouts?.map((payout, i) => (
-                        <tr className="h-[75px]">
+                        <tr key={i} className="h-[75px]">
                             <td className="px-2">{new Date(payout.date.toDate()).toLocaleDateString("en-US")}</td>
                             <td className="px-2">{payout.amount}</td>
                             <td className="px-2">{payout.adminId}</td>
