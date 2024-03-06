@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
 import { updateUserData } from "@/app/firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 interface UserDetailsProps {
     user: UserData,
@@ -12,24 +13,8 @@ interface UserDetailsProps {
     setOpenDetails: Function
 }
 
-// interface ArtistReleaseForm {
-//     checked: Array<number>
-// }
-
 const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
     const [userDetails, setUserDetails] = useState(user)
-
-    // const initialValues: ArtistReleaseForm = {
-    //     checked: []
-    // }
-
-    // const handleSubmit = (values: ArtistReleaseForm) => {
-    //     console.log("checked is: ", values.checked)
-        
-    //     // setUserDetails({...userDetails}) 
-    //     // updateUserData({...userDetails})
-    //     setOpenDetails(false)
-    // }
 
     return (
         <Dialog 
@@ -44,7 +29,7 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
             </IconButton>
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
-                <p className='text-xl text-center font-bold mt-0'>Released Payment to Artist</p>
+                <p className='text-xl text-center font-bold mt-0'>Release Payments to Artist</p>
                 <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black paint drips'/>
             </div>
 
@@ -104,14 +89,63 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
             <Formik
                 initialValues={{
                     checked: [],
+                    stripePaymentId: ""
                 }}
-                onSubmit={async (values) => {
-                    alert(JSON.stringify(values, null, 2));
-                  }}
+                onSubmit={async (values, { resetForm }) => {
+                    // Check for stripe Payment Id & selected values
+                    if (values.stripePaymentId === "") {
+                        alert("Enter a Stripe Payment Id for this payout")
+                        return
+                    }
+                    if (values.checked.length === 0) {
+                        alert("No payments were selected for this payout")
+                        return
+                    }
+
+                    const indexes = values.checked.map(index => Number(index))
+                    
+                    const newPayouts = indexes.map(i => (
+                        {
+                            date: userDetails.paymentsOwing[i].date,
+                            adminId: userDetails.uid,
+                            releaseDate: Timestamp.fromDate(new Date()),
+                            stripePaymentId: values.stripePaymentId,
+                            portraitId: userDetails.paymentsOwing[i].portraitId,
+                            amount: userDetails.paymentsOwing[i].amount
+                        }
+                    ))
+    
+                    const newPayment = newPayouts.reduce((sum, payment) => sum += payment.amount, 0)
+                    
+                    const newPaymentsOwing = user.paymentsOwing.map((payment, i) => (
+                        {
+                            ...payment,
+                            released: indexes.includes(i) ? true : userDetails.paymentsOwing[i].released
+                        }
+                    ))
+
+                    const updatedUser = {
+                        ...userDetails,
+                        lifeTimeEarnings: userDetails.lifeTimeEarnings += newPayment,
+                        paymentsOwing: newPaymentsOwing,
+                        payouts: [...userDetails.payouts, ...newPayouts]
+                    }
+
+                    const newUpdatedUser = await updateUserData(updatedUser)
+                    setUserDetails(updatedUser)
+                    setOpenDetails(false)
+                }}
                 >
                 {({ values }) => (
                 <Form className="w-full mt-8 flex flex-col justify-between items-center">
                     <p className='text-lg text-center font-semibold'>Update Info</p>
+                    <div className="w-full text-left">
+                        <p>Before clicking <span className="rounded-lg p-1 bg-[#04D939]">SAVE</span>, you must:</p>
+                        <p className="ml-4 mt-2">- Select which payments are included in this payout</p>
+                        <p className="ml-4">- Release the payment in the Stripe dashboard</p>
+                        <p className="ml-4">- Copy the <span className="rounded-lg p-1 bg-[#f4ffa1]">Stripe Payment Id</span> and enter it below</p>
+                    </div>
+                    
                     <table className="w-full mt-4 bg-white">
                         <thead>
                             <tr>
@@ -126,18 +160,19 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
                                 <tr className="text-center">
                                     <td>No payments are ready to be released for this artist</td>
                                 </tr>
-                            :  user.paymentsOwing.filter(payment => !payment.released).map((payment, i) => (
-                            <tr key={i} className="text-center">
-                                <td className="py-2">{new Date(payment.date.toDate()).toLocaleDateString("en-US")}</td>
-                                <td className="py-2">{payment.portraitId}</td>
-                                <td className="py-2">{payment.amount.toFixed(2)}</td>
-                                <td className="py-2">
-                                    <label className="w-1/4">
-                                        <Field type="checkbox" name="checked" value={i.toString()} />
-                                    </label>
-                                </td>
-                            </tr>
-                            )) }
+                            :  user.paymentsOwing.map((payment, i) => {
+                                if (!payment.released) return (
+                                <tr key={i} className="text-center">
+                                    <td className="py-2">{new Date(payment.date.toDate()).toLocaleDateString("en-US")}</td>
+                                    <td className="py-2">{payment.portraitId}</td>
+                                    <td className="py-2">{payment.amount.toFixed(2)}</td>
+                                    <td className="py-2">
+                                        <label className="w-1/4">
+                                            <Field type="checkbox" name="checked" value={i.toString()} />
+                                        </label>
+                                    </td>
+                                </tr>)
+                                }) }
                             <tr className="text-center">
                                 <td></td>
                                 <td></td>
@@ -150,23 +185,21 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
                             </tr>
                         </tbody>
                     </table>
-                    {/* <div className='w-full border-[#28282]'>
-                        {user.paymentsOwing.filter(payment => !payment.released).map((payment, i) =>
-                            <div key={i} className="flex justify-between items-center">
-                                <p className="w-1/4">{new Date(payment.date.toDate()).toLocaleDateString("en-US")}</p>
-                                <p className="w-1/4">{payment.portraitId}</p>
-                                <p className="w-1/4">$ {payment.amount.toFixed(2)}</p>
-                                <label className="w-1/4">
-                                    <Field type="checkbox" name="checked" value={i.toString()} />
-                                </label>
-                                
-                            </div>
-                        )}
-                    </div> */}
 
-                    {/* <p></p> */}
+                    <div className='w-10/12 mt-4 flex items-center'>
+                        <label className='text-base text-gray-light leading-3 mr-2'>
+                            Stripe Payment ID:
+                        </label>
+                        <Field 
+                            name="stripePaymentId"
+                            className="w-3/4 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
+                        />
+                    </div>
 
-                    <button type="submit" className='text-black hover:text-white border-2 border-[#282828] hover:bg-[#282828] rounded-lg py-2 px-4 mt-4'>
+                    <button 
+                        type="submit" 
+                        className={`text-black  border-2 border-[#282828] rounded-lg py-2 px-4 mt-4 ${values.checked.length === 0 || values.stripePaymentId === "" ? 'bg-[#282828]/50 cursor-default' : 'cursor-pointer hover:text-white hover:bg-[#282828]'}`}
+                    >
                         Save
                     </button>
                 </Form>

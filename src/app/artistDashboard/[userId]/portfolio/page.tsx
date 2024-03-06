@@ -37,14 +37,15 @@ export interface Payout {
     date: Timestamp,
     amount: number,
     adminId: string,
+    releaseDate: Timestamp,
     stripePaymentId: string,
-    portraitId: string
+    portraitId: string,
 }
 export interface Payment {
     date: Timestamp,
     amount: number,
     portraitId: string,
-    released: boolean
+    released: boolean,
 }
 
 export interface UserData {

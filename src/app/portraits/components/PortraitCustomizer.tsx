@@ -309,7 +309,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             total: price,
             artistPay: (price - modelsTotal) * categories.customizer.pricing.commissionPercentage,
             modelsCount: modelsCount,
-            // modelPrice: categories.customizer.pricing.model,
             modelsTotal: modelsTotal
         }
     

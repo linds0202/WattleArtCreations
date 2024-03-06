@@ -36,7 +36,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
             onClose={() => setOpenDetails(false)} 
             open={openDetails} 
             fullWidth={true}
-            maxWidth='md'
+            maxWidth='lg'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
             <IconButton onClick={() => setOpenDetails(false)} className='absolute top-2 right-2 text-white'>
@@ -44,7 +44,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
             </IconButton>
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
-                <p className='text-xl text-center font-bold mt-0'>Edit Artist</p>
+                <p className='text-xl text-center font-bold mt-0'>Edit {userDetails.roles}</p>
                 <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black paint drips'/>
             </div>
 
@@ -144,15 +144,16 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
 
             {user.roles === 'Artist' &&
             <div className="mt-8 bg-[#e9e9e9] rounded-xl p-4">
-                <p className="text-lg text-center font-semibold">Artist&aposs Payouts</p>
+                <p className="text-lg text-center font-semibold">Artist Payouts</p>
                 <table className="w-full mt-4 bg-white">
                     <thead>
                         <tr>
                             <th>Paid On</th>
                             <th>Amount</th>
-                            <th>Released By</th>
+                            <th>Admin Id</th>
                             <th>Stripe Payment Id</th>
                             <th>Portrait Id</th>
+                            <th>Released by Customer</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,12 +162,13 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                                 <td>No Payouts to display</td>
                             </tr>
                         :  user.payouts?.map((payout, i) => (
-                        <tr key={i} className="h-[75px]">
-                            <td className="px-2">{new Date(payout.date.toDate()).toLocaleDateString("en-US")}</td>
-                            <td className="px-2">{payout.amount}</td>
+                        <tr key={i} className="h-[75px] text-center">
+                            <td className="px-2">{new Date(payout.releaseDate.toDate()).toLocaleDateString("en-US")}</td>
+                            <td className="px-2">$ {payout.amount.toFixed(2)}</td>
                             <td className="px-2">{payout.adminId}</td>
                             <td className="px-2">{payout.stripePaymentId}</td>
                             <td className="px-2">{payout.portraitId}</td>
+                            <td className="px-2">{new Date(payout.date.toDate()).toLocaleDateString("en-US")}</td>
                         </tr>
                         )) }
                     </tbody>

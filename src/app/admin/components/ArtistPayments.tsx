@@ -37,12 +37,6 @@ export default function ArtistPayments() {
     setButton('B2')
   }
 
-  // const handleGetAdmins = () => {
-  //   const filtered = allArtists.filter(artist => artist.roles.includes('Admin'))
-  //   setFilteredArtists(filtered)
-  //   setButton('B3')
-  // }
-
   const handleClearFilters = () => {
     setFilteredArtists(allArtists)
     setButton('')
