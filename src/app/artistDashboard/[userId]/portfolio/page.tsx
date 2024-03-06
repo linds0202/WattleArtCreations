@@ -14,7 +14,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import FullReview from './components/FullReview';
 import Footer from '@/app/components/Footer';
-import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
+import { QueryDocumentSnapshot, DocumentData, Timestamp } from 'firebase/firestore';
 
 interface ArtistImgs {
     imgUrl1: string,
@@ -33,6 +33,20 @@ interface ArtistImgs {
     imgBucket7: string,
 }
 
+export interface Payout {
+    date: Timestamp,
+    amount: number,
+    adminId: string,
+    stripePaymentId: string,
+    portraitId: string
+}
+export interface Payment {
+    date: Timestamp,
+    amount: number,
+    portraitId: string,
+    released: boolean
+}
+
 export interface UserData {
     uid: string,
     displayName: string,
@@ -48,7 +62,7 @@ export interface UserData {
     maxCommissions: number,
     totalCompletedCommissions: number,
     lifeTimeEarnings: number,
-    paymentsOwing: number,
+    paymentsOwing: Array<Payment>,
     totalPortraits: number,
     starRating: number,
     totalReviews: number,
@@ -56,6 +70,7 @@ export interface UserData {
     oldEnough: boolean,
     joinedOn: Date,
     avatar: string,
+    payouts: Array<Payout>
 }
 
 export interface TestimonialData {
@@ -125,24 +140,6 @@ const Portfolio = () => {
         setGetData(true)
     }, [])
 
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const firstTestimonials = await getArtistsTestimonials(artistId)
-    //         if (firstTestimonials.testimonials.length < 5) {
-    //             setDisableNext(true)
-    //         }
-    //         if (firstTestimonials) {
-    //             setTestimonials(firstTestimonials.testimonials)
-    //             setLast(firstTestimonials.lastVisible)
-    //         }
-            
-    //     };
-
-    //     fetchData();
-
-    //     setGetData(true)
-    // }, []);
 
     const handleNext = () => {
         const fetchNextData = async () => {
@@ -279,10 +276,6 @@ const Portfolio = () => {
                                         alt='No artist img uploaded' 
                                         className={`w-[100%] h-[100%] object-contain ${userData?.artistImgs.imgUrl1 === "" && authUser?.roles === 'Artist' ? 'bg-white/50': ''}`} 
                                     />
-                                    {/* {authUser?.roles === 'Artist' 
-                                    ? <img src={userData?.artistImgs.imgUrl1} alt='No artist img uploaded' className={`w-[100%] h-[100%] ${userData?.artistImgs.imgUrl1.length ? 'object-contain': 'bg-white/50'}`} />
-                                    : <img src={userData?.artistImgs.imgUrl1} alt='No artist img uploaded' className='w-[100%] h-[100%] object-contain' />
-                                    }  */}
                                 </div>
                                 <div className='w-full md:w-[45%] xl:w-[35%] h-[100%] mt-4 md:mt-0 flex flex-row xl:flex-col justify-between items-center'>
                                     <div 

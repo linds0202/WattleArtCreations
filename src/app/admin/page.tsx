@@ -7,6 +7,7 @@ import { useAuth } from '../firebase/auth';
 import PortraitList from './components/PortraitList';
 import UnorderedPortraitList from './components/UnorderedPortraitsList';
 import UsersList from './components/UsersList';
+import ArtistPayments from './components/ArtistPayments';
 import ModelList from './components/ModelList';
 import TestimonialsList from './components/TestimonialsList';
 import ConsultList from './components/ConsultList';
@@ -33,7 +34,7 @@ export default function Dashboard({ params: { userId }}: Params) {
         router.push('/')
     }
   }, [authUser, isLoading]);
-
+  // || view === 'Artists'
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
@@ -48,8 +49,10 @@ export default function Dashboard({ params: { userId }}: Params) {
           <PortraitList user={authUser} />
         : view === 'Unordered Portraits' ?
           <UnorderedPortraitList user={authUser}/>
-        : view === 'All Users' || view === 'Artists' ?
+        : view === 'All Users' ?
           <UsersList />
+        : view === 'Artist Payments' ?
+          <ArtistPayments />
         : view === '3D Model Orders' ?
           <ModelList user={authUser}/>
         : view === 'Testimonials' ?

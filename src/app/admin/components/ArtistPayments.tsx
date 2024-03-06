@@ -1,21 +1,21 @@
 import { motion } from "framer-motion"
 import '../menu/styles.css'
 import { useState, useEffect } from "react"
-import User from "./User";
+import Artist from "./Artist";
 import { UserData } from "@/app/artistDashboard/[userId]/portfolio/page";
-import { getAllUserInfo } from "@/app/firebase/firestore";
+import { getAllArtistsInfo } from "@/app/firebase/firestore";
 import SearchUsers from "./SearchUsers";
 
 
-export default function UsersList() {
-  const [allUsers, setAllUsers] = useState<Array<UserData>>([])
-  const [filteredUsers, setFilteredUsers] = useState<Array<UserData>>([])  
+export default function ArtistPayments() {
+  const [allArtists, setAllArtists] = useState<Array<UserData>>([])
+  const [filteredArtists, setFilteredArtists] = useState<Array<UserData>>([])  
   const [button, setButton] = useState<String>('')
 
   useEffect(() => {
 
     const getUsersList = async () => {
-      const unsubscribe = await getAllUserInfo(setAllUsers, setFilteredUsers);
+      const unsubscribe = await getAllArtistsInfo(setAllArtists, setFilteredArtists);
     
       return () => unsubscribe()
       } 
@@ -23,58 +23,58 @@ export default function UsersList() {
       getUsersList()
   }, [])
 
-  const handleGetArtists = () => {
-    const filtered = allUsers.filter(user => user.roles === 'Artist')
-    setFilteredUsers(filtered)
+  const handleGetOwing = () => {
+    const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) !== 0)
+    setFilteredArtists(filtered)
 
     setButton('B1')
   }
 
-  const handleGetCustomers = () => {
-    const filtered = allUsers.filter(user => user.roles === 'Customer')
-    setFilteredUsers(filtered)
+  const handleGetComplete = () => {
+    const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) === 0)
+    setFilteredArtists(filtered)
 
     setButton('B2')
   }
 
-  const handleGetAdmins = () => {
-    const filtered = allUsers.filter(user => user.roles.includes('Admin'))
-    setFilteredUsers(filtered)
-    setButton('B3')
-  }
+  // const handleGetAdmins = () => {
+  //   const filtered = allArtists.filter(artist => artist.roles.includes('Admin'))
+  //   setFilteredArtists(filtered)
+  //   setButton('B3')
+  // }
 
   const handleClearFilters = () => {
-    setFilteredUsers(allUsers)
+    setFilteredArtists(allArtists)
     setButton('')
   }
 
   return (
     <div className="w-full mb-20">
-      <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Users</h1>
+      <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Artist Payments</h1>
       <div className='w-full flex justify-between mb-6 px-10'>
         <motion.button 
           className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B1' ? 'bg-[#43b4e4] text-white' : ''}`}
-          onClick={handleGetArtists} 
+          onClick={handleGetOwing} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
-          Artists
+          Payments Owing
         </motion.button>
 
         <motion.button 
           className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B2' ? 'bg-[#43b4e4] text-white' : ''}`} 
-          onClick={handleGetCustomers} 
+          onClick={handleGetComplete} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
-          Customers
+          Payments Complete
         </motion.button>
 
-        <motion.button 
+        {/* <motion.button 
           className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B3' ? 'bg-[#43b4e4] text-white' : ''}`}
           onClick={handleGetAdmins} 
           whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
         >
           Admins
-        </motion.button>
+        </motion.button> */}
 
         <motion.button 
           className='w-1/4 mx-4 p-2 border-2 border-black rounded-lg' 
@@ -87,8 +87,8 @@ export default function UsersList() {
 
       <div className="w-full px-14 mb-4">
         <SearchUsers
-          setFilteredUsers={setFilteredUsers} 
-          allUsers={allUsers}  
+          setFilteredUsers={setFilteredArtists} 
+          allUsers={allArtists}  
         />
       </div>
       
@@ -100,17 +100,18 @@ export default function UsersList() {
                 <th>Display Name</th>
                 <th>Artist Name</th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Owed Amount</th>
+                <th>Lifetime Earnings</th>
                 <th className="w-2/12">View Details</th>
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.length === 0 ? 
+              {filteredArtists.length === 0 ? 
                 <tr>
-                  <td>No customers to display</td>
+                  <td>No artists to display</td>
                 </tr>
-              :  filteredUsers?.map(user => (
-                <User key={user.uid} user={user} />
+              :  filteredArtists?.map(user => (
+                <Artist key={user.uid} user={user} />
               )) }
             </tbody>
         </table>

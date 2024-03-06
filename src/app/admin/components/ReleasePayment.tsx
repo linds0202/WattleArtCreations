@@ -12,24 +12,24 @@ interface UserDetailsProps {
     setOpenDetails: Function
 }
 
-interface EditUserForm {
-    country: string,
-    maxCommissions: number
-}
+// interface ArtistReleaseForm {
+//     checked: Array<number>
+// }
 
-const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
+const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
     const [userDetails, setUserDetails] = useState(user)
 
-    const initialValues: EditUserForm = {
-        country: userDetails.country,
-        maxCommissions: userDetails.maxCommissions
-    }
+    // const initialValues: ArtistReleaseForm = {
+    //     checked: []
+    // }
 
-    const handleSubmit = (values: EditUserForm) => {
-        setUserDetails({...userDetails, country: values.country, maxCommissions: values.maxCommissions}) 
-        updateUserData({...userDetails, country: values.country, maxCommissions: values.maxCommissions})
-        setOpenDetails(false)
-    }
+    // const handleSubmit = (values: ArtistReleaseForm) => {
+    //     console.log("checked is: ", values.checked)
+        
+    //     // setUserDetails({...userDetails}) 
+    //     // updateUserData({...userDetails})
+    //     setOpenDetails(false)
+    // }
 
     return (
         <Dialog 
@@ -44,7 +44,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
             </IconButton>
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
-                <p className='text-xl text-center font-bold mt-0'>Edit Artist</p>
+                <p className='text-xl text-center font-bold mt-0'>Released Payment to Artist</p>
                 <img className="ml-8 w-[10%] justify-self-center" src="./images/drips/side_splashR.png" alt='black paint drips'/>
             </div>
 
@@ -94,89 +94,87 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                         <p className="pl-2">{userDetails.lifeTimeEarnings}</p>
                     </div>
 
-                    {userDetails.roles === 'Artist' && 
-                    <div className="w-full flex justify-between">
-                        <p>Payments Owing:</p>
+                    <div className="w-full bg-[#f4ffa1] p-2 rounded-lg flex justify-between">
+                        <p className="">Payments Owing:</p>
                         <p className="pl-2">$ {userDetails.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p>
-                    </div>}
+                    </div>
                 </div>
             </div>
 
-
             <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmit}
+                initialValues={{
+                    checked: [],
+                }}
+                onSubmit={async (values) => {
+                    alert(JSON.stringify(values, null, 2));
+                  }}
                 >
                 {({ values }) => (
                 <Form className="w-full mt-8 flex flex-col justify-between items-center">
                     <p className='text-lg text-center font-semibold'>Update Info</p>
-                    <div className="w-full mt-4 flex justify-between items-center">
-                        <div className='w-1/2 flex items-center'>
-                            <label className='text-base text-gray-light leading-3 mr-2'>
-                                Country:
-                            </label>
-                            <Field 
-                                name="country" 
-                                className="w-full text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                            />
-                        </div>
+                    <table className="w-full mt-4 bg-white">
+                        <thead>
+                            <tr>
+                                <th>Released by customer on</th>
+                                <th>Portrait Id</th>
+                                <th>Amount</th>
+                                <th>Release?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.paymentsOwing.filter(payment => !payment.released).length === 0 ? 
+                                <tr className="text-center">
+                                    <td>No payments are ready to be released for this artist</td>
+                                </tr>
+                            :  user.paymentsOwing.filter(payment => !payment.released).map((payment, i) => (
+                            <tr key={i} className="text-center">
+                                <td className="py-2">{new Date(payment.date.toDate()).toLocaleDateString("en-US")}</td>
+                                <td className="py-2">{payment.portraitId}</td>
+                                <td className="py-2">{payment.amount.toFixed(2)}</td>
+                                <td className="py-2">
+                                    <label className="w-1/4">
+                                        <Field type="checkbox" name="checked" value={i.toString()} />
+                                    </label>
+                                </td>
+                            </tr>
+                            )) }
+                            <tr className="text-center">
+                                <td></td>
+                                <td></td>
+                                <td>Total: </td>
+                                <td>$<span>{values.checked.reduce((sum, selected) => {
+                                        const index = Number(selected)
+                                        return sum += user.paymentsOwing[index].amount
+                                    }, 0).toFixed(2)}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {/* <div className='w-full border-[#28282]'>
+                        {user.paymentsOwing.filter(payment => !payment.released).map((payment, i) =>
+                            <div key={i} className="flex justify-between items-center">
+                                <p className="w-1/4">{new Date(payment.date.toDate()).toLocaleDateString("en-US")}</p>
+                                <p className="w-1/4">{payment.portraitId}</p>
+                                <p className="w-1/4">$ {payment.amount.toFixed(2)}</p>
+                                <label className="w-1/4">
+                                    <Field type="checkbox" name="checked" value={i.toString()} />
+                                </label>
+                                
+                            </div>
+                        )}
+                    </div> */}
 
-                        <div className='5/12 flex items-center'>
-                            <label className='text-base text-gray-light leading-3 mr-2'>
-                                Max Commissions:
-                            </label>
-                            <Field 
-                                name="maxCommissions" 
-                                type="number"
-                                min="0"
-                                className="w-1/3 text-black border-2 border-[#E5E5E5] px-4 rounded-lg"
-                                disabled={userDetails.roles === 'Customer'}
-                            />
-                        </div>
-                    </div>
+                    {/* <p></p> */}
 
                     <button type="submit" className='text-black hover:text-white border-2 border-[#282828] hover:bg-[#282828] rounded-lg py-2 px-4 mt-4'>
-                        Update User
+                        Save
                     </button>
                 </Form>
                 )}
             </Formik>
-
-            {user.roles === 'Artist' &&
-            <div className="mt-8 bg-[#e9e9e9] rounded-xl p-4">
-                <p className="text-lg text-center font-semibold">Artist's Payouts</p>
-                <table className="w-full mt-4 bg-white">
-                    <thead>
-                        <tr>
-                            <th>Paid On</th>
-                            <th>Amount</th>
-                            <th>Released By</th>
-                            <th>Stripe Payment Id</th>
-                            <th>Portrait Id</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {user.payouts.length === 0 ? 
-                            <tr className="text-center">
-                                <td>No Payouts to display</td>
-                            </tr>
-                        :  user.payouts?.map((payout, i) => (
-                        <tr className="h-[75px]">
-                            <td className="px-2">{new Date(payout.date.toDate()).toLocaleDateString("en-US")}</td>
-                            <td className="px-2">{payout.amount}</td>
-                            <td className="px-2">{payout.adminId}</td>
-                            <td className="px-2">{payout.stripePaymentId}</td>
-                            <td className="px-2">{payout.portraitId}</td>
-                        </tr>
-                        )) }
-                    </tbody>
-                </table>
-            </div>
-            
-            }
         </Dialog>
     )
 }
 
-export default UserDetails
+export default ReleasePayment
 

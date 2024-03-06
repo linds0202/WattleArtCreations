@@ -18,7 +18,8 @@ import {
   startAfter,
   endBefore, 
   or,
-  and
+  and,
+  Timestamp
 } from 'firebase/firestore'; 
 import { db } from './firebase';
 import { getDownloadURL } from './storage';
@@ -356,6 +357,23 @@ export async function getAllUserInfo(setAllUsers, setFilteredUsers) {
   return unsubscribe;
 }
 
+export async function getAllArtistsInfo(setAllArtists, setFilteredArtists) {
+  
+  const q = query(collection(db, "users"), where("roles", "==", "Artist"))
+
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let artists = [];
+    
+    QuerySnapshot.forEach((doc) => {
+      artists.push({ ...doc.data(), uid: doc.id });
+    });
+    
+    setAllArtists(artists);
+    setFilteredArtists(artists)
+  });
+  return unsubscribe;
+}
+
 export async function getAllCustomers() {
   const allCustomers = []  
   const q = query(collection(db, "users"), where("roles", "==", 'Customer'));
@@ -422,6 +440,7 @@ export async function getUserById(userId) {
     totalReviews: docSnap.data().totalReviews,
     starRating: docSnap.data().starRating,
     joinedOn: docSnap.data().joinedOn,
+    payouts: docSnap.data().payouts
   }
 
   if (!docSnap.exists()) {
@@ -469,7 +488,8 @@ export function addUser(user) {
     starRating: 0,
     oldEnough: false,
     joinedOn: new Date,
-    avatar: ""
+    avatar: "",
+    payouts: []
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer", oldEnough: false }
 }
@@ -518,12 +538,20 @@ export function updateCustomerCommissionsTotal(userId) {
 //update artist when commission completed
 export async function updateArtistOnCompletion(portrait, newArtistPay) {
   const userId = portrait.artist[0].id
-  
+  const newPayment = {
+    date: serverTimestamp(),
+    amount: newArtistPay,
+    portraitId: portrait.uid,
+    released: false
+  }
+
+  const newPaymentsOwing = [...portrait.paymentsOwing, newPayment] 
+
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: increment(newArtistPay),
+      paymentsOwing: newPaymentsOwing,
     }
   )
 }

@@ -138,13 +138,12 @@ export default function ModelList({ user }: ModelListProps) {
                     <th className="px-2">Portrait Complete</th>
                     <th className="px-2">Ordered</th>
                     <th className="px-2">Admin</th>
-                    {/* <th className="w-2/12">View Details</th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {filteredModels.length === 0 ? 
                     <tr>
-                      <td>No 3D Model orders to display</td>
+                      <td className="px-2">No 3D Model orders to display</td>
                     </tr>
                   :  filteredModels?.map(model => (
                     <Model key={model.uid} model={model} user={user} />
@@ -152,18 +151,6 @@ export default function ModelList({ user }: ModelListProps) {
                 </tbody>
             </table>
           </div>   
-          
-          {/* <div className='flex flex-col items-center w-11/12'>
-            {filteredModels.length === 0 ? 
-              <p>No portraits to display</p>
-            :  filteredModels?.map(model => (
-              <Model 
-                key={model.id} 
-                model={model}
-                user={currentAdmin} 
-              />
-            )) }
-          </div>    */}
         </div>
     )
 }
