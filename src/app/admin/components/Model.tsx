@@ -10,17 +10,18 @@ interface ModelProps {
 
 const Model = ({model, user}: ModelProps) => {
 
-  const [complete, setComplete] = useState(model.portraitComplete)
+  // const [complete, setComplete] = useState(model.portraitComplete)
   const [ordered, setOrdered] = useState(model.ordered)
 
-  const handleSelect = async (e: any) => {
-    const newComplete = e.target.value === 'Yes' ? true : false
-    await updateModel(model.uid, newComplete, user?.displayName, "complete")
-    setComplete(newComplete)
-  }
+  // const handleSelect = async (e: any) => {
+  //   const newComplete = e.target.value === 'Yes' ? true : false
+  //   await updateModel(model.uid, newComplete, user?.displayName, "complete")
+  //   setComplete(newComplete)
+  // }
 
   const handleSelectOrdered = async (e: any) => {
     const newOrdered = e.target.value === 'Yes' ? true : false
+    console.log("displayName: ", user?.displayName)
     await updateModel(model.uid, newOrdered, user?.displayName, "ordered")
     setOrdered(newOrdered)
   }
@@ -34,15 +35,15 @@ const Model = ({model, user}: ModelProps) => {
             <td className="px-2">{model.customerId}</td>
             <td className="px-2">{model.customerName}</td>
             <td className="px-2">{new Date(model.creationDate.seconds * 1000).toLocaleDateString("en-US")}</td>
-            
-            <td className="px-2">
+            <td className="px-2">{model.portraitComplete ? 'Yes' : 'No'}</td>
+            {/* <td className="px-2">
               <div className="w-full flex justify-center items-center">
                 <select value={complete ? 'Yes' : 'No'} onChange={handleSelect} className="w-1/2 border-b-2 border-black leading-tight outline-none">
                     <option>Yes</option>
                     <option>No</option>
                 </select>
               </div>
-            </td>
+            </td> */}
             
             <td className="px-2">
               <div className="w-full flex justify-center items-center">

@@ -91,7 +91,6 @@ export interface PortraitData  {
         total: number,
         artistPay: number,
         modelsCount: number,
-        // modelPrice: number,
         modelsTotal: number
     }
     customer: string,

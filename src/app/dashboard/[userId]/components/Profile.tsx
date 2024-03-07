@@ -109,10 +109,7 @@ const Profile = ({user}: ProfileProps) => {
           })
         }   
     }
-
-    console.log("in profile reward is: ", reward)
-
-
+    
     return (
         <div className='w-full px-4 xl:px-14 py-4'>
             <div className='mt-12 md:mt-20 lg:mt-0 flex flex-col lg:flex-row justify-between items-center'>

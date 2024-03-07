@@ -45,9 +45,6 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
                 }
             }
         }
-        
-        console.log("old modelsCount: ", portrait.price.modelsCount)
-        console.log("new modelsCount: ", modelsCount)
 
         const newPortrait = {
             ...portrait, 
@@ -57,7 +54,6 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             lastUpdatedStatus: new Date,
             price: {
                 modelsCount: portrait.price.modelsCount + modelsCount,
-                // modelPrice: portrait.price.modelPrice,
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
                 artistPay: portrait.price.artistPay + newArtistPay,
                 total: portrait.price.total + newPriceTotal
