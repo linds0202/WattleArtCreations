@@ -116,37 +116,44 @@ export default function Dashboard({ params: { userId }}: Params) {
   }
 
   const getReward = (commissions: number) => {
+    console.log('in getReward commissions is: ', commissions)
     if (commissions === 0) {
+      console.log('0')
       setReward({
         badge: '../../../../images/badges/zero.png',
         discount: 0,
         level: 0
       })
     } else if (commissions > 0 && commissions < 3) {
+      console.log('1')
       setReward({
         badge: '../../../../images/badges/one.png',
         discount: categories.customizer.rewardsDiscounts[0],
         level: 1
       })
     } else if (commissions >= 3 && commissions < 5) {
+      console.log('2')
       setReward({
         badge: '../../../../images/badges/two.png',
         discount: categories.customizer.rewardsDiscounts[1],
         level: 2
       })
     } else if (commissions >= 5 && commissions < 7) {
+      console.log('3')
       setReward({
         badge: '../../../../images/badges/three.png',
         discount: categories.customizer.rewardsDiscounts[2],
         level: 3
       })
     } else if (commissions >= 7 && commissions < 10) {
+      console.log('4')
       setReward({
         badge: '../../../../images/badges/four.png',
         discount: categories.customizer.rewardsDiscounts[3],
         level: 4
       })
     } else {
+      console.log('5')
       setReward({
         badge: '../../../../images/badges/five.png',
         discount: categories.customizer.rewardsDiscounts[4],
@@ -154,6 +161,8 @@ export default function Dashboard({ params: { userId }}: Params) {
       })
     }   
   }
+
+  console.log("reward: ", reward)
 
   return ((!authUser || pageLoading || isLoading) ? 
     <></>
@@ -213,7 +222,7 @@ export default function Dashboard({ params: { userId }}: Params) {
                 }} 
               className='text-white no-underline cursor-pointer z-30'
             >
-              <div className='mt-4 py-2 px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
+              <div className='mt-8 py-2 px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center text-2xl cursor-pointer hover:scale-105 transition duration-200 ease-in-out'>
                 Return Home
               </div>
             </Link>

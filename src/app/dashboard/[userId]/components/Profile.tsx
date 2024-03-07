@@ -51,7 +51,6 @@ const Profile = ({user, reward}: ProfileProps) => {
     const [openUpload, setOpenUpload] = useState(false)
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
-    // const [discount, setDiscount] = useState(awards[0])
  
 
     useEffect(() => {

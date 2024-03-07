@@ -62,14 +62,6 @@ export default function ArtistPayments() {
           Payments Complete
         </motion.button>
 
-        {/* <motion.button 
-          className={`w-1/4 mx-4 border-2 border-black p-2 rounded-lg ${button === 'B3' ? 'bg-[#43b4e4] text-white' : ''}`}
-          onClick={handleGetAdmins} 
-          whileHover={{ scale: 1.1, transition: {duration: 0.15} }} whileTap={{ scale: 1.05 }}
-        >
-          Admins
-        </motion.button> */}
-
         <motion.button 
           className='w-1/4 mx-4 p-2 border-2 border-black rounded-lg' 
           onClick={handleClearFilters} 
