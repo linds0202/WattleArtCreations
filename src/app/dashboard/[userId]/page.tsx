@@ -39,11 +39,11 @@ export default function Dashboard({ params: { userId }}: Params) {
   const [currentUser , setCurrentUser] = useState<UserData | null>(null)
   const [portraits, setPortraits] = useState<Array<PortraitData>>([])
   const [filtered, setFiltered] = useState<Array<PortraitData>>([])
-  const [reward, setReward] = useState<Reward>({
-    badge: '../../../../images/badges/zero.png',
-    discount: 0,
-    level: 0
-  })
+  // const [reward, setReward] = useState<Reward>({
+  //   badge: '../../../../images/badges/zero.png',
+  //   discount: 0,
+  //   level: 0
+  // })
 
   // Listen to changes for loading and authUser, redirect if needed
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Dashboard({ params: { userId }}: Params) {
       
       if (latestUser) {
         setCurrentUser(latestUser)
-        getReward(latestUser?.totalCompletedCommissions)
+        // getReward(latestUser?.totalCompletedCommissions)
       }
       getPortraits()
     }
@@ -116,56 +116,56 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
-  console.log('categories.customizer.rewardsDiscounts: ', categories.customizer.rewardsDiscounts)
+  // console.log('categories.customizer.rewardsDiscounts: ', categories.customizer.rewardsDiscounts)
 
-  const getReward = (commissions: number) => {
-    console.log('in getReward rewards nums are: ', categories.customizer.rewardsDiscounts)
-    if (commissions === 0) {
-      console.log('0')
-      setReward({
-        badge: '../../../../images/badges/zero.png',
-        discount: 0,
-        level: 0
-      })
-    } else if (commissions > 0 && commissions < 3) {
-      console.log('1')
-      setReward({
-        badge: '../../../../images/badges/one.png',
-        discount: categories.customizer.rewardsDiscounts[0],
-        level: 1
-      })
-    } else if (commissions >= 3 && commissions < 5) {
-      console.log('2')
-      setReward({
-        badge: '../../../../images/badges/two.png',
-        discount: categories.customizer.rewardsDiscounts[1],
-        level: 2
-      })
-    } else if (commissions >= 5 && commissions < 7) {
-      console.log('3')
-      setReward({
-        badge: '../../../../images/badges/three.png',
-        discount: categories.customizer.rewardsDiscounts[2],
-        level: 3
-      })
-    } else if (commissions >= 7 && commissions < 10) {
-      console.log('4')
-      setReward({
-        badge: '../../../../images/badges/four.png',
-        discount: categories.customizer.rewardsDiscounts[3],
-        level: 4
-      })
-    } else {
-      console.log('5')
-      setReward({
-        badge: '../../../../images/badges/five.png',
-        discount: categories.customizer.rewardsDiscounts[4],
-        level: 5
-      })
-    }   
-  }
+  // const getReward = (commissions: number) => {
+  //   console.log('in getReward rewards nums are: ', categories.customizer.rewardsDiscounts)
+  //   if (commissions === 0) {
+  //     console.log('0')
+  //     setReward({
+  //       badge: '../../../../images/badges/zero.png',
+  //       discount: 0,
+  //       level: 0
+  //     })
+  //   } else if (commissions > 0 && commissions < 3) {
+  //     console.log('1')
+  //     setReward({
+  //       badge: '../../../../images/badges/one.png',
+  //       discount: categories.customizer.rewardsDiscounts[0],
+  //       level: 1
+  //     })
+  //   } else if (commissions >= 3 && commissions < 5) {
+  //     console.log('2')
+  //     setReward({
+  //       badge: '../../../../images/badges/two.png',
+  //       discount: categories.customizer.rewardsDiscounts[1],
+  //       level: 2
+  //     })
+  //   } else if (commissions >= 5 && commissions < 7) {
+  //     console.log('3')
+  //     setReward({
+  //       badge: '../../../../images/badges/three.png',
+  //       discount: categories.customizer.rewardsDiscounts[2],
+  //       level: 3
+  //     })
+  //   } else if (commissions >= 7 && commissions < 10) {
+  //     console.log('4')
+  //     setReward({
+  //       badge: '../../../../images/badges/four.png',
+  //       discount: categories.customizer.rewardsDiscounts[3],
+  //       level: 4
+  //     })
+  //   } else {
+  //     console.log('5')
+  //     setReward({
+  //       badge: '../../../../images/badges/five.png',
+  //       discount: categories.customizer.rewardsDiscounts[4],
+  //       level: 5
+  //     })
+  //   }   
+  // }
 
-  console.log("reward: ", reward)
+  // console.log("reward: ", reward)
 
   return ((!authUser || pageLoading || isLoading) ? 
     <></>
@@ -177,7 +177,7 @@ export default function Dashboard({ params: { userId }}: Params) {
     
     <div className='w-full text-black pt-3 pb-36 min-h-[100vh]'>
     
-      {currentUser && <Profile user={currentUser} reward={reward}/>}
+      {currentUser && <Profile user={currentUser} />}
       
       <h2 className='mt-8 text-4xl text-center font-bold text-white'>My Portraits</h2>
       

@@ -12,38 +12,18 @@ import AvatarUploader from './AvatarUploader';
 import AwardProgressBar from './AwardProgressBar';
 import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 import { Reward } from '../page';
+import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
-// const awards = {
-//     0: {
-//         'next': 1, 
-//         'discount' : 0
-//     },
-//     1: {
-//         'next': 3, 
-//         'discount' : 5
-//     },
-//     3: {
-//         'next': 7, 
-//         'discount' : 10
-//     },
-//     7: {
-//         'next': 10, 
-//         'discount' : 15
-//     },
-//     10: {
-//         'num': 10, 
-//         'discount' : 20
-//     },
-// }
 
 interface ProfileProps {
     user: UserData | null,
-    reward: Reward
+    // reward: Reward
 }
 
-const Profile = ({user, reward}: ProfileProps) => {
+const Profile = ({user}: ProfileProps) => {
 
     const { authUser, isLoading } = useAuth();
+    const { categories } = useCategoriesContext()
     const router = useRouter();
 
     const [userData, setUserData] = useState<UserData | null>(user ? user : null)
@@ -51,6 +31,12 @@ const Profile = ({user, reward}: ProfileProps) => {
     const [openUpload, setOpenUpload] = useState(false)
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
+
+    const [reward, setReward] = useState<Reward>({
+        badge: '../../../../images/badges/zero.png',
+        discount: 0,
+        level: 0
+    })
  
 
     useEffect(() => {
@@ -63,6 +49,7 @@ const Profile = ({user, reward}: ProfileProps) => {
         const handleGetUser = async () => {
             const getMyUserData: UserData | null = await getUserById(authUser?.uid);
             setUserData(getMyUserData)
+            if (getMyUserData) getReward(getMyUserData?.totalCompletedCommissions)
         }
           
         handleGetUser()
@@ -82,6 +69,48 @@ const Profile = ({user, reward}: ProfileProps) => {
             setUpdateUser({})
         }
     }
+
+    const getReward = (commissions: number) => {
+        if (commissions === 0) {
+          setReward({
+            badge: '../../../../images/badges/zero.png',
+            discount: 0,
+            level: 0
+          })
+        } else if (commissions > 0 && commissions < 3) {
+          setReward({
+            badge: '../../../../images/badges/one.png',
+            discount: categories.customizer.rewardsDiscounts[0],
+            level: 1
+          })
+        } else if (commissions >= 3 && commissions < 5) {
+          setReward({
+            badge: '../../../../images/badges/two.png',
+            discount: categories.customizer.rewardsDiscounts[1],
+            level: 2
+          })
+        } else if (commissions >= 5 && commissions < 7) {
+          setReward({
+            badge: '../../../../images/badges/three.png',
+            discount: categories.customizer.rewardsDiscounts[2],
+            level: 3
+          })
+        } else if (commissions >= 7 && commissions < 10) {
+          setReward({
+            badge: '../../../../images/badges/four.png',
+            discount: categories.customizer.rewardsDiscounts[3],
+            level: 4
+          })
+        } else {
+          setReward({
+            badge: '../../../../images/badges/five.png',
+            discount: categories.customizer.rewardsDiscounts[4],
+            level: 5
+          })
+        }   
+    }
+
+    console.log("in profile reward is: ", reward)
 
 
     return (

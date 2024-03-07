@@ -141,10 +141,8 @@ const CategoryContextProvider = ({ children }: IProps) => {
                 home: data.home,
             }
             setCategories(newCategoriesObj)
-         }
+        }
 
-        
-       
         getNewCategories()
         
     }, [])
