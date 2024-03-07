@@ -538,20 +538,19 @@ export function updateCustomerCommissionsTotal(userId) {
 //update artist when commission completed
 export async function updateArtistOnCompletion(portrait, newArtistPay) {
   const userId = portrait.artist[0].id
+
   const newPayment = {
-    date: serverTimestamp(),
+    date: Timestamp.now(),
     amount: newArtistPay,
-    portraitId: portrait.uid,
+    portraitId: portrait.id,
     released: false
   }
-
-  const newPaymentsOwing = [...portrait.paymentsOwing, newPayment] 
 
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: newPaymentsOwing,
+      paymentsOwing: arrayUnion(newPayment),
     }
   )
 }

@@ -183,7 +183,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       <p className='font-semibold'>3D Models <span className='text-xs font-normal'>({authUser?.roles !== 'Customer' ? '3D models will be handled by admin after portrait completion.' : 'will be created once portrait is complete'})</span></p>
       {portrait?.sheetUploads.filter(extra => extra.type === 'model').length !== 0
       ? portrait?.sheetUploads.map((extra, i) =>
-        <div key={extra.index} className='ml-4'>
+        <div key={i} className='ml-4'>
           {extra.type === 'model' && <p className='my-2'>3D Model {extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</p>}
         </div>
       )

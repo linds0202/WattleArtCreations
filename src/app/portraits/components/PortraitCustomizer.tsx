@@ -163,7 +163,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             total: 0,
             artistPay: 0,
             modelsCount: 0,
-            // modelPrice: 0,
             modelsTotal: 0
         },
         customer: '',

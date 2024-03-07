@@ -46,10 +46,13 @@ const Profile = ({user}: ProfileProps) => {
     }, [authUser, isLoading]);
 
     useEffect(() => {
+        if (userData) getReward(userData?.totalCompletedCommissions)
+    }, [])
+
+    useEffect(() => {
         const handleGetUser = async () => {
             const getMyUserData: UserData | null = await getUserById(authUser?.uid);
             setUserData(getMyUserData)
-            if (getMyUserData) getReward(getMyUserData?.totalCompletedCommissions)
         }
           
         handleGetUser()
