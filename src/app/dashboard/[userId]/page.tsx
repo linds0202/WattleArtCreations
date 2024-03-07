@@ -55,6 +55,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   useEffect(() => {
     setPageLoading(true)
     if (complete === 'true') {
+      console.log('here')
       sessionStorage.setItem('Cart', JSON.stringify([]))
       if (type === 'tip') {
         alert('Thanks for tipping your artist!')
@@ -115,8 +116,10 @@ export default function Dashboard({ params: { userId }}: Params) {
     }
   }
 
+  console.log('categories.customizer.rewardsDiscounts: ', categories.customizer.rewardsDiscounts)
+
   const getReward = (commissions: number) => {
-    console.log('in getReward commissions is: ', commissions)
+    console.log('in getReward rewards nums are: ', categories.customizer.rewardsDiscounts)
     if (commissions === 0) {
       console.log('0')
       setReward({
