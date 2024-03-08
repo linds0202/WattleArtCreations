@@ -44,9 +44,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                     <CloseIcon className='text-black hover:text-red-600'/>
                 </IconButton>
             </div>
-            {/* <IconButton onClick={() => setOpenDetails(false)} className='absolute top-2 right-2 text-white'>
-                <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton> */}
+
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
                 <p className='text-xl text-center font-bold mt-0'>Edit {userDetails.roles}</p>
@@ -100,7 +98,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                     </div>
 
                     {userDetails.roles === 'Artist' && 
-                    <div className="w-full flex justify-between">
+                    <div className="w-full bg-[#f4ffa1] p-2 rounded-lg flex justify-between">
                         <p>Payments Owing:</p>
                         <p className="pl-2">$ {userDetails.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p>
                     </div>}
