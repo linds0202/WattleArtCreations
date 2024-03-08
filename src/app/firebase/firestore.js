@@ -937,7 +937,7 @@ export async function getUnclaimedPortraits(setPortraits) {
 
 export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
   
-  const q = query(collection(db, "portraits"), and(where("artist", "array-contains", artist), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("creationDate"), limit(20))
+  const q = query(collection(db, "portraits"), and(where("artist", "array-contains", artist), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("lastUpdatedStatus", "desc"), limit(20))
   
   
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
@@ -955,7 +955,7 @@ export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
 
 export async function getAllCustomersPortraits(setPortraits, setFiltered, userId) {
   
-  const q = query(collection(db, "portraits"), and(where("customerId", "==", userId), or(where("status", "==", "Unpaid"), where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("creationDate"), limit(20))
+  const q = query(collection(db, "portraits"), and(where("customerId", "==", userId), or(where("status", "==", "Unpaid"), where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed"))), orderBy("purchaseDate", "desc"), limit(20))
     
   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
     let portraits = [];

@@ -65,7 +65,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         await modelsRef.add({
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
-                            "customeName": currentPortrait.customer,
+                            "customerName": currentPortrait.customer,
                             "price": extra.price,
                             "portraitComplete": false,
                             "ordered": false,
@@ -217,7 +217,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "customerId": currentPortrait.customerId,
                             "customerName": currentPortrait.customer,
                             "price": addOn.price,
-                            "portraitComplete": false,
+                            "portraitComplete": true,
                             "ordered": false,
                             "admin": "",
                             "creationDate": Timestamp.now()

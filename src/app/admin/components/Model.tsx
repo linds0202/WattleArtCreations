@@ -21,7 +21,7 @@ const Model = ({model, user}: ModelProps) => {
 
   const handleSelectOrdered = async (e: any) => {
     const newOrdered = e.target.value === 'Yes' ? true : false
-    console.log("displayName: ", user?.displayName)
+
     await updateModel(model.uid, newOrdered, user?.displayName, "ordered")
     setOrdered(newOrdered)
   }

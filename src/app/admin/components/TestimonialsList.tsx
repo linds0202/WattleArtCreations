@@ -21,8 +21,6 @@ export default function TestimonialsList() {
   
   useEffect(() => {
 
-    console.log('calling this')
-
     const getTestimonialsList = async () => {
       const testimonialList = await getAllTestimonials();
       if (testimonialList.length !== 0) {
@@ -80,7 +78,6 @@ export default function TestimonialsList() {
     setOpenAddTestimonial(true)
   }
 
-  console.log('filtered testimonials is: ', filteredTestimonials)
   return (
     <div className="relative w-full mb-20">
       <h1 className='text-4xl text-center pt-10 mb-8 font-semibold'>Testimonials</h1>

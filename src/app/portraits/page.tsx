@@ -52,6 +52,7 @@ export default function Portraits() {
   const [editIndex, setEditIndex] = useState<number>(0)
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
   const [totalPrice, setTotalPrice] = useState(0)
+  const [loadingCheckout, setLoadingCheckout] = useState(false)
   
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
@@ -347,14 +348,17 @@ export default function Portraits() {
   ))
 
   const checkout = async () => {
+    setLoadingCheckout(true)
     const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid)
     router.push(checkoutUrl)
+    setLoadingCheckout(false)
   }
 
   const checkoutButton = (
     <button
       onClick={checkout}
-      className="z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 bg-gradient-to-r from-[#338cb2] to-[#43b4e4] rounded-xl text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
+      className={`z-50 w-full text-3xl font-semibold mt-8 py-2 md:px-4 ${loadingCheckout ? 'bg-[#282828]/50 border border-white cursor-default' : 'bg-gradient-to-r from-[#338cb2] to-[#43b4e4] cursor-pointer'} rounded-xl text-black text-center hover:scale-105 transition duration-200 ease-in-out`}
+      disabled={loadingCheckout}
     >
       <div className="flex gap-2 items-center align-middle justify-center">
         Checkout

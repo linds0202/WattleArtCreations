@@ -24,9 +24,14 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
             maxWidth='md'
             PaperProps={{ sx: { p: 6, backgroundColor: "white"} }}
         >
-            <IconButton onClick={() => setOpenDetails(false)} className='absolute top-2 right-2 text-white'>
+            <div className='absolute top-2 right-2 w-1/12 mb-4'>
+                <IconButton onClick={() => setOpenDetails(false)} className='absolute top-2 right-2 text-white'>
+                    <CloseIcon className='text-black hover:text-red-600'/>
+                </IconButton>
+            </div>
+            {/* <IconButton onClick={() => setOpenDetails(false)} className='absolute top-2 right-2 text-white'>
                 <CloseIcon className='text-black hover:text-red-600'/>
-            </IconButton>
+            </IconButton> */}
             <div className="flex justify-center items-center">
                 <img className="mr-8 w-[10%] justify-self-center" src="./images/drips/side_splashL.png" alt='black paint drips' />
                 <p className='text-xl text-center font-bold mt-0'>Release Payments to Artist</p>

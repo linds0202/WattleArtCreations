@@ -106,7 +106,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                 />}
 
                 
-                {portrait.revised && portrait.finalImages.length - 1 === i &&
+                {portrait.revised && portrait.finalImages.length - 1 === i && portrait?.portraitCompletionDate === null &&
                 <div>
                     <ActionCenterAccordion title={`${portrait?.revised ? 'Review Artist Submission' : 'Awaiting Artist Submission'}`} open={portrait?.revised} attention={portrait?.revised} >
                         <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
@@ -249,6 +249,8 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                 {portrait?.additionalRevisionInfo.type !== ''
                                     ? <div className="flex flex-col items-center">
                                         <p className="text-center mb-4">Click the payment link to purchase an additional revision for this portrait</p>
+                                        <p>Revision level: <span>{portrait?.additionalRevisionInfo.type}</span></p>
+                                        <p>Revision Price: <span>{portrait?.additionalRevisionInfo.price}</span></p>
                                         <div className="w-full flex justify-between">
                                             <div 
                                                 className="w-full lg:w-5/12 text-lg mt-8 py-2 md:px-4 rounded-xl border border-[#282828] text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"
@@ -428,7 +430,7 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
 
 
             {/* 1st upload */}
-            {portrait?.revisionNotes.length === 0 && portrait?.artistAssigned 
+            {portrait?.revisionNotes.length === 0 && portrait?.artistAssigned && portrait?.portraitCompletionDate === null 
             ? <div>
                 <ActionCenterAccordion title={`${portrait?.revised ? 'Review Artist Submission' : 'Awaiting Artist Submission'}`} open={portrait?.revised} attention={portrait?.revised} >
                     <div className="bg-[#e8e8e8] rounded-lg p-4 mt-2">
@@ -483,8 +485,21 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                     : <div className="w-full">
                         {portrait?.revisions >= 0 && portrait?.status !== 'Completed' && 
                             <div>
-                                <p className="text-xl text-center font-semibold">{`Happy with your artist's latest ${portrait?.portraitCompletionDate !== null ? 'uploaded Character sheet or Weapons sheet' : 'submission'}?`}</p>
-                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">{portrait?.portraitCompletionDate !== null ? 'Accept uploaded sheets' : 'Accept as Final Image'}</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
+                                {portrait?.portraitCompletionDate !== null && portrait?.sheetUploads.every(sheet => sheet.src !== "")
+                                ? <div>
+                                    <p className="text-xl text-center font-semibold">{`${portrait?.sheetUploads.every(sheet => sheet.src !== "") ? "Happy with your artist's latestuploaded Character sheet or Weapons sheet" : 'Coming Soon . . . '}?`}</p>
+                                    {portrait?.sheetUploads.every(sheet => sheet.src !== "") 
+                                    ? <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">Accept uploaded sheets</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
+                                    :<p className="mt-4 bg-white py-2 px-4 rounded-lg">Your artist is working hard to customize your ordered character or weapon sheets. Check back soon!</p>
+                                    }
+                                </div> 
+                                : <div>
+                                    <p className="text-xl text-center font-semibold">Happy with your artist&apos;s the latest submission?</p>
+                                    <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">Accept as Final Image</span>&apos; in the Final Image section of this page to release payment and download your final image.</p>
+                                </div>
+                                }
+                                {/* <p className="text-xl text-center font-semibold">{`Happy with your artist's latest ${portrait?.portraitCompletionDate !== null ? 'uploaded Character sheet or Weapons sheet' : 'submission'}?`}</p>
+                                <p className="mt-4 bg-white py-2 px-4 rounded-lg">Select &apos;<span className="text-[#43b4e4] font-semibold text-xl">{portrait?.portraitCompletionDate !== null ? 'Accept uploaded sheets' : 'Accept as Final Image'}</span>&apos; in the Final Image section of this page to release payment and download your final image.</p> */}
                             </div>
                         }
 
