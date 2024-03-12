@@ -14,6 +14,7 @@ import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 import { auth, app, storage } from '@/app/firebase/firebase';
 import PortraitCustomizer from './components/PortraitCustomizer';
 import { PortraitData } from './components/PortraitCustomizer';
+import { UserData } from '../artistDashboard/[userId]/portfolio/page';
 import { getPortrait } from '../firebase/firestore';
 import Footer from '../components/Footer';
 import { getCheckoutUrl, getUserById } from '../firebase/firestore';
@@ -53,6 +54,7 @@ export default function Portraits() {
   const [editPortrait, setEditPortrait] = useState<PortraitData | null>(null)
   const [totalPrice, setTotalPrice] = useState(0)
   const [loadingCheckout, setLoadingCheckout] = useState(false)
+  const [user, setUser] = useState<UserData | null>(null)
   
   useEffect(() => {
     if (!isLoading && !authUser && portraits.length !== 0) {
@@ -60,11 +62,24 @@ export default function Portraits() {
     } else if (authUser) {
       setLogin(false)
     }
+
+    const handleGetUser = async () => {
+      console.log('authUser?.uid: ', authUser?.uid)
+      const currentUser: UserData | null = await getUserById(authUser?.uid)
+
+      if (currentUser) {
+        setUser(currentUser)
+      } 
+    }
+    
+    handleGetUser()
   }, [authUser, isLoading]);
 
   useEffect(() => {
+
     const cart = sessionStorage?.getItem("Cart")
     let currentPortraits: Array<PortraitData>
+
     if (cart !== null && cart.length !== 0) {
       currentPortraits = JSON.parse((cart))
       
@@ -348,11 +363,10 @@ export default function Portraits() {
   const checkout = async () => {
     setLoadingCheckout(true)
 
-    const currentUser = await getUserById(authUser?.uid)
-    console.log("totalCommissions: ", currentUser?.totalCompletedCommissions)
-    console.log("portraits: ", portraits)
-    const commissionCount = currentUser?.totalCompletedCommissions + portraits.length
-    console.log("commissionCount: ", commissionCount)
+    // const currentUser = await getUserById(authUser?.uid)
+    
+    const commissionCount = user ? user?.totalCompletedCommissions + portraits.length : 0
+    
     let newReward
     if (commissionCount === 0) {
       newReward = {
@@ -390,10 +404,9 @@ export default function Portraits() {
           discount: categories.customizer.rewardsDiscounts[4],
           level: 5
       }
-    } 
-    console.log('newReward: ', newReward)  
+    }
 
-    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
+    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
     router.push(checkoutUrl)
     setLoadingCheckout(false)
   }
@@ -479,18 +492,40 @@ export default function Portraits() {
                 </div>
                             
                 
-                <div className="w-full border-b-2 border-[#282828] my-4"></div>
+              <div className="w-full border-b-2 border-[#282828] my-4"></div>
+                {user && user?.customerDiscount.discount > 0 && 
+                <>
+                  <div className='mb-4 self-end flex justify-end items-center'>
+                    <p className=''>Total </p>
+                    <p 
+                      className='ml-4 font-bold'
+                    >
+                      $<span>{totalPrice.toFixed(2)}</span>
+                    </p>
+                  </div>
+
+                  <div className='mb-4 self-end flex justify-end items-center'>
+                    <p className='text-red-600'>Customer Rewards Discount ({user?.customerDiscount.discount * 100}%)</p>
+                    <p 
+                      className='ml-4 font-bold text-red-600'
+                    >
+                      $<span>{(totalPrice * user?.customerDiscount.discount).toFixed(2)}</span>
+                    </p>
+                  </div>
+                </>}
 
                 <div className='self-end flex justify-end items-center'>
                   <p className='text-xl font-semibold'>Total</p>
-                  <p className='ml-4 border-2 border-[#282828] font-bold bg-white py-2 px-4 rounded-md text-xl'>$<span>{totalPrice.toFixed(2)}</span></p>
+                  <p 
+                    className='ml-4 border-2 border-[#282828] font-bold bg-white py-2 px-4 rounded-md text-xl'
+                  >
+                    $<span>{user && user?.customerDiscount.discount > 0 ? (totalPrice - (totalPrice * user?.customerDiscount.discount)).toFixed(2) : totalPrice.toFixed(2)}</span>
+                  </p>
                 </div>
               </div>
 
 
-
-
-              {/* Wizard closed show calculate price button */}
+              {/* Wizard closed show checkout button */}
               { (portraits.length !== 0 && authUser) && 
                   <div className='w-full md:w-11/12 xl:w-3/4 mx-auto'>
                     <button onClick={() => setOpenWizard(true)} className='md:hidden rounded-xl w-full h-auto mx-auto mt-10 bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] hover:text-white  hover:bg-[#43b4e4] hover:scale-105 z-20'>

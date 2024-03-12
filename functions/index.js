@@ -60,6 +60,11 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             
             
             if (payment.metadata.type === 'first') {
+
+                
+
+
+
                 const answer = await portraitDocRef.update({
                     "status": 'Unclaimed',
                     "paymentComplete": true,

@@ -1,8 +1,6 @@
 import { useAuth } from '@/app/firebase/auth';
 import { useState, useEffect } from "react"
-import { useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
-import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import StepOne from "./questionaire/StepOne"
@@ -14,7 +12,8 @@ import {
     addPortrait, 
     updatePortrait, 
     getImageUrls,
-    deletePortraitImages 
+    deletePortraitImages, 
+    getUserById
 } from '@/app/firebase/firestore';
 import { MyCharValues } from './questionaire/StepOne';
 import { Timestamp } from 'firebase/firestore';
@@ -22,6 +21,7 @@ import { Artist } from '@/app/components/Portrait';
 import LoginDialog from '@/app/components/LoginDialog';
 import ConfirmCancel from './questionaire/ConfirmCancel';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
+import { UserData } from '@/app/artistDashboard/[userId]/portfolio/page';
 
 export interface UploadedImgs {
     imageUrls: Array<string>,
@@ -120,7 +120,8 @@ export interface PortraitData  {
     sheetUploads: Array<SheetUploadsData>,
     addOns: Array<Extras>,
     additionalPayments: Array<Payments>,
-    reviewed: boolean
+    reviewed: boolean,
+    discount: number
   }
 
 interface PortraitProps {
@@ -147,7 +148,6 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
     const choice = (selection === undefined || !selection) ? 'cat1' : selection
     if (selection === undefined || !selection) selection = categories['cat1'].type
     const { authUser, isLoading } = useAuth();
-    const router = useRouter();
 
     const [customizerLogin, setCustomizerLogin] = useState(false);
 
@@ -189,9 +189,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         sheetUploads: [],
         addOns: [],
         additionalPayments: [],
-        reviewed: false
+        reviewed: false, 
+        discount: 0
     })
-
+    const [discount, setDiscount] = useState<number>(0)
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
     const [charVariations, setCharVariations] = useState(false)
     const [animals, setAnimals] = useState<Array<MyAnimalValues>>(portraitData?.animals)
@@ -219,7 +220,17 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
 
             const bgData = window.localStorage.getItem('bgList')
             if (bgData !== null && JSON.parse(bgData).length !== 0) setBg(JSON.parse(bgData))
-        } 
+        }
+    
+        const handleGetUser = async () => {
+            const currentUser: UserData | null = await getUserById(authUser?.uid)
+      
+            if (currentUser) {
+              setDiscount(currentUser.customerDiscount.discount)
+            } 
+        }
+          
+        handleGetUser()
     }, [])
 
     useEffect(() => {
@@ -267,16 +278,10 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             }
         }
     }, [authUser, chars, animals, bg])
-
-
-    // const handleLogin = () => {
-    //     console.log('clicked login')
-    //     setCustomizerLogin(true)
-    // }
  
     const submitPortrait = async (portraitFormData: PortraitData) => {
         
-        const price: number = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
+        let price: number = chars.reduce((sum, char) => sum += (char.charDiscount ? char.total * .9 : char.total), 0) + animals.reduce((sum, animal) => sum += animal?.price, 0) + bg.price
 
         let modelsCount = 0
         let modelsTotal = 0
@@ -319,6 +324,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             customerId: authUser?.uid, 
             customer: authUser?.displayName,
             sheetUploads: sheetUploadArray,
+            discount: discount
         }
 
         

@@ -48,7 +48,7 @@ export async function setNewCategories(id, newData) {
 
 
 
-export async function getCheckoutUrl (items, userId, reward) {
+export async function getCheckoutUrl (items, userId, discount, reward) {
 
   if (!userId) throw new Error("User is not authenticated");
 
@@ -83,9 +83,10 @@ export async function getCheckoutUrl (items, userId, reward) {
         'portraitIds': portraitIds,
         'userId': userId,
         'type': 'first',
+        'currentDiscount': discount.toString(),
         'level': reward.level.toString(),
         'badge': reward.badge,
-        'discount': reward.discount.toString()
+        'newdiscount': reward.discount.toString()
       },
   });
 
@@ -412,45 +413,48 @@ export async function getUser(user) {
 
 //Get user by Id
 export async function getUserById(userId) {
+  console.log('userId: ', userId)
+  if (userId !== null) {
+    const docSnap = await getDoc(doc(db, "users", userId));
+    
+    if (!docSnap.exists()) {
+      return null
+    } else {
+      let avatarBucket = ''
+      if (docSnap.data().avatarBucket !== undefined) {
+        avatarBucket = await getDownloadURL(docSnap.data().avatarBucket)
+      }
   
-  const docSnap = await getDoc(doc(db, "users", userId));
-
-  let avatarBucket = ''
-  if (docSnap.data().avatarBucket !== undefined) {
-    avatarBucket = await getDownloadURL(docSnap.data().avatarBucket)
-  }
-
-  const user = {
-    displayName: docSnap.data().displayName, 
-    email: docSnap.data().email, 
-    roles: docSnap.data().roles, 
-    oldEnough: docSnap.data().oldEnough,
-    uid: userId,
-    avatar: avatarBucket,
-    artistName: docSnap.data().artistName, 
-    bio: docSnap.data().bio,
-    links: docSnap.data().links,
-    artistImgs: docSnap.data().artistImgs,
-    website: docSnap.data().website,
-    country: docSnap.data().country,
-    activeCommissions: docSnap.data().activeCommissions,
-    maxCommissions: docSnap.data().maxCommissions,
-    totalCompletedCommissions: docSnap.data().totalCompletedCommissions,
-    lifeTimeEarnings: docSnap.data().lifeTimeEarnings,
-    paymentsOwing: docSnap.data().paymentsOwing,
-    totalPortraits: docSnap.data().totalPortraits,
-    totalStars: docSnap.data().totalStars,
-    totalReviews: docSnap.data().totalReviews,
-    starRating: docSnap.data().starRating,
-    joinedOn: docSnap.data().joinedOn,
-    payouts: docSnap.data().payouts,
-    customerDiscount: docSnap.data().customerDiscount
-  }
-
-  if (!docSnap.exists()) {
-    return null
+      const user = {
+        displayName: docSnap.data().displayName, 
+        email: docSnap.data().email, 
+        roles: docSnap.data().roles, 
+        oldEnough: docSnap.data().oldEnough,
+        uid: userId,
+        avatar: avatarBucket,
+        artistName: docSnap.data().artistName, 
+        bio: docSnap.data().bio,
+        links: docSnap.data().links,
+        artistImgs: docSnap.data().artistImgs,
+        website: docSnap.data().website,
+        country: docSnap.data().country,
+        activeCommissions: docSnap.data().activeCommissions,
+        maxCommissions: docSnap.data().maxCommissions,
+        totalCompletedCommissions: docSnap.data().totalCompletedCommissions,
+        lifeTimeEarnings: docSnap.data().lifeTimeEarnings,
+        paymentsOwing: docSnap.data().paymentsOwing,
+        totalPortraits: docSnap.data().totalPortraits,
+        totalStars: docSnap.data().totalStars,
+        totalReviews: docSnap.data().totalReviews,
+        starRating: docSnap.data().starRating,
+        joinedOn: docSnap.data().joinedOn,
+        payouts: docSnap.data().payouts,
+        customerDiscount: docSnap.data().customerDiscount
+      }
+      return user
+    }
   } else {
-    return user
+    return null
   }
 }
 
@@ -662,7 +666,8 @@ export async function addPortrait(data) {
     sheetUploads: [],
     addOns: [],
     additionalPayments: [],
-    reviewed: false
+    reviewed: false,
+    discount: data.discount
   })
   return portraitRef.id
 }
@@ -781,6 +786,7 @@ export async function getPortrait(uid) {
     addOns: docSnap.data().addOns,
     additionalPayments: docSnap.data().additionalPayments,
     reviewed: docSnap.data().reviewed,
+    discount: docSnap.data().discount,
     id: uid
   }
 
