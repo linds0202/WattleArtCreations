@@ -31,22 +31,12 @@ const Profile = ({user}: ProfileProps) => {
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
 
-    // const [reward, setReward] = useState<Reward>({
-    //     badge: '../../../../images/badges/zero.png',
-    //     discount: 0,
-    //     level: 0
-    // })
- 
-
     useEffect(() => {
         if (!isLoading && !authUser) {
             router.push('/')
         }
     }, [authUser, isLoading]);
 
-    // useEffect(() => {
-    //     if (userData) getReward(userData?.totalCompletedCommissions)
-    // }, [])
 
     useEffect(() => {
         const handleGetUser = async () => {
@@ -72,46 +62,6 @@ const Profile = ({user}: ProfileProps) => {
         }
     }
 
-    // const getReward = (commissions: number) => {
-    //     if (commissions === 0) {
-    //       setReward({
-    //         badge: '../../../../images/badges/zero.png',
-    //         discount: 0,
-    //         level: 0
-    //       })
-    //     } else if (commissions > 0 && commissions < 3) {
-    //       setReward({
-    //         badge: '../../../../images/badges/one.png',
-    //         discount: categories.customizer.rewardsDiscounts[0],
-    //         level: 1
-    //       })
-    //     } else if (commissions >= 3 && commissions < 5) {
-    //       setReward({
-    //         badge: '../../../../images/badges/two.png',
-    //         discount: categories.customizer.rewardsDiscounts[1],
-    //         level: 2
-    //       })
-    //     } else if (commissions >= 5 && commissions < 7) {
-    //       setReward({
-    //         badge: '../../../../images/badges/three.png',
-    //         discount: categories.customizer.rewardsDiscounts[2],
-    //         level: 3
-    //       })
-    //     } else if (commissions >= 7 && commissions < 10) {
-    //       setReward({
-    //         badge: '../../../../images/badges/four.png',
-    //         discount: categories.customizer.rewardsDiscounts[3],
-    //         level: 4
-    //       })
-    //     } else {
-    //       setReward({
-    //         badge: '../../../../images/badges/five.png',
-    //         discount: categories.customizer.rewardsDiscounts[4],
-    //         level: 5
-    //       })
-    //     }   
-    // }
-    
     return (
         <div className='w-full px-4 xl:px-14 py-4'>
             <div className='mt-12 md:mt-20 lg:mt-0 flex flex-col lg:flex-row justify-between items-center'>
@@ -187,7 +137,8 @@ const Profile = ({user}: ProfileProps) => {
                             </div>
                         </div>      
                     </div>
-                    <p className='text-sm mt-10'>Some explanation of the rewards program here</p>  
+                    <p className='text-center text-sm mt-10 font-light'>(# of purchased portraits)</p>  
+                    <p className='text-sm mt-4'>Some explanation of the rewards program here</p>  
                     
                 </div>
             </div>

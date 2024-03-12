@@ -59,21 +59,18 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             console.log("current portrait: ", currentPortrait)
 
             if (payment.metadata.type === 'first') {
-                const currentDiscount = Number(payment.metadata.discount)
-                console.log('currentDiscount: ', currentDiscount)
+                const currentDiscount = Number(payment.metadata.currentDiscount)
                 if (currentDiscount > 0) {
                     const newPrice = {
                         ...currentPortrait.price,
-                        artistPay: currentPortrait.price.artistPay - (currentPortrait.price.artistPay * currentDiscount),
-                        modelsTotal: currentPortrait.price.modelsTotal - (currentPortrait.price.modelsTotal * currentDiscount),
-                        total: currentPortrait.price.total - (currentPortrait.price.total * currentDiscount)
+                        artistPay: Math.round((currentPortrait.price.artistPay - (currentPortrait.price.artistPay * currentDiscount)) * 100) / 100,
+                        modelsTotal: Math.round((currentPortrait.price.modelsTotal - (currentPortrait.price.modelsTotal * currentDiscount)) * 100) / 100,
+                        total: Math.round((currentPortrait.price.total - (currentPortrait.price.total * currentDiscount)) * 100) / 100
                     }
-
-                    console.log('newPrice: ', newPrice)
                     
                     const newSheetUploads = currentPortrait.sheetUploads.map(sheet => ({
                         ...sheet,
-                        price: sheet.price * currentDiscount
+                        price: Math.round((sheet.price - (sheet.price * currentDiscount)) * 100) / 100
                     }))
 
                     const answer = await portraitDocRef.update({

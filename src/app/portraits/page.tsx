@@ -311,7 +311,10 @@ export default function Portraits() {
       
       <div className="flex justify-between items-center">
         <p className='text-lg md:text-base xl:text-lg font-semibold'>{portrait?.portraitTitle.slice(0,20)} <span className='text-sm md:text-xs xl:text-sm'>({portrait.mode})</span></p>
-        <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.total.toFixed(2)}</p>
+        {user && user?.customerDiscount.discount > 0
+        ? <p className='text-lg md:text-sm lg:text-base xl:text-lg font-semibold text-[#43b4e4]'><span className='line-through font-light text-red-600 mr-4'>(${portrait.price.total.toFixed(2)})</span>${(portrait.price.total - (portrait.price.total * user?.customerDiscount.discount)).toFixed(2)}</p>
+        : <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.total.toFixed(2)}</p>
+        }
       </div>
       
       <div className="w-full xl:w-3/4 mb-4 py-2 bg-white/50 rounded-xl">
@@ -403,15 +406,6 @@ export default function Portraits() {
       }
     }
 
-    // const updatedDiscountPortraits = portraits.map(portrait => {
-    //   return {
-    //     ...portrait,
-    //     discount: user?.customerDiscount.discount
-    //   }
-    // })
-
-    console.log("user?.customerDiscount.discount: ", user?.customerDiscount.discount)
-
     const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
     router.push(checkoutUrl)
     setLoadingCheckout(false)
@@ -445,7 +439,9 @@ export default function Portraits() {
   return (isLoading ?
     <></>
     : <div className='relative min-h-[100vh] bg-gradient-to-b from-black from-0% via-[#282828] via-40% to-black to-60%'>
-
+      {authUser?.roles !== 'Artist' && user && 
+        <p className="absolute top-5 right-[30%] md:right-[40%] xl:top-5 xl:right-16 font-sans xl:text-xl font-semibold text-white text-right z-10">Rewards Discount: <span className='text-lg xl:text-2xl text-[#43b4e4]'>{Math.trunc(user.customerDiscount.discount * 100)}%</span></p>
+      }
       {authUser?.roles !== 'Artist' 
       ?<div className='flex flex-col space-y-4 items-center min-h-screen text-black pb-8'>
         {!openWizard && <h1 className='font-serif text-white text-6xl mt-16 mb-4 font-bold'>My Cart</h1>}
@@ -511,7 +507,7 @@ export default function Portraits() {
                   </div>
 
                   <div className='mb-4 self-end flex justify-end items-center'>
-                    <p className='text-red-600'>Customer Rewards Discount ({user?.customerDiscount.discount * 100}%)</p>
+                    <p className='text-xs lg:text-base text-red-600'>Customer Rewards Discount ({Math.trunc(user?.customerDiscount.discount * 100)}%)</p>
                     <p 
                       className='ml-4 font-bold text-red-600'
                     >
