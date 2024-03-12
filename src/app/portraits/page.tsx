@@ -16,7 +16,7 @@ import PortraitCustomizer from './components/PortraitCustomizer';
 import { PortraitData } from './components/PortraitCustomizer';
 import { getPortrait } from '../firebase/firestore';
 import Footer from '../components/Footer';
-import { getCheckoutUrl } from '../firebase/firestore';
+import { getCheckoutUrl, getUserById } from '../firebase/firestore';
 
 // Configure FirebaseUI., 
 const uiConfig = {
@@ -347,8 +347,12 @@ export default function Portraits() {
 
   const checkout = async () => {
     setLoadingCheckout(true)
-    
-    const commissionCount = authUser.totalCompletedCommissions + portraits.length
+
+    const currentUser = await getUserById(authUser?.uid)
+    console.log("totalCommissions: ", currentUser?.totalCompletedCommissions)
+    console.log("portraits: ", portraits)
+    const commissionCount = currentUser?.totalCompletedCommissions + portraits.length
+    console.log("commissionCount: ", commissionCount)
     let newReward
     if (commissionCount === 0) {
       newReward = {
@@ -389,8 +393,8 @@ export default function Portraits() {
     } 
     console.log('newReward: ', newReward)  
 
-    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
-    router.push(checkoutUrl)
+    // const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
+    // router.push(checkoutUrl)
     setLoadingCheckout(false)
   }
 
