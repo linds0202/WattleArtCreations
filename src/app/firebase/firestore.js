@@ -86,7 +86,7 @@ export async function getCheckoutUrl (items, userId, discount, reward) {
         'currentDiscount': discount.toString(),
         'level': reward.level.toString(),
         'badge': reward.badge,
-        'newdiscount': reward.discount.toString()
+        'newDiscount': reward.discount.toString()
       },
   });
 

@@ -41,7 +41,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             const newCustomerDiscount = {
                 badge: payment.metadata.badge,
                 level: Number(payment.metadata.level),
-                discount: Number(payment.metadata.discount)
+                discount: Number(payment.metadata.newDiscount)
             }
 
             const userId = payment.metadata.userId
@@ -61,7 +61,9 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             
             if (payment.metadata.type === 'first') {
 
-                
+                // if (currentPortrait.discount > 0) {
+                //     console.log(portrait)
+                // }
 
 
 
