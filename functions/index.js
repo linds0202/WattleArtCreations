@@ -31,17 +31,19 @@ exports.makeEmail = functions.firestore.document('/emails/{documentId}')
 exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/payments/{documentId}')
     .onCreate(async (snap, context) => {
     
-    const payment = snap.data();
-    // console.log('payment: ', payment)
+    const payment = snap.data()
 
     if (payment.status === 'succeeded') {
         const portraitIds = payment.metadata.portraitIds.split(',')
-        
+
         if (payment.metadata.type === 'first') {
             // Update User
             const userId = payment.metadata.userId
             const userDocRef = admin.firestore().collection("users").doc(userId)
-            await userDocRef.update({"totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length)})
+            await userDocRef.update({
+                "totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length),
+                "customerDiscount": payment.metadata.reward
+            })
         }
 
         for (let i = 0; i < portraitIds.length; i++) {
@@ -153,24 +155,6 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     })
                 }
                 
-
-                // Add to admin model list
-                // for (const extra of newSheetUploads) {
-                //     if (extra.type === 'model') {
-                //         await modelsRef.add({
-                //             "portraitId": currentPortrait.id,
-                //             "customerId": currentPortrait.customerId,
-                //             "customeName": currentPortrait.customer,
-                //             "price": extra.price,
-                //             "portraitComplete": false,
-                //             "ordered": false,
-                //             "admin": "",
-                //             "creationDate": Timestamp.now()
-                //         }) 
-                //     }
-                // }
-
-                
             } else if (payment.metadata.type === 'additionalRevision'){
 
                 const newPayment = {
@@ -273,24 +257,6 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                     })
                 }
 
-
-                // Add to admin model list
-                // for (const extra of newSheetUploads) {
-                //     if (extra.type === 'model') {
-                //         await modelsRef.add({
-                //             "portraitId": currentPortrait.id,
-                //             "customerId": currentPortrait.customerId,
-                //             "customeName": currentPortrait.customer,
-                //             "price": extra.price,
-                //             "portraitComplete": false,
-                //             "ordered": false,
-                //             "admin": "",
-                //             "creationDate": Timestamp.now()
-                //         }) 
-                //     }
-                // }
-
-                
             } else if (payment.metadata.type === 'tip'){
 
                 const newPayment = {

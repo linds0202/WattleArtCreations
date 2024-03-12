@@ -17,13 +17,12 @@ import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
 interface ProfileProps {
     user: UserData | null,
-    // reward: Reward
 }
 
 const Profile = ({user}: ProfileProps) => {
 
     const { authUser, isLoading } = useAuth();
-    const { categories } = useCategoriesContext()
+    // const { categories } = useCategoriesContext()
     const router = useRouter();
 
     const [userData, setUserData] = useState<UserData | null>(user ? user : null)
@@ -32,11 +31,11 @@ const Profile = ({user}: ProfileProps) => {
     const [updateUser, setUpdateUser] = useState({})
     const [changeAvatar, setChangeAvatar] = useState<boolean>(false)
 
-    const [reward, setReward] = useState<Reward>({
-        badge: '../../../../images/badges/zero.png',
-        discount: 0,
-        level: 0
-    })
+    // const [reward, setReward] = useState<Reward>({
+    //     badge: '../../../../images/badges/zero.png',
+    //     discount: 0,
+    //     level: 0
+    // })
  
 
     useEffect(() => {
@@ -45,14 +44,14 @@ const Profile = ({user}: ProfileProps) => {
         }
     }, [authUser, isLoading]);
 
-    useEffect(() => {
-        if (userData) getReward(userData?.totalCompletedCommissions)
-    }, [])
+    // useEffect(() => {
+    //     if (userData) getReward(userData?.totalCompletedCommissions)
+    // }, [])
 
     useEffect(() => {
         const handleGetUser = async () => {
             const getMyUserData: UserData | null = await getUserById(authUser?.uid);
-            setUserData(getMyUserData)
+            if (getMyUserData !== null) setUserData(getMyUserData)
         }
           
         handleGetUser()
@@ -73,45 +72,45 @@ const Profile = ({user}: ProfileProps) => {
         }
     }
 
-    const getReward = (commissions: number) => {
-        if (commissions === 0) {
-          setReward({
-            badge: '../../../../images/badges/zero.png',
-            discount: 0,
-            level: 0
-          })
-        } else if (commissions > 0 && commissions < 3) {
-          setReward({
-            badge: '../../../../images/badges/one.png',
-            discount: categories.customizer.rewardsDiscounts[0],
-            level: 1
-          })
-        } else if (commissions >= 3 && commissions < 5) {
-          setReward({
-            badge: '../../../../images/badges/two.png',
-            discount: categories.customizer.rewardsDiscounts[1],
-            level: 2
-          })
-        } else if (commissions >= 5 && commissions < 7) {
-          setReward({
-            badge: '../../../../images/badges/three.png',
-            discount: categories.customizer.rewardsDiscounts[2],
-            level: 3
-          })
-        } else if (commissions >= 7 && commissions < 10) {
-          setReward({
-            badge: '../../../../images/badges/four.png',
-            discount: categories.customizer.rewardsDiscounts[3],
-            level: 4
-          })
-        } else {
-          setReward({
-            badge: '../../../../images/badges/five.png',
-            discount: categories.customizer.rewardsDiscounts[4],
-            level: 5
-          })
-        }   
-    }
+    // const getReward = (commissions: number) => {
+    //     if (commissions === 0) {
+    //       setReward({
+    //         badge: '../../../../images/badges/zero.png',
+    //         discount: 0,
+    //         level: 0
+    //       })
+    //     } else if (commissions > 0 && commissions < 3) {
+    //       setReward({
+    //         badge: '../../../../images/badges/one.png',
+    //         discount: categories.customizer.rewardsDiscounts[0],
+    //         level: 1
+    //       })
+    //     } else if (commissions >= 3 && commissions < 5) {
+    //       setReward({
+    //         badge: '../../../../images/badges/two.png',
+    //         discount: categories.customizer.rewardsDiscounts[1],
+    //         level: 2
+    //       })
+    //     } else if (commissions >= 5 && commissions < 7) {
+    //       setReward({
+    //         badge: '../../../../images/badges/three.png',
+    //         discount: categories.customizer.rewardsDiscounts[2],
+    //         level: 3
+    //       })
+    //     } else if (commissions >= 7 && commissions < 10) {
+    //       setReward({
+    //         badge: '../../../../images/badges/four.png',
+    //         discount: categories.customizer.rewardsDiscounts[3],
+    //         level: 4
+    //       })
+    //     } else {
+    //       setReward({
+    //         badge: '../../../../images/badges/five.png',
+    //         discount: categories.customizer.rewardsDiscounts[4],
+    //         level: 5
+    //       })
+    //     }   
+    // }
     
     return (
         <div className='w-full px-4 xl:px-14 py-4'>
@@ -159,13 +158,13 @@ const Profile = ({user}: ProfileProps) => {
                 <div className='w-full lg:w-[60%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
                     <div className='absolute top-2 right-4'>
                         <div className='w-[50px] h-[50px] mx-auto bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
-                            <p className='text-center'>{Math.trunc(reward.discount * 100)}%</p>
+                            {userData && <p className='text-center'>{Math.trunc(userData?.customerDiscount.discount * 100)}%</p>}
                         </div>
                         <p className='text-sm font-semibold'>Discount</p>
                     </div>
                     
                     <div className='md:px-2 flex flex-col md:flex-row items-center'>
-                        <img src={reward.badge} className='w-[96px] h-[96px] mr-4' alt='user rewards badge icon'/>
+                        <img src={userData?.customerDiscount.badge} className='w-[96px] h-[96px] mr-4' alt='user rewards badge icon'/>
                         <div className='w-full'>
                             <div className='mb-4 flex items-center'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
@@ -176,7 +175,14 @@ const Profile = ({user}: ProfileProps) => {
                                 <AwardProgressBar 
                                     completed={userData ? userData?.totalCompletedCommissions : 0} 
                                     bgcolor={'#43b4e4'}
-                                    reward={reward}    
+                                    reward={userData?.customerDiscount !== null && userData?.customerDiscount !== undefined 
+                                        ? userData?.customerDiscount 
+                                        : {
+                                            badge: '../../../../images/badges/zero.png',
+                                            discount: 0,
+                                            level: 0
+                                        }
+                                    }    
                                 />
                             </div>
                         </div>      

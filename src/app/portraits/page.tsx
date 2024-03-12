@@ -246,7 +246,6 @@ export default function Portraits() {
               : portrait.mode === categories.cat2.type
               ? categories.customizer.defaults.cat2DefaultImg 
               : categories.customizer.defaults.cat3DefaultImg }`}
-            //src={portrait?.images.length > 0 ? portrait?.images[0].imageUrls[0] : defaultImgs[portrait?.mode]} 
             alt={`default image for ${portrait?.mode} portrait`} 
             className='w-[100%] h-[100%] object-cover object-top rounded-xl'
           />
@@ -301,7 +300,6 @@ export default function Portraits() {
         <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.total.toFixed(2)}</p>
       </div>
       
-      {/* border-t border-[#282828]/50 */}
       <div className="w-full xl:w-3/4 mb-4 py-2 bg-white/50 rounded-xl">
         {/* num chars  */}
         <p className='text-base md:text-sm lg:text-base font-semibold ml-4 md:ml-2 xl:ml-4'>Characters ({portrait.characters.length})</p>
@@ -349,7 +347,49 @@ export default function Portraits() {
 
   const checkout = async () => {
     setLoadingCheckout(true)
-    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid)
+    
+    const commissionCount = authUser.totalCompletedCommissions + portraits.length
+    let newReward
+    if (commissionCount === 0) {
+      newReward = {
+        badge: '../../../../images/badges/zero.png',
+        discount: 0,
+        level: 0
+      }
+    } else if (commissionCount > 0 && commissionCount < 3) {
+      newReward = {
+          badge: '../../../../images/badges/one.png',
+          discount: categories.customizer.rewardsDiscounts[0],
+          level: 1
+      }
+    } else if (commissionCount >= 3 && commissionCount < 5) {
+      newReward = {
+          badge: '../../../../images/badges/two.png',
+          discount: categories.customizer.rewardsDiscounts[1],
+          level: 2
+      }
+    } else if (commissionCount >= 5 && commissionCount < 7) {
+      newReward = {
+          badge: '../../../../images/badges/three.png',
+          discount: categories.customizer.rewardsDiscounts[2],
+          level: 3
+      }
+    } else if (commissionCount >= 7 && commissionCount < 10) {
+      newReward = {
+          badge: '../../../../images/badges/four.png',
+          discount: categories.customizer.rewardsDiscounts[3],
+          level: 4
+      }
+    } else {
+      newReward = {
+          badge: '../../../../images/badges/five.png',
+          discount: categories.customizer.rewardsDiscounts[4],
+          level: 5
+      }
+    } 
+    console.log('newReward: ', newReward)  
+
+    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
     router.push(checkoutUrl)
     setLoadingCheckout(false)
   }

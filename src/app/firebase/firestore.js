@@ -48,7 +48,7 @@ export async function setNewCategories(id, newData) {
 
 
 
-export async function getCheckoutUrl (items, userId) {
+export async function getCheckoutUrl (items, userId, reward) {
 
   if (!userId) throw new Error("User is not authenticated");
 
@@ -82,7 +82,8 @@ export async function getCheckoutUrl (items, userId) {
       metadata: {
         'portraitIds': portraitIds,
         'userId': userId,
-        'type': 'first'
+        'type': 'first',
+        'reward': reward
       },
   });
 
@@ -440,7 +441,8 @@ export async function getUserById(userId) {
     totalReviews: docSnap.data().totalReviews,
     starRating: docSnap.data().starRating,
     joinedOn: docSnap.data().joinedOn,
-    payouts: docSnap.data().payouts
+    payouts: docSnap.data().payouts,
+    customerDiscount: docSnap.data().customerDiscount
   }
 
   if (!docSnap.exists()) {
@@ -489,7 +491,12 @@ export function addUser(user) {
     oldEnough: false,
     joinedOn: new Date,
     avatar: "",
-    payouts: []
+    payouts: [],
+    customerDiscount: {
+      badge: '../../../../images/badges/zero.png',
+      discount: 0,
+      level: 0
+    }
   })
   return {uid: user.uid, email: user.email, displayName: user.displayName, roles: "Customer", oldEnough: false }
 }

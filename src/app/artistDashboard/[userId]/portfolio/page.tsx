@@ -48,6 +48,12 @@ export interface Payment {
     released: boolean,
 }
 
+export interface Reward {
+    badge: string,
+    discount: number,
+    level: number
+}
+
 export interface UserData {
     uid: string,
     displayName: string,
@@ -71,7 +77,8 @@ export interface UserData {
     oldEnough: boolean,
     joinedOn: Date,
     avatar: string,
-    payouts: Array<Payout>
+    payouts: Array<Payout>,
+    customerDiscount: Reward
 }
 
 export interface TestimonialData {
