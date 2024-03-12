@@ -59,22 +59,27 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             console.log("current portrait: ", currentPortrait)
 
             if (payment.metadata.type === 'first') {
-
-                if (currentPortrait.discount > 0) {
+                const currentDiscount = Number(payment.metadata.discount)
+                console.log('currentDiscount: ', currentDiscount)
+                if (currentDiscount > 0) {
                     const newPrice = {
                         ...currentPortrait.price,
-                        artistPay: currentPortrait.price.artistPay - (currentPortrait.price.artistPay * currentPortrait.discount),
-                        modelsTotal: currentPortrait.price.modelsTotal - (currentPortrait.price.modelsTotal * currentPortrait.discount),
-                        total: currentPortrait.price.total - (currentPortrait.price.total * currentPortrait.discount)
+                        artistPay: currentPortrait.price.artistPay - (currentPortrait.price.artistPay * currentDiscount),
+                        modelsTotal: currentPortrait.price.modelsTotal - (currentPortrait.price.modelsTotal * currentDiscount),
+                        total: currentPortrait.price.total - (currentPortrait.price.total * currentDiscount)
                     }
+
+                    console.log('newPrice: ', newPrice)
+                    
                     const newSheetUploads = currentPortrait.sheetUploads.map(sheet => ({
                         ...sheet,
-                        price: sheet.price * currentPortrait.discount
+                        price: sheet.price * currentDiscount
                     }))
 
                     const answer = await portraitDocRef.update({
                         "price": newPrice,
                         "sheetUploads": newSheetUploads,
+                        "discount": currentDiscount,
                         "status": 'Unclaimed',
                         "paymentComplete": true,
                         "purchaseDate": Timestamp.now(),
@@ -96,7 +101,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
                             "customerName": currentPortrait.customer,
-                            "price": currentPortrait.discount > 0 ? extra.price - (extra.price * currentPortrait.discount) : extra.price,
+                            "price": currentDiscount > 0 ? extra.price - (extra.price * currentDiscount) : extra.price,
                             "portraitComplete": false,
                             "ordered": false,
                             "admin": "",

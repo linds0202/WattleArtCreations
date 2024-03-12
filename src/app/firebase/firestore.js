@@ -49,7 +49,7 @@ export async function setNewCategories(id, newData) {
 
 
 export async function getCheckoutUrl (items, userId, discount, reward) {
-
+  console.log('in getcheckoutUrl discount: ', discount)
   if (!userId) throw new Error("User is not authenticated");
 
   const portraitIds = items.map(portrait => portrait.id).join(',')

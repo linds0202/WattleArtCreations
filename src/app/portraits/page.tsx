@@ -403,16 +403,16 @@ export default function Portraits() {
       }
     }
 
-    const updatedDiscountPortraits = portraits.map(portrait => {
-      return {
-        ...portrait,
-        discount: user?.customerDiscount.discount
-      }
-    })
+    // const updatedDiscountPortraits = portraits.map(portrait => {
+    //   return {
+    //     ...portrait,
+    //     discount: user?.customerDiscount.discount
+    //   }
+    // })
 
-    console.log("updatedDiscount: ", updatedDiscountPortraits)
+    console.log("user?.customerDiscount.discount: ", user?.customerDiscount.discount)
 
-    const checkoutUrl = await getCheckoutUrl(updatedDiscountPortraits, authUser.uid, user?.customerDiscount.discount, newReward)
+    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
     router.push(checkoutUrl)
     setLoadingCheckout(false)
   }
