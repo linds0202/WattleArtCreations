@@ -412,7 +412,7 @@ export default function Portraits() {
 
     console.log("updatedDiscount: ", updatedDiscountPortraits)
 
-    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
+    const checkoutUrl = await getCheckoutUrl(updatedDiscountPortraits, authUser.uid, user?.customerDiscount.discount, newReward)
     router.push(checkoutUrl)
     setLoadingCheckout(false)
   }

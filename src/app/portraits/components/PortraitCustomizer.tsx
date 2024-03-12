@@ -192,7 +192,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         reviewed: false, 
         discount: 0
     })
-    const [discount, setDiscount] = useState<number>(0)
+    // const [discount, setDiscount] = useState<number>(0)
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)
     const [charVariations, setCharVariations] = useState(false)
     const [animals, setAnimals] = useState<Array<MyAnimalValues>>(portraitData?.animals)
@@ -222,15 +222,15 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             if (bgData !== null && JSON.parse(bgData).length !== 0) setBg(JSON.parse(bgData))
         }
     
-        const handleGetUser = async () => {
-            const currentUser: UserData | null = await getUserById(authUser?.uid)
+        // const handleGetUser = async () => {
+        //     const currentUser: UserData | null = await getUserById(authUser?.uid)
       
-            if (currentUser) {
-              setDiscount(currentUser.customerDiscount.discount)
-            } 
-        }
+        //     if (currentUser) {
+        //       setDiscount(currentUser.customerDiscount.discount)
+        //     } 
+        // }
           
-        handleGetUser()
+        // handleGetUser()
     }, [])
 
     useEffect(() => {
@@ -324,7 +324,7 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
             customerId: authUser?.uid, 
             customer: authUser?.displayName,
             sheetUploads: sheetUploadArray,
-            discount: discount
+            // discount: discount
         }
 
         
