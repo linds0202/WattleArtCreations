@@ -393,8 +393,8 @@ export default function Portraits() {
     } 
     console.log('newReward: ', newReward)  
 
-    // const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
-    // router.push(checkoutUrl)
+    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, newReward)
+    router.push(checkoutUrl)
     setLoadingCheckout(false)
   }
 
