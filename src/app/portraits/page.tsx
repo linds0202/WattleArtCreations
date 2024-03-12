@@ -64,7 +64,6 @@ export default function Portraits() {
     }
 
     const handleGetUser = async () => {
-      console.log('authUser?.uid: ', authUser?.uid)
       const currentUser: UserData | null = await getUserById(authUser?.uid)
 
       if (currentUser) {
@@ -363,8 +362,6 @@ export default function Portraits() {
   const checkout = async () => {
     setLoadingCheckout(true)
 
-    // const currentUser = await getUserById(authUser?.uid)
-    
     const commissionCount = user ? user?.totalCompletedCommissions + portraits.length : 0
     
     let newReward
@@ -406,8 +403,17 @@ export default function Portraits() {
       }
     }
 
-    const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
-    router.push(checkoutUrl)
+    const updatedDiscountPortraits = portraits.map(portrait => {
+      return {
+        ...portrait,
+        discount: user?.customerDiscount.discount
+      }
+    })
+
+    console.log("updatedDiscount: ", updatedDiscountPortraits)
+
+    // const checkoutUrl = await getCheckoutUrl(portraits, authUser.uid, user?.customerDiscount.discount, newReward)
+    // router.push(checkoutUrl)
     setLoadingCheckout(false)
   }
 

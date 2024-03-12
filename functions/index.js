@@ -57,8 +57,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             const currentPortraitSnap = await portraitDocRef.get()
             const currentPortrait = currentPortraitSnap.data()
             console.log("current portrait: ", currentPortrait)
-            
-            
+
             if (payment.metadata.type === 'first') {
 
                 if (currentPortrait.discount > 0) {
