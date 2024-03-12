@@ -61,18 +61,34 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
             
             if (payment.metadata.type === 'first') {
 
-                // if (currentPortrait.discount > 0) {
-                //     console.log(portrait)
-                // }
+                if (currentPortrait.discount > 0) {
+                    const newPrice = {
+                        ...currentPortrait.price,
+                        artistPay: currentPortrait.price.artistPay - (currentPortrait.price.artistPay * currentPortrait.discount),
+                        modelsTotal: currentPortrait.price.modelsTotal - (currentPortrait.price.modelsTotal * currentPortrait.discount),
+                        total: currentPortrait.price.total - (currentPortrait.price.total * currentPortrait.discount)
+                    }
+                    const newSheetUploads = currentPortrait.sheetUploads.map(sheet => ({
+                        ...sheet,
+                        price: sheet.price * currentPortrait.discount
+                    }))
 
-
-
-                const answer = await portraitDocRef.update({
-                    "status": 'Unclaimed',
-                    "paymentComplete": true,
-                    "purchaseDate": Timestamp.now(),
-                    "lastUpdatedStatus": Timestamp.now(),
-                })
+                    const answer = await portraitDocRef.update({
+                        "price": newPrice,
+                        "sheetUploads": newSheetUploads,
+                        "status": 'Unclaimed',
+                        "paymentComplete": true,
+                        "purchaseDate": Timestamp.now(),
+                        "lastUpdatedStatus": Timestamp.now(),
+                    })
+                } else {
+                    const answer = await portraitDocRef.update({
+                        "status": 'Unclaimed',
+                        "paymentComplete": true,
+                        "purchaseDate": Timestamp.now(),
+                        "lastUpdatedStatus": Timestamp.now(),
+                    })
+                }
 
                 // Add to admin model list
                 for (const extra of currentPortrait.sheetUploads) {
@@ -81,7 +97,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
                             "customerName": currentPortrait.customer,
-                            "price": extra.price,
+                            "price": currentPortrait.discount > 0 ? extra.price - (extra.price * currentPortrait.discount) : extra.price,
                             "portraitComplete": false,
                             "ordered": false,
                             "admin": "",
