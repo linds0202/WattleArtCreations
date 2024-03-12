@@ -83,7 +83,9 @@ export async function getCheckoutUrl (items, userId, reward) {
         'portraitIds': portraitIds,
         'userId': userId,
         'type': 'first',
-        'reward': reward
+        'level': toString(reward.level),
+        'badge': reward.badge,
+        'discount': toString(reward.discount)
       },
   });
 

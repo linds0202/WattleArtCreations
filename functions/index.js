@@ -38,11 +38,17 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
         if (payment.metadata.type === 'first') {
             // Update User
+            const newCustomerDiscount = {
+                badge: payment.metadata.badge,
+                level: Number(payment.metadata.level),
+                discount: Number(payment.metadata.discount)
+            }
+
             const userId = payment.metadata.userId
             const userDocRef = admin.firestore().collection("users").doc(userId)
             await userDocRef.update({
                 "totalCompletedCommissions": admin.firestore.FieldValue.increment(portraitIds.length),
-                "customerDiscount": payment.metadata.reward
+                "customerDiscount": newCustomerDiscount
             })
         }
 
