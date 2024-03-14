@@ -134,6 +134,9 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           <h4 className='w-full md:w-[60%] lg:w-[50%] lg:text-lg xl:text-2xl font-bold'>{portrait.portraitTitle.slice(0, 25)}<span className='hidden md:inline-block text-xs lg:text-sm xl:text-base font-light text-black ml-2'>({portrait.mode})</span></h4>
           <p className='md:hidden text-xs lg:text-sm xl:text-base font-light text-black my-2'>({portrait.mode})</p>
           <h4 className='text-sm lg:text-base xl:text-lg font-semibold'>Status: <span className='text-sm lg:text-base xl:text-xl font-bold text-[#43b4e4] ml-2'>{showStatus()}</span></h4>
+          
+          {user?.roles !== 'Customer' && portrait?.reassigned && <p className='text-lg font-bold my-2 ml-12 py-2 px-4 rounded-xl bg-[#ffa46f]'>Reassigned</p>}
+
           {user?.roles === 'Customer' && portrait?.status === 'Completed' && !portrait.reviewed && 
           <Link href={`/portraits/${portrait.id}`} ><p 
             className='text-lg font-bold my-2 ml-12 py-2 px-4 rounded-xl cursor-pointer bg-[#ffec72] hover:scale-105 transition duration-200 ease-in-out'

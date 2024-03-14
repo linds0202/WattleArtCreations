@@ -76,42 +76,38 @@ const ReassignArtistForm = ({openReassign, setOpenReassign, user, portrait}: Rea
                 <CloseIcon className='text-black hover:text-red-600'/>
             </IconButton>
         </div>
-        
-        <div className='flex flex-col justify-center items-center'>
-            <p className='text-2xl font-bold text-center mb-4'>Reassign Artist</p>
-            <div className='w-10/12 flex'>
-                <p className='w-[45%]'>Portrait Id: {portrait.id}</p>
-                <p className='w-[45%]'>Portrait Title: {portrait.portraitTitle}</p>
-            </div>
-
-            <div className='w-10/12 flex'>
-                <p className='w-[45%]'>Customer Name: {portrait.customer}</p>
-                <p className='w-[45%]'>Customer Id: {portrait.customerId}</p>
-            </div>
-
-            <div className='w-10/12 my-8 flex'>
-                <p className='w-[45%]'>Current Artist Name: {portrait.artist[0].artistName}</p>
-                <p className='w-[45%]'>Current Artist Id: {portrait.artist[0].id}</p>
-            </div>
+        <p className='text-2xl font-bold text-center mb-4'>Reassign Artist</p>
+        <div>
             
+        </div>
+        <div className='flex justify-between'>
             
+            <div className='w-1/2 bg-[#e9e9e9] rounded-xl p-4 flex flex-col'>
+                <p className='text-xl font-bold mb-2'>Portrait Info:</p>
+                <p className=''>Portrait Id: <span className='text-[#43b4e4] ml-4'>{portrait.id}</span></p>
+                <p className=''>Portrait Title: <span className='text-[#43b4e4] ml-4'>{portrait.portraitTitle}</span></p>
+                <p className=''>Customer Name: <span className='text-[#43b4e4] ml-4'>{portrait.customer}</span></p>
+                <p className=''>Customer Id: <span className='text-[#43b4e4] ml-4'>{portrait.customerId}</span></p>
 
+                <div className='w-full my-8 flex flex-col gap-y-2'>
+                    <p className='text-lg font-bold'>Current Artist: </p>
+                    <p className='text-lg bg-white rounded-lg py-2 px-4'>Name: <span className='ml-4 font-semibold'>{portrait.artist[0].artistName}</span></p>
+                    <p className='text-lg bg-white rounded-lg py-2 px-4'>Id: <span className='ml-4 font-semibold'>{portrait.artist[0].id}</span></p>
+                </div>
+            </div>
             <ReassignButtons options={allArtists} onSelect={handleOptionSelect} />
-            <div className='w-full my-8 bg-[#e9e9e9] rounded-xl p-4 flex items-center'>
-                <p className='text-lg font-bold'>Selected Artist: </p>
-                <p className='w-1/3 text-lg ml-4 bg-white rounded-lg py-2 px-4'>Name: {artist.artistName}</p>
-                <p className='w-1/2 text-lg ml-4 bg-white rounded-lg py-2 px-4'>Id: {artist.id}</p>
-            </div>
-            
-
-        
-            
-            <div className='w-full md:w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
-                <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
-                <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
-                    Assign New Artist
-                </button>
-            </div>
+        </div>
+        <div className='w-full my-8 bg-[#e9e9e9] rounded-xl p-4 flex items-center'>
+            <p className='text-lg font-bold'>Selected Artist: </p>
+            <p className='w-1/3 text-lg ml-4 bg-white rounded-lg py-2 px-4'>(Name) <span className='text-[#43b4e4] ml-4'>{artist.artistName}</span></p>
+            <p className='w-1/2 text-lg ml-4 bg-white rounded-lg py-2 px-4'>(Id) <span className='text-[#43b4e4] ml-4'>{artist.id}</span></p>
+        </div>
+   
+        <div className='w-full md:w-8/12 mx-auto mt-8 mb-4 flex justify-around items-center'>
+            <button onClick={handleCancel} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#282828] hover:text-white rounded-xl py-2 px-2'>Cancel</button>
+            <button onClick={handleRequest} className='w-5/12 text-xl text-[#282828] border-2 border-[#282828] hover:bg-[#43b4e4] hover:text-white rounded-xl py-2 px-2'>
+                Assign New Artist
+            </button>
         </div>
         
     </Dialog>

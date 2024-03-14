@@ -63,7 +63,7 @@ export default function PortraitList({ user }: PortraitListProps) {
   }
 
   const handleGetNotReassigned = () => {
-    const filtered = allPortraits.filter(portrait => (portrait.status === 'In Progress' || portrait.status === 'Completed') && !portrait.reassigned)
+    const filtered = allPortraits.filter(portrait => (portrait.status === 'In Progress' || portrait.status === 'Completed'))
     setFilteredPortraits(filtered)
     setButton('B5')
   }
