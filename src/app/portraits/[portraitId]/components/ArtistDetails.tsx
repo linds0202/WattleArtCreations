@@ -29,7 +29,7 @@ const ArtistDetails = ({artist, portrait, setPortrait, setOpenArtistList, artist
                     <img src={artist.artistImgs.imgUrl7} className='w-[240px] h-[240px] mx-auto object-cover rounded-xl' alt='black paint drip background'/>
                 </div>
                 
-                <div className='lg:w-[65%] md:px-8 mt-8 lg:mt-0 flex flex-col justify-between items-start border border-greren-600'>
+                <div className='lg:w-[65%] md:px-8 mt-8 lg:mt-0 flex flex-col justify-between items-start'>
                     <div>
                         <h2 className='text-3xl font-bold text-left'>
                             <Link 

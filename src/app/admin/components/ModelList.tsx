@@ -126,7 +126,7 @@ export default function ModelList({ user }: ModelListProps) {
             />
           </div>
 
-          <div className=' w-full flex flex-col items-center'>
+          <div className=' w-full mb-40 flex flex-col items-center'>
             <table>
                 <thead>
                   <tr>

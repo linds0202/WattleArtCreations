@@ -55,7 +55,7 @@ const CharList = ({ portrait }: CharListProps) => {
           
 
           <div className='w-full pt-1'>            
-            <p className='text-md font-semibold'>Extras: <span className='text-[12px] bg-[#f4ffa1] p-2 rounded-lg'>{char.extras.map(extra => {
+            <p className='text-md font-semibold'>Extras: <span className={`text-[12px] ${char.extras.length > 0 ? 'bg-[#f4ffa1] p-2 rounded-lg' : ''}`}>{char.extras.map(extra => {
               if (extra === 'character') return 'Character Sheet'
               if (extra === 'model') return '3D Model'
               if (extra === 'weapons') return 'Weapon Sheet'

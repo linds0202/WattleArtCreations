@@ -42,9 +42,10 @@ export default function ArtistDashboard({ params: { userId }}: Params) {
     let latestUser: UserData | null
     
     const getPortraits = async () => {
-        const unsubscribe = await getAllMyPortraits(setPortraits, setFiltered, {artistName: latestUser?.artistName, id: latestUser?.uid });
-        
-        return () => unsubscribe()
+      console.log('latestUser: ', latestUser)
+      const unsubscribe = await getAllMyPortraits(setPortraits, setFiltered, {artistName: latestUser?.artistName, id: latestUser?.uid });
+      
+      return () => unsubscribe()
     }
 
     const handleCurrentUser = async () => {

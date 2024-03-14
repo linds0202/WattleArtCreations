@@ -312,7 +312,7 @@ export default function Portraits() {
       <div className="flex justify-between items-center">
         <p className='text-lg md:text-base xl:text-lg font-semibold'>{portrait?.portraitTitle.slice(0,20)} <span className='text-sm md:text-xs xl:text-sm'>({portrait.mode})</span></p>
         {user && user?.customerDiscount.discount > 0
-        ? <p className='text-lg md:text-sm lg:text-base xl:text-lg font-semibold text-[#43b4e4]'><span className='line-through font-light text-red-600 mr-4'>(${portrait.price.total.toFixed(2)})</span>${(portrait.price.total - (portrait.price.total * user?.customerDiscount.discount)).toFixed(2)}</p>
+        ? <p className='text-lg md:text-sm lg:text-base xl:text-lg font-semibold text-[#43b4e4]'><span className='line-through font-light text-red-600 mr-4'>(${portrait.price.total.toFixed(2)})</span>${(Math.round((portrait.price.total - (portrait.price.total * user?.customerDiscount.discount)) * 100) / 100).toFixed(2)}</p>
         : <p className='text-lg font-semibold text-[#43b4e4]'>${portrait.price.total.toFixed(2)}</p>
         }
       </div>

@@ -25,7 +25,7 @@ export default function Dashboard({ params: { userId }}: Params) {
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
 
-  const [view, setView] = useState<string>('Portraits')
+  const [view, setView] = useState<string>('Puchased Portraits')
   const value = { view, setView } 
 
   // Listen to changes for loading and authUser, redirect if needed
@@ -34,7 +34,7 @@ export default function Dashboard({ params: { userId }}: Params) {
         router.push('/')
     }
   }, [authUser, isLoading]);
-  // || view === 'Artists'
+  
   return ((!authUser) ? 
     <p>Loading ...</p>
   :
@@ -45,7 +45,7 @@ export default function Dashboard({ params: { userId }}: Params) {
           <MenuContainer />
         </ViewContext.Provider> 
       </div>
-        {view === 'Portraits' ?
+        {view === 'Puchased Portraits' ?
           <PortraitList user={authUser} />
         : view === 'Unordered Portraits' ?
           <UnorderedPortraitList user={authUser}/>

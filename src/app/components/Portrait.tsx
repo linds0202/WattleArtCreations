@@ -15,6 +15,7 @@ import ClaimForm from './ClaimForm'
 import { UserData } from '../artistDashboard/[userId]/portfolio/page'
 import ImgSet from './ImgSet'
 import { useCategoriesContext } from '../context/CategoriesContext'
+import ReassignArtistForm from '../admin/components/ReassignArtistForm'
 
 interface PortraitProps {
   portrait: PortraitData,
@@ -34,6 +35,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
   const [ openImgSet, setOpenImgSet] = useState(false)
   const [imgSetIndex, setImgSetIndex] = useState(0)
   const [openClaimForm, setOpenClaimForm] = useState(false)
+  const [openReassign, setOpenReassign] = useState(false)
 
   const [charVariations, setCharVariations] = useState(false)
   const [animals, setAnimals] = useState(false)
@@ -68,7 +70,9 @@ export default function Portrait({ portrait, user}: PortraitProps) {
     setOpenImgSet(true)
   }
 
-
+  const handleOpenReassign = () => {
+    setOpenReassign(true)
+  }
 
   const showStatus = () => {
     if (user?.roles === 'Customer') {
@@ -110,7 +114,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
   return (
     <div className='bg-white border-2 rounded-xl border-black w-[95%] p-4 lg:p-8 m-4 text-black flex flex-row flex-wrap md:flex-nowrap justify-between items-center z-30'>
-      <div className='relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] lg:w-[175px] lg:h-[175px] object-cover object-top rounded-xl'>
+      <div className='relative w-[300px] h-[300px] mx-auto md:mx-0 md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px] object-cover object-top rounded-xl'>
         <Image
             src={`${portrait.images.length !== 0 ? portrait.images[0].imageUrls[0] : portrait.mode === categories.cat1.type 
               ? categories.customizer.defaults.cat1DefaultImg 
@@ -125,7 +129,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
       </div>
 
 
-      <div className='w-[50%] md:w-[60%] bg-[#e8e8e8] rounded-lg p-2 lg:p-4 mx-2 lg:mx-0 mt-4 md:mt-0 flex flex-col'>
+      <div className='w-full md:w-[60%] bg-[#e8e8e8] rounded-lg p-2 lg:p-4 mx-2 lg:mx-0 mt-4 md:mt-0 flex flex-col'>
         <div className='bg-white rounded-lg p-2 flex flex-col md:flex-row justify-between xl:justify-start md:items-center'>
           <h4 className='w-full md:w-[60%] lg:w-[50%] lg:text-lg xl:text-2xl font-bold'>{portrait.portraitTitle.slice(0, 25)}<span className='hidden md:inline-block text-xs lg:text-sm xl:text-base font-light text-black ml-2'>({portrait.mode})</span></h4>
           <p className='md:hidden text-xs lg:text-sm xl:text-base font-light text-black my-2'>({portrait.mode})</p>
@@ -139,8 +143,8 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           }
         </div>
         
-        <div className='mt-4 flex flex-col md:flex-row'>
-          <div className='w-full md:w-[50%] pl-2'>
+        <div className='mt-4 flex flex-col lg:flex-row'>
+          <div className='w-full lg:w-[50%] lg:pl-2'>
             {portrait?.status === 'Unpaid' && <p className='mb-2 font-semibold text-sm md:text-xl'>Created on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.creationDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
             
             {portrait?.status !== 'Unpaid' && portrait?.purchaseDate !== null && <p className='mb-2 font-semibold text-sm md:text-xl'>Ordered on: <span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{new Date(portrait.purchaseDate.seconds * 1000).toLocaleDateString("en-US")}</span></p>}
@@ -148,24 +152,6 @@ export default function Portrait({ portrait, user}: PortraitProps) {
 
             {user?.roles === 'Artist' && <p className='mb-2 font-semibold text-sm md:text-xl'>Customer:<span className='md:ml-2 text-[#2DD42B] text-sm md:text-xl'>{portrait?.customer?.toUpperCase()}</span></p>}
             
-            {(portrait?.status !== 'Unpaid' && portrait.paymentComplete) && 
-              <p className='text-sm font-semibold'>
-                {portrait.status === 'Unassigned' ? 'Pending Artist(s): ' : 'Artist: '} 
-                  {portrait.artist.length  
-                    ? portrait.artist.map((artist: Artist, i) => 
-                      <Link 
-                        key={i} 
-                        href={`/artistDashboard/${artist.id}/portfolio`} 
-                        className="text-[#2DD42B] hover:text-[#165f15] text-sm md:text-xl hover:underline ml-2 md:ml-4"
-                        rel="noopener noreferrer" 
-                        target="_blank"
-                      >
-                          <span>{artist.artistName}</span>
-                      </Link>
-                    )
-                    : <span className={`text-sm md:text-xl ml-2 md:ml-4 ${portrait.status === 'Unclaimed' ? 'text-red-600' : ''}`}>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
-              </p>
-            }
           </div>
 
           <div className='pl-2 md:pl-0 mt-2 md:mt-0'>
@@ -173,7 +159,35 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </div>
           
         </div>
+        {(portrait?.status !== 'Unpaid' && portrait.paymentComplete) && 
+          <p className='pl-2 text-sm font-semibold'>
+            {portrait.status === 'Unassigned' ? 'Pending Artist(s): ' : 'Artist: '} 
+              {portrait.artist.length && !portrait.reassigned 
+              ? portrait.artist.map((artist: Artist, i) => 
+                <Link 
+                  key={i} 
+                  href={`/artistDashboard/${artist.id}/portfolio`} 
+                  className="text-[#2DD42B] hover:text-[#165f15] text-sm md:text-xl hover:underline ml-2 md:ml-4"
+                  rel="noopener noreferrer" 
+                  target="_blank"
+                >
+                    <span>{artist.artistName}</span>
+                </Link>
+              )
+              : portrait.artist.length ?
+                <Link 
+                  href={`/artistDashboard/${portrait.artist[0].id}/portfolio`} 
+                  className="text-[#2DD42B] hover:text-[#165f15] md:text-sm md:text-xl hover:underline ml-2 md:ml-4"
+                  rel="noopener noreferrer" 
+                  target="_blank"
+                >
+                    <span>{portrait.artist[0].artistName}</span>
+                </Link>
+                : <span className={`text-sm md:text-xl ml-2 md:ml-4 ${portrait.status === 'Unclaimed' ? 'text-red-600' : ''}`}>{user?.roles === 'Artist' ? 'No bids yet' : 'No artists available yet'}</span>}
+          </p>
+        }
 
+        <p className='pl-2'>Portrait Id: <span className='md:ml-2 text-[#2DD42B] text-xs md:text-xl'>{portrait.id}</span></p>
       </div>
       
       
@@ -194,24 +208,15 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         }
 
         {/* If payment complete - link to individual portrait page */}
-        {(user?.roles === 'Customer' || user?.roles === 'Admin') && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full text-center text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"><p className='text-center'>Portrait Page</p></Link>}
+        {(user?.roles === 'Customer' || user?.roles === 'Admin') && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full mb-4 text-center text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"><p className='text-center'>Portrait Page</p></Link>}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status === 'Unassigned' || portrait.status === 'Unclaimed') &&
-          <div>
-            {portrait?.reassigned && 
-              <Link 
-                href={`/portraits/${portrait.id}`}
-                rel="noopener noreferrer" 
-                target="_blank" 
-                className="w-full text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]">
-                  See History
-              </Link>
-            }
-
-            {!portrait.reassigned && <button className='w-full text-black text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#43b4e4] hover:text-[#43b4e4]' onClick={handleViewDetails}>View Details</button>
-            }    
-          </div>     
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') &&
+            <button className='w-full mb-4 text-black text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#43b4e4] hover:text-[#43b4e4]' onClick={handleViewDetails}>View Details</button>    
         }
+
+        {/* Allow portrait to be assigned to new artist */}
+        {user?.roles === 'Admin' && portrait.paymentComplete && portrait.status === "In Progress" && <button className='w-full  text-black text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#43b4e4] hover:text-[#43b4e4]' onClick={handleOpenReassign}>Reassign Artist</button>
+        }    
 
         {/* If on artists dashboard & claimed - link to individual portrait page */}
         
@@ -228,6 +233,15 @@ export default function Portrait({ portrait, user}: PortraitProps) {
             openClaimForm={openClaimForm} 
             setOpenClaimForm={setOpenClaimForm}
             setOpenArtistDetails={setOpenArtistDetails}
+            user={user}
+            portrait={portrait}
+          />
+        }
+
+        {openReassign &&
+          <ReassignArtistForm
+            openReassign={openReassign} 
+            setOpenReassign={setOpenReassign}
             user={user}
             portrait={portrait}
           />
@@ -255,7 +269,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
                   <div className='w-full lg:ml-4'>
                     <div className='flex justify-between items-center mb-8'>
                       {portrait?.purchaseDate !== null && <p className='font-semibold'>Purchase Date: <span className='text-2xl text-[#2DD42B] font-bold ml-2'>{new Date(portrait.purchaseDate.toDate()).toLocaleDateString("en-US")}</span></p>}
-                      <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price.artistPay}</span></p>
+                      <p className='font-semibold text-xl'>Commission: <span className='text-[#43b4e4]'>${portrait.price.artistPay.toFixed(2)}</span></p>
                     </div>
                     
                     <div className='w-full flex flex-col lg:flex-row justify-between'>

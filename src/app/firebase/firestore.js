@@ -49,7 +49,7 @@ export async function setNewCategories(id, newData) {
 
 
 export async function getCheckoutUrl (items, userId, discount, reward) {
-  console.log('in getcheckoutUrl discount: ', discount)
+  
   if (!userId) throw new Error("User is not authenticated");
 
   const portraitIds = items.map(portrait => portrait.id).join(',')
@@ -70,7 +70,7 @@ export async function getCheckoutUrl (items, userId, discount, reward) {
                       name: item.portraitTitle,
                       description: item.mode,
                   },
-                  unit_amount: (item.price.total - (item.price.total * discount)) * 100,
+                  unit_amount: Math.round((item.price.total - (item.price.total * discount)) * 100),
               },
               quantity: 1
           }
@@ -413,7 +413,7 @@ export async function getUser(user) {
 
 //Get user by Id
 export async function getUserById(userId) {
-  console.log('userId: ', userId)
+
   if (userId !== null) {
     const docSnap = await getDoc(doc(db, "users", userId));
     
@@ -564,6 +564,28 @@ export async function updateArtistOnCompletion(portrait, newArtistPay) {
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
       paymentsOwing: arrayUnion(newPayment),
+    }
+  )
+}
+
+//update artist when commission completed
+export async function updateReassignedArtist(portrait) {
+  console.log("portrait: ", portrait)
+  const oldArtistId = portrait.artist[1].id
+  const newArtistId = portrait.artist[0].id
+
+  console.log("old: ", oldArtistId)
+  console.log("new: ", newArtistId)
+
+  await updateDoc(doc(db, 'users', oldArtistId),  
+    { 
+      activeCommissions: increment(-1),
+    }
+  )
+
+  await updateDoc(doc(db, 'users', newArtistId),  
+    { 
+      activeCommissions: increment(1),
     }
   )
 }
@@ -963,6 +985,23 @@ export async function getAllMyPortraits(setPortraits, setFiltered, artist) {
     });
     
     setPortraits(portraits);
+    setFiltered(portraits)
+  });
+  return unsubscribe;
+}
+
+export async function getAllAdminPortraits(setPortraits, setFiltered) {
+  
+  const q = query(collection(db, "portraits"), or(where("status", "==", "Unclaimed"), where("status", "==", "Unassigned"), where("status", "==", "In Progress"), where("status", "==", "Completed")), orderBy("lastUpdatedStatus", "desc"), limit(100))
+  
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let portraits = [];
+    
+    QuerySnapshot.forEach((doc) => {
+      portraits.push({ ...doc.data(), id: doc.id });
+    })
+    
+    setPortraits(portraits)
     setFiltered(portraits)
   });
   return unsubscribe;
