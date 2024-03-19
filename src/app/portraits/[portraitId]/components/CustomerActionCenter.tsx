@@ -249,8 +249,8 @@ const CustomerActionCenter = ({ portrait, setPortrait, setOpenRevision }: Action
                                 {portrait?.additionalRevisionInfo.type !== ''
                                     ? <div className="flex flex-col items-center">
                                         <p className="text-center mb-4">Click the payment link to purchase an additional revision for this portrait</p>
-                                        <p>Revision level: <span>{portrait?.additionalRevisionInfo.type}</span></p>
-                                        <p>Revision Price: <span>{portrait?.additionalRevisionInfo.price}</span></p>
+                                        <p>Revision level: <span className="ml-2">{portrait?.additionalRevisionInfo.type}</span></p>
+                                        <p>Revision Price: <span className="ml-2"> ${portrait?.additionalRevisionInfo.price.toFixed(2)}</span></p>
                                         <div className="w-full flex justify-between">
                                             <div 
                                                 className="w-full lg:w-5/12 text-lg mt-8 py-2 md:px-4 rounded-xl border border-[#282828] text-black text-center cursor-pointer hover:scale-105 transition duration-200 ease-in-out"

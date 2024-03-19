@@ -180,7 +180,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
               : portrait.artist.length ?
                 <Link 
                   href={`/artistDashboard/${portrait.artist[0].id}/portfolio`} 
-                  className="text-[#2DD42B] hover:text-[#165f15] md:text-sm md:text-xl hover:underline ml-2 md:ml-4"
+                  className="text-[#2DD42B] hover:text-[#165f15] md:text-sm lg:text-xl hover:underline ml-2 md:ml-4"
                   rel="noopener noreferrer" 
                   target="_blank"
                 >
@@ -190,7 +190,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
           </p>
         }
 
-        <p className='pl-2'>Portrait Id: <span className='md:ml-2 text-[#2DD42B] text-xs md:text-xl'>{portrait.id}</span></p>
+        {(user?.roles !== 'Artist' || (user?.roles === 'Artist' && (portrait.status === 'In Progress' || portrait.status === 'Completed'))) && <p className='pl-2'>Portrait Id: <span className='md:ml-2 text-[#2DD42B] text-xs md:text-xl'>{portrait.id}</span></p>}
       </div>
       
       
@@ -213,7 +213,7 @@ export default function Portrait({ portrait, user}: PortraitProps) {
         {/* If payment complete - link to individual portrait page */}
         {(user?.roles === 'Customer' || user?.roles === 'Admin') && portrait.paymentComplete && <Link href={`/portraits/${portrait.id}`} className="w-full mb-4 text-center text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:text-white hover:bg-[#43b4e4]"><p className='text-center'>Portrait Page</p></Link>}
         
-        {(user?.roles === 'Artist' || user?.roles === 'Admin') &&
+        {(user?.roles === 'Artist' || user?.roles === 'Admin') && (portrait.status !== 'In Progress' && portrait.status !== 'Completed') && !portrait.artistAssigned &&
             <button className='w-full mb-4 text-black text-base xl:text-xl border-2 border-[#282828] rounded-xl py-2 px-4 hover:border-[#43b4e4] hover:text-[#43b4e4]' onClick={handleViewDetails}>View Details</button>    
         }
 

@@ -664,7 +664,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                               <p>{addOn.price.toFixed(2)}</p>
                             </div>  
                           )}
-                          <p className='text-right text-lg font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0)}</p>
+                          <p className='text-right text-lg font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0).toFixed(2)}</p>
                         </div>
                         {checkoutButton}
                       </div>
