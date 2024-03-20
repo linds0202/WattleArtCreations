@@ -20,9 +20,8 @@ interface ProfileProps {
 }
 
 const Profile = ({user}: ProfileProps) => {
-
     const { authUser, isLoading } = useAuth();
-    // const { categories } = useCategoriesContext()
+    const { categories } = useCategoriesContext()
     const router = useRouter();
 
     const [userData, setUserData] = useState<UserData | null>(user ? user : null)
@@ -105,23 +104,23 @@ const Profile = ({user}: ProfileProps) => {
                 </div>
                 
                 {/* Rewards */}
-                <div className='w-full lg:w-[60%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-4  relative'>
-                    <div className='absolute top-2 right-4'>
-                        <div className='w-[50px] h-[50px] mx-auto bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
-                            {userData && <p className='text-center'>{Math.trunc(userData?.customerDiscount.discount * 100)}%</p>}
+                <div className='w-full lg:w-[60%] mt-8 lg:mt-0 bg-white border-2 border-[#282828] rounded-xl p-6 relative'>
+                    <div className='absolute top-2 right-5 flex items-center'>
+                        <p className='text-sm md:text-xl font-semibold mr-2 md:mr-4'>Rewards Discount</p>
+                        <div className='w-[65px] h-[65px] mx-auto bg-[#43b4e4] text-white font-bold rounded-full flex justify-center items-center'>
+                            {userData && <p className='text-xl text-center'>{Math.trunc(userData?.customerDiscount.discount * 100)}%</p>}
                         </div>
-                        <p className='text-sm font-semibold'>Discount</p>
                     </div>
                     
-                    <div className='md:px-2 flex flex-col md:flex-row items-center'>
-                        <img src={userData?.customerDiscount.badge} className='w-[96px] h-[96px] mr-4' alt='user rewards badge icon'/>
+                    <div className='md:px-2 flex flex-col xl:flex-row items-center'>
+                        <img src={userData?.customerDiscount.badge} className='w-[96px] h-[96px] mr-4 self-start xl:self-auto' alt='user rewards badge icon'/>
                         <div className='w-full'>
                             <div className='mb-4 flex items-center'>
                                 <h4 className='text-xl font-semibold'>My Rewards</h4>
                                 <p className='ml-2'>(<span className='text-lg font-bold text-[#43b4e4] mx-[4px]'>{userData?.totalCompletedCommissions}</span>purchased portraits)</p>
                             </div>
                             <div className='md:mx-2 w-full'>
-                                <p className='text-sm'>Progress to next discount level:</p>
+                                <p className='text-sm mb-10'>Progress to next discount level:</p>
                                 <AwardProgressBar 
                                     completed={userData ? userData?.totalCompletedCommissions : 0} 
                                     bgcolor={'#43b4e4'}
@@ -137,8 +136,15 @@ const Profile = ({user}: ProfileProps) => {
                             </div>
                         </div>      
                     </div>
-                    <p className='text-center text-sm mt-10 font-light'>(# of purchased portraits)</p>  
-                    <p className='text-sm mt-4'>Some explanation of the rewards program here</p>  
+                    <p className='text-center text-sm mt-10 font-light'>(# of purchased portraits)</p>
+                    <p className='font-semibold mt-4'>Level up to save even more off future purchases. The more portraits you purchase, the more you save.</p>
+                    <div className='mt-2 ml-6 flex gap-x-8'>
+                        <p>Level 1 - <span>{Math.trunc(categories.customizer.rewardsDiscounts[0] * 100)}%</span></p>
+                        <p>Level 2 - <span>{Math.trunc(categories.customizer.rewardsDiscounts[1] * 100)}%</span></p>
+                        <p>Level 3 - <span>{Math.trunc(categories.customizer.rewardsDiscounts[2] * 100)}%</span></p>
+                        <p>Level 4 - <span>{Math.trunc(categories.customizer.rewardsDiscounts[3] * 100)}%</span></p>
+                        <p>Level 5 - <span>{Math.trunc(categories.customizer.rewardsDiscounts[4] * 100)}%</span></p>
+                    </div>  
                     
                 </div>
             </div>
