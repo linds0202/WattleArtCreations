@@ -117,7 +117,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 
                 for (const addOn of currentPortrait.addOns) { 
                     //price with customer rewards discount
-                    const discountedAddOnPrice = addOn.price - (addOn.price * currentDiscount)
+                    const discountedAddOnPrice = Math.round(addOn.price - (addOn.price * currentDiscount) * 100) / 100
                     
                     newSheetUploads.push({
                         src: "",
