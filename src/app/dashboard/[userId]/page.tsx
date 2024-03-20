@@ -48,7 +48,6 @@ export default function Dashboard({ params: { userId }}: Params) {
   useEffect(() => {
     setPageLoading(true)
     if (complete === 'true') {
-      console.log('here')
       sessionStorage.setItem('Cart', JSON.stringify([]))
       if (type === 'tip') {
         alert('Thanks for tipping your artist!')

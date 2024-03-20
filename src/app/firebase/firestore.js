@@ -108,7 +108,7 @@ export async function getCheckoutUrl (items, userId, discount, reward) {
 };
 
 // Purchase additional 3D model, character sheet, or weapon sheet from portrait page
-export async function getExtrasCheckoutUrl (portrait, userId) {
+export async function getExtrasCheckoutUrl (portrait, userId, discount) {
   if (!userId) throw new Error("User is not authenticated");
   
   const portraitIds = portrait.id
@@ -133,7 +133,7 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
                   product_data: {
                       name: newName,
                   },
-                  unit_amount: item.price * 100,
+                  unit_amount: Math.round((item.price - (item.price * discount)) * 100),
               },
               quantity: 1
           }
@@ -146,6 +146,7 @@ export async function getExtrasCheckoutUrl (portrait, userId) {
         'portraitIds': portraitIds,
         'userId': userId,
         'type': 'additional',
+        'currentDiscount': discount.toString(),
       },
   });
 
@@ -568,14 +569,10 @@ export async function updateArtistOnCompletion(portrait, newArtistPay) {
   )
 }
 
-//update artist when commission completed
+//update artists when commission is reassigned
 export async function updateReassignedArtist(portrait) {
-  console.log("portrait: ", portrait)
   const oldArtistId = portrait.artist[1].id
   const newArtistId = portrait.artist[0].id
-
-  console.log("old: ", oldArtistId)
-  console.log("new: ", newArtistId)
 
   await updateDoc(doc(db, 'users', oldArtistId),  
     { 

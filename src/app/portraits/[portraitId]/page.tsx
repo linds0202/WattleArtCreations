@@ -25,7 +25,6 @@ import { Timestamp } from 'firebase/firestore';
 import { getMyPortrait, getPortrait, updatePortraitWithSheet, getExtrasCheckoutUrl } from '../../firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 import CustomerTestimonial from '@/app/testimonials/components/CustomerTestimonial';
-import { auth } from '@/app/firebase/firebase';
 
 export interface ExtrasData {
   type: string,
@@ -201,7 +200,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
         <>          
         {extra.src === ""
         ? <div 
-          key={extra.index} 
+          key={i} 
           className='ml-4'
           onClick={() => handleClickExtra(extra.index, extra.type)}
         >
@@ -257,7 +256,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       <p className='font-semibold'>Complexity <span className='text-xs font-normal'>({authUser?.roles !== 'Customer' ? 'Complexity does not require a separate upload.' : 'Artist will adjust complexity of portrait'})</span></p>
       {portrait?.sheetUploads.filter(extra => extra.type.split('_')[0] === 'complexity').length !== 0
       ? portrait?.sheetUploads.map((extra, i) =>
-        <div key={extra.index} className='ml-4'>
+        <div key={i} className='ml-4'>
           {extra.type.split('_')[0] === 'complexity' && <p className='my-2'>Complexity Level {extra.type.split('_')[2]} {extra.charNum !== 'AddOn' ? ` for Character ${extra.charNum}` : 'as Add On'}</p>}
         </div>
       )
@@ -320,7 +319,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
   }
 
   const checkout = async () => {
-    const checkoutUrl = await getExtrasCheckoutUrl(portrait, authUser.uid)
+    const checkoutUrl = await getExtrasCheckoutUrl(portrait, authUser.uid, portrait?.discount)
     router.push(checkoutUrl)
   }
 
@@ -334,6 +333,20 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
       </div>
     </button>
   )
+
+  const handleCancelAddOn = async () => {
+    let newPortrait 
+    
+    if (portrait) {
+      newPortrait = {
+        ...portrait,
+        addOns: []
+      } 
+    }
+
+    const updatedPortrait = await updatePortrait(portrait?.id, {...portrait, addOns: []})
+    if (newPortrait) setPortrait(newPortrait)
+  }
 
   return (isLoading ?
   <></>
@@ -383,9 +396,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
             />
         }
       </div>
-      
 
-      
       <div className='mx-4 flex flex-col lg:flex-row lg:flex-wrap justify-between'>
         {/* Header */}
         <div className='w-[100%] flex flex-col md:flex-row justify-between items-center'>
@@ -646,8 +657,7 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
               {/* Extras Upload Section */}
               <div className='w-full h-full mt-8 bg-white/75 rounded-xl p-4 flex flex-col gap-2'>
                 <p className='text-[#43b4e4] text-center text-2xl font-semibold'>Character and Weapons Sheets</p>
-                
-                
+   
                 {authUser?.roles === 'Customer'
                 ? <div className='flex flex-col justify-between'>
                     <p>Enhance your portrait with exciting extras. Copy needs to go here about chatting your artist to add something to your portrait. Then payment button with display here</p>
@@ -664,9 +674,23 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                               <p>{addOn.price.toFixed(2)}</p>
                             </div>  
                           )}
-                          <p className='text-right text-lg font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0).toFixed(2)}</p>
+
+                          <p className='w-3/4 text-right font-semibold mt-2 pt-2 border-t border-[#282828]'>Subtotal: <span className='ml-4'>${portrait?.addOns.reduce((sum, addOn) => sum += addOn.price, 0).toFixed(2)}</span></p>
+
+                          {portrait && <p className='text-right text-sm font-semibold text-red-600 mt-2'>Customer Rewards Discount (-{Math.trunc(portrait.discount * 100)}%) <span className='ml-8'>- ${(portrait.addOns.reduce((sum, addOn) => sum += addOn.price, 0) * portrait.discount).toFixed(2)}</span></p>}
+                          
+                          {portrait &&<p className='text-right text-lg font-semibold mt-2'>Total: <span className='ml-4'>${(portrait.addOns.reduce((sum, addOn) => sum += addOn.price, 0) - (portrait.addOns.reduce((sum, addOn) => sum += addOn.price, 0) * portrait.discount)).toFixed(2)}</span></p>}
                         </div>
-                        {checkoutButton}
+                        <div>
+                          {checkoutButton}
+
+                          <div 
+                            className='w-full mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-white cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                            onClick={handleCancelAddOn}
+                          >
+                            Cancel AddOns
+                          </div>
+                        </div>
                       </div>
                     </div>}            
                     
@@ -684,21 +708,37 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                   <p>Character and Weapons sheets that have been purchased with this portrait are listed below. You must upload each before your customer can release payment for this portait. <span className='font-bold'>If your customer would like to add these options, chat with them, then create a payment link.</span></p>
                   
                   {portrait?.addOns.length !== 0 &&
-                    <div className='w-1/2 mt-4 bg-white rounded-xl p-4'>
-                      <p className='font-semibold'>This link includes payment for:</p>
+                    <div className='w-10/12 mx-auto mt-4 bg-white rounded-xl p-4 flex flex-col items-end'>
+                      <p className='self-start font-semibold mb-2'>This link includes payment for:</p>
                       {portrait?.addOns.map((addOn, i) => 
-                        <p key={i} className='ml-4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type} - ${addOn.price.toFixed(2)}</p>  
+                        <div className='w-3/4 flex justify-between items-center'>
+                        <p key={i} className='w-3/4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type}</p>
+                        <p>${addOn.price.toFixed(2)}</p>  
+                        </div>
                       )}
-                      <p className='text-right font-semibold mt-2 pt-2 border-t border-[#282828]'>Total: ${portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0).toFixed(2)}</p>
+
+                      <p className='w-3/4 text-right mt-2 pt-2 border-t border-[#282828]'>Subtotal: <span className='ml-4'>${portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0).toFixed(2)}</span></p>
+
+                      {portrait && <p className='text-right text-red-600 mt-2'>Customer Rewards Discount ({Math.trunc(portrait?.discount * 100)}%): <span className='ml-4'>${(portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0) * portrait.discount).toFixed(2)}</span></p>}
+
+                      {portrait && <p className='text-right font-semibold mt-2'>Total: <span className='ml-4'>${(portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0) - (portrait?.addOns.reduce((sum, addOn) => sum += Number(addOn.price), 0) * portrait.discount)).toFixed(2)}</span></p>}
                     </div>
                   }
-                  
-                  <p 
-                    className='w-1/2 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
-                    onClick={() => setOpenCreateCheckout(true)}  
-                  >
-                    {portrait?.addOns.length === 0 ? 'Create Payment Link' : 'Edit Payment Link'}
-                  </p>
+                  <div className='flex justify-between items-center gap-x-4'>
+                    <div 
+                      className='w-1/2 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-white cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                      onClick={handleCancelAddOn}
+                    >
+                      Cancel
+                    </div>
+
+                    <p 
+                      className='w-1/2 mx-auto text-lg text-black text-center rounded-lg py-2 px-4 my-4 border-2 border-black bg-gradient-to-r p-[4px] from-[#338cb2] to-[#43b4e4] cursor-pointer hover:scale-105 transition duration-200 ease-in-out'
+                      onClick={() => setOpenCreateCheckout(true)}  
+                    >
+                      {portrait?.addOns.length === 0 ? 'Create Payment Link' : 'Edit Payment Link'}
+                    </p>
+                  </div>
                   
                   {portrait?.sheetUploads.length === 0 
                     ? <p>No extras have been added to this portrait</p>
@@ -717,8 +757,6 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     </div>
                   }
 
-                  
-                  
                 </div>
                     
                 }

@@ -21,7 +21,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
 
     const handleComplete = async () => {
         // Calc new artist commission from addOns & round to 2 decimals
-        const newArtistPay = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage : 0, 0) * 100) / 100
+        const newArtistPay = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.artistPay * categories.customizer.pricing.commissionPercentage * (1 - portrait.discount) : 0, 0) * 100) / 100
 
         const newPriceTotal = Math.round(portrait.additionalPayments.reduce((sum, payment) => sum += !payment.released ? payment.total : 0, 0) * 100) / 100
 
@@ -67,7 +67,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         }
         
         
-        updatePortrait(newPortrait?.id, newPortrait)
+        const updatedPortrait = await updatePortrait(newPortrait?.id, newPortrait)
         setPortrait(newPortrait)  
         
         // Update 3D model status

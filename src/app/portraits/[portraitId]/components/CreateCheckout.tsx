@@ -24,12 +24,11 @@ const CreateCheckout = ({ openCreateCheckout, setOpenCreateCheckout, portrait, s
     })
 
     const handleComplete = (values: any) => {
-        // Math.round((portrait.price.total * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100
         const newAddOns = []
         if (values.complexity !== 1) {
             newAddOns.push({
                 type: `complexity_level_${values.complexity}`,
-                price: (Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100)
+                price: (Math.round((((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1])) * 100) / 100)
             })
         }
 
@@ -161,13 +160,21 @@ const CreateCheckout = ({ openCreateCheckout, setOpenCreateCheckout, portrait, s
                         </div>
                     )}
                     
-                    {/* border-t border-[#282828]  */}
-                    <div className="w-full mt-4 border-t border-[#282828] flex justify-end">
-                        <div className="w-1/3 bg-white rounded-xl p-2 border border-[#282828] mt-4 flex justify-between">
-                            <p className="font-semibold">Total: </p>
+                    <div className="w-full mt-4 border-t border-[#282828] flex flex-col items-end">
+                        <div className="w-3/4 mt-4 flex justify-between">
+                            <p className="font-semibold">Subtotal: </p>
                             <p>${((Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)).toFixed(2)}</p>
                         </div>
                         
+                        <div className="w-3/4 mt-4 text-red-600 flex justify-between">
+                            <p className="font-semibold">Customer Rewards Discount ({Math.trunc(portrait.discount * 100)}%): </p>
+                            <p>- ${(Math.round((((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)) * portrait.discount * 100) / 100).toFixed(2)}</p>
+                        </div>                         
+                        
+                        <div className="w-1/3 bg-white rounded-xl p-2 border border-[#282828] mt-4 flex justify-between">
+                            <p className="font-semibold">Total: </p>
+                            <p>${((Math.round(((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) * 100) / 100) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)) - (Math.round((((portrait.price.total - portrait.price.modelsTotal) * categories.customizer.pricing.complexity[values.complexity - 1]) + values.extras.reduce((sum, n) => sum += categories.customizer.pricing[n], 0)) * portrait.discount * 100) / 100)}</p>
+                        </div>                        
                     </div>
                 </div>
 
@@ -186,6 +193,7 @@ const CreateCheckout = ({ openCreateCheckout, setOpenCreateCheckout, portrait, s
                     Create Link
                 </button>
             </div>   
+            
         </Form>
             )}
         </Formik>
