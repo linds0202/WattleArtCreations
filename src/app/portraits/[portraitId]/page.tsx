@@ -711,9 +711,9 @@ export default function PortraitDetails({ params: { portraitId }}: Params) {
                     <div className='w-10/12 mx-auto mt-4 bg-white rounded-xl p-4 flex flex-col items-end'>
                       <p className='self-start font-semibold mb-2'>This link includes payment for:</p>
                       {portrait?.addOns.map((addOn, i) => 
-                        <div className='w-3/4 flex justify-between items-center'>
-                        <p key={i} className='w-3/4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type}</p>
-                        <p>${addOn.price.toFixed(2)}</p>  
+                        <div key={i} className='w-3/4 flex justify-between items-center'>
+                          <p className='w-3/4'>{addOn.type === 'character' ? 'Character sheet' : addOn.type === 'weapons' ? 'Weapons sheet': addOn.type === 'model' ? '3D Model' : addOn.type}</p>
+                          <p>${addOn.price.toFixed(2)}</p>  
                         </div>
                       )}
 
