@@ -78,7 +78,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             price: {
                 modelsCount: portrait.price.modelsCount + modelsCount,
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
-                artistPay: portrait.price.artistPay + newArtistPay,
+                artistPay: Math.round((portrait.price.artistPay + newArtistPay) * 100) / 100,
                 total: portrait.price.total + newPriceTotal
             },
             paymentIds: [...portrait.paymentIds, newPaymentId]
