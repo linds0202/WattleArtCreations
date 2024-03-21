@@ -451,7 +451,8 @@ export async function getUserById(userId) {
         starRating: docSnap.data().starRating,
         joinedOn: docSnap.data().joinedOn,
         payouts: docSnap.data().payouts,
-        customerDiscount: docSnap.data().customerDiscount
+        customerDiscount: docSnap.data().customerDiscount,
+        pendingAmount: docSnap.data().pendingAmount
       }
       return user
     }
@@ -492,6 +493,7 @@ export function addUser(user) {
     totalCompletedCommissions: 0,
     lifeTimeEarnings: 0,
     paymentsOwing: [],
+    pendingAmount: 0,
     totalPortraits: 0,
     totalStars: 0,
     totalReviews: 0,
@@ -566,6 +568,7 @@ export async function updateArtistOnCompletion(portrait, newArtistPay, paymentId
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
       paymentsOwing: arrayUnion(paymentId),
+      pendingAmount: increment(newArtistPay)
     }
   )
 }

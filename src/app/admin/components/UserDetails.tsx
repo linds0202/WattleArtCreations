@@ -100,7 +100,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                     {userDetails.roles === 'Artist' && 
                     <div className="w-full bg-[#f4ffa1] p-2 rounded-lg flex justify-between">
                         <p>Payments Owing:</p>
-                        {/* <p className="pl-2">$ {userDetails.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p> */}
+                        <p className="pl-2">$ {userDetails.pendingAmount}</p>
                     </div>}
                 </div>
             </div>

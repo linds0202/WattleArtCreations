@@ -78,6 +78,7 @@ export interface UserData {
     joinedOn: Date,
     avatar: string,
     payouts: Array<Payout>,
+    pendingAmount: number,
     customerDiscount: Reward
 }
 
