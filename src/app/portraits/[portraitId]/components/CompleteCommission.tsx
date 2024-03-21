@@ -80,9 +80,9 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
         }
         
         if (portrait?.portraitCompletionDate === null) {
-            const updatedArtist = await updateArtistOnCompletion(newPortrait, portrait.price.artistPay + newArtistPay, newPaymentId)      
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, Math.round((portrait.price.artistPay + newArtistPay) * 100) / 100, newPaymentId)      
         } else {
-            const updatedArtist = await updateArtistOnCompletion(newPortrait, newArtistPay, newPaymentId)
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, Math.round((newArtistPay) * 100) / 100, newPaymentId)
         }
         
         
