@@ -24,15 +24,15 @@ export default function ArtistPayments() {
   }, [])
 
   const handleGetOwing = () => {
-    const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) !== 0)
-    setFilteredArtists(filtered)
+    // const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) !== 0)
+    // setFilteredArtists(filtered)
 
     setButton('B1')
   }
 
   const handleGetComplete = () => {
-    const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) === 0)
-    setFilteredArtists(filtered)
+    // const filtered = allArtists.filter(artist => artist.paymentsOwing.reduce((sum, payment) => sum += !payment.released ? payment.amount : 0, 0) === 0)
+    // setFilteredArtists(filtered)
 
     setButton('B2')
   }
