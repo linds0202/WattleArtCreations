@@ -57,7 +57,7 @@ const AdditionalOptions = ({ openCreateCheckout, setOpenCreateCheckout, portrait
         
         const updatedPortrait = await updatePortrait(newPortrait?.id, newPortrait)
 
-        const checkoutUrl = await getAddOnCheckoutUrl(newPortrait, portrait.customerId)
+        const checkoutUrl = await getAddOnCheckoutUrl(newPortrait, portrait.customerId, portrait.discount)
         router.push(checkoutUrl) 
         
         setOpenCreateCheckout(false)

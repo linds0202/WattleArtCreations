@@ -121,7 +121,8 @@ export interface PortraitData  {
     addOns: Array<Extras>,
     additionalPayments: Array<Payments>,
     reviewed: boolean,
-    discount: number
+    discount: number,
+    paymentIds: Array<string>
   }
 
 interface PortraitProps {
@@ -190,7 +191,8 @@ const PortraitCustomizer = ({ selection, editPortrait, setEditPortrait, editInde
         addOns: [],
         additionalPayments: [],
         reviewed: false, 
-        discount: 0
+        discount: 0,
+        paymentIds: []
     })
     // const [discount, setDiscount] = useState<number>(0)
     const [chars, setChars] = useState<Array<MyCharValues>>(portraitData?.characters)

@@ -41,12 +41,12 @@ export interface Payout {
     stripePaymentId: string,
     portraitId: string,
 }
-export interface Payment {
-    date: Timestamp,
-    amount: number,
-    portraitId: string,
-    released: boolean,
-}
+// export interface Payment {
+//     date: Timestamp,
+//     amount: number,
+//     portraitId: string,
+//     released: boolean,
+// }
 
 export interface Reward {
     badge: string,
@@ -69,7 +69,7 @@ export interface UserData {
     maxCommissions: number,
     totalCompletedCommissions: number,
     lifeTimeEarnings: number,
-    paymentsOwing: Array<Payment>,
+    paymentsOwing: Array<string>,
     totalPortraits: number,
     starRating: number,
     totalReviews: number,

@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import { useRouter } from 'next/navigation';
 import { PortraitData } from '../../components/PortraitCustomizer';
-import { updateArtistOnCompletion, updatePortrait, updatePortraitModels } from '@/app/firebase/firestore';
+import { updateArtistOnCompletion, updatePortrait, updatePortraitModels, addArtistPayment } from '@/app/firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import { useCategoriesContext } from '@/app/context/CategoriesContext';
 
@@ -50,6 +50,25 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             }
         }
 
+        // Create payment doc
+        let newPaymentId
+        if (portrait?.portraitCompletionDate === null) {
+            newPaymentId = await addArtistPayment({
+                artistId: portrait.artist[0].id,
+                portraitId: portrait.id,
+                amount: portrait.price.artistPay + newArtistPay,
+                type: 'First',
+            })
+            
+        } else {
+            newPaymentId = await addArtistPayment({
+                artistId: portrait.artist[0].id,
+                portraitId: portrait.id,
+                amount: portrait.price.artistPay + newArtistPay,
+                type: 'AddOn',
+            })
+        }
+
         const newPortrait = {
             ...portrait, 
             status: 'Completed',
@@ -61,15 +80,16 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
                 modelsTotal: portrait.price.modelsTotal + modelsTotal,
                 artistPay: portrait.price.artistPay + newArtistPay,
                 total: portrait.price.total + newPriceTotal
-            }
+            },
+            paymentIds: [...portrait.paymentIds, newPaymentId]
         }
 
         console.log('newPortrait: ', newPortrait)
         
         if (portrait?.portraitCompletionDate === null) {
-            const updatedArtist = await updateArtistOnCompletion(newPortrait, portrait.price.artistPay + newArtistPay)
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, portrait.price.artistPay + newArtistPay, newPaymentId)      
         } else {
-            const updatedArtist = await updateArtistOnCompletion(newPortrait, newArtistPay)
+            const updatedArtist = await updateArtistOnCompletion(newPortrait, newArtistPay, newPaymentId)
         }
         
         

@@ -219,26 +219,27 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                 const purchasedItems = []
                 let artistPay = 0
 
-                // const currentDiscount = Number(payment.metadata.currentDiscount)
+                const currentDiscount = Number(payment.metadata.currentDiscount)
                 
                 for (const addOn of currentPortrait.addOns) { 
-
+                    const discountedAddOnPrice = Math.round((addOn.price - (addOn.price * currentDiscount)) * 100) / 100
+                    
                     newSheetUploads.push({
                         src: "",
                         index: 0,
                         charNum: "AddOn",
                         type: addOn.type,
-                        price: addOn.price
+                        price: discountedAddOnPrice
                     })
 
                     if (addOn.type !== "model") {
-                        artistPay += addOn.price
+                        artistPay += discountedAddOnPrice
                     } else {
                         await modelsRef.add({
                             "portraitId": currentPortrait.id,
                             "customerId": currentPortrait.customerId,
                             "customerName": currentPortrait.customer,
-                            "price": addOn.price,
+                            "price": discountedAddOnPrice,
                             "portraitComplete": true,
                             "ordered": false,
                             "admin": "",
@@ -248,7 +249,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
 
                     purchasedItems.push({
                         type: addOn.type,
-                        price: addOn.price 
+                        price: discountedAddOnPrice 
                     })
                 }
 
@@ -279,6 +280,7 @@ exports.updatePurchaseStatus = functions.firestore.document('users/{usersId}/pay
                         addOns: [],
                     })
                 } else {
+                    // Reactivate portrait
                     const answer = await portraitDocRef.update({
                         additionalPayments: [...currentPortrait.additionalPayments, newPayment],
                         sheetUploads: finalSheetUploads,

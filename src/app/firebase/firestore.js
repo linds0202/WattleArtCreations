@@ -223,7 +223,7 @@ export async function getRevisionCheckoutUrl (portrait, userId) {
 };
 
 // Purchase additional options after portrait completion from testimonial page
-export async function getAddOnCheckoutUrl(portrait, userId) {
+export async function getAddOnCheckoutUrl(portrait, userId, discount) {
 
   if (!userId) throw new Error("User is not authenticated") 
   
@@ -247,7 +247,7 @@ export async function getAddOnCheckoutUrl(portrait, userId) {
                   product_data: {
                       name: newName,
                   },
-                  unit_amount: item.price * 100,
+                  unit_amount: Math.round((item.price - (item.price * discount)) * 100),
               },
               quantity: 1
           }
@@ -260,6 +260,7 @@ export async function getAddOnCheckoutUrl(portrait, userId) {
         'portraitIds': portrait.id,
         'userId': userId,
         'type': 'addOn',
+        'currentDiscount': discount.toString(),
       },
   });
 
@@ -490,7 +491,7 @@ export function addUser(user) {
     maxCommissions: 0,
     totalCompletedCommissions: 0,
     lifeTimeEarnings: 0,
-    paymentsOwing: 0,
+    paymentsOwing: [],
     totalPortraits: 0,
     totalStars: 0,
     totalReviews: 0,
@@ -550,21 +551,21 @@ export function updateCustomerCommissionsTotal(userId) {
 }
 
 //update artist when commission completed
-export async function updateArtistOnCompletion(portrait, newArtistPay) {
+export async function updateArtistOnCompletion(portrait, newArtistPay, paymentId) {
   const userId = portrait.artist[0].id
 
-  const newPayment = {
-    date: Timestamp.now(),
-    amount: newArtistPay,
-    portraitId: portrait.id,
-    released: false
-  }
+  // const newPayment = {
+  //   date: Timestamp.now(),
+  //   amount: newArtistPay,
+  //   portraitId: portrait.id,
+  //   released: false
+  // }
 
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
-      paymentsOwing: arrayUnion(newPayment),
+      paymentsOwing: arrayUnion(paymentId),
     }
   )
 }
@@ -686,7 +687,8 @@ export async function addPortrait(data) {
     addOns: [],
     additionalPayments: [],
     reviewed: false,
-    discount: data.discount
+    discount: data.discount,
+    paymentIds: []
   })
   return portraitRef.id
 }
@@ -806,6 +808,7 @@ export async function getPortrait(uid) {
     additionalPayments: docSnap.data().additionalPayments,
     reviewed: docSnap.data().reviewed,
     discount: docSnap.data().discount,
+    paymentIds: docSnap.data().paymentIds,
     id: uid
   }
 
@@ -1030,6 +1033,23 @@ export async function getMyPortrait(setPortrait, portraitId) {
   });
 
   return unsubscribe;
+}
+
+//Create new Portrait
+export async function addArtistPayment(data) {
+  
+  const artistPaymentRef = await addDoc(collection(db, 'artistPayment'), { 
+    artistId: data.artistId,
+    portraitId: data.portraitId,
+    amount: data.amount,
+    type: data.type,
+    date: serverTimestamp(),
+    adminId: "",
+    paidOn: null,
+    released: false
+  })
+
+  return artistPaymentRef.id
 }
 
 export async function getAllModels(setAllModels, setFilteredModels) {
