@@ -562,13 +562,15 @@ export async function updateArtistOnCompletion(portrait, newArtistPay, paymentId
   //   portraitId: portrait.id,
   //   released: false
   // }
+  console.log('newArtistPay: ', newArtistPay)
+  console.log('rounded: ', Math.round(newArtistPay * 100) / 100)
 
   await updateDoc(doc(db, 'users', userId),  
     { 
       activeCommissions: increment(-1),
       totalCompletedCommissions: increment(1),
       paymentsOwing: arrayUnion(paymentId),
-      pendingAmount: increment(newArtistPay)
+      pendingAmount: increment(Math.round(newArtistPay * 100) / 100)
     }
   )
 }
