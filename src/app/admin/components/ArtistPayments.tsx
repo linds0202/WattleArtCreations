@@ -97,7 +97,8 @@ export default function ArtistPayments() {
                   <td>No artists to display</td>
                 </tr>
               :  filteredArtists?.map(user => (
-                <Artist key={user.uid} user={user} />
+                <p>ok</p>
+                // <Artist key={user.uid} user={user} />
               )) }
             </tbody>
         </table>

@@ -84,7 +84,7 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
 
                     <div className="w-full bg-[#f4ffa1] p-2 rounded-lg flex justify-between">
                         <p className="">Payments Owing:</p>
-                        <p className="pl-2">$ {userDetails.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p>
+                        {/* <p className="pl-2">$ {userDetails.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p> */}
                     </div>
                 </div>
             </div>
@@ -107,35 +107,35 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
 
                     const indexes = values.checked.map(index => Number(index))
                     
-                    const newPayouts = indexes.map(i => (
-                        {
-                            date: userDetails.paymentsOwing[i].date,
-                            adminId: userDetails.uid,
-                            releaseDate: Timestamp.fromDate(new Date()),
-                            stripePaymentId: values.stripePaymentId,
-                            portraitId: userDetails.paymentsOwing[i].portraitId,
-                            amount: userDetails.paymentsOwing[i].amount
-                        }
-                    ))
+                    // const newPayouts = indexes.map(i => (
+                    //     {
+                    //         date: userDetails.paymentsOwing[i].date,
+                    //         adminId: userDetails.uid,
+                    //         releaseDate: Timestamp.fromDate(new Date()),
+                    //         stripePaymentId: values.stripePaymentId,
+                    //         portraitId: userDetails.paymentsOwing[i].portraitId,
+                    //         amount: userDetails.paymentsOwing[i].amount
+                    //     }
+                    // ))
     
-                    const newPayment = newPayouts.reduce((sum, payment) => sum += payment.amount, 0)
+                    // const newPayment = newPayouts.reduce((sum, payment) => sum += payment.amount, 0)
                     
-                    const newPaymentsOwing = user.paymentsOwing.map((payment, i) => (
-                        {
-                            ...payment,
-                            released: indexes.includes(i) ? true : userDetails.paymentsOwing[i].released
-                        }
-                    ))
+                    // const newPaymentsOwing = user.paymentsOwing.map((payment, i) => (
+                    //     {
+                    //         ...payment,
+                    //         released: indexes.includes(i) ? true : userDetails.paymentsOwing[i].released
+                    //     }
+                    // ))
 
-                    const updatedUser = {
-                        ...userDetails,
-                        lifeTimeEarnings: userDetails.lifeTimeEarnings += newPayment,
-                        paymentsOwing: newPaymentsOwing,
-                        payouts: [...userDetails.payouts, ...newPayouts]
-                    }
+                    // const updatedUser = {
+                    //     ...userDetails,
+                    //     lifeTimeEarnings: userDetails.lifeTimeEarnings += newPayment,
+                    //     paymentsOwing: newPaymentsOwing,
+                    //     payouts: [...userDetails.payouts, ...newPayouts]
+                    // }
 
-                    const newUpdatedUser = await updateUserData(updatedUser)
-                    setUserDetails(updatedUser)
+                    // const newUpdatedUser = await updateUserData(updatedUser)
+                    // setUserDetails(updatedUser)
                     setOpenDetails(false)
                 }}
                 >
@@ -159,7 +159,7 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
                             </tr>
                         </thead>
                         <tbody>
-                            {user.paymentsOwing.filter(payment => !payment.released).length === 0 ? 
+                            {/* {user.paymentsOwing.filter(payment => !payment.released).length === 0 ? 
                                 <tr className="text-center">
                                     <td>No payments are ready to be released for this artist</td>
                                 </tr>
@@ -175,16 +175,16 @@ const ReleasePayment = ({user, openDetails, setOpenDetails}: UserDetailsProps) =
                                         </label>
                                     </td>
                                 </tr>)
-                                }) }
+                                }) } */}
                             <tr className="text-center">
                                 <td></td>
                                 <td></td>
                                 <td>Total: </td>
-                                <td>$<span>{values.checked.reduce((sum, selected) => {
+                                {/* <td>$<span>{values.checked.reduce((sum, selected) => {
                                         const index = Number(selected)
                                         return sum += user.paymentsOwing[index].amount
                                     }, 0).toFixed(2)}</span>
-                                </td>
+                                </td> */}
                             </tr>
                         </tbody>
                     </table>
