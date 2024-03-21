@@ -56,7 +56,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             newPaymentId = await addArtistPayment({
                 artistId: portrait.artist[0].id,
                 portraitId: portrait.id,
-                amount: portrait.price.artistPay + newArtistPay,
+                amount: Math.round((portrait.price.artistPay + newArtistPay) * 100) / 100,
                 type: 'First',
             })
             
@@ -64,7 +64,7 @@ const CompleteCommission = ({ role, openComplete, setOpenComplete, portrait, set
             newPaymentId = await addArtistPayment({
                 artistId: portrait.artist[0].id,
                 portraitId: portrait.id,
-                amount: portrait.price.artistPay + newArtistPay,
+                amount: Math.round((portrait.price.artistPay + newArtistPay) * 100) / 100,
                 type: 'AddOn',
             })
         }
