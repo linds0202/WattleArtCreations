@@ -518,7 +518,7 @@ export async function updateUser(userId, role) {
   });
 }
 
-//update any user data
+//update any user old enough
 export async function updateUserById(userId) {
   updateDoc(doc(db, 'users', userId),  
     { oldEnough: true }
@@ -562,8 +562,6 @@ export async function updateArtistOnCompletion(portrait, newArtistPay, paymentId
   //   portraitId: portrait.id,
   //   released: false
   // }
-  console.log('newArtistPay: ', newArtistPay)
-  console.log('rounded: ', Math.round(newArtistPay * 100) / 100)
 
   await updateDoc(doc(db, 'users', userId),  
     { 
@@ -1056,6 +1054,51 @@ export async function addArtistPayment(data) {
 
   return artistPaymentRef.id
 }
+
+export async function getPendingPayments(setPendingPayments, setFilteredPayments) {
+  
+  const q = query(collection(db, "artistPayment"), where("released", "==", false), orderBy("date", "asc"))
+
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let pendingPayments = []
+    
+    QuerySnapshot.forEach((doc) => {
+      pendingPayments.push({ ...doc.data(), uid: doc.id })
+    })
+
+    setPendingPayments(pendingPayments)
+    setFilteredPayments(pendingPayments)
+  })
+  return unsubscribe
+}
+
+export async function getReleasedPayments(setReleasedPayments, setFilteredPayments) {
+  
+  const q = query(collection(db, "artistPayment"), where("released", "==", true), orderBy("date", "asc"))
+
+  const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+    let releasedPayments = []
+    
+    QuerySnapshot.forEach((doc) => {
+      releasedPayments.push({ ...doc.data(), uid: doc.id })
+    })
+    
+    setReleasedPayments(releasedPayments)
+    setFilteredPayments(releasedPayments)
+  })
+  return unsubscribe
+}
+
+export async function updatePayment(paymentId, adminId) {
+
+  updateDoc(doc(db, 'artistPayment', paymentId), { 
+    released: true,
+    paidOn: serverTimestamp(),
+    adminId: adminId
+  })
+}
+
+
 
 export async function getAllModels(setAllModels, setFilteredModels) {
   

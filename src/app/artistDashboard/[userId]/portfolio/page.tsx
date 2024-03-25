@@ -38,15 +38,10 @@ export interface Payout {
     amount: number,
     adminId: string,
     releaseDate: Timestamp,
-    stripePaymentId: string,
     portraitId: string,
+    artistId: string,
+    paymentId: string
 }
-// export interface Payment {
-//     date: Timestamp,
-//     amount: number,
-//     portraitId: string,
-//     released: boolean,
-// }
 
 export interface Reward {
     badge: string,

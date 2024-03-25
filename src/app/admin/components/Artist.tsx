@@ -30,7 +30,7 @@ export default function Artist( {user}: UserProps ) {
             <td className="px-2">{user.email}</td>
             <td className="w-[14%] px-2">
                 <div className="flex justify-between items-center">
-                    {/* <p>$ {user.paymentsOwing.reduce((sum, payment) => sum += payment.released ? 0 : payment.amount, 0)}</p> */}
+                    <p>$ {user.pendingAmount.toFixed(2)}</p>
                     <motion.button 
                         className='border-2 border-black rounded-lg p-2 ml-2' 
                         onClick={handlePaymentReleased} 
@@ -53,7 +53,7 @@ export default function Artist( {user}: UserProps ) {
                 </motion.button>
             </td>
         </tr>
-        {/* <UserDetails user={user} openDetails={openDetails} setOpenDetails={setOpenDetails}/>
-        <ReleasePayment user={user} openDetails={openRelease} setOpenDetails={setOpenRelease}/> */}
+        <UserDetails user={user} openDetails={openDetails} setOpenDetails={setOpenDetails}/>
+        {/* <ReleasePayment user={user} openDetails={openRelease} setOpenDetails={setOpenRelease}/> */}
     </>)
 }

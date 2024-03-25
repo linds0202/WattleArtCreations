@@ -100,7 +100,7 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                     {userDetails.roles === 'Artist' && 
                     <div className="w-full bg-[#f4ffa1] p-2 rounded-lg flex justify-between">
                         <p>Payments Owing:</p>
-                        <p className="pl-2">$ {userDetails.pendingAmount}</p>
+                        <p className="pl-2">$ {userDetails.pendingAmount.toFixed(2)}</p>
                     </div>}
                 </div>
             </div>
@@ -154,7 +154,6 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                             <th>Paid On</th>
                             <th>Amount</th>
                             <th>Admin Id</th>
-                            <th>Stripe Payment Id</th>
                             <th>Portrait Id</th>
                             <th>Released by Customer</th>
                         </tr>
@@ -169,7 +168,6 @@ const UserDetails = ({user, openDetails, setOpenDetails}: UserDetailsProps) => {
                             <td className="px-2">{new Date(payout.releaseDate.toDate()).toLocaleDateString("en-US")}</td>
                             <td className="px-2">$ {payout.amount.toFixed(2)}</td>
                             <td className="px-2">{payout.adminId}</td>
-                            <td className="px-2">{payout.stripePaymentId}</td>
                             <td className="px-2">{payout.portraitId}</td>
                             <td className="px-2">{new Date(payout.date.toDate()).toLocaleDateString("en-US")}</td>
                         </tr>
